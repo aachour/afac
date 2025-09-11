@@ -25,7 +25,7 @@
 			</li>
 
 			@canany(['role-list', 'permission-list', 'user-list'])
-			<li class="menu-item {{ request()->is('roles') || request()->is('permissions') || request()->is('users*') ? "active open" : "" }}">
+			<li class="menu-item {{ request()->is('roles') || request()->is('permissions') || request()->is('users*') || request()->is('types*') || request()->is('colors*') ? "active open" : "" }}">
 
 				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-settings"></i>
@@ -50,7 +50,53 @@
 					</li>
 					@endcan
 
+					@can('type-list')
+					<li class="menu-item {{ request()->is('types*') ? "active" : "" }}">
+						<a href="{{ route('types') }}" class="menu-link">
+							<div data-i18n="Types">Types</div>
+						</a>
+					</li>
+					@endcan
+
+					@can('color-list')
+					<li class="menu-item {{ request()->is('colors*') ? "active" : "" }}">
+						<a href="{{ route('colors') }}" class="menu-link">
+							<div data-i18n="Colors">Colors</div>
+						</a>
+					</li>
+					@endcan
+
 				</ul>
+			</li>
+			@endcanany
+
+
+			@can('page-list')
+			<li class="menu-item {{ request()->is('pages') ? "active" : "" }}">
+				<a href="{{ route('pages') }}" class="menu-link">
+					<i class="menu-icon tf-icons ti ti-smart-home"></i>
+					<div data-i18n="Pages">Pages</div>
+				</a>
+			</li>
+			@endcanany
+
+
+			@can('collection-list')
+			<li class="menu-item {{ request()->is('collections') ? "active" : "" }}">
+				<a href="{{ route('collections') }}" class="menu-link">
+					<i class="menu-icon tf-icons ti ti-smart-home"></i>
+					<div data-i18n="Collections">Collections</div>
+				</a>
+			</li>
+			@endcanany
+
+
+			@can('entry-list')
+			<li class="menu-item {{ request()->is('entries') ? "active" : "" }}">
+				<a href="{{ route('entries') }}" class="menu-link">
+					<i class="menu-icon tf-icons ti ti-smart-home"></i>
+					<div data-i18n="Entries">Entries</div>
+				</a>
 			</li>
 			@endcanany
 

@@ -32,6 +32,38 @@ class PermissionSeeder extends Seeder
 
             // Permissions Page
             'permission-list',
+
+            // Types Page
+            'type-list',
+            'type-create',
+            'type-edit',
+            'type-delete',
+
+            // Colors Page
+            'color-list',
+            'color-create',
+            'color-edit',
+            'color-delete',
+
+            // Pages Page
+            'page-list',
+            'page-create',
+            'page-edit',
+            'page-delete',
+
+            // Collections Page
+            'collection-list',
+            'collection-create',
+            'collection-edit',
+            'collection-delete',
+
+            // Entries Page
+            'entry-list',
+            'entry-create',
+            'entry-edit',
+            'entry-delete',
+            
+
         ];
         
         $permissionsIds = [];
