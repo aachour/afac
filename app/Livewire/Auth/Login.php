@@ -37,7 +37,7 @@ class Login extends Component
     
         if (auth()->attempt(['username' => $validatedData['username'], 'password' => $validatedData['password']], $this->rememberMe))
         {
-            return redirect()->route('business');
+            return redirect()->route('dashboard');
         }
         else
         {

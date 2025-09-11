@@ -3,7 +3,7 @@
 
 		<div class="app-brand demo">
 			<a href="{{url('dashboard')}}" class="app-brand-link">
-				<img src="{{asset('frontend/images/logo.png')}}" style="max-width: 100%;" >
+				<img src="{{asset('frontend/images/logo.png')}}" style="max-width: 60%;" >
 			</a>
 
 			<a id="toggleButton" href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -25,7 +25,7 @@
 			</li>
 
 			@canany(['role-list', 'permission-list', 'user-list'])
-			<li class="menu-item {{ request()->is('roles') || request()->is('permissions') || request()->is('users*') || request()->is('region*') ? "active open" : "" }}">
+			<li class="menu-item {{ request()->is('roles') || request()->is('permissions') || request()->is('users*') ? "active open" : "" }}">
 
 				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-settings"></i>

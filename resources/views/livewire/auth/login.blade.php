@@ -16,7 +16,7 @@
                         <img src="{{asset('frontend/images/logo.png')}}" style="max-width: 100%;" >
 
 
-                        <div id="formAuthentication" class="mb-3">
+                        <div id="formAuthentication" class="mt-2 mb-3">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
                                 <input

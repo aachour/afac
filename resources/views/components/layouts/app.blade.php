@@ -36,10 +36,10 @@
                             <div class="container-xxl">
                                 <div class="footer-container d-flex align-items-center justify-content-between py-2 flex-md-row flex-column">
                                     <div>
-                                        11B © <?php echo date('Y'); ?>. All Rights Reserved.
+                                        AFAC © <?php echo date('Y'); ?>. All Rights Reserved.
                                     </div>
                                     <div>
-                                        Designed & Developed by <a href="https://www.binarycords.com" target="_blank" class="fw-semibold">Binary cords</a>
+                                        Designed & Developed by <a href="https://www.fusionsecond.com" target="_blank" class="fw-semibold">Fusion Second</a>
                                     </div>
                                 </div>
                             </div>

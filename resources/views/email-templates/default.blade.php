@@ -67,7 +67,7 @@
                                         </table>
                                         <p style="font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; margin: 0; margin-bottom: 16px;">
                                             Not sure why you received this email? Please
-                                            <a href="mailto:info@modernplasticcompany.com" class="hover-underline" style="font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; color: #7367f0; text-decoration: none;">let us know</a>.
+                                            <a href="mailto:info@modernplasticcompany.com" class="hover-underline" style="font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; color: #000; text-decoration: none;">let us know</a>.
                                         </p>
                                         <p style="font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; margin: 0; margin-bottom: 16px;">Thanks, <br>The MPC Team</p>
                                     </td>
@@ -79,8 +79,8 @@
                                     <td style="mso-line-height-rule: exactly; padding-left: 48px; padding-right: 48px; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; font-size: 14px; color: #eceff1;">
                                         <p style="font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; color: #263238;">
                                             Use of our service and website is subject to our
-                                            <a href="#" class="hover-underline" style="font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; color: #7367f0; text-decoration: none;">Terms of Use</a> and
-                                            <a href="#" class="hover-underline" style="font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; color: #7367f0; text-decoration: none;">Privacy Policy</a>.
+                                            <a href="#" class="hover-underline" style="font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; color: #000; text-decoration: none;">Terms of Use</a> and
+                                            <a href="#" class="hover-underline" style="font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; color: #000; text-decoration: none;">Privacy Policy</a>.
                                         </p>
                                     </td>
                                 </tr>

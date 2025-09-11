@@ -9,8 +9,26 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Auth\Login;
 use App\Livewire\Dashboard;
 
-Route::get('/', [HomeController::class, 'home'])->name('home'); 
+use App\Livewire\Colors\ColorView;
+use App\Livewire\Colors\ColorForm;
 
+use App\Livewire\Types\TypeView;
+use App\Livewire\Types\TypeForm;
+
+use App\Livewire\Pages\PageView;
+use App\Livewire\Pages\PageForm;
+
+use App\Livewire\Collections\CollectionView;
+use App\Livewire\Collections\CollectionForm;
+
+use App\Livewire\Sections\SectionView;
+use App\Livewire\Sections\SectionForm;
+
+use App\Livewire\Entries\EntryView;
+use App\Livewire\Entries\EntryForm;
+
+
+Route::get('/', [HomeController::class, 'home'])->name('home'); 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,5 +56,78 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/edit/{id}', UserForm::class)->name('users.edit');
         Route::get('/view/{id}/{status}', UserForm::class)->name('users.view');
     });
+
+
+    // |--------------------------------------------------------------------------
+    // |Colors
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'colors'], function () {
+        Route::get('/', ColorView::class)->name('colors');
+        Route::get('/create', ColorForm::class)->name('colors.create');
+        Route::get('/edit/{id}', ColorForm::class)->name('colors.edit');
+        Route::get('/view/{id}/{status}', ColorForm::class)->name('colors.view');
+    });
+
+
+    // |--------------------------------------------------------------------------
+    // |Types
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'types'], function () {
+        Route::get('/', TypeView::class)->name('types');
+        Route::get('/create', TypeForm::class)->name('types.create');
+        Route::get('/edit/{id}', TypeForm::class)->name('types.edit');
+        Route::get('/view/{id}/{status}', TypeForm::class)->name('types.view');
+    });
+
+
+    // |--------------------------------------------------------------------------
+    // |Pages
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'pages'], function () {
+        Route::get('/', PageView::class)->name('pages');
+        Route::get('/create', PageForm::class)->name('pages.create');
+        Route::get('/edit/{id}', PageForm::class)->name('pages.edit');
+        Route::get('/view/{id}/{status}', PageForm::class)->name('pages.view');
+    });
+
+
+    // |--------------------------------------------------------------------------
+    // |Collections
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'collections'], function () {
+        Route::get('/', CollectionView::class)->name('collections');
+        Route::get('/create', CollectionForm::class)->name('collections.create');
+        Route::get('/edit/{id}', CollectionForm::class)->name('collections.edit');
+        Route::get('/view/{id}/{status}', CollectionForm::class)->name('collections.view');
+    });
+
+
+    // |--------------------------------------------------------------------------
+    // |Sections
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'sections'], function () {
+        Route::get('/', SectionView::class)->name('sections');
+        Route::get('/create', SectionForm::class)->name('sections.create');
+        Route::get('/edit/{id}', SectionForm::class)->name('sections.edit');
+        Route::get('/view/{id}/{status}', SectionForm::class)->name('sections.view');
+    });
+
+
+    // |--------------------------------------------------------------------------
+    // |Entries
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'entries'], function () {
+        Route::get('/', EntryView::class)->name('entries');
+        Route::get('/create', EntryForm::class)->name('entries.create');
+        Route::get('/edit/{id}', EntryForm::class)->name('entries.edit');
+        Route::get('/view/{id}/{status}', EntryForm::class)->name('entries.view');
+    }); 
+
 
 });

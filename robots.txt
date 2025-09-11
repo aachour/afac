@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://https://11b.vc/sitemap.xml
+Sitemap: https://web.com/sitemap.xml
