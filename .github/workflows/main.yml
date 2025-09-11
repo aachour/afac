@@ -1,0 +1,35 @@
+name: Deploy on Main Branch
+
+on:
+  push:
+    branches:
+      - main
+      
+jobs:
+  FTP-Deploy-Action:
+    name: FTP-Deploy-Action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 2
+      - name: FTP-Deploy-Action
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
+
+      - name: SSH with Password
+        env:
+          SSH_PASSWORD: ${{ secrets.SSH_PASS }}  # Now using a GitHub secret instead of hardcoding
+        run: |
+          sshpass -p $SSH_PASSWORD ssh -o StrictHostKeyChecking=no -p 22 tahaddil@afac.fusionsecond-beta.com "cd afac.fusionsecond-beta.com/ && git pull"
