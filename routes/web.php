@@ -10,10 +10,8 @@ use App\Livewire\Auth\Login;
 use App\Livewire\Dashboard;
 
 use App\Livewire\Colors\ColorView;
-use App\Livewire\Colors\ColorForm;
 
 use App\Livewire\Types\TypeView;
-use App\Livewire\Types\TypeForm;
 
 use App\Livewire\Pages\PageView;
 use App\Livewire\Pages\PageForm;
@@ -64,9 +62,9 @@ Route::middleware(['auth'])->group(function () {
     
     Route::group(['prefix' => 'colors'], function () {
         Route::get('/', ColorView::class)->name('colors');
-        Route::get('/create', ColorForm::class)->name('colors.create');
-        Route::get('/edit/{id}', ColorForm::class)->name('colors.edit');
-        Route::get('/view/{id}/{status}', ColorForm::class)->name('colors.view');
+        Route::get('/create', ColorView::class)->name('colors.create');
+        Route::get('/edit/{id}', ColorView::class)->name('colors.edit');
+        Route::get('/view/{id}/{status}', ColorView::class)->name('colors.view');
     });
 
 
@@ -76,9 +74,9 @@ Route::middleware(['auth'])->group(function () {
     
     Route::group(['prefix' => 'types'], function () {
         Route::get('/', TypeView::class)->name('types');
-        Route::get('/create', TypeForm::class)->name('types.create');
-        Route::get('/edit/{id}', TypeForm::class)->name('types.edit');
-        Route::get('/view/{id}/{status}', TypeForm::class)->name('types.view');
+        Route::get('/create', TypeView::class)->name('types.create');
+        Route::get('/edit/{id}', TypeView::class)->name('types.edit');
+        Route::get('/view/{id}/{status}', TypeView::class)->name('types.view');
     });
 
 
