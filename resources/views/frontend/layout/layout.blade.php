@@ -28,6 +28,8 @@
 
 <body>
 
+    @yield('content')
+
     <script>
 
         $.ajaxSetup({
