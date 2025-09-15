@@ -13,7 +13,7 @@
                     <div class="card-body">
 
                         <!-- Logo -->
-                        <img src="{{asset('frontend/images/logo.png')}}" style="max-width: 100%;" >
+                        <img src="{{asset('frontend/images/logo.svg')}}" style="max-width:100%;" >
 
 
                         <div id="formAuthentication" class="mt-2 mb-3">

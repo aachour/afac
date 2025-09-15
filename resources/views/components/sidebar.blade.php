@@ -3,7 +3,7 @@
 
 		<div class="app-brand demo">
 			<a href="{{url('dashboard')}}" class="app-brand-link">
-				<img src="{{asset('frontend/images/logo.png')}}" style="max-width: 60%;" >
+				<img src="{{asset('frontend/images/logo.svg')}}" style="max-width: 60%;" >
 			</a>
 
 			<a id="toggleButton" href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">

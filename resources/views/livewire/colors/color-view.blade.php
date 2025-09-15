@@ -24,7 +24,7 @@
                         <tr>
                             <td>{{ $color->id }}</td>
                             <td>{{ $color->name }}</td>
-                            <td>{{ $color->code }}</td>
+                            <td><div style="width:25px; height:25px; background:{{$color->code}};"></div></td>
                             <td>
                                 <a href="#" wire:click="openModal({{ $color->id }})" class="text-body edit-user-button">
                                     <i class="ti ti-edit ti-sm"></i>

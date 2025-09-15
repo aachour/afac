@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->nullable();
+            $table->string('meta_title')->nullable();
+            $table->text('meta_description')->nullable();
+            $table->text('meta_keywords')->nullable();
+            $table->foreignId('header_color_id')->nullable()->constrained('colors')->onDelete('cascade');
+            $table->foreignId('footer_color_id')->nullable()->constrained('colors')->onDelete('cascade');
             $table->timestamps();
         });
     }
