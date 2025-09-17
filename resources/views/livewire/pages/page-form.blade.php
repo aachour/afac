@@ -16,14 +16,25 @@
                             <div class="row">
 
                                 <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="name">Name <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="name">Page Name <span class="text-danger">*</span></label>
                                     <input
                                         wire:model="name"
                                         type="text"
                                         id="name"
                                         class="form-control"
-                                        placeholder="Name" />
+                                        placeholder="Page Name" />
                                     @error('name') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="name_arabic">اسم الصفحة <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="name_arabic"
+                                        type="text"
+                                        id="name_arabic"
+                                        class="form-control"
+                                        placeholder="اسم الصفحة" />
+                                    @error('name_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
@@ -38,6 +49,17 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="name">عنوان الميتا  <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="meta_title_arabic"
+                                        type="text"
+                                        id="meta_title_arabic"
+                                        class="form-control"
+                                        placeholder="عنوان الميتا " />
+                                    @error('meta_title_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="name">Meta Description <span class="text-danger">*</span></label>
                                     <textarea
                                         wire:model="meta_description"
@@ -45,6 +67,16 @@
                                         class="form-control"
                                         placeholder="Meta Description"></textarea>
                                     @error('meta_description') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="name">وصف الميتا <span class="text-danger">*</span></label>
+                                    <textarea
+                                        wire:model="meta_description_arabic"
+                                        id="meta_description_arabic"
+                                        class="form-control"
+                                        placeholder="وصف الميتا"></textarea>
+                                    @error('meta_description_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
 
@@ -56,6 +88,17 @@
                                         id="meta_keywords"
                                         class="form-control"
                                         placeholder="Meta Keywords" />
+                                    @error('meta_keywords') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="name">كلمات الميتا </label>
+                                    <input
+                                        wire:model="meta_keywords_arabic"
+                                        type="text"
+                                        id="meta_keywords_arabic"
+                                        class="form-control"
+                                        placeholder="كلمات الميتا " />
                                     @error('meta_keywords') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
