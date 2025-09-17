@@ -53,7 +53,7 @@
 					@can('type-list')
 					<li class="menu-item {{ request()->is('types*') ? "active" : "" }}">
 						<a href="{{ route('types') }}" class="menu-link">
-							<div data-i18n="Types">Types</div>
+							<div data-i18n="Entry Types">Entry Types</div>
 						</a>
 					</li>
 					@endcan

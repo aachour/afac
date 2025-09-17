@@ -19,6 +19,8 @@ return new class extends Migration
             $table->text('meta_keywords')->nullable();
             $table->foreignId('header_color_id')->nullable()->constrained('colors')->onDelete('cascade');
             $table->foreignId('footer_color_id')->nullable()->constrained('colors')->onDelete('cascade');
+            $table->integer('in_menu')->nullable();
+            $table->integer('published')->nullable();
             $table->timestamps();
         });
     }

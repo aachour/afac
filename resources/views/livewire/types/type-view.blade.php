@@ -4,9 +4,9 @@
         
         <div class="card">
             <div class="card-header border-bottom d-flex justify-content-between">
-                <h4 class="card-title mb-3">Types List</h4>
+                <h4 class="card-title mb-3">Entry Types List</h4>
                 <button wire:click="openModal()" class="btn btn-primary h-50">
-                    Add Type
+                    Add Entry Type
                 </button>
             </div>
             <div class="card-datatable table-responsive" wire:ignore>

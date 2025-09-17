@@ -51,6 +51,12 @@ class PermissionSeeder extends Seeder
             'page-edit',
             'page-delete',
 
+            // Sections Page
+            'section-list',
+            'section-create',
+            'section-edit',
+            'section-delete',
+
             // Collections Page
             'collection-list',
             'collection-create',

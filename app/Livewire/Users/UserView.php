@@ -28,6 +28,9 @@ class UserView extends Component
 
     public function render()
     {
+
+        $this->authorize('user-list');
+
         $data = [];
 
         $users = User::all();

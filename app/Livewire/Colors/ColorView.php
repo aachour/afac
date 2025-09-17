@@ -5,9 +5,12 @@ namespace App\Livewire\Colors;
 use App\Models\Colors;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ColorView extends Component
 {
+
+    use AuthorizesRequests; 
 
     public $colors = [];
     public $showModal = false;
@@ -18,6 +21,7 @@ class ColorView extends Component
 
     public function mount()
     {
+        $this->authorize('color-list');
         $this->loadColors();
     }
 
@@ -43,6 +47,7 @@ class ColorView extends Component
 
     public function saveColor()
     {
+        
         $rules = [
             'name' => 'required',
             'code' => 'required',
@@ -51,10 +56,12 @@ class ColorView extends Component
         $this->validate($rules);
 
         if ($this->editingId) {
+            $this->authorize('color-edit');
             $color = Colors::find($this->editingId);
             $color->update(['name' => $this->name , 'code' => $this->code]);
             $message = 'Color updated successfully!';
         } else {
+            $this->authorize('color-create');
             Colors::create(['name' => $this->name , 'code' => $this->code]);
             $message = 'Color added successfully!';
         }
@@ -73,6 +80,8 @@ class ColorView extends Component
     #[On('delete')]
     public function delete($id)
     {
+        $this->authorize('color-delete');
+
         $color = Colors::find($id);
 
         $color->delete();

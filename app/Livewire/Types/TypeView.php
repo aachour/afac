@@ -5,9 +5,12 @@ namespace App\Livewire\Types;
 use App\Models\Types;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class TypeView extends Component
 {
+
+    use AuthorizesRequests;
 
     public $types = [];
     public $showModal = false;
@@ -17,6 +20,8 @@ class TypeView extends Component
 
     public function mount()
     {
+        $this->authorize('type-list');
+
         $this->loadTypes();
     }
 
@@ -48,10 +53,12 @@ class TypeView extends Component
         $this->validate($rules);
 
         if ($this->editingId) {
+            $this->authorize('type-edit');
             $type = Types::find($this->editingId);
             $type->update(['name' => $this->name]);
             $message = 'Type updated successfully!';
         } else {
+            $this->authorize('type-create');
             Types::create(['name' => $this->name]);
             $message = 'Type added successfully!';
         }
@@ -70,6 +77,8 @@ class TypeView extends Component
     #[On('delete')]
     public function delete($id)
     {
+        $this->authorize('type-delete');
+
         $type = Types::find($id);
 
         $type->delete();
