@@ -15,32 +15,26 @@ return new class extends Migration
             $table->id();
             $table->foreignId('type_id')->nullable()->constrained('types')->onDelete('cascade');
             $table->string('name')->nullable();
-            $table->string('description')->nullable();
-            $table->string('description_position')->nullable();
+            $table->string('name_arabic')->nullable();
+            $table->text('description')->nullable();
+            $table->text('description_arabic')->nullable();
+            $table->integer('description_position')->nullable();
             $table->foreignId('background_color_id')->nullable()->constrained('colors')->onDelete('cascade');
             $table->integer('with_filters')->nullable();
             $table->json('filter_fields')->nullable();
             $table->integer('custom_entries')->nullable();
             $table->integer('system_entries')->nullable();
             $table->integer('system_entries_number')->nullable();
-            $table->integer('system_entries_expired')->nullable();
+            $table->integer('system_entries_with_expired')->nullable();
             $table->integer('system_entries_order')->nullable();
-            
-            
-            
-            
-
-            $table->integer('with_featured_entry')->nullable();
             $table->integer('title_position')->nullable();
             $table->integer('with_label')->nullable();
             $table->integer('entries_layout')->nullable();
-            
-            
-            
-            
-            $table->text('meta_description')->nullable();
-            $table->text('meta_keywords')->nullable();
-            $table->integer('published')->nullable();
+            $table->integer('entries_per_row')->nullable();
+            $table->integer('with_featured_image')->nullable();
+            $table->integer('featured_image_width')->nullable();
+            $table->foreignId('featured_image_background_color_id')->nullable()->constrained('colors')->onDelete('cascade');
+            $table->text('featured_image_text')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -72,7 +72,7 @@
 
 
 			@can('page-list')
-			<li class="menu-item {{ request()->is('pages') ? "active" : "" }}">
+			<li class="menu-item {{ request()->is('pages*') ? "active" : "" }}">
 				<a href="{{ route('pages') }}" class="menu-link">
 					<i class="menu-icon tf-icons ti ti-smart-home"></i>
 					<div data-i18n="Pages">Pages</div>
@@ -82,7 +82,7 @@
 
 
 			@can('collection-list')
-			<li class="menu-item {{ request()->is('collections') ? "active" : "" }}">
+			<li class="menu-item {{ request()->is('collections*') ? "active" : "" }}">
 				<a href="{{ route('collections') }}" class="menu-link">
 					<i class="menu-icon tf-icons ti ti-smart-home"></i>
 					<div data-i18n="Collections">Collections</div>
@@ -92,7 +92,7 @@
 
 
 			@can('entry-list')
-			<li class="menu-item {{ request()->is('entries') ? "active" : "" }}">
+			<li class="menu-item {{ request()->is('entries*') ? "active" : "" }}">
 				<a href="{{ route('entries') }}" class="menu-link">
 					<i class="menu-icon tf-icons ti ti-smart-home"></i>
 					<div data-i18n="Entries">Entries</div>

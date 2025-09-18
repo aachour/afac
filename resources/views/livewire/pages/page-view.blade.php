@@ -5,7 +5,9 @@
         <div class="card">
             <div class="card-header border-bottom d-flex justify-content-between">
                 <h4 class="card-title mb-3">Pages List</h4>
+                @can('page-create')
                 <a class="btn btn-primary h-50" href="{{ route('pages.create') }}">Add Page</a>
+                @endcan
             </div>
             <div class="card-datatable table-responsive" wire:ignore>
                 <table class="table dataTable border-top" id="table">
@@ -40,8 +42,12 @@
                                 </button>
                             </td>
                             <td>
+                                @can('page-edit')
                                 <a href="{{ route('pages.edit', $page->id) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
+                                @endcan
+                                @can('page-edit')
                                 <a href="#" class="text-body delete-record delete-button" data-id="{{ $page->id }}"><i class="ti ti-trash ti-sm mx-2 text-danger"></i></a>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach
