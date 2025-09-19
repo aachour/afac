@@ -22,11 +22,10 @@ return new class extends Migration
             $table->foreignId('background_color_id')->nullable()->constrained('colors')->onDelete('cascade');
             $table->integer('with_filters')->nullable();
             $table->json('filter_fields')->nullable();
-            $table->integer('custom_entries')->nullable();
-            $table->integer('system_entries')->nullable();
-            $table->integer('system_entries_number')->nullable();
-            $table->integer('system_entries_with_expired')->nullable();
-            $table->integer('system_entries_order')->nullable();
+            $table->integer('entries_selection')->nullable();
+            $table->integer('entries_number')->nullable();
+            $table->integer('entries_with_expired')->nullable();
+            $table->integer('entries_order')->nullable();
             $table->integer('title_position')->nullable();
             $table->integer('with_label')->nullable();
             $table->integer('entries_layout')->nullable();
