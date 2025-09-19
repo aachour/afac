@@ -39,20 +39,25 @@ class CollectionForm extends Component
     public $with_featured_image;
     public $featured_image_width;
     public $featured_image_background_color_id;	
-    public $featured_image_text;
-    public $featured_image_text_arabic;
+    public $featured_image_description;
+    public $featured_image_description_arabic;
+    public $featured_image_description_position;
     
+
     public $entries_order_options=[];
 
     public $featured_image_width_options=[];
 
-    public function mount($id=''){
+    public function mount($id=''){  
+
+        $this->entries_order_options=['1'=>'Name ASC','2'=>'Name DESC','3'=>'Date ASC','4'=>'Date DESC'];
 
         $this->entries_order_options=['1'=>'Name ASC','2'=>'Name DESC','3'=>'Date ASC','4'=>'Date DESC'];
         $this->featured_image_width_options=['1'=>'Full','2'=>'three-quarters','3'=>'one-half','4'=>'one-quarter'];
         
         if($id==''){
             $this->authorize('collection-create');
+            $this->description_position=0;
             $this->with_filters=0;
             $this->with_label=1;
             $this->entries_selection=1;
@@ -60,6 +65,7 @@ class CollectionForm extends Component
             $this->title_position=0;
             $this->entries_layout=1;
             $this->with_featured_image=0;
+            $this->featured_image_description_position=0;
         }
         else{
 
@@ -90,8 +96,9 @@ class CollectionForm extends Component
             $this->with_featured_image=$this->collection->with_featured_image;
             $this->featured_image_width=$this->collection->featured_image_width;
             $this->featured_image_background_color_id=$this->collection->featured_image_background_color_id;
-            $this->featured_image_text=$this->collection->featured_image_text;
-            $this->featured_image_text_arabic=$this->collection->featured_image_text_arabic;
+            $this->featured_image_description=$this->collection->featured_image_description;
+            $this->featured_image_description_arabic=$this->collection->featured_image_description_arabic;
+            $this->featured_image_description_position=$this->collection->featured_image_description_position;
         }
 
         $this->types=Types::all();
@@ -121,10 +128,12 @@ class CollectionForm extends Component
             'entries_layout' => ['required'],
             'entries_per_row' => ['required'],
             'with_featured_image' => ['nullable'],
-            'featured_image_width' => ['required_with:with_featured_image'],
-            'featured_image_background_color_id' => [nullable],	
-            'featured_image_text' => ['nullable'],
-            'featured_image_text_arabic' => ['nullable'],
+            'featured_image_width' => ['required_if:with_featured_image,1'],
+            'featured_image_background_color_id' => ['nullable'],	
+            'featured_image_description' => ['nullable'],
+            'featured_image_description_arabic' => ['nullable'],
+            'featured_image_description_position' => ['nullable'],
+            
         ];
 
         return $data;
@@ -132,6 +141,7 @@ class CollectionForm extends Component
 
     public function store()
     {
+
         $this->validate();
 
         if($this->id==''){
@@ -156,8 +166,9 @@ class CollectionForm extends Component
                 'with_featured_image'=>$this->with_featured_image,
                 'featured_image_width'=>$this->featured_image_width,
                 'featured_image_background_color_id'=>$this->featured_image_background_color_id,	
-                'featured_image_text'=>$this->featured_image_text,
-                'featured_image_text_arabic'=>$this->featured_image_text_arabic,
+                'featured_image_description'=>$this->featured_image_description,
+                'featured_image_description_arabic'=>$this->featured_image_description_arabic,
+                'featured_image_description_position'=>$this->featured_image_description_position,
             ]);
 
             return to_route('collections')->with('success', 'Collection created successfully!');
@@ -185,8 +196,9 @@ class CollectionForm extends Component
                 'with_featured_image'=>$this->with_featured_image,
                 'featured_image_width'=>$this->featured_image_width,
                 'featured_image_background_color_id'=>$this->featured_image_background_color_id,	
-                'featured_image_text'=>$this->featured_image_text,
-                'featured_image_text_arabic'=>$this->featured_image_text_arabic,
+                'featured_image_description'=>$this->featured_image_description,
+                'featured_image_description_arabic'=>$this->featured_image_description_arabic,
+                'featured_image_description_position'=>$this->featured_image_description_position,
             ];
 
             $this->page->update($data);

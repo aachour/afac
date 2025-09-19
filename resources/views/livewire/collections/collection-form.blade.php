@@ -1,6 +1,7 @@
 <div>
     <div class="row">
         <div class="col-xl">
+
             <form wire:submit="store" class="row g-3">
 
                 <div class="col-12">
@@ -12,6 +13,10 @@
                             </a>
                         </div>
                     </div>
+
+                    @foreach ($errors->all() as $error)
+                        {{$error}}
+                    @endforeach
 
                     <div class="card mt-4">
 
@@ -80,9 +85,25 @@
                                     @error('description_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
+                                <div class="col-12 mt-2">
+                                    <label class="form-label" for="name">Description Position</label>
+
+                                    <div class="form-check mt-1">
+                                        <input wire:model="description_position" type="radio" id="description_position_top" class="form-check-input" value="0" checked>
+                                        <label for="description_position" class="form-check-label">Top</label>
+                                    </div>
+
+                                    <div class="form-check mt-1">
+                                        <input wire:model="description_position" type="radio" id="description_position_bottom" class="form-check-input" value="1">
+                                        <label for="description_position" class="form-check-label">Bottom</label>
+                                    </div>
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+
 
                                 <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="name">Background Color <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="name">Background Color</label>
                                     <select
                                         wire:model="background_color_id"
                                         id="background_color_id"
@@ -351,7 +372,7 @@
                                             wire:model.live="featured_image_width"
                                             id="featured_image_width"
                                             class="form-control">
-                                            <option value=''>Select Order</option>
+                                            <option value=''>Select Width</option>
                                             @foreach($featured_image_width_options as $key=>$value)
                                                 <option value='{{$key}}'>{{$value}}</option>
                                             @endforeach
@@ -362,7 +383,7 @@
                                     <div class="w-100 d-none d-md-block"></div>
 
                                     <div class="col-12 col-md-6 mt-2">
-                                        <label class="form-label" for="name">Featured Background Color <span class="text-danger">*</span></label>
+                                        <label class="form-label" for="name">Featured Background Color</label>
                                         <select
                                             wire:model="featured_image_background_color_id"
                                             id="featured_image_background_color_id"
@@ -380,22 +401,39 @@
                                     <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label" for="name">Featured Decription</label>
                                         <textarea
-                                            wire:model="featured_image_text"
-                                            id="featured_image_text"
+                                            wire:model="featured_image_description"
+                                            id="featured_image_description"
                                             class="form-control"
                                             placeholder="Decription"></textarea>
-                                        @error('featured_image_text') <div class="text-danger">{{ $message }}</div> @enderror
+                                        @error('featured_image_description') <div class="text-danger">{{ $message }}</div> @enderror
                                     </div>
 
                                     <div class="col-12 col-md-6 mt-2">
                                         <label class="form-label" for="name">الوصف</label>
                                         <textarea
-                                            wire:model="featured_image_text_arabic"
-                                            id="featured_image_text_arabic"
+                                            wire:model="featured_image_description_arabic"
+                                            id="featured_image_description_arabic"
                                             class="form-control"
                                             placeholder="الوصف"></textarea>
-                                        @error('featured_image_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                        @error('featured_image_description_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                     </div>
+
+
+                                    <div class="col-12 mt-2">
+                                        <label class="form-label" for="name">Featured Description Position</label>
+
+                                        <div class="form-check mt-1">
+                                            <input wire:model="featured_image_description_position" type="radio" id="featured_image_description_position_top" class="form-check-input" value="0" checked>
+                                            <label for="featured_image_description_position" class="form-check-label">Top</label>
+                                        </div>
+
+                                        <div class="form-check mt-1">
+                                            <input wire:model="featured_image_description_position" type="radio" id="featured_image_description_bottom" class="form-check-input" value="1">
+                                            <label for="featured_image_description_position" class="form-check-label">Bottom</label>
+                                        </div>
+                                    </div>
+
+                                    
                                     
                                 @endif
                             </div>
