@@ -56,7 +56,7 @@ class CollectionForm extends Component
             $this->with_filters=0;
             $this->with_label=1;
             $this->entries_selection=1;
-            $this->entries_with_expired=1;
+            $this->entries_with_expired=0;
             $this->title_position=0;
             $this->entries_layout=1;
             $this->with_featured_image=0;
