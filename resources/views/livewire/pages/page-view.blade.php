@@ -42,10 +42,16 @@
                                 </button>
                             </td>
                             <td>
+                                @can('page-view')
+                                <a href="{{ route('pages.view', $page->id) }}" class="text-body view-user-button"><i class="ti ti-eye ti-sm"></i></a>
+                                @endcan
                                 @can('page-edit')
                                 <a href="{{ route('pages.edit', $page->id) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
                                 @endcan
-                                @can('page-edit')
+                                @can('section-list')
+                                <a href="{{ route('sections', $page->id) }}" class="text-body edit-user-button"><i class="ti ti-news ti-sm"></i></a>
+                                @endcan
+                                @can('page-delete')
                                 <a href="#" class="text-body delete-record delete-button" data-id="{{ $page->id }}"><i class="ti ti-trash ti-sm mx-2 text-danger"></i></a>
                                 @endcan
                             </td>

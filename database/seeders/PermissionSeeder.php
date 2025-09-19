@@ -50,7 +50,9 @@ class PermissionSeeder extends Seeder
             'page-create',
             'page-edit',
             'page-delete',
-
+            'page-view',
+            
+            
             // Sections Page
             'section-list',
             'section-create',
@@ -62,13 +64,14 @@ class PermissionSeeder extends Seeder
             'collection-create',
             'collection-edit',
             'collection-delete',
-
+            'collection-view',
+            
             // Entries Page
             'entry-list',
             'entry-create',
             'entry-edit',
             'entry-delete',
-            
+            'entry-view',
 
         ];
         

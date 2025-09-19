@@ -90,7 +90,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', PageView::class)->name('pages');
         Route::get('/create', PageForm::class)->name('pages.create');
         Route::get('/edit/{id}', PageForm::class)->name('pages.edit');
-        Route::get('/view/{id}/{status}', PageForm::class)->name('pages.view');
+        Route::get('/view/{id}', PageForm::class)->name('pages.view');
     });
 
 
@@ -102,7 +102,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', CollectionView::class)->name('collections');
         Route::get('/create', CollectionForm::class)->name('collections.create');
         Route::get('/edit/{id}', CollectionForm::class)->name('collections.edit');
-        Route::get('/view/{id}/{status}', CollectionForm::class)->name('collections.view');
+        Route::get('/view/{id}', CollectionForm::class)->name('collections.view');
     });
 
 
@@ -111,10 +111,10 @@ Route::middleware(['auth'])->group(function () {
     // |--------------------------------------------------------------------------
     
     Route::group(['prefix' => 'sections'], function () {
-        Route::get('/', SectionView::class)->name('sections');
-        Route::get('/create', SectionForm::class)->name('sections.create');
-        Route::get('/edit/{id}', SectionForm::class)->name('sections.edit');
-        Route::get('/view/{id}/{status}', SectionForm::class)->name('sections.view');
+        Route::get('/{pageId}', SectionView::class)->name('sections');
+        Route::get('/create/{pageId}', SectionForm::class)->name('sections.create');
+        Route::get('/edit/{pageId}/{id}', SectionForm::class)->name('sections.edit');
+        Route::get('/view/{pageId}/{id}', SectionForm::class)->name('sections.view');
     });
 
 

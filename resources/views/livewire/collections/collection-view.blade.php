@@ -28,6 +28,9 @@
                             <td>{{ $collection->name }}</td>
                             <td>{{ $collection->description }}</td>
                             <td>
+                                @can('collection-view')
+                                <a href="{{ route('collections.view', $collection->id) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                @endcan
                                 @can('collection-edit')
                                 <a href="{{ route('collections.edit', $collection->id) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
                                 @endcan
