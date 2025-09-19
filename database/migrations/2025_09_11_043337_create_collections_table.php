@@ -34,6 +34,7 @@ return new class extends Migration
             $table->integer('featured_image_width')->nullable();
             $table->foreignId('featured_image_background_color_id')->nullable()->constrained('colors')->onDelete('cascade');
             $table->text('featured_image_text')->nullable();
+            $table->text('featured_image_text_arabic')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
