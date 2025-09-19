@@ -201,7 +201,7 @@ class CollectionForm extends Component
                 'featured_image_description_position'=>$this->featured_image_description_position,
             ];
 
-            $this->page->update($data);
+            $this->collection->update($data);
 
             return to_route('collections')->with('success', 'Collection updated successfully!');
             
