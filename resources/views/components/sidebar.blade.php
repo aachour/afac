@@ -19,7 +19,7 @@
 
 			<li class="menu-item {{ request()->is('dashboard') ? "active" : "" }}">
 				<a href="{{ route('dashboard') }}" class="menu-link">
-					<i class="menu-icon tf-icons ti ti-smart-home"></i>
+					<i class="menu-icon tf-icons ti ti-home"></i>
 					<div data-i18n="Dashboard">Dashboard</div>
 				</a>
 			</li>
@@ -74,7 +74,7 @@
 			@can('page-list')
 			<li class="menu-item {{ request()->is('pages*') ? "active" : "" }}">
 				<a href="{{ route('pages') }}" class="menu-link">
-					<i class="menu-icon tf-icons ti ti-smart-home"></i>
+					<i class="menu-icon tf-icons ti ti-file-description"></i>
 					<div data-i18n="Pages">Pages</div>
 				</a>
 			</li>
@@ -84,7 +84,7 @@
 			@can('collection-list')
 			<li class="menu-item {{ request()->is('collections*') ? "active" : "" }}">
 				<a href="{{ route('collections') }}" class="menu-link">
-					<i class="menu-icon tf-icons ti ti-smart-home"></i>
+					<i class="menu-icon tf-icons ti ti-books"></i>
 					<div data-i18n="Collections">Collections</div>
 				</a>
 			</li>
@@ -94,7 +94,7 @@
 			@can('entry-list')
 			<li class="menu-item {{ request()->is('entries*') ? "active" : "" }}">
 				<a href="{{ route('entries') }}" class="menu-link">
-					<i class="menu-icon tf-icons ti ti-smart-home"></i>
+					<i class="menu-icon tf-icons ti ti-notes"></i>
 					<div data-i18n="Entries">Entries</div>
 				</a>
 			</li>
