@@ -91,6 +91,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/create', PageForm::class)->name('pages.create');
         Route::get('/edit/{id}', PageForm::class)->name('pages.edit');
         Route::get('/view/{id}', PageForm::class)->name('pages.view');
+        Route::get('/sections/{pageId}', SectionView::class)->name('sections');
+        Route::get('/sections/create/{pageId}', SectionForm::class)->name('sections.create');
+        Route::get('/sections/edit/{pageId}/{id}', SectionForm::class)->name('sections.edit');
+        Route::get('/sections/view/{pageId}/{id}', SectionForm::class)->name('sections.view');
     });
 
 
@@ -106,17 +110,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
 
-    // |--------------------------------------------------------------------------
-    // |Sections
-    // |--------------------------------------------------------------------------
+   
     
-    Route::group(['prefix' => 'sections'], function () {
-        Route::get('/{pageId}', SectionView::class)->name('sections');
-        Route::get('/create/{pageId}', SectionForm::class)->name('sections.create');
-        Route::get('/edit/{pageId}/{id}', SectionForm::class)->name('sections.edit');
-        Route::get('/view/{pageId}/{id}', SectionForm::class)->name('sections.view');
-    });
-
 
     // |--------------------------------------------------------------------------
     // |Entries

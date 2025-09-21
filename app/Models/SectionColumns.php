@@ -5,15 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Sections extends Model
+class SectionColumns extends Model
 {
     //
 
     use SoftDeletes;
-
-    public function page()
-    {
-        return $this->belongsTo(Pages::class, 'page_id', 'id');
-    }
-    
 }

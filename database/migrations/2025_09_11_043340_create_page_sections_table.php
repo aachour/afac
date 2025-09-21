@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sections', function (Blueprint $table) {
+        Schema::create('page_sections', function (Blueprint $table) {
             $table->id();
             $table->foreignId('page_id')->nullable()->constrained('pages')->onDelete('cascade');
+            $table->foreignId('section_id')->nullable()->constrained('sections')->onDelete('cascade');
+            $table->foreignId('collection_id')->nullable()->constrained('collections')->onDelete('cascade');
+            $table->integer('list_order')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sections');
+        Schema::dropIfExists('page_sections');
     }
 };
