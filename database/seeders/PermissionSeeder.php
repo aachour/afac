@@ -14,6 +14,7 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
+
         $permissions = [
 
             // Users Page
@@ -52,7 +53,6 @@ class PermissionSeeder extends Seeder
             'page-delete',
             'page-view',
             
-            
             // Sections Page
             'section-list',
             'section-create',
@@ -85,5 +85,7 @@ class PermissionSeeder extends Seeder
         if($adminRole!=null){
             $adminRole->syncPermissions($permissionsIds);
         }
+
     }
+    
 }
