@@ -45,11 +45,14 @@
                                     @if($pageSection->section_id!='')
                                         <a href="{{ route('sections.edit', [$page_id , $pageSection->id]) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
                                     @else
-                                        <i  class="ti ti-edit ti-sm"
+                                        <i  class="ti ti-edit ti-sm cursor-pointer"
                                             data-bs-target="#sectionModal"
                                             data-bs-toggle="modal"
-                                            class="btn btn-primary mb-2 text-nowrap" 
-                                        ></i>
+                                            data-id="{{ $pageSection->id }}"
+                                            data-page-id="{{ $pageSection->page_id }}"
+                                            data-collection-id="{{ $pageSection->collection_id }}"
+                                            data-section-id="{{ $pageSection->section_id }}">
+                                         </i>
                                     @endif
                                 @endcan
                                 @can('section-delete')
