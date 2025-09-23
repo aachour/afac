@@ -48,11 +48,7 @@
                                         <i  class="ti ti-edit ti-sm cursor-pointer"
                                             data-bs-target="#sectionModal"
                                             data-bs-toggle="modal"
-                                            data-id="{{ $pageSection->id }}"
-                                            data-page-id="{{ $pageSection->page_id }}"
-                                            data-collection-id="{{ $pageSection->collection_id }}"
-                                            data-section-id="{{ $pageSection->section_id }}">
-                                         </i>
+                                            wire:click="editCollection({{ $pageSection->id }},{{ $pageSection->collection_id }})"></i>
                                     @endif
                                 @endcan
                                 @can('section-delete')
@@ -97,7 +93,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
                         <button type="button" wire:click="saveCollection" class="btn btn-primary">
-                            {{ $editingId ? 'Update' : 'Save' }}
+                            {{ $modalId ? 'Update' : 'Save' }}
                         </button>
                     </div>
                 </div>

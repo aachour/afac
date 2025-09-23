@@ -17,9 +17,9 @@ class SectionView extends Component
 
     use AuthorizesRequests; 
 
+    public $modalId = null;
     public $modalTitle = 'Add Collection';
-    public $editingId = null;
-   
+    
     public $page_id;
     public $pageSections;
 
@@ -33,6 +33,10 @@ class SectionView extends Component
 
         $this->authorize('section-list');
 
+        $this->modalId=null;
+        $this->modalTitle='Add Collection';
+        
+
         $this->page_id=$pageId;
 
         $this->types=Types::ORDERBY('name','ASC')->get();
@@ -43,6 +47,16 @@ class SectionView extends Component
 
     }
 
+    public function editCollection($pageSectionId,$collectionId){
+
+        // $this->$modalTitle = 'Edit Collection';
+        $this->modalId='1';
+        $collection=Collections::WHERE('id',$collectionId)->first();
+        if($collection){
+            $this->type_id=$collection->type_id;
+            $this->collection_id=$collectionId;
+        }
+    }
 
     public function setTypeId($typeId): void
     {
