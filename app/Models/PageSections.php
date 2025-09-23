@@ -21,7 +21,17 @@ class PageSections extends Model
 
     public function page()
     {
-        return $this->hasOne(Pages::class, 'page_id', 'id');
+        return $this->hasOne(Pages::class, 'id', 'page_id');
+    }
+
+    public function section()
+    {
+        return $this->hasOne(Sections::class, 'id', 'section_id');
+    }
+
+    public function collection()
+    {
+        return $this->hasOne(collections::class, 'id', 'collection_id');
     }
 
     public function sections()

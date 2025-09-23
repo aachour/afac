@@ -20,21 +20,33 @@
                 @endcan
             </div>
             <div class="card-datatable table-responsive" wire:ignore>
-                <table class="table dataTable border-top" id="table">
+                <table class="table border-top" id="table">
                     <thead>
                     <tr>
+                        <th>Order</th>
+                        <th>Page</th>
                         <th>Type</th>
+                        <th>Name</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($pageSections as $pageSection)
-                        <tr>
+                        <tr data-id="{{ $pageSection->id }}" style="cursor: move;">
+                            <td>{{$pageSection->list_order}}</td>
+                            <td>{{$pageSection->page->name}}</td>
                             <td>
                                 @if($pageSection->section_id!='')
                                     Section
                                 @else
-                                    Collection
+                                    Collection / {{$pageSection->collection->type->name}}
+                                @endif
+                            </td>
+                            <td>
+                                @if($pageSection->section_id!='')
+                                    {{$pageSection->section->name}}
+                                @else
+                                    {{$pageSection->collection->name}}
                                 @endif
                             </td>
                             <td>
@@ -67,13 +79,13 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">{{ $modalTitle }}</h5>
+                        <h5 class="modal-title">{{ $modalId ? 'Edit' : 'Add' }} Collection</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="type_id" class="form-label">Type</label>
-                            <select id="type_id" class="form-control">
+                            <select wire:model="type_id" id="type_id" class="form-control">
                                 <option value="">All Types</option>
                                 @foreach($types as $type)
                                     <option value="{{ $type->id }}">{{ $type->name }}</option>
@@ -82,7 +94,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="collection_id" class="form-label">Name</label>
-                            <select id="collection_id" class="form-control">
+                            <select wire:model="collection_id" id="collection_id" class="form-control">
                                 <option value="">Select Collection</option>
                                 @foreach($collections as $collection)
                                     <option value="{{ $collection->id }}">{{ $collection->name }}</option>
@@ -104,6 +116,28 @@
         @script
             @include('livewire.deleteConfirm')
         @endscript
+
+        <script>
+            //load table
+            document.addEventListener('livewire:init', function() {
+                const el = document.querySelector("tbody");
+
+                if (el) {
+                    Sortable.create(el, {
+                        handle: 'td',
+                        animation: 150,
+                        onEnd: function(evt) {
+                            const order = [];
+                            el.querySelectorAll("tr").forEach((row) => {
+                                order.push(row.getAttribute("data-id"));
+                            });
+
+                            Livewire.dispatch('updateOrder', {order: order});
+                        }
+                    });
+                }
+            });
+        </script>
         
         @script
         <script>
@@ -147,30 +181,33 @@
             // Reinitialize Select2 after Livewire updates
             Livewire.hook('morph.updated', ({ el }) => {
 
-                if ($('#type_id').length) {
-
-                    let newTypeId = $('#type_id').val();
-
-                    if (newTypeId !== prevTypeId) {
-                        
-                        prevTypeId = newTypeId;
+                let newTypeId = $('#type_id').val();
+                
+                if (newTypeId !== prevTypeId) {
                     
-                        // Destroy
-                        if ($('#collection_id').hasClass("select2-hidden-accessible")) {
-                            $('#collection_id').select2('destroy');
-                        }
-                        
-                        // Re-initialize
-                        setTimeout(() => {
-                            InitiateCollectionsSelect2();
-                        },100);
-
+                    prevTypeId = newTypeId;
+                
+                    // Destroy
+                    if ($('#collection_id').hasClass("select2-hidden-accessible")) {
+                        $('#collection_id').select2('destroy');
                     }
+                    
+                    // Re-initialize
+                    setTimeout(() => {
+                        InitiateCollectionsSelect2();
+                    },100);
 
                 }
                 
             });
 
+            //update collection value on edit
+            document.addEventListener('EditCollection', (e) => {
+                var collection_id=e.detail.collection_id;
+                setTimeout(() => {
+                    $("#collection_id").val(collection_id).trigger('change.select2');
+                },100);
+            });
 
         </script>
         @endscript

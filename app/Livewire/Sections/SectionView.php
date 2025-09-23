@@ -18,7 +18,6 @@ class SectionView extends Component
     use AuthorizesRequests; 
 
     public $modalId = null;
-    public $modalTitle = 'Add Collection';
     
     public $page_id;
     public $pageSections;
@@ -27,34 +26,48 @@ class SectionView extends Component
     public $type_id;
    
     public $collections;
-    public $collection_id;    
+    public $collection_id;        
         
     public function mount($pageId){
 
         $this->authorize('section-list');
 
         $this->modalId=null;
-        $this->modalTitle='Add Collection';
         
-
         $this->page_id=$pageId;
 
         $this->types=Types::ORDERBY('name','ASC')->get();
 
         $this->collections=[];
-                
-        $this->pageSections=PageSections::WHERE('page_id',$this->page_id)->WITH('sections','collections')->ORDERBY('list_order','ASC')->get();
+
+        $this->loadPageSections();
+
+    }
+
+    public function loadPageSections()
+    {
+        $this->pageSections=PageSections::WHERE('page_id',$this->page_id)->WITH('sections','collections')->ORDERBY('list_order','ASC')->get();    
+    }
+
+    #[On('updateOrder')]
+    public function updateOrder(array $order)
+    {
+        foreach ($order as $index => $id) {
+            PageSections::where('id', $id)->update(['list_order' => $index+1]);
+        }
+
+        return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Order updated successfully!');
 
     }
 
     public function editCollection($pageSectionId,$collectionId){
 
-        // $this->$modalTitle = 'Edit Collection';
-        $this->modalId='1';
+        $this->modalId=$pageSectionId;
         $collection=Collections::WHERE('id',$collectionId)->first();
         if($collection){
             $this->type_id=$collection->type_id;
             $this->collection_id=$collectionId;
+            $this->dispatch('EditCollection', collection_id:$this->collection_id);
         }
     }
 
@@ -63,15 +76,16 @@ class SectionView extends Component
         $this->type_id = $typeId ?: null;
     }
     
-
     public function setCollectionId($collectionId): void
     {
         $this->collection_id = $collectionId ?: null;
     }
 
     public function saveCollection(){
-        if($this->collection_id!=''){
 
+        if($this->modalId==null && $this->collection_id!=''){
+
+            //Add collection
             $highestOrder = PageSections::WHERE('page_id',$this->page_id)->max('list_order');
 
             PageSections::create([
@@ -82,6 +96,27 @@ class SectionView extends Component
 
             return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Collection added successfully!');
         }
+        else if($this->modalId!=null && $this->collection_id!=''){
+
+            //Edit Collection
+
+            PageSections::where('id', $this->modalId)
+            ->update([
+                'collection_id' => $this->collection_id,
+            ]);
+            
+            return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Collection edited successfully!');
+        }
+    }
+
+    #[On('delete')]
+    public function delete($id)
+    {
+        $pageSection = PageSections::find($id);
+
+        $pageSection->delete();
+
+        return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Collection deleted successfully!');
     }
 
     public function render()
