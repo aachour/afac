@@ -17,7 +17,6 @@ class SectionView extends Component
 
     use AuthorizesRequests; 
 
-    public $showModal = false;
     public $modalTitle = 'Add Collection';
     public $editingId = null;
    
@@ -36,52 +35,39 @@ class SectionView extends Component
 
         $this->page_id=$pageId;
 
-        $this->collections=Collections::ORDERBY('id','DESC')->get();
-        
-        $this->types=Types::ORDERBY('name','DESC')->get();
-        
+        $this->types=Types::ORDERBY('name','ASC')->get();
+
+        $this->collections=[];
+                
         $this->pageSections=PageSections::WHERE('page_id',$this->page_id)->WITH('sections','collections')->ORDERBY('list_order','ASC')->get();
 
     }
 
 
-    public function openModal($typeId = null)
+    public function setTypeId($typeId): void
     {
-        // if ($typeId) {
-        //     $type = Types::find($typeId);
-        //     $this->editingId = $typeId;
-        //     $this->name = $type->name;
-        //     $this->modalTitle = 'Edit Type';
-        // } else {
-        //     $this->reset(['editingId', 'name']);
-        //     $this->modalTitle = 'Add Type';
-        // }
-        $this->showModal = true;
-         $this->dispatch('modalOpened');
+        $this->type_id = $typeId ?: null;
+        
+    }
+    
+
+    public function setCollectionId($collectionId): void
+    {
+        $this->collection_id = $collectionId ?: null;
     }
 
-    public function closeModal()
-    {
-        $this->showModal = false;
-        $this->reset(['editingId' , 'type_id' , 'collection_id']);
-    }
+    public function saveCollection(){
 
-    #[On('setType')]
-    public function setType($value)
-    {
-        $this->type_id = $value;
-        dd("!");
-    }
-
-    #[On('setCollection')]
-    public function setCollection($value)
-    {
-        $this->collection_id = $value;
-        dd("!!!");
     }
 
     public function render()
     {
-        return view('livewire.sections.section-view');
+
+        $this->collections=[];
+        if($this->type_id!=''){
+            $this->collections=Collections::WHERE('type_id',$this->type_id)->ORDERBY('id','DESC')->get();
+        }
+
+        return view('livewire.sections.section-view',[$this->collections]);
     }
 }

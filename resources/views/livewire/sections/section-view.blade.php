@@ -9,9 +9,14 @@
                 <div>
                     <a class="btn btn-primary h-50" href="{{ route('sections.create',$page_id) }}">Add Section</a>
                     &nbsp;&nbsp;
-                    <button wire:click="openModal()" class="btn btn-primary h-50">
-                        Add Collection
-                    </button>
+                    <button
+                        data-bs-target="#sectionModal"
+                        data-bs-toggle="modal"
+                        class="btn btn-primary mb-2 text-nowrap" 
+                        style="margin-top:8px;"
+                        >
+                    Add Collection
+                </button>
                 </div>
                 @endcan
             </div>
@@ -51,92 +56,116 @@
             </div>
         </div>
 
-        @if($showModal)
-            <div class="modal fade show" tabindex="-1" style="display: block; background-color: rgba(0,0,0,0.5)">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">{{ $modalTitle }}</h5>
-                            <button type="button" wire:click="closeModal" class="btn-close"></button>
+        <div wire:ignore.self class="modal fade" id="sectionModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ $modalTitle }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="type_id" class="form-label">Type</label>
+                            <select id="type_id" class="form-control">
+                                <option value="">All Types</option>
+                                @foreach($types as $type)
+                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="modal-body">
-                            <div class="mb-3" wire:ignore>
-                                <label for="type_id" class="form-label">Type</label>
-                                <select id="type_id" class="form-control">
-                                    <option value="">All Types</option>
-                                    @foreach($types as $type)
-                                        <option value="{{ $type->id }}">{{ $type->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="mb-3" wire:ignore>
-                                <label for="collection_id" class="form-label">Name</label>
-                                <select id="collection_id" class="form-control">
-                                    <option value="">Select Collection</option>
-                                    @foreach($collections as $collection)
-                                        <option value="{{ $collection->id }}">{{ $collection->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        <div class="mb-3">
+                            <label for="collection_id" class="form-label">Name</label>
+                            <select id="collection_id" class="form-control">
+                                <option value="">Select Collection</option>
+                                @foreach($collections as $collection)
+                                    <option value="{{ $collection->id }}">{{ $collection->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" wire:click="closeModal" class="btn btn-secondary">Cancel</button>
-                            <button type="button" wire:click="saveType" class="btn btn-primary">
-                                {{ $editingId ? 'Update' : 'Save' }}
-                            </button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                        <button type="button" wire:click="saveCollection" class="btn btn-primary">
+                            {{ $editingId ? 'Update' : 'Save' }}
+                        </button>
                     </div>
                 </div>
             </div>
-        @endif
-
-
-        @push('scripts')
-            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet" />
-            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/js/select2.min.js"></script>
-
-            <script>
-                document.addEventListener('livewire:load', function () {
-                    Livewire.on('modalOpened', () => {
-                        console.log("!");
-                        initSelect2();
-                    });
-                });
-
-                function initSelect2() {
-                    if ($('#type_id').hasClass("select2-hidden-accessible")) {
-                        $('#type_id').select2('destroy');
-                    }
-                    if ($('#collection_id').hasClass("select2-hidden-accessible")) {
-                        $('#collection_id').select2('destroy');
-                    }
-
-                    // Type select
-                    $('#type_id').select2({
-                        dropdownParent: $('#type_id').closest('.modal'),
-                        width: '100%',
-                        placeholder: "All Types",
-                        allowClear: true
-                    }).on('change', function () {
-                        @this.set('type_id', $(this).val());
-                    });
-
-                    // Collection select
-                    $('#collection_id').select2({
-                        dropdownParent: $('#collection_id').closest('.modal'),
-                        width: '100%',
-                        placeholder: "Select Collection",
-                        allowClear: true
-                    }).on('change', function () {
-                        @this.set('collection_id', $(this).val());
-                    });
-                }
-            </script>
-        @endpush
+        </div>
 
 
         @script
             @include('livewire.deleteConfirm')
+        @endscript
+        
+        @script
+        <script>
+
+            InitiateTypesSelect2();
+            InitiateCollectionsSelect2();
+            
+
+            function InitiateTypesSelect2() {
+
+                $('#type_id').select2({
+                    placeholder: 'Select Collection Type',
+                    allowClear: true,
+                    width: '100%',
+                    dropdownParent: $('.modal-content') // Important for modal compatibility
+                }).on('change', function(e) {
+                    // Update Livewire property 
+                    let selectedValue = $(this).val();
+                    $wire.setTypeId(selectedValue);
+                });
+
+            }
+
+            function InitiateCollectionsSelect2(){
+
+                $('#collection_id').select2({
+                    placeholder: 'Select Collection',
+                    allowClear: true,
+                    width: '100%',
+                    dropdownParent: $('.modal-content') // Important for modal compatibility
+                }).on('change', function(e) {
+                    // Update Livewire property 
+                    let selectedValue = $(this).val();
+                    $wire.setCollectionId(selectedValue);
+                });
+
+            }
+
+            let prevTypeId = null;
+
+            // Reinitialize Select2 after Livewire updates
+            Livewire.hook('morph.updated', ({ el }) => {
+
+                if ($('#type_id').length) {
+
+                    let newTypeId = $('#type_id').val();
+
+                    if (newTypeId !== prevTypeId) {
+                        
+                        prevTypeId = newTypeId;
+                    
+                        // Destroy
+                        if ($('#collection_id').hasClass("select2-hidden-accessible")) {
+                            $('#collection_id').select2('destroy');
+                        }
+                        
+                        // Re-initialize
+                        setTimeout(() => {
+                            InitiateCollectionsSelect2();
+                        },100);
+
+                    }
+
+                }
+                
+            });
+
+
+        </script>
         @endscript
 
     </div>
