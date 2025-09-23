@@ -14,9 +14,8 @@
                         data-bs-toggle="modal"
                         class="btn btn-primary mb-2 text-nowrap" 
                         style="margin-top:8px;"
-                        >
-                    Add Collection
-                </button>
+                        >Add Collection
+                    </button>
                 </div>
                 @endcan
             </div>
@@ -24,25 +23,34 @@
                 <table class="table dataTable border-top" id="table">
                     <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Type</th>
-                        <th>In Menu</th>
-                        <th>Published</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($pageSections as $pageSection)
                         <tr>
-                            <td>{{ $pageSection->id }}</td>
-                            <td>{{ $pageSection->name }}</td>
-                            
+                            <td>
+                                @if($pageSection->section_id!='')
+                                    Section
+                                @else
+                                    Collection
+                                @endif
+                            </td>
                             <td>
                                 @can('page-view')
                                 <a href="{{ route('pages.view', $page_id) }}" class="text-body view-user-button"><i class="ti ti-eye ti-sm"></i></a>
                                 @endcan
                                 @can('section-edit')
-                                <a href="{{ route('sections.edit', $page_id , $pageSection->id) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
+                                    @if($pageSection->section_id!='')
+                                        <a href="{{ route('sections.edit', [$page_id , $pageSection->id]) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
+                                    @else
+                                        <i  class="ti ti-edit ti-sm"
+                                            data-bs-target="#sectionModal"
+                                            data-bs-toggle="modal"
+                                            class="btn btn-primary mb-2 text-nowrap" 
+                                        ></i>
+                                    @endif
                                 @endcan
                                 @can('section-delete')
                                 <a href="#" class="text-body delete-record delete-button" data-id="{{ $pageSection->id }}"><i class="ti ti-trash ti-sm mx-2 text-danger"></i></a>

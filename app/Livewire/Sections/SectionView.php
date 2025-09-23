@@ -47,7 +47,6 @@ class SectionView extends Component
     public function setTypeId($typeId): void
     {
         $this->type_id = $typeId ?: null;
-        
     }
     
 
@@ -57,7 +56,18 @@ class SectionView extends Component
     }
 
     public function saveCollection(){
+        if($this->collection_id!=''){
 
+            $highestOrder = PageSections::WHERE('page_id',$this->page_id)->max('list_order');
+
+            PageSections::create([
+                'page_id'=>$this->page_id,
+                'collection_id'=>$this->collection_id,
+                'list_order'=> $highestOrder+1
+            ]);
+
+            return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Collection added successfully!');
+        }
     }
 
     public function render()
