@@ -4,27 +4,26 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Types;
+use App\Models\ColumnTypes;
 
-class TypesSeeder extends Seeder
+class ColumnTypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
+    
+
         $types = [
-            'Events',
-            'Programs',
-            'News',
-            'Resources',
-            'Supported Projects',
+            'General Inputs',
+            'Timeline',
+            'Accordion Menu',
         ];
 
         foreach ($types as $type) {
-            Types::updateOrCreate(['name' => $type]);
+            ColumnTypes::updateOrCreate(['name' => $type]);
         }
-    
 
     }
 }

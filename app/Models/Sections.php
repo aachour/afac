@@ -15,5 +15,10 @@ class Sections extends Model
     {
         return $this->belongsTo(Pages::class, 'page_id', 'id');
     }
+
+    public function sections()
+    {
+        return $this->hasMany(SectionColumns::class, 'section_id', 'id');
+    }
     
 }
