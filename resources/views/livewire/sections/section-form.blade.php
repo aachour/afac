@@ -54,21 +54,63 @@
                                 <div class="row">
 
                                     <div class="col-12 col-md-6 mt-2">
-                                        <label class="form-label" for="name">Page Name <span class="text-danger">*</span></label>
-                                        <input
-                                            wire:model="name"
-                                            type="text"
-                                            id="name"
-                                            class="form-control"
-                                            placeholder="Page Name" />
-                                        @error('name') <div class="text-danger">{{ $message }}</div> @enderror
+                                        <label class="form-label" for="name">
+                                            Column Type <span class="text-danger">*</span>
+                                        </label>
+                                        
+                                        @foreach($this->columnTypes as $type)
+                                            <div class="form-check mt-1">
+                                                <input 
+                                                    wire:model="columns.{{$key}}.type_id" 
+                                                    class="form-check-input" 
+                                                    type="radio" 
+                                                    id="columns.{{$key}}.type_id" 
+                                                    value="{{ $type->id }}" 
+                                                >
+                                                <label class="form-check-label" for="columns.{{$key}}.type_id">
+                                                    {{ ucfirst($type->name) }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+
+                                        @error('name')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
                                 </div>
 
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mt-4">
+                                        <label class="form-label" for="name">
+                                            Column Alignment <span class="text-danger">*</span>
+                                        </label>
+                                        
+                                        @foreach($this->columnAlignments as $key2=>$alignment)
+                                            <div class="form-check mt-1">
+                                                <input 
+                                                    wire:model="columns.{{$key}}.alignment_id" 
+                                                    class="form-check-input" 
+                                                    type="radio" 
+                                                    id="columns.{{$key}}.alignment_id" 
+                                                    value="{{ $key2 }}" 
+                                                >
+                                                <label class="form-check-label" for="columns.{{$key}}.alignment_id">
+                                                    {{ ucfirst($alignment) }}
+                                                </label>
+                                            </div>
+                                        @endforeach
+
+                                        @error('name')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+
+                                    </div>
+                                </div>
+
                             </div>
 
-                            @if($loop->last)
+                            @if($loop->last && $columns_num<$columns_max)
                             <div class="mt-3 mb-3 text-end">
                                 <button type="button" class="btn btn-secondary me-sm-3 me-1" wire:click="AddColumn">Add New Column</button>
                             </div>

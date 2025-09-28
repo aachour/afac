@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('section_columns', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('type_id')->nullable()->constrained('column_types')->onDelete('cascade');
+            $table->integer('alignment_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
