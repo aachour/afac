@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('section_columns', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('section_id')->nullable()->constrained('sections')->onDelete('cascade');
             $table->foreignId('type_id')->nullable()->constrained('column_types')->onDelete('cascade');
-            $table->integer('alignment_id')->nullable();
+            $table->foreignId('alignment_id')->nullable()->constrained('alignment_types')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

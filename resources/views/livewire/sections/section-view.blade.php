@@ -55,7 +55,7 @@
                                 @endcan
                                 @can('section-edit')
                                     @if($pageSection->section_id!='')
-                                        <a href="{{ route('sections.edit', [$page_id , $pageSection->id]) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
+                                        <a href="{{ route('sections.edit', [$page_id , $pageSection->section_id]) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
                                     @else
                                         <i  class="ti ti-edit ti-sm cursor-pointer"
                                             data-bs-target="#sectionModal"

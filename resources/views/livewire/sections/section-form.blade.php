@@ -86,17 +86,17 @@
                                             Column Alignment <span class="text-danger">*</span>
                                         </label>
                                         
-                                        @foreach($this->columnAlignments as $key2=>$alignment)
+                                        @foreach($this->alignmentTypes as $alignment)
                                             <div class="form-check mt-1">
                                                 <input 
                                                     wire:model="columns.{{$key}}.alignment_id" 
                                                     class="form-check-input" 
                                                     type="radio" 
                                                     id="columns.{{$key}}.alignment_id" 
-                                                    value="{{ $key2 }}" 
+                                                    value="{{ $alignment->id }}" 
                                                 >
                                                 <label class="form-check-label" for="columns.{{$key}}.alignment_id">
-                                                    {{ ucfirst($alignment) }}
+                                                    {{ ucfirst($alignment->name) }}
                                                 </label>
                                             </div>
                                         @endforeach

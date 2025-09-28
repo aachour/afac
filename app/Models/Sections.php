@@ -11,6 +11,11 @@ class Sections extends Model
 
     use SoftDeletes;
 
+    protected $fillable = [
+        'page_id',
+        'name',
+    ];
+
     public function page()
     {
         return $this->belongsTo(Pages::class, 'page_id', 'id');

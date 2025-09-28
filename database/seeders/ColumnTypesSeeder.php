@@ -14,7 +14,6 @@ class ColumnTypesSeeder extends Seeder
     public function run(): void
     {
     
-
         $types = [
             'General Inputs',
             'Timeline',

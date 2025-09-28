@@ -5,16 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SectionColumns extends Model
+class AlignmentTypes extends Model
 {
     //
 
     use SoftDeletes;
-
-    protected $fillable = [
-        'section_id',
-        'type_id',
-        'alignment_id',
-    ];
-
 }
