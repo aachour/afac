@@ -40,7 +40,7 @@ class SectionForm extends Component
             $this->authorize('section-create');
 
             $this->columns_num=1;
-            $this->columns[] = ['type_id' => '','alignment_id'=>''];
+            $this->columns[] = ['id'=>'','type_id' => '','alignment_id'=>''];
         }
         else{
 
@@ -56,6 +56,7 @@ class SectionForm extends Component
 
             foreach($sectionColumns as $sectionColumn){
                 $obj=[
+                    'id'=>$sectionColumn->type_id,
                     'type_id'=>$sectionColumn->type_id,
                     'alignment_id'=>$sectionColumn->alignment_id,
                 ];
@@ -81,7 +82,7 @@ class SectionForm extends Component
     public function DeleteColumn($index){
         unset($this->columns[$index]);
         $this->columns = array_values($this->columns);
-        $this->columns_num--;
+        $this->columns_num-=1;
     }
 
 
@@ -135,7 +136,33 @@ class SectionForm extends Component
         }
         else if($this->section_id!=''){
 
-            
+            Sections::WHERE('id', $this->section_id)->update(['name'=>$this->name]);
+
+            // Collect IDs of the submitted columns
+            $sectionColumnsId = SectionColumns::WHERE('section_id', $this->section_id)->pluck('id')->filter()->all();
+
+            // Delete columns that were removed
+            SectionColumns::where('section_id', $this->section_id)
+                ->whereNotIn('id', $sectionColumnsId)
+                ->delete();
+
+            // Loop through submitted columns
+            foreach($this->columns as $column){
+                if (!empty($column['id'])) {
+                    // Update existing
+                    SectionColumns::where('id', $column['id'])->update([
+                        'type_id' => $column['type_id'],
+                        'alignment_id' => $column['alignment_id'],
+                    ]);
+                } else {
+                    // Create new
+                    SectionColumns::create([
+                        'section_id' => $this->section_id,
+                        'type_id' => $column['type_id'],
+                        'alignment_id' => $column['alignment_id'],
+                    ]);
+                }
+            }
 
             return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Section edited successfully!');
    
