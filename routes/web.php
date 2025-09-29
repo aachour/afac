@@ -99,7 +99,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{pageId}/sections/create/', SectionForm::class)->name('sections.create');
         Route::get('/{pageId}/sections/edit/{id}', SectionForm::class)->name('sections.edit');
         Route::get('/{pageId}/sections/view/{id}', SectionForm::class)->name('sections.view');
-        Route::get('/{pageId}/section/{sectionId}/timeline/view/{id}', GeneralInputsView::class)->name('general.view');
+        Route::get('/{pageId}/section/{sectionId}/general/view/{id}', GeneralInputsView::class)->name('general.view');
         Route::get('/{pageId}/section/{sectionId}/timeline/view/{id}', TimelineView::class)->name('timeline.view');
         Route::get('/{pageId}/section/{sectionId}/accordion/view/{id}', AccordionView::class)->name('accordion.view');
         
