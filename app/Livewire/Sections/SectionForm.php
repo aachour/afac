@@ -56,7 +56,7 @@ class SectionForm extends Component
 
             foreach($sectionColumns as $sectionColumn){
                 $obj=[
-                    'id'=>$sectionColumn->type_id,
+                    'id'=>$sectionColumn->id,
                     'type_id'=>$sectionColumn->type_id,
                     'alignment_id'=>$sectionColumn->alignment_id,
                 ];
@@ -72,7 +72,7 @@ class SectionForm extends Component
 
     public function AddColumn(){
         
-        $this->columns[] = ['type_id' => '','alignment_id'=>''];
+        $this->columns[] = ['id'=>'','type_id' => '','alignment_id'=>''];
 
         $this->columns_num++;
 
@@ -126,6 +126,7 @@ class SectionForm extends Component
             //add columns to section
             foreach($this->columns as $column){
                 SectionColumns::create([
+                    'section_id' => $section_id,
                     'type_id' => $column['type_id'],
                     'alignment_id' => $column['alignment_id'],
                 ]);
@@ -139,7 +140,10 @@ class SectionForm extends Component
             Sections::WHERE('id', $this->section_id)->update(['name'=>$this->name]);
 
             // Collect IDs of the submitted columns
-            $sectionColumnsId = SectionColumns::WHERE('section_id', $this->section_id)->pluck('id')->filter()->all();
+            $sectionColumnsId = [];
+            foreach($this->columns as $column){
+                $sectionColumnsId[]=$column["id"];
+            }
 
             // Delete columns that were removed
             SectionColumns::where('section_id', $this->section_id)
