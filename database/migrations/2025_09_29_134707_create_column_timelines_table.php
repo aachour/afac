@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('column_timelines', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('section_column_id')->nullable()->constrained('section_columns')->onDelete('cascade');
+            $table->string('date')->nullable();
+            $table->string('title')->nullable();
+            $table->text('text')->nullable();
+            $table->integer('percentage')->nullable();
+            $table->integer('list_order')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

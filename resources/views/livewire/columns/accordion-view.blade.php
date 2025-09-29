@@ -81,7 +81,7 @@
                                 id="text"
                                 wire:model="text"
                                 placeholder="Text" style="height:200px; resize:none;"></textarea>
-                            @error('name')
+                            @error('text')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

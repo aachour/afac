@@ -2,10 +2,6 @@
 
 namespace App\Livewire\Columns;
 
-use App\Models\Pages;
-use App\Models\Types;
-use App\Models\Collections;
-use App\Models\Sections;
 use App\Models\ColumnAccordion;
 
 use Livewire\Attributes\On;
@@ -27,7 +23,8 @@ class AccordionView extends Component
     public $title;
     public $text;
         
-    public function mount($pageId,$sectionId,$id){
+    public function mount($pageId,$sectionId,$id)
+    {
 
         $this->authorize('section-list');
 
