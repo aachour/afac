@@ -65,8 +65,8 @@ class SectionForm extends Component
 
         }
         
-        $this->columnTypes=ColumnTypes::ORDERBY('name','ASC')->get();
-        $this->alignmentTypes=AlignmentTypes::ORDERBY('name','ASC')->get();
+        $this->columnTypes=ColumnTypes::ORDERBY('id','ASC')->get();
+        $this->alignmentTypes=AlignmentTypes::ORDERBY('id','ASC')->get();
         
     }
 
