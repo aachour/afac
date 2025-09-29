@@ -55,7 +55,7 @@
                                     @if($pageSection->section_id!='')
                                         @foreach($pageSection->sections->columns as $key=>$column)
                                         @if($column->type_id==1)
-                                            <div class="mb-1"><a href="{{ route('general.inputs.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Column {{$key + 1}} <i class="ti ti-edit ti-sm"></i></a></div>
+                                            <div class="mb-1"><a href="{{ route('general.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Column {{$key + 1}} <i class="ti ti-edit ti-sm"></i></a></div>
                                         @elseif($column->type_id==2)
                                             <div class="mb-1"><a href="{{ route('timeline.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Column {{$key + 1}} <i class="ti ti-edit ti-sm"></i></a></div>
                                         @elseif($column->type_id==3)
