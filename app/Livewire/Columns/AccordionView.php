@@ -24,6 +24,8 @@ class AccordionView extends Component
     public $section_column_id;
     
     public $accordions;
+    public $title;
+    public $text;
         
     public function mount($pageId,$sectionId,$id){
 
@@ -57,12 +59,15 @@ class AccordionView extends Component
     }
 
     public function editEntry($id){
-
+        $columnAccordion=ColumnAccordion::find($id);
+        $this->title=$columnAccordion->title;
+        $this->text=$columnAccordion->text;
+        $this->modalId=$id;
     }
 
     public function saveEntry(){
 
-        if($this->modalId==null && $this->collection_id!=''){
+        if($this->modalId==null){
 
             //Add collection
             $highestOrder = ColumnAccordion::WHERE('section_column_id',$this->section_column_id)->max('list_order');
@@ -74,19 +79,18 @@ class AccordionView extends Component
                 'list_order'=> $highestOrder+1
             ]);
 
-            // return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Collection added successfully!');
+            return to_route('accordion.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry added successfully!');
         }
-        else if($this->modalId!=null && $this->collection_id!=''){
+        else if($this->modalId!=null){
 
             //Edit Collection
-
             ColumnAccordion::where('id', $this->modalId)
             ->update([
                 'title' => $this->title,
                 'text' => $this->text,
             ]);
             
-            // return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Collection edited successfully!');
+            return to_route('accordion.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry edited successfully!');
         }
     }
 

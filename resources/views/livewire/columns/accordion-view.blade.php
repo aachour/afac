@@ -8,7 +8,7 @@
                 @can('section-create')
                 <div>
                     <button
-                        data-bs-target="#sectionModal"
+                        data-bs-target="#accordionModal"
                         data-bs-toggle="modal"
                         class="btn btn-primary mb-2 text-nowrap" 
                         style="margin-top:2px;"
@@ -32,14 +32,14 @@
                     </thead>
                     <tbody>
                     @foreach($accordions as $accordion)
-                        <tr data-id="{{ $pageSection->id }}" style="cursor: move;">
+                        <tr data-id="{{ $accordion->id }}" style="cursor: move;">
                             <td>{{$accordion->list_order}}</td>
                             <td>{{$accordion->title}}</td>
                             <td>{{$accordion->text}}</td>
                             <td>
                                 @can('section-edit')
                                     <i  class="ti ti-edit ti-sm cursor-pointer"
-                                        data-bs-target="#sectionModal"
+                                        data-bs-target="#accordionModal"
                                         data-bs-toggle="modal"
                                         wire:click="editEntry({{ $accordion->id }})"></i>
                                 @endcan
@@ -55,7 +55,7 @@
             </div>
         </div>
 
-        <div wire:ignore.self class="modal fade" id="sectionModal" tabindex="-1">
+        <div wire:ignore.self class="modal fade" id="accordionModal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -63,7 +63,28 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        
+                        <div class="mb-3">
+                            <label for="ColorName" class="form-label">Title</label>
+                            <input type="text"
+                                class="form-control @error('title') is-invalid @enderror"
+                                id="title"
+                                wire:model="title"
+                                placeholder="Title" />
+                            @error('title')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="ColorCode" class="form-label">Text</label>
+                            <textarea
+                                class="form-control @error('text') is-invalid @enderror"
+                                id="text"
+                                wire:model="text"
+                                placeholder="Text" style="height:200px; resize:none;"></textarea>
+                            @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
@@ -101,7 +122,6 @@
                 }
             });
         </script>
-        
 
     </div>
 
