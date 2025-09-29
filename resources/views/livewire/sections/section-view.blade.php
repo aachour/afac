@@ -55,11 +55,11 @@
                                     @if($pageSection->section_id!='')
                                         @foreach($pageSection->sections->columns as $key=>$column)
                                         @if($column->type_id==1)
-                                            <div class="mb-1"><a href="{{ route('general.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Column {{$key + 1}} <i class="ti ti-edit ti-sm"></i></a></div>
+                                            <div class="mb-1"><a href="{{ route('general.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">General Inputs {{$key + 1}} / General <i class="ti ti-edit ti-sm"></i></a></div>
                                         @elseif($column->type_id==2)
-                                            <div class="mb-1"><a href="{{ route('timeline.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Column {{$key + 1}} <i class="ti ti-edit ti-sm"></i></a></div>
+                                            <div class="mb-1"><a href="{{ route('timeline.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Timeline {{$key + 1}} / T <i class="ti ti-edit ti-sm"></i></a></div>
                                         @elseif($column->type_id==3)
-                                            <div class="mb-1"><a href="{{ route('accordion.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Column {{$key + 1}} <i class="ti ti-edit ti-sm"></i></a></div>
+                                            <div class="mb-1"><a href="{{ route('accordion.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Accordion <i class="ti ti-edit ti-sm"></i></a></div>
                                         @endif
                                         @endforeach
                                     @endif
