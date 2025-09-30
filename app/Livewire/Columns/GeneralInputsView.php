@@ -3,6 +3,7 @@
 namespace App\Livewire\Columns;
 
 use App\Models\InputTypes;
+use App\Models\Colors;
 use App\Models\ColumnGeneral;
 
 use Livewire\Attributes\On;
@@ -21,9 +22,20 @@ class GeneralInputsView extends Component
     public $section_column_id;
 
     public $inputTypes;
+    public $colors;
     public $generalInputs;
+
+    public $bg_color_id;
+    public $input_type_id;
     public $title;
     public $text;
+    public $gallery;
+    public $video;
+    public $percentage;
+    public $button_value;
+    public $button_shape;
+    public $button_link;
+    
         
     public function mount($pageId,$sectionId,$id)
     {
@@ -37,8 +49,7 @@ class GeneralInputsView extends Component
         $this->section_column_id=$id;
 
         $this->inputTypes=InputTypes::all();
-
-        dd($this->inputTypes);
+        $this->colors=Colors::all();
 
         $this->loadEntries();
 
@@ -47,7 +58,6 @@ class GeneralInputsView extends Component
     public function loadEntries()
     {
         $this->generalInputs=ColumnGeneral::WHERE('section_column_id',$this->section_column_id)->ORDERBY('list_order','ASC')->get();
-   
     }
 
     #[On('updateOrder')]

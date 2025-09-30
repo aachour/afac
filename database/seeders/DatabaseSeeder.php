@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ColorsSeeder::class);
         $this->call(ColumnTypesSeeder::class);
         $this->call(AlignmentTypesSeeder::class);
-        
+        $this->call(InputTypesSeeder::class);
         
     }
 }

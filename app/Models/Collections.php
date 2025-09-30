@@ -50,12 +50,12 @@ class Collections extends Model
 
     public function bgColor()
     {
-        return $this->hasOne(Colors::class, 'id', 'background_color_id');
+        return $this->hasOne(Colors::class, 'background_color_id', 'id');
     }
 
     public function featuredImageBgColor()
     {
-        return $this->hasOne(Colors::class, 'id', 'featured_image_background_color_id');
+        return $this->hasOne(Colors::class, 'featured_image_background_color_id', 'id');
     }
 
 }
