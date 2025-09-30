@@ -102,8 +102,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{pageId}/section/{sectionId}/general/view/{id}', GeneralInputsView::class)->name('general.view');
         Route::get('/{pageId}/section/{sectionId}/timeline/view/{id}', TimelineView::class)->name('timeline.view');
         Route::get('/{pageId}/section/{sectionId}/accordion/view/{id}', AccordionView::class)->name('accordion.view');
-        
-        
     });
 
 
@@ -117,7 +115,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/edit/{id}', CollectionForm::class)->name('collections.edit');
         Route::get('/view/{id}', CollectionForm::class)->name('collections.view');
     });
-
 
 
     // |--------------------------------------------------------------------------
