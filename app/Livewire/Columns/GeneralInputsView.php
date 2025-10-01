@@ -67,7 +67,7 @@ class GeneralInputsView extends Component
             ColumnGeneral::where('id', $id)->update(['list_order' => $index+1]);
         }
 
-        return to_route('accordion.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Order updated successfully!');
+        return to_route('general.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Order updated successfully!');
 
     }
 
