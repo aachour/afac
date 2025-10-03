@@ -96,8 +96,8 @@
                             @error('input_type_id') <div class="text-danger">{{ $message }}</div> @enderror
                         </div>
                         
-                        @if($input_type_id==1)
-                        <div class="mb-3">
+                        <!--Title-->
+                        <div class="mb-3 {{ $input_type_id == 1 ? '' : 'd-none' }}">
                             <label for="ColorName" class="form-label">Title</label>
                             <input type="text"
                                 class="form-control @error('title') is-invalid @enderror"
@@ -108,10 +108,9 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        @endif
 
-                        @if($input_type_id==2)
-                        <div class="mb-3">
+                        <!--Text-->
+                        <div class="mb-3 {{ $input_type_id == 2 ? '' : 'd-none' }}">
                             <label for="ColorCode" class="form-label">Text</label>
                             <textarea
                                 class="form-control @error('text') is-invalid @enderror"
@@ -122,10 +121,30 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        @endif
 
-                        @if($input_type_id==4)
-                        <div class="mb-3">
+                        <!--Gallery-->
+                        <div class="mb-3 {{ $input_type_id == 3 ? 'd-none' : '' }}"">
+                            <label for="ColorCode" class="form-label">Gallery</label>
+
+                            <x-filepond :images="gallery_images" wire:model="gallery_images" file-path="{{ @$imapegPreview }}" delete-event="deleteImage" is-multiple="true" />
+
+                            @error('gallery')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+
+                            {{--@foreach ($images as $img)
+                                <div class="border rounded p-2">
+                                    <img src="{{ Storage::disk($img->disk)->url($img->path) }}" class="w-full h-32 object-cover rounded" alt="">
+                                    <button wire:click="deleteImage({{ $img->id }})"
+                                            class="mt-2 w-full px-2 py-1 text-sm bg-red-600 text-white rounded">
+                                        Delete
+                                    </button>
+                                </div>
+                            @endforeach--}}
+                        </div>
+                            
+                        <!--Video-->
+                        <div class="mb-3 {{ $input_type_id == 4 ? '' : 'd-none' }}">
                             <label for="ColorName" class="form-label">Video</label>
                             <input type="text"
                                 class="form-control @error('video') is-invalid @enderror"
@@ -136,10 +155,9 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        @endif
-
-                        @if($input_type_id==5)
-                        <div class="mb-3">
+                        
+                        <!--Percentage-->
+                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
                             <label for="ColorName" class="form-label">Pattern Percentage</label>
                             <input type="text"
                                 class="form-control @error('percentage') is-invalid @enderror"
@@ -150,10 +168,9 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        @endif
-
-                        @if($input_type_id==6)
-                        <div class="mb-3">
+                        
+                        <!--Button-->
+                        <div class="mb-3 {{ $input_type_id == 6 ? '' : 'd-none' }}">
                             <label for="ColorName" class="form-label">Button Value</label>
                             <input type="text"
                                 class="form-control @error('button_value') is-invalid @enderror"
@@ -165,7 +182,7 @@
                             @enderror
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-3 {{ $input_type_id == 6 ? '' : 'd-none' }}">
                             <label for="ColorName" class="form-label">Button Shape</label>
                             <input type="text"
                                 class="form-control @error('button_shape') is-invalid @enderror"
@@ -177,7 +194,7 @@
                             @enderror
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-3 {{ $input_type_id == 6 ? '' : 'd-none' }}">
                             <label for="ColorName" class="form-label">Button Link</label>
                             <input type="text"
                                 class="form-control @error('button_link') is-invalid @enderror"
@@ -188,7 +205,6 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        @endif
 
                     </div>
 
@@ -201,7 +217,6 @@
                 </div>
             </div>
         </div>
-
 
         @script
             @include('livewire.deleteConfirm')
@@ -227,6 +242,9 @@
                     });
                 }
             });
+
+            
+
         </script>
 
     </div>

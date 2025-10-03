@@ -4,41 +4,52 @@
      allow-remove="{{ $attributes['allow-remove'] }}"
      file-path="{{ $attributes['file-path'] }}"
      is-multiple="{{ $attributes['is-multiple'] }}"
-     data-uploaded-files="{{ json_encode($images) }}"
 >
-    <input id="{{ $attributes['id'] }}" type="file" class="fileInput" @if($attributes['is-multiple'] == "true") multiple @endif />
+    <input type="file" class="fileInput" @if($attributes['is-multiple'] == "true") multiple @endif />
+    
 </div>
-{{-- @script --}}
+
+@script
 <script>
+
+
     FilePond.registerPlugin(FilePondPluginFileValidateType);
     FilePond.registerPlugin(FilePondPluginImagePreview);
+
     function initializeFilepond(filePondContainers) {
         filePondContainers.forEach((container, index) => {
+
             const fileInput = container.querySelector('.fileInput');
-            const uploadedFilesData = container.getAttribute('data-uploaded-files');
-            const uploadedFiles = JSON.parse(uploadedFilesData || '[]');
             const wireModel = container.getAttribute('wire:model');
             const allowRemove = container.getAttribute('allow-remove');
             const uploadedFile = container.getAttribute('file-path');
             const isMultiple = container.getAttribute('is-multiple');
+
             let deleteEvent = container.getAttribute('delete-event');
             let params = {};
+
             if (deleteEvent.includes('(') && deleteEvent.includes(')')) {
                 // Extract the event name
                 let eventName = deleteEvent.split('(')[0];
+
                 // Extract the parameters inside the parentheses
                 let paramsStr = deleteEvent.match(/\(([^)]+)\)/)[1];
+
                 // Assuming the parameter is always an id for this case
                 params = { key: parseInt(paramsStr) };
+
                 deleteEvent = eventName
             }
+
             let options = {};
             if (allowRemove == "false") {
                 options.allowRemove = false;
             }
+
             const pond = FilePond.create(fileInput, options);
-            let imagesArray = [];
+
             let files = [];
+
             if (isMultiple === "false") {
                 if (uploadedFile) {
                     files.push({
@@ -50,6 +61,8 @@
                     })
                 }
             } else {
+                let uploadedFiles = @json($this->images ?? []);
+
                 if (uploadedFiles.length > 0) {
                     for (let i = 0; i < uploadedFiles.length; i++) {
                         files.push({
@@ -62,6 +75,8 @@
                     }
                 }
             }
+
+            let imagesArray = [];
             pond.setOptions({
                 server: {
                     load: (source, load, error, progress, abort, headers) => {
@@ -70,6 +85,7 @@
                             return res.blob();
                         }).then(load);
                     },
+
                     process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
                         if (isMultiple == "true") {
                             imagesArray.push(file)
@@ -78,6 +94,8 @@
                             $wire.upload(wireModel, file, load, error, progress)
                         }
                     },
+
+
                     revert: (filename, load) => {
                         $wire.dispatch(deleteEvent);
                         // Revert logic...
@@ -90,18 +108,24 @@
                             };
                         }
                         $wire.dispatch(deleteEvent, params);
+
                         load()
                     },
                 },
                 files: files,
             });
+
         });
     }
+
     const filePondContainers = document.querySelectorAll('.filePondContainer');
     initializeFilepond(filePondContainers)
+
     Livewire.hook('morph.added', ({ el }) => {
         let newFilepondContainers = el.querySelectorAll('.filePondContainer');
         initializeFilepond(newFilepondContainers)
     })
+
+
 </script>
-{{-- @endscript --}}
+@endscript

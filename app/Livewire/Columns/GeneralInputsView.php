@@ -5,6 +5,7 @@ namespace App\Livewire\Columns;
 use App\Models\InputTypes;
 use App\Models\Colors;
 use App\Models\ColumnGeneral;
+use Livewire\WithFileUploads;
 
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -13,6 +14,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class GeneralInputsView extends Component
 {
 
+    use WithFileUploads;
     use AuthorizesRequests; 
 
     public $modalId = null;
@@ -30,6 +32,8 @@ class GeneralInputsView extends Component
     public $title;
     public $text;
     public $gallery;
+    public $gallery_images;
+    
     public $video;
     public $percentage;
     public $button_value;
@@ -59,6 +63,12 @@ class GeneralInputsView extends Component
     {
         $this->generalInputs=ColumnGeneral::WHERE('section_column_id',$this->section_column_id)->ORDERBY('list_order','ASC')->get();
     }
+
+    public function clearImage()
+    {
+        $this->gallery_images = null;
+    }
+
 
     #[On('updateOrder')]
     public function updateOrder(array $order)
