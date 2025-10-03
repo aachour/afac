@@ -28,12 +28,12 @@ class Pages extends Model
 
     public function headerBgColor()
     {
-        return $this->hasOne(Colors::class, 'header_color_id', 'id');
+        return $this->hasOne(Colors::class, 'id', 'header_color_id');
     }
 
     public function footerBgColor()
     {
-        return $this->hasOne(Colors::class, 'footer_color_id', 'id');
+        return $this->hasOne(Colors::class, 'id', 'footer_color_id');
     }
 
     public function sections()

@@ -40,7 +40,7 @@ class GeneralInputsView extends Component
     public $button_shape;
     public $button_link;
     
-        
+    
     public function mount($pageId,$sectionId,$id)
     {
 
@@ -77,14 +77,22 @@ class GeneralInputsView extends Component
             ColumnGeneral::where('id', $id)->update(['list_order' => $index+1]);
         }
 
-        return to_route('accordion.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Order updated successfully!');
+        return to_route('general.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Order updated successfully!');
 
     }
 
     public function editEntry($id){
         $generalInput=ColumnGeneral::find($id);
+        $this->input_type_id=$generalInput->input_type_id;
+        $this->bg_color_id=$generalInput->bg_color_id;
         $this->title=$generalInput->title;
         $this->text=$generalInput->text;
+        $this->gallery=$generalInput->gallery;
+        $this->video=$generalInput->video;
+        $this->percentage=$generalInput->percentage;
+        $this->button_value=$generalInput->button_value;
+        $this->button_shape=$generalInput->button_shape;
+        $this->button_link=$generalInput->button_link;
         $this->modalId=$id;
     }
 
@@ -96,11 +104,20 @@ class GeneralInputsView extends Component
             $highestOrder = ColumnGeneral::WHERE('section_column_id',$this->section_column_id)->max('list_order');
 
             ColumnGeneral::create([
-                'section_column_id'=>$this->section_column_id,
-                'title'=>$this->title,
-                'text'=>$this->text,
-                'list_order'=> $highestOrder+1
+                'section_column_id' => $this->section_column_id,
+                'input_type_id'     => $this->input_type_id,
+                'bg_color_id'       => $this->bg_color_id,
+                'title'             => $this->title,
+                'text'              => $this->text,
+                'gallery'           => $this->gallery,
+                'video'             => $this->video,
+                'percentage'        => $this->percentage,
+                'button_value'      => $this->button_value,
+                'button_shape'      => $this->button_shape,
+                'button_link'       => $this->button_link,
+                'list_order'        => $highestOrder + 1
             ]);
+
 
             return to_route('general.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry added successfully!');
         }
@@ -109,8 +126,15 @@ class GeneralInputsView extends Component
             //Edit Collection
             ColumnGeneral::where('id', $this->modalId)
             ->update([
-                'title' => $this->title,
-                'text' => $this->text,
+                'bg_color_id'       => $this->bg_color_id,
+                'title'             => $this->title,
+                'text'              => $this->text,
+                'gallery'           => $this->gallery,
+                'video'             => $this->video,
+                'percentage'        => $this->percentage,
+                'button_value'      => $this->button_value,
+                'button_shape'      => $this->button_shape,
+                'button_link'       => $this->button_link,
             ]);
             
             return to_route('general.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry edited successfully!');

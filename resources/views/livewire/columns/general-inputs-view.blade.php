@@ -25,21 +25,31 @@
                     <thead>
                     <tr>
                         <th>Order</th>
-                        <th>Date</th>
-                        <th>Title</th>
-                        <th>Text</th>
-                        <th>Pattern %</th>
+                        <th>Type</th>
+                        <th>Data</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($generalInputs as $generalInput)
-                        <tr data-id="{{ $timeline->id }}" style="cursor: move;">
+                        <tr data-id="{{ $generalInput->id }}" style="cursor: move;">
                             <td>{{$generalInput->list_order}}</td>
-                            <td>{{$generalInput->inputType->name}}</td>
-                            <td>{{$generalInput->title}}</td>
-                            <td>{{$generalInput->text}}</td>
-                            <td>{{$generalInput->percentage}}%</td>
+                            <td>{{$generalInput->inputType?->name}}</td>
+                            <td>
+                                @if($generalInput->input_type_id==1)
+                                    {{$generalInput->title}}
+                                @elseif($generalInput->input_type_id==2)
+                                    {{$generalInput->text}}
+                                @elseif($generalInput->input_type_id==3)
+                                    gallery images
+                                @elseif($generalInput->input_type_id==4)
+                                    {{$generalInput->video}}
+                                @elseif($generalInput->input_type_id==5)
+                                    {{$generalInput->percentage}}
+                                @elseif($generalInput->input_type_id==6)
+                                    {{$generalInput->button_value}}
+                                @endif
+                            </td>
                             <td>
                                 @can('section-edit')
                                     <i  class="ti ti-edit ti-sm cursor-pointer"
@@ -87,7 +97,7 @@
                             <select
                                 wire:model.live="input_type_id"
                                 id="input_type_id "
-                                class="form-control">
+                                class="form-control" {{ $modalId ? 'disabled' : '' }}>
                                 <option value=''>Select Input Type</option>
                                 @foreach($inputTypes as $inputType)
                                     <option value='{{$inputType->id}}'>{{$inputType->name}}</option>
