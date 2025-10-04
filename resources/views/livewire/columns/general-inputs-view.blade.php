@@ -133,10 +133,14 @@
                         </div>
 
                         <!--Gallery-->
-                        <div class="mb-3 {{ $input_type_id == 3 ? 'd-none' : '' }}"">
+                        <div class="mb-3 {{ $input_type_id == 3 ? '' : 'd-none' }}"">
                             <label for="ColorCode" class="form-label">Gallery</label>
 
-                            <x-filepond :images="gallery_images" wire:model="gallery_images" file-path="{{ @$imapegPreview }}" delete-event="deleteImage" is-multiple="true" />
+                            <x-filepond wire:model="gallery_images"
+                                :images="$gallery_images"
+                                file-path="{{ @$imapegPreview }}"
+                                delete-event="deleteImage"
+                                is-multiple="true" />
 
                             @error('gallery')
                             <div class="invalid-feedback">{{ $message }}</div>

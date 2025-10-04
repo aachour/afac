@@ -19,7 +19,7 @@
                             <div class="row">
 
                                 <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="name">Page Name <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="name">Section Name <span class="text-danger">*</span></label>
                                     <input
                                         wire:model="name"
                                         type="text"

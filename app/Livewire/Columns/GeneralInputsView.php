@@ -5,6 +5,9 @@ namespace App\Livewire\Columns;
 use App\Models\InputTypes;
 use App\Models\Colors;
 use App\Models\ColumnGeneral;
+use App\Models\Gallery;
+use App\Models\GalleryImages;
+
 use Livewire\WithFileUploads;
 
 use Livewire\Attributes\On;
@@ -32,7 +35,8 @@ class GeneralInputsView extends Component
     public $title;
     public $text;
     public $gallery;
-    public $gallery_images;
+    public $gallery_id;
+    public $gallery_images = [];
     
     public $video;
     public $percentage;
@@ -54,15 +58,17 @@ class GeneralInputsView extends Component
 
         $this->inputTypes=InputTypes::all();
         $this->colors=Colors::all();
-
+        
         $this->loadEntries();
 
     }
+
 
     public function loadEntries()
     {
         $this->generalInputs=ColumnGeneral::WHERE('section_column_id',$this->section_column_id)->ORDERBY('list_order','ASC')->get();
     }
+
 
     public function clearImage()
     {
@@ -81,13 +87,15 @@ class GeneralInputsView extends Component
 
     }
 
-    public function editEntry($id){
+
+    public function editEntry($id)
+    {
         $generalInput=ColumnGeneral::find($id);
         $this->input_type_id=$generalInput->input_type_id;
         $this->bg_color_id=$generalInput->bg_color_id;
         $this->title=$generalInput->title;
         $this->text=$generalInput->text;
-        $this->gallery=$generalInput->gallery;
+        $this->gallery_id=$generalInput->gallery_id;
         $this->video=$generalInput->video;
         $this->percentage=$generalInput->percentage;
         $this->button_value=$generalInput->button_value;
@@ -96,9 +104,29 @@ class GeneralInputsView extends Component
         $this->modalId=$id;
     }
 
-    public function saveEntry(){
+
+    public function saveEntry()
+    {
 
         if($this->modalId==null){
+
+            if($this->input_type_id==3){
+
+                //Create a gallery
+                $this->gallery_id = Gallery::create()->id;
+
+                foreach ($this->gallery_images as $key=>$image) {
+                    // Save to storage/app/public/gallery
+                    $path = $image->store('gallery', 'public');
+
+                    GalleryImages::create([
+                        'gallery_id' => $this->gallery_id,
+                        'image_path' => $path,
+                        'list_order' => $key+1,
+                    ]);
+                    
+                }
+            }
 
             //Add collection
             $highestOrder = ColumnGeneral::WHERE('section_column_id',$this->section_column_id)->max('list_order');
@@ -109,7 +137,7 @@ class GeneralInputsView extends Component
                 'bg_color_id'       => $this->bg_color_id,
                 'title'             => $this->title,
                 'text'              => $this->text,
-                'gallery'           => $this->gallery,
+                'gallery_id'        => $this->gallery_id,
                 'video'             => $this->video,
                 'percentage'        => $this->percentage,
                 'button_value'      => $this->button_value,
@@ -141,6 +169,7 @@ class GeneralInputsView extends Component
         }
     }
 
+
     #[On('delete')]
     public function delete($id)
     {
@@ -151,8 +180,10 @@ class GeneralInputsView extends Component
         return to_route('general.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry deleted successfully!');
     }
 
+
     public function render()
     {
         return view('livewire.columns.general-inputs-view');
     }
+
 }

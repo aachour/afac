@@ -25,5 +25,6 @@ class Sections extends Model
     {
         return $this->hasMany(SectionColumns::class, 'section_id', 'id');
     }
+
     
 }

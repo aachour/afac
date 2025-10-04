@@ -17,7 +17,7 @@ class ColumnGeneral extends Model
         'bg_color_id',
         'title',
         'text',
-        'gallery',
+        'gallery_id',
         'video',
         'percentage',
         'button_value',
