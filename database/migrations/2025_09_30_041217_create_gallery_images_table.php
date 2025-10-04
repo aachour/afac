@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('image_path')->nullable();
             $table->integer('list_order')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

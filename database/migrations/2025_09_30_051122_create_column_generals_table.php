@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('bg_color_id')->nullable()->constrained('colors')->onDelete('cascade');
             $table->string('title')->nullable();
             $table->text('text')->nullable();
-            $table->foreignId('gallery_id')->nullable()->constrained('colors')->onDelete('cascade');
+            $table->foreignId('gallery_id')->nullable()->constrained('galleries')->onDelete('cascade');
             $table->text('video')->nullable();
             $table->integer('percentage')->nullable();
             $table->text('button_value')->nullable();

@@ -34,8 +34,8 @@ class GeneralInputsView extends Component
     public $input_type_id;
     public $title;
     public $text;
-    public $gallery;
     public $gallery_id;
+    public $gallery;
     public $gallery_images = [];
     
     public $video;
@@ -69,7 +69,6 @@ class GeneralInputsView extends Component
         $this->generalInputs=ColumnGeneral::WHERE('section_column_id',$this->section_column_id)->ORDERBY('list_order','ASC')->get();
     }
 
-
     public function clearImage()
     {
         $this->gallery_images = null;
@@ -90,7 +89,7 @@ class GeneralInputsView extends Component
 
     public function editEntry($id)
     {
-        $generalInput=ColumnGeneral::find($id);
+        $generalInput=ColumnGeneral::with('gallery','gallery.images')->find($id);
         $this->input_type_id=$generalInput->input_type_id;
         $this->bg_color_id=$generalInput->bg_color_id;
         $this->title=$generalInput->title;
@@ -102,6 +101,14 @@ class GeneralInputsView extends Component
         $this->button_shape=$generalInput->button_shape;
         $this->button_link=$generalInput->button_link;
         $this->modalId=$id;
+
+        if($this->gallery_id!=''){
+            $this->gallery=$generalInput->gallery;
+            $this->gallery_images=$this->gallery->images;
+            dd($this->gallery,$this->gallery->images);
+            
+            //get gallery and gallery images
+        }
     }
 
 

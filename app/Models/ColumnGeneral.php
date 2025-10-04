@@ -41,4 +41,9 @@ class ColumnGeneral extends Model
         return $this->hasOne(InputTypes::class, 'id', 'input_type_id');
     }
 
+    public function gallery()
+    {
+        return $this->hasOne(Gallery::class, 'id', 'gallery_id');
+    }
+
 }
