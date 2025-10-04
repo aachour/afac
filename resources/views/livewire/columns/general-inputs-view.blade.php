@@ -21,7 +21,7 @@
                 @endcan
             </div>
             <div class="card-datatable table-responsive" wire:ignore>
-                <table class="table border-top" id="table">
+                <table class="table border-top" id="tableInputs">
                     <thead>
                     <tr>
                         <th>Order</th>
@@ -52,6 +52,12 @@
                             </td>
                             <td>
                                 @can('section-edit')
+                                    @if($generalInput->input_type_id==3)
+                                        <i  class="ti ti-wall ti-sm cursor-pointer"
+                                            data-bs-target="#galleryImagesModal"
+                                            data-bs-toggle="modal"
+                                            wire:click="showGallery({{ $generalInput->id }} , {{ $generalInput->gallery_id }})"></i>
+                                    @endif
                                     <i  class="ti ti-edit ti-sm cursor-pointer"
                                         data-bs-target="#generalInputsModal"
                                         data-bs-toggle="modal"
@@ -69,6 +75,7 @@
             </div>
         </div>
 
+        <!-- Form Inputs Modal-->
         <div wire:ignore.self class="modal fade" id="generalInputsModal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -146,15 +153,6 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
 
-                            {{--@foreach ($images as $img)
-                                <div class="border rounded p-2">
-                                    <img src="{{ Storage::disk($img->disk)->url($img->path) }}" class="w-full h-32 object-cover rounded" alt="">
-                                    <button wire:click="deleteImage({{ $img->id }})"
-                                            class="mt-2 w-full px-2 py-1 text-sm bg-red-600 text-white rounded">
-                                        Delete
-                                    </button>
-                                </div>
-                            @endforeach--}}
                         </div>
                             
                         <!--Video-->
@@ -232,6 +230,47 @@
             </div>
         </div>
 
+        <!-- Gallery Modal-->
+        <div wire:ignore.self class="modal fade" id="galleryImagesModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Galley Images</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table border-top" id="tableGallery">
+                            <thead>
+                            <tr>
+                                <th>Order</th>
+                                <th>Image</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                @if(count($gallery_images)>0)
+                                    @foreach ($gallery_images as $image)
+                                        <tr data-id="{{ @$image->id }}" style="cursor: move;">
+                                            <td>{{@$image->list_order}}</td>
+                                            <td>
+                                                <img src="{{ asset('storage/'.@$image->image_path) }}" class="w-full h-32 object-cover rounded" width="200px" />
+                                            </td>
+                                            <td>
+                                                <button wire:click="deleteImage({{ @$image->id }})"
+                                                    class="mt-2 w-full px-2 py-1 text-sm bg-red-600 text-white rounded">
+                                                Delete
+                                            </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         @script
             @include('livewire.deleteConfirm')
         @endscript
@@ -239,7 +278,7 @@
         <script>
             //load table
             document.addEventListener('livewire:init', function() {
-                const el = document.querySelector("tbody");
+                const el = document.querySelector("#tableInputs tbody");
 
                 if (el) {
                     Sortable.create(el, {
@@ -252,6 +291,26 @@
                             });
 
                             Livewire.dispatch('updateOrder', {order: order});
+                        }
+                    });
+                }
+            });
+
+            //load gallery table
+            document.addEventListener('livewire:init', function() {
+                const el = document.querySelector("#tableGallery tbody");
+
+                if (el) {
+                    Sortable.create(el, {
+                        handle: 'td',
+                        animation: 150,
+                        onEnd: function(evt) {
+                            const order = [];
+                            el.querySelectorAll("tr").forEach((row) => {
+                                order.push(row.getAttribute("data-id"));
+                            });
+
+                            Livewire.dispatch('updateGalleryOrder', {order: order});
                         }
                     });
                 }

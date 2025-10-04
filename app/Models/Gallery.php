@@ -13,6 +13,6 @@ class Gallery extends Model
 
     public function images()
     {
-        return $this->hasMany(GalleryImages::class, 'gallery_id', 'id');
+        return $this->hasMany(GalleryImages::class, 'gallery_id', 'id')->orderBy('list_order', 'asc');;
     }
 }

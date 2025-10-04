@@ -69,23 +69,6 @@ class GeneralInputsView extends Component
         $this->generalInputs=ColumnGeneral::WHERE('section_column_id',$this->section_column_id)->ORDERBY('list_order','ASC')->get();
     }
 
-    public function clearImage()
-    {
-        $this->gallery_images = null;
-    }
-
-
-    #[On('updateOrder')]
-    public function updateOrder(array $order)
-    {
-        foreach ($order as $index => $id) {
-            ColumnGeneral::where('id', $id)->update(['list_order' => $index+1]);
-        }
-
-        return to_route('general.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Order updated successfully!');
-
-    }
-
 
     public function editEntry($id)
     {
@@ -102,13 +85,14 @@ class GeneralInputsView extends Component
         $this->button_link=$generalInput->button_link;
         $this->modalId=$id;
 
-        if($this->gallery_id!=''){
-            $this->gallery=$generalInput->gallery;
-            $this->gallery_images=$this->gallery->images;
-            dd($this->gallery,$this->gallery->images);
-            
-            //get gallery and gallery images
-        }
+    }
+
+
+    public function showGallery($id,$galleryId){
+        $this->gallery_id=$galleryId;
+        $generalInput=ColumnGeneral::with('gallery','gallery.images')->WHERE('gallery_id',$galleryId)->first();
+        $this->gallery=$generalInput->gallery;
+        $this->gallery_images=$this->gallery->images;
     }
 
 
@@ -159,18 +143,37 @@ class GeneralInputsView extends Component
         else if($this->modalId!=null){
 
             //Edit Collection
-            ColumnGeneral::where('id', $this->modalId)
-            ->update([
-                'bg_color_id'       => $this->bg_color_id,
-                'title'             => $this->title,
-                'text'              => $this->text,
-                'gallery'           => $this->gallery,
-                'video'             => $this->video,
-                'percentage'        => $this->percentage,
-                'button_value'      => $this->button_value,
-                'button_shape'      => $this->button_shape,
-                'button_link'       => $this->button_link,
-            ]);
+
+            if($this->input_type_id==3){
+                $highestOrder = GalleryImages::WHERE('gallery_id',$this->gallery_id)->max('list_order');
+
+                foreach ($this->gallery_images as $key=>$image) {
+                    // Save to storage/app/public/gallery
+                    $path = $image->store('gallery', 'public');
+
+                    GalleryImages::create([
+                        'gallery_id' => $this->gallery_id,
+                        'image_path' => $path,
+                        'list_order' => $highestOrder+$key+1,
+                    ]);
+                    
+                }
+
+            }
+            else{
+                ColumnGeneral::where('id', $this->modalId)
+                    ->update([
+                        'bg_color_id'       => $this->bg_color_id,
+                        'title'             => $this->title,
+                        'text'              => $this->text,
+                        'gallery_id'        => $this->gallery_id,
+                        'video'             => $this->video,
+                        'percentage'        => $this->percentage,
+                        'button_value'      => $this->button_value,
+                        'button_shape'      => $this->button_shape,
+                        'button_link'       => $this->button_link,
+                    ]);
+            }
             
             return to_route('general.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry edited successfully!');
         }
@@ -185,6 +188,30 @@ class GeneralInputsView extends Component
         $generalInput->delete();
 
         return to_route('general.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry deleted successfully!');
+    }
+
+
+    #[On('updateOrder')]
+    public function updateOrder(array $order)
+    {
+        foreach ($order as $index => $id) {
+            ColumnGeneral::where(['section_column_id'=>$this->section_column_id,'id'=>$id])->update(['list_order' => $index+1]);
+        }
+
+        return to_route('general.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Order updated successfully!');
+
+    }
+
+
+    #[On('updateGalleryOrder')]
+    public function updateGalleryOrder(array $order)
+    {
+        foreach ($order as $index => $id) {
+            GalleryImages::where(['gallery_id'=> $this->gallery_id ,'id'=> $id])->update(['list_order' => $index+1]);
+        }
+        $this->gallery_images=[];
+        $this->showGallery($this->section_column_id,$this->gallery_id);
+
     }
 
 
