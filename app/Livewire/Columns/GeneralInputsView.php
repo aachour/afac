@@ -88,14 +88,6 @@ class GeneralInputsView extends Component
     }
 
 
-    public function showGallery($id,$galleryId){
-        $this->gallery_id=$galleryId;
-        $generalInput=ColumnGeneral::with('gallery','gallery.images')->WHERE('gallery_id',$galleryId)->first();
-        $this->gallery=$generalInput->gallery;
-        $this->gallery_images=$this->gallery->images;
-    }
-
-
     public function saveEntry()
     {
 
@@ -180,17 +172,6 @@ class GeneralInputsView extends Component
     }
 
 
-    #[On('delete')]
-    public function delete($id)
-    {
-        $generalInput = ColumnGeneral::find($id);
-
-        $generalInput->delete();
-
-        return to_route('general.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry deleted successfully!');
-    }
-
-
     #[On('updateOrder')]
     public function updateOrder(array $order)
     {
@@ -203,12 +184,44 @@ class GeneralInputsView extends Component
     }
 
 
+    #[On('delete')]
+    public function delete($id)
+    {
+        $generalInput = ColumnGeneral::find($id);
+
+        $generalInput->delete();
+
+        return to_route('general.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry deleted successfully!');
+    }
+
+
+    public function showGallery($id,$galleryId){
+        $this->gallery_id=$galleryId;
+        $generalInput=ColumnGeneral::with('gallery','gallery.images')->WHERE('gallery_id',$galleryId)->first();
+        $this->gallery=$generalInput->gallery;
+        $this->gallery_images=$this->gallery->images;
+    }
+
+
     #[On('updateGalleryOrder')]
     public function updateGalleryOrder(array $order)
     {
         foreach ($order as $index => $id) {
             GalleryImages::where(['gallery_id'=> $this->gallery_id ,'id'=> $id])->update(['list_order' => $index+1]);
         }
+        $this->gallery_images=[];
+        $this->showGallery($this->section_column_id,$this->gallery_id);
+
+    }
+
+
+    #[On('deleteGalleryImage')]
+    public function deleteGalleryImage($id)
+    {
+        $galleryImage = GalleryImages::find($id);
+
+        $galleryImage->delete();
+
         $this->gallery_images=[];
         $this->showGallery($this->section_column_id,$this->gallery_id);
 
