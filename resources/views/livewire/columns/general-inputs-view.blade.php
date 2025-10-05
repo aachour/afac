@@ -256,7 +256,7 @@
                                                 <img src="{{ asset('storage/'.@$image->image_path) }}" class="w-full h-32 object-cover rounded" width="200px" />
                                             </td>
                                             <td>
-                                                <a href="#" class="text-body delete-record delete-image-button" data-id="{{ $image->id }}"><i class="ti ti-trash ti-sm mx-2 text-danger"></i></a>
+                                                <a href="#" class="text-body delete-record delete-image-button" data-id="{{ @$image->id }}"><i class="ti ti-trash ti-sm mx-2 text-danger"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach
