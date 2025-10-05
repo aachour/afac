@@ -215,7 +215,6 @@ class GeneralInputsView extends Component
     }
 
 
-    #[On('deleteGalleryImage')]
     public function deleteGalleryImage($id)
     {
         $galleryImage = GalleryImages::find($id);
