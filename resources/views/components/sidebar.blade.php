@@ -50,13 +50,13 @@
 					</li>
 					@endcan
 
-					@can('type-list')
+					{{-- @can('type-list')
 					<li class="menu-item {{ request()->is('types*') ? "active" : "" }}">
 						<a href="{{ route('types') }}" class="menu-link">
 							<div data-i18n="Entry Types">Entry Types</div>
 						</a>
 					</li>
-					@endcan
+					@endcan --}}
 
 					@can('color-list')
 					<li class="menu-item {{ request()->is('colors*') ? "active" : "" }}">
@@ -91,12 +91,33 @@
 			@endcanany
 
 
-			@can('entry-list')
-			<li class="menu-item {{ request()->is('entries*') ? "active" : "" }}">
-				<a href="{{ route('entries') }}" class="menu-link">
-					<i class="menu-icon tf-icons ti ti-notes"></i>
-					<div data-i18n="Entries">Entries</div>
+			@canany(['eventCategory-list', 'event-list'])
+			<li class="menu-item {{ request()->is('events') || request()->is('eventCategories') ? "active open" : "" }}">
+
+				<a href="javascript:void(0);" class="menu-link menu-toggle">
+					<i class="menu-icon tf-icons ti ti-settings"></i>
+					<div data-i18n="Events">Events</div>
 				</a>
+
+				<ul class="menu-sub">
+
+					@can('eventCategory-list')
+					<li class="menu-item {{ request()->is('eventCategories*') ? "active" : "" }}">
+						<a href="{{ route('event.categories') }}" class="menu-link">
+						<div data-i18n="Categories">Categories</div>
+						</a>
+					</li>
+					@endcan
+
+					@can('event-list')
+					<li class="menu-item {{ request()->is('events*') ? "active" : "" }}">
+						<a href="{{ route('events') }}" class="menu-link">
+							<div data-i18n="Events">Events</div>
+						</a>
+					</li>
+					@endcan
+
+				</ul>
 			</li>
 			@endcanany
 

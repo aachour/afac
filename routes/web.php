@@ -26,8 +26,14 @@ use App\Livewire\Columns\GeneralInputsView;
 use App\Livewire\Columns\TimelineView;
 use App\Livewire\Columns\AccordionView;
 
+use App\Livewire\Events\EventCategoryView;
+use App\Livewire\Events\EventView;
+use App\Livewire\Events\EventForm;
+
+
 use App\Livewire\Entries\EntryView;
 use App\Livewire\Entries\EntryForm;
+
 
 
 Route::get('/', [HomeController::class, 'home'])->name('home'); 
@@ -118,14 +124,26 @@ Route::middleware(['auth'])->group(function () {
 
 
     // |--------------------------------------------------------------------------
+    // |Event Categories
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'eventCategories'], function () {
+        Route::get('/', EventCategoryView::class)->name('event.categories');
+        Route::get('/create', EventCategoryView::class)->name('event.categories.create');
+        Route::get('/edit/{id}', EventCategoryView::class)->name('event.categories.edit');
+        Route::get('/view/{id}/{status}', EventCategoryView::class)->name('event.categories.view');
+    });
+
+
+    // |--------------------------------------------------------------------------
     // |Entries
     // |--------------------------------------------------------------------------
     
-    Route::group(['prefix' => 'entries'], function () {
-        Route::get('/', EntryView::class)->name('entries');
-        Route::get('/create', EntryForm::class)->name('entries.create');
-        Route::get('/edit/{id}', EntryForm::class)->name('entries.edit');
-        Route::get('/view/{id}/{status}', EntryForm::class)->name('entries.view');
+    Route::group(['prefix' => 'events'], function () {
+        Route::get('/', EventView::class)->name('events');
+        Route::get('/create', EventForm::class)->name('events.create');
+        Route::get('/edit/{id}', EventForm::class)->name('events.edit');
+        Route::get('/view/{id}/{status}', EventForm::class)->name('events.view');
     }); 
 
 

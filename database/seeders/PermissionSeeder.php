@@ -66,12 +66,19 @@ class PermissionSeeder extends Seeder
             'collection-delete',
             'collection-view',
             
-            // Entries Page
-            'entry-list',
-            'entry-create',
-            'entry-edit',
-            'entry-delete',
-            'entry-view',
+            // Events Page
+            'event-list',
+            'event-create',
+            'event-edit',
+            'event-delete',
+            'event-view',
+
+            // Events Categories
+            'eventCategory-list',
+            'eventCategory-create',
+            'eventCategory-edit',
+            'eventCategory-delete',
+            'eventCategory-view',
 
         ];
         
