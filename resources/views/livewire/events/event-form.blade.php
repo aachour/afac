@@ -22,7 +22,7 @@
                                         id="category_id"
                                         class="form-control">
                                         <option value=''>Select Type</option>
-                                        @foreach($eventCategories as $category)
+                                        @foreach($categories as $category)
                                             <option value='{{$category->id}}'>{{$category->name}}</option>
                                         @endforeach
                                     </select>
@@ -89,16 +89,19 @@
                                     @error('end_time') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
+
                                 <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="image">Image</label>
-                                    <x-filepond 
-                                        wire:model="image"
-                                        file-path="{{ $imagePreview ?? '' }}"
-                                        delete-event="deleteImage"
-                                        is-multiple="false" />
-                                    @error('image') 
-                                        <div class="text-danger">{{ $message }}</div> 
-                                    @enderror
+                                    <label class="form-label" for="category">Background Color</label>
+                                    <select
+                                        wire:model="background_color_id"
+                                        id="background_color_id"
+                                        class="form-control">
+                                        <option value=''>Select Background</option>
+                                        @foreach($colors as $color)
+                                            <option value='{{$color->id}}'>{{$color->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('background_color_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
@@ -113,6 +116,18 @@
                                         @endforeach
                                     </select>
                                     @error('image_width') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 mt-2">
+                                    <label class="form-label" for="image">Image</label>
+                                    <x-filepond 
+                                        wire:model="image"
+                                        file-path="{{ $imagePreview ?? '' }}"
+                                        delete-event="deleteImage"
+                                        is-multiple="false" />
+                                    @error('image') 
+                                        <div class="text-danger">{{ $message }}</div> 
+                                    @enderror
                                 </div>
 
 

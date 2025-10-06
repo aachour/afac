@@ -4,6 +4,7 @@ namespace App\Livewire\Events;
 
 use App\Models\EventCategories;
 use App\Models\Events;
+use App\Models\Colors;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -13,9 +14,7 @@ class EventForm extends Component
 {
 
     use WithFileUploads;
-    use AuthorizesRequests;
-
-    public $eventCategories;
+    use AuthorizesRequests;    
 
     public $editing = false;
     public $event;
@@ -34,7 +33,10 @@ class EventForm extends Component
     public $button_link;
     public $button_value;
     public $button_value_arabic;
-    
+
+    public $categories;
+    public $colors;
+
 
     public function mount($id=''){
 
@@ -54,8 +56,7 @@ class EventForm extends Component
             $this->date=$this->event->date;
             $this->start_time=$this->event->start_time;
             $this->end_time=$this->event->end_time;
-            $this->image=$this->event->image;
-            $this->imagePreview = asset('storage/' . $this->image);
+            $this->imagePreview = asset('storage/' . $this->event->image);
             $this->image_width=$this->event->image_width;
             $this->background_color_id=$this->event->background_color_id;
             $this->button_link=$this->event->button_link;
@@ -63,7 +64,9 @@ class EventForm extends Component
             $this->button_value_arabic=$this->event->button_value_arabic;
         }
 
-        $this->eventCategories=EventCategories::all();
+        $this->categories=EventCategories::all();
+        
+        $this->colors=Colors::all();
 
         $this->image_width_options=['1'=>'Full','2'=>'three-quarters','3'=>'one-half','4'=>'one-quarter'];
         
@@ -131,7 +134,7 @@ class EventForm extends Component
                 'date' => $this->date,
                 'start_time' => $this->start_time,
                 'end_time' => $this->end_time,
-                'image' => $path,
+                'image' => @$path ?? $this->event->image,
                 'image_width' => $this->image_width,
                 'background_color_id' => $this->background_color_id,
                 'button_link' => $this->button_link,
