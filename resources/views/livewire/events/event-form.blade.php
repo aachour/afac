@@ -8,7 +8,7 @@
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">{{ $editing ? "Edit" : "Create" }} Event</h5>
                             <a href="{{ route('events') }}" class="btn btn-primary mb-2 text-nowrap">
-                                Pages
+                                Events
                             </a>
                         </div>
                         <div class="card-body">
