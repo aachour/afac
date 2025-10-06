@@ -61,7 +61,6 @@ class EventForm extends Component
             $this->button_link=$this->event->button_link;
             $this->button_value=$this->event->button_value;
             $this->button_value_arabic=$this->event->button_value_arabic;
-            
         }
 
         $this->eventCategories=EventCategories::all();
