@@ -15,6 +15,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Title</th>
+                        <th>Title Arabic</th>
                         <th>Date</th>
                         <th>From Time</th>
                         <th>to Time</th>
@@ -28,8 +29,8 @@
                             <td>{{ $event->title }}</td>
                             <td>{{ $event->title_arabic }}</td>
                             <td>{{ $event->date }}</td>
-                            <td>{{ $event->from_time }}</td>
-                            <td>{{ $event->to_time }}</td>
+                            <td>{{ $event->start_time }}</td>
+                            <td>{{ $event->end_time }}</td>
                             <td>
                                 @can('event-view')
                                 <a href="{{ route('events.view', $event->id) }}" class="text-body view-user-button"><i class="ti ti-eye ti-sm"></i></a>

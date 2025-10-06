@@ -143,7 +143,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', EventView::class)->name('events');
         Route::get('/create', EventForm::class)->name('events.create');
         Route::get('/edit/{id}', EventForm::class)->name('events.edit');
-        Route::get('/view/{id}/{status}', EventForm::class)->name('events.view');
+        Route::get('/view/{id}/{status?}', EventForm::class)->name('events.view');
     }); 
 
 
