@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ColumnTypesSeeder::class);
         $this->call(AlignmentTypesSeeder::class);
         $this->call(InputTypesSeeder::class);
+        $this->call(EventCategoriesSeeder::class);
         
     }
 }
