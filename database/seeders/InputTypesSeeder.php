@@ -14,7 +14,7 @@ class InputTypesSeeder extends Seeder
     public function run(): void
     {
         
-        $types=['title','text','gallery','video','percentage','button'];
+        $types=['title','text','gallery','video','button']; //'percentage'
 
         foreach ($types as $type) {
             InputTypes::updateOrCreate(['name' => $type]);

@@ -168,21 +168,8 @@
                             @enderror
                         </div>
                         
-                        <!--Percentage-->
-                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
-                            <label for="ColorName" class="form-label">Pattern Percentage</label>
-                            <input type="text"
-                                class="form-control @error('percentage') is-invalid @enderror"
-                                id="percentage"
-                                wire:model="percentage"
-                                placeholder="Percentage" />
-                            @error('percentage')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        
                         <!--Button-->
-                        <div class="mb-3 {{ $input_type_id == 6 ? '' : 'd-none' }}">
+                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
                             <label for="ColorName" class="form-label">Button Value</label>
                             <input type="text"
                                 class="form-control @error('button_value') is-invalid @enderror"
@@ -194,7 +181,7 @@
                             @enderror
                         </div>
 
-                        <div class="mb-3 {{ $input_type_id == 6 ? '' : 'd-none' }}">
+                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
                             <label for="ColorName" class="form-label">Button Shape</label>
                             <input type="text"
                                 class="form-control @error('button_shape') is-invalid @enderror"
@@ -206,7 +193,7 @@
                             @enderror
                         </div>
 
-                        <div class="mb-3 {{ $input_type_id == 6 ? '' : 'd-none' }}">
+                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
                             <label for="ColorName" class="form-label">Button Link</label>
                             <input type="text"
                                 class="form-control @error('button_link') is-invalid @enderror"
@@ -217,6 +204,19 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+
+                        <!--Percentage-->
+                        {{--<div class="mb-3 {{ $input_type_id == 6 ? '' : 'd-none' }}">
+                            <label for="ColorName" class="form-label">Pattern Percentage</label>
+                            <input type="text"
+                                class="form-control @error('percentage') is-invalid @enderror"
+                                id="percentage"
+                                wire:model="percentage"
+                                placeholder="Percentage" />
+                            @error('percentage')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>--}}
 
                     </div>
 

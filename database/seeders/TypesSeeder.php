@@ -14,11 +14,14 @@ class TypesSeeder extends Seeder
     public function run(): void
     {
         $types = [
-            'Events',
-            'Programs',
-            'News',
+            'Event',
+            'Program',
+            'Open Call',
+            'Supported project',
+            'Grantee',
+            'Jury',
             'Resources',
-            'Supported Projects',
+            'News',
         ];
 
         foreach ($types as $type) {
