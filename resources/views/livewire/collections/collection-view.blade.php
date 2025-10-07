@@ -29,13 +29,16 @@
                             <td>{{ $collection->description }}</td>
                             <td>
                                 @can('collection-view')
-                                <a href="{{ route('collections.view', $collection->id) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    <a href="{{ route('collections.view', $collection->id) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
                                 @endcan
                                 @can('collection-edit')
-                                <a href="{{ route('collections.edit', $collection->id) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
+                                    @if($collection->entries_selection==1)
+                                        <a href="{{ route('entries.edit', $collection->id) }}" class="text-body edit-user-button"><i class="ti ti-wall ti-sm"></i></a>
+                                    @endif
+                                    <a href="{{ route('collections.edit', $collection->id) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
                                 @endcan
                                 @can('collection-delete')
-                                <a href="#" class="text-body delete-record delete-button" data-id="{{ $collection->id }}"><i class="ti ti-trash ti-sm mx-2 text-danger"></i></a>
+                                    <a href="#" class="text-body delete-record delete-button" data-id="{{ $collection->id }}"><i class="ti ti-trash ti-sm mx-2 text-danger"></i></a>
                                 @endcan
                             </td>
                         </tr>
