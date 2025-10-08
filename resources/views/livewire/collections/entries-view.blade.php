@@ -60,7 +60,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="entry_id" class="form-label">Type</label>
+                            <label for="entry_id" class="form-label">Entry</label>
                             <select wire:model="entry_id" id="entry_id" class="form-control">
                                 <option value="">Select Entry</option>
                                 @foreach($entries as $entry)
