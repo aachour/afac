@@ -92,7 +92,7 @@
 
 
 			@canany(['eventCategory-list', 'event-list'])
-			<li class="menu-item {{ request()->is('events') || request()->is('eventCategories') ? "active open" : "" }}">
+			<li class="menu-item {{ request()->is('eventCategories*') || request()->is('events*') ? "active open" : "" }}">
 
 				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-settings"></i>
