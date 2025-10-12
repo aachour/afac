@@ -5,15 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class ColumnTimeline extends Model
+class ColumnTimelinePercentages extends Model
 {
+    //
+
     use SoftDeletes;
 
     protected $fillable = [
-        'section_column_id',
-        'date',
+        'timeline_id',
         'title',
         'text',
+        'shape',
         'percentage',
         'list_order',
     ];
@@ -23,8 +25,4 @@ class ColumnTimeline extends Model
         return $this->belongsTo(SectionColumns::class, 'section_column_id', 'id');
     }
 
-    public function percentages()
-    {
-        return $this->hasMany(ColumnTimelinePercentages::class, 'timeline_id', 'id');
-    }
 }

@@ -3,6 +3,7 @@
 namespace App\Livewire\Columns;
 
 use App\Models\ColumnTimeline;
+use App\Models\ColumnTimelinePercentages;
 
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -21,15 +22,13 @@ class TimelineView extends Component
     
     public $timelines;
     public $date;
-    public $title;
-    public $text;
-    public $percentage;
+    public $entries;
     
     public function mount($pageId,$sectionId,$id)
     {
 
         $this->authorize('section-list');
-
+        
         $this->modalId=null;
         
         $this->page_id=$pageId;
@@ -42,27 +41,28 @@ class TimelineView extends Component
 
     public function loadEntries()
     {
-        $this->timelines=ColumnTimeline::WHERE('section_column_id',$this->section_column_id)->ORDERBY('list_order','ASC')->get();
-   
+        $this->timelines=ColumnTimeline::WITH('percentages')->WHERE('section_column_id',$this->section_column_id)->ORDERBY('list_order','ASC')->get();
+        
+         $this->entries=[];
     }
 
-    #[On('updateOrder')]
-    public function updateOrder(array $order)
-    {
-        foreach ($order as $index => $id) {
-            ColumnTimeline::where('id', $id)->update(['list_order' => $index+1]);
-        }
+    public function addEntry(){
+        $this->entries[] = ['id'=>'','title' => '','text'=>'','shape_id'=>'','percentage'=>''];
+    }
 
-        return to_route('timeline.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Order updated successfully!');
-
+    public function deleteEntry($index){
+        unset($this->entries[$index]);
+        $this->entries = array_values($this->entries);
     }
 
     public function editEntry($id){
-        $columnTimeline=ColumnTimeline::find($id);
+        $columnTimeline=ColumnTimeline::with('percentages')->find($id);
         $this->date=$columnTimeline->date;
-        $this->title=$columnTimeline->title;
-        $this->text=$columnTimeline->text;
-        $this->percentage=$columnTimeline->percentage;
+
+        foreach($columnTimeline->percentages as $percentage){
+            $this->entries[] = ['title' => $percentage->title , 'text'=>$percentage->text , 'shape_id'=>$percentage->shape_id , 'percentage'=>$percentage->percentage];
+        }
+
         $this->modalId=$id;
     }
 
@@ -73,14 +73,21 @@ class TimelineView extends Component
             //Add collection
             $highestOrder = ColumnTimeline::WHERE('section_column_id',$this->section_column_id)->max('list_order');
 
-            ColumnTimeline::create([
+            $timeline=ColumnTimeline::create([
                 'section_column_id'=>$this->section_column_id,
                 'date'=>$this->date,
-                'title'=>$this->title,
-                'text'=>$this->text,
-                'percentage'=>$this->percentage,
                 'list_order'=> $highestOrder+1
             ]);
+
+            foreach($this->entries as $entry){
+                ColumnTimelinePercentages::create([
+                    'timeline_id'=>$timeline->id,
+                    'title'=>$entry["title"],
+                    'text'=>$entry["text"],
+                    'shape_id'=>$entry["shape_id"],
+                    'percentage'=>$entry["percentage"],
+                ]);
+            }
 
             return to_route('timeline.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry added successfully!');
         }
@@ -99,6 +106,17 @@ class TimelineView extends Component
         }
     }
 
+    #[On('updateOrder')]
+    public function updateOrder(array $order)
+    {
+        foreach ($order as $index => $id) {
+            ColumnTimeline::where('id', $id)->update(['list_order' => $index+1]);
+        }
+
+        return to_route('timeline.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Order updated successfully!');
+
+    }
+    
     #[On('delete')]
     public function delete($id)
     {
