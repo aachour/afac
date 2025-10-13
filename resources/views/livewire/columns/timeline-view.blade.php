@@ -26,9 +26,6 @@
                     <tr>
                         <th>Order</th>
                         <th>Date</th>
-                        <th>Title</th>
-                        <th>Text</th>
-                        <th>Pattern %</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -37,9 +34,6 @@
                         <tr data-id="{{ $timeline->id }}" style="cursor: move;">
                             <td>{{$timeline->list_order}}</td>
                             <td>{{$timeline->date}}</td>
-                            <td>{{$timeline->title}}</td>
-                            <td>{{$timeline->text}}</td>
-                            <td>{{$timeline->percentage}}%</td>
                             <td>
                                 @can('section-edit')
                                     <i  class="ti ti-edit ti-sm cursor-pointer"
