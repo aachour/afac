@@ -80,44 +80,68 @@
                         </div>
 
                         @foreach($entries as $key=>$entry)
-                            <div class="mt-5 mb-1">
-                                <h5>Timeline {{$key+1}}</h5>
-                            </div>
-                            <div class="mb-3">
-                                <label for="ColorName" class="form-label">Title</label>
-                                <input type="text"
-                                    class="form-control @error('date') is-invalid @enderror"
-                                    id="entries.{{$key}}.title"
-                                    wire:model="entries.{{$key}}.title"
-                                    placeholder="Title" />
-                                @error('entries.{{$key}}.title')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+
+                            <div class="mt-3 mb-3 d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Timeline {{$key + 1}}</h5>
+                                @if($key >= 1)
+                                    <button type="button" wire:click="deleteEntry({{$key}})" class="btn btn-danger btn-sm">Delete</button>
+                                @endif
                             </div>
 
-                            <div class="mb-3">
-                                <label for="ColorCode" class="form-label">Text</label>
-                                <textarea
-                                    class="form-control @error('text') is-invalid @enderror"
-                                    id="entries.{{$key}}.text"
-                                    wire:model="entries.{{$key}}.text"
-                                    placeholder="Text" style="height:150px; resize:none;"></textarea>
-                                @error('text')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
+                            <div class="row">
+                                <div class="col-12 col-lg-4 mb-3">
+                                    <label for="ColorName" class="form-label">Title</label>
+                                    <input type="text"
+                                        class="form-control @error('date') is-invalid @enderror"
+                                        id="entries.{{$key}}.title"
+                                        wire:model="entries.{{$key}}.title"
+                                        placeholder="Title" />
+                                    @error('entries.{{$key}}.title')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-12 col-lg-4 mb-3">
+                                    <label for="ColorName" class="form-label">Pattern Shape</label>
+                                    <select
+                                        wire:model="entries.{{$key}}.shape_id"
+                                        id="entries.{{$key}}.shape_id"
+                                        class="form-control">
+                                        <option value=''>Select Shape</option>
+                                        @foreach($shapes as $shape)
+                                            <option value='{{$shape->id}}'>{{$shape->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('entries.{{$key}}.shape_id')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-12 col-lg-4 mb-3">
+                                    <label for="ColorName" class="form-label">Pattern Percentage</label>
+                                    <input type="text"
+                                        class="form-control @error('percentage') is-invalid @enderror"
+                                        id="entries.{{$key}}.percentage"
+                                        wire:model="entries.{{$key}}.percentage"
+                                        placeholder="Percentage" />
+                                    @error('entries.{{$key}}.percentage')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="ColorCode" class="form-label">Text</label>
+                                    <textarea
+                                        class="form-control @error('text') is-invalid @enderror"
+                                        id="entries.{{$key}}.text"
+                                        wire:model="entries.{{$key}}.text"
+                                        placeholder="Text" style="height:150px; resize:none;"></textarea>
+                                    @error('entries.{{$key}}.text')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="ColorName" class="form-label">Pattern Percentage</label>
-                                <input type="text"
-                                    class="form-control @error('percentage') is-invalid @enderror"
-                                    id="entries.{{$key}}.percentage"
-                                    wire:model="entries.{{$key}}.percentage"
-                                    placeholder="Percentage" />
-                                @error('percentage')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
                         @endforeach
                         
                         <div class="mb-3">

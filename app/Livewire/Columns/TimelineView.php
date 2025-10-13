@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Columns;
 
+use App\Models\Shapes;
 use App\Models\ColumnTimeline;
 use App\Models\ColumnTimelinePercentages;
 
@@ -20,6 +21,7 @@ class TimelineView extends Component
     public $section_id;
     public $section_column_id;
     
+    public $shapes;
     public $timelines;
     public $date;
     public $entries;
@@ -34,6 +36,8 @@ class TimelineView extends Component
         $this->page_id=$pageId;
         $this->section_id=$sectionId;
         $this->section_column_id=$id;
+
+        $this->shapes=Shapes::ORDERBY('name','ASC')->get();
 
         $this->loadEntries();
 
@@ -100,8 +104,8 @@ class TimelineView extends Component
 
             // Collect IDs of the submitted columns
             $entriesId = [];
-            foreach($columnTimeline->percentages as $percentage){
-                $entriesId[]=$percentage["id"];
+            foreach($this->entries as $entry){
+                $entriesId[]=$entry["id"];
             }
 
             // Delete columns that were removed
@@ -111,7 +115,6 @@ class TimelineView extends Component
 
             // Loop through submitted columns
             foreach($this->entries as $entry){
-                // dd($entry);
                 if (!empty($entry['id'])) {
                     // Update existing
                     ColumnTimelinePercentages::where('id', $entry['id'])->update([

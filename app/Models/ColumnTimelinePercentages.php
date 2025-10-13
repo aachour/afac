@@ -15,7 +15,7 @@ class ColumnTimelinePercentages extends Model
         'timeline_id',
         'title',
         'text',
-        'shape',
+        'shape_id',
         'percentage',
         'list_order',
     ];
