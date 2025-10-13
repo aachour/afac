@@ -43,7 +43,7 @@ class TimelineView extends Component
     {
         $this->timelines=ColumnTimeline::WITH('percentages')->WHERE('section_column_id',$this->section_column_id)->ORDERBY('list_order','ASC')->get();
         
-         $this->entries=[];
+        $this->entries=[];
     }
 
     public function addEntry(){
@@ -60,7 +60,7 @@ class TimelineView extends Component
         $this->date=$columnTimeline->date;
 
         foreach($columnTimeline->percentages as $percentage){
-            $this->entries[] = ['title' => $percentage->title , 'text'=>$percentage->text , 'shape_id'=>$percentage->shape_id , 'percentage'=>$percentage->percentage];
+            $this->entries[] = ['id'=>$percentage->id , 'title' => $percentage->title , 'text'=>$percentage->text , 'shape_id'=>$percentage->shape_id , 'percentage'=>$percentage->percentage];
         }
 
         $this->modalId=$id;
@@ -93,14 +93,45 @@ class TimelineView extends Component
         }
         else if($this->modalId!=null){
 
-            //Edit Collection
-            ColumnTimeline::where('id', $this->modalId)
-            ->update([
-                'date' => $this->date,
-                'title' => $this->title,
-                'text' => $this->text,
-                'percentage' => $this->percentage,
-            ]);
+            //Update Date
+            $columnTimeline=ColumnTimeline::with('percentages')->find($this->modalId);
+            $columnTimeline->date=$this->date;
+            $columnTimeline->save();
+
+            // Collect IDs of the submitted columns
+            $entriesId = [];
+            foreach($columnTimeline->percentages as $percentage){
+                $entriesId[]=$percentage["id"];
+            }
+
+            // Delete columns that were removed
+            ColumnTimelinePercentages::where('timeline_id', $this->modalId)
+                ->whereNotIn('id', $entriesId)
+                ->delete();
+
+            // Loop through submitted columns
+            foreach($this->entries as $entry){
+                // dd($entry);
+                if (!empty($entry['id'])) {
+                    // Update existing
+                    ColumnTimelinePercentages::where('id', $entry['id'])->update([
+                        'timeline_id'=>$this->modalId,
+                        'title'=>$entry["title"],
+                        'text'=>$entry["text"],
+                        'shape_id'=>$entry["shape_id"],
+                        'percentage'=>$entry["percentage"],
+                    ]);
+                } else {
+                    // Create new
+                    ColumnTimelinePercentages::create([
+                        'timeline_id'=>$this->modalId,
+                        'title'=>$entry["title"],
+                        'text'=>$entry["text"],
+                        'shape_id'=>$entry["shape_id"],
+                        'percentage'=>$entry["percentage"],
+                    ]);
+                }
+            }
             
             return to_route('timeline.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry edited successfully!');
         }
