@@ -16,11 +16,10 @@ class TypesSeeder extends Seeder
         $types = [
             'Event',
             'Program',
-            'Open Call',
-            'Supported project',
+            'Supported Project',
             'Grantee',
             'Jury',
-            'Resources',
+            'Resource',
             'News',
         ];
 
