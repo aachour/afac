@@ -121,6 +121,46 @@
 			</li>
 			@endcanany
 
+
+			@canany(['programs-list', 'projectCategory-list' , 'project-list'])
+			<li class="menu-item {{ request()->is('entries*') || request()->is('projectCategories*') ? "active open" : "" }}">
+
+				<a href="javascript:void(0);" class="menu-link menu-toggle">
+					<i class="menu-icon tf-icons ti ti-settings"></i>
+					<div data-i18n="Programs">Programs</div>
+				</a>
+
+				<ul class="menu-sub">
+
+					@can('program-list')
+					<li class="menu-item {{ request()->is('entries*') ? "active" : "" }}">
+						<a href="{{ route('entries',['typeId'=>'2']) }}" class="menu-link">
+						<div data-i18n="Programs">Programs</div>
+						</a>
+					</li>
+					@endcan
+
+					@can('projectCategory-list')
+					<li class="menu-item {{ request()->is('projectCategories*') ? "active" : "" }}">
+						<a href="{{ route('project.categories') }}" class="menu-link">
+						<div data-i18n="Project Categories">Project Categories</div>
+						</a>
+					</li>
+					@endcan
+
+					@can('project-list')
+					<li class="menu-item {{ request()->is('entries*') ? "active" : "" }}">
+						<a href="{{ route('entries',['typeId'=>'3']) }}" class="menu-link">
+							<div data-i18n="Projects">Projects</div>
+						</a>
+					</li>
+					@endcan
+
+				</ul>
+			</li>
+			@endcanany
+
+		
 		</ul>
 
 		<script>

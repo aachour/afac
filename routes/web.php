@@ -32,6 +32,7 @@ use App\Livewire\Events\EventCategoryView;
 use App\Livewire\Events\EventView;
 use App\Livewire\Events\EventForm;
 
+use App\Livewire\Projects\ProjectCategoryView;
 
 use App\Livewire\Entries\EntryView;
 use App\Livewire\Entries\EntryForm;
@@ -139,9 +140,20 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/view/{id}/{status}', EventCategoryView::class)->name('event.categories.view');
     });
 
+    // |--------------------------------------------------------------------------
+    // |Project Categories
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'projectCategories'], function () {
+        Route::get('/', ProjectCategoryView::class)->name('project.categories');
+        Route::get('/create', ProjectCategoryView::class)->name('project.categories.create');
+        Route::get('/edit/{id}', ProjectCategoryView::class)->name('project.categories.edit');
+        Route::get('/view/{id}/{status}', ProjectCategoryView::class)->name('project.categories.view');
+    });
+
 
     // |--------------------------------------------------------------------------
-    // |Entries
+    // |Events
     // |--------------------------------------------------------------------------
     
     Route::group(['prefix' => 'events'], function () {
@@ -149,6 +161,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/create', EventForm::class)->name('events.create');
         Route::get('/edit/{id}', EventForm::class)->name('events.edit');
         Route::get('/view/{id}/{status?}', EventForm::class)->name('events.view');
+    }); 
+
+    // |--------------------------------------------------------------------------
+    // |Entries
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'entries'], function () {
+        Route::get('/{typeId}', EntryView::class)->name('entries');
+        Route::get('/{typeId}/create', EntryForm::class)->name('entries.create');
+        Route::get('/{typeId}/edit/{id}', EntryForm::class)->name('entries.edit');
+        Route::get('/{typeId}/view/{id}/{status?}', EntryForm::class)->name('entries.view');
     }); 
 
 

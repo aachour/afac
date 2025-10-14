@@ -66,6 +66,13 @@ class PermissionSeeder extends Seeder
             'collection-delete',
             'collection-view',
             
+            // Events Categories
+            'eventCategory-list',
+            'eventCategory-create',
+            'eventCategory-edit',
+            'eventCategory-delete',
+            'eventCategory-view',
+
             // Events Page
             'event-list',
             'event-create',
@@ -73,12 +80,54 @@ class PermissionSeeder extends Seeder
             'event-delete',
             'event-view',
 
-            // Events Categories
-            'eventCategory-list',
-            'eventCategory-create',
-            'eventCategory-edit',
-            'eventCategory-delete',
-            'eventCategory-view',
+            // Programs Page
+            'program-list',
+            'program-create',
+            'program-edit',
+            'program-delete',
+            'program-view',
+
+            // Projects Categories
+            'projectCategory-list',
+            'projectCategory-create',
+            'projectCategory-edit',
+            'projectCategory-delete',
+            'projectCategory-view',
+            
+            // Projects Page
+            'project-list',
+            'project-create',
+            'project-edit',
+            'project-delete',
+            'project-view',
+
+            // Grantees Page
+            'grantee-list',
+            'grantee-create',
+            'grantee-edit',
+            'grantee-delete',
+            'grantee-view',
+
+            // Jurors Page
+            'jury-list',
+            'jury-create',
+            'jury-edit',
+            'jury-delete',
+            'jury-view',
+
+            // Resources Page
+            'resource-list',
+            'resource-create',
+            'resource-edit',
+            'resource-delete',
+            'resource-view',
+
+            // News Page
+            'news-list',
+            'news-create',
+            'news-edit',
+            'news-delete',
+            'news-view',
 
         ];
         
