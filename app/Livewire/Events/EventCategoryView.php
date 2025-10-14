@@ -16,6 +16,7 @@ class EventCategoryView extends Component
     public $showModal = false;
     public $modalTitle = 'Add Category';
     public $name = '';
+    public $name_arabic = '';
     public $editingId = null;
 
     public function mount()
@@ -36,9 +37,10 @@ class EventCategoryView extends Component
             $category = EventCategories::find($categoryId);
             $this->editingId = $categoryId;
             $this->name = $category->name;
+            $this->name_arabic = $category->name_arabic;
             $this->modalTitle = 'Edit Category';
         } else {
-            $this->reset(['editingId', 'name']);
+            $this->reset(['editingId', 'name', 'name_arabic']);
             $this->modalTitle = 'Add Category';
         }
         $this->showModal = true;
@@ -48,6 +50,7 @@ class EventCategoryView extends Component
     {
         $rules = [
             'name' => 'required',
+            'name_arabic' => 'required',
         ];
 
         $this->validate($rules);
@@ -55,11 +58,11 @@ class EventCategoryView extends Component
         if ($this->editingId) {
             $this->authorize('eventCategory-edit');
             $category = EventCategories::find($this->editingId);
-            $category->update(['name' => $this->name]);
+            $category->update(['name' => $this->name,'name_arabic' => $this->name_arabic]);
             $message = 'Category updated successfully!';
         } else {
             $this->authorize('eventCategory-create');
-            EventCategories::create(['name' => $this->name]);
+            EventCategories::create(['name' => $this->name,'name_arabic' => $this->name_arabic]);
             $message = 'Category added successfully!';
         }
 
@@ -71,7 +74,7 @@ class EventCategoryView extends Component
     public function closeModal()
     {
         $this->showModal = false;
-        $this->reset(['editingId', 'name']);
+        $this->reset(['editingId', 'name', 'name_arabic']);
     }
 
     #[On('delete')]

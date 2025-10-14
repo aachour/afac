@@ -15,6 +15,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
+                        <th>Name Arabic</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -23,6 +24,7 @@
                         <tr>
                             <td>{{ $category->id }}</td>
                             <td>{{ $category->name }}</td>
+                            <td>{{ $category->name_arabic }}</td>
                             <td>
                                 <a href="#" wire:click="openModal({{ $category->id }})" class="text-body edit-user-button">
                                     <i class="ti ti-edit ti-sm"></i>
@@ -55,6 +57,17 @@
                                     wire:model="name"
                                     placeholder="Name">
                                 @error('name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name Arabic</label>
+                                <input type="text"
+                                    class="form-control @error('name_arabic') is-invalid @enderror"
+                                    id="name_arabic"
+                                    wire:model="name_arabic"
+                                    placeholder="Name Arabic">
+                                @error('name_arabic')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

@@ -95,7 +95,7 @@
 			<li class="menu-item {{ request()->is('eventCategories*') || request()->is('events*') ? "active open" : "" }}">
 
 				<a href="javascript:void(0);" class="menu-link menu-toggle">
-					<i class="menu-icon tf-icons ti ti-settings"></i>
+					<i class="menu-icon tf-icons ti ti-calendar-event"></i>
 					<div data-i18n="Events">Events</div>
 				</a>
 
@@ -122,34 +122,36 @@
 			@endcanany
 
 
+			@can('program-list')
+			<li class="menu-item {{ request()->is('entries/2*') ? "active" : "" }}">
+				<a href="{{ route('entries',['typeId'=>'2']) }}" class="menu-link">
+					<i class="menu-icon tf-icons ti ti-presentation"></i>
+					<div data-i18n="Programs">Programs</div>
+				</a>
+			</li>
+			@endcanany
+
+
 			@canany(['programs-list', 'projectCategory-list' , 'project-list'])
 			<li class="menu-item {{ request()->is('entries*') || request()->is('projectCategories*') ? "active open" : "" }}">
 
 				<a href="javascript:void(0);" class="menu-link menu-toggle">
-					<i class="menu-icon tf-icons ti ti-settings"></i>
-					<div data-i18n="Programs">Programs</div>
+					<i class="menu-icon tf-icons ti ti-rocket"></i>
+					<div data-i18n="Projects">Projects</div>
 				</a>
 
 				<ul class="menu-sub">
 
-					@can('program-list')
-					<li class="menu-item {{ request()->is('entries*') ? "active" : "" }}">
-						<a href="{{ route('entries',['typeId'=>'2']) }}" class="menu-link">
-						<div data-i18n="Programs">Programs</div>
-						</a>
-					</li>
-					@endcan
-
 					@can('projectCategory-list')
 					<li class="menu-item {{ request()->is('projectCategories*') ? "active" : "" }}">
 						<a href="{{ route('project.categories') }}" class="menu-link">
-						<div data-i18n="Project Categories">Project Categories</div>
+						<div data-i18n="Categories">Categories</div>
 						</a>
 					</li>
 					@endcan
 
 					@can('project-list')
-					<li class="menu-item {{ request()->is('entries*') ? "active" : "" }}">
+					<li class="menu-item {{ request()->is('entries/3*') ? "active" : "" }}">
 						<a href="{{ route('entries',['typeId'=>'3']) }}" class="menu-link">
 							<div data-i18n="Projects">Projects</div>
 						</a>
@@ -157,6 +159,42 @@
 					@endcan
 
 				</ul>
+			</li>
+			@endcanany
+
+			@can('grantee-list')
+			<li class="menu-item {{ request()->is('entries/4*') ? "active" : "" }}">
+				<a href="{{ route('entries',['typeId'=>'4']) }}" class="menu-link">
+					<i class="menu-icon tf-icons ti ti-users"></i>
+					<div data-i18n="Grantees">Grantees</div>
+				</a>
+			</li>
+			@endcanany
+
+			@can('jury-list')
+			<li class="menu-item {{ request()->is('entries/5*') ? "active" : "" }}">
+				<a href="{{ route('entries',['typeId'=>'5']) }}" class="menu-link">
+					<i class="menu-icon tf-icons ti ti-scale"></i>
+					<div data-i18n="Juries">Juries</div>
+				</a>
+			</li>
+			@endcanany
+
+			@can('resource-list')
+			<li class="menu-item {{ request()->is('entries/6*') ? "active" : "" }}">
+				<a href="{{ route('entries',['typeId'=>'6']) }}" class="menu-link">
+					<i class="menu-icon tf-icons ti ti-database"></i>
+					<div data-i18n="Resources">Resources</div>
+				</a>
+			</li>
+			@endcanany
+
+			@can('news-list')
+			<li class="menu-item {{ request()->is('entries/7*') ? "active" : "" }}">
+				<a href="{{ route('entries',['typeId'=>'7']) }}" class="menu-link">
+					<i class="menu-icon tf-icons ti ti-news"></i>
+					<div data-i18n="News">News</div>
+				</a>
 			</li>
 			@endcanany
 

@@ -10,4 +10,7 @@ class Entries extends Model
     //
 
     use SoftDeletes;
+
+    protected $guarded = [];
+    
 }

@@ -18,11 +18,13 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(TypesSeeder::class);
         $this->call(ColorsSeeder::class);
+        $this->call(CountriesSeeder::class);
         $this->call(ColumnTypesSeeder::class);
         $this->call(AlignmentTypesSeeder::class);
         $this->call(ShapesSeeder::class);
         $this->call(InputTypesSeeder::class);
         $this->call(EventCategoriesSeeder::class);
+        $this->call(ProjectCategoriesSeeder::class);
         
     }
 }
