@@ -125,7 +125,7 @@
                                     class="form-control @error('button_value') is-invalid @enderror"
                                     id="button_value"
                                     wire:model="button_value"
-                                    placeholder="button_value Value" />
+                                    placeholder="Button Text" />
                                 @error('button_value')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -137,7 +137,7 @@
                                     class="form-control @error('button_value_arabic') is-invalid @enderror"
                                     id="button_value_arabic"
                                     wire:model="button_value_arabic"
-                                    placeholder="button_value_arabic Value" />
+                                    placeholder="Button Text Arabic" />
                                 @error('button_value_arabic')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -163,7 +163,7 @@
                                     class="form-control @error('button_link') is-invalid @enderror"
                                     id="button_link"
                                     wire:model="button_link"
-                                    placeholder="button_link Value" />
+                                    placeholder="Button Link" />
                                 @error('button_link')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
