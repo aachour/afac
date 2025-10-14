@@ -60,6 +60,8 @@
                                             <div class="mb-1"><a href="{{ route('timeline.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Timeline <i class="ti ti-edit ti-sm"></i></a></div>
                                         @elseif($column->type_id==3)
                                             <div class="mb-1"><a href="{{ route('accordion.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Accordion <i class="ti ti-edit ti-sm"></i></a></div>
+                                        @elseif($column->type_id==4)
+                                            <div class="mb-1"><a href="{{ route('countdown.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Countdown <i class="ti ti-edit ti-sm"></i></a></div>
                                         @endif
                                         @endforeach
                                     @endif

@@ -18,6 +18,7 @@ class ColumnTypesSeeder extends Seeder
             'General Inputs',
             'Timeline',
             'Accordion Menu',
+            'Countdown',
         ];
 
         foreach ($types as $type) {
