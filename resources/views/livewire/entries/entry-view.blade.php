@@ -46,15 +46,15 @@
                         <tr>
                             <td>{{ $entry->id }}</td>
                             @if($type_id==1)
-                                <td>{{ $entry->title }}</td>
-                                <td>{{ $entry->title_arabic }}</td>
-                                <td>{{ $entry->date }}</td>
-                                <td>{{ $entry->start_time }}</td>
-                                <td>{{ $entry->end_time }}</td>
+                                <td>{{ $entry->event_title }}</td>
+                                <td>{{ $entry->event_title_arabic }}</td>
+                                <td>{{ $entry->event_date }}</td>
+                                <td>{{ $entry->event_start_time }}</td>
+                                <td>{{ $entry->event_end_time }}</td>
                             @elseif($type_id==2)
-                                <td>{{ $entry->title }}</td>
-                                <td>{{ $entry->title_arabic }}</td>
-                                <td>{{ $entry->status }}</td>
+                                <td>{{ $entry->program_title }}</td>
+                                <td>{{ $entry->program_title_arabic }}</td>
+                                <td>{{ $entry->program_status }}</td>
                             @elseif($type_id==3)
 
                             @elseif($type_id==4)
@@ -69,10 +69,10 @@
                             
                             <td>
                                 @can('entry-view')
-                                <a href="{{ route('entry.view', $entry->id) }}" class="text-body view-user-button"><i class="ti ti-eye ti-sm"></i></a>
+                                <a href="{{ route('entry.view', [ 'typeId'=> $type_id , 'id'=> $entry->id] ) }}" class="text-body view-user-button"><i class="ti ti-eye ti-sm"></i></a>
                                 @endcan
                                 @can('entry-edit')
-                                <a href="{{ route('entry.edit', $entry->id) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
+                                <a href="{{ route('entry.edit', [ 'typeId'=> $type_id , 'id'=> $entry->id] ) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
                                 @endcan
                                 @can('entry-delete')
                                 <a href="#" class="text-body delete-record delete-button" data-id="{{ $entry->id }}"><i class="ti ti-trash ti-sm mx-2 text-danger"></i></a>

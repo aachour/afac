@@ -35,7 +35,7 @@ return new class extends Migration
             //Program Fields
             $table->text('program_title')->nullable();
             $table->text('program_title_arabic')->nullable();
-            $table->integer('status')->nullable();
+            $table->integer('program_status')->nullable();
 
             //Project Fields
             $table->foreignId('project_category_id')->nullable()->constrained('project_categories')->onDelete('cascade');

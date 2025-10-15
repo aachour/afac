@@ -4,6 +4,7 @@ namespace App\Livewire\Entries;
 
 use App\Models\EventCategories;
 use App\Models\ProjectCategories;
+use App\Models\Types;
 use App\Models\Entries;
 use App\Models\Colors;
 use Livewire\Attributes\On;
@@ -19,6 +20,7 @@ class EntryForm extends Component
 
     public $editing = false;
     public $type_id;
+    public $type_name;
     public $id;
     public $entry;
 
@@ -86,16 +88,19 @@ class EntryForm extends Component
 
     public function mount($typeId,$id=''){
 
+        if(!isset($typeId) || $typeId==''){
+            return to_route('dashboard');
+        }
+
+        $this->type_id=$typeId;
+        $this->type_name = Types::where('id', $this->type_id)->value('name');
+
         if($id==''){
             $this->authorize('entry-create');
         }
         else{
 
             $this->authorize('entry-edit');
-
-            if(!isset($typeId) || $typeId==''){
-                return to_route('dashboard');
-            }
             
             $this->editing = true;
 
@@ -244,45 +249,46 @@ class EntryForm extends Component
             }
 
             Entries::create([
+                'type_id' => $this->type_id,
                 'image' => @$path,
                 'image_width' => $this->image_width,
-                'background_color_id' => $this->background_color_id,
+                'background_color_id' => $this->background_color_id !== '' ? $this->background_color_id : null,
                 'button_link' => $this->button_link,
                 'button_value' => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
-                'event_category_id'=>$this->event_category_id,
-                'event_title'=>$this->event_title,
-                'event_title_arabic'=>$this->event_title_arabic,
-                'event_date'=>$this->event_date,
-                'event_start_time'=>$this->event_start_time,
-                'event_end_time'=>$this->event_end_time,
-                'program_title'=>$this->program_title,
-                'program_title_arabic'=>$this->program_title_arabic,
-                'program_status'=>$this->program_status,
-                'project_category_id'=>$this->project_category_id,
-                'project_title'=>$this->project_title,
-                'project_title_arabic'=>$this->project_title_arabic,
-                'project_country_id'=>$this->project_country_id,
-                'grantee_name'=>$this->grantee_name,
-                'grantee_name_arabic'=>$this->grantee_name_arabic,
-                'grantee_country_id'=>$this->grantee_country_id,
-                'grantee_image'=>$this->grantee_image,
-                'jury_name'=>$this->jury_name,
-                'jury_name_arabic'=>$this->jury_name_arabic,
-                'jury_bio'=>$this->jury_bio,
-                'jury_bio_arabic'=>$this->jury_bio_arabic,
-                'jury_country_id'=>$this->jury_country_id,
-                'jury_image'=>$this->jury_image,
-                'resource_title'=>$this->resource_title,
-                'resource_title_arabic'=>$this->resource_title_arabic,
-                'resource_date'=>$this->resource_date,
-                'resource_tags'=>$this->resource_tags,
-                'resource_tags_arabic'=>$this->resource_tags_arabic,
-                'news_title'=>$this->news_title,
-                'news_title_arabic'=>$this->news_title_arabic,
-                'news_date'=>$this->news_date,
-                'news_tags'=>$this->news_tags,
-                'news_tags_arabic'=>$this->news_tags_arabic,
+                'event_category_id'=> $this->event_category_id !== '' ? $this->event_category_id : null,
+                'event_title'=>$this->event_title ?? '',
+                'event_title_arabic'=>$this->event_title_arabic ?? '',
+                'event_date'=>$this->event_date ?? '',
+                'event_start_time'=>$this->event_start_time ?? '',
+                'event_end_time'=>$this->event_end_time ?? '',
+                'program_title'=>$this->program_title ?? '',
+                'program_title_arabic'=>$this->program_title_arabic ?? '',
+                'program_status'=>$this->program_status ?? '0',
+                'project_category_id'=> $this->project_category_id !== '' ? $this->project_category_id : null, 
+                'project_title'=>$this->project_title ?? '',
+                'project_title_arabic'=>$this->project_title_arabic ?? '',
+                'project_country_id'=> $this->project_country_id !== '' ? $this->project_country_id : null,
+                'grantee_name'=>$this->grantee_name ?? '',
+                'grantee_name_arabic'=>$this->grantee_name_arabic ?? '',
+                'grantee_country_id'=> $this->grantee_country_id !== '' ? $this->grantee_country_id : null, 
+                'grantee_image'=>$this->grantee_image ?? '',
+                'jury_name'=>$this->jury_name ?? '',
+                'jury_name_arabic'=>$this->jury_name_arabic ?? '',
+                'jury_bio'=>$this->jury_bio ?? '',
+                'jury_bio_arabic'=>$this->jury_bio_arabic ?? '',
+                'jury_country_id'=>$this->jury_country_id !== '' ? $this->jury_country_id : null, 
+                'jury_image'=>$this->jury_image ?? '',
+                'resource_title'=>$this->resource_title ?? '',
+                'resource_title_arabic'=>$this->resource_title_arabic ?? '',
+                'resource_date'=> $this->resource_date ?? null,
+                'resource_tags'=>$this->resource_tags ?? '',
+                'resource_tags_arabic'=>$this->resource_tags_arabic ?? '',
+                'news_title'=>$this->news_title ?? '',
+                'news_title_arabic'=>$this->news_title_arabic ?? '',
+                'news_date'=>$this->news_date ?? null,
+                'news_tags'=>$this->news_tags ?? '',
+                'news_tags_arabic'=>$this->news_tags_arabic ?? '',
             ]);
 
             return to_route('entries',['typeId'=>$this->type_id])->with('success', 'Entry created successfully!');
@@ -296,44 +302,43 @@ class EntryForm extends Component
             $data = [
                 'image' => @$path ?? $this->entry->image,
                 'image_width' => $this->image_width,
-                'background_color_id' => $this->background_color_id,
+                'background_color_id' => $this->background_color_id !== '' ? $this->background_color_id : null,
                 'button_link' => $this->button_link,
                 'button_value' => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
-                'event_category_id'=>$this->event_category_id,
-                'event_title'=>$this->event_title,
-                'event_title_arabic'=>$this->event_title_arabic,
-                'event_date'=>$this->event_date,
-                'event_start_time'=>$this->event_start_time,
-                'event_end_time'=>$this->event_end_time,
-                'program_title'=>$this->program_title,
-                'program_title_arabic'=>$this->program_title_arabic,
-                'program_status'=>$this->program_status,
-                'project_category_id'=>$this->project_category_id,
-                'project_title'=>$this->project_title,
-                'project_title_arabic'=>$this->project_title_arabic,
-                'project_country_id'=>$this->project_country_id,
-                'grantee_name'=>$this->grantee_name,
-                'grantee_name_arabic'=>$this->grantee_name_arabic,
-                'grantee_country_id'=>$this->grantee_country_id,
-                'grantee_image'=>$this->grantee_image,
-                'jury_name'=>$this->jury_name,
-                'jury_name_arabic'=>$this->jury_name_arabic,
-                'jury_bio'=>$this->jury_bio,
-                'jury_bio_arabic'=>$this->jury_bio_arabic,
-                'jury_country_id'=>$this->jury_country_id,
-                'jury_image'=>$this->jury_image,
-                'resource_title'=>$this->resource_title,
-                'resource_title_arabic'=>$this->resource_title_arabic,
-                'resource_date'=>$this->resource_date,
-                'resource_tags'=>$this->resource_tags,
-                'resource_tags_arabic'=>$this->resource_tags_arabic,
-                'news_title'=>$this->news_title,
-                'news_title_arabic'=>$this->news_title_arabic,
-                'news_date'=>$this->news_date,
-                'news_tags'=>$this->news_tags,
-                'news_tags_arabic'=>$this->news_tags_arabic,
-                
+                'event_category_id'=> $this->event_category_id !== '' ? $this->event_category_id : null,
+                'event_title'=>$this->event_title ?? '',
+                'event_title_arabic'=>$this->event_title_arabic ?? '',
+                'event_date'=>$this->event_date ?? '',
+                'event_start_time'=>$this->event_start_time ?? '',
+                'event_end_time'=>$this->event_end_time ?? '',
+                'program_title'=>$this->program_title ?? '',
+                'program_title_arabic'=>$this->program_title_arabic ?? '',
+                'program_status'=>$this->program_status ?? '0',
+                'project_category_id'=> $this->project_category_id !== '' ? $this->project_category_id : null, 
+                'project_title'=>$this->project_title ?? '',
+                'project_title_arabic'=>$this->project_title_arabic ?? '',
+                'project_country_id'=> $this->project_country_id !== '' ? $this->project_country_id : null,
+                'grantee_name'=>$this->grantee_name ?? '',
+                'grantee_name_arabic'=>$this->grantee_name_arabic ?? '',
+                'grantee_country_id'=> $this->grantee_country_id !== '' ? $this->grantee_country_id : null, 
+                'grantee_image'=>$this->grantee_image ?? '',
+                'jury_name'=>$this->jury_name ?? '',
+                'jury_name_arabic'=>$this->jury_name_arabic ?? '',
+                'jury_bio'=>$this->jury_bio ?? '',
+                'jury_bio_arabic'=>$this->jury_bio_arabic ?? '',
+                'jury_country_id'=>$this->jury_country_id !== '' ? $this->jury_country_id : null, 
+                'jury_image'=>$this->jury_image ?? '',
+                'resource_title'=>$this->resource_title ?? '',
+                'resource_title_arabic'=>$this->resource_title_arabic ?? '',
+                'resource_date'=> $this->resource_date ?? null,
+                'resource_tags'=>$this->resource_tags ?? '',
+                'resource_tags_arabic'=>$this->resource_tags_arabic ?? '',
+                'news_title'=>$this->news_title ?? '',
+                'news_title_arabic'=>$this->news_title_arabic ?? '',
+                'news_date'=>$this->news_date ?? null,
+                'news_tags'=>$this->news_tags ?? '',
+                'news_tags_arabic'=>$this->news_tags_arabic ?? '',
             ];
 
             $this->entry->update($data);
@@ -348,5 +353,5 @@ class EntryForm extends Component
     {
         return view('livewire.entries.entry-form');
     }
-    
+
 }
