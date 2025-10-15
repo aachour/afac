@@ -86,10 +86,10 @@ class TimelineView extends Component
             foreach($this->entries as $entry){
                 ColumnTimelinePercentages::create([
                     'timeline_id'=>$timeline->id,
-                    'title'=>$entry["title"],
-                    'text'=>$entry["text"],
-                    'shape_id'=>$entry["shape_id"],
-                    'percentage'=>$entry["percentage"],
+                    'title'=>$entry["title"] ?? '',
+                    'text'=>$entry["text"] ?? '',
+                    'shape_id'=> $entry['shape_id'] !== '' ? $entry['shape_id'] : null,
+                    'percentage'=>(int) ($entry["percentage"] ?? 0),
                 ]);
             }
 
@@ -119,25 +119,26 @@ class TimelineView extends Component
                     // Update existing
                     ColumnTimelinePercentages::where('id', $entry['id'])->update([
                         'timeline_id'=>$this->modalId,
-                        'title'=>$entry["title"],
-                        'text'=>$entry["text"],
-                        'shape_id'=>$entry["shape_id"],
-                        'percentage'=>$entry["percentage"],
+                        'title'=>$entry["title"] ?? '',
+                        'text'=>$entry["text"] ?? '',
+                        'shape_id'=>$entry['shape_id'] !== '' ? $entry['shape_id'] : null,
+                        'percentage'=>(int) ($entry["percentage"] ?? 0),
                     ]);
                 } else {
                     // Create new
                     ColumnTimelinePercentages::create([
                         'timeline_id'=>$this->modalId,
-                        'title'=>$entry["title"],
-                        'text'=>$entry["text"],
-                        'shape_id'=>$entry["shape_id"],
-                        'percentage'=>$entry["percentage"],
+                        'title'=>$entry["title"] ?? '',
+                        'text'=>$entry["text"] ?? '',
+                        'shape_id'=>$entry['shape_id'] !== '' ? $entry['shape_id'] : null,
+                        'percentage'=>(int) ($entry["percentage"] ?? 0),
                     ]);
                 }
             }
             
             return to_route('timeline.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry edited successfully!');
         }
+
     }
 
     #[On('updateOrder')]

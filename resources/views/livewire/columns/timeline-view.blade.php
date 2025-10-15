@@ -26,6 +26,7 @@
                     <tr>
                         <th>Order</th>
                         <th>Date</th>
+                        <th>Content</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -34,6 +35,13 @@
                         <tr data-id="{{ $timeline->id }}" style="cursor: move;">
                             <td>{{$timeline->list_order}}</td>
                             <td>{{$timeline->date}}</td>
+                            <td>
+                                @if(count($timeline->percentages)>0)
+                                    @foreach($timeline->percentages as $percentage)
+                                        {{ !empty($percentage->title) ? 'Title: '.$percentage->title : '' }} <br />
+                                    @endforeach
+                                @endif
+                            </td>
                             <td>
                                 @can('section-edit')
                                     <i  class="ti ti-edit ti-sm cursor-pointer"

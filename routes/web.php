@@ -168,10 +168,10 @@ Route::middleware(['auth'])->group(function () {
     // |--------------------------------------------------------------------------
     
     Route::group(['prefix' => 'entries'], function () {
-        Route::get('/{typeId}', EntryView::class)->name('entries');
-        Route::get('/{typeId}/create', EntryForm::class)->name('entries.create');
-        Route::get('/{typeId}/edit/{id}', EntryForm::class)->name('entries.edit');
-        Route::get('/{typeId}/view/{id}/{status?}', EntryForm::class)->name('entries.view');
+        Route::get('/{typeId?}', EntryView::class)->name('entries');
+        Route::get('/{typeId?}/create', EntryForm::class)->name('entries.create');
+        Route::get('/{typeId?}/edit/{id}', EntryForm::class)->name('entries.edit');
+        Route::get('/{typeId?}/view/{id}/{status?}', EntryForm::class)->name('entries.view');
     }); 
 
 

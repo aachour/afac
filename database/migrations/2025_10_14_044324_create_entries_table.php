@@ -46,8 +46,6 @@ return new class extends Migration
             //Grantee Fields
             $table->text('grantee_name')->nullable();
             $table->text('grantee_name_arabic')->nullable();
-            $table->text('grantee_bio')->nullable();
-            $table->text('grantee_bio_arabic')->nullable();
             $table->foreignId('grantee_country_id')->nullable()->constrained('countries')->onDelete('cascade'); 
             $table->text('grantee_image')->nullable(); 
 
@@ -62,8 +60,6 @@ return new class extends Migration
             //Resource Fields
             $table->text('resource_title')->nullable();
             $table->text('resource_title_arabic')->nullable();  
-            $table->text('resource_text')->nullable();
-            $table->text('resource_text_arabic')->nullable();  
             $table->date('resource_date')->nullable(); 
             $table->text('resource_tags')->nullable(); 
             $table->text('resource_tags_arabic')->nullable(); 
@@ -71,8 +67,6 @@ return new class extends Migration
             //News Fields
             $table->text('news_title')->nullable();
             $table->text('news_title_arabic')->nullable();  
-            $table->text('news_text')->nullable();
-            $table->text('news_text_arabic')->nullable();  
             $table->date('news_date')->nullable(); 
             $table->text('news_tags')->nullable(); 
             $table->text('news_tags_arabic')->nullable(); 
