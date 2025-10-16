@@ -102,6 +102,7 @@
 
                     </div>
 
+
                     <!--Event-->
                     <div class="card mt-5 @if($type_id!=1) d-none @endif">
 
@@ -113,7 +114,7 @@
 
                             <div class="row">
 
-                                <div class="col-12 col-md-6">
+                                <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="event_category_id">Category <span class="text-danger">*</span></label>
                                     <select
                                         wire:model="event_category_id"
@@ -194,6 +195,7 @@
 
                     </div>
 
+
                     <!--Program-->
                     <div class="card mt-5 @if($type_id!=2) d-none @endif">
 
@@ -205,7 +207,7 @@
 
                             <div class="row">
 
-                                <div class="col-12 col-md-6 ">
+                                <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="program_title">Title <span class="text-danger">*</span></label>
                                     <input
                                         wire:model="program_title"
@@ -248,6 +250,7 @@
 
                     </div>
 
+
                     <!--Project-->
                     <div class="card mt-5 @if($type_id!=3) d-none @endif">
 
@@ -259,7 +262,7 @@
 
                             <div class="row">
 
-                                <div class="col-12 col-md-6">
+                                <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="project_category_id">Category <span class="text-danger">*</span></label>
                                     <select
                                         wire:model="project_category_id"
@@ -297,8 +300,8 @@
                                     @error('project_title_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label" for="project_country_id">Category <span class="text-danger">*</span></label>
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="project_country_id">Country <span class="text-danger">*</span></label>
                                     <select
                                         wire:model="project_country_id"
                                         id="project_country_id"
@@ -309,6 +312,317 @@
                                         @endforeach
                                     </select>
                                     @error('project_country_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+                                
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!--Grantee-->
+                    <div class="card mt-5 @if($type_id!=4) d-none @endif">
+
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Grantee Details</h5>
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="grantee_name">Name <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="grantee_name"
+                                        type="text"
+                                        id="grantee_name"
+                                        class="form-control"
+                                        placeholder="Name" />
+                                    @error('grantee_name') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="grantee_name_arabic">الإسم <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="grantee_name_arabic"
+                                        type="text"
+                                        id="grantee_name_arabic"
+                                        class="form-control"
+                                        placeholder="الإسم" />
+                                    @error('grantee_name_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="grantee_country_id">Country <span class="text-danger">*</span></label>
+                                    <select
+                                        wire:model="grantee_country_id"
+                                        id="grantee_country_id"
+                                        class="form-control">
+                                        <option value=''>Select Country</option>
+                                        @foreach($countries as $country)
+                                            <option value='{{$country->id}}'>{{$country->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('grantee_country_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 mt-2">
+                                    <label class="form-label" for="image">Image</label>
+                                    <x-filepond 
+                                        wire:model="grantee_image"
+                                        file-path="{{ $granteeImagePreview ?? '' }}"
+                                        delete-event="deleteImage"
+                                        is-multiple="false" />
+                                    @error('image') 
+                                        <div class="text-danger">{{ $message }}</div> 
+                                    @enderror
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!--Jury-->
+                    <div class="card mt-5 @if($type_id!=5) d-none @endif">
+
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Jury Details</h5>
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="jury_name">Name <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="jury_name"
+                                        type="text"
+                                        id="jury_name"
+                                        class="form-control"
+                                        placeholder="Name" />
+                                    @error('jury_name') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="jury_name_arabic">الإسم <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="jury_name_arabic"
+                                        type="text"
+                                        id="jury_name_arabic"
+                                        class="form-control"
+                                        placeholder="الإسم" />
+                                    @error('jury_name_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="jury_bio">Biography <span class="text-danger">*</span></label>
+                                    <textarea
+                                        wire:model="jury_bio"
+                                        type="text"
+                                        id="jury_bio"
+                                        class="form-control" placeholder="Biography"></textarea>
+                                    @error('jury_bio') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="jury_bio_arabic">السيرة الذاتية <span class="text-danger">*</span></label>
+                                    <textarea
+                                        wire:model="jury_bio_arabic"
+                                        type="text"
+                                        id="jury_bio_arabic"
+                                        class="form-control"
+                                        placeholder="السيرة الذاتية"></textarea>
+                                    @error('jury_bio_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="jury_country_id">Country <span class="text-danger">*</span></label>
+                                    <select
+                                        wire:model="jury_country_id"
+                                        id="jury_country_id"
+                                        class="form-control">
+                                        <option value=''>Select Country</option>
+                                        @foreach($countries as $country)
+                                            <option value='{{$country->id}}'>{{$country->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('jury_country_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 mt-2">
+                                    <label class="form-label" for="image">Image</label>
+                                    <x-filepond 
+                                        wire:model="jury_image"
+                                        file-path="{{ $juryImagePreview ?? '' }}"
+                                        delete-event="deleteImage"
+                                        is-multiple="false" />
+                                    @error('image') 
+                                        <div class="text-danger">{{ $message }}</div> 
+                                    @enderror
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!--Resource-->
+                    <div class="card mt-5 @if($type_id!=6) d-none @endif">
+
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Resource Details</h5>
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="resource_title">Title <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="resource_title"
+                                        type="text"
+                                        id="resource_title"
+                                        class="form-control"
+                                        placeholder="Title" />
+                                    @error('resource_title') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="resource_title_arabic">العنوان <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="resource_title_arabic"
+                                        type="text"
+                                        id="resource_title_arabic"
+                                        class="form-control"
+                                        placeholder="العنوان" />
+                                    @error('resource_title_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="resource_date">Date <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="resource_date"
+                                        type="date"
+                                        id="resource_date"
+                                        class="form-control"
+                                        placeholder="العنوان" />
+                                    @error('resource_date') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="resource_tags">Tags <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="resource_tags"
+                                        type="text"
+                                        id="resource_tags"
+                                        class="form-control"
+                                        placeholder="Tags" />
+                                    @error('resource_tags') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="resource_tags_arabic">Tags Arabic <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="resource_tags_arabic"
+                                        type="text"
+                                        id="resource_tags_arabic"
+                                        class="form-control"
+                                        placeholder="Tags Arabic" />
+                                    @error('resource_tags_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+                                
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!--News-->
+                    <div class="card mt-5 @if($type_id!=7) d-none @endif">
+
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">News Details</h5>
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="news_title">Title <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="news_title"
+                                        type="text"
+                                        id="news_title"
+                                        class="form-control"
+                                        placeholder="Title" />
+                                    @error('news_title') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="news_title_arabic">العنوان <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="news_title_arabic"
+                                        type="text"
+                                        id="news_title_arabic"
+                                        class="form-control"
+                                        placeholder="العنوان" />
+                                    @error('news_title_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="news_date">Date <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="news_date"
+                                        type="date"
+                                        id="news_date"
+                                        class="form-control"
+                                        placeholder="العنوان" />
+                                    @error('news_date') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+                                
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="news_tags">Tags <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="news_tags"
+                                        type="text"
+                                        id="news_tags"
+                                        class="form-control"
+                                        placeholder="Tags" />
+                                    @error('news_tags') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="news_tags_arabic">Tags Arabic <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="news_tags_arabic"
+                                        type="text"
+                                        id="news_tags_arabic"
+                                        class="form-control"
+                                        placeholder="Tags Arabic" />
+                                    @error('news_tags_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
                                 
 

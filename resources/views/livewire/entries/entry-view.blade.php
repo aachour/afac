@@ -17,6 +17,7 @@
                     <tr>
                         <th>Id</th>
                         @if($type_id==1)
+                            <th>Category</th>
                             <th>Title</th>
                             <th>Title Arabic</th>
                             <th>Date</th>
@@ -27,15 +28,25 @@
                             <th>Title Arabic</th>
                             <th>Status</th>
                         @elseif($type_id==3)
-
+                            <th>Category</th>
+                            <th>Title</th>
+                            <th>Title Arabic</th>
                         @elseif($type_id==4)
-
+                            <th>Name</th>
+                            <th>Name Arabic</th>
+                            <th>Country</th>
                         @elseif($type_id==5)
-
+                            <th>Name</th>
+                            <th>Name Arabic</th>
+                            <th>Country</th>
                         @elseif($type_id==6)
-
+                            <th>Title</th>
+                            <th>Title Arabic</th>
+                            <th>Date</th>
                         @elseif($type_id==7)
-
+                            <th>Title</th>
+                            <th>Title Arabic</th>
+                            <th>Date</th>
                         @endif
                         
                         <th>Actions</th>
@@ -46,6 +57,7 @@
                         <tr>
                             <td>{{ $entry->id }}</td>
                             @if($type_id==1)
+                                <td>{{ $entry->eventCategory->name }} </td>
                                 <td>{{ $entry->event_title }}</td>
                                 <td>{{ $entry->event_title_arabic }}</td>
                                 <td>{{ $entry->event_date }}</td>
@@ -56,15 +68,25 @@
                                 <td>{{ $entry->program_title_arabic }}</td>
                                 <td>{{ $entry->program_status }}</td>
                             @elseif($type_id==3)
-
+                                <td>{{ $entry->projectCategory->name }}</td>
+                                <td>{{ $entry->project_title }}</td>
+                                <td>{{ $entry->project_title_arabic }}</td>
                             @elseif($type_id==4)
-
+                                <td>{{ $entry->grantee_name }}</td>
+                                <td>{{ $entry->grantee_name_arabic }}</td>
+                                <td>{{ $entry->granteeCountry->name }}</td>
                             @elseif($type_id==5)
-
+                                <td>{{ $entry->jury_name }}</td>
+                                <td>{{ $entry->jury_name_arabic }}</td>
+                                <td>{{ $entry->juryCountry->name }}</td>
                             @elseif($type_id==6)
-
+                                <td>{{ $entry->resource_title }}</td>
+                                <td>{{ $entry->resource_title_arabic }}</td>
+                                <td>{{ $entry->resource_date }}</td>
                             @elseif($type_id==7)
-
+                                <td>{{ $entry->news_title }}</td>
+                                <td>{{ $entry->news_title_arabic }}</td>
+                                <td>{{ $entry->news_date }}</td>
                             @endif
                             
                             <td>

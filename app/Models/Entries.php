@@ -12,5 +12,25 @@ class Entries extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
+    public function eventCategory()
+    {
+        return $this->hasOne(EventCategories::class, 'id', 'event_category_id');
+    }
+
+    public function projectCategory()
+    {
+        return $this->hasOne(ProjectCategories::class, 'id', 'project_category_id');
+    }
+
+    public function granteeCountry()
+    {
+        return $this->hasOne(Countries::class, 'id', 'grantee_country_id');
+    }
+
+    public function juryCountry()
+    {
+        return $this->hasOne(Countries::class, 'id', 'jury_country_id');
+    }
     
 }

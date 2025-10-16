@@ -67,6 +67,7 @@ class EntryForm extends Component
     public $grantee_name_arabic;
     public $grantee_country_id;
     public $grantee_image;
+    public $granteeImagePreview;
 
     //5- Jury
     public $jury_name;
@@ -75,6 +76,7 @@ class EntryForm extends Component
     public $jury_bio_arabic;
     public $jury_country_id;
     public $jury_image;
+    public $juryImagePreview;
 
     //6- Resource
     public $resource_title;
@@ -134,16 +136,16 @@ class EntryForm extends Component
             $this->program_status=$this->entry->program_status;
 
             //Project
-            $this->project_category_id=$this->entry->program_title;
-            $this->project_title=$this->entry->program_title;
-            $this->project_title_arabic=$this->entry->program_title;
-            $this->project_country_id=$this->entry->program_title;
+            $this->project_category_id=$this->entry->project_category_id;
+            $this->project_title=$this->entry->project_title;
+            $this->project_title_arabic=$this->entry->project_title_arabic;
+            $this->project_country_id=$this->entry->project_country_id;
 
             //Grantee
             $this->grantee_name=$this->entry->grantee_name;
             $this->grantee_name_arabic=$this->entry->grantee_name_arabic;
             $this->grantee_country_id=$this->entry->grantee_country_id;
-            $this->grantee_image=$this->entry->grantee_image;
+            $this->granteeImagePreview = asset('storage/' . $this->entry->grantee_image);
 
             //Jury
             $this->jury_name=$this->entry->jury_name;
@@ -151,7 +153,7 @@ class EntryForm extends Component
             $this->jury_bio=$this->entry->jury_bio;
             $this->jury_bio_arabic=$this->entry->jury_bio_arabic;
             $this->jury_country_id=$this->entry->jury_country_id;
-            $this->jury_image=$this->entry->jury_image;
+            $this->juryImagePreview = asset('storage/' . $this->entry->jury_image);
 
             //Resource
             $this->resource_title=$this->entry->resource_title;
@@ -217,7 +219,7 @@ class EntryForm extends Component
             'grantee_name' => ['required_if:type_id,4'],
             'grantee_name_arabic' => ['required_if:type_id,4'],
             'grantee_country_id' => ['required_if:type_id,4'],
-            'grantee_image' => ['required_if:type_id,4'],
+            'grantee_image' => ['nullable'],
 
             //Jury
             'jury_name' => ['required_if:type_id,5'],
@@ -225,7 +227,7 @@ class EntryForm extends Component
             'jury_bio' => ['required_if:type_id,5'],
             'jury_bio_arabic' => ['required_if:type_id,5'],
             'jury_country_id' => ['required_if:type_id,5'],
-            'jury_image' => ['required_if:type_id,5'],
+            'jury_image' => ['nullable'],
 
             //Resource
             'resource_title' => ['required_if:type_id,6'],
@@ -257,6 +259,14 @@ class EntryForm extends Component
                 $path = $this->image->store('entries', 'public');
             }
 
+            if($this->grantee_image!=''){
+                $grantee_path = $this->grantee_image->store('entries', 'public');
+            }
+
+            if($this->jury_image!=''){
+                $jury_path = $this->jury_image->store('entries', 'public');
+            }
+
             Entries::create([
                 'type_id' => $this->type_id,
                 'image' => @$path,
@@ -281,13 +291,13 @@ class EntryForm extends Component
                 'grantee_name'=>$this->grantee_name ?? '',
                 'grantee_name_arabic'=>$this->grantee_name_arabic ?? '',
                 'grantee_country_id'=> $this->grantee_country_id !== '' ? $this->grantee_country_id : null, 
-                'grantee_image'=>$this->grantee_image ?? '',
+                'grantee_image'=>$grantee_path ?? '',
                 'jury_name'=>$this->jury_name ?? '',
                 'jury_name_arabic'=>$this->jury_name_arabic ?? '',
                 'jury_bio'=>$this->jury_bio ?? '',
                 'jury_bio_arabic'=>$this->jury_bio_arabic ?? '',
                 'jury_country_id'=>$this->jury_country_id !== '' ? $this->jury_country_id : null, 
-                'jury_image'=>$this->jury_image ?? '',
+                'jury_image'=>$jury_path ?? '',
                 'resource_title'=>$this->resource_title ?? '',
                 'resource_title_arabic'=>$this->resource_title_arabic ?? '',
                 'resource_date'=> $this->resource_date ?? null,
@@ -306,6 +316,14 @@ class EntryForm extends Component
 
             if($this->image!=''){
                 $path = $this->image->store('entries', 'public');
+            }
+
+            if($this->grantee_image!=''){
+                $grantee_path = $this->grantee_image->store('entries', 'public');
+            }
+
+            if($this->jury_image!=''){
+                $jury_path = $this->jury_image->store('entries', 'public');
             }
 
             $data = [
@@ -331,13 +349,13 @@ class EntryForm extends Component
                 'grantee_name'=>$this->grantee_name ?? '',
                 'grantee_name_arabic'=>$this->grantee_name_arabic ?? '',
                 'grantee_country_id'=> $this->grantee_country_id !== '' ? $this->grantee_country_id : null, 
-                'grantee_image'=>$this->grantee_image ?? '',
+                'grantee_image' => @$grantee_path ?? $this->entry->grantee_image,
                 'jury_name'=>$this->jury_name ?? '',
                 'jury_name_arabic'=>$this->jury_name_arabic ?? '',
                 'jury_bio'=>$this->jury_bio ?? '',
                 'jury_bio_arabic'=>$this->jury_bio_arabic ?? '',
                 'jury_country_id'=>$this->jury_country_id !== '' ? $this->jury_country_id : null, 
-                'jury_image'=>$this->jury_image ?? '',
+                'jury_image' => @$jury_path ?? $this->entry->jury_image,
                 'resource_title'=>$this->resource_title ?? '',
                 'resource_title_arabic'=>$this->resource_title_arabic ?? '',
                 'resource_date'=> $this->resource_date ?? null,
