@@ -92,7 +92,7 @@
 
 
 			@canany(['eventCategory-list', 'event-list'])
-			<li class="menu-item {{ request()->is('eventCategories*') || request()->is('events*') ? "active open" : "" }}">
+			<li class="menu-item {{ request()->is('eventCategories*') || request()->is('entries/1*') ? "active open" : "" }}">
 
 				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-calendar-event"></i>
@@ -110,8 +110,8 @@
 					@endcan
 
 					@can('event-list')
-					<li class="menu-item {{ request()->is('events*') ? "active" : "" }}">
-						<a href="{{ route('events') }}" class="menu-link">
+					<li class="menu-item {{ request()->is('entries/1*') ? "active" : "" }}">
+						<a href="{{ route('entries',['typeId'=>'1']) }}" class="menu-link">
 							<div data-i18n="Events">Events</div>
 						</a>
 					</li>

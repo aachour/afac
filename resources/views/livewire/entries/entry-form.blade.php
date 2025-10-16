@@ -4,6 +4,8 @@
             <form wire:submit="store" class="row g-3">
 
                 <div class="col-12">
+
+                    <!--Common Entries-->
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">{{ $editing ? "Edit" : "Create" }} {{$type_name}}</h5>
@@ -101,7 +103,7 @@
                     </div>
 
                     <!--Event-->
-                    <div class="card mt-5">
+                    <div class="card mt-5 @if($type_id!=1) d-none @endif">
 
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">Event Details</h5>
@@ -191,8 +193,133 @@
 
 
                     </div>
-                </div>
 
+                    <!--Program-->
+                    <div class="card mt-5 @if($type_id!=2) d-none @endif">
+
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Program Details</h5>
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-12 col-md-6 ">
+                                    <label class="form-label" for="program_title">Title <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="program_title"
+                                        type="text"
+                                        id="program_title"
+                                        class="form-control"
+                                        placeholder="Title" />
+                                    @error('program_title') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="program_title_arabic">العنوان <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="program_title_arabic"
+                                        type="text"
+                                        id="program_title_arabic"
+                                        class="form-control"
+                                        placeholder="العنوان" />
+                                    @error('program_title_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="program_status">Status <span class="text-danger">*</span></label>
+                                    <select
+                                        wire:model="program_status"
+                                        id="program_status"
+                                        class="form-control">
+                                        <option value=''>Select Type</option>
+                                        @foreach($program_statuses as $key=>$value)
+                                            <option value='{{$key}}'>{{$value}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('program_status') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <!--Project-->
+                    <div class="card mt-5 @if($type_id!=3) d-none @endif">
+
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Project Details</h5>
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="project_category_id">Category <span class="text-danger">*</span></label>
+                                    <select
+                                        wire:model="project_category_id"
+                                        id="project_category_id"
+                                        class="form-control">
+                                        <option value=''>Select Type</option>
+                                        @foreach($project_categories as $category)
+                                            <option value='{{$category->id}}'>{{$category->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('project_category_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="project_title">Title <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="project_title"
+                                        type="text"
+                                        id="project_title"
+                                        class="form-control"
+                                        placeholder="Title" />
+                                    @error('project_title') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="project_title_arabic">العنوان <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="project_title_arabic"
+                                        type="text"
+                                        id="project_title_arabic"
+                                        class="form-control"
+                                        placeholder="العنوان" />
+                                    @error('project_title_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="project_country_id">Category <span class="text-danger">*</span></label>
+                                    <select
+                                        wire:model="project_country_id"
+                                        id="project_country_id"
+                                        class="form-control">
+                                        <option value=''>Select Country</option>
+                                        @foreach($countries as $country)
+                                            <option value='{{$country->id}}'>{{$country->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('project_country_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+                                
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
 
                 <div class="col-12 text-end mt-4">
                     <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>

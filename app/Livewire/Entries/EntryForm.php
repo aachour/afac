@@ -7,6 +7,8 @@ use App\Models\ProjectCategories;
 use App\Models\Types;
 use App\Models\Entries;
 use App\Models\Colors;
+use App\Models\Countries;
+
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -27,7 +29,10 @@ class EntryForm extends Component
     public $event_categories;
     public $project_categories;
     public $colors;
+    public $countries;
     public $image_width_options;
+    public $program_statuses;
+    
 
     //Common entries
     public $image;
@@ -169,7 +174,11 @@ class EntryForm extends Component
         
         $this->colors=Colors::all();
 
+        $this->countries=Countries::all();
+
         $this->image_width_options=['1'=>'Full','2'=>'three-quarters','3'=>'one-half','4'=>'one-quarter'];
+
+        $this->program_statuses=['1'=>'Open','2'=>'Close'];
         
     }
 
@@ -259,9 +268,9 @@ class EntryForm extends Component
                 'event_category_id'=> $this->event_category_id !== '' ? $this->event_category_id : null,
                 'event_title'=>$this->event_title ?? '',
                 'event_title_arabic'=>$this->event_title_arabic ?? '',
-                'event_date'=>$this->event_date ?? '',
-                'event_start_time'=>$this->event_start_time ?? '',
-                'event_end_time'=>$this->event_end_time ?? '',
+                'event_date'=>$this->event_date ?? null,
+                'event_start_time'=>$this->event_start_time ?? null,
+                'event_end_time'=>$this->event_end_time ?? null,
                 'program_title'=>$this->program_title ?? '',
                 'program_title_arabic'=>$this->program_title_arabic ?? '',
                 'program_status'=>$this->program_status ?? '0',
@@ -309,9 +318,9 @@ class EntryForm extends Component
                 'event_category_id'=> $this->event_category_id !== '' ? $this->event_category_id : null,
                 'event_title'=>$this->event_title ?? '',
                 'event_title_arabic'=>$this->event_title_arabic ?? '',
-                'event_date'=>$this->event_date ?? '',
-                'event_start_time'=>$this->event_start_time ?? '',
-                'event_end_time'=>$this->event_end_time ?? '',
+                'event_date'=>$this->event_date ?? null,
+                'event_start_time'=>$this->event_start_time ?? null,
+                'event_end_time'=>$this->event_end_time ?? null,
                 'program_title'=>$this->program_title ?? '',
                 'program_title_arabic'=>$this->program_title_arabic ?? '',
                 'program_status'=>$this->program_status ?? '0',
