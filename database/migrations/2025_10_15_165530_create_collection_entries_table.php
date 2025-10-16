@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('collection_entries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('collection_id')->nullable()->constrained('collections')->onDelete('cascade');
-            $table->foreignId('event_id')->nullable()->constrained('events')->onDelete('cascade');
+            $table->foreignId('entry_id')->nullable()->constrained('entries')->onDelete('cascade');
             $table->integer('list_order')->nullable();
             $table->timestamps();
             $table->softDeletes();

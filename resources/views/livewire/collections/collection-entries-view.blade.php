@@ -15,7 +15,7 @@
                         >Add Entry
                     </button>
                     &nbsp;&nbsp;
-                    <a class="btn btn-primary h-50" href="{{ route('collections') }}">Collections</a>
+                    <a class="btn btn-primary h-50" href="{{ route('collections') }}">Back</a>
                 </div>
                 @endcan
             </div>
@@ -31,17 +31,35 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($collection_entries as $entry)
-                        <tr data-id="{{ $entry->id }}" style="cursor: move;">
-                            <td>{{$entry->list_order}}</td>
-                            <td>{{$entry->collection->type->name}}</td>
+                    @foreach($collection_entries as $collectionEntry)
+                        <tr data-id="{{ $collectionEntry->id }}" style="cursor: move;">
+                            <td>{{$collectionEntry->list_order}}</td>
+                            <td>{{$collectionEntry->collection->type->name}}</td>
                             @if($collection_type_id==1)
-                            <td>{{$entry->event->title}}</td>
-                            <td>{{$entry->event->title_arabic}}</td>
+                                <td>{{$collectionEntry->entry->event_title}}</td>
+                                <td>{{$collectionEntry->entry->event_title_arabic}}</td>
+                            @elseif($collection_type_id==2)
+                                <td>{{$collectionEntry->entry->program_title}}</td>
+                                <td>{{$collectionEntry->entry->program_title_arabic}}</td>
+                            @elseif($collection_type_id==3)
+                                <td>{{$collectionEntry->entry->project_title}}</td>
+                                <td>{{$collectionEntry->entry->project_title_arabic}}</td>
+                            @elseif($collection_type_id==4)
+                                <td>{{$collectionEntry->entry->grantee_name}}</td>
+                                <td>{{$collectionEntry->entry->grantee_name_arabic}}</td>
+                            @elseif($collection_type_id==5)
+                                <td>{{$collectionEntry->entry->jury_name}}</td>
+                                <td>{{$collectionEntry->entry->jury_name_arabic}}</td>
+                            @elseif($collection_type_id==6)
+                                <td>{{$collectionEntry->entry->resource_title}}</td>
+                                <td>{{$collectionEntry->entry->resource_title_arabic}}</td>
+                            @elseif($collection_type_id==7)
+                                <td>{{$collectionEntry->entry->news_title}}</td>
+                                <td>{{$collectionEntry->entry->news_title_arabic}}</td>
                             @endif
                             <td>
                                 @can('collection-delete')
-                                <a href="#" class="text-body delete-record delete-button" data-id="{{ $entry->id }}"><i class="ti ti-trash ti-sm mx-2 text-danger"></i></a>
+                                <a href="#" class="text-body delete-record delete-button" data-id="{{ $collectionEntry->id }}"><i class="ti ti-trash ti-sm mx-2 text-danger"></i></a>
                                 @endcan
                             </td>
                         </tr>
@@ -64,7 +82,21 @@
                             <select wire:model="entry_id" id="entry_id" class="form-control">
                                 <option value="">Select Entry</option>
                                 @foreach($entries as $entry)
-                                    <option value="{{ $entry->id }}">{{ $entry->title }}</option>
+                                    @if($collection_type_id==1)
+                                    <option value="{{ $entry->id }}">{{ $entry->event_title }}</option>
+                                    @elseif($collection_type_id==2)
+                                    <option value="{{ $entry->id }}">{{ $entry->program_title }}</option>
+                                    @elseif($collection_type_id==3)
+                                    <option value="{{ $entry->id }}">{{ $entry->project_title }}</option>
+                                    @elseif($collection_type_id==4)
+                                    <option value="{{ $entry->id }}">{{ $entry->grantee_title }}</option>
+                                    @elseif($collection_type_id==5)
+                                    <option value="{{ $entry->id }}">{{ $entry->jury_title }}</option>
+                                    @elseif($collection_type_id==6)
+                                    <option value="{{ $entry->id }}">{{ $entry->resource_title }}</option>
+                                    @elseif($collection_type_id==7)
+                                    <option value="{{ $entry->id }}">{{ $entry->news_title }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>

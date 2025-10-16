@@ -18,7 +18,7 @@ use App\Livewire\Pages\PageForm;
 
 use App\Livewire\Collections\CollectionView;
 use App\Livewire\Collections\CollectionForm;
-use App\Livewire\Collections\EntriesView;
+use App\Livewire\Collections\CollectionEntriesView;
 
 use App\Livewire\Sections\SectionView;
 use App\Livewire\Sections\SectionForm;
@@ -124,7 +124,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/create', CollectionForm::class)->name('collections.create');
         Route::get('/edit/{id}', CollectionForm::class)->name('collections.edit');
         Route::get('/view/{id}', CollectionForm::class)->name('collections.view');
-        Route::get('/{id}/entries', EntriesView::class)->name('entries.edit');
+        Route::get('/{id}/entries', CollectionEntriesView::class)->name('collection.entries.edit');
         
     });
 
@@ -151,17 +151,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/view/{id}/{status}', ProjectCategoryView::class)->name('project.categories.view');
     });
 
-
-    // |--------------------------------------------------------------------------
-    // |Events
-    // |--------------------------------------------------------------------------
-    
-    Route::group(['prefix' => 'events'], function () {
-        Route::get('/', EventView::class)->name('events');
-        Route::get('/create', EventForm::class)->name('events.create');
-        Route::get('/edit/{id}', EventForm::class)->name('events.edit');
-        Route::get('/view/{id}/{status?}', EventForm::class)->name('events.view');
-    }); 
 
     // |--------------------------------------------------------------------------
     // |Entries

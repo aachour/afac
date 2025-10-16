@@ -4,12 +4,12 @@ namespace App\Livewire\Collections;
 
 use App\Models\Collections;
 use App\Models\CollectionEntries;
-use App\Models\Events;
+use App\Models\Entries;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class EntriesView extends Component
+class CollectionEntriesView extends Component
 {
 
     use AuthorizesRequests; 
@@ -34,12 +34,9 @@ class EntriesView extends Component
 
         $this->entries=[];
 
-        if($this->collection_type_id==1){//events
-            $this->entries=Events::ORDERBY('id','DESC')->get();
-        }
-
-        $this->collection_entries=CollectionEntries::WHERE('collection_id',$this->collection_id)->ORDERBY('list_order','ASC')->GET();
+        $this->entries=Entries::WHERE('type_id',$this->collection_type_id)->ORDERBY('id','DESC')->get();
         
+        $this->collection_entries=CollectionEntries::WHERE('collection_id',$this->collection_id)->ORDERBY('list_order','ASC')->GET();
 
         $this->authorize('collection-edit');
 
@@ -56,15 +53,14 @@ class EntriesView extends Component
             //Add collection
             $highestOrder = CollectionEntries::WHERE('collection_id',$this->collection_id)->max('list_order');
 
-            if($this->collection_type_id==1){// add events
-                CollectionEntries::create([
-                    'collection_id'=>$this->collection_id,
-                    'event_id'=>$this->entry_id,
-                    'list_order'=> $highestOrder+1
-                ]);
-            }
 
-            return to_route('entries.edit', ['id' => $this->collection_id])->with('success', 'Entry added successfully!');
+            CollectionEntries::create([
+                'collection_id'=>$this->collection_id,
+                'entry_id'=>$this->entry_id,
+                'list_order'=> $highestOrder+1
+            ]);
+
+            return to_route('collection.entries.edit', ['id' => $this->collection_id])->with('success', 'Entry added successfully!');
         }
         
     }
@@ -72,13 +68,11 @@ class EntriesView extends Component
     #[On('updateOrder')]
     public function updateOrder(array $order)
     {
-        if($this->collection_type_id==1){ // update collection events
-            foreach ($order as $index => $id) {
-                CollectionEntries::where(['collection_id'=>$this->collection_id,'id'=>$id])->update(['list_order' => $index+1]);
-            }
+        foreach ($order as $index => $id) {
+            CollectionEntries::where(['collection_id'=>$this->collection_id,'id'=>$id])->update(['list_order' => $index+1]);
         }
 
-        return to_route('entries.edit', ['id' => $this->collection_id])->with('success', 'Order updated successfully!');
+        return to_route('collection.entries.edit', ['id' => $this->collection_id])->with('success', 'Order updated successfully!');
 
     }
 
@@ -91,11 +85,12 @@ class EntriesView extends Component
 
         $entry->delete();
 
-        return to_route('entries.edit', ['id' => $this->collection_id])->with('success', 'Entry deleted successfully!');
+        return to_route('collection.entries.edit', ['id' => $this->collection_id])->with('success', 'Entry deleted successfully!');
     }
+
 
     public function render()
     {
-        return view('livewire.collections.entries-view');
+        return view('livewire.collections.collection-entries-view');
     }
 }

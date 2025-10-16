@@ -12,7 +12,7 @@ class CollectionEntries extends Model
 
     protected $fillable = [
         'collection_id',
-        'event_id',
+        'entry_id',
         'list_order',
     ];
 
@@ -21,9 +21,9 @@ class CollectionEntries extends Model
         return $this->belongsTo(Collections::class, 'collection_id', 'id');
     }
 
-    public function event()
+    public function entry()
     {
-        return $this->belongsTo(Events::class, 'event_id', 'id');
+        return $this->belongsTo(entries::class, 'entry_id', 'id');
     }
 
 }
