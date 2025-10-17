@@ -14,6 +14,7 @@ class PageSections extends Model
 
     protected $fillable = [
         'page_id',
+        'entry_id',
         'section_id',
         'collection_id',
         'list_order',
@@ -22,6 +23,11 @@ class PageSections extends Model
     public function page()
     {
         return $this->hasOne(Pages::class, 'id', 'page_id');
+    }
+
+    public function entry()
+    {
+        return $this->hasOne(Entries::class, 'id', 'entry_id');
     }
 
     public function section()

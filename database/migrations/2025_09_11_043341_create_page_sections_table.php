@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('page_sections', function (Blueprint $table) {
             $table->id();
             $table->foreignId('page_id')->nullable()->constrained('pages')->onDelete('cascade');
+            $table->foreignId('entry_id')->nullable()->constrained('entries')->onDelete('cascade');
             $table->foreignId('section_id')->nullable()->constrained('sections')->onDelete('cascade');
             $table->foreignId('collection_id')->nullable()->constrained('collections')->onDelete('cascade');
             $table->integer('list_order')->nullable();

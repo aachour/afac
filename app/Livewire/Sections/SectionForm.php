@@ -22,6 +22,7 @@ class SectionForm extends Component
     public $name;
 
     public $page_id;
+    public $entry_id;
     public $section_id;
 
     public $columns;
@@ -31,9 +32,12 @@ class SectionForm extends Component
     public $columns_max=2;
 
 
-    public function mount($pageId='',$id=''){
+    public function mount($pageId='',$entryId='',$id=''){
         
         $this->page_id=$pageId;
+
+        $this->entry_id=$entryId;
+        
 
         if($id==''){
 
@@ -89,7 +93,6 @@ class SectionForm extends Component
     public function rules()
     {
         $data = [
-            'page_id' => 'required',
             'name' => 'required',
             'columns' => 'required|array|min:1',
             'columns.*.type_id' => 'required|integer|exists:column_types,id',
@@ -106,37 +109,69 @@ class SectionForm extends Component
 
         if($this->section_id==''){
             
-            //create new section
-            $section=Sections::create([
-                'page_id' => $this->page_id,
-                'name' => $this->name,
-            ]);
-
-            $section_id=$section->id;
-
-            //add section to page sections
-            $highestOrder = PageSections::WHERE('page_id',$this->page_id)->max('list_order');
-
-            PageSections::create([
-                'page_id'=>$this->page_id,
-                'section_id'=>$section_id,
-                'list_order'=> $highestOrder+1
-            ]);
-
-            //add columns to section
-            foreach($this->columns as $column){
-                SectionColumns::create([
-                    'section_id' => $section_id,
-                    'type_id' => $column['type_id'],
-                    'alignment_id' => $column['alignment_id'],
+            if($this->page_id!=null){
+                //create new section
+                $section=Sections::create([
+                    'page_id' => $this->page_id,
+                    'name' => $this->name,
                 ]);
-            }
 
-            return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Section created successfully!');
+                $section_id=$section->id;
+
+                //add section to page sections
+                $highestOrder = PageSections::WHERE('page_id',$this->page_id)->max('list_order');
+
+                PageSections::create([
+                    'page_id'=>$this->page_id,
+                    'section_id'=>$section_id,
+                    'list_order'=> $highestOrder+1
+                ]);
+
+                //add columns to section
+                foreach($this->columns as $column){
+                    SectionColumns::create([
+                        'section_id' => $section_id,
+                        'type_id' => $column['type_id'],
+                        'alignment_id' => $column['alignment_id'],
+                    ]);
+                }
+
+                return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Section created successfully!');
+            }
+            else if($this->entry_id!=null){
+                //create new section
+                $section=Sections::create([
+                    'entry_id' => $this->entry_id,
+                    'name' => $this->name,
+                ]);
+
+                $section_id=$section->id;
+
+                //add section to page sections
+                $highestOrder = PageSections::WHERE('entry_id',$this->entry_id)->max('list_order');
+
+                PageSections::create([
+                    'entry_id'=>$this->entry_id,
+                    'section_id'=>$section_id,
+                    'list_order'=> $highestOrder+1
+                ]);
+
+                //add columns to section
+                foreach($this->columns as $column){
+                    SectionColumns::create([
+                        'section_id' => $section_id,
+                        'type_id' => $column['type_id'],
+                        'alignment_id' => $column['alignment_id'],
+                    ]);
+                }
+
+                return to_route('entry.sections', ['entryId' => $this->entry_id])->with('success', 'Section created successfully!');
+            }
 
         }
         else if($this->section_id!=''){
 
+            
             Sections::WHERE('id', $this->section_id)->update(['name'=>$this->name]);
 
             // Collect IDs of the submitted columns
@@ -168,7 +203,13 @@ class SectionForm extends Component
                 }
             }
 
-            return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Section edited successfully!');
+            if($this->page_id!=null){
+                return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Section edited successfully!');
+            }
+            else if($this->entry_id!=null){
+
+                return to_route('entry.sections', ['entryId' => $this->entry_id])->with('success', 'Section edited successfully!');
+            }
    
         }
         

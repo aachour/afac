@@ -22,19 +22,27 @@ class SectionView extends Component
     public $page_id;
     public $pageSections;
 
+    public $entry_id;
+    public $entrySections;
+
     public $types;
     public $type_id;
    
     public $collections;
     public $collection_id;        
         
-    public function mount($pageId){
+    public function mount($pageId='',$entryId=''){
 
         $this->authorize('section-list');
 
         $this->modalId=null;
         
-        $this->page_id=$pageId;
+        if(isset($pageId) && $pageId!=''){
+            $this->page_id=$pageId;
+        }
+        else if(isset($entryId) && $entryId!=''){
+            $this->entry_id=$entryId;
+        }
 
         $this->types=Types::ORDERBY('name','ASC')->get();
 
@@ -45,8 +53,12 @@ class SectionView extends Component
     }
 
     public function loadPageSections()
-    {
-        $this->pageSections=PageSections::WHERE('page_id',$this->page_id)->WITH('sections','collections')->ORDERBY('list_order','ASC')->get();    
+    {   
+        if($this->page_id!=null){
+            $this->pageSections=PageSections::WHERE('page_id',$this->page_id)->WITH('sections','collections')->ORDERBY('list_order','ASC')->get();    
+        }else if($this->entry_id!=null){
+            $this->pageSections=PageSections::WHERE('entry_id',$this->entry_id)->WITH('sections','collections')->ORDERBY('list_order','ASC')->get();    
+        }
     }
 
     #[On('updateOrder')]
@@ -56,7 +68,12 @@ class SectionView extends Component
             PageSections::where('id', $id)->update(['list_order' => $index+1]);
         }
 
-        return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Order updated successfully!');
+        if($this->page_id!=null){
+            return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Order updated successfully!');
+        }
+        else if($this->entry_id!=null){
+            return to_route('entry.sections', ['entryId' => $this->entry_id])->with('success', 'Order updated successfully!');
+        }
 
     }
 
@@ -85,27 +102,49 @@ class SectionView extends Component
 
         if($this->modalId==null && $this->collection_id!=''){
 
-            //Add collection
-            $highestOrder = PageSections::WHERE('page_id',$this->page_id)->max('list_order');
+            if($this->page_id!=null){
+                //Add collection
+                $highestOrder = PageSections::WHERE('page_id',$this->page_id)->max('list_order');
 
-            PageSections::create([
-                'page_id'=>$this->page_id,
-                'collection_id'=>$this->collection_id,
-                'list_order'=> $highestOrder+1
-            ]);
+                PageSections::create([
+                    'page_id'=>$this->page_id,
+                    'collection_id'=>$this->collection_id,
+                    'list_order'=> $highestOrder+1
+                ]);
 
-            return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Collection added successfully!');
+                return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Collection added successfully!');
+            }
+            else if($this->entry_id!=null){
+                
+                //Add collection
+                $highestOrder = PageSections::WHERE('entry_id',$this->entry_id)->max('list_order');
+
+                PageSections::create([
+                    'entry_id'=>$this->entry_id,
+                    'collection_id'=>$this->collection_id,
+                    'list_order'=> $highestOrder+1
+                ]);
+
+                return to_route('entry.sections', ['entryId' => $this->entry_id])->with('success', 'Collection deleted successfully!');
+            }
+            
         }
         else if($this->modalId!=null && $this->collection_id!=''){
 
             //Edit Collection
-
+            
             PageSections::where('id', $this->modalId)
             ->update([
                 'collection_id' => $this->collection_id,
             ]);
+
+            if($this->page_id!=null){
+                return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Collection edited successfully!');
+            }
+            else if($this->entry_id!=null){
+                return to_route('entry.sections', ['entryId' => $this->entry_id])->with('success', 'Collection edited successfully!');
+            }
             
-            return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Collection edited successfully!');
         }
     }
 
@@ -116,7 +155,13 @@ class SectionView extends Component
 
         $pageSection->delete();
 
-        return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Collection deleted successfully!');
+        if($this->page_id!=null){
+            return to_route('sections', ['pageId' => $this->page_id])->with('success', 'Section deleted successfully!');
+        }
+        else if($this->entry_id!=null){
+            return to_route('entry.sections', ['entryId' => $this->entry_id])->with('success', 'Section deleted successfully!');
+        }
+
     }
 
     public function render()

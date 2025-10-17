@@ -7,7 +7,11 @@
                 <h4 class="card-title mb-3">Sections List</h4>
                 @can('section-create')
                 <div>
-                    <a class="btn btn-primary h-50" href="{{ route('sections.create',$page_id) }}">Add Section</a>
+                    @if($page_id!='')
+                        <a class="btn btn-primary h-50" href="{{ route('sections.create',['pageId'=>$page_id]) }}">Add Section</a>
+                    @elseif($entry_id!='')
+                        <a class="btn btn-primary h-50" href="{{ route('entry.sections.create',['entryId'=>$entry_id]) }}">Add Section</a>
+                    @endif
                     &nbsp;&nbsp;
                     <button
                         data-bs-target="#sectionModal"
@@ -24,7 +28,11 @@
                     <thead>
                     <tr>
                         <th>Order</th>
+                        @if($page_id!=null)
                         <th>Page</th>
+                        @elseif($entry_id!=null)
+                        <th>Entry</th>
+                        @endif
                         <th>Type</th>
                         <th>Name</th>
                         <th>Columns</th>
@@ -35,7 +43,27 @@
                     @foreach($pageSections as $pageSection)
                         <tr data-id="{{ $pageSection->id }}" style="cursor: move;">
                             <td>{{$pageSection->list_order}}</td>
-                            <td>{{$pageSection->page->name}}</td>
+                            <td>
+                                @if($page_id!=null)
+                                    {{$pageSection->page->name}}
+                                @elseif($entry_id!=null)
+                                    @if($pageSection->entry->type_id==1)
+                                        {{$pageSection->entry->event_title}}
+                                    @elseif($pageSection->entry->type_id==2)
+                                        {{$pageSection->entry->program_title}}
+                                    @elseif($pageSection->entry->type_id==3)
+                                        {{$pageSection->entry->project_title}}
+                                    @elseif($pageSection->entry->type_id==4)
+                                        {{$pageSection->entry->grantee_name}}
+                                    @elseif($pageSection->entry->type_id==5)
+                                        {{$pageSection->entry->jury_name}}
+                                    @elseif($pageSection->entry->type_id==6)
+                                        {{$pageSection->entry->resource_title}}
+                                    @elseif($pageSection->entry->type_id==7)
+                                        {{$pageSection->entry->news_title}}
+                                    @endif
+                                @endif
+                            </td>
                             <td>
                                 @if($pageSection->section_id!='')
                                     Section
@@ -55,13 +83,29 @@
                                     @if($pageSection->section_id!='')
                                         @foreach($pageSection->sections->columns as $key=>$column)
                                         @if($column->type_id==1)
-                                            <div class="mb-1"><a href="{{ route('general.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">General Inputs <i class="ti ti-edit ti-sm"></i></a></div>
+                                            @if($page_id!=null)
+                                                <div class="mb-1"><a href="{{ route('general.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">General Inputs <i class="ti ti-edit ti-sm"></i></a></div>
+                                            @elseif($entry_id!=null)
+                                                <div class="mb-1"><a href="{{ route('entry.general.view', [$entry_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">General Inputs <i class="ti ti-edit ti-sm"></i></a></div>
+                                            @endif
                                         @elseif($column->type_id==2)
-                                            <div class="mb-1"><a href="{{ route('timeline.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Timeline <i class="ti ti-edit ti-sm"></i></a></div>
+                                            @if($page_id!=null)
+                                                <div class="mb-1"><a href="{{ route('timeline.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Timeline <i class="ti ti-edit ti-sm"></i></a></div>
+                                            @elseif($entry_id!=null)
+                                                <div class="mb-1"><a href="{{ route('entry.timeline.view', [$entry_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Timeline <i class="ti ti-edit ti-sm"></i></a></div>
+                                            @endif
                                         @elseif($column->type_id==3)
-                                            <div class="mb-1"><a href="{{ route('accordion.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Accordion <i class="ti ti-edit ti-sm"></i></a></div>
+                                            @if($page_id!=null)
+                                                <div class="mb-1"><a href="{{ route('accordion.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Accordion <i class="ti ti-edit ti-sm"></i></a></div>
+                                            @elseif($entry_id!=null)
+                                                <div class="mb-1"><a href="{{ route('entry.accordion.view', [$entry_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Accordion <i class="ti ti-edit ti-sm"></i></a></div>
+                                            @endif
                                         @elseif($column->type_id==4)
-                                            <div class="mb-1"><a href="{{ route('countdown.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Countdown <i class="ti ti-edit ti-sm"></i></a></div>
+                                            @if($page_id!=null)
+                                                <div class="mb-1"><a href="{{ route('countdown.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Countdown <i class="ti ti-edit ti-sm"></i></a></div>
+                                            @elseif($entry_id!=null)
+                                                <div class="mb-1"><a href="{{ route('entry.countdown.view', [$entry_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Countdown <i class="ti ti-edit ti-sm"></i></a></div>
+                                            @endif
                                         @endif
                                         @endforeach
                                     @endif
@@ -69,11 +113,17 @@
                             </td>
                             <td>
                                 @can('page-view')
-                                <a href="{{ route('pages.view', $page_id) }}" class="text-body view-user-button"><i class="ti ti-eye ti-sm"></i></a>
+                                    @if($page_id!=null)
+                                        <a href="{{ route('pages.view', [ 'id'=>$page_id ]) }}" class="text-body view-user-button"><i class="ti ti-eye ti-sm"></i></a>
+                                    @elseif($entry_id!=null)
+                                        <a href="{{ route('entry.sections.view', ['entryId' => $entry_id , 'id'=>$pageSection->id]) }}" class="text-body view-user-button"><i class="ti ti-eye ti-sm"></i></a>
+                                    @endif
                                 @endcan
                                 @can('section-edit')
-                                    @if($pageSection->section_id!='')
-                                        <a href="{{ route('sections.edit', [$page_id , $pageSection->section_id]) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
+                                    @if($pageSection->section_id!='' && $page_id!=null)
+                                        <a href="{{ route('sections.edit', ['pageId'=>$page_id , 'id'=>$pageSection->section_id]) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
+                                    @elseif($pageSection->section_id!='' && $entry_id!=null)
+                                        <a href="{{ route('entry.sections.edit', ['entryId'=>$entry_id , 'id'=>$pageSection->section_id]) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
                                     @else
                                         <i  class="ti ti-edit ti-sm cursor-pointer"
                                             data-bs-target="#sectionModal"

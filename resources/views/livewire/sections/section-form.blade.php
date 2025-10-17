@@ -9,9 +9,15 @@
                         
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">{{ $editing ? "Edit" : "Create" }} Section</h5>
-                            <a href="{{ route('sections',$page_id) }}" class="btn btn-primary mb-2 text-nowrap">
-                                Sections
-                            </a>
+                            @if($page_id!=null)
+                                <a href="{{ route('sections',['pageId'=>$page_id]) }}" class="btn btn-primary mb-2 text-nowrap">
+                                    Sections
+                                </a>
+                            @elseif($entry_id!=null)
+                                <a href="{{ route('entry.sections',['entryId'=>$entry_id]) }}" class="btn btn-primary mb-2 text-nowrap">
+                                    Sections
+                                </a>
+                            @endif
                         </div>
                         
                         <div class="card-body">
