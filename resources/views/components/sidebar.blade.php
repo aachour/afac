@@ -132,8 +132,8 @@
 			@endcanany
 
 
-			@canany(['programs-list', 'projectCategory-list' , 'project-list'])
-			<li class="menu-item {{ request()->is('entries*') || request()->is('projectCategories*') ? "active open" : "" }}">
+			@canany(['projectCategory-list' , 'project-list'])
+			<li class="menu-item {{ request()->is('entries/3*') || request()->is('projectCategories*') ? "active open" : "" }}">
 
 				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-rocket"></i>
