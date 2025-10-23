@@ -21,9 +21,9 @@
                     <tr>
                         <th>Id</th>
                         <th>Year</th>
-                        <th>Projects</th>
-                        <th>&nbsp;</th>
                         <th>Jurors</th>
+                        <th>&nbsp;</th>
+                        <th>Projects</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -34,26 +34,33 @@
                                 <td>{{ $year->year }}</td>
                                 <td>
                                     <div class="d-flex justify-content-between align-items-center">
-                                        @if(count($year->projects) > 0)
-                                            <div>
-                                                @foreach($year->projects as $project)
-                                                    - {{ $project->projectDetails->project_title }}<br>
-                                                @endforeach
-                                            </div>
-                                            <a href="#" wire:click="openProjectsModal({{ $year->id }})" class="text-body edit-user-button"><i class="ti ti-adjustments ti-sm"></i></a>
-                                        @endif
-                                    </div>
-                                </td>
-                                <td>&nbsp;</td>
-                                <td>
-                                    <div class="d-flex justify-content-between align-items-center">
                                         @if(count($year->jurors)>0)
                                             <div>
                                                 @foreach($year->jurors as $juror)
                                                 -{{$juror->jurorDetails->jury_name}}<br />
                                                 @endforeach
                                             </div>
-                                            <a href="#" wire:click="openJurorsModal({{ $year->id }})" class="text-body edit-user-button"><i class="ti ti-adjustments ti-sm"></i></a>
+
+                                            <i  class="ti ti-adjustments ti-sm cursor-pointer"
+                                            data-bs-target="#jurorsModal"
+                                            data-bs-toggle="modal"
+                                            wire:click="openJurorsModal({{ $year->id}})"></i>
+                                        @endif
+                                    </div>
+                                </td>
+                                <td>&nbsp;</td>
+                                <td>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        @if(count($year->projects) > 0)
+                                            <div>
+                                                @foreach($year->projects as $project)
+                                                    - {{ $project->projectDetails->project_title }}<br>
+                                                @endforeach
+                                            </div>
+                                            <i  class="ti ti-adjustments ti-sm cursor-pointer"
+                                            data-bs-target="#projectsModal"
+                                            data-bs-toggle="modal"
+                                            wire:click="openProjectsModal({{ $year->id}})"></i>
                                         @endif
                                     </div>
                                 </td>
@@ -111,24 +118,7 @@
             </div>
         @endif
 
-
-        @if($showModalJurors)
-            <div class="modal fade show" tabindex="-1" style="display: block; background-color: rgba(0,0,0,0.5)">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">{{ $modalJurorsTitle}}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="closeJurorsModal"></button>
-                        </div>
-                        <div class="modal-body">
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endif
-
-
+        <!-- Add Juror-->
         @if($showModalJuror)
             <div class="modal fade show" tabindex="-1" style="display: block; background-color: rgba(0,0,0,0.5)">
                 <div class="modal-dialog">
@@ -158,53 +148,53 @@
         @endif
 
 
-        @if($showModalJurors)
-            <div class="modal fade show" tabindex="-1" style="display: block; background-color: rgba(0,0,0,0.5)">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">{{ $modalJurorsTitle}}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="closeJurorsModal"></button>
-                        </div>
-                        <div class="modal-body">
-                        <table class="table border-top" id="tableJurors">
-                            <thead>
-                            <tr>
-                                <th>Order</th>
-                                <th>Juror Name</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                @if(count($programJurors)>0)
-                                    @foreach ($programJurors as $programJuror)
-                                        <tr data-id="{{ @$programJuror->id }}" style="cursor: move;">
-                                            <td>{{$programJuror->list_order}}</td>
-                                            <td>{{$programJuror->jurorDetails->jury_name}}</td>
-                                            <td>
-                                                <a href="#" wire:click.prevent="deleteJuror({{ @$programJuror->id }})" class="text-body">
-                                                    <i class="ti ti-trash ti-sm mx-2 text-danger"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @endif
-                            </tbody>
-                        </table>
+        <!-- Sort Jurors-->
+        <div wire:ignore.self class="modal fade" id="jurorsModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ $modalJurorsTitle}}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="closeJurorsModal"></button>
                     </div>
-                    </div>
+                    <div class="modal-body">
+                    <table class="table border-top" id="tableJurors">
+                        <thead>
+                        <tr>
+                            <th>Order</th>
+                            <th>Juror Name</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            @if(count($programJurors)>0)
+                                @foreach ($programJurors as $programJuror)
+                                    <tr data-id="{{ @$programJuror->id }}" style="cursor: move;">
+                                        <td>{{$programJuror->list_order}}</td>
+                                        <td>{{$programJuror->jurorDetails->jury_name}}</td>
+                                        <td>
+                                            <a href="#" wire:click.prevent="deleteJuror({{ @$programJuror->id }})" class="text-body">
+                                                <i class="ti ti-trash ti-sm mx-2 text-danger"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
                 </div>
             </div>
-        @endif
+        </div>
 
 
+        <!--Add Project-->
         @if($showModalProject)
             <div class="modal fade show" tabindex="-1" style="display: block; background-color: rgba(0,0,0,0.5)">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">{{ $modalProjectTitle}}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="closeJurorModal"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="closeProjectModal"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">
@@ -226,45 +216,43 @@
             </div>
         @endif
 
-
-        @if($showModalProjects)
-            <div class="modal fade show" tabindex="-1" style="display: block; background-color: rgba(0,0,0,0.5)">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">{{ $modalProjectsTitle}}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="closeProjectsModal"></button>
-                        </div>
-                        <div class="modal-body">
-                        <table class="table border-top" id="tableProjects">
-                            <thead>
-                            <tr>
-                                <th>Order</th>
-                                <th>Project Name</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                @if(count($programProjects)>0)
-                                    @foreach ($programProjects as $programProject)
-                                        <tr data-id="{{ @$project->id }}" style="cursor: move;">
-                                            <td>{{$programProject->list_order}}</td>
-                                            <td>{{$programProject->projectDetails->project_title}}</td>
-                                            <td>
-                                                <a href="#" wire:click.prevent="deleteProject({{ @$programProject->id }})" class="text-body">
-                                                    <i class="ti ti-trash ti-sm mx-2 text-danger"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @endif
-                            </tbody>
-                        </table>
+        <!--Sort Projects-->
+        <div wire:ignore.self class="modal fade" id="projectsModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ $modalProjectsTitle}}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="closeProjectsModal"></button>
                     </div>
-                    </div>
+                    <div class="modal-body">
+                    <table class="table border-top" id="tableProjects">
+                        <thead>
+                        <tr>
+                            <th>Order</th>
+                            <th>Project Name</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            @if(count($programProjects)>0)
+                                @foreach ($programProjects as $programProject)
+                                    <tr data-id="{{ @$programProject->id }}" style="cursor: move;">
+                                        <td>{{$programProject->list_order}}</td>
+                                        <td>{{$programProject->projectDetails->project_title}}</td>
+                                        <td>
+                                            <a href="#" wire:click.prevent="deleteProject({{ @$programProject->id }})" class="text-body">
+                                                <i class="ti ti-trash ti-sm mx-2 text-danger"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
                 </div>
             </div>
-        @endif
+        </div>
 
 
         @script
@@ -288,7 +276,7 @@
                                 order.push(row.getAttribute("data-id"));
                             });
 
-                            // Livewire.dispatch('updateGalleryOrder', {order: order});
+                            Livewire.dispatch('updateJurorOrder', {order: order});
                         }
                     });
                 }
@@ -309,7 +297,7 @@
                                 order.push(row.getAttribute("data-id"));
                             });
 
-                            // Livewire.dispatch('updateGalleryOrder', {order: order});
+                            Livewire.dispatch('updateProjectOrder', {order: order});
                         }
                     });
                 }

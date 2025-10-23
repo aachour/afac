@@ -54,6 +54,9 @@ class ProgramYearsView extends Component
         $this->authorize('section-list');
         $this->program_id=$programId;
         $this->loadYears();
+        $this->programJurors=[];
+        $this->programProjects=[];
+        
     }
 
     public function loadYears()
@@ -181,10 +184,12 @@ class ProgramYearsView extends Component
     public function updateJurorOrder(array $order)
     {
         foreach ($order as $index => $id) {
-            ColumnGeneral::where(['section_column_id'=>$this->section_column_id,'id'=>$id])->update(['list_order' => $index+1]);
+            ProgramYearJurors::where(['program_year_id'=>$this->program_year_id,'id'=>$id])->update(['list_order' => $index+1]);
         }
 
-        return to_route('general.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Order updated successfully!');
+        $message = 'Order updated successfully!';
+
+        return to_route('entry.program.years',['programId'=>$this->program_id])->with('success', $message);
 
     }
 
@@ -260,10 +265,12 @@ class ProgramYearsView extends Component
     public function updateProjectOrder(array $order)
     {
         foreach ($order as $index => $id) {
-            ColumnGeneral::where(['section_column_id'=>$this->section_column_id,'id'=>$id])->update(['list_order' => $index+1]);
+            ProgramYearProjects::where(['program_year_id'=>$this->program_year_id,'id'=>$id])->update(['list_order' => $index+1]);
         }
 
-        return to_route('general.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Order updated successfully!');
+        $message = 'Order updated successfully!';
+
+        return to_route('entry.program.years',['programId'=>$this->program_id])->with('success', $message);
 
     }
 
