@@ -37,6 +37,9 @@ use App\Livewire\Projects\ProjectCategoryView;
 use App\Livewire\Entries\EntryView;
 use App\Livewire\Entries\EntryForm;
 
+use App\Livewire\Entries\ProgramYearsView;
+
+
 
 
 Route::get('/', [HomeController::class, 'home'])->name('home'); 
@@ -171,6 +174,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{entryId}/section/{sectionId}/timeline/view/{id}', TimelineView::class)->name('entry.timeline.view');
         Route::get('/{entryId}/section/{sectionId}/accordion/view/{id}', AccordionView::class)->name('entry.accordion.view');
         Route::get('/{entryId}/section/{sectionId}/countdown/view/{id}', CountdownView::class)->name('entry.countdown.view');
+
+        Route::get('/{programId}/years/', ProgramYearsView::class)->name('entry.program.years');
 
     }); 
 

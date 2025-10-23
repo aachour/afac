@@ -91,16 +91,19 @@
                             
                             <td>
                                 @can('entry-view')
-                                <a href="{{ route('entry.view', [ 'typeId'=> $type_id , 'id'=> $entry->id] ) }}" class="text-body view-user-button"><i class="ti ti-eye ti-sm"></i></a>
+                                    <a href="{{ route('entry.view', [ 'typeId'=> $type_id , 'id'=> $entry->id] ) }}" class="text-body view-user-button"><i class="ti ti-eye ti-sm"></i></a>
                                 @endcan
                                 @can('entry-edit')
-                                <a href="{{ route('entry.edit', [ 'typeId'=> $type_id , 'id'=> $entry->id] ) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
+                                    <a href="{{ route('entry.edit', [ 'typeId'=> $type_id , 'id'=> $entry->id] ) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
                                 @endcan
                                 @can('section-list')
-                                <a href="{{ route('entry.sections', $entry->id) }}" class="text-body edit-user-button"><i class="ti ti-news ti-sm"></i></a>
+                                    <a href="{{ route('entry.sections', $entry->id) }}" class="text-body edit-user-button"><i class="ti ti-news ti-sm"></i></a>
+                                    @if($type_id==2)
+                                    <a href="{{ route('entry.program.years', $entry->id) }}" class="text-body edit-user-button"><i class="ti ti-calendar ti-sm"></i></a>
+                                    @endif
                                 @endcan
                                 @can('entry-delete')
-                                <a href="#" class="text-body delete-record delete-button" data-id="{{ $entry->id }}"><i class="ti ti-trash ti-sm mx-2 text-danger"></i></a>
+                                    <a href="#" class="text-body delete-record delete-button" data-id="{{ $entry->id }}"><i class="ti ti-trash ti-sm mx-2 text-danger"></i></a>
                                 @endcan
                             </td>
                         </tr>

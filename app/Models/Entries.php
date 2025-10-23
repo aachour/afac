@@ -13,6 +13,11 @@ class Entries extends Model
 
     protected $guarded = [];
 
+    public function type()
+    {
+        return $this->hasOne(Types::class, 'id', 'type_id');
+    }
+
     public function eventCategory()
     {
         return $this->hasOne(EventCategories::class, 'id', 'event_category_id');

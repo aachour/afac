@@ -14,7 +14,7 @@ class ColorView extends Component
 
     public $colors = [];
     public $showModal = false;
-    public $modalTitle = 'Add Type';
+    public $modalTitle = 'Add Color';
     public $name = '';
     public $code = '';
     public $editingId = null;
