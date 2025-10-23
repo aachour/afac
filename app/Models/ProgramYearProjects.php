@@ -11,4 +11,10 @@ class ProgramYearProjects extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
+    public function projectDetails()
+    {
+        return $this->belongsTo(Entries::class, 'project_id', 'id');
+    }
+
 }

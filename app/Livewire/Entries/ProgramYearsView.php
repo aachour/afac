@@ -39,6 +39,15 @@ class ProgramYearsView extends Component
     public $modalProjectTitle = 'Add Project';
     public $projects;
     public $project_id;
+
+
+    public $showModalProjects = false;
+    public $modalProjectsTitle = 'Manage Projects';
+    public $programProjects;
+
+    public $showModalJurors = false;
+    public $modalJurorsTitle = 'Manage Jurors';
+    public $programJurors;
     
     public function mount($programId)
     {   
@@ -49,7 +58,7 @@ class ProgramYearsView extends Component
 
     public function loadYears()
     {
-        $this->years = ProgramYears::WHERE('program_id',$this->program_id)->get();
+        $this->years = ProgramYears::WHERE('program_id',$this->program_id)->with('projects','projects.projectDetails','jurors','jurors.jurorDetails')->get();
     }
 
     public function openModal($yearId = null)
@@ -151,6 +160,48 @@ class ProgramYearsView extends Component
         
     }
 
+
+    /*******************************************************************************/
+    /*******************************************************************************/
+    /*******************************************************************************/
+    
+    public function openJurorsModal($yearId = null)
+    {
+        $this->program_year_id=$yearId;
+        $this->showModalJurors = true;
+        $this->programJurors=ProgramYearJurors::WHERE('program_year_id',$yearId)->orderBy('list_order', 'ASC')->get();
+    }
+
+    public function closeJurorsModal()
+    {
+        $this->showModalJurors = false;
+    }
+
+    #[On('updateJurorOrder')]
+    public function updateJurorOrder(array $order)
+    {
+        foreach ($order as $index => $id) {
+            ColumnGeneral::where(['section_column_id'=>$this->section_column_id,'id'=>$id])->update(['list_order' => $index+1]);
+        }
+
+        return to_route('general.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Order updated successfully!');
+
+    }
+
+
+    #[On('delete')]
+    public function deleteJuror($id)
+    {
+        $juror = ProgramYearJurors::find($id);
+
+        $juror->delete();
+        
+        $message = 'Juror deleted successfully!';
+
+        return to_route('entry.program.years',['programId'=>$this->program_id])->with('success', $message);
+        
+    }
+
     /*******************************************************************************/
     /*******************************************************************************/
     /*******************************************************************************/
@@ -188,6 +239,49 @@ class ProgramYearsView extends Component
         return to_route('entry.program.years',['programId'=>$this->program_id])->with('success', $message);
         
     }
+
+    /*******************************************************************************/
+    /*******************************************************************************/
+    /*******************************************************************************/
+    
+    public function openProjectsModal($yearId = null)
+    {
+        $this->program_year_id=$yearId;
+        $this->showModalProjects = true;
+        $this->programProjects=ProgramYearProjects::WHERE('program_year_id',$yearId)->orderBy('list_order', 'ASC')->get();
+    }
+
+    public function closeProjectsModal()
+    {
+        $this->showModalProjects = false;
+    }
+
+    #[On('updateProjectOrder')]
+    public function updateProjectOrder(array $order)
+    {
+        foreach ($order as $index => $id) {
+            ColumnGeneral::where(['section_column_id'=>$this->section_column_id,'id'=>$id])->update(['list_order' => $index+1]);
+        }
+
+        return to_route('general.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Order updated successfully!');
+
+    }
+
+
+    #[On('delete')]
+    public function deleteProject($id)
+    {
+        $program = ProgramYearProjects::find($id);
+
+        $program->delete();
+        
+        $message = 'Project deleted successfully!';
+
+        return to_route('entry.program.years',['programId'=>$this->program_id])->with('success', $message);
+        
+    }
+
+
 
     /*******************************************************************************/
     /*******************************************************************************/

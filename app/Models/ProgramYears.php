@@ -18,4 +18,15 @@ class ProgramYears extends Model
     {
         return $this->belongsTo(Entries::class, 'program_id', 'id');
     }
+
+    public function projects()
+    {
+        return $this->hasMany(ProgramYearProjects::class, 'program_year_id', 'id')->orderBy('list_order', 'ASC');
+    }
+
+    public function jurors()
+    {
+        return $this->hasMany(ProgramYearJurors::class, 'program_year_id', 'id')->orderBy('list_order', 'ASC');
+    }
+
 }

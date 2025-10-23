@@ -12,5 +12,10 @@ class ProgramYearJurors extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
+    public function jurorDetails()
+    {
+        return $this->belongsTo(Entries::class, 'juror_id', 'id');
+    }
     
 }
