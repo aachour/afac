@@ -313,6 +313,37 @@
                                     </select>
                                     @error('project_country_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="program_id">Program <span class="text-danger">*</span></label>
+                                    <select
+                                        wire:model="program_id"
+                                        wire:change="UpdateProgramYears"
+                                        id="program_id"
+                                        class="form-control">
+                                        <option value=''>Select Program</option>
+                                        @foreach($programs as $program)
+                                            <option value='{{$program->id}}'>{{$program->program_title}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('program_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="program_year_id">Year <span class="text-danger">*</span></label>
+                                    <select
+                                        wire:model="program_year_id"
+                                        id="program_year_id"
+                                        class="form-control">
+                                        <option value=''>Select Year</option>
+                                        @foreach($programYears as $year)
+                                            <option value='{{$year->id}}'>{{$year->year}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('program_year_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
                                 
 
                             </div>

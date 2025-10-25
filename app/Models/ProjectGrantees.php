@@ -12,4 +12,14 @@ class ProjectGrantees extends Model
     use SoftDeletes;
 
     protected $guarded = [];
+
+    public function project()
+    {
+        return $this->belongsTo(Entries::class, 'project_id', 'id');
+    }
+
+    public function grantee()
+    {
+        return $this->belongsTo(Entries::class, 'grantee_id', 'id');
+    }
 }

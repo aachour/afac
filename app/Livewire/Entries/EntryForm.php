@@ -8,6 +8,8 @@ use App\Models\Types;
 use App\Models\Entries;
 use App\Models\Colors;
 use App\Models\Countries;
+use App\Models\ProgramYears;
+use App\Models\ProgramYearProjects;
 
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -30,6 +32,8 @@ class EntryForm extends Component
     public $project_categories;
     public $colors;
     public $countries;
+    public $programs;
+    public $programYears;
     public $image_width_options;
     public $program_statuses;
     
@@ -61,6 +65,10 @@ class EntryForm extends Component
     public $project_title;
     public $project_title_arabic;
     public $project_country_id;
+    public $project_program_year_id;
+    public $program_id;
+    public $program_year_id;
+    
 
     //4- Grantee
     public $grantee_name;
@@ -140,6 +148,13 @@ class EntryForm extends Component
             $this->project_title=$this->entry->project_title;
             $this->project_title_arabic=$this->entry->project_title_arabic;
             $this->project_country_id=$this->entry->project_country_id;
+            $this->project_program_year_id=$this->entry->project_program_year_id;
+
+            $programYearProject=ProgramYearProjects::find($this->project_program_year_id);
+            if($programYearProject!=null){
+                $this->program_id=$programYearProject->programYear->program->id;
+                $this->program_year_id=$programYearProject->program_year_id;
+            }
 
             //Grantee
             $this->grantee_name=$this->entry->grantee_name;
@@ -178,10 +193,22 @@ class EntryForm extends Component
 
         $this->countries=Countries::all();
 
+        $this->programs=Entries::WHERE('type_id','2')->ORDERBY('id','desc')->get();
+
+        $this->programYears=[];
+
+        if($id!=''){
+            $this->programYears=ProgramYears::WHERE('program_id',$this->program_id)->get();
+        }
+       
         $this->image_width_options=['1'=>'Full','2'=>'three-quarters','3'=>'one-half','4'=>'one-quarter'];
 
         $this->program_statuses=['1'=>'Open','2'=>'Close'];
         
+    }
+
+    public function UpdateProgramYears(){
+        $this->programYears=ProgramYears::WHERE('program_id',$this->program_id)->get();
     }
 
 
@@ -214,6 +241,9 @@ class EntryForm extends Component
             'project_title' => ['required_if:type_id,3'],
             'project_title_arabic' => ['required_if:type_id,3'],
             'project_country_id' => ['required_if:type_id,3'],
+            'program_id' => ['required_if:type_id,3'],
+            'program_year_id' => ['required_if:type_id,3'],
+            
 
             //Grantee
             'grantee_name' => ['required_if:type_id,4'],
@@ -267,7 +297,7 @@ class EntryForm extends Component
                 $jury_path = $this->jury_image->store('entries', 'public');
             }
 
-            Entries::create([
+            $entry=Entries::create([
                 'type_id' => $this->type_id,
                 'image' => @$path,
                 'image_width' => $this->image_width,
@@ -309,6 +339,17 @@ class EntryForm extends Component
                 'news_tags'=>$this->news_tags ?? '',
                 'news_tags_arabic'=>$this->news_tags_arabic ?? '',
             ]);
+
+            if($this->type_id==3){
+                $project_id=$entry->id;
+                $highestOrder = ProgramYearProjects::WHERE('program_year_id',$this->program_year_id)->max('list_order');
+                $project_program_year=ProgramYearProjects::create(['program_year_id' => $this->program_year_id , 'project_id' => $project_id , 'list_order' =>$highestOrder+1]);
+
+                $entry->update([
+                    'project_program_year_id' => $project_program_year->id !== '' ? $project_program_year->id : null,
+                ]);
+                
+            }
 
             return to_route('entries',['typeId'=>$this->type_id])->with('success', 'Entry created successfully!');
         }
@@ -369,6 +410,15 @@ class EntryForm extends Component
             ];
 
             $this->entry->update($data);
+
+            if($this->type_id==3){
+                $project_id=$this->entry->id;
+
+                ProgramYearProjects::where('project_id', $project_id)
+                ->update([
+                    'program_year_id' => $this->program_year_id,
+                ]);
+            }
 
             return to_route('entries',['typeId'=>$this->type_id])->with('success', 'Entry updated successfully!');
             

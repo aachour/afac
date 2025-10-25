@@ -101,6 +101,9 @@
                                     @if($type_id==2)
                                     <a href="{{ route('entry.program.years', $entry->id) }}" class="text-body edit-user-button"><i class="ti ti-calendar ti-sm"></i></a>
                                     @endif
+                                    @if($type_id==3)
+                                    <a href="{{ route('entry.project.grantees', $entry->id) }}" class="text-body edit-user-button"><i class="ti ti-user ti-sm"></i></a>
+                                    @endif
                                 @endcan
                                 @can('entry-delete')
                                     <a href="#" class="text-body delete-record delete-button" data-id="{{ $entry->id }}"><i class="ti ti-trash ti-sm mx-2 text-danger"></i></a>

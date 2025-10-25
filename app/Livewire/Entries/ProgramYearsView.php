@@ -9,9 +9,7 @@ use App\Models\ProgramYearJurors;
 use App\Models\ProgramYearProjects;
 
 use Livewire\Attributes\On;
-
 use Livewire\Component;
-
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ProgramYearsView extends Component

@@ -92,7 +92,7 @@
 
 
 			@canany(['eventCategory-list', 'event-list'])
-			<li class="menu-item {{ (request()->is('eventCategories*') || (request()->is('entries/1*') && !request()->is('entries/1/years*'))) ? 'active open' : '' }}">
+			<li class="menu-item {{ (request()->is('eventCategories*') || ( request()->is('entries/1*') && (!request()->is('entries/*/years*') && !request()->is('entries/*/grantees*')) )) ? 'active open' : '' }}">
 
 				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-calendar-event"></i>
@@ -123,7 +123,7 @@
 
 
 			@can('program-list')
-			<li class="menu-item {{ request()->is('entries/2*') || request()->is('entries/1/years*') ? "active" : "" }}">
+			<li class="menu-item {{ (request()->is('entries/2*') || request()->is('entries/*/years*')) && !request()->is('entries/*/grantees*') ? "active" : "" }}">
 				<a href="{{ route('entries',['typeId'=>'2']) }}" class="menu-link">
 					<i class="menu-icon tf-icons ti ti-presentation"></i>
 					<div data-i18n="Programs">Programs</div>
@@ -133,7 +133,7 @@
 
 
 			@canany(['projectCategory-list' , 'project-list'])
-			<li class="menu-item {{ request()->is('entries/3*') || request()->is('projectCategories*') ? "active open" : "" }}">
+			<li class="menu-item {{ (request()->is('projectCategories*') || request()->is('entries/3*')) && !request()->is('entries/*/years*')    ? "active open" : "" }}">
 
 				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-rocket"></i>
@@ -163,7 +163,7 @@
 			@endcanany
 
 			@can('grantee-list')
-			<li class="menu-item {{ request()->is('entries/4*') ? "active" : "" }}">
+			<li class="menu-item {{ request()->is('entries/4*') && (!request()->is('entries/*/years*') && !request()->is('entries/*/grantees*')) ? "active" : "" }}">
 				<a href="{{ route('entries',['typeId'=>'4']) }}" class="menu-link">
 					<i class="menu-icon tf-icons ti ti-users"></i>
 					<div data-i18n="Grantees">Grantees</div>
@@ -172,7 +172,7 @@
 			@endcanany
 
 			@can('jury-list')
-			<li class="menu-item {{ request()->is('entries/5*') ? "active" : "" }}">
+			<li class="menu-item {{ request()->is('entries/5*') && (!request()->is('entries/*/years*') && !request()->is('entries/*/grantees*')) ? "active" : "" }}">
 				<a href="{{ route('entries',['typeId'=>'5']) }}" class="menu-link">
 					<i class="menu-icon tf-icons ti ti-scale"></i>
 					<div data-i18n="Juries">Juries</div>
@@ -181,7 +181,7 @@
 			@endcanany
 
 			@can('resource-list')
-			<li class="menu-item {{ request()->is('entries/6*') ? "active" : "" }}">
+			<li class="menu-item {{ request()->is('entries/6*') && (!request()->is('entries/*/years*') && !request()->is('entries/*/grantees*')) ? "active" : "" }}">
 				<a href="{{ route('entries',['typeId'=>'6']) }}" class="menu-link">
 					<i class="menu-icon tf-icons ti ti-database"></i>
 					<div data-i18n="Resources">Resources</div>
@@ -190,7 +190,7 @@
 			@endcanany
 
 			@can('news-list')
-			<li class="menu-item {{ request()->is('entries/7*') ? "active" : "" }}">
+			<li class="menu-item {{ request()->is('entries/7*') && (!request()->is('entries/*/years*') && !request()->is('entries/*/grantees*')) ? "active" : "" }}">
 				<a href="{{ route('entries',['typeId'=>'7']) }}" class="menu-link">
 					<i class="menu-icon tf-icons ti ti-news"></i>
 					<div data-i18n="News">News</div>

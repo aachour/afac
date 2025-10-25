@@ -12,6 +12,11 @@ class ProgramYearProjects extends Model
 
     protected $guarded = [];
 
+    public function programYear()
+    {
+        return $this->belongsTo(ProgramYears::class, 'program_year_id', 'id');
+    }
+
     public function projectDetails()
     {
         return $this->belongsTo(Entries::class, 'project_id', 'id');

@@ -72,9 +72,9 @@
                                         <a href="#" wire:click="openJurorModal({{ $year->id }})" class="text-body edit-user-button">
                                             <i class="ti ti-gavel ti-sm"></i>
                                         </a>
-                                        <a href="#" wire:click="openProjectModal({{ $year->id }})" class="text-body edit-user-button">
+                                        {{--<a href="#" wire:click="openProjectModal({{ $year->id }})" class="text-body edit-user-button">
                                             <i class="ti ti-briefcase ti-sm"></i>
-                                        </a>
+                                        </a>--}}
                                     @endcan
                                     <a href="#" class="text-body delete-record delete-button" data-id="{{ $year->id }}"><i class="ti ti-trash ti-sm mx-2 text-danger"></i></a>
                                 </td>
@@ -230,7 +230,7 @@
                         <tr>
                             <th>Order</th>
                             <th>Project Name</th>
-                            <th>Actions</th>
+                            <!-- <th>Actions</th> -->
                         </tr>
                         </thead>
                         <tbody>
@@ -239,11 +239,11 @@
                                     <tr data-id="{{ @$programProject->id }}" style="cursor: move;">
                                         <td>{{$programProject->list_order}}</td>
                                         <td>{{$programProject->projectDetails->project_title}}</td>
-                                        <td>
+                                        <!-- <td>
                                             <a href="#" wire:click.prevent="deleteProject({{ @$programProject->id }})" class="text-body">
                                                 <i class="ti ti-trash ti-sm mx-2 text-danger"></i>
                                             </a>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                 @endforeach
                             @endif
