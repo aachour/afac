@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('program_years', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('program_id')->nullable()->constrained('entries')->onDelete('cascade');
+            $table->foreignId('program_id')->nullable()->constrained('entries','id')->onDelete('cascade');
             $table->integer('year')->nullable();
             $table->timestamps();
             $table->softDeletes();
