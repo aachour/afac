@@ -36,7 +36,7 @@ class ProjectGranteesView extends Component
         $this->authorize('section-list');
         $this->type_id=3;
         $this->project_id=$projectId;
-        $this->grantees=Entries::WHERE('type_id','4')->GET();
+        $this->grantees=Entries::WHERE('type_id','4')->ORDERBY('id','DESC')->GET();
         $this->loadGrantees();
     }
 
