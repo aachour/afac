@@ -25,6 +25,7 @@ class ProjectGranteesView extends Component
     public $grantees = '';
     public $project_grantees = '';
     
+    public $type_id;
     public $grantee_id;
     public $project_id;
     public $editingId = null;
@@ -33,6 +34,7 @@ class ProjectGranteesView extends Component
     public function mount($projectId)
     {   
         $this->authorize('section-list');
+        $this->type_id=3;
         $this->project_id=$projectId;
         $this->grantees=Entries::WHERE('type_id','4')->GET();
         $this->loadGrantees();

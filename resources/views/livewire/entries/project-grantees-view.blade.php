@@ -3,12 +3,19 @@
     <div>
         
         <div class="card">
-            <div class="card-header border-bottom d-flex justify-content-between">
-                <h4 class="card-title mb-3">Grantees List</h4>
-                <button wire:click="openModal()" class="btn btn-primary h-50">
-                    Add Grantee
-                </button>
+            
+            <div class="card-header border-bottom d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0">Grantees List</h4>
+                <div>
+                    <button wire:click="openModal()" class="btn btn-primary me-2 h-50">
+                        Add Grantee
+                    </button>
+                    <a class="btn btn-primary h-50" href="{{ route('entries',[$type_id]) }}">
+                        Back
+                    </a>
+                </div>
             </div>
+
             <div class="card-datatable table-responsive" wire:ignore>
                 <table class="table border-top" id="table">
                     <thead>
