@@ -104,7 +104,7 @@
 					@can('eventCategory-list')
 					<li class="menu-item {{ request()->is('eventCategories*') ? "active" : "" }}">
 						<a href="{{ route('event.categories') }}" class="menu-link">
-						<div data-i18n="Categories">Categories</div>
+						<div data-i18n="Types">Types</div>
 						</a>
 					</li>
 					@endcan
@@ -145,7 +145,7 @@
 					@can('projectCategory-list')
 					<li class="menu-item {{ request()->is('projectCategories*') ? "active" : "" }}">
 						<a href="{{ route('project.categories') }}" class="menu-link">
-						<div data-i18n="Categories">Categories</div>
+						<div data-i18n="Themes">Themes</div>
 						</a>
 					</li>
 					@endcan
