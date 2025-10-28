@@ -109,10 +109,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{pageId}/sections/create/', SectionForm::class)->name('sections.create');
         Route::get('/{pageId}/sections/edit/{id}', SectionForm::class)->name('sections.edit');
         Route::get('/{pageId}/sections/view/{id}', SectionForm::class)->name('sections.view');
-        Route::get('/{pageId}/section/{sectionId}/general/view/{id}', GeneralInputsView::class)->name('general.view');
-        Route::get('/{pageId}/section/{sectionId}/timeline/view/{id}', TimelineView::class)->name('timeline.view');
-        Route::get('/{pageId}/section/{sectionId}/accordion/view/{id}', AccordionView::class)->name('accordion.view');
-        Route::get('/{pageId}/section/{sectionId}/countdown/view/{id}', CountdownView::class)->name('countdown.view');
+
+        Route::get('/section/{sectionId}/general/view/{id}', GeneralInputsView::class)->name('general.view');
+        Route::get('/section/{sectionId}/timeline/view/{id}', TimelineView::class)->name('timeline.view');
+        Route::get('/section/{sectionId}/accordion/view/{id}', AccordionView::class)->name('accordion.view');
+        Route::get('/section/{sectionId}/countdown/view/{id}', CountdownView::class)->name('countdown.view');
     });
 
 
@@ -168,10 +169,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{entryId}/sections/edit/{id}', SectionForm::class)->name('entry.sections.edit');
         Route::get('/{entryId}/sections/view/{id}', SectionForm::class)->name('entry.sections.view');
 
-        Route::get('/{entryId}/section/{sectionId}/general/view/{id}', GeneralInputsView::class)->name('entry.general.view');
-        Route::get('/{entryId}/section/{sectionId}/timeline/view/{id}', TimelineView::class)->name('entry.timeline.view');
-        Route::get('/{entryId}/section/{sectionId}/accordion/view/{id}', AccordionView::class)->name('entry.accordion.view');
-        Route::get('/{entryId}/section/{sectionId}/countdown/view/{id}', CountdownView::class)->name('entry.countdown.view');
+        Route::get('/section/{sectionId}/general/view/{id}', GeneralInputsView::class)->name('entry.general.view');
+        Route::get('/section/{sectionId}/timeline/view/{id}', TimelineView::class)->name('entry.timeline.view');
+        Route::get('/section/{sectionId}/accordion/view/{id}', AccordionView::class)->name('entry.accordion.view');
+        Route::get('/section/{sectionId}/countdown/view/{id}', CountdownView::class)->name('entry.countdown.view');
 
         Route::get('/{programId}/years/', ProgramYearsView::class)->name('entry.program.years');
         Route::get('/{projectId}/grantees/', ProjectGranteesView::class)->name('entry.project.grantees');

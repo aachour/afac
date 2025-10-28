@@ -5,6 +5,7 @@ namespace App\Livewire\Columns;
 use App\Models\Shapes;
 use App\Models\ColumnTimeline;
 use App\Models\ColumnTimelinePercentages;
+use App\Models\PageSections;
 
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -16,8 +17,11 @@ class TimelineView extends Component
     use AuthorizesRequests; 
 
     public $modalId = null;
-    
+
     public $page_id;
+    public $entry_id;
+    public $return_route;
+    
     public $section_id;
     public $section_column_id;
     
@@ -26,14 +30,28 @@ class TimelineView extends Component
     public $date;
     public $entries;
     
-    public function mount($pageId,$sectionId,$id)
+    public function mount($sectionId,$id)
     {
 
         $this->authorize('section-list');
         
         $this->modalId=null;
+
+        $pageSection=PageSections::WHERE('section_id',$sectionId)->first();
         
-        $this->page_id=$pageId;
+        if($pageSection){
+            $this->page_id=$pageSection->page_id;
+            $this->entry_id=$pageSection->entry_id;
+        }else{
+            return to_route('dashboard');
+        }
+
+        if($this->page_id!=null){
+            $this->return_route="timeline.view";
+        }else if($this->entry_id!=null){
+            $this->return_route="entry.timeline.view";
+        }
+        
         $this->section_id=$sectionId;
         $this->section_column_id=$id;
 
@@ -93,7 +111,7 @@ class TimelineView extends Component
                 ]);
             }
 
-            return to_route('timeline.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry added successfully!');
+            return to_route($this->return_route, ['sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry added successfully!');
         }
         else if($this->modalId!=null){
 
@@ -136,7 +154,7 @@ class TimelineView extends Component
                 }
             }
             
-            return to_route('timeline.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry edited successfully!');
+            return to_route($this->return_route, ['sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry edited successfully!');
         }
 
     }
@@ -148,7 +166,7 @@ class TimelineView extends Component
             ColumnTimeline::where('id', $id)->update(['list_order' => $index+1]);
         }
 
-        return to_route('timeline.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Order updated successfully!');
+        return to_route($this->return_route, ['sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Order updated successfully!');
 
     }
     
@@ -159,7 +177,7 @@ class TimelineView extends Component
 
         $columnTimeline->delete();
 
-        return to_route('timeline.view', ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry deleted successfully!');
+        return to_route($this->return_route, ['sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry deleted successfully!');
     }
 
     public function render()

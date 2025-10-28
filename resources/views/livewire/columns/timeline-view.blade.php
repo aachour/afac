@@ -14,9 +14,11 @@
                         style="margin-top:2px;"
                         >Add Entry
                     </button>
-                    <a href="{{ route('sections',$page_id) }}" class="btn btn-primary mb-2 text-nowrap">
-                        Sections
-                    </a>
+                    @if(isset($page_id))
+                        <a href="{{ route('sections',$page_id) }}" class="btn btn-primary mb-2 text-nowrap">Sections</a>
+                    @elseif(isset($entry_id))
+                        <a href="{{ route('entry.sections',$entry_id) }}" class="btn btn-primary mb-2 text-nowrap">Sections</a>
+                    @endif
                 </div>
                 @endcan
             </div>

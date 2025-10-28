@@ -84,27 +84,27 @@
                                         @foreach($pageSection->sections->columns as $key=>$column)
                                         @if($column->type_id==1)
                                             @if($page_id!=null)
-                                                <div class="mb-1"><a href="{{ route('general.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">General Inputs <i class="ti ti-edit ti-sm"></i></a></div>
+                                                <div class="mb-1"><a href="{{ route('general.view', [ $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">General Inputs <i class="ti ti-edit ti-sm"></i></a></div>
                                             @elseif($entry_id!=null)
-                                                <div class="mb-1"><a href="{{ route('entry.general.view', [$entry_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">General Inputs <i class="ti ti-edit ti-sm"></i></a></div>
+                                                <div class="mb-1"><a href="{{ route('entry.general.view', [ $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">General Inputs <i class="ti ti-edit ti-sm"></i></a></div>
                                             @endif
                                         @elseif($column->type_id==2)
                                             @if($page_id!=null)
-                                                <div class="mb-1"><a href="{{ route('timeline.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Timeline <i class="ti ti-edit ti-sm"></i></a></div>
+                                                <div class="mb-1"><a href="{{ route('timeline.view', [ $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Timeline <i class="ti ti-edit ti-sm"></i></a></div>
                                             @elseif($entry_id!=null)
-                                                <div class="mb-1"><a href="{{ route('entry.timeline.view', [$entry_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Timeline <i class="ti ti-edit ti-sm"></i></a></div>
+                                                <div class="mb-1"><a href="{{ route('entry.timeline.view', [ $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Timeline <i class="ti ti-edit ti-sm"></i></a></div>
                                             @endif
                                         @elseif($column->type_id==3)
                                             @if($page_id!=null)
-                                                <div class="mb-1"><a href="{{ route('accordion.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Accordion <i class="ti ti-edit ti-sm"></i></a></div>
+                                                <div class="mb-1"><a href="{{ route('accordion.view', [ $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Accordion <i class="ti ti-edit ti-sm"></i></a></div>
                                             @elseif($entry_id!=null)
-                                                <div class="mb-1"><a href="{{ route('entry.accordion.view', [$entry_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Accordion <i class="ti ti-edit ti-sm"></i></a></div>
+                                                <div class="mb-1"><a href="{{ route('entry.accordion.view', [ $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Accordion <i class="ti ti-edit ti-sm"></i></a></div>
                                             @endif
                                         @elseif($column->type_id==4)
                                             @if($page_id!=null)
-                                                <div class="mb-1"><a href="{{ route('countdown.view', [$page_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Countdown <i class="ti ti-edit ti-sm"></i></a></div>
+                                                <div class="mb-1"><a href="{{ route('countdown.view', [ $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Countdown <i class="ti ti-edit ti-sm"></i></a></div>
                                             @elseif($entry_id!=null)
-                                                <div class="mb-1"><a href="{{ route('entry.countdown.view', [$entry_id , $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Countdown <i class="ti ti-edit ti-sm"></i></a></div>
+                                                <div class="mb-1"><a href="{{ route('entry.countdown.view', [ $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Countdown <i class="ti ti-edit ti-sm"></i></a></div>
                                             @endif
                                         @endif
                                         @endforeach

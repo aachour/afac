@@ -37,8 +37,9 @@ class SectionForm extends Component
         $this->page_id=$pageId;
 
         $this->entry_id=$entryId;
-        
 
+        // dd($this->page_id,$this->entry_id);
+        
         if($id==''){
 
             $this->authorize('section-create');
@@ -110,6 +111,7 @@ class SectionForm extends Component
         if($this->section_id==''){
             
             if($this->page_id!=null){
+
                 //create new section
                 $section=Sections::create([
                     'page_id' => $this->page_id,
