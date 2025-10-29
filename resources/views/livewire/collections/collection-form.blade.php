@@ -131,7 +131,7 @@
                                 <h5>Style Info</h5>
 
                                 <div class="col-12">
-                                    <label class="form-label" for="name">With Filter? <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="name">With Filters? <span class="text-danger">*</span></label>
 
                                     <div class="form-check mt-1">
                                         <input wire:model="with_filters" type="radio" id="with_filters_no" class="form-check-input" value="0" checked>
