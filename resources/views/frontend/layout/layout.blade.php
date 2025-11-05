@@ -19,11 +19,16 @@
     @yield('title-meta')
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{{asset('frontend/css/plugins.css')}}" />
+    <link rel="stylesheet" href="{{asset('frontend/css/bootstrap.css')}}" />
+    <link rel="stylesheet" href="{{asset('frontend/css/jquery-ui.css')}}" />
+    <link rel="stylesheet" href="{{asset('frontend/css/general.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}" />
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{{asset('frontend/css/elements.css')}}" />
     
+    <!-- JS -->
+    <script src="{{asset('frontend/js/bootstrap.min.css')}}"></script>
+    <script src="{{asset('frontend/js/jquery.min.css')}}"></script>
+        
 </head>
 
 <body>

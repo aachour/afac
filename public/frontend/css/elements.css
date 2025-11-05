@@ -1,0 +1,32 @@
+.header,.footer{
+    position:relative;
+    width:100%;
+    z-index:9;
+}
+.fullContainer{
+    position:relative;
+    width:100%;
+}
+@media (max-width:900px){
+    .centerContainer{
+        position:relative;
+        margin:0px auto;
+        width:90%;
+    }
+}
+@media (min-width:900px){
+    .centerContainer{
+        position:relative;
+        margin:0px auto;
+        width:80%;
+    }
+}
+
+/**********************************************************************************************************************/
+/**********************************************************************************************************************/
+/**********************************************************************************************************************/
+/***Collection***/
+
+.collection{
+    padding:15px 30px;
+}

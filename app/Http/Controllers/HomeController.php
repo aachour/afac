@@ -24,10 +24,13 @@ class HomeController extends Controller
 
     public function viewCollection($id){
         
-        $html = ViewCollection($id);       
+        $collectionHTML = ViewCollection($id,'EN');       
         
-        dd($html);
+        return view('frontend.collection', [
+            'collectionHTML' => $collectionHTML
+        ]);
 
+        
     }
 
 }

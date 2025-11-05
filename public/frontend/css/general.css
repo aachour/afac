@@ -1,0 +1,150 @@
+:root {
+    --primary-color: #ddd0c1;
+    --primary-hover-color: #e5d9cf;
+}
+
+@font-face {
+    font-family: 'Avenir Black';
+    src: url('../fonts/AvenirLTStd-Black.eot');
+    src: url('../fonts/AvenirLTStd-Black.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/AvenirLTStd-Black.woff2') format('woff2'),
+        url('../fonts/AvenirLTStd-Black.woff') format('woff'),
+        url('../fonts/AvenirLTStd-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+.avenirBlack{
+	font-family: 'Avenir Black' !important;
+}
+
+@font-face {
+    font-family: 'Avenir Medium';
+    src: url('../fonts/AvenirLTStd-Medium.eot');
+    src: url('../fonts/AvenirLTStd-Medium.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/AvenirLTStd-Medium.woff2') format('woff2'),
+        url('../fonts/AvenirLTStd-Medium.woff') format('woff'),
+        url('../fonts/AvenirLTStd-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+.avenirMedium{
+	font-family: 'Avenir Medium' !important;
+}
+
+/* CSS Document */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video , textarea {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align:top;
+	size:inherit;
+	color:inherit;
+	line-height:150%;
+	font-family: 'Avenir Medium' !important;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+*, *:after, *:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+img{
+	max-width:100%;
+}
+table{
+	max-width:none;
+}
+div{
+	position:relative;
+}
+strong,b{
+	font-weight:bold;
+}
+i,em{
+	font-style:italic;
+}
+u{
+	text-decoration:underline;
+}
+ul,ol{
+	list-style-position:outside;
+}
+.hidden{
+	display:none;
+}
+.clickable{
+	cursor:pointer;
+}
+.fullWidth{
+	width:100% !important;
+}
+.heightAuto{
+	height:auto !important;
+}
+.floatRight{
+   float:right;
+}
+.floatLeft{
+   float:left;
+}
+.clear{
+   clear: both;
+}
+a{
+	text-decoration: none !important;
+}
+a:hover{
+	color:#331a59 !important;
+	text-decoration: none !important;
+}
+textarea{
+   resize:none !important;
+}
+:root {
+    --primary-color: #ddd0c1;
+    --primary-hover-color: #e5d9cf;
+}
+
+input{
+	border-radius:0px !important;
+}
