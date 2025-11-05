@@ -29,7 +29,7 @@
                             <td>{{ $collection->description }}</td>
                             <td>
                                 @can('collection-view')
-                                    <a href="{{ route('collections.view', $collection->id) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    <a href="{{ route('view.collection', $collection->id) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
                                 @endcan
                                 @can('collection-edit')
                                     @if($collection->entries_selection==1)
