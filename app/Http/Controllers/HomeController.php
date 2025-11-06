@@ -22,7 +22,7 @@ class HomeController extends Controller
         return view('frontend.home');
     }
 
-    public function viewCollection($id){
+    public function ViewCollection($id){
         
         $collectionHTML = ViewCollection($id,'EN');       
         

@@ -43,6 +43,9 @@
 }
 
 @media(max-width:900px){
+    .bigger{
+        font-size:6vw !important;
+    }
     .big{
         font-size:5vw !important;
     }
@@ -57,6 +60,10 @@
     }
 }
 @media(min-width:900px){
+    .bigger{
+        font-size:1.6vw !important;
+        line-height: 150% !important;
+    }
     .big{
         font-size:1.3vw !important;
         line-height: 150% !important;
@@ -81,13 +88,6 @@
 /**********************************************************************************/
 /**********************************************************************************/
 
-.black{
-    color:#000!important
-}
-.blackBg{
-    background:#000
-}
-
 .white{
     color:#FFF !important;
 }
@@ -95,19 +95,11 @@
     background:#FFF;
 }
 
-.brown{
-    color:var(--primary-color) !important;
+.black{
+    color:#000!important
 }
-.brownBg{
-    background:var(--primary-color) !important;
-}
-
-
-.brownDark{
-    color:#F00;
-}
-.brownDarkBg{
-    background:var(--primary-color);
+.blackBg{
+    background:#000
 }
 
 .grey{
@@ -116,7 +108,6 @@
 .greyBg{
     background:#666666;
 }
-
 
 /**********************************************************************************/
 /**********************************************************************************/
@@ -184,44 +175,4 @@ input[type="button"].greenBtn{
     .mobileOnly{
         display:none !important;
     }
-}
-
- .btn-thumbs-up {
-     background-color: #28a745; /* green */
-     color: #fff; /* white icon */
-     border-radius: 50%; /* fully rounded */
-     width: 60px;
-     height: 60px;
-     font-size: 24px;
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     border: none;
-     cursor: pointer;
- }
-
-.btn-thumbs-up:hover {
-    background-color: #218838; /* darker green on hover */
-}
-
-.btn-thumbs-down {
-    background-color: #dc3545; /* red */
-    color: #fff; /* white icon */
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    cursor: pointer;
-}
-
-.btn-thumbs-down:hover {
-    background-color: #c82333; /* darker red on hover */
-}
-
-.bg-red {
-    background-color: #dc3545 !important; /* red background */
 }

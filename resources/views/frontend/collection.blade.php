@@ -2,7 +2,7 @@
 
 @section('title-meta')
 
-    <title>Home | AFAC</title>
+    <title>Collection | AFAC</title>
     <meta property="og:title" content="">
     <meta name="description" content="">
     <meta property="og:description" content="">
