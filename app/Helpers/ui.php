@@ -115,7 +115,8 @@
             {
 
                 $html.='<div class="topSpacer">';
-
+                    
+                    $entries_count=0;
                     foreach($entries as $key=>$entry)
                     {
 
@@ -168,7 +169,15 @@
                                 $html.='</div>
                                 
                             </div>';
+
+                            //check entries per row
+                            $entries_count+=1;
+
+                            if($entries_count % $entries_per_row==0){
+                                $html.='<div class="clear">&nbsp;</div>';
+                            }
                         }
+
 
                         /*else if($entries_layout==2) //slider view
                         {
