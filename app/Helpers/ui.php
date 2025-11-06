@@ -141,7 +141,7 @@
                                         </div>';
                                     }
                                 $html.='</div>
-                                <div class="featured_image" style="background:url('.$image_path.') center no-repeat; background-size:cover;"></div>
+                                <div class="featured_image" style="background:url('.$image_path.') right center no-repeat; background-size:contain;"></div>
                                 <div class="clear"></div>
                             </div>
                             <div class="topSpacer">&nbsp;</div>';
@@ -151,9 +151,9 @@
 
                         if($entries_layout==1) //grid view
                         {
-                            $html.='<div class="entry">
+                            $html.='<div class="entry" style="width:25%; height:auto;">
 
-                                <img src="'.$image_path.'" />
+                                <img src="'.$image_path.'" width="100%" />
                                 <div class="description">
                                     <div class="title_or_labels big white" style="'.$title_position.'">'.$entry->event_title.'</div>';
                                     if($with_label==1)
