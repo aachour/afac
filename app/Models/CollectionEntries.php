@@ -23,7 +23,7 @@ class CollectionEntries extends Model
 
     public function entry()
     {
-        return $this->belongsTo(entries::class, 'entry_id', 'id');
+        return $this->belongsTo(Entries::class, 'entry_id', 'id');
     }
 
 }
