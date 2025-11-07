@@ -31,8 +31,8 @@
         }
         else if($featured_image_width==2) //three quarter
         {
-            $featured_width='75%';
-            $featured_margin='25%';
+            $featured_width='74.5%';
+            $featured_margin='25.5%';
         }
         else if($featured_image_width==3) //one half
         {
@@ -114,44 +114,53 @@
             if($entries)
             {
 
-                $html.='<div class="topSpacer">';
+                //show featured entry on top
+                if($with_featured==1) 
+                { 
+                    $image_path = asset('frontend/images/default-image.jpg');
+                    if (!empty($entries[0]->image)) {
+                        $image_path = asset('storage/entries/' . $entries[0]->image);
+                    }
+
+                    $html.='<div class="featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
+                        <div class="featured_info">
+                            <div class="title_or_labels big white" style="'.$title_position.'">'.$entries[0]->event_title.'</div>';
+                            if($with_label==1)
+                            {
+                                $html.='<div class="title_or_labels" style="'.$labels_position.'">
+                                    <div class="label small">'.$entries[0]->type->name.'</div>
+                                    <div class="label small">'.date('d M',strtotime($entries[0]->event_date)).'</div>
+                                    <div class="clear"></div>
+                                    <div class="topSpacerSmall label small">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
+                                    <div class="clear">&nbsp;</div>
+                                </div>';
+                            }
+                        $html.='</div>
+                        <div class="featured_image">
+                            <img src="'.$image_path.'" width="100%" />
+                        </div>
+                    </div>
+                    <div class="topSpacer">&nbsp;</div>';
+                }
+
+                $html.='<div class="entries topSpacer">';
                     
                     $entries_count=0;
                     foreach($entries as $key=>$entry)
                     {
+
+                        if ($with_featured==1 && $key === array_key_first($entries)) {
+                            continue; // skip first
+                        }
 
                         $image_path = asset('frontend/images/default-image.jpg');
                         if (!empty($entry->image)) {
                             $image_path = asset('storage/entries/' . $entry->image);
                         }
 
-                        if($with_featured==1 && $key==0) //show featured entry on top
-                        { 
-                            $html.='<div class="featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
-                                <div class="featured_info">
-                                    <div class="title_or_labels big white" style="'.$title_position.'">'.$entry->event_title.'</div>';
-                                    if($with_label==1)
-                                    {
-                                        $html.='<div class="title_or_labels" style="'.$labels_position.'">
-                                            <div class="label small">'.$entry->type->name.'</div>
-                                            <div class="label small">'.date('d M',strtotime($entry->event_date)).'</div>
-                                            <div class="clear"></div>
-                                            <div class="topSpacerSmall label small">'.date('h:i',strtotime($entry->event_start_time)).' - '.date('h:i',strtotime($entry->event_to_time)).'</div>
-                                            <div class="clear">&nbsp;</div>
-                                        </div>';
-                                    }
-                                $html.='</div>
-                                <div class="featured_image" style="background:url('.$image_path.') right center no-repeat; background-size:contain;"></div>
-                                <div class="clear"></div>
-                            </div>
-                            <div class="topSpacer">&nbsp;</div>';
-                            
-                            continue;
-                        }
-
                         if($entries_layout==1) //grid view
                         {
-                            $html.='<div class="entry" style="width:25%; height:auto;">
+                            $html.='<div class="entry" id="entry'.$entries_count.'">
 
                                 <img src="'.$image_path.'" width="100%" />
                                 <div class="description">
@@ -171,11 +180,12 @@
                             </div>';
 
                             //check entries per row
-                            $entries_count+=1;
+                            $entries_count++;
 
-                            if($entries_count % $entries_per_row==0){
-                                $html.='<div class="clear">&nbsp;</div>';
-                            }
+                            // if($entries_count % $entries_per_row==0){
+                            //     $html.='<div class="clear">&nbsp;</div>';
+                            // }
+
                         }
 
 
