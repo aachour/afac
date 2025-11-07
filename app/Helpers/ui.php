@@ -109,7 +109,7 @@
         
         $html='<div class="collection" style="background-color:'.$bgColor.';">';
 
-            $html.='<div class="white bigger bottomSpacer">'.$collection->name.'</div>';
+            $html.='<div class="white bigger">'.$collection->name.'</div>';
 
             if(count($entries)>0)
             {
@@ -122,7 +122,7 @@
                         $image_path = asset('storage/entries/' . $entries[0]->image);
                     }
 
-                    $html.='<div class="featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
+                    $html.='<div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
                         <div class="featured_info">
                             <div class="title_or_labels big white" style="'.$title_position.'">'.$entries[0]->event_title.'</div>';
                             if($with_label==1)
