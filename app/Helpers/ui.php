@@ -54,7 +54,7 @@
 
         //Get All Entries
 
-        $entries=null;
+        $entries=[];
 
         if ($entries_selection == 1) // custom selection
         {
@@ -111,7 +111,7 @@
 
             $html.='<div class="white bigger">'.$collection->name.'</div>';
 
-            if($entries)
+            if(count($entries)>0)
             {
 
                 //show featured entry on top
