@@ -122,28 +122,52 @@
                         $image_path = asset('storage/' . $entries[0]->image);
                     }
 
-                    $html.='<div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
-                        <div class="featured_info">
-                            <div class="title_or_labels big white" style="'.$title_position.'">'.$entries[0]->event_title.'</div>';
-                            if($with_label==1)
-                            {
-                                $html.='<div class="title_or_labels" style="'.$labels_position.'">
-                                    <div class="label small">'.$entries[0]->type->name.'</div>
-                                    <div class="label small">'.date('d M',strtotime($entries[0]->event_date)).'</div>
-                                    <div class="clear"></div>
-                                    <div class="topSpacerSmall label small">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
-                                    <div class="clear">&nbsp;</div>
-                                </div>';
-                            }
-                        $html.='</div>
-                        <div class="featured_image">
-                            <img src="'.$image_path.'" width="100%" />
+                    $html.='<div class="desktopOnly">
+                        <div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
+                            <div class="featured_info">
+                                <div class="title_or_labels big white" style="'.$title_position.'">'.$entries[0]->event_title.'</div>';
+                                if($with_label==1)
+                                {
+                                    $html.='<div class="title_or_labels" style="'.$labels_position.'">
+                                        <div class="label small">'.$entries[0]->type->name.'</div>
+                                        <div class="label small">'.date('d M',strtotime($entries[0]->event_date)).'</div>
+                                        <div class="clear"></div>
+                                        <div class="topSpacerSmall label small">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
+                                        <div class="clear">&nbsp;</div>
+                                    </div>';
+                                }
+                            $html.='</div>
+                            <div class="featured_image">
+                                <img src="'.$image_path.'" width="100%" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="topSpacer">&nbsp;</div>';
+                    </div>';
+
+
+                    $html.='<div class="entries mobileOnly">
+                        <div class="featured_entry_mobile" style="background:'.$featured_image_bgColor.';">
+                           <img src="'.$image_path.'" width="100%" />
+                            <div class="description">
+                                <div class="title_or_labels big white" style="'.$title_position.'">'.$entries[0]->event_title.'</div>';
+                                if($with_label==1)
+                                {
+                                    $html.='<div class="title_or_labels" style="'.$labels_position.'">
+                                        <div class="label small black">'.$entries[0]->type->name.'</div>
+                                        <div class="label small black">'.date('d M',strtotime($entries[0]->event_date)).'</div>
+                                        <div class="clear"></div>
+                                        <div class="topSpacerSmall label small black">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
+                                        <div class="clear">&nbsp;</div>
+                                    </div>';
+                                }
+                            $html.='</div>
+                            
+                        </div>
+                    </div>';
+
+                    
                 }
 
-                $html.='<div class="entries topSpacer">';
+                $html.='<div class="entries topSpacerBig">';
                     
                     $entries_count=0;
                     foreach($entries as $key=>$entry)
@@ -160,7 +184,7 @@
 
                         if($entries_layout==1) //grid view
                         {
-                            $html.='<div class="entry" id="entry'.$entries_count.'">
+                            $html.='<div class="entry">
 
                                 <img src="'.$image_path.'" width="100%" />
                                 <div class="description">

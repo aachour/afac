@@ -170,7 +170,7 @@ input[type="button"].greenBtn{
 }
 @media(min-width:900px){
     .desktopOnly{
-        display:block !important;
+        display:vi !important;
     }
     .mobileOnly{
         display:none !important;
