@@ -119,7 +119,7 @@
                 { 
                     $image_path = asset('frontend/images/default-image.jpg');
                     if (!empty($entries[0]->image)) {
-                        $image_path = asset('storage/entries/' . $entries[0]->image);
+                        $image_path = asset('storage/' . $entries[0]->image);
                     }
 
                     $html.='<div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
@@ -155,7 +155,7 @@
 
                         $image_path = asset('frontend/images/default-image.jpg');
                         if (!empty($entry->image)) {
-                            $image_path = asset('storage/entries/' . $entry->image);
+                            $image_path = asset('storage/' . $entry->image);
                         }
 
                         if($entries_layout==1) //grid view
