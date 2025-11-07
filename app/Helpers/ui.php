@@ -109,7 +109,7 @@
         
         $html='<div class="collection" style="background-color:'.$bgColor.';">';
 
-            $html.='<div class="white bigger">'.$collection->name.'</div>';
+            $html.='<div class="white bigger bottomSpacer">'.$collection->name.'</div>';
 
             if(count($entries)>0)
             {
