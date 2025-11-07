@@ -149,7 +149,7 @@
                     foreach($entries as $key=>$entry)
                     {
 
-                        if ($with_featured==1 && $key === array_key_first($entries)) {
+                        if ($with_featured==1 && $key ==0) {
                             continue; // skip first
                         }
 
