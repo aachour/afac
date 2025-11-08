@@ -106,11 +106,9 @@
         margin-right:1.875%;
         margin-bottom:2%;
     }
-
     .collection .entries .entry:nth-child(5n){
         margin-right:0px !important;
     }
-
     .collection .entries2 .entry{
         float:left;
         width:23.5%;
@@ -118,7 +116,6 @@
         margin-right:2%;
         margin-bottom:2%;
     }
-
     .collection .entries2 .entry:nth-child(4n){
         margin-right:0px !important;
     }
@@ -144,6 +141,27 @@
     padding:2px 10px;
     color:#000;
     background:#FFF;
+}
+
+
+.collection .swiper-button-prev, .collection .swiper-button-next {
+    position: absolute;
+    bottom: 0px;      
+    right:0px;  
+    width: 25px;    
+    height: 25px;
+    color: #fff;
+    z-index: 10;
+}
+
+/* Position prev button to the left of next button */
+.collection .swiper-button-prev {
+    left: calc(100% - 60px) !important;
+}
+
+/* Make icon smaller (Swiper uses ::after pseudo element) */
+.collection .swiper-button-prev:after, .collection .swiper-button-next:after {
+    font-size: 14px;
 }
 
 /***********************************************************************/

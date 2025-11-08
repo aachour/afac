@@ -21,13 +21,16 @@
     <!-- CSS -->
     <link rel="stylesheet" href="{{asset('frontend/css/bootstrap.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/css/jquery-ui.css')}}" />
+    <link rel="stylesheet" href="{{asset('frontend/css/swiper.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/css/general.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/css/elements.css')}}" />
     
     <!-- JS -->
-    <script src="{{asset('frontend/js/bootstrap.min.css')}}"></script>
-    <script src="{{asset('frontend/js/jquery.min.css')}}"></script>
+    <script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('frontend/js/jquery.js')}}"></script>
+    <script src="{{asset('frontend/js/swiper.js')}}"></script>
+    
         
 </head>
 

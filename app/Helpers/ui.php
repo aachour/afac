@@ -174,6 +174,25 @@
                 $html.='<div class="entries topSpacerBig">';
                     
                     $entries_count=0;
+
+                    //Open slider
+                    if($entries_layout==2) 
+                    {
+
+                        $html.='<style>
+                            .collection .entries .entry:nth-child(5n){
+                                margin-right:1.875% !important;
+                            }
+                            .collection .entries2 .entry:nth-child(4n){
+                                margin-right:2%!important;
+                            }
+                        </style>';
+
+                        $html.='<div class="swiper">
+                            <div class="swiper-wrapper">';
+                    }
+
+                    //Fetch all entries
                     foreach($entries as $key=>$entry)
                     {
 
@@ -186,50 +205,77 @@
                             $image_path = asset('storage/' . $entry->image);
                         }
 
-                        if($entries_layout==1) //grid view
-                        {
-                            $html.='<div class="entry">
+                        $html.='<div class="swiper-slide entry">
 
-                                <img src="'.$image_path.'" width="100%" />
-                                <div class="description">
-                                    <div class="title_or_labels big white" style="'.$title_position.'">'.$entry->event_title.'</div>';
-                                    if($with_label==1)
-                                    {
-                                        $html.='<div class="title_or_labels" style="'.$labels_position.'">
-                                            <div class="label small black">'.$entry->type->name.'</div>
-                                            <div class="label small black">'.date('d M',strtotime($entry->event_date)).'</div>
-                                            <div class="clear"></div>
-                                            <div class="topSpacerSmall label small black">'.date('h:i',strtotime($entry->event_start_time)).' - '.date('h:i',strtotime($entry->event_to_time)).'</div>
-                                            <div class="clear">&nbsp;</div>
-                                        </div>';
-                                    }
-                                $html.='</div>
+                            <img src="'.$image_path.'" width="100%" />
+                            <div class="description">
+                                <div class="title_or_labels big white" style="'.$title_position.'">'.$entry->event_title.'</div>';
+                                if($with_label==1)
+                                {
+                                    $html.='<div class="title_or_labels" style="'.$labels_position.'">
+                                        <div class="label small black">'.$entry->type->name.'</div>
+                                        <div class="label small black">'.date('d M',strtotime($entry->event_date)).'</div>
+                                        <div class="clear"></div>
+                                        <div class="topSpacerSmall label small black">'.date('h:i',strtotime($entry->event_start_time)).' - '.date('h:i',strtotime($entry->event_to_time)).'</div>
+                                        <div class="clear">&nbsp;</div>
+                                    </div>';
+                                }
+                            $html.='</div>
                                 
-                            </div>';
+                        </div>';
 
-                            //check entries per row
-                            $entries_count++;
+                        //check entries per row
+                        $entries_count++;
 
-                            // if($entries_count % $entries_per_row==0){
-                            //     $html.='<div class="clear">&nbsp;</div>';
-                            // }
-
-                        }
+                        // if($entries_count % $entries_per_row==0){
+                        //     $html.='<div class="clear">&nbsp;</div>';
+                        // }
 
 
-                        /*else if($entries_layout==2) //slider view
-                        {
-
-                        }*/
                     }
 
                     $html.='<div class="clear">&nbsp;</div>';
+                    
+                    //Close Slider
+                    if($entries_layout==2) 
+                    {
+                            $html.='</div">                             
+                        </div>
+                        <!-- Navigation buttons --> 
+                        <div>
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-next"></div>
+                        </div>';
+                    }
+
+                    
 
                 $html.='</div>';
 
             }
 
         $html.='</div>';
+
+        $html.='<script>
+            const swiper = new Swiper(".swiper", {
+                //loop: true,
+                slidesPerView: 5,  
+                spaceBetween: 20,
+                grid: {
+                    rows: 1           
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                /*autoplay: {
+                    delay: 2500,
+                    disableOnInteraction: false,
+                },*/
+                effect: "slide",
+                speed: 800,
+            });
+        </script>';
         
         return $html;
 
