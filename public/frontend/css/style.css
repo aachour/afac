@@ -155,8 +155,8 @@ input[type="button"].greenBtn{
 .padding10{
     padding:10px;
 }
-.container {
-    margin-top: 50px;
+.rounded {
+    border-radius: 30px;
 }
 
 

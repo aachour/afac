@@ -134,9 +134,9 @@
                                 {
                                     $html.='<div class="title_or_labels" style="'.$labels_position.'">
                                         <div class="label small">'.$entries[0]->type->name.'</div>
-                                        <div class="label small">'.date('d M',strtotime($entries[0]->event_date)).'</div>
+                                        <div class="label small rounded">'.date('d M',strtotime($entries[0]->event_date)).'</div>
                                         <div class="clear"></div>
-                                        <div class="topSpacerSmall label small">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
+                                        <div class="topSpacerSmall label small rounded">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
                                         <div class="clear">&nbsp;</div>
                                     </div>';
                                 }
@@ -214,9 +214,9 @@
                                 {
                                     $html.='<div class="title_or_labels" style="'.$labels_position.'">
                                         <div class="label small black">'.$entry->type->name.'</div>
-                                        <div class="label small black">'.date('d M',strtotime($entry->event_date)).'</div>
+                                        <div class="label small black rounded">'.date('d M',strtotime($entry->event_date)).'</div>
                                         <div class="clear"></div>
-                                        <div class="topSpacerSmall label small black">'.date('h:i',strtotime($entry->event_start_time)).' - '.date('h:i',strtotime($entry->event_to_time)).'</div>
+                                        <div class="topSpacerSmall label small black rounded">'.date('h:i',strtotime($entry->event_start_time)).' - '.date('h:i',strtotime($entry->event_to_time)).'</div>
                                         <div class="clear">&nbsp;</div>
                                     </div>';
                                 }
