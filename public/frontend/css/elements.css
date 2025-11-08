@@ -54,20 +54,43 @@
 }
 
 .collection .featured_entry .featured_info{
-    width:60%;
+    width:65%;
     padding:30px;
 }
-
 .collection .featured_entry .featured_image{
-    width:40%;
+    width:35%;
 }
-
 .collection .featured_entry .featured_image img{
     width: 100%;
     height: 100%;
     object-fit: cover; /* ensures image fills area nicely */
     display: block;
 }
+
+/***********************************************************************/
+/***********************************************************************/
+/***********************************************************************/
+/***********************************************************************/
+
+.collection .featured_entry2{
+    display: flex;
+    align-items: stretch; /* ensures equal height */
+}
+.collection .featured_entry2 .featured_info{
+    width:60%;
+    padding:30px;
+}
+.collection .featured_entry2 .featured_image{
+    width:40%;
+}
+.collection .featured_entry2 .featured_image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* ensures image fills area nicely */
+    display: block;
+}
+
+
 
 @media(max-width:900px){
     .collection .entries .entry{
@@ -78,13 +101,25 @@
 @media(min-width:900px){
     .collection .entries .entry{
         float:left;
+        width:18.5%;
+        height:auto;
+        margin-right:1.875%;
+        margin-bottom:2%;
+    }
+
+    .collection .entries .entry:nth-child(5n){
+        margin-right:0px !important;
+    }
+
+    .collection .entries2 .entry{
+        float:left;
         width:23.5%;
         height:auto;
         margin-right:2%;
         margin-bottom:2%;
     }
 
-    .collection .entries .entry:nth-child(4n){
+    .collection .entries2 .entry:nth-child(4n){
         margin-right:0px !important;
     }
 }
@@ -104,6 +139,34 @@
     position:absolute;
 }
 .collection .entries .entry .description .title_or_labels .label , .collection .featured_entry .featured_info .title_or_labels .label{
+    float:left;
+    margin-right:15px;
+    padding:2px 10px;
+    color:#000;
+    background:#FFF;
+}
+
+/***********************************************************************/
+/***********************************************************************/
+/***********************************************************************/
+/***********************************************************************/
+
+
+.collection .entries2 .entry .description {
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    z-index:999;
+    padding:15px;
+    background:rgba(255,255,255,0.1);
+}
+
+.collection .entries2 .entry .description .title_or_labels , .collection .featured_entry2 .featured_info .title_or_labels{
+    position:absolute;
+}
+.collection .entries2 .entry .description .title_or_labels .label , .collection .featured_entry2 .featured_info .title_or_labels .label{
     float:left;
     margin-right:15px;
     padding:2px 10px;

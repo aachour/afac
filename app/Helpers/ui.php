@@ -31,8 +31,12 @@
         }
         else if($featured_image_width==2) //three quarter
         {
-            $featured_width='74.5%';
-            $featured_margin='25.5%';
+            // $featured_width='74.5%';
+            // $featured_margin='25.5%';
+
+            $featured_width='79.5%';
+            $featured_margin='20.5%';
+            
         }
         else if($featured_image_width==3) //one half
         {
