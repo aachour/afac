@@ -27,6 +27,8 @@ use App\Livewire\Columns\GeneralInputsView;
 use App\Livewire\Columns\TimelineView;
 use App\Livewire\Columns\AccordionView;
 use App\Livewire\Columns\CountdownView;
+use App\Livewire\Columns\ExpandingTextView;
+
 
 use App\Livewire\Events\EventCategoryView;
 use App\Livewire\Events\EventView;
@@ -117,6 +119,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/section/{sectionId}/timeline/view/{id}', TimelineView::class)->name('timeline.view');
         Route::get('/section/{sectionId}/accordion/view/{id}', AccordionView::class)->name('accordion.view');
         Route::get('/section/{sectionId}/countdown/view/{id}', CountdownView::class)->name('countdown.view');
+        Route::get('/section/{sectionId}/expendingText/view/{id}', ExpandingTextView::class)->name('expendingText.view');
+        
     });
 
 

@@ -106,6 +106,12 @@
                                             @elseif($entry_id!=null)
                                                 <div class="mb-1"><a href="{{ route('entry.countdown.view', [ $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Countdown <i class="ti ti-edit ti-sm"></i></a></div>
                                             @endif
+                                        @elseif($column->type_id==5)
+                                            @if($page_id!=null)
+                                                <div class="mb-1"><a href="{{ route('expendingText.view', [ $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Expanding Text <i class="ti ti-edit ti-sm"></i></a></div>
+                                            @elseif($entry_id!=null)
+                                                <div class="mb-1"><a href="{{ route('entry.expendingText.view', [ $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Expanding Text <i class="ti ti-edit ti-sm"></i></a></div>
+                                            @endif
                                         @endif
                                         @endforeach
                                     @endif
