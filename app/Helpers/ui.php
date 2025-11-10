@@ -123,7 +123,7 @@
                 { 
                     $image_path = asset('frontend/images/default-image.jpg');
                     if (!empty($entries[0]->image)) {
-                        $image_path = asset('storage/' . $entries[0]->image);
+                        $image_path = asset('storage/' . $entries[0]->image_featured);
                     }
 
                     $html.='<div class="desktopOnly">
@@ -181,14 +181,14 @@
 
                         $html.='<style>
                             .collection .entries .entry:nth-child(5n){
-                                margin-right:1.875% !important;
+                                margin-right:20px !important;
                             }
                             .collection .entries2 .entry:nth-child(4n){
                                 margin-right:2%!important;
                             }
                         </style>';
 
-                        $html.='<div class="swiper">
+                        $html.='<div class="swiper" style="width:102.5%;">
                             <div class="swiper-wrapper">';
                     }
 
@@ -259,7 +259,7 @@
         $html.='<script>
             const swiper = new Swiper(".swiper", {
                 //loop: true,
-                slidesPerView: 5,  
+                slidesPerView: 5.12,  
                 spaceBetween: 20,
                 grid: {
                     rows: 1           

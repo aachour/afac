@@ -16,11 +16,11 @@
 
     <div class="fullContainer">
         
-        <!-- <div class="centerContainer"> -->
+        {{-- <div class="centerContainer"> --}}
     
             {!! $collectionHTML !!}
     
-        <!-- </div> -->
+        {{-- </div> --}}
 
     </div>
     

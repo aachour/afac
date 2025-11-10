@@ -37,10 +37,11 @@ class EntryForm extends Component
     public $image_width_options;
     public $program_statuses;
     
-
     //Common entries
     public $image;
     public $imagePreview;
+    public $image_featured;
+    public $imageFeaturedPreview;
     public $image_width;
     public $background_color_id ;
     public $button_link;
@@ -51,6 +52,8 @@ class EntryForm extends Component
     public $event_category_id;
     public $event_title;
     public $event_title_arabic;
+    public $event_text;
+    public $event_text_arabic;
     public $event_date;
     public $event_start_time;
     public $event_end_time;
@@ -58,37 +61,40 @@ class EntryForm extends Component
     //2- Program
     public $program_title;
     public $program_title_arabic;
+    public $program_text;
+    public $program_text_arabic;
     public $program_status;
 
     //3- Project
     public $project_category_id;
     public $project_title;
     public $project_title_arabic;
+    public $project_text;
+    public $project_text_arabic;
     public $project_country_id;
     public $project_program_year_id;
     public $program_id;
     public $program_year_id;
     
-
     //4- Grantee
     public $grantee_name;
     public $grantee_name_arabic;
+    public $grantee_text;
+    public $grantee_text_arabic;
     public $grantee_country_id;
-    public $grantee_image;
-    public $granteeImagePreview;
 
     //5- Jury
     public $jury_name;
     public $jury_name_arabic;
-    public $jury_bio;
-    public $jury_bio_arabic;
+    public $jury_text;
+    public $jury_text_arabic;
     public $jury_country_id;
-    public $jury_image;
-    public $juryImagePreview;
 
     //6- Resource
     public $resource_title;
     public $resource_title_arabic;
+    public $resource_text;
+    public $resource_text_arabic;
     public $resource_date;
     public $resource_tags;
     public $resource_tags_arabic;
@@ -96,6 +102,8 @@ class EntryForm extends Component
     //7- News
     public $news_title;
     public $news_title_arabic;
+    public $news_text;
+    public $news_text_arabic;
     public $news_date;
     public $news_tags;
     public $news_tags_arabic;
@@ -124,6 +132,8 @@ class EntryForm extends Component
             $this->entry=Entries::find($this->id);
 
             $this->imagePreview = asset('storage/' . $this->entry->image);
+            $this->imageFeaturedPreview = asset('storage/' . $this->entry->image_featured);
+
             $this->image_width=$this->entry->image_width;
             $this->background_color_id=$this->entry->background_color_id;
             $this->button_link=$this->entry->button_link;
@@ -134,6 +144,8 @@ class EntryForm extends Component
             $this->event_category_id=$this->entry->event_category_id;
             $this->event_title=$this->entry->event_title;
             $this->event_title_arabic=$this->entry->event_title_arabic;
+            $this->event_text=$this->entry->event_text;
+            $this->event_text_arabic=$this->entry->event_text_arabic;
             $this->event_date=$this->entry->event_date;
             $this->event_start_time=$this->entry->event_start_time;
             $this->event_end_time=$this->entry->event_end_time;
@@ -141,15 +153,18 @@ class EntryForm extends Component
             //Program
             $this->program_title=$this->entry->program_title;
             $this->program_title_arabic=$this->entry->program_title_arabic;
+            $this->program_text=$this->entry->program_text;
+            $this->program_text_arabic=$this->entry->program_text_arabic;
             $this->program_status=$this->entry->program_status;
 
             //Project
             $this->project_category_id=$this->entry->project_category_id;
             $this->project_title=$this->entry->project_title;
             $this->project_title_arabic=$this->entry->project_title_arabic;
+            $this->project_text=$this->entry->project_text;
+            $this->project_text_arabic=$this->entry->project_text_arabic;
             $this->project_country_id=$this->entry->project_country_id;
             $this->project_program_year_id=$this->entry->project_program_year_id;
-
             $programYearProject=ProgramYearProjects::find($this->project_program_year_id);
             if($programYearProject!=null){
                 $this->program_id=$programYearProject->programYear->program->id;
@@ -159,20 +174,22 @@ class EntryForm extends Component
             //Grantee
             $this->grantee_name=$this->entry->grantee_name;
             $this->grantee_name_arabic=$this->entry->grantee_name_arabic;
+            $this->grantee_text=$this->entry->grantee_text;
+            $this->grantee_text_arabic=$this->entry->grantee_text_arabic;
             $this->grantee_country_id=$this->entry->grantee_country_id;
-            $this->granteeImagePreview = asset('storage/' . $this->entry->grantee_image);
 
             //Jury
             $this->jury_name=$this->entry->jury_name;
             $this->jury_name_arabic=$this->entry->jury_name_arabic;
-            $this->jury_bio=$this->entry->jury_bio;
-            $this->jury_bio_arabic=$this->entry->jury_bio_arabic;
+            $this->jury_text=$this->entry->jury_text;
+            $this->jury_text_arabic=$this->entry->jury_text_arabic;
             $this->jury_country_id=$this->entry->jury_country_id;
-            $this->juryImagePreview = asset('storage/' . $this->entry->jury_image);
 
             //Resource
             $this->resource_title=$this->entry->resource_title;
             $this->resource_title_arabic=$this->entry->resource_title_arabic;
+            $this->resource_text=$this->entry->resource_text;
+            $this->resource_text_arabic=$this->entry->resource_text_arabic;
             $this->resource_date=$this->entry->resource_date;
             $this->resource_tags=$this->entry->resource_tags;
             $this->resource_tags_arabic=$this->entry->resource_tags_arabic;
@@ -180,6 +197,8 @@ class EntryForm extends Component
             //News
             $this->news_title=$this->entry->news_title;
             $this->news_title_arabic=$this->entry->news_title_arabic;
+            $this->news_text=$this->entry->news_text;
+            $this->news_text_arabic=$this->entry->news_text_arabic;
             $this->news_date=$this->entry->news_date;
             $this->news_tags=$this->entry->news_tags;
             $this->news_tags_arabic=$this->entry->news_tags_arabic;
@@ -217,6 +236,7 @@ class EntryForm extends Component
         $data = [
             'type_id' => ['required'],
             'image' => ['nullable'],
+            'image_featured' => ['nullable'],
             'image_width' => ['nullable'],
             'background_color_id' => ['nullable'],
             'button_link' => ['nullable'],
@@ -249,29 +269,22 @@ class EntryForm extends Component
             'grantee_name' => ['required_if:type_id,4'],
             'grantee_name_arabic' => ['required_if:type_id,4'],
             'grantee_country_id' => ['required_if:type_id,4'],
-            'grantee_image' => ['nullable'],
 
             //Jury
             'jury_name' => ['required_if:type_id,5'],
             'jury_name_arabic' => ['required_if:type_id,5'],
-            'jury_bio' => ['required_if:type_id,5'],
-            'jury_bio_arabic' => ['required_if:type_id,5'],
             'jury_country_id' => ['required_if:type_id,5'],
-            'jury_image' => ['nullable'],
 
             //Resource
             'resource_title' => ['required_if:type_id,6'],
             'resource_title_arabic' => ['required_if:type_id,6'],
             'resource_date' => ['required_if:type_id,6'],
-            'resource_tags' => ['required_if:type_id,6'],
-            'resource_tags_arabic' => ['required_if:type_id,6'],
+            
             
             //News
             'news_title' => ['required_if:type_id,7'],
             'news_title_arabic' => ['required_if:type_id,7'],
             'news_date' => ['required_if:type_id,7'],
-            'news_tags' => ['required_if:type_id,7'],
-            'news_tags_arabic' => ['required_if:type_id,7'],
             
         ];
 
@@ -289,17 +302,14 @@ class EntryForm extends Component
                 $path = $this->image->store('entries', 'public');
             }
 
-            if($this->grantee_image!=''){
-                $grantee_path = $this->grantee_image->store('entries', 'public');
-            }
-
-            if($this->jury_image!=''){
-                $jury_path = $this->jury_image->store('entries', 'public');
+            if($this->image_featured!=''){
+                $path_featured = $this->image_featured->store('entries', 'public');
             }
 
             $entry=Entries::create([
                 'type_id' => $this->type_id,
                 'image' => @$path,
+                'image_featured' => @$path_featured,
                 'image_width' => $this->image_width,
                 'background_color_id' => $this->background_color_id !== '' ? $this->background_color_id : null,
                 'button_link' => $this->button_link,
@@ -308,33 +318,43 @@ class EntryForm extends Component
                 'event_category_id'=> $this->event_category_id !== '' ? $this->event_category_id : null,
                 'event_title'=>$this->event_title ?? '',
                 'event_title_arabic'=>$this->event_title_arabic ?? '',
+                'event_text'=>$this->event_text ?? '',
+                'event_text_arabic'=>$this->event_text_arabic ?? '',
                 'event_date'=>$this->event_date ?? null,
                 'event_start_time'=>$this->event_start_time ?? null,
                 'event_end_time'=>$this->event_end_time ?? null,
                 'program_title'=>$this->program_title ?? '',
                 'program_title_arabic'=>$this->program_title_arabic ?? '',
+                'program_text'=>$this->program_text ?? '',
+                'program_text_arabic'=>$this->program_text_arabic ?? '',
                 'program_status'=>$this->program_status ?? '0',
                 'project_category_id'=> $this->project_category_id !== '' ? $this->project_category_id : null, 
                 'project_title'=>$this->project_title ?? '',
                 'project_title_arabic'=>$this->project_title_arabic ?? '',
+                'project_text'=>$this->project_text ?? '',
+                'project_text_arabic'=>$this->project_text_arabic ?? '',
                 'project_country_id'=> $this->project_country_id !== '' ? $this->project_country_id : null,
                 'grantee_name'=>$this->grantee_name ?? '',
                 'grantee_name_arabic'=>$this->grantee_name_arabic ?? '',
+                'grantee_text'=>$this->grantee_text ?? '',
+                'grantee_text_arabic'=>$this->grantee_text_arabic ?? '',
                 'grantee_country_id'=> $this->grantee_country_id !== '' ? $this->grantee_country_id : null, 
-                'grantee_image'=>$grantee_path ?? '',
                 'jury_name'=>$this->jury_name ?? '',
                 'jury_name_arabic'=>$this->jury_name_arabic ?? '',
-                'jury_bio'=>$this->jury_bio ?? '',
-                'jury_bio_arabic'=>$this->jury_bio_arabic ?? '',
+                'jury_text'=>$this->jury_text ?? '',
+                'jury_text_arabic'=>$this->jury_text_arabic ?? '',
                 'jury_country_id'=>$this->jury_country_id !== '' ? $this->jury_country_id : null, 
-                'jury_image'=>$jury_path ?? '',
                 'resource_title'=>$this->resource_title ?? '',
                 'resource_title_arabic'=>$this->resource_title_arabic ?? '',
+                'resource_text'=>$this->resource_text ?? '',
+                'resource_text_arabic'=>$this->resource_text_arabic ?? '',
                 'resource_date'=> $this->resource_date ?? null,
                 'resource_tags'=>$this->resource_tags ?? '',
                 'resource_tags_arabic'=>$this->resource_tags_arabic ?? '',
                 'news_title'=>$this->news_title ?? '',
                 'news_title_arabic'=>$this->news_title_arabic ?? '',
+                'news_text'=>$this->news_text ?? '',
+                'news_text_arabic'=>$this->news_text_arabic ?? '',
                 'news_date'=>$this->news_date ?? null,
                 'news_tags'=>$this->news_tags ?? '',
                 'news_tags_arabic'=>$this->news_tags_arabic ?? '',
@@ -359,16 +379,14 @@ class EntryForm extends Component
                 $path = $this->image->store('entries', 'public');
             }
 
-            if($this->grantee_image!=''){
-                $grantee_path = $this->grantee_image->store('entries', 'public');
+            if($this->image_featured!=''){
+                $path_feautred = $this->image_featured->store('entries', 'public');
             }
 
-            if($this->jury_image!=''){
-                $jury_path = $this->jury_image->store('entries', 'public');
-            }
 
             $data = [
                 'image' => @$path ?? $this->entry->image,
+                'image_featured' => @$path_feautred ?? $this->entry->image_featured,
                 'image_width' => $this->image_width,
                 'background_color_id' => $this->background_color_id !== '' ? $this->background_color_id : null,
                 'button_link' => $this->button_link,
@@ -377,33 +395,43 @@ class EntryForm extends Component
                 'event_category_id'=> $this->event_category_id !== '' ? $this->event_category_id : null,
                 'event_title'=>$this->event_title ?? '',
                 'event_title_arabic'=>$this->event_title_arabic ?? '',
+                'event_text'=>$this->event_text ?? '',
+                'event_text_arabic'=>$this->event_text_arabic ?? '',
                 'event_date'=>$this->event_date ?? null,
                 'event_start_time'=>$this->event_start_time ?? null,
                 'event_end_time'=>$this->event_end_time ?? null,
                 'program_title'=>$this->program_title ?? '',
                 'program_title_arabic'=>$this->program_title_arabic ?? '',
+                'program_text'=>$this->program_text ?? '',
+                'program_text_arabic'=>$this->program_text_arabic ?? '',
                 'program_status'=>$this->program_status ?? '0',
                 'project_category_id'=> $this->project_category_id !== '' ? $this->project_category_id : null, 
                 'project_title'=>$this->project_title ?? '',
                 'project_title_arabic'=>$this->project_title_arabic ?? '',
+                'project_text'=>$this->project_text ?? '',
+                'project_text_arabic'=>$this->project_text_arabic ?? '',
                 'project_country_id'=> $this->project_country_id !== '' ? $this->project_country_id : null,
                 'grantee_name'=>$this->grantee_name ?? '',
                 'grantee_name_arabic'=>$this->grantee_name_arabic ?? '',
+                'grantee_text'=>$this->grantee_text ?? '',
+                'grantee_text_arabic'=>$this->grantee_text_arabic ?? '',
                 'grantee_country_id'=> $this->grantee_country_id !== '' ? $this->grantee_country_id : null, 
-                'grantee_image' => @$grantee_path ?? $this->entry->grantee_image,
                 'jury_name'=>$this->jury_name ?? '',
                 'jury_name_arabic'=>$this->jury_name_arabic ?? '',
-                'jury_bio'=>$this->jury_bio ?? '',
-                'jury_bio_arabic'=>$this->jury_bio_arabic ?? '',
+                'jury_text'=>$this->jury_text ?? '',
+                'jury_text_arabic'=>$this->jury_text_arabic ?? '',
                 'jury_country_id'=>$this->jury_country_id !== '' ? $this->jury_country_id : null, 
-                'jury_image' => @$jury_path ?? $this->entry->jury_image,
                 'resource_title'=>$this->resource_title ?? '',
                 'resource_title_arabic'=>$this->resource_title_arabic ?? '',
+                'resource_text'=>$this->resource_text ?? '',
+                'resource_text_arabic'=>$this->resource_text_arabic ?? '',
                 'resource_date'=> $this->resource_date ?? null,
                 'resource_tags'=>$this->resource_tags ?? '',
                 'resource_tags_arabic'=>$this->resource_tags_arabic ?? '',
                 'news_title'=>$this->news_title ?? '',
                 'news_title_arabic'=>$this->news_title_arabic ?? '',
+                'news_text'=>$this->news_text ?? '',
+                'news_text_arabic'=>$this->news_text_arabic ?? '',
                 'news_date'=>$this->news_date ?? null,
                 'news_tags'=>$this->news_tags ?? '',
                 'news_tags_arabic'=>$this->news_tags_arabic ?? '',

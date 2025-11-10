@@ -398,27 +398,6 @@
 
                                     <div class="w-100 d-none d-md-block"></div>
 
-                                    <div class="col-12 col-md-6 mt-2">
-                                        <label class="form-label" for="name">Featured Decription</label>
-                                        <textarea
-                                            wire:model="featured_image_description"
-                                            id="featured_image_description"
-                                            class="form-control"
-                                            placeholder="Decription"></textarea>
-                                        @error('featured_image_description') <div class="text-danger">{{ $message }}</div> @enderror
-                                    </div>
-
-                                    <div class="col-12 col-md-6 mt-2">
-                                        <label class="form-label" for="name">الوصف</label>
-                                        <textarea
-                                            wire:model="featured_image_description_arabic"
-                                            id="featured_image_description_arabic"
-                                            class="form-control"
-                                            placeholder="الوصف"></textarea>
-                                        @error('featured_image_description_arabic') <div class="text-danger">{{ $message }}</div> @enderror
-                                    </div>
-
-
                                     <div class="col-12 mt-2">
                                         <label class="form-label" for="name">Featured Description Position</label>
 

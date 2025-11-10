@@ -44,10 +44,22 @@
                                         @endforeach
                                     </select>
                                     @error('image_width') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>  
+
+                                <div class="col-12 mt-2">
+                                    <label class="form-label" for="image">Featured Image [1000x1000px]</label>
+                                    <x-filepond 
+                                        wire:model="image_featured"
+                                        file-path="{{ $imageFeaturedPreview ?? '' }}"
+                                        delete-event="deleteImage"
+                                        is-multiple="false" />
+                                    @error('image_featured') 
+                                        <div class="text-danger">{{ $message }}</div> 
+                                    @enderror
                                 </div>
 
                                 <div class="col-12 mt-2">
-                                    <label class="form-label" for="image">Image</label>
+                                    <label class="form-label" for="image">Image [640x900px]</label>
                                     <x-filepond 
                                         wire:model="image"
                                         file-path="{{ $imagePreview ?? '' }}"
@@ -57,7 +69,6 @@
                                         <div class="text-danger">{{ $message }}</div> 
                                     @enderror
                                 </div>
-
 
                                 <div class="w-100 d-none d-md-block"></div>
 
@@ -152,6 +163,27 @@
                                     @error('event_title_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="event_text">Text</label>
+                                    <textarea
+                                        wire:model="event_text"
+                                        type="text"
+                                        id="event_text"
+                                        class="form-control" placeholder="Text"></textarea>
+                                    @error('event_text') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="event_text_arabic">النص </label>
+                                    <textarea
+                                        wire:model="event_text_arabic"
+                                        type="text"
+                                        id="event_text_arabic"
+                                        class="form-control"
+                                        placeholder="النص"></textarea>
+                                    @error('event_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
 
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="event_date">Date <span class="text-danger">*</span></label>
@@ -230,6 +262,27 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="program_text">Text</label>
+                                    <textarea
+                                        wire:model="program_text"
+                                        type="text"
+                                        id="program_text"
+                                        class="form-control" placeholder="Text"></textarea>
+                                    @error('program_text') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="program_text_arabic">النص </label>
+                                    <textarea
+                                        wire:model="program_text_arabic"
+                                        type="text"
+                                        id="program_text_arabic"
+                                        class="form-control"
+                                        placeholder="النص"></textarea>
+                                    @error('program_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="program_status">Status <span class="text-danger">*</span></label>
                                     <select
                                         wire:model="program_status"
@@ -298,6 +351,27 @@
                                         class="form-control"
                                         placeholder="العنوان" />
                                     @error('project_title_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="project_text">Text</label>
+                                    <textarea
+                                        wire:model="project_text"
+                                        type="text"
+                                        id="project_text"
+                                        class="form-control" placeholder="Text"></textarea>
+                                    @error('project_text') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="project_text_arabic">النص </label>
+                                    <textarea
+                                        wire:model="project_text_arabic"
+                                        type="text"
+                                        id="project_text_arabic"
+                                        class="form-control"
+                                        placeholder="النص"></textarea>
+                                    @error('project_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
@@ -388,6 +462,27 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="grantee_text">Text</label>
+                                    <textarea
+                                        wire:model="grantee_text"
+                                        type="text"
+                                        id="grantee_text"
+                                        class="form-control" placeholder="Text"></textarea>
+                                    @error('grantee_text') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="grantee_text_arabic">النص </label>
+                                    <textarea
+                                        wire:model="grantee_text_arabic"
+                                        type="text"
+                                        id="grantee_text_arabic"
+                                        class="form-control"
+                                        placeholder="النص"></textarea>
+                                    @error('grantee_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="grantee_country_id">Country <span class="text-danger">*</span></label>
                                     <select
                                         wire:model="grantee_country_id"
@@ -400,18 +495,7 @@
                                     </select>
                                     @error('grantee_country_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
-
-                                <div class="col-12 mt-2">
-                                    <label class="form-label" for="image">Image</label>
-                                    <x-filepond 
-                                        wire:model="grantee_image"
-                                        file-path="{{ $granteeImagePreview ?? '' }}"
-                                        delete-event="deleteImage"
-                                        is-multiple="false" />
-                                    @error('image') 
-                                        <div class="text-danger">{{ $message }}</div> 
-                                    @enderror
-                                </div>
+                                
 
                             </div>
 
@@ -455,24 +539,24 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="jury_bio">Biography <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="jury_text">Biography <span class="text-danger">*</span></label>
                                     <textarea
-                                        wire:model="jury_bio"
+                                        wire:model="jury_text"
                                         type="text"
-                                        id="jury_bio"
+                                        id="jury_text"
                                         class="form-control" placeholder="Biography"></textarea>
-                                    @error('jury_bio') <div class="text-danger">{{ $message }}</div> @enderror
+                                    @error('jury_text') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="jury_bio_arabic">السيرة الذاتية <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="jury_text_arabic">السيرة الذاتية <span class="text-danger">*</span></label>
                                     <textarea
-                                        wire:model="jury_bio_arabic"
+                                        wire:model="jury_text_arabic"
                                         type="text"
-                                        id="jury_bio_arabic"
+                                        id="jury_text_arabic"
                                         class="form-control"
                                         placeholder="السيرة الذاتية"></textarea>
-                                    @error('jury_bio_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                    @error('jury_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
@@ -487,18 +571,6 @@
                                         @endforeach
                                     </select>
                                     @error('jury_country_id') <div class="text-danger">{{ $message }}</div> @enderror
-                                </div>
-
-                                <div class="col-12 mt-2">
-                                    <label class="form-label" for="image">Image</label>
-                                    <x-filepond 
-                                        wire:model="jury_image"
-                                        file-path="{{ $juryImagePreview ?? '' }}"
-                                        delete-event="deleteImage"
-                                        is-multiple="false" />
-                                    @error('image') 
-                                        <div class="text-danger">{{ $message }}</div> 
-                                    @enderror
                                 </div>
 
                             </div>
@@ -544,6 +616,28 @@
 
 
                                 <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="resource_text">Text</label>
+                                    <textarea
+                                        wire:model="resource_text"
+                                        type="text"
+                                        id="resource_text"
+                                        class="form-control" placeholder="Text"></textarea>
+                                    @error('resource_text') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="resource_text_arabic">النص </label>
+                                    <textarea
+                                        wire:model="resource_text_arabic"
+                                        type="text"
+                                        id="resource_text_arabic"
+                                        class="form-control"
+                                        placeholder="النص"></textarea>
+                                    @error('resource_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+
+                                <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="resource_date">Date <span class="text-danger">*</span></label>
                                     <input
                                         wire:model="resource_date"
@@ -557,7 +651,7 @@
                                 <div class="w-100 d-none d-md-block"></div>
 
                                 <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="resource_tags">Tags <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="resource_tags">Tags</label>
                                     <input
                                         wire:model="resource_tags"
                                         type="text"
@@ -568,7 +662,7 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="resource_tags_arabic">Tags Arabic <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="resource_tags_arabic">Tags Arabic</label>
                                     <input
                                         wire:model="resource_tags_arabic"
                                         type="text"
@@ -620,6 +714,27 @@
                                     @error('news_title_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="news_text">Text</label>
+                                    <textarea
+                                        wire:model="news_text"
+                                        type="text"
+                                        id="news_text"
+                                        class="form-control" placeholder="Text"></textarea>
+                                    @error('news_text') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="news_text_arabic">النص </label>
+                                    <textarea
+                                        wire:model="news_text_arabic"
+                                        type="text"
+                                        id="news_text_arabic"
+                                        class="form-control"
+                                        placeholder="النص"></textarea>
+                                    @error('news_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
 
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="news_date">Date <span class="text-danger">*</span></label>
@@ -635,7 +750,7 @@
                                 <div class="w-100 d-none d-md-block"></div>
                                 
                                 <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="news_tags">Tags <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="news_tags">Tags</label>
                                     <input
                                         wire:model="news_tags"
                                         type="text"
@@ -646,7 +761,7 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="news_tags_arabic">Tags Arabic <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="news_tags_arabic">Tags Arabic</label>
                                     <input
                                         wire:model="news_tags_arabic"
                                         type="text"
