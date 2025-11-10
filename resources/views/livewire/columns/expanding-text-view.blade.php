@@ -37,7 +37,7 @@
                         <tr data-id="{{ $expandingText->id }}" style="cursor: move;">
                             <td>{{$expandingText->list_order}}</td>
                             <td>{{$expandingText->text}}</td>
-                            <td>{{$expandingText->visible}}</td>
+                            <td>{{ $expandingText->visible == 1 ? 'Yes' : 'No' }}</td>
                             <td>
                                 @can('section-edit')
                                     <i  class="ti ti-edit ti-sm cursor-pointer"
