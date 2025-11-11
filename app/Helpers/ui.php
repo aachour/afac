@@ -227,7 +227,7 @@
                         //check entries per row
                         $entries_count++;
 
-                        if($entries_layout==2 && $entries_count % $entries_per_row==0){
+                        if($entries_layout==1 && $entries_count % $entries_per_row==0){
                             $html.='<div class="clear">&nbsp;</div>';
                         }
 
