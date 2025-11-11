@@ -274,6 +274,18 @@
                 },*/
                 effect: "slide",
                 speed: 800,
+                breakpoints: {
+                // when window width is >= 320px
+                576: {
+                    slidesPerView: 1,
+                    spaceBetween: 0
+                },
+                // when window width is >= 992px
+                900: {
+                    slidesPerView: 5.12,
+                    spaceBetween: 20
+                },
+            }
             });
         </script>';
         
