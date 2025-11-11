@@ -83,9 +83,9 @@
             $query = Entries::where('type_id', $collection_type_id);
 
             // Filter expired only for events
-            if ($entries_expired == 1 && $collection_type_id == 1) {
-                $query->where('event_date', '>=', date('Y-m-d'));
-            }
+            // if ($entries_expired == 1 && $collection_type_id == 1) {
+            //     $query->where('event_date', '>=', date('Y-m-d'));
+            // }
 
             // Ordering 
             if ($collection_type_id == 1 && $entries_order == 1) //event name asc
