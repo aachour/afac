@@ -113,7 +113,7 @@
         
         $html='<div class="collection" style="background-color:'.$bgColor.';">';
 
-            $html.='<div class="white bigger">'.$collection->name.'</div>';
+            $html.='<div class="white bigger ABCDiatype">'.$collection->name.'</div>';
 
             if(count($entries)>0)
             {
@@ -129,7 +129,10 @@
                     $html.='<div class="desktopOnly">
                         <div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
                             <div class="featured_info">
-                                <div class="title_or_labels big white" style="'.$title_position.'">'.$entries[0]->event_title.'</div>';
+                                <div class="title_or_labels" style="'.$title_position.'">
+                                    <div class="big white">'.$entries[0]->event_title.'</div>
+                                    <div class="topSpacerSmall small white">'.$entries[0]->event_text.'</div>
+                                </div>';
                                 if($with_label==1)
                                 {
                                     $html.='<div class="title_or_labels" style="'.$labels_position.'">
@@ -259,7 +262,7 @@
         $html.='<script>
             const swiper = new Swiper(".swiper", {
                 //loop: true,
-                slidesPerView: 5.12,  
+                slidesPerView: 5.11,  
                 spaceBetween: 20,
                 grid: {
                     rows: 1           
@@ -282,8 +285,8 @@
                 },
                 // when window width is >= 992px
                 900: {
-                    slidesPerView: 5.12,
-                    spaceBetween: 20
+                    slidesPerView: 5.13,
+                    spaceBetween: 22
                 },
             }
             });

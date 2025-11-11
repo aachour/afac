@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'ABC Diatype';
+    src: url('ABCDiatype-RegularItalic.eot');
+    src: url('ABCDiatype-RegularItalic.eot?#iefix') format('embedded-opentype'),
+        url('ABCDiatype-RegularItalic.woff2') format('woff2'),
+        url('ABCDiatype-RegularItalic.woff') format('woff'),
+        url('ABCDiatype-RegularItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
