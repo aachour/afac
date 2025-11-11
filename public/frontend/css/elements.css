@@ -60,6 +60,7 @@
 }
 .collection .featured_entry .featured_image{
     width:50%;
+    aspect-ratio: 1;
 }
 .collection .featured_entry .featured_image img{
     width: 100%;
