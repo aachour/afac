@@ -109,7 +109,7 @@
             $entries = $query->limit($entries_number)->get();
         }
 
-        dd($collectionEntries);
+        dd($entries);
 
         $bgColor = $collection->bgColor?->code ?? '#ffffff';
         
