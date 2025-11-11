@@ -109,6 +109,8 @@
             $entries = $query->limit($entries_number)->get();
         }
 
+        dd($collectionEntries);
+
         $bgColor = $collection->bgColor?->code ?? '#ffffff';
         
         $html='<div class="collection" style="background-color:'.$bgColor.';">';
