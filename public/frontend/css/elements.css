@@ -153,18 +153,18 @@
     position: absolute;
     bottom: 0px;      
     right:2.5%;  
-    width: 17px;    
-    height: 34px;
+    width: 14px;    
+    height: 28px;
     z-index: 10;
     background:url("../images/arrow-right.png") center no-repeat;
-    background-size: 17px 34px;
+    background-size: 14px 28px;
 }
 
 /* Position prev button to the left of next button */
 .collection .swiper-button-prev {
-    left: 94% !important;
+    left: 95% !important;
     background:url("../images/arrow-left.png") center no-repeat;
-    background-size: 17px 34px;
+    background-size: 14px 28px;
 }
 
 
