@@ -30,18 +30,7 @@ class HomeController extends Controller
             'collectionHTML' => $collectionHTML
         ]);
 
-        
     }
 
-    public function ViewCollection2($id){
-        
-        $collectionHTML = ViewCollection2($id,'EN');       
-        
-        return view('frontend.collection', [
-            'collectionHTML' => $collectionHTML
-        ]);
-
-        
-    }
 
 }

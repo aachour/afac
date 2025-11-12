@@ -53,14 +53,12 @@
     display: flex;
     align-items: stretch; /* ensures equal height */
 }
-
 .collection .featured_entry .featured_info{
-    width:50%;
-    padding:20px 15px;
+    width:60%;
+    padding:30px;
 }
 .collection .featured_entry .featured_image{
-    width:50%;
-    aspect-ratio: 1;
+    width:40%;
 }
 .collection .featured_entry .featured_image img{
     width: 100%;
@@ -68,31 +66,6 @@
     object-fit: cover; /* ensures image fills area nicely */
     display: block;
 }
-
-/***********************************************************************/
-/***********************************************************************/
-/***********************************************************************/
-/***********************************************************************/
-
-.collection .featured_entry2{
-    display: flex;
-    align-items: stretch; /* ensures equal height */
-}
-.collection .featured_entry2 .featured_info{
-    width:60%;
-    padding:30px;
-}
-.collection .featured_entry2 .featured_image{
-    width:40%;
-}
-.collection .featured_entry2 .featured_image img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* ensures image fills area nicely */
-    display: block;
-}
-
-
 
 @media(max-width:900px){
     .collection .entries .entry{
@@ -103,22 +76,12 @@
 @media(min-width:900px){
     .collection .entries .entry{
         float:left;
-        width:18.5%;
-        height:auto;
-        margin-right:1.875%;
-        margin-bottom:2%;
-    }
-    .collection .entries .entry:nth-child(5n){
-        margin-right:0px !important;
-    }
-    .collection .entries2 .entry{
-        float:left;
         width:23.5%;
         height:auto;
         margin-right:2%;
         margin-bottom:2%;
     }
-    .collection .entries2 .entry:nth-child(4n){
+    .collection .entries .entry:nth-child(4n){
         margin-right:0px !important;
     }
 }
@@ -152,7 +115,7 @@
 .collection .swiper-button-prev, .collection .swiper-button-next {
     position: absolute;
     bottom: 0px;      
-    right:2.5%;  
+    right:3%;  
     width: 14px;    
     height: 28px;
     z-index: 10;
@@ -162,36 +125,7 @@
 
 /* Position prev button to the left of next button */
 .collection .swiper-button-prev {
-    left: 95.2% !important;
+    left: calc( 97% - 40px) !important;
     background:url("../images/arrow-left.png") center no-repeat;
     background-size: 14px 28px;
-}
-
-
-/***********************************************************************/
-/***********************************************************************/
-/***********************************************************************/
-/***********************************************************************/
-
-
-.collection .entries2 .entry .description {
-    position:absolute;
-    top:0px;
-    left:0px;
-    width:100%;
-    height:100%;
-    z-index:999;
-    padding:15px;
-    background:rgba(255,255,255,0.1);
-}
-
-.collection .entries2 .entry .description .title_or_labels , .collection .featured_entry2 .featured_info .title_or_labels{
-    position:absolute;
-}
-.collection .entries2 .entry .description .title_or_labels .label , .collection .featured_entry2 .featured_info .title_or_labels .label{
-    float:left;
-    margin-right:10px;
-    padding:2px 10px;
-    color:#000;
-    background:#FFF;
 }
