@@ -162,7 +162,7 @@
 
 /* Position prev button to the left of next button */
 .collection .swiper-button-prev {
-    left: 95% !important;
+    left: 94% !important;
     background:url("../images/arrow-left.png") center no-repeat;
     background-size: 17px 34px;
 }
