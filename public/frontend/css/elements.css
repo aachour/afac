@@ -43,7 +43,7 @@
 
 .collection .featured_entry_mobile .description .title_or_labels .label{
     float:left;
-    margin-right:15px;
+    margin-right:10px;
     padding:2px 10px;
     color:#000;
     background:#FFF;
@@ -139,7 +139,7 @@
 }
 .collection .entries .entry .description .title_or_labels .label , .collection .featured_entry .featured_info .title_or_labels .label{
     float:left;
-    margin-right:15px;
+    margin-right:10px;
     padding:2px 10px;
     color:#000;
     background:#FFF;
@@ -190,7 +190,7 @@
 }
 .collection .entries2 .entry .description .title_or_labels .label , .collection .featured_entry2 .featured_info .title_or_labels .label{
     float:left;
-    margin-right:15px;
+    margin-right:10px;
     padding:2px 10px;
     color:#000;
     background:#FFF;
