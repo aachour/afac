@@ -164,6 +164,10 @@ input[type="button"].greenBtn{
     border-radius: 30px;
 }
 
+.threeQuartersText{
+    width:75%;
+}
+
 
 @media(max-width:900px){
     .desktopOnly{

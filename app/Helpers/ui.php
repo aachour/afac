@@ -127,7 +127,7 @@
                             <div class="featured_info">
                                 <div class="title_or_labels" style="'.$title_position.'">
                                     <div class="medium white ABCDiatypeMedium">'.$entries[0]->event_title.'</div>
-                                    <div class="topSpacerSmall tiny white">'.$entries[0]->event_text.'</div>
+                                    <div class="topSpacerSmall tiny white threeQuartersText">'.$entries[0]->event_text.'</div>
                                 </div>';
                                 if($with_label==1)
                                 {
@@ -412,7 +412,7 @@
                             <div class="featured_info">
                                 <div class="title_or_labels" style="'.$title_position.'">
                                     <div class="medium white ABCDiatypeMedium">'.$entries[0]->event_title.'</div>
-                                    <div class="topSpacerSmall tiny white">'.$entries[0]->event_text.'</div>
+                                    <div class="topSpacerSmall tiny white threeQuartersText">'.$entries[0]->event_text.'</div>
                                 </div>';
                                 if($with_label==1)
                                 {
