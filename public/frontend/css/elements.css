@@ -146,25 +146,27 @@
 }
 
 
+.collection .swiper-button-prev::after, .collection .swiper-button-next::after {
+  display: none; /* hide Swiper’s default icons */
+}
 .collection .swiper-button-prev, .collection .swiper-button-next {
     position: absolute;
     bottom: 0px;      
     right:0px;  
-    width: 25px;    
-    height: 25px;
-    color: #fff;
+    width: 17px;    
+    height: 34px;
     z-index: 10;
+    background:url("../images/arrow-right.png") center no-repeat;
+    background-size: 17px 34px;
 }
 
 /* Position prev button to the left of next button */
 .collection .swiper-button-prev {
     left: calc(100% - 60px) !important;
+    background:url("../images/arrow-left.png") center no-repeat;
+    background-size: 17px 34px;
 }
 
-/* Make icon smaller (Swiper uses ::after pseudo element) */
-.collection .swiper-button-prev:after, .collection .swiper-button-next:after {
-    font-size: 14px;
-}
 
 /***********************************************************************/
 /***********************************************************************/

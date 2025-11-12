@@ -184,7 +184,7 @@
                             }
                         </style>';
 
-                        $html.='<div class="swiper" style="width:102.5%;">
+                        $html.='<div class="swiper" style="width:102.5%; padding-bottom:15px;">
                             <div class="swiper-wrapper">';
                     }
 
@@ -468,7 +468,7 @@
                             }
                         </style>';
 
-                        $html.='<div class="swiper" style="width:102.5%;">
+                        $html.='<div class="swiper" style="width:102.5%; padding-bottom:15px;">
                             <div class="swiper-wrapper">';
                     }
 
