@@ -109,7 +109,7 @@
         
         $html='<div class="collection" style="background-color:'.$bgColor.';">';
 
-            $html.='<div class="white bigger ABCDiatype">'.$collection->name.'</div>';
+            $html.='<div class="white big ABCDiatype">'.$collection->name.'</div>';
 
             if(count($entries)>0)
             {
@@ -126,16 +126,16 @@
                         <div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
                             <div class="featured_info">
                                 <div class="title_or_labels" style="'.$title_position.'">
-                                    <div class="big white">'.$entries[0]->event_title.'</div>
-                                    <div class="topSpacerSmall small white">'.$entries[0]->event_text.'</div>
+                                    <div class="medium white">'.$entries[0]->event_title.'</div>
+                                    <div class="topSpacerSmall tiny white">'.$entries[0]->event_text.'</div>
                                 </div>';
                                 if($with_label==1)
                                 {
                                     $html.='<div class="title_or_labels" style="'.$labels_position.'">
-                                        <div class="label small">'.$entries[0]->type->name.'</div>
-                                        <div class="label small rounded">'.date('d M',strtotime($entries[0]->event_date)).'</div>
+                                        <div class="label micro">'.$entries[0]->type->name.'</div>
+                                        <div class="label micro rounded">'.date('d M',strtotime($entries[0]->event_date)).'</div>
                                         <div class="clear"></div>
-                                        <div class="topSpacerSmall label small rounded">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
+                                        <div class="topSpacerSmall label micro rounded">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
                                         <div class="clear">&nbsp;</div>
                                     </div>';
                                 }
@@ -151,14 +151,15 @@
                         <div class="featured_entry_mobile" style="background:'.$featured_image_bgColor.';">
                            <img src="'.$image_path.'" width="100%" />
                             <div class="description">
-                                <div class="title_or_labels big white" style="'.$title_position.'">'.$entries[0]->event_title.'</div>';
+                                <div class="title_or_labels medium white" style="'.$title_position.'">'.$entries[0]->event_title.'</div>
+                                <div class="topSpacerSmall tiny white">'.$entries[0]->event_text.'</div>';
                                 if($with_label==1)
                                 {
                                     $html.='<div class="title_or_labels" style="'.$labels_position.'">
-                                        <div class="label small black">'.$entries[0]->type->name.'</div>
-                                        <div class="label small black">'.date('d M',strtotime($entries[0]->event_date)).'</div>
+                                        <div class="label micro black">'.$entries[0]->type->name.'</div>
+                                        <div class="label micro black">'.date('d M',strtotime($entries[0]->event_date)).'</div>
                                         <div class="clear"></div>
-                                        <div class="topSpacerSmall label small black">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
+                                        <div class="topSpacerSmall label micro black">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
                                         <div class="clear">&nbsp;</div>
                                     </div>';
                                 }
@@ -205,14 +206,14 @@
 
                             <img src="'.$image_path.'" width="100%" />
                             <div class="description">
-                                <div class="title_or_labels big white" style="'.$title_position.'">'.$entry->event_title.'</div>';
+                                <div class="title_or_labels medium white" style="'.$title_position.'">'.$entry->event_title.'</div>';
                                 if($with_label==1)
                                 {
                                     $html.='<div class="title_or_labels" style="'.$labels_position.'">
-                                        <div class="label small black">'.$entry->type->name.'</div>
-                                        <div class="label small black rounded">'.date('d M',strtotime($entry->event_date)).'</div>
+                                        <div class="label micro black">'.$entry->type->name.'</div>
+                                        <div class="label micro black rounded">'.date('d M',strtotime($entry->event_date)).'</div>
                                         <div class="clear"></div>
-                                        <div class="topSpacerSmall label small black rounded">'.date('h:i',strtotime($entry->event_start_time)).' - '.date('h:i',strtotime($entry->event_to_time)).'</div>
+                                        <div class="topSpacerSmall label micro black rounded">'.date('h:i',strtotime($entry->event_start_time)).' - '.date('h:i',strtotime($entry->event_to_time)).'</div>
                                         <div class="clear">&nbsp;</div>
                                     </div>';
                                 }
