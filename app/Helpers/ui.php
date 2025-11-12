@@ -134,7 +134,7 @@
                                     $html.='<div class="title_or_labels" style="'.$labels_position.'">
                                         <div class="label micro ABCDiatypeMedium">'.$entries[0]->type->name.'</div>
                                         <div class="label micro ABCDiatypeMedium rounded">'.date('d M',strtotime($entries[0]->event_date)).'</div>
-                                        <div class="topSpacerSmall label micro rounded ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
+                                        <div class="label micro rounded ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
                                         <div class="clear">&nbsp;</div>
                                     </div>';
                                 }
@@ -419,7 +419,7 @@
                                     $html.='<div class="title_or_labels" style="'.$labels_position.'">
                                         <div class="label micro ABCDiatypeMedium">'.$entries[0]->type->name.'</div>
                                         <div class="label micro rounded ABCDiatypeMedium">'.date('d M',strtotime($entries[0]->event_date)).'</div>
-                                        <div class="topSpacerSmall label micro rounded ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
+                                        <div class="label micro rounded ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
                                         <div class="clear">&nbsp;</div>
                                     </div>';
                                 }
