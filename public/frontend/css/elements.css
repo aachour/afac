@@ -152,7 +152,7 @@
 .collection .swiper-button-prev, .collection .swiper-button-next {
     position: absolute;
     bottom: 0px;      
-    right:0px;  
+    right:2.5%;  
     width: 17px;    
     height: 34px;
     z-index: 10;
@@ -162,7 +162,7 @@
 
 /* Position prev button to the left of next button */
 .collection .swiper-button-prev {
-    left: calc(100% - 60px) !important;
+    left: 95% !important;
     background:url("../images/arrow-left.png") center no-repeat;
     background-size: 17px 34px;
 }
