@@ -26,7 +26,7 @@
                             <td>{{ $collection->id }}</td>
                             <td>{{ $collection->type->name }}</td>
                             <td>{{ $collection->name }}</td>
-                            <td>{{ $collection->description }}</td>
+                            <td>{!! $collection->description !!}</td>
                             <td>
                                 @can('collection-view')
                                     <a href="{{ route('view.collection', $collection->id) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>

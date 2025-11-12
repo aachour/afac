@@ -168,7 +168,6 @@ input[type="button"].greenBtn{
     width:75%;
 }
 
-
 @media(max-width:900px){
     .desktopOnly{
         display:none !important;

@@ -86,7 +86,8 @@ class PageForm extends Component
 
     public function store()
     {
-        $this->validate();
+
+        $validated = $this->validate();       
 
         if($this->id==''){
             Pages::create([

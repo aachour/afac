@@ -37,7 +37,7 @@
                         <tr data-id="{{ $accordion->id }}" style="cursor: move;">
                             <td>{{$accordion->list_order}}</td>
                             <td>{{$accordion->title}}</td>
-                            <td>{{$accordion->text}}</td>
+                            <td>{!!$accordion->text!!}</td>
                             <td>
                                 @can('section-edit')
                                     <i  class="ti ti-edit ti-sm cursor-pointer"
@@ -76,10 +76,10 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3" wire:ignore>
                             <label for="ColorCode" class="form-label">Text</label>
                             <textarea
-                                class="form-control @error('text') is-invalid @enderror"
+                                class="form-control txtEditor @error('text') is-invalid @enderror"
                                 id="text"
                                 wire:model="text"
                                 placeholder="Text" style="height:200px; resize:none;"></textarea>
@@ -124,6 +124,49 @@
                 }
             });
         </script>
+
+        <!-- ✅ Load CKEditor -->
+        <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+
+        <script>
+            document.addEventListener('livewire:load', function () {
+                // Wait until Livewire DOM is ready
+                initEditors();
+            });
+
+            // ✅ Re-init CKEditor if Livewire re-renders (after save/validation)
+            document.addEventListener('livewire:navigated', function () {
+                initEditors();
+            });
+
+            function initEditors() {
+                document.querySelectorAll('.txtEditor').forEach((el) => {
+                    // Prevent double init
+                    if (el.classList.contains('ck-loaded')) return;
+                    el.classList.add('ck-loaded');
+
+                    ClassicEditor.create(el)
+                        .then(editor => {
+                            const model = el.getAttribute('wire:model') || el.getAttribute('wire:model.defer');
+
+                            // Sync editor → Livewire
+                            editor.model.document.on('change:data', () => {
+                                const component = el.closest('[wire\\:id]');
+                                if (!component) return;
+                                Livewire.find(component.getAttribute('wire:id'))
+                                    .set(model.replace('.defer', ''), editor.getData());
+                            });
+                        })
+                        .catch(error => console.error('CKEditor init error:', error));
+                });
+            }
+        </script>
+
+        <style>
+        .ck-editor__editable_inline {
+            min-height: 250px;
+        }
+        </style>
 
     </div>
 

@@ -150,7 +150,8 @@ a:hover{
 	text-decoration: none !important;
 }
 textarea{
-   resize:none !important;
+    min-height:300px !important;
+    resize:none !important;
 }
 :root {
     --primary-color: #ddd0c1;

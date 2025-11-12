@@ -65,22 +65,22 @@
                                 </div>
 
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="name">Description</label>
                                     <textarea
                                         wire:model="description"
                                         id="description"
-                                        class="form-control"
+                                        class="form-control txtEditor"
                                         placeholder="Description"></textarea>
                                     @error('description') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="name">الوصف</label>
                                     <textarea
                                         wire:model="description_arabic"
                                         id="description_arabic"
-                                        class="form-control"
+                                        class="form-control txtEditor"
                                         placeholder="الوصف"></textarea>
                                     @error('description_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
@@ -432,5 +432,48 @@
 
         </div>
     </div>
+
+    <!-- ✅ Load CKEditor -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+
+    <script>
+        document.addEventListener('livewire:load', function () {
+            // Wait until Livewire DOM is ready
+            initEditors();
+        });
+
+        // ✅ Re-init CKEditor if Livewire re-renders (after save/validation)
+        document.addEventListener('livewire:navigated', function () {
+            initEditors();
+        });
+
+        function initEditors() {
+            document.querySelectorAll('.txtEditor').forEach((el) => {
+                // Prevent double init
+                if (el.classList.contains('ck-loaded')) return;
+                el.classList.add('ck-loaded');
+
+                ClassicEditor.create(el)
+                    .then(editor => {
+                        const model = el.getAttribute('wire:model') || el.getAttribute('wire:model.defer');
+
+                        // Sync editor → Livewire
+                        editor.model.document.on('change:data', () => {
+                            const component = el.closest('[wire\\:id]');
+                            if (!component) return;
+                            Livewire.find(component.getAttribute('wire:id'))
+                                .set(model.replace('.defer', ''), editor.getData());
+                        });
+                    })
+                    .catch(error => console.error('CKEditor init error:', error));
+            });
+        }
+    </script>
+
+    <style>
+    .ck-editor__editable_inline {
+        min-height: 250px;
+    }
+    </style>
 
 </div>

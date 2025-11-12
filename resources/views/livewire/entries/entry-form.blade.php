@@ -163,23 +163,23 @@
                                     @error('event_title_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="event_text">Text</label>
-                                    <textarea
+                                    <textarea wire:ignore
                                         wire:model="event_text"
                                         type="text"
                                         id="event_text"
-                                        class="form-control" placeholder="Text"></textarea>
+                                        class="form-control txtEditor" placeholder="Text"></textarea>
                                     @error('event_text') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="event_text_arabic">النص </label>
-                                    <textarea
+                                    <textarea wire:ignore
                                         wire:model="event_text_arabic"
                                         type="text"
                                         id="event_text_arabic"
-                                        class="form-control"
+                                        class="form-control txtEditor"
                                         placeholder="النص"></textarea>
                                     @error('event_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
@@ -263,21 +263,21 @@
 
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="program_text">Text</label>
-                                    <textarea
+                                    <textarea wire:ignore
                                         wire:model="program_text"
                                         type="text"
                                         id="program_text"
-                                        class="form-control" placeholder="Text"></textarea>
+                                        class="form-control txtEditor" placeholder="Text"></textarea>
                                     @error('program_text') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="program_text_arabic">النص </label>
-                                    <textarea
+                                    <textarea wire:ignore
                                         wire:model="program_text_arabic"
                                         type="text"
                                         id="program_text_arabic"
-                                        class="form-control"
+                                        class="form-control txtEditor"
                                         placeholder="النص"></textarea>
                                     @error('program_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
@@ -355,21 +355,21 @@
 
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="project_text">Text</label>
-                                    <textarea
+                                    <textarea wire:ignore
                                         wire:model="project_text"
                                         type="text"
                                         id="project_text"
-                                        class="form-control" placeholder="Text"></textarea>
+                                        class="form-control txtEditor" placeholder="Text"></textarea>
                                     @error('project_text') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="project_text_arabic">النص </label>
-                                    <textarea
+                                    <textarea wire:ignore
                                         wire:model="project_text_arabic"
                                         type="text"
                                         id="project_text_arabic"
-                                        class="form-control"
+                                        class="form-control txtEditor"
                                         placeholder="النص"></textarea>
                                     @error('project_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
@@ -463,21 +463,21 @@
 
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="grantee_text">Text</label>
-                                    <textarea
+                                    <textarea wire:ignore
                                         wire:model="grantee_text"
                                         type="text"
                                         id="grantee_text"
-                                        class="form-control" placeholder="Text"></textarea>
+                                        class="form-control txtEditor" placeholder="Text"></textarea>
                                     @error('grantee_text') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="grantee_text_arabic">النص </label>
-                                    <textarea
+                                    <textarea wire:ignore
                                         wire:model="grantee_text_arabic"
                                         type="text"
                                         id="grantee_text_arabic"
-                                        class="form-control"
+                                        class="form-control txtEditor"
                                         placeholder="النص"></textarea>
                                     @error('grantee_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
@@ -540,21 +540,21 @@
 
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="jury_text">Biography <span class="text-danger">*</span></label>
-                                    <textarea
+                                    <textarea wire:ignore
                                         wire:model="jury_text"
                                         type="text"
                                         id="jury_text"
-                                        class="form-control" placeholder="Biography"></textarea>
+                                        class="form-control txtEditor" placeholder="Biography"></textarea>
                                     @error('jury_text') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="jury_text_arabic">السيرة الذاتية <span class="text-danger">*</span></label>
-                                    <textarea
+                                    <textarea wire:ignore
                                         wire:model="jury_text_arabic"
                                         type="text"
                                         id="jury_text_arabic"
-                                        class="form-control"
+                                        class="form-control txtEditor"
                                         placeholder="السيرة الذاتية"></textarea>
                                     @error('jury_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
@@ -617,21 +617,21 @@
 
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="resource_text">Text</label>
-                                    <textarea
+                                    <textarea wire:ignore
                                         wire:model="resource_text"
                                         type="text"
                                         id="resource_text"
-                                        class="form-control" placeholder="Text"></textarea>
+                                        class="form-control txtEditor" placeholder="Text"></textarea>
                                     @error('resource_text') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="resource_text_arabic">النص </label>
-                                    <textarea
+                                    <textarea wire:ignore
                                         wire:model="resource_text_arabic"
                                         type="text"
                                         id="resource_text_arabic"
-                                        class="form-control"
+                                        class="form-control txtEditor"
                                         placeholder="النص"></textarea>
                                     @error('resource_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
@@ -716,21 +716,21 @@
 
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="news_text">Text</label>
-                                    <textarea
+                                    <textarea wire:ignore
                                         wire:model="news_text"
                                         type="text"
                                         id="news_text"
-                                        class="form-control" placeholder="Text"></textarea>
+                                        class="form-control txtEditor" placeholder="Text"></textarea>
                                     @error('news_text') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="news_text_arabic">النص </label>
-                                    <textarea
+                                    <textarea wire:ignore
                                         wire:model="news_text_arabic"
                                         type="text"
                                         id="news_text_arabic"
-                                        class="form-control"
+                                        class="form-control txtEditor"
                                         placeholder="النص"></textarea>
                                     @error('news_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
@@ -790,7 +790,47 @@
         </div>
     </div>
 
+    <!-- ✅ Load CKEditor -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+
     <script>
-       
+        document.addEventListener('livewire:load', function () {
+            // Wait until Livewire DOM is ready
+            initEditors();
+        });
+
+        // ✅ Re-init CKEditor if Livewire re-renders (after save/validation)
+        document.addEventListener('livewire:navigated', function () {
+            initEditors();
+        });
+
+        function initEditors() {
+            document.querySelectorAll('.txtEditor').forEach((el) => {
+                // Prevent double init
+                if (el.classList.contains('ck-loaded')) return;
+                el.classList.add('ck-loaded');
+
+                ClassicEditor.create(el)
+                    .then(editor => {
+                        const model = el.getAttribute('wire:model') || el.getAttribute('wire:model.defer');
+
+                        // Sync editor → Livewire
+                        editor.model.document.on('change:data', () => {
+                            const component = el.closest('[wire\\:id]');
+                            if (!component) return;
+                            Livewire.find(component.getAttribute('wire:id'))
+                                .set(model.replace('.defer', ''), editor.getData());
+                        });
+                    })
+                    .catch(error => console.error('CKEditor init error:', error));
+            });
+        }
     </script>
+
+    <style>
+    .ck-editor__editable_inline {
+        min-height: 250px;
+    }
+    </style>
+    
 </div>
