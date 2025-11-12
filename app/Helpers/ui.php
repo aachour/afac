@@ -109,7 +109,7 @@
         
         $html='<div class="collection" style="background-color:'.$bgColor.';">';
 
-            $html.='<div class="white big ABCDiatypeMedium">'.$collection->name.'</div>';
+            $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
 
             if(count($entries)>0)
             {
@@ -394,7 +394,7 @@
         
         $html='<div class="collection" style="background-color:'.$bgColor.';">';
 
-            $html.='<div class="white big ABCDiatypeMedium">'.$collection->name.'</div>';
+            $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
 
             if(count($entries)>0)
             {
