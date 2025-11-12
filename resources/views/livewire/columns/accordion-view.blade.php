@@ -76,12 +76,12 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="mb-3" wire:ignore>
+                        <div class="mb-3">
                             <label for="ColorCode" class="form-label">Text</label>
                             <textarea
                                 class="form-control txtEditor @error('text') is-invalid @enderror"
                                 id="text"
-                                wire:model="text"
+                                wire:model.defer="text"
                                 placeholder="Text" style="height:200px; resize:none;"></textarea>
                             @error('text')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -125,42 +125,52 @@
             });
         </script>
 
-        <!-- ✅ Load CKEditor -->
         <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
 
         <script>
-            document.addEventListener('livewire:load', function () {
-                // Wait until Livewire DOM is ready
-                initEditors();
-            });
+            document.addEventListener('livewire:load', () => {
+                window.editors = [];
 
-            // ✅ Re-init CKEditor if Livewire re-renders (after save/validation)
-            document.addEventListener('livewire:navigated', function () {
-                initEditors();
-            });
-
-            function initEditors() {
+                // Initialize editors once
                 document.querySelectorAll('.txtEditor').forEach((el) => {
-                    // Prevent double init
-                    if (el.classList.contains('ck-loaded')) return;
-                    el.classList.add('ck-loaded');
+                    ClassicEditor.create(el).then(editor => {
+                        el._editor = editor;
+                        window.editors.push(el);
 
-                    ClassicEditor.create(el)
-                        .then(editor => {
-                            const model = el.getAttribute('wire:model') || el.getAttribute('wire:model.defer');
+                        const model = el.getAttribute('wire:model') || el.getAttribute('wire:model.defer');
+                        editor.model.document.on('change:data', () => {
+                            Livewire.find(el.closest('[wire\\:id]').getAttribute('wire:id'))
+                                .set(model.replace('.defer',''), editor.getData());
+                        });
+                    });
+                });
 
-                            // Sync editor → Livewire
-                            editor.model.document.on('change:data', () => {
-                                const component = el.closest('[wire\\:id]');
-                                if (!component) return;
-                                Livewire.find(component.getAttribute('wire:id'))
-                                    .set(model.replace('.defer', ''), editor.getData());
-                            });
-                        })
-                        .catch(error => console.error('CKEditor init error:', error));
+                // When Bootstrap modal fully opens
+                const modal = document.getElementById('accordionModal');
+                if (modal) {
+                    modal.addEventListener('shown.bs.modal', () => {
+                        // Give Livewire a brief moment to render values
+                        setTimeout(syncEditorsFromLivewire, 150);
+                    });
+                }
+
+                // Also refresh after every Livewire update (e.g. after edit($id))
+                Livewire.hook('message.processed', syncEditorsFromLivewire);
+            });
+
+            function syncEditorsFromLivewire() {
+                window.editors.forEach((el) => {
+                    if (!el._editor) return;
+                    const model = el.getAttribute('wire:model') || el.getAttribute('wire:model.defer');
+                    const comp  = el.closest('[wire\\:id]');
+                    const val   = Livewire.find(comp.getAttribute('wire:id')).get(model.replace('.defer','')) || '';
+                    if (val !== el._editor.getData()) {
+                        el._editor.setData(val);
+                    }
                 });
             }
         </script>
+
 
         <style>
         .ck-editor__editable_inline {
