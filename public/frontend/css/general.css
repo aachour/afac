@@ -1,21 +1,47 @@
-:root {
-    --primary-color: #ddd0c1;
-    --primary-hover-color: #e5d9cf;
-}
+
 @font-face {
-    font-family: 'ABC Diatype';
-    src: url('../fonts/ABCDiatype-RegularItalic.eot');
-    src: url('../fonts/ABCDiatype-RegularItalic.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/ABCDiatype-RegularItalic.woff2') format('woff2'),
-        url('../fonts/ABCDiatype-RegularItalic.woff') format('woff'),
-        url('../fonts/ABCDiatype-RegularItalic.ttf') format('truetype');
+    font-family: 'ABC Diatype Arabic';
+    src: url('../fonts/ABCDiatypeArabic-Regular.eot');
+    src: url('../fonts/ABCDiatypeArabic-Regular.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ABCDiatypeArabic-Regular.woff2') format('woff2'),
+        url('../fonts/ABCDiatypeArabic-Regular.woff') format('woff'),
+        url('../fonts/ABCDiatypeArabic-Regular.ttf') format('truetype');
     font-weight: normal;
-    font-style: italic;
+    font-style: normal;
     font-display: swap;
 }
+.ABCDiatypeMedium{
+	font-family: 'ABC Diatype Arabic' !important;
+}
 
-.ABCDiatype{
-	font-family: 'ABC Diatype' !important;
+@font-face {
+    font-family: 'ABC Diatype Arabic Medium';
+    src: url('../fonts/ABCDiatypeArabic-Medium.eot');
+    src: url('../fonts/ABCDiatypeArabic-Medium.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ABCDiatypeArabic-Medium.woff2') format('woff2'),
+        url('../fonts/ABCDiatypeArabic-Medium.woff') format('woff'),
+        url('../fonts/ABCDiatypeArabic-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+.ABCDiatypeMedium{
+	font-family: 'ABC Diatype Arabic Medium' !important;
+}
+
+@font-face {
+    font-family: 'ABC Diatype Arabic Black';
+    src: url('../fonts/ABCDiatypeArabic-Black.eot');
+    src: url('../fonts/ABCDiatypeArabic-Black.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ABCDiatypeArabic-Black.woff2') format('woff2'),
+        url('../fonts/ABCDiatypeArabic-Black.woff') format('woff'),
+        url('../fonts/ABCDiatypeArabic-Black.ttf') format('truetype');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+.ABCDiatypeBlack{
+	font-family: 'ABC Diatype Arabic Black' !important;
 }
 
 /* CSS Document */
@@ -41,7 +67,7 @@ time, mark, audio, video , textarea {
 	size:inherit;
 	color:inherit;
 	line-height:150%;
-	font-family: 'ABC Diatype' !important;
+	font-family: 'ABC Diatype Arabic' !important;
 	
 }
 
