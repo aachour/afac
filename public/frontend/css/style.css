@@ -62,15 +62,15 @@
 @media(min-width:900px){
     .bigger{
         font-size:2.8vw !important;
-        line-height: 150% !important;
+        line-height: 100% !important;
     }
     .big{
         font-size:2.5vw !important;
-        line-height: 150% !important;
+        line-height: 100% !important;
     }
     .medium{
         font-size:1.7vw !important;
-        line-height: 120% !important;
+        line-height: 100% !important;
     }
     .small{
         font-size:1.4vw !important;
