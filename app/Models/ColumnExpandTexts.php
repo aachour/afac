@@ -14,6 +14,7 @@ class ColumnExpandTexts extends Model
     protected $fillable = [
         'section_column_id',
         'text',
+        'text_arabic',
         'visible',
         'list_order',
     ];

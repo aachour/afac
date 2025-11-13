@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('section_column_id')->nullable()->constrained('section_columns')->onDelete('cascade');
             $table->text('text')->nullable();
+            $table->text('text_arabic')->nullable();
             $table->integer('visible')->nullable();
             $table->integer('list_order')->nullable();
             $table->timestamps();

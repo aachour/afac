@@ -28,6 +28,7 @@ class ExpandingTextView extends Component
     
     public $expandingTexts;
     public $text;
+    public $text_arabic;
     public $visible;
             
     public function mount($sectionId,$id)
@@ -68,6 +69,7 @@ class ExpandingTextView extends Component
         $columnCountdown=ColumnExpandTexts::find($id);
 
         $this->text=$columnCountdown->text;
+        $this->text_arabic=$columnCountdown->text_arabic;
         $this->visible=$columnCountdown->visible;
         
         $this->modalId=$id;
@@ -84,6 +86,7 @@ class ExpandingTextView extends Component
             ColumnExpandTexts::create([
                 'section_column_id'=>$this->section_column_id,
                 'text' => $this->text,
+                'text_arabic' => $this->text_arabic,
                 'visible' => $this->visible,
                 'list_order'=> $highestOrder+1
             ]);
@@ -96,6 +99,7 @@ class ExpandingTextView extends Component
             ColumnExpandTexts::where('id', $this->modalId)
             ->update([
                 'text' => $this->text,
+                'text_arabic' => $this->text_arabic,
                 'visible' => $this->visible,
             ]);
             

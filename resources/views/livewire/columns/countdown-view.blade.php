@@ -138,20 +138,18 @@
                                 <input type="text"
                                     class="form-control @error('button_value') is-invalid @enderror"
                                     id="button_value"
-                                    wire:model="button_value"
-                                    placeholder="Button Text" />
+                                    wire:model="button_value" />
                                 @error('button_value')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
-                                <label for="button_value_arabic" class="form-label">Button Value Arabic</label>
+                                <label for="button_value_arabic" class="form-label">عنوان الزر</label>
                                 <input type="text"
                                     class="form-control @error('button_value_arabic') is-invalid @enderror"
                                     id="button_value_arabic"
-                                    wire:model="button_value_arabic"
-                                    placeholder="Button Text Arabic" />
+                                    wire:model="button_value_arabic" />
                                 @error('button_value_arabic')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror

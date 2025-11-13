@@ -72,9 +72,19 @@
                                 <input type="text"
                                     class="form-control @error('text') is-invalid @enderror"
                                     id="text"
-                                    wire:model="text"
-                                    placeholder="text" />
+                                    wire:model="text" />
                                 @error('text')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-12 col-lg-12 mb-3">
+                                <label for="text_arabic" class="form-label">النص</label>
+                                <input type="text"
+                                    class="form-control @error('text_arabic') is-invalid @enderror"
+                                    id="text_arabic"
+                                    wire:model="text_arabic" />
+                                @error('text_arabic')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
