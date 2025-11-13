@@ -31,6 +31,7 @@ class CountdownView extends Component
     public $countdowns;
     public $bg_color_id;
     public $title;
+    public $title_arabic;
     public $start_date;
     public $end_date;
     public $button_value;
@@ -80,6 +81,7 @@ class CountdownView extends Component
 
         $this->bg_color_id=$columnCountdown->bg_color_id;
         $this->title=$columnCountdown->title;
+        $this->title_arabic=$columnCountdown->title_arabic;
         $this->start_date=$columnCountdown->start_date;
         $this->end_date=$columnCountdown->end_date;
         $this->button_value=$columnCountdown->button_value;
@@ -102,6 +104,7 @@ class CountdownView extends Component
                 'section_column_id'=>$this->section_column_id,
                 'bg_color_id' => $this->bg_color_id,
                 'title' => $this->title,
+                'title_arabic' => $this->title_arabic,
                 'start_date' => $this->start_date,
                 'end_date' => $this->end_date,
                 'button_value' => $this->button_value,
@@ -120,6 +123,7 @@ class CountdownView extends Component
             ->update([
                 'bg_color_id' => $this->bg_color_id,
                 'title' => $this->title,
+                'title_arabic' => $this->title_arabic,
                 'start_date' => $this->start_date,
                 'end_date' => $this->end_date,
                 'button_value' => $this->button_value,

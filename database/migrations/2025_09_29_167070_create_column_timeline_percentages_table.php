@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('column_timeline_percentages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('timeline_id')->nullable()->constrained('column_timelines')->onDelete('cascade');
-            $table->string('title')->nullable();
             $table->text('text')->nullable();
+            $table->text('text_arabic')->nullable();
             $table->foreignId('shape_id')->nullable()->constrained('shapes')->onDelete('cascade');
             $table->integer('percentage')->nullable();
             $table->integer('list_order')->nullable();

@@ -69,7 +69,7 @@
                     <div class="modal-body">
                         <div class="row">
 
-                            <div class="col-12 col-lg-6 mb-3">
+                            <div class="col-12 col-lg-12 mb-3">
                                 <label for="bg_color_id" class="form-label">Background Color</label>
                                 <select
                                     wire:model="bg_color_id"
@@ -91,6 +91,18 @@
                                     wire:model="title"
                                     placeholder="Title" />
                                 @error('title')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-12 col-lg-6 mb-3">
+                                <label for="title_arabic" class="form-label">العنوان</label>
+                                <input type="text"
+                                    class="form-control @error('title_arabic') is-invalid @enderror"
+                                    id="title"
+                                    wire:model="title_arabic"
+                                    placeholder="العنوان" />
+                                @error('title_arabic')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

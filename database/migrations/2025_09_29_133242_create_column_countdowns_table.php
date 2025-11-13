@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('section_column_id')->nullable()->constrained('section_columns')->onDelete('cascade');
             $table->foreignId('bg_color_id')->nullable()->constrained('colors')->onDelete('cascade');
             $table->string('title')->nullable();
+            $table->string('title_arabic')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->string('button_value')->nullable();

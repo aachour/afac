@@ -28,7 +28,6 @@
                     <tr>
                         <th>Order</th>
                         <th>Date</th>
-                        <th>Content</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -37,13 +36,6 @@
                         <tr data-id="{{ $timeline->id }}" style="cursor: move;">
                             <td>{{$timeline->list_order}}</td>
                             <td>{{$timeline->date}}</td>
-                            <td>
-                                @if(count($timeline->percentages)>0)
-                                    @foreach($timeline->percentages as $percentage)
-                                        {{ !empty($percentage->title) ? 'Title: '.$percentage->title : '' }} <br />
-                                    @endforeach
-                                @endif
-                            </td>
                             <td>
                                 @can('section-edit')
                                     <i  class="ti ti-edit ti-sm cursor-pointer"
@@ -93,19 +85,8 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-12 col-lg-4 mb-3">
-                                    <label for="ColorName" class="form-label">Title</label>
-                                    <input type="text"
-                                        class="form-control @error('date') is-invalid @enderror"
-                                        id="entries.{{$key}}.title"
-                                        wire:model="entries.{{$key}}.title"
-                                        placeholder="Title" />
-                                    @error('entries.{{$key}}.title')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
 
-                                <div class="col-12 col-lg-4 mb-3">
+                                <div class="col-12 col-lg-6 mb-3">
                                     <label for="ColorName" class="form-label">Pattern Shape</label>
                                     <select
                                         wire:model="entries.{{$key}}.shape_id"
@@ -121,7 +102,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-12 col-lg-4 mb-3">
+                                <div class="col-12 col-lg-6 mb-3">
                                     <label for="ColorName" class="form-label">Pattern Percentage</label>
                                     <input type="text"
                                         class="form-control @error('percentage') is-invalid @enderror"
@@ -133,17 +114,30 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-3">
-                                    <label for="ColorCode" class="form-label">Text</label>
+                                <div class="mb-3" wire:ignore>
+                                    <label for="text" class="form-label">Text</label>
                                     <textarea
-                                        class="form-control @error('text') is-invalid @enderror"
+                                        class="form-control txtEditor @error('text') is-invalid @enderror"
                                         id="entries.{{$key}}.text"
-                                        wire:model="entries.{{$key}}.text"
-                                        placeholder="Text" style="height:150px; resize:none;"></textarea>
+                                        wire:model.defer="entries.{{$key}}.text"
+                                        style="height:150px; resize:none;"></textarea>
                                     @error('entries.{{$key}}.text')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                <div class="mb-3" wire:ignore>
+                                    <label for="text_arabic" class="form-label">النص</label>
+                                    <textarea
+                                        class="form-control txtEditor @error('text_arabic') is-invalid @enderror"
+                                        id="entries.{{$key}}.text_arabic"
+                                        wire:model.defer="entries.{{$key}}.text_arabic"
+                                        style="height:150px; resize:none;"></textarea>
+                                    @error('entries.{{$key}}.text_arabic')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
                             </div>
 
                         @endforeach
@@ -189,6 +183,74 @@
                 }
             });
         </script>
+
+        <!-- ✅ Load CKEditor -->
+        <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+
+        <script>
+            window.ckeditors = {};
+
+            document.addEventListener('livewire:load', function () {
+                initEditors();
+            });
+
+            // Re-init CKEditor when Livewire re-renders
+            document.addEventListener('livewire:navigated', function () {
+                initEditors();
+            });
+
+            function initEditors() {
+                document.querySelectorAll('.txtEditor').forEach((el) => {
+                    const id = el.getAttribute('id');
+                    if (!id) return; // CKEditor must have a unique id
+
+                    // Prevent double init
+                    if (window.ckeditors[id]) return;
+
+                    ClassicEditor.create(el)
+                        .then(editor => {
+                            window.ckeditors[id] = editor;
+
+                            const model = el.getAttribute('wire:model') || el.getAttribute('wire:model.defer');
+
+                            // Sync editor → Livewire
+                            editor.model.document.on('change:data', () => {
+                                const component = el.closest('[wire\\:id]');
+                                if (!component) return;
+
+                                Livewire.find(component.getAttribute('wire:id'))
+                                    .set(model.replace('.defer', ''), editor.getData());
+                            });
+                        })
+                        .catch(error => console.error('CKEditor init error:', error));
+                });
+            }
+
+            // ✅ Livewire can call this:
+            window.setEditorValue = function (editorId, value) {
+                if (window.ckeditors[editorId]) {
+                    window.ckeditors[editorId].setData(value || "");
+                }
+            };
+
+            // Listen for Livewire event
+            document.addEventListener('set-editor-value', function (e) {
+                window.setEditorValue(e.detail.id, e.detail.value);
+            });
+
+            // Listen for Livewire event
+            document.addEventListener('set-editor-value-arabic', function (e) {
+                window.setEditorValue(e.detail.id, e.detail.value);
+            });
+
+        </script>
+
+
+        <style>
+            .ck-editor__editable_inline {
+                min-height: 250px;
+            }
+        </style>
 
     </div>
 

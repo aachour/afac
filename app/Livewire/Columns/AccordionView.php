@@ -27,6 +27,9 @@ class AccordionView extends Component
     public $accordions;
     public $title;
     public $text;
+    public $title_arabic;
+    public $text_arabic;
+    
         
     public function mount($sectionId,$id)
     {
@@ -78,7 +81,11 @@ class AccordionView extends Component
         $columnAccordion=ColumnAccordion::find($id);
         $this->title=$columnAccordion->title;
         $this->text=$columnAccordion->text;
+        $this->title_arabic=$columnAccordion->title_arabic;
+        $this->text_arabic=$columnAccordion->text_arabic;
         $this->modalId=$id;
+        $this->dispatch('set-editor-value', id: 'text', value: $this->text);
+        $this->dispatch('set-editor-value-arabic', id: 'text_arabic', value: $this->text_arabic);
     }
 
     public function saveEntry(){
@@ -92,6 +99,8 @@ class AccordionView extends Component
                 'section_column_id'=>$this->section_column_id,
                 'title'=>$this->title,
                 'text'=>$this->text,
+                'title_arabic'=>$this->title_arabic,
+                'text_arabic'=>$this->text_arabic,
                 'list_order'=> $highestOrder+1
             ]);
 
@@ -104,6 +113,8 @@ class AccordionView extends Component
             ->update([
                 'title' => $this->title,
                 'text' => $this->text,
+                'title_arabic'=>$this->title_arabic,
+                'text_arabic'=>$this->text_arabic,
             ]);
             
             return to_route($this->return_route, [ 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry edited successfully!');

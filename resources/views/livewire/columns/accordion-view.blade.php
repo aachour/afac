@@ -76,7 +76,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3" wire:ignore>
                             <label for="ColorCode" class="form-label">Text</label>
                             <textarea
                                 class="form-control txtEditor @error('text') is-invalid @enderror"
@@ -84,6 +84,28 @@
                                 wire:model.defer="text"
                                 placeholder="Text" style="height:200px; resize:none;"></textarea>
                             @error('text')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="title_arabic" class="form-label">العنوان</label>
+                            <input type="text"
+                                class="form-control @error('title_arabic') is-invalid @enderror"
+                                id="title_arabic"
+                                wire:model="title_arabic"/>
+                            @error('title_arabic')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3" wire:ignore>
+                            <label for="text_arabic" class="form-label">النص</label>
+                            <textarea
+                                class="form-control txtEditor @error('text_arabic') is-invalid @enderror"
+                                id="text_arabic"
+                                wire:model.defer="text_arabic"
+                                style="height:200px; resize:none;"></textarea>
+                            @error('النص')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -125,58 +147,74 @@
             });
         </script>
 
+        <!-- ✅ Load CKEditor -->
         <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
 
         <script>
-            document.addEventListener('livewire:load', () => {
-                window.editors = [];
+            window.ckeditors = {};
 
-                // Initialize editors once
-                document.querySelectorAll('.txtEditor').forEach((el) => {
-                    ClassicEditor.create(el).then(editor => {
-                        el._editor = editor;
-                        window.editors.push(el);
-
-                        const model = el.getAttribute('wire:model') || el.getAttribute('wire:model.defer');
-                        editor.model.document.on('change:data', () => {
-                            Livewire.find(el.closest('[wire\\:id]').getAttribute('wire:id'))
-                                .set(model.replace('.defer',''), editor.getData());
-                        });
-                    });
-                });
-
-                // When Bootstrap modal fully opens
-                const modal = document.getElementById('accordionModal');
-                if (modal) {
-                    modal.addEventListener('shown.bs.modal', () => {
-                        // Give Livewire a brief moment to render values
-                        setTimeout(syncEditorsFromLivewire, 150);
-                    });
-                }
-
-                // Also refresh after every Livewire update (e.g. after edit($id))
-                Livewire.hook('message.processed', syncEditorsFromLivewire);
+            document.addEventListener('livewire:load', function () {
+                initEditors();
             });
 
-            function syncEditorsFromLivewire() {
-                window.editors.forEach((el) => {
-                    if (!el._editor) return;
-                    const model = el.getAttribute('wire:model') || el.getAttribute('wire:model.defer');
-                    const comp  = el.closest('[wire\\:id]');
-                    const val   = Livewire.find(comp.getAttribute('wire:id')).get(model.replace('.defer','')) || '';
-                    if (val !== el._editor.getData()) {
-                        el._editor.setData(val);
-                    }
+            // Re-init CKEditor when Livewire re-renders
+            document.addEventListener('livewire:navigated', function () {
+                initEditors();
+            });
+
+            function initEditors() {
+                document.querySelectorAll('.txtEditor').forEach((el) => {
+                    const id = el.getAttribute('id');
+                    if (!id) return; // CKEditor must have a unique id
+
+                    // Prevent double init
+                    if (window.ckeditors[id]) return;
+
+                    ClassicEditor.create(el)
+                        .then(editor => {
+                            window.ckeditors[id] = editor;
+
+                            const model = el.getAttribute('wire:model') || el.getAttribute('wire:model.defer');
+
+                            // Sync editor → Livewire
+                            editor.model.document.on('change:data', () => {
+                                const component = el.closest('[wire\\:id]');
+                                if (!component) return;
+
+                                Livewire.find(component.getAttribute('wire:id'))
+                                    .set(model.replace('.defer', ''), editor.getData());
+                            });
+                        })
+                        .catch(error => console.error('CKEditor init error:', error));
                 });
             }
+
+            // ✅ Livewire can call this:
+            window.setEditorValue = function (editorId, value) {
+                if (window.ckeditors[editorId]) {
+                    window.ckeditors[editorId].setData(value || "");
+                }
+            };
+
+            // Listen for Livewire event
+            document.addEventListener('set-editor-value', function (e) {
+                window.setEditorValue(e.detail.id, e.detail.value);
+            });
+
+            // Listen for Livewire event
+            document.addEventListener('set-editor-value-arabic', function (e) {
+                window.setEditorValue(e.detail.id, e.detail.value);
+            });
+
         </script>
 
 
         <style>
-        .ck-editor__editable_inline {
-            min-height: 250px;
-        }
+            .ck-editor__editable_inline {
+                min-height: 250px;
+            }
         </style>
+
 
     </div>
 

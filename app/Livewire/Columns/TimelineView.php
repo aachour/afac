@@ -69,7 +69,7 @@ class TimelineView extends Component
     }
 
     public function addEntry(){
-        $this->entries[] = ['id'=>'','title' => '','text'=>'','shape_id'=>'','percentage'=>''];
+        $this->entries[] = ['id'=>'','text' => '','text_arabic'=>'','shape_id'=>'','percentage'=>''];
     }
 
     public function deleteEntry($index){
@@ -82,7 +82,7 @@ class TimelineView extends Component
         $this->date=$columnTimeline->date;
 
         foreach($columnTimeline->percentages as $percentage){
-            $this->entries[] = ['id'=>$percentage->id , 'title' => $percentage->title , 'text'=>$percentage->text , 'shape_id'=>$percentage->shape_id , 'percentage'=>$percentage->percentage];
+            $this->entries[] = ['id'=>$percentage->id , 'text' => $percentage->text , 'text_arabic'=>$percentage->text_arabic , 'shape_id'=>$percentage->shape_id , 'percentage'=>$percentage->percentage];
         }
 
         $this->modalId=$id;
@@ -104,8 +104,8 @@ class TimelineView extends Component
             foreach($this->entries as $entry){
                 ColumnTimelinePercentages::create([
                     'timeline_id'=>$timeline->id,
-                    'title'=>$entry["title"] ?? '',
                     'text'=>$entry["text"] ?? '',
+                    'text_arabic'=>$entry["text_arabic"] ?? '',
                     'shape_id'=> $entry['shape_id'] !== '' ? $entry['shape_id'] : null,
                     'percentage'=>(int) ($entry["percentage"] ?? 0),
                 ]);
@@ -137,8 +137,8 @@ class TimelineView extends Component
                     // Update existing
                     ColumnTimelinePercentages::where('id', $entry['id'])->update([
                         'timeline_id'=>$this->modalId,
-                        'title'=>$entry["title"] ?? '',
                         'text'=>$entry["text"] ?? '',
+                        'text_arabic'=>$entry["text_arabic"] ?? '',
                         'shape_id'=>$entry['shape_id'] !== '' ? $entry['shape_id'] : null,
                         'percentage'=>(int) ($entry["percentage"] ?? 0),
                     ]);
@@ -146,8 +146,8 @@ class TimelineView extends Component
                     // Create new
                     ColumnTimelinePercentages::create([
                         'timeline_id'=>$this->modalId,
-                        'title'=>$entry["title"] ?? '',
                         'text'=>$entry["text"] ?? '',
+                        'text_arabic'=>$entry["text_arabic"] ?? '',
                         'shape_id'=>$entry['shape_id'] !== '' ? $entry['shape_id'] : null,
                         'percentage'=>(int) ($entry["percentage"] ?? 0),
                     ]);

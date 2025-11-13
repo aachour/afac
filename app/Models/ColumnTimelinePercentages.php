@@ -13,8 +13,8 @@ class ColumnTimelinePercentages extends Model
 
     protected $fillable = [
         'timeline_id',
-        'title',
         'text',
+        'text_arabic',
         'shape_id',
         'percentage',
         'list_order',

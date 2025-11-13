@@ -16,6 +16,7 @@ class ColumnCountdown extends Model
         'section_column_id',
         'bg_color_id',
         'title',
+        'title_arabic',
         'start_date',
         'end_date',
         'button_value',
