@@ -15,6 +15,8 @@ class ColorsSeeder extends Seeder
     {
         //
         $colors=[
+            ['White' , '#FFF'],
+            ['Black' , '#000'],
             ['Blue Lightest' , '#D2F8F'],
             ['Blue Light' , ' #9DD1FF'],
             ['Blue Dark' , ' #3388ff'],

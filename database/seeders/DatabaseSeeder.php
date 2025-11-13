@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
         $this->call(InputTypesSeeder::class);
         $this->call(EventCategoriesSeeder::class);
         $this->call(ProjectCategoriesSeeder::class);
+        $this->call(EventsSeeder::class);
+        $this->call(CollectionsSeeder::class);
         
     }
 }
