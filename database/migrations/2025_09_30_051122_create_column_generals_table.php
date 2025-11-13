@@ -17,11 +17,14 @@ return new class extends Migration
             $table->foreignId('input_type_id')->nullable()->constrained('input_types')->onDelete('cascade');
             $table->foreignId('bg_color_id')->nullable()->constrained('colors')->onDelete('cascade');
             $table->string('title')->nullable();
+            $table->string('title_arabic')->nullable();
             $table->text('text')->nullable();
+            $table->text('text_arabic')->nullable();
             $table->foreignId('gallery_id')->nullable()->constrained('galleries')->onDelete('cascade');
             $table->text('video')->nullable();
             $table->integer('percentage')->nullable();
-            $table->text('button_value')->nullable();
+            $table->string('button_value')->nullable();
+            $table->string('button_value_arabic')->nullable();
             $table->text('button_shape')->nullable();
             $table->text('button_link')->nullable();
             $table->integer('list_order')->nullable();

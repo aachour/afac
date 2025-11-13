@@ -38,7 +38,9 @@ class GeneralInputsView extends Component
     public $bg_color_id;
     public $input_type_id;
     public $title;
+    public $title_arabic;
     public $text;
+    public $text_arabic;
     public $gallery_id;
     public $gallery;
     public $gallery_images = [];
@@ -46,6 +48,7 @@ class GeneralInputsView extends Component
     public $video;
     public $percentage;
     public $button_value;
+    public $button_value_arabic;
     public $button_shape;
     public $button_link;
     
@@ -97,11 +100,14 @@ class GeneralInputsView extends Component
         $this->input_type_id=$generalInput->input_type_id;
         $this->bg_color_id=$generalInput->bg_color_id;
         $this->title=$generalInput->title;
+        $this->title_arabic=$generalInput->title_arabic;
         $this->text=$generalInput->text;
+        $this->text_arabic=$generalInput->text_arabic;
         $this->gallery_id=$generalInput->gallery_id;
         $this->video=$generalInput->video;
         $this->percentage=$generalInput->percentage;
         $this->button_value=$generalInput->button_value;
+        $this->button_value_arabic=$generalInput->button_value_arabic;
         $this->button_shape=$generalInput->button_shape;
         $this->button_link=$generalInput->button_link;
         $this->modalId=$id;
@@ -140,11 +146,14 @@ class GeneralInputsView extends Component
                 'input_type_id'     => $this->input_type_id,
                 'bg_color_id'       => $this->bg_color_id,
                 'title'             => $this->title,
+                'title_arabic'      => $this->title_arabic,
                 'text'              => $this->text,
+                'text_arabic'       => $this->text_arabic,
                 'gallery_id'        => $this->gallery_id,
                 'video'             => $this->video,
                 'percentage'        => $this->percentage,
                 'button_value'      => $this->button_value,
+                'button_value_arabic' => $this->button_value_arabic,
                 'button_shape'      => $this->button_shape,
                 'button_link'       => $this->button_link,
                 'list_order'        => $highestOrder + 1
@@ -178,11 +187,14 @@ class GeneralInputsView extends Component
                     ->update([
                         'bg_color_id'       => $this->bg_color_id,
                         'title'             => $this->title,
+                        'title_arabic'      => $this->title_arabic,
                         'text'              => $this->text,
+                        'text_arabic'       => $this->text_arabic,
                         'gallery_id'        => $this->gallery_id,
                         'video'             => $this->video,
                         'percentage'        => $this->percentage,
                         'button_value'      => $this->button_value,
+                        'button_value_arabic'      => $this->button_value_arabic,
                         'button_shape'      => $this->button_shape,
                         'button_link'       => $this->button_link,
                     ]);

@@ -89,7 +89,7 @@
                     <div class="modal-body">
 
                         <div class="mb-3">
-                            <label for="ColorName" class="form-label">Background Color</label>
+                            <label for="bg_color_id" class="form-label">Background Color</label>
                             <select
                                 wire:model="bg_color_id"
                                 id="bg_color_id"
@@ -103,7 +103,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="ColorName" class="form-label">Input Type</label>
+                            <label for="input_type_id" class="form-label">Input Type</label>
                             <select
                                 wire:model.live="input_type_id"
                                 id="input_type_id "
@@ -118,7 +118,7 @@
                         
                         <!--Title-->
                         <div class="mb-3 {{ $input_type_id == 1 ? '' : 'd-none' }}">
-                            <label for="ColorName" class="form-label">Title</label>
+                            <label for="title" class="form-label">Title</label>
                             <input type="text"
                                 class="form-control @error('title') is-invalid @enderror"
                                 id="title"
@@ -129,22 +129,44 @@
                             @enderror
                         </div>
 
+                        <div class="mb-3 {{ $input_type_id == 1 ? '' : 'd-none' }}">
+                            <label for="title_arabic" class="form-label">العنوان</label>
+                            <input type="text"
+                                class="form-control @error('title_arabic') is-invalid @enderror"
+                                id="title_arabic"
+                                wire:model="title_arabic"
+                                placeholder="العنوان" />
+                            @error('title_arabic')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <!--Text-->
                         <div class="mb-3 {{ $input_type_id == 2 ? '' : 'd-none' }}">
                             <label for="ColorCode" class="form-label">Text</label>
                             <textarea
                                 class="form-control @error('text') is-invalid @enderror"
                                 id="text"
-                                wire:model="text"
-                                placeholder="Text" style="height:200px; resize:none;"></textarea>
+                                wire:model="text" style="height:200px; resize:none;"></textarea>
                             @error('text')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 {{ $input_type_id == 2 ? '' : 'd-none' }}">
+                            <label for="text_arabic" class="form-label">النص</label>
+                            <textarea
+                                class="form-control @error('text') is-invalid @enderror"
+                                id="text"
+                                wire:model="text_arabic" style="height:200px; resize:none;"></textarea>
+                            @error('text_arabic')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <!--Gallery-->
                         <div class="mb-3 {{ $input_type_id == 3 ? '' : 'd-none' }}"">
-                            <label for="ColorCode" class="form-label">Gallery</label>
+                            <label for="gallery_images" class="form-label">Gallery</label>
 
                             <x-filepond wire:model="gallery_images"
                                 :images="$gallery_images"
@@ -160,7 +182,7 @@
                             
                         <!--Video-->
                         <div class="mb-3 {{ $input_type_id == 4 ? '' : 'd-none' }}">
-                            <label for="ColorName" class="form-label">Video</label>
+                            <label for="video" class="form-label">Video</label>
                             <input type="text"
                                 class="form-control @error('video') is-invalid @enderror"
                                 id="video"
@@ -173,19 +195,29 @@
                         
                         <!--Button-->
                         <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
-                            <label for="ColorName" class="form-label">Button Value</label>
+                            <label for="button_value" class="form-label">Button Value</label>
                             <input type="text"
                                 class="form-control @error('button_value') is-invalid @enderror"
                                 id="button_value"
-                                wire:model="button_value"
-                                placeholder="button_value" />
+                                wire:model="button_value" />
                             @error('button_value')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
-                            <label for="ColorName" class="form-label">Button Shape</label>
+                            <label for="button_value_arabic" class="form-label">نص الزر</label>
+                            <input type="text"
+                                class="form-control @error('button_value_arabic') is-invalid @enderror"
+                                id="button_value_arabic"
+                                wire:model="button_value_arabic" />
+                            @error('button_value')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
+                            <label for="button_shape" class="form-label">Button Shape</label>
                             <input type="text"
                                 class="form-control @error('button_shape') is-invalid @enderror"
                                 id="button_shape"
@@ -197,7 +229,7 @@
                         </div>
 
                         <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
-                            <label for="ColorName" class="form-label">Button Link</label>
+                            <label for="button_link" class="form-label">Button Link</label>
                             <input type="text"
                                 class="form-control @error('button_link') is-invalid @enderror"
                                 id="button_link"
@@ -210,7 +242,7 @@
 
                         <!--Percentage-->
                         {{--<div class="mb-3 {{ $input_type_id == 6 ? '' : 'd-none' }}">
-                            <label for="ColorName" class="form-label">Pattern Percentage</label>
+                            <label for="percentage" class="form-label">Pattern Percentage</label>
                             <input type="text"
                                 class="form-control @error('percentage') is-invalid @enderror"
                                 id="percentage"
