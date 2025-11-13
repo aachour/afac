@@ -129,6 +129,7 @@ class EventsSeeder extends Seeder
 
         foreach($images as $key=>$image){
             $entry=new Entries();
+            $entry->type_id='1';
             $entry->image=$image;
             $entry->image_featured=$image_featured[$key];
             $entry->image_width=$image_width[$key];
