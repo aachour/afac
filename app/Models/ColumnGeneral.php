@@ -22,6 +22,7 @@ class ColumnGeneral extends Model
         'gallery_id',
         'video',
         'percentage',
+        'button_bg_image',
         'button_value',
         'button_value_arabic',
         'button_shape',
@@ -47,6 +48,11 @@ class ColumnGeneral extends Model
     public function gallery()
     {
         return $this->hasOne(Gallery::class, 'id', 'gallery_id');
+    }
+
+    public function shape()
+    {
+        return $this->hasOne(Shapes::class, 'id', 'button_shape_id');
     }
 
 }

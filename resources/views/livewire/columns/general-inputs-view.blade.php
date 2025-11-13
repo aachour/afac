@@ -145,9 +145,9 @@
                         <div class="mb-3 {{ $input_type_id == 2 ? '' : 'd-none' }}">
                             <label for="ColorCode" class="form-label">Text</label>
                             <textarea
-                                class="form-control @error('text') is-invalid @enderror"
+                                class="form-control txtEditor @error('text') is-invalid @enderror"
                                 id="text"
-                                wire:model="text" style="height:200px; resize:none;"></textarea>
+                                wire:model.defer="text" style="height:200px; resize:none;"></textarea>
                             @error('text')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -156,9 +156,9 @@
                         <div class="mb-3 {{ $input_type_id == 2 ? '' : 'd-none' }}">
                             <label for="text_arabic" class="form-label">النص</label>
                             <textarea
-                                class="form-control @error('text') is-invalid @enderror"
+                                class="form-control txtEditor @error('text') is-invalid @enderror"
                                 id="text"
-                                wire:model="text_arabic" style="height:200px; resize:none;"></textarea>
+                                wire:model.defer="text_arabic" style="height:200px; resize:none;"></textarea>
                             @error('text_arabic')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -194,6 +194,21 @@
                         </div>
                         
                         <!--Button-->
+                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}"">
+                            <label for="gallery_images" class="form-label">Button Background Image</label>
+
+                            <x-filepond wire:model="button_bg_image"
+                                :images="$button_bg_image"
+                                file-path="{{ @$imapegPreview }}"
+                                delete-event="deleteImage"
+                                is-multiple="false" />
+
+                            @error('gallery')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+
+                        </div>
+
                         <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
                             <label for="button_value" class="form-label">Button Value</label>
                             <input type="text"
@@ -217,13 +232,17 @@
                         </div>
 
                         <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
-                            <label for="button_shape" class="form-label">Button Shape</label>
-                            <input type="text"
-                                class="form-control @error('button_shape') is-invalid @enderror"
-                                id="button_shape"
-                                wire:model="button_shape"
-                                placeholder="button_shape" />
-                            @error('button_shape')
+                            <label for="button_shape_id" class="form-label">Button Shape</label>
+                            <select
+                                wire:model="button_shape_id"
+                                id="button_shape_id"
+                                class="form-control">
+                                <option value=''>Select Shape</option>
+                                @foreach($shapes as $shape)
+                                    <option value='{{$shape->id}}'>{{$shape->name}}</option>
+                                @endforeach
+                            </select>
+                            @error('button_shape_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -309,6 +328,74 @@
             @include('livewire.deleteConfirm')
         @endscript
 
+        <!-- ✅ Load CKEditor -->
+        <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+
+        <script>
+            window.ckeditors = {};
+
+            document.addEventListener('livewire:load', function () {
+                initEditors();
+            });
+
+            // Re-init CKEditor when Livewire re-renders
+            document.addEventListener('livewire:navigated', function () {
+                initEditors();
+            });
+
+            function initEditors() {
+                document.querySelectorAll('.txtEditor').forEach((el) => {
+                    const id = el.getAttribute('id');
+                    if (!id) return; // CKEditor must have a unique id
+
+                    // Prevent double init
+                    if (window.ckeditors[id]) return;
+
+                    ClassicEditor.create(el)
+                        .then(editor => {
+                            window.ckeditors[id] = editor;
+
+                            const model = el.getAttribute('wire:model') || el.getAttribute('wire:model.defer');
+
+                            // Sync editor → Livewire
+                            editor.model.document.on('change:data', () => {
+                                const component = el.closest('[wire\\:id]');
+                                if (!component) return;
+
+                                Livewire.find(component.getAttribute('wire:id'))
+                                    .set(model.replace('.defer', ''), editor.getData());
+                            });
+                        })
+                        .catch(error => console.error('CKEditor init error:', error));
+                });
+            }
+
+            // ✅ Livewire can call this:
+            window.setEditorValue = function (editorId, value) {
+                if (window.ckeditors[editorId]) {
+                    window.ckeditors[editorId].setData(value || "");
+                }
+            };
+
+            // Listen for Livewire event
+            document.addEventListener('set-editor-value', function (e) {
+                window.setEditorValue(e.detail.id, e.detail.value);
+            });
+
+            // Listen for Livewire event
+            document.addEventListener('set-editor-value-arabic', function (e) {
+                window.setEditorValue(e.detail.id, e.detail.value);
+            });
+
+        </script>
+
+
+        <style>
+            .ck-editor__editable_inline {
+                min-height: 250px;
+            }
+        </style>
+
         <script>
             //load table
             document.addEventListener('livewire:init', function() {
@@ -349,8 +436,6 @@
                     });
                 }
             });
-
-
         </script>
 
     </div>

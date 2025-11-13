@@ -4,6 +4,7 @@ namespace App\Livewire\Columns;
 
 use App\Models\InputTypes;
 use App\Models\Colors;
+use App\Models\Shapes;
 use App\Models\ColumnGeneral;
 use App\Models\Gallery;
 use App\Models\GalleryImages;
@@ -33,6 +34,7 @@ class GeneralInputsView extends Component
 
     public $inputTypes;
     public $colors;
+    public $shapes;
     public $generalInputs;
 
     public $bg_color_id;
@@ -47,11 +49,11 @@ class GeneralInputsView extends Component
     
     public $video;
     public $percentage;
+    public $button_bg_image;
     public $button_value;
     public $button_value_arabic;
-    public $button_shape;
+    public $button_shape_id;
     public $button_link;
-    
     
     public function mount($sectionId,$id)
     {
@@ -82,6 +84,8 @@ class GeneralInputsView extends Component
 
         $this->inputTypes=InputTypes::all();
         $this->colors=Colors::all();
+        $this->shapes=Shapes::all();
+        
         
         $this->loadEntries();
 
@@ -97,6 +101,7 @@ class GeneralInputsView extends Component
     public function editEntry($id)
     {
         $generalInput=ColumnGeneral::with('gallery','gallery.images')->find($id);
+        // dd($generalInput);
         $this->input_type_id=$generalInput->input_type_id;
         $this->bg_color_id=$generalInput->bg_color_id;
         $this->title=$generalInput->title;
@@ -106,9 +111,10 @@ class GeneralInputsView extends Component
         $this->gallery_id=$generalInput->gallery_id;
         $this->video=$generalInput->video;
         $this->percentage=$generalInput->percentage;
+        $this->button_bg_image=$generalInput->button_bg_image;
         $this->button_value=$generalInput->button_value;
         $this->button_value_arabic=$generalInput->button_value_arabic;
-        $this->button_shape=$generalInput->button_shape;
+        $this->button_shape_id=$generalInput->button_shape_id;
         $this->button_link=$generalInput->button_link;
         $this->modalId=$id;
 
@@ -138,6 +144,13 @@ class GeneralInputsView extends Component
                 }
             }
 
+            $btn_bg_path='';
+            if($this->input_type_id==5){
+                if ($this->button_bg_image) {
+                    $btn_bg_path = $this->button_bg_image->store('buttons', 'public');
+                }
+            }
+
             //Add collection
             $highestOrder = ColumnGeneral::WHERE('section_column_id',$this->section_column_id)->max('list_order');
 
@@ -152,9 +165,10 @@ class GeneralInputsView extends Component
                 'gallery_id'        => $this->gallery_id,
                 'video'             => $this->video,
                 'percentage'        => $this->percentage,
+                'button_bg_image'   => $btn_bg_path,
                 'button_value'      => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
-                'button_shape'      => $this->button_shape,
+                'button_shape_id'      => $this->button_shape_id,
                 'button_link'       => $this->button_link,
                 'list_order'        => $highestOrder + 1
             ]);
@@ -193,9 +207,10 @@ class GeneralInputsView extends Component
                         'gallery_id'        => $this->gallery_id,
                         'video'             => $this->video,
                         'percentage'        => $this->percentage,
+                        'button_bg_image'   => $this->button_bg_image,
                         'button_value'      => $this->button_value,
                         'button_value_arabic'      => $this->button_value_arabic,
-                        'button_shape'      => $this->button_shape,
+                        'button_shape_id'      => $this->button_shape_id,
                         'button_link'       => $this->button_link,
                     ]);
             }
