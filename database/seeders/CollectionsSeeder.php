@@ -50,7 +50,7 @@ class CollectionsSeeder extends Seeder
                 'description'=>'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
                 'description_arabic'=>'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.',
                 'description_position' => 1,
-                'background_color_id' => 2,
+                'background_color_id' => 1,
                 'with_filters' => 0,
                 'filter_fields' => null,
                 'entries_selection' => 2,
