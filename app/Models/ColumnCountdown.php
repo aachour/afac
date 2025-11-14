@@ -19,6 +19,8 @@ class ColumnCountdown extends Model
         'title_arabic',
         'start_date',
         'end_date',
+        'start_time',
+        'end_time',
         'button_value',
         'button_value_arabic',
         'button_shape_id',

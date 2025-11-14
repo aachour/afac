@@ -50,6 +50,7 @@ class GeneralInputsView extends Component
     public $video;
     public $percentage;
     public $button_bg_image;
+    public $btnImagePreview;
     public $button_value;
     public $button_value_arabic;
     public $button_shape_id;
@@ -101,7 +102,6 @@ class GeneralInputsView extends Component
     public function editEntry($id)
     {
         $generalInput=ColumnGeneral::with('gallery','gallery.images')->find($id);
-        // dd($generalInput);
         $this->input_type_id=$generalInput->input_type_id;
         $this->bg_color_id=$generalInput->bg_color_id;
         $this->title=$generalInput->title;
@@ -112,6 +112,7 @@ class GeneralInputsView extends Component
         $this->video=$generalInput->video;
         $this->percentage=$generalInput->percentage;
         $this->button_bg_image=$generalInput->button_bg_image;
+        $this->btnImagePreview = asset('storage/' . $generalInput->button_bg_image);
         $this->button_value=$generalInput->button_value;
         $this->button_value_arabic=$generalInput->button_value_arabic;
         $this->button_shape_id=$generalInput->button_shape_id;
@@ -126,9 +127,9 @@ class GeneralInputsView extends Component
 
         if($this->modalId==null){
 
+            //Create a gallery
             if($this->input_type_id==3){
 
-                //Create a gallery
                 $this->gallery_id = Gallery::create()->id;
 
                 foreach ($this->gallery_images as $key=>$image) {
@@ -179,7 +180,6 @@ class GeneralInputsView extends Component
         else if($this->modalId!=null){
 
             //Edit Collection
-
             if($this->input_type_id==3){
                 $highestOrder = GalleryImages::WHERE('gallery_id',$this->gallery_id)->max('list_order');
 
@@ -196,24 +196,31 @@ class GeneralInputsView extends Component
                 }
 
             }
-            else{
-                ColumnGeneral::where('id', $this->modalId)
-                    ->update([
-                        'bg_color_id'       => $this->bg_color_id,
-                        'title'             => $this->title,
-                        'title_arabic'      => $this->title_arabic,
-                        'text'              => $this->text,
-                        'text_arabic'       => $this->text_arabic,
-                        'gallery_id'        => $this->gallery_id,
-                        'video'             => $this->video,
-                        'percentage'        => $this->percentage,
-                        'button_bg_image'   => $this->button_bg_image,
-                        'button_value'      => $this->button_value,
-                        'button_value_arabic'      => $this->button_value_arabic,
-                        'button_shape_id'      => $this->button_shape_id,
-                        'button_link'       => $this->button_link,
-                    ]);
+
+            $btn_bg_path=$this->button_bg_image;
+            if($this->input_type_id==5){
+                if ($this->button_bg_image) {
+                    $btn_bg_path = $this->button_bg_image->store('buttons', 'public');
+                }
             }
+   
+            ColumnGeneral::where('id', $this->modalId)->update(
+                [
+                    'bg_color_id'       => $this->bg_color_id,
+                    'title'             => $this->title,
+                    'title_arabic'      => $this->title_arabic,
+                    'text'              => $this->text,
+                    'text_arabic'       => $this->text_arabic,
+                    'gallery_id'        => $this->gallery_id,
+                    'video'             => $this->video,
+                    'percentage'        => $this->percentage,
+                    'button_bg_image'   => $btn_bg_path,
+                    'button_value'      => $this->button_value,
+                    'button_value_arabic'      => $this->button_value_arabic,
+                    'button_shape_id'      => $this->button_shape_id,
+                    'button_link'       => $this->button_link,
+                ]
+            );
             
             return to_route($this->return_route, ['sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry edited successfully!');
         }

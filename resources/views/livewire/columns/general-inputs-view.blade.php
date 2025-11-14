@@ -194,15 +194,17 @@
                         </div>
                         
                         <!--Button-->
-                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}"">
+                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
                             <label for="gallery_images" class="form-label">Button Background Image</label>
-
+                            
                             <x-filepond wire:model="button_bg_image"
-                                :images="$button_bg_image"
-                                file-path="{{ @$imapegPreview }}"
+                                id="button_bg_image"
+                                file-path="{{ @$btnImagePreview ?? '' }}"
                                 delete-event="deleteImage"
                                 is-multiple="false" />
-
+                            @if($btnImagePreview)
+                                <img src="{{$btnImagePreview}}" width="80px" />
+                            @endif
                             @error('gallery')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

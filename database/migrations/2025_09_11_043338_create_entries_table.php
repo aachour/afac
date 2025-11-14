@@ -48,7 +48,7 @@ return new class extends Migration
             $table->text('project_title_arabic')->nullable();  
             $table->text('project_text')->nullable();
             $table->text('project_text_arabic')->nullable();  
-            $table->foreignId('project_country_id')->nullable()->constrained('countries')->onDelete('cascade'); 
+            $table->json('project_countries_id')->nullable();
             
             //Grantee Fields
             $table->text('grantee_name')->nullable();

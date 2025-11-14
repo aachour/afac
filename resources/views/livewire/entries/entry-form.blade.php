@@ -261,7 +261,7 @@
                                     @error('program_title_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="program_text">Text</label>
                                     <textarea wire:ignore
                                         wire:model="program_text"
@@ -271,7 +271,7 @@
                                     @error('program_text') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="program_text_arabic">النص </label>
                                     <textarea wire:ignore
                                         wire:model="program_text_arabic"
@@ -353,7 +353,7 @@
                                     @error('project_title_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="project_text">Text</label>
                                     <textarea wire:ignore
                                         wire:model="project_text"
@@ -363,7 +363,7 @@
                                     @error('project_text') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="project_text_arabic">النص </label>
                                     <textarea wire:ignore
                                         wire:model="project_text_arabic"
@@ -375,17 +375,18 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="project_country_id">Country <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="project_countries_id">Countries <span class="text-danger">*</span></label>
                                     <select
-                                        wire:model="project_country_id"
-                                        id="project_country_id"
-                                        class="form-control">
+                                        wire:model="project_countries_id"
+                                        id="project_countries_id"
+                                        class="form-control"
+                                        multiple>
                                         <option value=''>Select Country</option>
                                         @foreach($countries as $country)
                                             <option value='{{$country->id}}'>{{$country->name}}</option>
                                         @endforeach
                                     </select>
-                                    @error('project_country_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                    @error('project_countries_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                                 <div class="w-100 d-none d-md-block"></div>
@@ -461,7 +462,7 @@
                                     @error('grantee_name_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="grantee_text">Text</label>
                                     <textarea wire:ignore
                                         wire:model="grantee_text"
@@ -471,7 +472,7 @@
                                     @error('grantee_text') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="grantee_text_arabic">النص </label>
                                     <textarea wire:ignore
                                         wire:model="grantee_text_arabic"
@@ -538,7 +539,7 @@
                                     @error('jury_name_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="jury_text">Biography <span class="text-danger">*</span></label>
                                     <textarea wire:ignore
                                         wire:model="jury_text"
@@ -548,7 +549,7 @@
                                     @error('jury_text') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="jury_text_arabic">السيرة الذاتية <span class="text-danger">*</span></label>
                                     <textarea wire:ignore
                                         wire:model="jury_text_arabic"
@@ -615,7 +616,7 @@
                                 </div>
 
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="resource_text">Text</label>
                                     <textarea wire:ignore
                                         wire:model="resource_text"
@@ -625,7 +626,7 @@
                                     @error('resource_text') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="resource_text_arabic">النص </label>
                                     <textarea wire:ignore
                                         wire:model="resource_text_arabic"
@@ -714,7 +715,7 @@
                                     @error('news_title_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="news_text">Text</label>
                                     <textarea wire:ignore
                                         wire:model="news_text"
@@ -724,7 +725,7 @@
                                     @error('news_text') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="news_text_arabic">النص </label>
                                     <textarea wire:ignore
                                         wire:model="news_text_arabic"
@@ -794,6 +795,18 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
 
     <script>
+
+        InitiateSelect2();
+        
+        function InitiateSelect2() {
+
+            $('#project_countries_id').select2({
+                placeholder: 'Select Countries',
+                allowClear: true,
+                width: '100%',
+            }); alert("!");
+        }
+
         document.addEventListener('livewire:load', function () {
             // Wait until Livewire DOM is ready
             initEditors();

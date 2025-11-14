@@ -71,7 +71,7 @@ class EntryForm extends Component
     public $project_title_arabic;
     public $project_text;
     public $project_text_arabic;
-    public $project_country_id;
+    public $project_countries_id;
     public $project_program_year_id;
     public $program_id;
     public $program_year_id;
@@ -163,7 +163,7 @@ class EntryForm extends Component
             $this->project_title_arabic=$this->entry->project_title_arabic;
             $this->project_text=$this->entry->project_text;
             $this->project_text_arabic=$this->entry->project_text_arabic;
-            $this->project_country_id=$this->entry->project_country_id;
+            $this->project_countries_id=$this->entry->project_countries_id;
             $this->project_program_year_id=$this->entry->project_program_year_id;
             $programYearProject=ProgramYearProjects::find($this->project_program_year_id);
             if($programYearProject!=null){
@@ -260,7 +260,7 @@ class EntryForm extends Component
             'project_category_id' => ['required_if:type_id,3'],
             'project_title' => ['required_if:type_id,3'],
             'project_title_arabic' => ['required_if:type_id,3'],
-            'project_country_id' => ['required_if:type_id,3'],
+            'project_countries_id' => ['required_if:type_id,3'],
             'program_id' => ['required_if:type_id,3'],
             'program_year_id' => ['required_if:type_id,3'],
             
@@ -333,7 +333,7 @@ class EntryForm extends Component
                 'project_title_arabic'=>$this->project_title_arabic ?? '',
                 'project_text'=>$this->project_text ?? '',
                 'project_text_arabic'=>$this->project_text_arabic ?? '',
-                'project_country_id'=> $this->project_country_id !== '' ? $this->project_country_id : null,
+                'project_countries_id'=> $this->project_countries_id !== '' ? $this->project_countries_id : null,
                 'grantee_name'=>$this->grantee_name ?? '',
                 'grantee_name_arabic'=>$this->grantee_name_arabic ?? '',
                 'grantee_text'=>$this->grantee_text ?? '',
@@ -410,7 +410,7 @@ class EntryForm extends Component
                 'project_title_arabic'=>$this->project_title_arabic ?? '',
                 'project_text'=>$this->project_text ?? '',
                 'project_text_arabic'=>$this->project_text_arabic ?? '',
-                'project_country_id'=> $this->project_country_id !== '' ? $this->project_country_id : null,
+                'project_countries_id'=> $this->project_countries_id !== '' ? $this->project_countries_id : null,
                 'grantee_name'=>$this->grantee_name ?? '',
                 'grantee_name_arabic'=>$this->grantee_name_arabic ?? '',
                 'grantee_text'=>$this->grantee_text ?? '',

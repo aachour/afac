@@ -132,6 +132,31 @@
                                 @enderror
                             </div>
 
+                            <!--Time-->
+                            <div class="col-12 col-lg-6 mb-3">
+                                <label for="start_time" class="form-label">Start Date</label>
+                                <input type="time"
+                                    class="form-control @error('start_time') is-invalid @enderror"
+                                    id="start_time"
+                                    wire:model="start_time"
+                                    placeholder="Start Time" />
+                                @error('start_time')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-12 col-lg-6 mb-3">
+                                <label for="end_time" class="form-label">End Date</label>
+                                <input type="time"
+                                    class="form-control @error('end_time') is-invalid @enderror"
+                                    id="end_time"
+                                    wire:model="end_time"
+                                    placeholder="End Time" />
+                                @error('end_time')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                             <!--button Values-->
                             <div class="col-12 col-lg-6 mb-3">
                                 <label for="button_value" class="form-label">Button Value</label>

@@ -25,7 +25,7 @@ class ColumnGeneral extends Model
         'button_bg_image',
         'button_value',
         'button_value_arabic',
-        'button_shape',
+        'button_shape_id',
         'button_link',
         'list_order',
     ];

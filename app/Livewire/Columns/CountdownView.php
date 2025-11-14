@@ -34,6 +34,8 @@ class CountdownView extends Component
     public $title_arabic;
     public $start_date;
     public $end_date;
+    public $start_time;
+    public $end_time;
     public $button_value;
     public $button_value_arabic;
     public $button_shape_id ;
@@ -84,6 +86,8 @@ class CountdownView extends Component
         $this->title_arabic=$columnCountdown->title_arabic;
         $this->start_date=$columnCountdown->start_date;
         $this->end_date=$columnCountdown->end_date;
+        $this->start_time=$columnCountdown->start_time;
+        $this->end_time=$columnCountdown->end_time;
         $this->button_value=$columnCountdown->button_value;
         $this->button_value_arabic=$columnCountdown->button_value_arabic;
         $this->button_shape_id=$columnCountdown->button_shape_id;
@@ -107,6 +111,8 @@ class CountdownView extends Component
                 'title_arabic' => $this->title_arabic,
                 'start_date' => $this->start_date,
                 'end_date' => $this->end_date,
+                'start_time' => $this->start_time,
+                'end_time' => $this->end_time,
                 'button_value' => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
                 'button_shape_id' => $this->button_shape_id,
@@ -126,6 +132,8 @@ class CountdownView extends Component
                 'title_arabic' => $this->title_arabic,
                 'start_date' => $this->start_date,
                 'end_date' => $this->end_date,
+                'start_time' => $this->start_time,
+                'end_time' => $this->end_time,
                 'button_value' => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
                 'button_shape_id' => $this->button_shape_id,

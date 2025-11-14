@@ -276,8 +276,8 @@ class ProgramYearsView extends Component
     #[On('delete')]
     public function deleteProject($id)
     {
-        $program = ProgramYearProjects::find($id);
-
+        $program = ProgramYears::find($id);
+        
         $program->delete();
         
         $message = 'Project deleted successfully!';

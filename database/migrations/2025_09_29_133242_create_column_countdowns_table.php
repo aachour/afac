@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('title_arabic')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
             $table->string('button_value')->nullable();
             $table->string('button_value_arabic')->nullable();
             $table->foreignId('button_shape_id')->nullable()->constrained('shapes')->onDelete('cascade');
