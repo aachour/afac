@@ -282,20 +282,6 @@
                                     @error('program_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="program_status">Status <span class="text-danger">*</span></label>
-                                    <select
-                                        wire:model="program_status"
-                                        id="program_status"
-                                        class="form-control">
-                                        <option value=''>Select Type</option>
-                                        @foreach($program_statuses as $key=>$value)
-                                            <option value='{{$key}}'>{{$value}}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('program_status') <div class="text-danger">{{ $message }}</div> @enderror
-                                </div>
-
                             </div>
 
                         </div>
@@ -374,7 +360,7 @@
                                     @error('project_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="project_countries_id">Countries <span class="text-danger">*</span></label>
                                     <select
                                         wire:model="project_countries_id"
@@ -419,12 +405,10 @@
                                     </select>
                                     @error('program_year_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
-                                
 
                             </div>
 
                         </div>
-
 
                     </div>
 
@@ -789,6 +773,33 @@
             </form>
 
         </div>
+
+        @script
+        <script>
+
+            InitiateSelect2();
+
+            // Set initially selected values from Livewire on edit
+            let selectedCountries = @json($project_countries_id); 
+            $('#project_countries_id').val(selectedCountries).trigger('change');
+
+            function InitiateSelect2() {
+
+                $('#project_countries_id').select2({
+                    placeholder: 'Select Countries',
+                    allowClear: true,
+                    width: '100%',
+                });
+
+            }
+
+            $('#project_countries_id').on('change', function () {
+                @this.set('project_countries_id', $(this).val());
+            });
+
+        </script>
+        @endscript
+
     </div>
 
     <!-- ✅ Load CKEditor -->
@@ -796,16 +807,13 @@
 
     <script>
 
-        InitiateSelect2();
-        
-        function InitiateSelect2() {
+        document.addEventListener('livewire:load', function () {
+            $('#project_countries_id').select2();
 
-            $('#project_countries_id').select2({
-                placeholder: 'Select Countries',
-                allowClear: true,
-                width: '100%',
-            }); alert("!");
-        }
+            $('#project_countries_id').on('change', function () {
+                @this.set('project_countries_id', $(this).val());
+            });
+        });
 
         document.addEventListener('livewire:load', function () {
             // Wait until Livewire DOM is ready

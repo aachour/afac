@@ -35,7 +35,6 @@ class EntryForm extends Component
     public $programs;
     public $programYears;
     public $image_width_options;
-    public $program_statuses;
     
     //Common entries
     public $image;
@@ -63,7 +62,6 @@ class EntryForm extends Component
     public $program_title_arabic;
     public $program_text;
     public $program_text_arabic;
-    public $program_status;
 
     //3- Project
     public $project_category_id;
@@ -155,7 +153,6 @@ class EntryForm extends Component
             $this->program_title_arabic=$this->entry->program_title_arabic;
             $this->program_text=$this->entry->program_text;
             $this->program_text_arabic=$this->entry->program_text_arabic;
-            $this->program_status=$this->entry->program_status;
 
             //Project
             $this->project_category_id=$this->entry->project_category_id;
@@ -163,7 +160,7 @@ class EntryForm extends Component
             $this->project_title_arabic=$this->entry->project_title_arabic;
             $this->project_text=$this->entry->project_text;
             $this->project_text_arabic=$this->entry->project_text_arabic;
-            $this->project_countries_id=$this->entry->project_countries_id;
+            $this->project_countries_id = $this->entry->project_countries_id ?: [];
             $this->project_program_year_id=$this->entry->project_program_year_id;
             $programYearProject=ProgramYearProjects::find($this->project_program_year_id);
             if($programYearProject!=null){
@@ -222,8 +219,6 @@ class EntryForm extends Component
        
         $this->image_width_options=['1'=>'Full','2'=>'three-quarters','3'=>'one-half','4'=>'one-quarter'];
 
-        $this->program_statuses=['1'=>'Open','2'=>'Close'];
-        
     }
 
     public function UpdateProgramYears(){
@@ -254,7 +249,6 @@ class EntryForm extends Component
             //Program
             'program_title' => ['required_if:type_id,2'],
             'program_title_arabic' => ['required_if:type_id,2'],
-            'program_status' => ['required_if:type_id,2'],
 
             //Project
             'project_category_id' => ['required_if:type_id,3'],
@@ -293,6 +287,7 @@ class EntryForm extends Component
 
     public function store()
     {
+
         $this->validate();
 
         if($this->id==''){
@@ -327,13 +322,12 @@ class EntryForm extends Component
                 'program_title_arabic'=>$this->program_title_arabic ?? '',
                 'program_text'=>$this->program_text ?? '',
                 'program_text_arabic'=>$this->program_text_arabic ?? '',
-                'program_status'=>$this->program_status ?? '0',
                 'project_category_id'=> $this->project_category_id !== '' ? $this->project_category_id : null, 
                 'project_title'=>$this->project_title ?? '',
                 'project_title_arabic'=>$this->project_title_arabic ?? '',
                 'project_text'=>$this->project_text ?? '',
                 'project_text_arabic'=>$this->project_text_arabic ?? '',
-                'project_countries_id'=> $this->project_countries_id !== '' ? $this->project_countries_id : null,
+                'project_countries_id'=> $this->project_countries_id !== '' ? json_encode($this->project_countries_id) : null,
                 'grantee_name'=>$this->grantee_name ?? '',
                 'grantee_name_arabic'=>$this->grantee_name_arabic ?? '',
                 'grantee_text'=>$this->grantee_text ?? '',
@@ -404,13 +398,12 @@ class EntryForm extends Component
                 'program_title_arabic'=>$this->program_title_arabic ?? '',
                 'program_text'=>$this->program_text ?? '',
                 'program_text_arabic'=>$this->program_text_arabic ?? '',
-                'program_status'=>$this->program_status ?? '0',
                 'project_category_id'=> $this->project_category_id !== '' ? $this->project_category_id : null, 
                 'project_title'=>$this->project_title ?? '',
                 'project_title_arabic'=>$this->project_title_arabic ?? '',
                 'project_text'=>$this->project_text ?? '',
                 'project_text_arabic'=>$this->project_text_arabic ?? '',
-                'project_countries_id'=> $this->project_countries_id !== '' ? $this->project_countries_id : null,
+                'project_countries_id'=> $this->project_countries_id !== '' ? json_encode($this->project_countries_id) : null,
                 'grantee_name'=>$this->grantee_name ?? '',
                 'grantee_name_arabic'=>$this->grantee_name_arabic ?? '',
                 'grantee_text'=>$this->grantee_text ?? '',
