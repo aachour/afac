@@ -16,10 +16,13 @@ return new class extends Migration
             $table->foreignId('type_id')->nullable()->constrained('types')->onDelete('cascade');
             $table->string('name')->nullable();
             $table->string('name_arabic')->nullable();
+            $table->boolean('show_name')->nullable();
             $table->text('description')->nullable();
             $table->text('description_arabic')->nullable();
             $table->integer('description_position')->nullable();
+            $table->boolean('show_description')->nullable();
             $table->foreignId('background_color_id')->nullable()->constrained('colors')->onDelete('cascade');
+            $table->boolean('with_border_bottom')->nullable();
             $table->integer('with_filters')->nullable();
             $table->json('filter_fields')->nullable();
             $table->integer('entries_selection')->nullable();

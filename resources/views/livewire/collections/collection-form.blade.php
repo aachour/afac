@@ -64,6 +64,14 @@
                                     @error('name_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-check">
+                                        <input wire:model="show_name" type="checkbox" id="show_name" class="form-check-input" value="1">
+                                        <label for="show_name" class="form-check-label">Show Name</label>
+                                    </div>
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="name">Description</label>
@@ -85,6 +93,15 @@
                                     @error('description_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-check">
+                                        <input wire:model="show_description" type="checkbox" id="show_description" class="form-check-input" value="1">
+                                        <label for="show_description" class="form-check-label">Show Description</label>
+                                    </div>
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+
                                 <div class="col-12 mt-2">
                                     <label class="form-label" for="name">Description Position</label>
 
@@ -101,7 +118,6 @@
 
                                 <div class="w-100 d-none d-md-block"></div>
 
-
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="name">Background Color</label>
                                     <select
@@ -114,6 +130,15 @@
                                         @endforeach
                                     </select>
                                     @error('background_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-check">
+                                        <input wire:model="with_border_bottom" type="checkbox" id="with_border_bottom" class="form-check-input" value="1">
+                                        <label for="with_border_bottom" class="form-check-label">With Border Bottom</label>
+                                    </div>
                                 </div>
 
                             </div>

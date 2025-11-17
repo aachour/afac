@@ -22,10 +22,13 @@ class CollectionForm extends Component
     public $type_id;
     public $name;
     public $name_arabic;
+    public $show_name;
     public $description;
     public $description_arabic;
+    public $show_description;
     public $description_position;
     public $background_color_id;
+    public $with_border_bottom;
     public $with_filters;
     public $filter_fields;
     public $entries_selection;
@@ -55,6 +58,9 @@ class CollectionForm extends Component
         
         if($id==''){
             $this->authorize('collection-create');
+            $this->show_name=true;
+            $this->show_description=true;
+            $this->with_border_bottom=true;
             $this->description_position=0;
             $this->with_filters=0;
             $this->with_label=1;
@@ -77,10 +83,13 @@ class CollectionForm extends Component
             $this->type_id=$this->collection->type_id;
             $this->name=$this->collection->name;
             $this->name_arabic=$this->collection->name_arabic;
+            $this->show_name=$this->collection->show_name == 1 ? true : false;
             $this->description=$this->collection->description;
             $this->description_arabic=$this->collection->description_arabic;
+            $this->show_description=$this->collection->show_description == 1 ? true : false;
             $this->description_position=$this->collection->description_position;
             $this->background_color_id=$this->collection->background_color_id;
+            $this->with_border_bottom=$this->collection->with_border_bottom == 1 ? true : false;
             $this->with_filters=$this->collection->with_filters;
             $this->filter_fields=$this->collection->filter_fields;
             $this->entries_selection=$this->collection->entries_selection;
@@ -109,10 +118,13 @@ class CollectionForm extends Component
             'type_id' => ['required'],
             'name' => ['required'],
             'name_arabic' => ['required'],
+            'show_name' => ['nullable'],
             'description' => ['nullable'],
             'description_arabic' => ['nullable'],
+            'show_description' => ['nullable'],
             'description_position' => ['required'],
             'background_color_id' => ['nullable'],
+            'with_border_bottom' => ['nullable'],
             'with_filters' => ['nullable'],
             'filter_fields' => ['nullable'],
             'entries_selection' => ['nullable'],
@@ -127,7 +139,6 @@ class CollectionForm extends Component
             'featured_image_width' => ['required_if:with_featured_image,1'],
             'featured_image_background_color_id' => ['nullable'],	
             'featured_image_description_position' => ['nullable'],
-            
         ];
 
         return $data;
@@ -143,10 +154,13 @@ class CollectionForm extends Component
                 'type_id'=>$this->type_id,
                 'name'=>$this->name,
                 'name_arabic'=>$this->name_arabic,
+                'show_name'=> $this->show_name,
                 'description'=>$this->description,
                 'description_arabic'=>$this->description_arabic,
+                'show_description'=> $this->show_description,
                 'description_position'=>$this->description_position,
                 'background_color_id'=>$this->background_color_id,
+                'with_border_bottom'=> $this->with_border_bottom,
                 'with_filters'=>$this->with_filters,
                 'filter_fields'=>$this->filter_fields,
                 'entries_selection'=>$this->entries_selection,
@@ -166,15 +180,17 @@ class CollectionForm extends Component
             return to_route('collections')->with('success', 'Collection created successfully!');
         }
         else if($this->id!=''){
-
             $data = [
                 'type_id'=>$this->type_id,
                 'name'=>$this->name,
                 'name_arabic'=>$this->name_arabic,
+                'show_name'=>$this->show_name,
                 'description'=>$this->description,
                 'description_arabic'=>$this->description_arabic,
+                'show_description'=>$this->show_description,
                 'description_position'=>$this->description_position,
                 'background_color_id'=>$this->background_color_id,
+                'with_border_bottom'=>$this->with_border_bottom,
                 'with_filters'=>$this->with_filters,
                 'filter_fields'=>$this->filter_fields,
                 'entries_selection'=>$this->entries_selection,
@@ -203,4 +219,5 @@ class CollectionForm extends Component
     {
         return view('livewire.collections.collection-form');
     }
+
 }
