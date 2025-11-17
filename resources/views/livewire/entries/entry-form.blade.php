@@ -779,9 +779,7 @@
 
             InitiateSelect2();
 
-            // Set initially selected values from Livewire on edit
-            let selectedCountries = @json($project_countries_id); 
-            $('#project_countries_id').val(selectedCountries).trigger('change');
+            
 
             function InitiateSelect2() {
 
@@ -790,6 +788,10 @@
                     allowClear: true,
                     width: '100%',
                 });
+
+                // Set initially selected values from Livewire on edit
+                let selectedCountries = @json($project_countries_id); 
+                $('#project_countries_id').val(selectedCountries).trigger('change');
 
             }
 
