@@ -292,7 +292,7 @@
                                 <h5>Collection Layout</h5>
 
                                 <div class="col-12">
-                                    <label class="form-label">Layout View <span class="text-danger">*</span></label>
+                                    <label class="form-label">Grid View <span class="text-danger">*</span></label>
 
                                     <div class="form-check mt-2">
                                         <input 

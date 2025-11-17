@@ -86,6 +86,32 @@
 
                             <div class="row">
 
+                                <div class="mb-3" wire:ignore>
+                                    <label for="text" class="form-label">Text</label>
+                                    <textarea
+                                        class="form-control txtEditor @error('text') is-invalid @enderror"
+                                        id="entries.{{$key}}.text"
+                                        wire:model.defer="entries.{{$key}}.text"
+                                        style="height:150px; resize:none;"></textarea>
+                                    @error('entries.{{$key}}.text')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3" wire:ignore>
+                                    <label for="text_arabic" class="form-label">النص</label>
+                                    <textarea
+                                        class="form-control txtEditor @error('text_arabic') is-invalid @enderror"
+                                        id="entries.{{$key}}.text_arabic"
+                                        wire:model.defer="entries.{{$key}}.text_arabic"
+                                        style="height:150px; resize:none;"></textarea>
+                                    @error('entries.{{$key}}.text_arabic')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="small text-danger mb-1">Note: Skip Pattern Shape and Percentage if text only</div>
+
                                 <div class="col-12 col-lg-6 mb-3">
                                     <label for="ColorName" class="form-label">Pattern Shape</label>
                                     <select
@@ -110,30 +136,6 @@
                                         wire:model="entries.{{$key}}.percentage"
                                         placeholder="Percentage" />
                                     @error('entries.{{$key}}.percentage')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3" wire:ignore>
-                                    <label for="text" class="form-label">Text</label>
-                                    <textarea
-                                        class="form-control txtEditor @error('text') is-invalid @enderror"
-                                        id="entries.{{$key}}.text"
-                                        wire:model.defer="entries.{{$key}}.text"
-                                        style="height:150px; resize:none;"></textarea>
-                                    @error('entries.{{$key}}.text')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3" wire:ignore>
-                                    <label for="text_arabic" class="form-label">النص</label>
-                                    <textarea
-                                        class="form-control txtEditor @error('text_arabic') is-invalid @enderror"
-                                        id="entries.{{$key}}.text_arabic"
-                                        wire:model.defer="entries.{{$key}}.text_arabic"
-                                        style="height:150px; resize:none;"></textarea>
-                                    @error('entries.{{$key}}.text_arabic')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>

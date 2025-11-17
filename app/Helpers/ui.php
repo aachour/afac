@@ -34,12 +34,6 @@
             $featured_width='74.3%';
             $featured_margin='25.3%';
         }
-        else if($featured_image_width==3) //one half
-        {
-            $featured_width='50%';
-            $featured_margin='50%';
-        }
-
 
         $featured_image_bgColor = $collection->featuredImageBgColor?->code ?? '#ffffff';
         
@@ -117,6 +111,37 @@
                 //show featured entry on top
                 if($with_featured==1) 
                 { 
+
+                    if($collection_type_id==1){
+                        $entry_title=$entries[0]->event_title;
+                        $entry_text=$entries[0]->event_text;
+                        
+                    }
+                    else if($collection_type_id==2){
+                        $entry_title=$entries[0]->program_title;
+                        $entry_text=$entries[0]->program_text;
+                    }
+                    else if($collection_type_id==3){
+                        $entry_title=$entries[0]->project_title;
+                        $entry_text=$entries[0]->project_text;
+                    }
+                    else if($collection_type_id==4){
+                        $entry_title=$entries[0]->grantee_name;
+                        $entry_text=$entries[0]->grantee_text;
+                    }
+                    else if($collection_type_id==5){
+                        $entry_title=$entries[0]->jury_name;
+                        $entry_text=$entries[0]->jury_text;
+                    }
+                    else if($collection_type_id==6){
+                        $entry_title=$entries[0]->resource_title;
+                        $entry_text=$entries[0]->resource_text;
+                    }
+                    else if($collection_type_id==7){
+                        $entry_title=$entries[0]->news_title;
+                        $entry_text=$entries[0]->news_text;
+                    }
+
                     $image_path = asset('frontend/images/default-image.jpg');
                     if (!empty($entries[0]->image)) {
                         $image_path = asset('storage/' . $entries[0]->image_featured);
@@ -126,17 +151,19 @@
                         <div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
                             <div class="featured_info">
                                 <div class="title_or_labels" style="'.$title_position.'">
-                                    <div class="medium white ABCDiatypeMedium">'.$entries[0]->event_title.'</div>
-                                    <div class="topSpacerSmall tiny white threeQuartersText">'.$entries[0]->event_text.'</div>
+                                    <div class="medium white ABCDiatypeMedium">'.$entry_title.'</div>
+                                    <div class="topSpacerSmall tiny white threeQuartersText">'.$entry_text.'</div>
                                 </div>';
                                 if($with_label==1)
                                 {
                                     $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">
-                                        <div class="label micro ABCDiatypeMedium">'.$entries[0]->type->name.'</div>
-                                        <div class="label micro rounded ABCDiatypeMedium">'.date('d M',strtotime($entries[0]->event_date)).'</div>
-                                        <div class="label micro rounded ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
-                                        <div class="clear">&nbsp;</div>
-                                    </div>';
+                                        <div class="label micro ABCDiatypeMedium">'.$entries[0]->type->name.'</div>';
+                                        if($collection_type_id==1){
+                                            $html.='<div class="label micro rounded ABCDiatypeMedium">'.date('d M',strtotime($entries[0]->event_date)).'</div>
+                                            <div class="label micro rounded ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
+                                            <div class="clear">&nbsp;</div>';
+                                        }
+                                    $html.='</div>';
                                 }
                             $html.='</div>
                             <div class="featured_image">
@@ -150,16 +177,18 @@
                         <div class="featured_entry_mobile" style="background:'.$featured_image_bgColor.';">
                            <img src="'.$image_path.'" width="100%" />
                             <div class="description">
-                                <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entries[0]->event_title.'</div>';
+                                <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entry_title.'</div>';
                                 if($with_label==1)
                                 {
                                     $html.='<div class="title_or_labels" style="'.$labels_position.'">
-                                        <div class="label micro black ABCDiatypeMedium">'.$entries[0]->type->name.'</div>
-                                        <div class="label micro black ABCDiatypeMedium">'.date('d M',strtotime($entries[0]->event_date)).'</div>
-                                        <div class="clear"></div>
-                                        <div class="topSpacerSmall label micro black ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
-                                        <div class="clear">&nbsp;</div>
-                                    </div>';
+                                        <div class="label micro black ABCDiatypeMedium">'.$entries[0]->type->name.'</div>';
+                                        if($collection_type_id==1){
+                                            $html.='<div class="label micro black ABCDiatypeMedium">'.date('d M',strtotime($entries[0]->event_date)).'</div>
+                                            <div class="clear"></div>
+                                            <div class="topSpacerSmall label micro black ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
+                                            <div class="clear">&nbsp;</div>';
+                                        }
+                                    $html.='</div>';
                                 }
                             $html.='</div>
                             
@@ -172,6 +201,17 @@
                 $html.='<div class="entries topSpacerBig">';
                     
                     $entries_count=0;
+
+                    if($entries_layout==1 && $entries_per_row<4){
+                        $html.='
+                        <style>
+                            @media(min-width:900px){
+                                .collection .entries .entry:nth-child(4n){
+                                    margin-right:2% !important;
+                                }
+                            }
+                        </style>';
+                    }
 
                     //Open slider
                     if($entries_layout==2) 
@@ -200,20 +240,45 @@
                             $image_path = asset('storage/' . $entry->image);
                         }
 
+                        if($collection_type_id==1){
+                            $entry_title=$entry->event_title;
+                        }
+                        else if($collection_type_id==2){
+                            $entry_title=$entry->program_title;
+                        }
+                        else if($collection_type_id==3){
+                            $entry_title=$entry->project_title;
+                        }
+                        else if($collection_type_id==4){
+                            $entry_title=$entry->grantee_name;
+                        }
+                        else if($collection_type_id==5){
+                            $entry_title=$entry->jury_name;
+                        }
+                        else if($collection_type_id==6){
+                            $entry_title=$entry->resource_title;
+                        }
+                        else if($collection_type_id==7){
+                            $entry_title=$entry->news_title;
+                        }
+                        
+
                         $html.='<div class="swiper-slide entry">
 
                             <img src="'.$image_path.'" width="100%" />
                             <div class="description">
-                                <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entry->event_title.'</div>';
+                                <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entry_title.'</div>';
                                 if($with_label==1)
                                 {
                                     $html.='<div class="title_or_labels" style="'.$labels_position.'">
-                                        <div class="label micro black ABCDiatypeMedium">'.$entry->type->name.'</div>
-                                        <div class="label micro black rounded ABCDiatypeMedium">'.date('d M',strtotime($entry->event_date)).'</div>
-                                        <div class="clear"></div>
-                                        <div class="topSpacerSmall label micro black rounded ABCDiatypeMedium">'.date('h:i',strtotime($entry->event_start_time)).' - '.date('h:i',strtotime($entry->event_to_time)).'</div>
-                                        <div class="clear">&nbsp;</div>
-                                    </div>';
+                                        <div class="label micro black ABCDiatypeMedium">'.$entry->type->name.'</div>';
+                                        if($collection_type_id==1){
+                                            $html.='<div class="label micro black rounded ABCDiatypeMedium">'.date('d M',strtotime($entry->event_date)).'</div>
+                                            <div class="clear"></div>
+                                            <div class="topSpacerSmall label micro black rounded ABCDiatypeMedium">'.date('h:i',strtotime($entry->event_start_time)).' - '.date('h:i',strtotime($entry->event_to_time)).'</div>
+                                            <div class="clear">&nbsp;</div>';
+                                        }
+                                    $html.='</div>';
                                 }
                             $html.='</div>
                                 
