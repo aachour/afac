@@ -59,7 +59,7 @@
                                 </div>
 
                                 <div class="col-12 mt-3 @if($type_id!=6 && $type_id!=7) d-none @endif">
-                                    <label class="form-label" for="image_full">Full Image [1920x600px]</label>
+                                    <label class="form-label" for="image_full">Full Image [1920x450px]</label>
                                     <x-filepond 
                                         wire:model="image_full"
                                         file-path="{{ $imageFullPreview ?? '' }}"
