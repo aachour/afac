@@ -47,10 +47,22 @@
                                 </div>  
 
                                 <div class="col-12 mt-3">
-                                    <label class="form-label" for="image">Featured Image [1000x1000px]</label>
+                                    <label class="form-label" for="image_featured">Featured Image [1000x1000px]</label>
                                     <x-filepond 
                                         wire:model="image_featured"
                                         file-path="{{ $imageFeaturedPreview ?? '' }}"
+                                        delete-event="deleteImage"
+                                        is-multiple="false" />
+                                    @error('image_featured') 
+                                        <div class="text-danger">{{ $message }}</div> 
+                                    @enderror
+                                </div>
+
+                                <div class="col-12 mt-3 @if($type_id!=6 && $type_id!=7) d-none @endif">
+                                    <label class="form-label" for="image_full">Full Image [1920x600px]</label>
+                                    <x-filepond 
+                                        wire:model="image_full"
+                                        file-path="{{ $imageFullPreview ?? '' }}"
                                         delete-event="deleteImage"
                                         is-multiple="false" />
                                     @error('image_featured') 
@@ -248,6 +260,13 @@
                                         class="form-control"
                                         placeholder="To Time" />
                                     @error('event_end_time') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-check">
+                                        <input wire:model="event_calendar_view" type="checkbox" id="event_calendar_view" class="form-check-input" value="1">
+                                        <label for="event_calendar_view" class="form-check-label">Calendar View</label>
+                                    </div>
                                 </div>
 
                             </div>

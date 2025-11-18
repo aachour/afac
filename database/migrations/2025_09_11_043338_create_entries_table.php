@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('type_id')->nullable()->constrained('types')->onDelete('cascade');
             $table->text('image')->nullable();
             $table->text('image_featured')->nullable();
+            $table->text('image_full')->nullable();
             $table->integer('image_width')->nullable();
             $table->foreignId('background_color_id')->nullable()->constrained('colors')->onDelete('cascade');
             $table->text('button_value')->nullable();
@@ -36,6 +37,7 @@ return new class extends Migration
             $table->date('event_date')->nullable();
             $table->time('event_start_time')->nullable();
             $table->time('event_end_time')->nullable();
+            $table->boolean('event_calendar_view')->nullable();
 
             //Program Fields
             $table->text('program_title')->nullable();

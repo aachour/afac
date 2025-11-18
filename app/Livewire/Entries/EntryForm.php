@@ -42,6 +42,8 @@ class EntryForm extends Component
     public $imagePreview;
     public $image_featured;
     public $imageFeaturedPreview;
+    public $image_full;
+    public $imageFullPreview;
     public $image_width;
     public $background_color_id ;
     public $button_value;
@@ -59,6 +61,8 @@ class EntryForm extends Component
     public $event_date;
     public $event_start_time;
     public $event_end_time;
+    public $event_calendar_view;
+    
 
     //2- Program
     public $program_title;
@@ -121,6 +125,7 @@ class EntryForm extends Component
 
         if($id==''){
             $this->authorize('entry-create');
+            $this->event_calendar_view=false;
         }
         else{
 
@@ -134,6 +139,7 @@ class EntryForm extends Component
 
             $this->imagePreview = asset('storage/' . $this->entry->image);
             $this->imageFeaturedPreview = asset('storage/' . $this->entry->image_featured);
+            $this->imageFullPreview = asset('storage/' . $this->entry->image_full);
 
             $this->image_width=$this->entry->image_width;
             $this->background_color_id=$this->entry->background_color_id;
@@ -152,6 +158,7 @@ class EntryForm extends Component
             $this->event_date=$this->entry->event_date;
             $this->event_start_time=$this->entry->event_start_time;
             $this->event_end_time=$this->entry->event_end_time;
+            $this->event_calendar_view=$this->entry->event_calendar_view == 1 ? true : false;
 
             //Program
             $this->program_title=$this->entry->program_title;
@@ -239,6 +246,7 @@ class EntryForm extends Component
             'type_id' => ['required'],
             'image' => ['nullable'],
             'image_featured' => ['nullable'],
+            'image_full' => ['nullable'],
             'image_width' => ['nullable'],
             'background_color_id' => ['nullable'],
             'button_value' => ['nullable'],
@@ -254,7 +262,8 @@ class EntryForm extends Component
             'event_date' => ['required_if:type_id,1'],
             'event_start_time' => ['required_if:type_id,1'],
             'event_end_time' => ['required_if:type_id,1'],
-
+            'event_calendar_view' => ['nullable'],
+            
             //Program
             'program_title' => ['required_if:type_id,2'],
             'program_title_arabic' => ['required_if:type_id,2'],
@@ -310,10 +319,15 @@ class EntryForm extends Component
                 $path_featured = $this->image_featured->store('entries', 'public');
             }
 
+            if($this->image_full!=''){
+                $path_full = $this->image_full->store('entries', 'public');
+            }
+
             $entry=Entries::create([
                 'type_id' => $this->type_id,
                 'image' => @$path,
                 'image_featured' => @$path_featured,
+                'image_full' => @$path_full,
                 'image_width' => $this->image_width,
                 'background_color_id' => $this->background_color_id !== '' ? $this->background_color_id : null,
                 'button_value' => $this->button_value,
@@ -329,6 +343,7 @@ class EntryForm extends Component
                 'event_date'=>$this->event_date ?? null,
                 'event_start_time'=>$this->event_start_time ?? null,
                 'event_end_time'=>$this->event_end_time ?? null,
+                'event_calendar_view'=>$this->event_calendar_view == 1 ? true : false,
                 'program_title'=>$this->program_title ?? '',
                 'program_title_arabic'=>$this->program_title_arabic ?? '',
                 'program_text'=>$this->program_text ?? '',
@@ -388,10 +403,14 @@ class EntryForm extends Component
                 $path_feautred = $this->image_featured->store('entries', 'public');
             }
 
+            if($this->image_full!=''){
+                $path_full = $this->image_full->store('entries', 'public');
+            }
 
             $data = [
                 'image' => @$path ?? $this->entry->image,
                 'image_featured' => @$path_feautred ?? $this->entry->image_featured,
+                'image_full' => @$path_full ?? $this->entry->image_full,
                 'image_width' => $this->image_width,
                 'background_color_id' => $this->background_color_id !== '' ? $this->background_color_id : null,
                 'button_value' => $this->button_value,
@@ -407,6 +426,7 @@ class EntryForm extends Component
                 'event_date'=>$this->event_date ?? null,
                 'event_start_time'=>$this->event_start_time ?? null,
                 'event_end_time'=>$this->event_end_time ?? null,
+                'event_calendar_view'=>$this->event_calendar_view == 1 ? true : false,
                 'program_title'=>$this->program_title ?? '',
                 'program_title_arabic'=>$this->program_title_arabic ?? '',
                 'program_text'=>$this->program_text ?? '',
