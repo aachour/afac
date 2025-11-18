@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('gallery_id')->nullable()->constrained('galleries')->onDelete('cascade');
             $table->text('image_path')->nullable();
+            $table->text('caption')->nullable();
+            $table->text('caption_arabic')->nullable();
+            $table->text('link')->nullable();
             $table->integer('list_order')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -305,14 +305,26 @@
                             </thead>
                             <tbody>
                                 @if(count($gallery_images)>0)
-                                    @foreach ($gallery_images as $image)
-                                        <tr data-id="{{ @$image->id }}" style="cursor: move;">
-                                            <td>{{@$image->list_order}}</td>
+                                    @foreach ($gallery_images as $key=>$gallery_image)
+                                        <tr data-id="{{ @$gallery_image->id }}" style="cursor: move;">
+                                            <td>{{@$gallery_image->list_order}}</td>
                                             <td>
-                                                <img src="{{ asset('storage/'.@$image->image_path) }}" class="w-full h-32 object-cover rounded" width="200px" />
+                                                <img src="{{ asset('storage/'.@$gallery_image->image_path) }}" class="w-full h-32 object-cover rounded" width="200px" />
+                                                <div class="mt-2">
+                                                    <input type="text" wire:model="gallery_image_inputs.{{ $key }}.caption" placeholder="Image Caption" class="caption form-control" />
+                                                </div>
+                                                <div class="mt-2">
+                                                    <input type="text" wire:model="gallery_image_inputs.{{ $key }}.caption_arabic" placeholder="تسمية الصورة" class="caption form-control"  style="direction:rtl;" />
+                                                </div>
+                                                <div class="mt-2">
+                                                    <input type="text" wire:model="gallery_image_inputs.{{ $key }}.link" placeholder="Image Link" class="link form-control"/>
+                                                </div>
                                             </td>
                                             <td>
-                                                <a href="#" wire:click.prevent="deleteGalleryImage({{ @$image->id }})" class="text-body">
+                                                <a href="#" wire:click.prevent="editGalleryImage({{@$gallery_image->id}} , {{ $key }})" class="text-body">
+                                                    <i class="ti ti-check ti-sm cursor-pointer"></i>
+                                                </a>
+                                                <a href="#" wire:click.prevent="deleteGalleryImage({{ @$gallery_image->id }})" class="text-body">
                                                     <i class="ti ti-trash ti-sm mx-2 text-danger"></i>
                                                 </a>
                                             </td>
@@ -437,6 +449,7 @@
                         }
                     });
                 }
+
             });
         </script>
 

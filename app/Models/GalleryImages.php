@@ -15,6 +15,9 @@ class GalleryImages extends Model
     protected $fillable = [
         'gallery_id',
         'image_path',
+        'caption',
+        'caption_arabic',
+        'link',
         'list_order',
     ];
 

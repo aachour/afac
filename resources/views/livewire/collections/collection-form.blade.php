@@ -99,10 +99,11 @@
                                         <label for="show_description" class="form-check-label">Show Description</label>
                                     </div>
                                 </div>
+                                
 
                                 <div class="w-100 d-none d-md-block"></div>
 
-                                <div class="col-12 mt-2">
+                                <div class="col-12 mt-3">
                                     <label class="form-label" for="name">Description Position</label>
 
                                     <div class="form-check mt-1">
@@ -116,9 +117,49 @@
                                     </div>
                                 </div>
 
-                                <div class="w-100 d-none d-md-block"></div>
+                                <div class="col-12 col-md-6 mt-3">
+                                    <label class="form-label" for="view_all_title">View All Title</label>
+                                    <input
+                                        wire:model="view_all_title"
+                                        type="text"
+                                        id="view_all_title"
+                                        class="form-control" />
+                                    @error('view_all_title') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-3">
+                                    <label class="form-label" for="view_all_title_arabic">View All Title Arabic</label>
+                                    <input
+                                        wire:model="view_all_title_arabic"
+                                        type="text"
+                                        id="view_all_title_arabic"
+                                        class="form-control" />
+                                    @error('view_all_title_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
 
                                 <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="view_all_link">View All Link</label>
+                                    <input
+                                        wire:model="view_all_link"
+                                        type="text"
+                                        id="view_all_link"
+                                        class="form-control" />
+                                    @error('view_all_link') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-check">
+                                        <input wire:model="show_view_all" type="checkbox" id="show_view_all" class="form-check-input" value="1">
+                                        <label for="show_view_all" class="form-check-label">Show View All</label>
+                                    </div>
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+
+                                <div class="col-12 col-md-6 mt-3">
                                     <label class="form-label" for="name">Background Color</label>
                                     <select
                                         wire:model="background_color_id"

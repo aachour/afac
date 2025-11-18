@@ -21,10 +21,12 @@ return new class extends Migration
             $table->text('image_featured')->nullable();
             $table->integer('image_width')->nullable();
             $table->foreignId('background_color_id')->nullable()->constrained('colors')->onDelete('cascade');
-            $table->text('button_link')->nullable();
             $table->text('button_value')->nullable();
             $table->text('button_value_arabic')->nullable();
-
+            $table->foreignId('button_shape_id')->nullable()->constrained('shapes')->onDelete('cascade');
+            $table->foreignId('button_hover_shape_id')->nullable()->constrained('shapes')->onDelete('cascade');
+            $table->text('button_link')->nullable();
+            
             //Event Fields
             $table->foreignId('event_category_id')->nullable()->constrained('event_categories')->onDelete('cascade');
             $table->text('event_title')->nullable();

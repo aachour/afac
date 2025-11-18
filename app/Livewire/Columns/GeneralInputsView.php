@@ -46,6 +46,8 @@ class GeneralInputsView extends Component
     public $gallery_id;
     public $gallery;
     public $gallery_images = [];
+    public $gallery_image_inputs = [];
+    
     
     public $video;
     public $percentage;
@@ -255,6 +257,18 @@ class GeneralInputsView extends Component
         $generalInput=ColumnGeneral::with('gallery','gallery.images')->WHERE('gallery_id',$galleryId)->first();
         $this->gallery=$generalInput->gallery;
         $this->gallery_images=$this->gallery->images;
+
+        if($this->gallery_images){
+            foreach($this->gallery_images as $gallery_image){
+                $obj=[
+                    'caption'         => $gallery_image->caption,
+                    'caption_arabic'  => $gallery_image->caption_arabic,
+                    'link'            => $gallery_image->link,
+                ];
+                $this->gallery_image_inputs []= $obj;
+            }
+        }
+
     }
 
 
@@ -281,6 +295,20 @@ class GeneralInputsView extends Component
 
     }
 
+    public function editGalleryImage($id,$key){
+
+        $galleryImage = GalleryImages::find($id);
+        if (!$galleryImage) return;
+
+        $galleryImage->update([
+            'caption'         => $this->gallery_image_inputs[$key]['caption'],
+            'caption_arabic'  => $this->gallery_image_inputs[$key]['caption_arabic'],
+            'link'            => $this->gallery_image_inputs[$key]['link'],
+        ]);
+
+        $this->gallery_images=[];
+        $this->showGallery($this->section_column_id,$this->gallery_id);
+    }
 
     public function render()
     {

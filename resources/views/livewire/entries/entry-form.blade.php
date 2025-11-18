@@ -46,7 +46,7 @@
                                     @error('image_width') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>  
 
-                                <div class="col-12 mt-2">
+                                <div class="col-12 mt-3">
                                     <label class="form-label" for="image">Featured Image [1000x1000px]</label>
                                     <x-filepond 
                                         wire:model="image_featured"
@@ -73,19 +73,6 @@
                                 <div class="w-100 d-none d-md-block"></div>
 
                                 <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="button_link">Button Link </label>
-                                    <input
-                                        wire:model="button_link"
-                                        type="text"
-                                        id="button_link"
-                                        class="form-control"
-                                        placeholder="Link" />
-                                    @error('button_link') <div class="text-danger">{{ $message }}</div> @enderror
-                                </div>
-
-                                <div class="w-100 d-none d-md-block"></div>
-
-                                <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="button_value">Button Text </label>
                                     <input
                                         wire:model="button_value"
@@ -106,6 +93,49 @@
                                         placeholder="Link" />
                                     @error('button_value_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
+
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="button_shape_id">Button Shape </label>
+                                    <select
+                                        wire:model="button_shape_id"
+                                        id="button_shape_id"
+                                        class="form-control">
+                                        <option value=''>Select Shape</option>
+                                        @foreach($shapes as $shape)
+                                            <option value='{{$shape->id}}'>{{$shape->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('button_shape_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="button_hover_shape_id">Button Hover Shape</label>
+                                    <select
+                                        wire:model="button_hover_shape_id"
+                                        id="button_hover_shape_id"
+                                        class="form-control">
+                                        <option value=''>Select Shape</option>
+                                        @foreach($shapes as $shape)
+                                            <option value='{{$shape->id}}'>{{$shape->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('button_hover_shape_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="button_link">Button Link </label>
+                                    <input
+                                        wire:model="button_link"
+                                        type="text"
+                                        id="button_link"
+                                        class="form-control"
+                                        placeholder="Link" />
+                                    @error('button_link') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
 
                             </div>
 

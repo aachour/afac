@@ -10,7 +10,7 @@ use App\Models\Colors;
 use App\Models\Countries;
 use App\Models\ProgramYears;
 use App\Models\ProgramYearProjects;
-
+use App\Models\Shapes;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -31,6 +31,7 @@ class EntryForm extends Component
     public $event_categories;
     public $project_categories;
     public $colors;
+    public $shapes;
     public $countries;
     public $programs;
     public $programYears;
@@ -43,9 +44,11 @@ class EntryForm extends Component
     public $imageFeaturedPreview;
     public $image_width;
     public $background_color_id ;
-    public $button_link;
     public $button_value;
     public $button_value_arabic;
+    public $button_shape_id;
+    public $button_hover_shape_id;
+    public $button_link;
 
     //1- Event
     public $event_category_id;
@@ -134,9 +137,11 @@ class EntryForm extends Component
 
             $this->image_width=$this->entry->image_width;
             $this->background_color_id=$this->entry->background_color_id;
-            $this->button_link=$this->entry->button_link;
             $this->button_value=$this->entry->button_value;
             $this->button_value_arabic=$this->entry->button_value_arabic;
+            $this->button_shape_id=$this->entry->button_shape_id;
+            $this->button_hover_shape_id=$this->entry->button_hover_shape_id;
+            $this->button_link=$this->entry->button_link;
             
             //Event
             $this->event_category_id=$this->entry->event_category_id;
@@ -207,6 +212,8 @@ class EntryForm extends Component
         
         $this->colors=Colors::all();
 
+        $this->shapes=Shapes::all();
+        
         $this->countries=Countries::all();
 
         $this->programs=Entries::WHERE('type_id','2')->ORDERBY('id','desc')->get();
@@ -234,10 +241,12 @@ class EntryForm extends Component
             'image_featured' => ['nullable'],
             'image_width' => ['nullable'],
             'background_color_id' => ['nullable'],
-            'button_link' => ['nullable'],
             'button_value' => ['nullable'],
             'button_value_arabic' => ['nullable'],
-
+            'button_shape_id' => ['nullable'],
+            'button_hover_shape_id' => ['nullable'],
+            'button_link' => ['nullable'],
+            
             //Event
             'event_category_id' => ['required_if:type_id,1'],
             'event_title' => ['required_if:type_id,1'],
@@ -307,9 +316,11 @@ class EntryForm extends Component
                 'image_featured' => @$path_featured,
                 'image_width' => $this->image_width,
                 'background_color_id' => $this->background_color_id !== '' ? $this->background_color_id : null,
-                'button_link' => $this->button_link,
                 'button_value' => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
+                'button_shape_id' => $this->button_shape_id,
+                'button_hover_shape_id' => $this->button_hover_shape_id,
+                'button_link' => $this->button_link,
                 'event_category_id'=> $this->event_category_id !== '' ? $this->event_category_id : null,
                 'event_title'=>$this->event_title ?? '',
                 'event_title_arabic'=>$this->event_title_arabic ?? '',
@@ -383,9 +394,11 @@ class EntryForm extends Component
                 'image_featured' => @$path_feautred ?? $this->entry->image_featured,
                 'image_width' => $this->image_width,
                 'background_color_id' => $this->background_color_id !== '' ? $this->background_color_id : null,
-                'button_link' => $this->button_link,
                 'button_value' => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
+                'button_shape_id' => $this->button_shape_id,
+                'button_hover_shape_id' => $this->button_hover_shape_id,
+                'button_link' => $this->button_link,
                 'event_category_id'=> $this->event_category_id !== '' ? $this->event_category_id : null,
                 'event_title'=>$this->event_title ?? '',
                 'event_title_arabic'=>$this->event_title_arabic ?? '',
