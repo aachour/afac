@@ -134,7 +134,7 @@
 
                             <!--Time-->
                             <div class="col-12 col-lg-6 mb-3">
-                                <label for="start_time" class="form-label">Start Date</label>
+                                <label for="start_time" class="form-label">Start Time</label>
                                 <input type="time"
                                     class="form-control @error('start_time') is-invalid @enderror"
                                     id="start_time"
@@ -146,7 +146,7 @@
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
-                                <label for="end_time" class="form-label">End Date</label>
+                                <label for="end_time" class="form-label">End Time</label>
                                 <input type="time"
                                     class="form-control @error('end_time') is-invalid @enderror"
                                     id="end_time"
