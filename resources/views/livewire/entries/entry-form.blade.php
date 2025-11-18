@@ -774,36 +774,31 @@
 
         </div>
 
-        @script
-        <script>
-
-            InitiateSelect2();
-
-            
-
-            function InitiateSelect2() {
-
-                $('#project_countries_id').select2({
-                    placeholder: 'Select Countries',
-                    allowClear: true,
-                    width: '100%',
-                });
-
-                // Set initially selected values from Livewire on edit
-                let selectedCountries = @json($project_countries_id); 
-                $('#project_countries_id').val(selectedCountries).trigger('change');
-
-            }
-
-            $('#project_countries_id').on('change', function () {
-                @this.set('project_countries_id', $(this).val());
-            });
-
-        </script>
-        @endscript
-
     </div>
 
+    @script
+    <script>
+        document.addEventListener('livewire:navigated', () => {
+            let el = $('#project_countries_id');
+
+            // initialize
+            el.select2({
+                placeholder: "Select countries",
+                allowClear: true,
+                width: "100%"
+            });
+
+            // set initial values from Livewire
+            el.val(@json($project_countries_id)).trigger('change');
+
+            // handle change (update Livewire)
+            el.on('change', function () {
+                $wire.set('project_countries_id', $(this).val());
+            });
+        });
+    </script>
+    @endscript
+  
     <!-- ✅ Load CKEditor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
 
@@ -851,9 +846,9 @@
     </script>
 
     <style>
-    .ck-editor__editable_inline {
-        min-height: 250px;
-    }
+        .ck-editor__editable_inline {
+            min-height: 250px;
+        }
     </style>
     
 </div>

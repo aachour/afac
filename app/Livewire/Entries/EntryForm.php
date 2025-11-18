@@ -159,8 +159,8 @@ class EntryForm extends Component
             $this->project_title=$this->entry->project_title;
             $this->project_title_arabic=$this->entry->project_title_arabic;
             $this->project_text=$this->entry->project_text;
-            $this->project_text_arabic=$this->entry->project_text_arabic;
-            $this->project_countries_id = $this->entry->project_countries_id ?: [];
+            $this->project_text_arabic=$this->entry->project_text_arabic; 
+            $this->project_countries_id = json_decode($this->entry->project_countries_id, true) ?? [];
             $this->project_program_year_id=$this->entry->project_program_year_id;
             $programYearProject=ProgramYearProjects::find($this->project_program_year_id);
             if($programYearProject!=null){
