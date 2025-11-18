@@ -14,6 +14,9 @@
         }
 
         $collection_type_id=$collection->type_id;
+        $show_name=$collection->show_name;
+        $show_description=$collection->show_description;
+        $with_border_bottom=$collection->with_border_bottom;
         $entries_selection=$collection->entries_selection;
         $entries_per_row=$collection->entries_per_row;
         $entries_layout=$collection->entries_layout;
@@ -101,9 +104,13 @@
 
         $bgColor = $collection->bgColor?->code ?? '#ffffff';
         
-        $html='<div class="collection" style="background-color:'.$bgColor.';">';
+        $withBorder = $with_border_bottom == 1 ? 'collectionWithBorder' : '';
 
-            $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
+        $html='<div class="collection '.$withBorder.'" style="background-color:'.$bgColor.'; margin-bottom:50px;">';
+
+            if($show_name==1){
+                $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
+            }
 
             if(count($entries)>0)
             {
@@ -151,9 +158,11 @@
                         <div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
                             <div class="featured_info">
                                 <div class="title_or_labels" style="'.$title_position.'">
-                                    <div class="medium white ABCDiatypeMedium">'.$entry_title.'</div>
-                                    <div class="topSpacerSmall tiny white threeQuartersText">'.$entry_text.'</div>
-                                </div>';
+                                    <div class="medium white ABCDiatypeMedium">'.$entry_title.'</div>';
+                                    if($show_description==1){
+                                        $html.='<div class="topSpacerSmall tiny white threeQuartersText">'.$entry_text.'</div>';
+                                    }
+                                $html.='</div>';
                                 if($with_label==1)
                                 {
                                     $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">
@@ -198,7 +207,7 @@
                     
                 }
 
-                $html.='<div class="entries topSpacerBig">';
+                $html.='<div class="topSpacerBig entries">';
                     
                     $entries_count=0;
 
@@ -307,8 +316,6 @@
                             <div class="swiper-button-next"></div>
                         </div>';
                     }
-
-                    
 
                 $html.='</div>';
 

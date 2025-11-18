@@ -32,6 +32,10 @@
     overflow:hidden;
 }
 
+.collectionWithBorder{
+    box-shadow: 0 5px 8px -2px rgba(128, 128, 128, 0.5);
+}
+
 .collection .featured_entry_mobile{
     position:relative;
 }
