@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('section_id')->nullable()->constrained('sections')->onDelete('cascade');
             $table->foreignId('type_id')->nullable()->constrained('column_types')->onDelete('cascade');
             $table->foreignId('alignment_id')->nullable()->constrained('alignment_types')->onDelete('cascade');
+            $table->integer('width')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

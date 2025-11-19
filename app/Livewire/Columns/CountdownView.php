@@ -38,7 +38,8 @@ class CountdownView extends Component
     public $end_time;
     public $button_value;
     public $button_value_arabic;
-    public $button_shape_id ;
+    public $button_shape_id;
+    public $button_hover_shape_id;
     public $button_link;
             
     public function mount($sectionId,$id)
@@ -91,6 +92,7 @@ class CountdownView extends Component
         $this->button_value=$columnCountdown->button_value;
         $this->button_value_arabic=$columnCountdown->button_value_arabic;
         $this->button_shape_id=$columnCountdown->button_shape_id;
+        $this->button_hover_shape_id=$columnCountdown->button_hover_shape_id;
         $this->button_link=$columnCountdown->button_link;
         
         $this->modalId=$id;
@@ -116,6 +118,7 @@ class CountdownView extends Component
                 'button_value' => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
                 'button_shape_id' => $this->button_shape_id,
+                'button_hover_shape_id' => $this->button_hover_shape_id,
                 'button_link' => $this->button_link,
                 'list_order'=> $highestOrder+1
             ]);
@@ -137,6 +140,7 @@ class CountdownView extends Component
                 'button_value' => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
                 'button_shape_id' => $this->button_shape_id,
+                'button_hover_shape_id' => $this->button_hover_shape_id,
                 'button_link' => $this->button_link,
             ]);
             

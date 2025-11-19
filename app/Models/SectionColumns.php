@@ -15,6 +15,7 @@ class SectionColumns extends Model
         'section_id',
         'type_id',
         'alignment_id',
+        'width',
     ];
 
     public function gallery()

@@ -195,6 +195,20 @@
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
+                                <label for="button_hover_shape_id" class="form-label">Button hover shape</label>
+                                <select
+                                    wire:model="button_hover_shape_id"
+                                    id="button_hover_shape_id"
+                                    class="form-control">
+                                    <option value=''>Select Shape</option>
+                                    @foreach($shapes as $shape)
+                                        <option value='{{$shape->id}}'>{{$shape->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('button_hover_shape_id') <div class="text-danger">{{ $message }}</div> @enderror
+                            </div>
+
+                            <div class="col-12 col-lg-6 mb-3">
                                 <label for="button_link" class="form-label">Button Link</label>
                                 <input type="text"
                                     class="form-control @error('button_link') is-invalid @enderror"

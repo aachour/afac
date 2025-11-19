@@ -20,6 +20,7 @@ class SectionForm extends Component
 
     public $section;
     public $name;
+    public $with_border_bottom;
 
     public $page_id;
     public $entry_id;
@@ -30,6 +31,8 @@ class SectionForm extends Component
     public $alignmentTypes;
     public $columns_num;
     public $columns_max=2;
+
+    public $image_width_options=[];
 
 
     public function mount($pageId='',$entryId='',$id=''){
@@ -44,8 +47,10 @@ class SectionForm extends Component
 
             $this->authorize('section-create');
 
+            $this->with_border_bottom=false;
+
             $this->columns_num=1;
-            $this->columns[] = ['id'=>'','type_id' => '','alignment_id'=>''];
+            $this->columns[] = ['id'=>'','type_id' => '','alignment_id'=>'','width'=>''];
         }
         else{
 
@@ -57,6 +62,8 @@ class SectionForm extends Component
 
             $this->name=$this->section->name;
 
+            $this->with_border_bottom=$this->section->with_border_bottom == 1 ? true : false;
+
             $sectionColumns=SectionColumns::WHERE('section_id',$this->section_id)->get();
 
             foreach($sectionColumns as $sectionColumn){
@@ -64,6 +71,7 @@ class SectionForm extends Component
                     'id'=>$sectionColumn->id,
                     'type_id'=>$sectionColumn->type_id,
                     'alignment_id'=>$sectionColumn->alignment_id,
+                    'width'=>$sectionColumn->width,
                 ];
                 $this->columns[]=$obj;
             }
@@ -72,12 +80,13 @@ class SectionForm extends Component
         
         $this->columnTypes=ColumnTypes::ORDERBY('id','ASC')->get();
         $this->alignmentTypes=AlignmentTypes::ORDERBY('id','ASC')->get();
+        $this->image_width_options=['1'=>'Full','2'=>'three-quarters'];
         
     }
 
     public function AddColumn(){
         
-        $this->columns[] = ['id'=>'','type_id' => '','alignment_id'=>''];
+        $this->columns[] = ['id'=>'','type_id' => '','alignment_id'=>'','width'=>''];
 
         $this->columns_num++;
 
@@ -95,9 +104,11 @@ class SectionForm extends Component
     {
         $data = [
             'name' => 'required',
+            'with_border_bottom' => 'nullable',
             'columns' => 'required|array|min:1',
             'columns.*.type_id' => 'required|integer|exists:column_types,id',
             'columns.*.alignment_id' => 'required|integer|exists:alignment_types,id',
+            'columns.*.width' => 'required',
         ];
 
         return $data;
@@ -116,6 +127,7 @@ class SectionForm extends Component
                 $section=Sections::create([
                     'page_id' => $this->page_id,
                     'name' => $this->name,
+                    'with_border_bottom' => $this->with_border_bottom,
                 ]);
 
                 $section_id=$section->id;
@@ -135,6 +147,7 @@ class SectionForm extends Component
                         'section_id' => $section_id,
                         'type_id' => $column['type_id'],
                         'alignment_id' => $column['alignment_id'],
+                        'width' => $column['width'],
                     ]);
                 }
 
@@ -145,6 +158,7 @@ class SectionForm extends Component
                 $section=Sections::create([
                     'entry_id' => $this->entry_id,
                     'name' => $this->name,
+                    'with_border_bottom' => $this->with_border_bottom,
                 ]);
 
                 $section_id=$section->id;
@@ -164,6 +178,7 @@ class SectionForm extends Component
                         'section_id' => $section_id,
                         'type_id' => $column['type_id'],
                         'alignment_id' => $column['alignment_id'],
+                        'width' => $column['width'],
                     ]);
                 }
 
@@ -174,7 +189,7 @@ class SectionForm extends Component
         else if($this->section_id!=''){
 
             
-            Sections::WHERE('id', $this->section_id)->update(['name'=>$this->name]);
+            Sections::WHERE('id', $this->section_id)->update(['name'=>$this->name , 'with_border_bottom' => $this->with_border_bottom]);
 
             // Collect IDs of the submitted columns
             $sectionColumnsId = [];
@@ -194,6 +209,7 @@ class SectionForm extends Component
                     SectionColumns::where('id', $column['id'])->update([
                         'type_id' => $column['type_id'],
                         'alignment_id' => $column['alignment_id'],
+                        'width' => $column['width'],
                     ]);
                 } else {
                     // Create new
@@ -201,6 +217,7 @@ class SectionForm extends Component
                         'section_id' => $this->section_id,
                         'type_id' => $column['type_id'],
                         'alignment_id' => $column['alignment_id'],
+                        'width' => $column['width'],
                     ]);
                 }
             }

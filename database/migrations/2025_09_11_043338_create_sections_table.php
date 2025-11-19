@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('page_id')->nullable()->constrained('pages')->onDelete('cascade');
             $table->foreignId('entry_id')->nullable()->constrained('entries')->onDelete('cascade');
             $table->string('name')->nullable();
+            $table->boolean('with_border_bottom')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
