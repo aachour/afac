@@ -198,6 +198,15 @@
 			</li>
 			@endcanany
 
+			@can('externals-list')
+			<li class="menu-item {{ request()->is('entries/8*') && !request()->is('entries/*/years*') && !request()->is('entries/*/grantees*') ? "active" : "" }}">
+				<a href="{{ route('entries',['typeId'=>'8']) }}" class="menu-link">
+					<i class="menu-icon tf-icons ti ti-external-link"></i>
+					<div data-i18n="Externals">Externals</div>
+				</a>
+			</li>
+			@endcanany
+
 		
 		</ul>
 

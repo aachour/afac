@@ -86,6 +86,13 @@ return new class extends Migration
             $table->date('news_date')->nullable(); 
             $table->text('news_tags')->nullable(); 
             $table->text('news_tags_arabic')->nullable(); 
+
+
+            //External Fields
+            $table->foreignId('external_category_id')->nullable()->constrained('external_categories')->onDelete('cascade');
+            $table->text('external_title')->nullable();
+            $table->text('external_title_arabic')->nullable();  
+            $table->text('external_link')->nullable();
             
 
             $table->timestamps();

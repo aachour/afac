@@ -4,6 +4,7 @@ namespace App\Livewire\Entries;
 
 use App\Models\EventCategories;
 use App\Models\ProjectCategories;
+use App\Models\ExternalCategories;
 use App\Models\Types;
 use App\Models\Entries;
 use App\Models\Colors;
@@ -30,6 +31,8 @@ class EntryForm extends Component
 
     public $event_categories;
     public $project_categories;
+    public $external_categories;
+    
     public $colors;
     public $shapes;
     public $countries;
@@ -112,6 +115,13 @@ class EntryForm extends Component
     public $news_date;
     public $news_tags;
     public $news_tags_arabic;
+
+    //8- Externals
+    public $external_category_id;
+    public $external_title;
+    public $external_title_arabic;
+    public $external_link;
+    public $external_image;
 
 
     public function mount($typeId,$id=''){
@@ -211,11 +221,19 @@ class EntryForm extends Component
             $this->news_date=$this->entry->news_date;
             $this->news_tags=$this->entry->news_tags;
             $this->news_tags_arabic=$this->entry->news_tags_arabic;
+
+            //Externals
+            $this->external_category_id=$this->entry->external_category_id;
+            $this->external_title=$this->entry->external_title;
+            $this->external_title_arabic=$this->entry->external_title_arabic;
+            $this->external_link=$this->entry->external_link;
         }
 
         $this->event_categories=EventCategories::all();
 
         $this->project_categories=ProjectCategories::all();
+
+        $this->external_categories=ExternalCategories::all();
         
         $this->colors=Colors::all();
 
@@ -297,6 +315,13 @@ class EntryForm extends Component
             'news_title' => ['required_if:type_id,7'],
             'news_title_arabic' => ['required_if:type_id,7'],
             'news_date' => ['required_if:type_id,7'],
+
+
+            //Externals
+            'external_category_id' => ['required_if:type_id,8'],
+            'external_title' => ['required_if:type_id,8'],
+            'external_title_arabic' => ['required_if:type_id,8'],
+            'external_link' => ['required_if:type_id,8'],
             
         ];
 
@@ -305,7 +330,7 @@ class EntryForm extends Component
 
     public function store()
     {
-
+        
         $this->validate();
 
         if($this->id==''){
@@ -378,6 +403,10 @@ class EntryForm extends Component
                 'news_date'=>$this->news_date ?? null,
                 'news_tags'=>$this->news_tags ?? '',
                 'news_tags_arabic'=>$this->news_tags_arabic ?? '',
+                'external_category_id'=>$this->external_category_id ?? '',
+                'external_title'=>$this->external_title ?? '',
+                'external_title_arabic'=>$this->external_title_arabic ?? '',
+                'external_link'=>$this->external_link ?? '',
             ]);
 
             if($this->type_id==3){
@@ -461,6 +490,10 @@ class EntryForm extends Component
                 'news_date'=>$this->news_date ?? null,
                 'news_tags'=>$this->news_tags ?? '',
                 'news_tags_arabic'=>$this->news_tags_arabic ?? '',
+                'external_category_id'=>$this->external_category_id ?? '',
+                'external_title'=>$this->external_title ?? '',
+                'external_title_arabic'=>$this->external_title_arabic ?? '',
+                'external_link'=>$this->external_link ?? '',
             ];
 
             $this->entry->update($data);

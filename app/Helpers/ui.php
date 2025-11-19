@@ -148,6 +148,10 @@
                         $entry_title=$entries[0]->news_title;
                         $entry_text=$entries[0]->news_text;
                     }
+                    else if($collection_type_id==8){
+                        $entry_title=$entries[0]->external_title;
+                        $entry_text='';
+                    }
 
                     $image_path = asset('frontend/images/default-image.jpg');
                     if (!empty($entries[0]->image)) {
@@ -269,6 +273,9 @@
                         }
                         else if($collection_type_id==7){
                             $entry_title=$entry->news_title;
+                        }
+                        else if($collection_type_id==8){
+                            $entry_title=$entry->external_title;
                         }
                         
 

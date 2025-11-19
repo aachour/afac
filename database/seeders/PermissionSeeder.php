@@ -136,6 +136,13 @@ class PermissionSeeder extends Seeder
             'news-delete',
             'news-view',
 
+            // externals Page
+            'externals-list',
+            'externals-create',
+            'externals-edit',
+            'externals-delete',
+            'externals-view',
+
         ];
         
         $permissionsIds = [];
