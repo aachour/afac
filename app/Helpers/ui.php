@@ -112,6 +112,10 @@
                 $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
             }
 
+            if($show_description==1){
+                $html.='<div class="topSpacer black medium ABCDiatypeMedium">'.$collection->description.'</div>';
+            }
+
             if(count($entries)>0)
             {
 
@@ -178,10 +182,8 @@
                             <div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
                                 <div class="featured_info">
                                     <div class="title_or_labels" style="'.$title_position.'">
-                                        <div class="medium white ABCDiatypeMedium">'.$entry_title.'</div>';
-                                        if($show_description==1){
-                                            $html.='<div class="topSpacerSmall tiny white threeQuartersText">'.$entry_text.'</div>';
-                                        }
+                                        <div class="medium white ABCDiatypeMedium">'.$entry_title.'</div>
+                                        <div class="topSpacerSmall tiny white threeQuartersText">'.$entry_text.'</div>';
                                     $html.='</div>';
                                     if($with_label==1)
                                     {
