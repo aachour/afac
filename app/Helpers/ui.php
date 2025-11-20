@@ -113,7 +113,7 @@
             }
 
             if($show_description==1){
-                $html.='<div class="topSpacerSmall black small ABCDiatypeMedium">'.$collection->description.'</div>';
+                $html.='<div class="topSpacerSmall description black small ABCDiatypeMedium">'.$collection->description.'</div>';
             }
 
             if(count($entries)>0)
