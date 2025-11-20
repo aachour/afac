@@ -28,6 +28,7 @@ class Collections extends Model
         'view_all_title',
         'view_all_title_arabic',
         'view_all_link',
+        'view_all_link_arabic',
         'show_view_all',
         'background_color_id',
         'with_border_bottom',

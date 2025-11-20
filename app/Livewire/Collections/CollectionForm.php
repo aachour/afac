@@ -30,6 +30,7 @@ class CollectionForm extends Component
     public $view_all_title;
     public $view_all_title_arabic;
     public $view_all_link;
+    public $view_all_link_arabic;
     public $show_view_all;
     public $background_color_id;
     public $with_border_bottom;
@@ -96,6 +97,7 @@ class CollectionForm extends Component
             $this->view_all_title=$this->collection->view_all_title;
             $this->view_all_title_arabic=$this->collection->view_all_title_arabic;
             $this->view_all_link=$this->collection->view_all_link;
+            $this->view_all_link_arabic=$this->collection->view_all_link_arabic;
             $this->show_view_all=$this->collection->show_view_all == 1 ? true : false;
             $this->background_color_id=$this->collection->background_color_id;
             $this->with_border_bottom=$this->collection->with_border_bottom == 1 ? true : false;
@@ -135,6 +137,7 @@ class CollectionForm extends Component
             'view_all_title' => ['nullable'],
             'view_all_title_arabic' => ['nullable'],
             'view_all_link' => ['nullable'],
+            'view_all_link_arabic' => ['nullable'],
             'show_view_all' => ['nullable'],
             'background_color_id' => ['nullable'],
             'with_border_bottom' => ['nullable'],
@@ -175,6 +178,7 @@ class CollectionForm extends Component
                 'view_all_title'=>$this->view_all_title,
                 'view_all_title_arabic'=>$this->view_all_title_arabic,
                 'view_all_link'=>$this->view_all_link,
+                'view_all_link_arabic'=>$this->view_all_link_arabic,
                 'show_view_all'=>$this->show_view_all,
                 'background_color_id'=>$this->background_color_id,
                 'with_border_bottom'=> $this->with_border_bottom,
@@ -209,6 +213,7 @@ class CollectionForm extends Component
                 'view_all_title'=>$this->view_all_title,
                 'view_all_title_arabic'=>$this->view_all_title_arabic,
                 'view_all_link'=>$this->view_all_link,
+                'view_all_link_arabic'=>$this->view_all_link_arabic,
                 'show_view_all'=>$this->show_view_all,
                 'background_color_id'=>$this->background_color_id,
                 'with_border_bottom'=>$this->with_border_bottom,

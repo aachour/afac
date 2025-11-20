@@ -148,6 +148,16 @@
                                     @error('view_all_link') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="view_all_link_arabic">View All Link Arabic</label>
+                                    <input
+                                        wire:model="view_all_link_arabic"
+                                        type="text"
+                                        id="view_all_link_arabic"
+                                        class="form-control" />
+                                    @error('view_all_link_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
                                 <div class="w-100 d-none d-md-block"></div>
 
                                 <div class="col-12 col-md-6 mt-3">
