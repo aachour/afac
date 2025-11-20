@@ -54,7 +54,9 @@ class EntryForm extends Component
     public $button_shape_id;
     public $button_hover_shape_id;
     public $button_link;
-
+    public $button_link_arabic;
+ 
+    
     //1- Event
     public $event_category_id;
     public $event_title;
@@ -121,6 +123,7 @@ class EntryForm extends Component
     public $external_title;
     public $external_title_arabic;
     public $external_link;
+    public $external_link_arabic;
     public $external_image;
 
 
@@ -158,6 +161,8 @@ class EntryForm extends Component
             $this->button_shape_id=$this->entry->button_shape_id;
             $this->button_hover_shape_id=$this->entry->button_hover_shape_id;
             $this->button_link=$this->entry->button_link;
+            $this->button_link_arabic=$this->entry->button_link_arabic;
+            
             
             //Event
             $this->event_category_id=$this->entry->event_category_id;
@@ -227,6 +232,7 @@ class EntryForm extends Component
             $this->external_title=$this->entry->external_title;
             $this->external_title_arabic=$this->entry->external_title_arabic;
             $this->external_link=$this->entry->external_link;
+            $this->external_link_arabic=$this->entry->external_link_arabic;
         }
 
         $this->event_categories=EventCategories::all();
@@ -239,7 +245,7 @@ class EntryForm extends Component
 
         $this->shapes=Shapes::all();
         
-        $this->countries=Countries::all();
+        $this->countries=Countries::WHERE('active','1')->get();
 
         $this->programs=Entries::WHERE('type_id','2')->ORDERBY('id','desc')->get();
 
@@ -272,6 +278,8 @@ class EntryForm extends Component
             'button_shape_id' => ['nullable'],
             'button_hover_shape_id' => ['nullable'],
             'button_link' => ['nullable'],
+            'button_link_arabic' => ['nullable'],
+            
             
             //Event
             'event_category_id' => ['required_if:type_id,1'],
@@ -322,7 +330,7 @@ class EntryForm extends Component
             'external_title' => ['required_if:type_id,8'],
             'external_title_arabic' => ['required_if:type_id,8'],
             'external_link' => ['required_if:type_id,8'],
-            
+            'external_link_arabic' => ['required_if:type_id,8'],
         ];
 
         return $data;
@@ -360,6 +368,7 @@ class EntryForm extends Component
                 'button_shape_id' => $this->button_shape_id,
                 'button_hover_shape_id' => $this->button_hover_shape_id,
                 'button_link' => $this->button_link,
+                'button_link_arabic' => $this->button_link_arabic,
                 'event_category_id'=> $this->event_category_id !== '' ? $this->event_category_id : null,
                 'event_title'=>$this->event_title ?? '',
                 'event_title_arabic'=>$this->event_title_arabic ?? '',
@@ -407,6 +416,7 @@ class EntryForm extends Component
                 'external_title'=>$this->external_title ?? '',
                 'external_title_arabic'=>$this->external_title_arabic ?? '',
                 'external_link'=>$this->external_link ?? '',
+                'external_link_arabic'=>$this->external_link_arabic ?? '',
             ]);
 
             if($this->type_id==3){
@@ -447,6 +457,7 @@ class EntryForm extends Component
                 'button_shape_id' => $this->button_shape_id,
                 'button_hover_shape_id' => $this->button_hover_shape_id,
                 'button_link' => $this->button_link,
+                'button_link_arabic' => $this->button_link_arabic,
                 'event_category_id'=> $this->event_category_id !== '' ? $this->event_category_id : null,
                 'event_title'=>$this->event_title ?? '',
                 'event_title_arabic'=>$this->event_title_arabic ?? '',
@@ -494,6 +505,8 @@ class EntryForm extends Component
                 'external_title'=>$this->external_title ?? '',
                 'external_title_arabic'=>$this->external_title_arabic ?? '',
                 'external_link'=>$this->external_link ?? '',
+                'external_link_arabic'=>$this->external_link_arabic ?? '',
+
             ];
 
             $this->entry->update($data);

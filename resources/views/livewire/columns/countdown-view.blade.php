@@ -220,6 +220,18 @@
                                 @enderror
                             </div>
 
+                            <div class="col-12 col-lg-6 mb-3">
+                                <label for="button_link_arabic" class="form-label">رابط الزر</label>
+                                <input type="text"
+                                    class="form-control @error('button_link_arabic') is-invalid @enderror"
+                                    id="button_link_arabic"
+                                    wire:model="button_link_arabic"
+                                    placeholder="Button Link" />
+                                @error('button_link_arabic')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                         </div>
                         
                     </div>

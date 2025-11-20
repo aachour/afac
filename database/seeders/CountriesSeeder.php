@@ -61,7 +61,7 @@ class CountriesSeeder extends Seeder
         ];
 
         foreach ($countries as $country) {
-            Countries::updateOrCreate(['name' => $country["name"],'name_arabic' => $country["name_arabic"]]);
+            Countries::updateOrCreate(['name' => $country["name"],'name_arabic' => $country["name_arabic"] , 'active'=>'1']);
         }
     }
 }

@@ -34,6 +34,10 @@ class PermissionSeeder extends Seeder
             // Permissions Page
             'permission-list',
 
+            // Countries Page
+            'country-list',
+            'country-edit',
+
             // Types Page
             'type-list',
             'type-create',

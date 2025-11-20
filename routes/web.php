@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Auth\Login;
 use App\Livewire\Dashboard;
 
+use App\Livewire\Countries\CountryView;
+
 use App\Livewire\Colors\ColorView;
 
 use App\Livewire\Types\TypeView;
@@ -74,6 +76,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/create', UserForm::class)->name('users.create');
         Route::get('/edit/{id}', UserForm::class)->name('users.edit');
         Route::get('/view/{id}/{status}', UserForm::class)->name('users.view');
+    });
+
+
+    // |--------------------------------------------------------------------------
+    // |Countries
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'countries'], function () {
+        Route::get('/', CountryView::class)->name('countries');
+        Route::get('/edit/{id}', CountryView::class)->name('countries.edit');
     });
 
 

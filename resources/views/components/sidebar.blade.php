@@ -24,8 +24,8 @@
 				</a>
 			</li>
 
-			@canany(['role-list', 'permission-list', 'user-list'])
-			<li class="menu-item {{ request()->is('roles') || request()->is('permissions') || request()->is('users*') || request()->is('types*') || request()->is('colors*') ? "active open" : "" }}">
+			@canany(['role-list', 'permission-list', 'user-list', 'country-list'])
+			<li class="menu-item {{ request()->is('roles') || request()->is('permissions') || request()->is('users*') || request()->is('countries*') || request()->is('types*') || request()->is('colors*') ? "active open" : "" }}">
 
 				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-settings"></i>
@@ -46,6 +46,14 @@
 					<li class="menu-item {{ request()->is('users*') ? "active" : "" }}">
 						<a href="{{ route('users') }}" class="menu-link">
 							<div data-i18n="Users">Users</div>
+						</a>
+					</li>
+					@endcan
+
+					@can('country-list')
+					<li class="menu-item {{ request()->is('countries*') ? "active" : "" }}">
+						<a href="{{ route('countries') }}" class="menu-link">
+							<div data-i18n="Countries">Countries</div>
 						</a>
 					</li>
 					@endcan

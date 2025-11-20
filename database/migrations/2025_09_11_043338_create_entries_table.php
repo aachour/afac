@@ -27,6 +27,8 @@ return new class extends Migration
             $table->foreignId('button_shape_id')->nullable()->constrained('shapes')->onDelete('cascade');
             $table->foreignId('button_hover_shape_id')->nullable()->constrained('shapes')->onDelete('cascade');
             $table->text('button_link')->nullable();
+            $table->text('button_link_arabic')->nullable();
+            
             
             //Event Fields
             $table->foreignId('event_category_id')->nullable()->constrained('event_categories')->onDelete('cascade');
@@ -93,8 +95,7 @@ return new class extends Migration
             $table->text('external_title')->nullable();
             $table->text('external_title_arabic')->nullable();  
             $table->text('external_link')->nullable();
-            
-
+            $table->text('external_link_arabic')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

@@ -56,8 +56,10 @@ class GeneralInputsView extends Component
     public $button_value;
     public $button_value_arabic;
     public $button_shape_id;
+    public $button_hover_shape_id;
     public $button_link;
-    
+    public $button_link_arabic;
+        
     public function mount($sectionId,$id)
     {
 
@@ -118,7 +120,9 @@ class GeneralInputsView extends Component
         $this->button_value=$generalInput->button_value;
         $this->button_value_arabic=$generalInput->button_value_arabic;
         $this->button_shape_id=$generalInput->button_shape_id;
+        $this->button_hover_shape_id=$generalInput->button_hover_shape_id;
         $this->button_link=$generalInput->button_link;
+        $this->button_link_arabic=$generalInput->button_link_arabic;
         $this->modalId=$id;
 
     }
@@ -172,7 +176,9 @@ class GeneralInputsView extends Component
                 'button_value'      => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
                 'button_shape_id'      => $this->button_shape_id,
+                'button_hover_shape_id'      => $this->button_hover_shape_id,
                 'button_link'       => $this->button_link,
+                'button_link_arabic'       => $this->button_link_arabic,
                 'list_order'        => $highestOrder + 1
             ]);
 
@@ -220,7 +226,9 @@ class GeneralInputsView extends Component
                     'button_value'      => $this->button_value,
                     'button_value_arabic'      => $this->button_value_arabic,
                     'button_shape_id'      => $this->button_shape_id,
+                    'button_hover_shape_id'      => $this->button_hover_shape_id,
                     'button_link'       => $this->button_link,
+                    'button_link_arabic'       => $this->button_link_arabic,
                 ]
             );
             

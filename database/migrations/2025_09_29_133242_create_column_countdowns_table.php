@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreignId('button_shape_id')->nullable()->constrained('shapes')->onDelete('cascade');
             $table->foreignId('button_hover_shape_id')->nullable()->constrained('shapes')->onDelete('cascade');
             $table->string('button_link')->nullable();
+            $table->string('button_link_arabic')->nullable();
             $table->integer('list_order')->nullable();
             $table->timestamps();
             $table->softDeletes();

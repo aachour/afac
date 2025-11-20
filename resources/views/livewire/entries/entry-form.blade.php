@@ -147,6 +147,17 @@
                                     @error('button_link') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="button_link_arabic">رابط الزر</label>
+                                    <input
+                                        wire:model="button_link_arabic"
+                                        type="text"
+                                        id="button_link_arabic"
+                                        class="form-control"
+                                        placeholder="Link" />
+                                    @error('button_link_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
                                 <div class="w-100 d-none d-md-block"></div>
 
                             </div>
@@ -416,7 +427,6 @@
                                         id="project_countries_id"
                                         class="form-control"
                                         multiple>
-                                        <option value=''>Select Country</option>
                                         @foreach($countries as $country)
                                             <option value='{{$country->id}}'>{{$country->name}}</option>
                                         @endforeach
@@ -872,6 +882,17 @@
                                         class="form-control"
                                         placeholder="Link" />
                                     @error('external_link') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="external_link_arabic">رابط الزر<span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="external_link_arabic"
+                                        type="text"
+                                        id="external_link_arabic"
+                                        class="form-control"
+                                        placeholder="Link" />
+                                    @error('external_link_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
                                 
 

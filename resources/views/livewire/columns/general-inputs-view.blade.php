@@ -250,6 +250,22 @@
                         </div>
 
                         <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
+                            <label for="button_hover_shape_id" class="form-label">Button Hover Shape</label>
+                            <select
+                                wire:model="button_hover_shape_id"
+                                id="button_hover_shape_id"
+                                class="form-control">
+                                <option value=''>Select Shape</option>
+                                @foreach($shapes as $shape)
+                                    <option value='{{$shape->id}}'>{{$shape->name}}</option>
+                                @endforeach
+                            </select>
+                            @error('button_hover_shape_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
                             <label for="button_link" class="form-label">Button Link</label>
                             <input type="text"
                                 class="form-control @error('button_link') is-invalid @enderror"
@@ -257,6 +273,18 @@
                                 wire:model="button_link"
                                 placeholder="button_link" />
                             @error('button_link')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
+                            <label for="button_link_arabic" class="form-label">رابط الزر</label>
+                            <input type="text"
+                                class="form-control @error('button_link_arabic') is-invalid @enderror"
+                                id="button_link_arabic"
+                                wire:model="button_link_arabic"
+                                placeholder="button_link_arabic" />
+                            @error('button_link_arabic')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
