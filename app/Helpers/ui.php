@@ -16,6 +16,9 @@
         $collection_type_id=$collection->type_id;
         $show_name=$collection->show_name;
         $show_description=$collection->show_description;
+        $show_view_all=$collection->show_view_all;
+        $view_all_title=$collection->view_all_title;
+        $view_all_link=$collection->view_all_link;
         $with_border_bottom=$collection->with_border_bottom;
         $entries_selection=$collection->entries_selection;
         $entries_per_row=$collection->entries_per_row;
@@ -108,14 +111,26 @@
 
         $html='<div class="collection '.$withBorder.'" style="background-color:'.$bgColor.'; margin-bottom:50px;">';
 
-            if($show_name==1){
-                $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
+            if($show_name==1 || $show_description==1){
+                $html.='<div class="titleDescription">';
+                    if($show_name==1){
+                        $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
+                    }
+                    if($show_description==1){
+                        $html.='<div class="topSpacerSmall black small ABCDiatypeMedium">'.$collection->description.'</div>';
+                    }
+                $html.='</div>';
             }
 
-            if($show_description==1){
-                $html.='<div class="topSpacerSmall description black small ABCDiatypeMedium">'.$collection->description.'</div>';
+            if($with_featured==0 || $show_view_all==1){
+                $html.='<div class="viewAll topSpacer">
+                    <a href="'.$view_all_link.'" class="black tiny">'.$view_all_title.' -></a>
+                </div>';
             }
 
+            $html.='<div class="clear"></div>';
+
+       
             if(count($entries)>0)
             {
 

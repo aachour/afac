@@ -36,11 +36,19 @@
     box-shadow: 0 5px 8px -2px rgba(128, 128, 128, 0.5);
 }
 
-.collection .description{
+.collection .description,.collection .viewAll{
     width:100%;
 }
+
+
 @media(min-width:900px){
-    .collection .description{
+    .collection .titleDescription{
+        float:left;
+        width:48.5%;
+    }  
+    .collection .viewAll{
+        float:right;
+        text-align:right;
         width:48.5%;
     }   
 }
