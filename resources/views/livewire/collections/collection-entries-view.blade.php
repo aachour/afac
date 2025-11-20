@@ -56,6 +56,9 @@
                             @elseif($collection_type_id==7)
                                 <td>{{$collectionEntry->entry->news_title}}</td>
                                 <td>{{$collectionEntry->entry->news_title_arabic}}</td>
+                            @elseif($collection_type_id==8)
+                                <td>{{$collectionEntry->entry->external_title}}</td>
+                                <td>{{$collectionEntry->entry->external_title_arabic}}</td>
                             @endif
                             <td>
                                 @can('collection-delete')
@@ -96,6 +99,8 @@
                                     <option value="{{ $entry->id }}">{{ $entry->resource_title }}</option>
                                     @elseif($collection_type_id==7)
                                     <option value="{{ $entry->id }}">{{ $entry->news_title }}</option>
+                                    @elseif($collection_type_id==8)
+                                    <option value="{{ $entry->id }}">{{ $entry->external_title }}</option>
                                     @endif
                                 @endforeach
                             </select>
