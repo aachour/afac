@@ -368,7 +368,7 @@
                                 <h5>Collection Layout</h5>
 
                                 <div class="col-12">
-                                    <label class="form-label">Grid View <span class="text-danger">*</span></label>
+                                    <label class="form-label">Layout View <span class="text-danger">*</span></label>
 
                                     <div class="form-check mt-2">
                                         <input 
@@ -379,7 +379,7 @@
                                             class="form-check-input" 
                                             value="1"
                                         />
-                                        <label for="custom_entries" class="form-check-label">Layout View</label>
+                                        <label for="custom_entries" class="form-check-label">Grid View</label>
                                     </div>
 
                                     <div class="form-check mt-2">
