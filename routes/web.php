@@ -44,6 +44,9 @@ use App\Livewire\Entries\EntryForm;
 use App\Livewire\Entries\ProgramYearsView;
 use App\Livewire\Entries\ProjectGranteesView;
 
+use App\Livewire\Library\FileView;
+
+
 Route::get('/', [HomeController::class, 'home'])->name('home'); 
 
 Route::get('/home', [HomeController::class, 'home'])->name('home'); 
@@ -197,6 +200,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{projectId}/grantees/', ProjectGranteesView::class)->name('entry.project.grantees');
         
     }); 
+
+
+    // |--------------------------------------------------------------------------
+    // |Library Files
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'files'], function () {
+        Route::get('/', FileView::class)->name('files');
+    });
 
 
 });

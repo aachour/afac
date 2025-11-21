@@ -141,11 +141,18 @@ class PermissionSeeder extends Seeder
             'news-view',
 
             // externals Page
-            'externals-list',
-            'externals-create',
-            'externals-edit',
-            'externals-delete',
-            'externals-view',
+            'external-list',
+            'external-create',
+            'external-edit',
+            'external-delete',
+            'external-view',
+
+
+            // Files Library
+            'file-list',
+            'file-create',
+            'file-edit',
+            'file-delete',
 
         ];
         

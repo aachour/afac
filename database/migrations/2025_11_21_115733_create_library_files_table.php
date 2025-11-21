@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('project_grantees', function (Blueprint $table) {
+        Schema::create('library_files', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id')->nullable()->constrained('entries')->onDelete('cascade');
-            $table->foreignId('grantee_id')->nullable()->constrained('entries')->onDelete('cascade');
-            $table->integer('list_order')->nullable();
+            $table->text('title')->nullable();
+            $table->text('title_arabic')->nullable();
+            $table->text('path')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('project_grantees');
+        Schema::dropIfExists('library_files');
     }
 };
