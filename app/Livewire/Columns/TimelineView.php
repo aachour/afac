@@ -68,14 +68,17 @@ class TimelineView extends Component
         $this->entries=[];
     }
 
+
     public function addEntry(){
         $this->entries[] = ['id'=>'','text' => '','text_arabic'=>'','shape_id'=>'','percentage'=>''];
     }
+
 
     public function deleteEntry($index){
         unset($this->entries[$index]);
         $this->entries = array_values($this->entries);
     }
+
 
     public function editEntry($id){
         $columnTimeline=ColumnTimeline::with('percentages')->find($id);
@@ -83,10 +86,16 @@ class TimelineView extends Component
 
         foreach($columnTimeline->percentages as $percentage){
             $this->entries[] = ['id'=>$percentage->id , 'text' => $percentage->text , 'text_arabic'=>$percentage->text_arabic , 'shape_id'=>$percentage->shape_id , 'percentage'=>$percentage->percentage];
-        }
 
+            // $this->dispatch('activateCkeditor');
+            // $this->dispatch('set-editor-value', id: 'text', value: $this->text);
+            // $this->dispatch('set-editor-value-arabic', id: 'text_arabic', value: $this->text_arabic);
+            
+        }
+            
         $this->modalId=$id;
     }
+
 
     public function saveEntry(){
 
@@ -159,6 +168,7 @@ class TimelineView extends Component
 
     }
 
+
     #[On('updateOrder')]
     public function updateOrder(array $order)
     {
@@ -169,6 +179,7 @@ class TimelineView extends Component
         return to_route($this->return_route, ['sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Order updated successfully!');
 
     }
+
     
     #[On('delete')]
     public function delete($id)
@@ -179,6 +190,7 @@ class TimelineView extends Component
 
         return to_route($this->return_route, ['sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry deleted successfully!');
     }
+
 
     public function render()
     {

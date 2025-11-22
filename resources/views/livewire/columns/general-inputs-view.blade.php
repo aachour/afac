@@ -378,16 +378,8 @@
         <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
 
         <script>
+            
             window.ckeditors = {};
-
-            // document.addEventListener('livewire:load', function () {
-            //     initEditors();
-            // });
-
-            // Re-init CKEditor when Livewire re-renders
-            /*document.addEventListener('livewire:navigated', function () {
-                initEditors();
-            });*/
             
             document.addEventListener('livewire:init', () => {
                 Livewire.on('activateCkeditor', () => { 

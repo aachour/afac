@@ -88,11 +88,13 @@
 
                                 <div class="mb-3" wire:ignore>
                                     <label for="text" class="form-label">Text</label>
-                                    <textarea
+                                    <div wire:ignore>
+                                        <textarea
                                         class="form-control txtEditor @error('text') is-invalid @enderror"
                                         id="entries.{{$key}}.text"
                                         wire:model.defer="entries.{{$key}}.text"
                                         style="height:150px; resize:none;"></textarea>
+                                    </div>
                                     @error('entries.{{$key}}.text')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -100,11 +102,13 @@
 
                                 <div class="mb-3" wire:ignore>
                                     <label for="text_arabic" class="form-label">النص</label>
-                                    <textarea
+                                    <div wire:ignore>
+                                        <textarea
                                         class="form-control txtEditor @error('text_arabic') is-invalid @enderror"
                                         id="entries.{{$key}}.text_arabic"
                                         wire:model.defer="entries.{{$key}}.text_arabic"
                                         style="height:150px; resize:none;"></textarea>
+                                    </div>
                                     @error('entries.{{$key}}.text_arabic')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -192,13 +196,11 @@
         <script>
             window.ckeditors = {};
 
-            document.addEventListener('livewire:load', function () {
-                initEditors();
-            });
-
-            // Re-init CKEditor when Livewire re-renders
-            document.addEventListener('livewire:navigated', function () {
-                initEditors();
+            document.addEventListener('livewire:init', () => {
+                Livewire.on('activateCkeditor', () => { 
+                    destroyEditors();
+                    initEditors();
+                });
             });
 
             function initEditors() {
@@ -228,6 +230,15 @@
                 });
             }
 
+            function destroyEditors() {
+                for (const id in window.ckeditors) {
+                    if (window.ckeditors[id]) {
+                        window.ckeditors[id].destroy();
+                        delete window.ckeditors[id];
+                    }
+                }
+            }
+
             // ✅ Livewire can call this:
             window.setEditorValue = function (editorId, value) {
                 if (window.ckeditors[editorId]) {
@@ -237,12 +248,16 @@
 
             // Listen for Livewire event
             document.addEventListener('set-editor-value', function (e) {
-                window.setEditorValue(e.detail.id, e.detail.value);
+                setTimeout(() => { 
+                    window.setEditorValue(e.detail.id, e.detail.value);
+                },100);
             });
 
             // Listen for Livewire event
             document.addEventListener('set-editor-value-arabic', function (e) {
-                window.setEditorValue(e.detail.id, e.detail.value);
+                setTimeout(() => { 
+                    window.setEditorValue(e.detail.id, e.detail.value);
+                },100);
             });
 
         </script>
