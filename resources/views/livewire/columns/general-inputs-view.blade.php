@@ -144,10 +144,12 @@
                         <!--Text-->
                         <div class="mb-3 {{ $input_type_id == 2 ? '' : 'd-none' }}">
                             <label for="ColorCode" class="form-label">Text</label>
-                            <textarea
-                                class="form-control txtEditor @error('text') is-invalid @enderror"
-                                id="text"
-                                wire:model.defer="text" style="height:200px; resize:none;"></textarea>
+                            <div wire:ignore>
+                                <textarea
+                                    class="form-control txtEditor @error('text') is-invalid @enderror"
+                                    id="text"
+                                    wire:model.defer="text" style="height:200px; resize:none;"></textarea>
+                            </div>
                             @error('text')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -155,10 +157,12 @@
 
                         <div class="mb-3 {{ $input_type_id == 2 ? '' : 'd-none' }}">
                             <label for="text_arabic" class="form-label">النص</label>
-                            <textarea
-                                class="form-control txtEditor @error('text') is-invalid @enderror"
-                                id="text"
-                                wire:model.defer="text_arabic" style="height:200px; resize:none;"></textarea>
+                            <div wire:ignore>
+                                <textarea
+                                    class="form-control txtEditor @error('text') is-invalid @enderror"
+                                    id="text"
+                                    wire:model.defer="text_arabic" style="height:200px; resize:none;"></textarea>
+                            </div>
                             @error('text_arabic')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -376,13 +380,21 @@
         <script>
             window.ckeditors = {};
 
-            document.addEventListener('livewire:load', function () {
-                initEditors();
-            });
+            // document.addEventListener('livewire:load', function () {
+            //     initEditors();
+            // });
 
             // Re-init CKEditor when Livewire re-renders
             document.addEventListener('livewire:navigated', function () {
                 initEditors();
+            });
+
+
+            document.addEventListener('livewire:init', () => {
+                Livewire.on('activateCkeditor', () => { 
+                    destroyEditors();
+                    initEditors();
+                });
             });
 
             function initEditors() {
@@ -410,6 +422,15 @@
                         })
                         .catch(error => console.error('CKEditor init error:', error));
                 });
+            }
+
+            function destroyEditors() {
+                for (const id in window.ckeditors) {
+                    if (window.ckeditors[id]) {
+                        window.ckeditors[id].destroy();
+                        delete window.ckeditors[id];
+                    }
+                }
             }
 
             // ✅ Livewire can call this:

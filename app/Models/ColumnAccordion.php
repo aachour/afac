@@ -14,6 +14,8 @@ class ColumnAccordion extends Model
         'section_column_id',
         'title',
         'text',
+        'title_arabic',
+        'text_arabic',
         'list_order',
     ];
 

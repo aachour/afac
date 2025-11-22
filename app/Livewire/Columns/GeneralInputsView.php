@@ -102,6 +102,13 @@ class GeneralInputsView extends Component
         $this->generalInputs=ColumnGeneral::WHERE('section_column_id',$this->section_column_id)->ORDERBY('list_order','ASC')->get();
     }
 
+    public function updatedInputTypeId($value)
+    {
+        if($value==2){
+            $this->dispatch('activateCkeditor');
+        }
+    }
+
 
     public function editEntry($id)
     {
