@@ -114,6 +114,7 @@ class GeneralInputsView extends Component
     {
         $generalInput=ColumnGeneral::with('gallery','gallery.images')->find($id);
         $this->input_type_id=$generalInput->input_type_id;
+        
         $this->bg_color_id=$generalInput->bg_color_id;
         $this->title=$generalInput->title;
         $this->title_arabic=$generalInput->title_arabic;
@@ -131,6 +132,11 @@ class GeneralInputsView extends Component
         $this->button_link=$generalInput->button_link;
         $this->button_link_arabic=$generalInput->button_link_arabic;
         $this->modalId=$id;
+        if($this->input_type_id==2){
+            $this->dispatch('activateCkeditor');
+            $this->dispatch('set-editor-value', id: 'text', value: $this->text);
+            $this->dispatch('set-editor-value-arabic', id: 'text_arabic', value: $this->text_arabic);
+        }
 
     }
 

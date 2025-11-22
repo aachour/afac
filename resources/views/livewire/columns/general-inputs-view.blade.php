@@ -42,7 +42,7 @@
                                 @if($generalInput->input_type_id==1)
                                     {{$generalInput->title}}
                                 @elseif($generalInput->input_type_id==2)
-                                    {{$generalInput->text}}
+                                    {!!$generalInput->text!!}
                                 @elseif($generalInput->input_type_id==3)
                                     gallery images
                                 @elseif($generalInput->input_type_id==4)
@@ -159,8 +159,8 @@
                             <label for="text_arabic" class="form-label">النص</label>
                             <div wire:ignore>
                                 <textarea
-                                    class="form-control txtEditor @error('text') is-invalid @enderror"
-                                    id="text"
+                                    class="form-control txtEditor @error('text_arabic') is-invalid @enderror"
+                                    id="text_arabic"
                                     wire:model.defer="text_arabic" style="height:200px; resize:none;"></textarea>
                             </div>
                             @error('text_arabic')
@@ -385,11 +385,10 @@
             // });
 
             // Re-init CKEditor when Livewire re-renders
-            document.addEventListener('livewire:navigated', function () {
+            /*document.addEventListener('livewire:navigated', function () {
                 initEditors();
-            });
-
-
+            });*/
+            
             document.addEventListener('livewire:init', () => {
                 Livewire.on('activateCkeditor', () => { 
                     destroyEditors();
@@ -442,12 +441,16 @@
 
             // Listen for Livewire event
             document.addEventListener('set-editor-value', function (e) {
-                window.setEditorValue(e.detail.id, e.detail.value);
+                setTimeout(() => { 
+                    window.setEditorValue(e.detail.id, e.detail.value);
+                },100);
             });
 
             // Listen for Livewire event
             document.addEventListener('set-editor-value-arabic', function (e) {
-                window.setEditorValue(e.detail.id, e.detail.value);
+                setTimeout(() => { 
+                    window.setEditorValue(e.detail.id, e.detail.value);
+                },100);
             });
 
         </script>
