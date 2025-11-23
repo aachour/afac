@@ -134,8 +134,6 @@ class GeneralInputsView extends Component
         $this->modalId=$id;
         if($this->input_type_id==2){
             $this->dispatch('activateCkeditor');
-            $this->dispatch('set-editor-value', id: 'text', value: $this->text);
-            $this->dispatch('set-editor-value-arabic', id: 'text_arabic', value: $this->text_arabic);
         }
 
     }

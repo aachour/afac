@@ -384,7 +384,10 @@
             document.addEventListener('livewire:init', () => {
                 Livewire.on('activateCkeditor', () => { 
                     destroyEditors();
-                    initEditors();
+                    setTimeout(() => { 
+                        initEditors();
+                    },50);
+                    
                 });
             });
 
@@ -423,27 +426,6 @@
                     }
                 }
             }
-
-            // ✅ Livewire can call this:
-            window.setEditorValue = function (editorId, value) {
-                if (window.ckeditors[editorId]) {
-                    window.ckeditors[editorId].setData(value || "");
-                }
-            };
-
-            // Listen for Livewire event
-            document.addEventListener('set-editor-value', function (e) {
-                setTimeout(() => { 
-                    window.setEditorValue(e.detail.id, e.detail.value);
-                },100);
-            });
-
-            // Listen for Livewire event
-            document.addEventListener('set-editor-value-arabic', function (e) {
-                setTimeout(() => { 
-                    window.setEditorValue(e.detail.id, e.detail.value);
-                },100);
-            });
 
         </script>
 
