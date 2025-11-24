@@ -123,7 +123,7 @@
             }
 
             if($with_featured==0 || $show_view_all==1){
-                $html.='<div class="viewAll topSpacer">
+                $html.='<div class="viewAll">
                     <a href="'.$view_all_link.'" class="black tiny">'.$view_all_title.' -></a>
                 </div>';
             }
