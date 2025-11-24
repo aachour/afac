@@ -149,7 +149,7 @@
                         @endforeach
                         
                         <div class="mb-3">
-                            <button type="button" wire:click="addEntry" class="btn btn-primary">Add Percentage</button>
+                            <button type="button" wire:click="addEntry" class="btn btn-primary">Add Row</button>
                         </div>
 
                     </div>
