@@ -124,7 +124,7 @@
 
             if($with_featured==0 || $show_view_all==1){
                 $html.='<div class="viewAll">
-                    <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img class="topSpacerSmaller" src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px"></a>
+                    <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:5px;"></a>
                 </div>';
             }
 
