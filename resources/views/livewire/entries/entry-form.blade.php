@@ -273,13 +273,6 @@
                                     @error('event_end_time') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-3">
-                                    <div class="form-check">
-                                        <input wire:model="event_calendar_view" type="checkbox" id="event_calendar_view" class="form-check-input" value="1">
-                                        <label for="event_calendar_view" class="form-check-label">Calendar View</label>
-                                    </div>
-                                </div>
-
                             </div>
 
                         </div>

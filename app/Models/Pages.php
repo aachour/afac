@@ -14,6 +14,7 @@ class Pages extends Model
     protected $fillable = [
         'name',
         'name_arabic',
+        'show_name',
         'meta_title',
         'meta_title_arabic',
         'meta_description',

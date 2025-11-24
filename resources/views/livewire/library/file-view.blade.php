@@ -32,8 +32,10 @@
                         <tr>
                             <td>{{$file->id}}</td>
                             <td>{{$file->title}}</td>
-                            <td><a href="{{asset('storage/' . $file->path);}}" target="_blank">View File</a></td>
+                            <td><a href="{{asset('storage/' . $file->path)}}" target="_blank">View File</a></td>
                             <td>
+                                <i class="ti ti-copy ti-sm cursor-pointer ms-2"
+                                   onclick="copyUrl('{{asset('storage/' . $file->path)}}')"></i>
                                 @can('file-edit')
                                     <i  class="ti ti-edit ti-sm cursor-pointer"
                                         data-bs-target="#fileModal"
@@ -114,11 +116,31 @@
             </div>
         </div>
 
-    
-
         @script
             @include('livewire.deleteConfirm')
         @endscript
+
+        <script>
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var modal = document.getElementById('fileModal');
+
+                modal.addEventListener('hidden.bs.modal', function () {
+                    Livewire.dispatch('reset-modal');
+                });
+            });
+
+            function copyUrl(url) {
+                navigator.clipboard.writeText(url)
+                    .then(() => {
+                        alert('URL copied to clipboard!');
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                    });
+            }
+        </script>
+        
 
     </div>
 

@@ -39,7 +39,6 @@ return new class extends Migration
             $table->date('event_date')->nullable();
             $table->time('event_start_time')->nullable();
             $table->time('event_end_time')->nullable();
-            $table->boolean('event_calendar_view')->nullable();
 
             //Program Fields
             $table->text('program_title')->nullable();

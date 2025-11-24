@@ -38,6 +38,12 @@ class FileView extends Component
 
     }
 
+    #[On('reset-modal')]
+    public function clearData()
+    {
+        $this->reset('file', 'title' , 'title_arabic');
+    }
+
     public function editFile($id)
     {
         $file=LibraryFiles::find($id);

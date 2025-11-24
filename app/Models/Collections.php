@@ -12,12 +12,8 @@ class Collections extends Model
 
     //
     protected $fillable = [
-        'types',
-        'colors',
-        'editing = false',
-        'collection',
-        'id',
         'type_id',
+        'calendar_view',
         'name',
         'name_arabic',
         'show_name',

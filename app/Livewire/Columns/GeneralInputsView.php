@@ -48,7 +48,6 @@ class GeneralInputsView extends Component
     public $gallery_images = [];
     public $gallery_image_inputs = [];
     
-    
     public $video;
     public $percentage;
     public $button_bg_image;
@@ -96,6 +95,33 @@ class GeneralInputsView extends Component
 
     }
 
+    #[On('reset-modal')]
+    public function clearData()
+    {
+        $this->reset([
+            'modalId',
+            'bg_color_id',
+            'input_type_id',
+            'title',
+            'title_arabic',
+            'text',
+            'text_arabic',
+            'gallery_id',
+            'gallery',
+            'gallery_images',
+            'gallery_image_inputs',
+            'video',
+            'percentage',
+            'button_bg_image',
+            'btnImagePreview',
+            'button_value',
+            'button_value_arabic',
+            'button_shape_id',
+            'button_hover_shape_id',
+            'button_link',
+            'button_link_arabic',
+        ]);
+    }
 
     public function loadEntries()
     {

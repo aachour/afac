@@ -66,6 +66,8 @@ class SectionForm extends Component
 
             $sectionColumns=SectionColumns::WHERE('section_id',$this->section_id)->get();
 
+            $this->columns_num=count($sectionColumns);
+
             foreach($sectionColumns as $sectionColumn){
                 $obj=[
                     'id'=>$sectionColumn->id,

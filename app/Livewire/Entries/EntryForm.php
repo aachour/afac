@@ -66,7 +66,6 @@ class EntryForm extends Component
     public $event_date;
     public $event_start_time;
     public $event_end_time;
-    public $event_calendar_view;
     
 
     //2- Program
@@ -138,7 +137,6 @@ class EntryForm extends Component
 
         if($id==''){
             $this->authorize('entry-create');
-            $this->event_calendar_view=false;
         }
         else{
 
@@ -173,7 +171,6 @@ class EntryForm extends Component
             $this->event_date=$this->entry->event_date;
             $this->event_start_time=$this->entry->event_start_time;
             $this->event_end_time=$this->entry->event_end_time;
-            $this->event_calendar_view=$this->entry->event_calendar_view == 1 ? true : false;
 
             //Program
             $this->program_title=$this->entry->program_title;
@@ -288,7 +285,6 @@ class EntryForm extends Component
             'event_date' => ['required_if:type_id,1'],
             'event_start_time' => ['required_if:type_id,1'],
             'event_end_time' => ['required_if:type_id,1'],
-            'event_calendar_view' => ['nullable'],
             
             //Program
             'program_title' => ['required_if:type_id,2'],
@@ -377,7 +373,6 @@ class EntryForm extends Component
                 'event_date'=>$this->event_date ?? null,
                 'event_start_time'=>$this->event_start_time ?? null,
                 'event_end_time'=>$this->event_end_time ?? null,
-                'event_calendar_view'=>$this->event_calendar_view == 1 ? true : false,
                 'program_title'=>$this->program_title ?? '',
                 'program_title_arabic'=>$this->program_title_arabic ?? '',
                 'program_text'=>$this->program_text ?? '',
@@ -466,7 +461,6 @@ class EntryForm extends Component
                 'event_date'=>$this->event_date ?? null,
                 'event_start_time'=>$this->event_start_time ?? null,
                 'event_end_time'=>$this->event_end_time ?? null,
-                'event_calendar_view'=>$this->event_calendar_view == 1 ? true : false,
                 'program_title'=>$this->program_title ?? '',
                 'program_title_arabic'=>$this->program_title_arabic ?? '',
                 'program_text'=>$this->program_text ?? '',

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->string('name_arabic')->nullable();
+            $table->boolean('show_name')->nullable();
             $table->string('meta_title')->nullable();
             $table->string('meta_title_arabic')->nullable();
             $table->text('meta_description')->nullable();

@@ -29,7 +29,7 @@
                                 <div class="col-12 col-md-6">
                                     <label class="form-label" for="name">Type <span class="text-danger">*</span></label>
                                     <select
-                                        wire:model="type_id"
+                                        wire:model.live="type_id"
                                         id="type_id"
                                         class="form-control">
                                         <option value=''>Select Type</option>
@@ -38,6 +38,15 @@
                                         @endforeach
                                     </select>
                                     @error('type_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+
+                                <div class="col-12 col-md-6 mt-3 {{ $type_id == 1 ? '' : 'd-none' }}">
+                                    <div class="form-check">
+                                        <input wire:model="calendar_view" type="checkbox" id="calendar_view" class="form-check-input" value="1">
+                                        <label for="calendar_view" class="form-check-label">Calendar View</label>
+                                    </div>
                                 </div>
 
                                 <div class="w-100 d-none d-md-block"></div>
@@ -100,22 +109,7 @@
                                     </div>
                                 </div>
                                 
-
                                 <div class="w-100 d-none d-md-block"></div>
-
-                                <div class="col-12 mt-3">
-                                    <label class="form-label" for="name">Description Position</label>
-
-                                    <div class="form-check mt-1">
-                                        <input wire:model="description_position" type="radio" id="description_position_top" class="form-check-input" value="0" checked>
-                                        <label for="description_position" class="form-check-label">Top</label>
-                                    </div>
-
-                                    <div class="form-check mt-1">
-                                        <input wire:model="description_position" type="radio" id="description_position_bottom" class="form-check-input" value="1">
-                                        <label for="description_position" class="form-check-label">Bottom</label>
-                                    </div>
-                                </div>
 
                                 <div class="col-12 col-md-6 mt-3">
                                     <label class="form-label" for="view_all_title">View All Title</label>

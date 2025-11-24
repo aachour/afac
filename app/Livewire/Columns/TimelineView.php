@@ -61,6 +61,17 @@ class TimelineView extends Component
 
     }
 
+    #[On('reset-modal')]
+    public function clearData()
+    {
+        $this->entries = [];
+
+        $this->reset([
+            'modalId',
+            'date',
+        ]);
+    }
+
     public function loadEntries()
     {
         $this->timelines=ColumnTimeline::WITH('percentages')->WHERE('section_column_id',$this->section_column_id)->ORDERBY('list_order','ASC')->get();

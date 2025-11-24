@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('collections', function (Blueprint $table) {
             $table->id();
             $table->foreignId('type_id')->nullable()->constrained('types')->onDelete('cascade');
+            $table->boolean('calendar_view')->nullable();
             $table->string('name')->nullable();
             $table->string('name_arabic')->nullable();
             $table->boolean('show_name')->nullable();
             $table->text('description')->nullable();
             $table->text('description_arabic')->nullable();
-            $table->integer('description_position')->nullable();
             $table->boolean('show_description')->nullable();
             $table->text('view_all_title')->nullable();
             $table->text('view_all_title_arabic')->nullable();

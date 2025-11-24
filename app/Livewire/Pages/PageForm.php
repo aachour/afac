@@ -19,6 +19,7 @@ class PageForm extends Component
     public $id;
     public $name;
     public $name_arabic;
+    public $show_name;
     public $meta_title;
     public $meta_title_arabic;
     public $meta_description;
@@ -34,6 +35,7 @@ class PageForm extends Component
 
         if($id==''){
             $this->authorize('page-create');
+            $this->show_name=true;
         }
         else{
 
@@ -46,6 +48,7 @@ class PageForm extends Component
             $this->page=Pages::find($id);
             $this->name=$this->page->name;
             $this->name_arabic=$this->page->name_arabic;
+            $this->show_name=$this->page->show_name == 1 ? true : false;
             $this->meta_title=$this->page->meta_title;
             $this->meta_title_arabic=$this->page->meta_title_arabic;
             $this->meta_description=$this->page->meta_description;
@@ -69,6 +72,7 @@ class PageForm extends Component
         $data = [
             'name' => ['required'],
             'name_arabic' => ['required'],
+            'show_name' => ['nullable'],
             'meta_title' => ['required'],
             'meta_title_arabic' => ['required'],
             'meta_description' => ['required'],
@@ -93,6 +97,7 @@ class PageForm extends Component
             Pages::create([
                 'name' => $this->name,
                 'name_arabic' => $this->name_arabic,
+                'show_name'=> $this->show_name,
                 'meta_title' => $this->meta_title,
                 'meta_title_arabic' => $this->meta_title_arabic,
                 'meta_description' => $this->meta_description,
@@ -112,6 +117,7 @@ class PageForm extends Component
             $data = [
                 'name' => $this->name,
                 'name_arabic' => $this->name_arabic,
+                'show_name'=>$this->show_name,
                 'meta_title' => $this->meta_title,
                 'meta_title_arabic' => $this->meta_title_arabic,
                 'meta_description' => $this->meta_description,
