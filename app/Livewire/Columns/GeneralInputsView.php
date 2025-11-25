@@ -121,6 +121,8 @@ class GeneralInputsView extends Component
             'button_link',
             'button_link_arabic',
         ]);
+        
+        $this->dispatch('activateCkeditor');
     }
 
     public function loadEntries()

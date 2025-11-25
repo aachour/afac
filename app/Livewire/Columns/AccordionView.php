@@ -70,7 +70,10 @@ class AccordionView extends Component
             'text',
             'title_arabic',
             'text_arabic',
-        ]);        
+        ]);  
+        
+        $this->dispatch('set-editor-value', id: 'text', value: '');
+        $this->dispatch('set-editor-value-arabic', id: 'text_arabic', value: '');
 
     }
 
