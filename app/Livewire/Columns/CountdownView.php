@@ -72,6 +72,26 @@ class CountdownView extends Component
         $this->loadEntries();
     }
 
+    #[On('reset-modal')]
+    public function clearData()
+    {
+        $this->reset(
+            'bg_color_id',
+            'title',
+            'title_arabic',
+            'start_date',
+            'end_date',
+            'start_time',
+            'end_time',
+            'button_value',
+            'button_value_arabic',
+            'button_shape_id',
+            'button_hover_shape_id',
+            'button_link',
+            'button_link_arabic'
+        );
+    }
+
     public function loadEntries()
     {
         $this->shapes=Shapes::ORDERBY('name','ASC')->get();
