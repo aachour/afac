@@ -5,6 +5,10 @@
     use App\Models\Entries;
     use App\Models\Sections;
     use App\Models\SectionColumns;
+    use App\Models\ColumnTimeline;
+    use App\Models\ColumnAccordion;
+    use App\Models\ColumnCountdown;
+    use App\Models\ColumnExpandTexts;
     
 
     function ViewCollection($collection_id,$language='EN')
@@ -440,7 +444,7 @@
                 
                 $colType=$column->type_id;
                 if($colType==1){
-                    dd("!");
+                    $html=ViewColumnGeneral($column->id);
                 }
 
             }
@@ -450,6 +454,10 @@
         }
 
 
+    }
+
+    function ViewColumnGeneral($column_id){
+        dd($column_id);
     }
 
 ?>
