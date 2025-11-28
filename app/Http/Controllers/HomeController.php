@@ -32,5 +32,15 @@ class HomeController extends Controller
 
     }
 
+    public function ViewSection($id){
+        
+        $sectionHTML = ViewSection($id,'EN');       
+        
+        return view('frontend.section', [
+            'sectionHTML' => $sectionHTML
+        ]);
+
+    }
+
 
 }

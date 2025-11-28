@@ -3,6 +3,9 @@
     use App\Models\Collections;
     use App\Models\CollectionEntries;
     use App\Models\Entries;
+    use App\Models\Sections;
+    use App\Models\SectionColumns;
+    
 
     function ViewCollection($collection_id,$language='EN')
     {
@@ -414,6 +417,38 @@
         </script>';
         
         return $html;
+
+    }   
+
+    // 'General Inputs',
+    // 'Timeline',
+    // 'Accordion Menu',
+    // 'Countdown',
+    // 'Expanding Text'
+
+    function ViewSection($section_id,$language='EN'){
+
+        $section = Sections::with('columns')->find($section_id);
+
+        if($section){
+
+            $sectionColumns= $section->columns;
+
+            $colsNum=count($sectionColumns);
+
+            foreach($sectionColumns as $column){
+                
+                $colType=$column->type_id;
+                if($colType==1){
+                    dd("!");
+                }
+
+            }
+
+
+ 
+        }
+
 
     }
 
