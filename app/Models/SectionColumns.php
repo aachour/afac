@@ -23,4 +23,24 @@ class SectionColumns extends Model
         return $this->hasOne(Gallery::class, 'id', 'gallery_id');
     }
 
+    public function generalInputs(){
+        return $this->hasMany(ColumnGeneral::class, 'section_column_id', 'id')->orderBy('list_order');
+    }
+
+    public function timelines(){
+        return $this->hasMany(ColumnTimeline::class, 'section_column_id', 'id')->orderBy('list_order');
+    }
+
+    public function accordions(){
+        return $this->hasMany(ColumnAccordion::class, 'section_column_id', 'id')->orderBy('list_order');
+    }
+
+    public function countdowns(){
+        return $this->hasMany(ColumnCountdown::class, 'section_column_id', 'id')->orderBy('list_order');
+    }
+
+    public function expandingTexts(){
+        return $this->hasMany(ColumnExpandTexts::class, 'section_column_id', 'id')->orderBy('list_order');
+    }
+
 }

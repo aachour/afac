@@ -18,7 +18,7 @@
         
         {{-- <div class="centerContainer"> --}}
     
-            {!! $collectionHTML !!}
+            {!! $sectionHTML !!}
     
         {{-- </div> --}}
 

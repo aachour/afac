@@ -5,6 +5,7 @@
     use App\Models\Entries;
     use App\Models\Sections;
     use App\Models\SectionColumns;
+    use App\Models\ColumnGeneral;
     use App\Models\ColumnTimeline;
     use App\Models\ColumnAccordion;
     use App\Models\ColumnCountdown;
@@ -116,7 +117,7 @@
         
         $withBorder = $with_border_bottom == 1 ? 'collectionWithBorder' : '';
 
-        $html='<div class="collection '.$withBorder.'" style="background-color:'.$bgColor.'; margin-bottom:50px;">';
+        $html='<div class="collection '.$withBorder.'" style="background-color:'.$bgColor.'; margin-bottom:40px;">';
 
             if($show_name==1 || $show_description==1){
                 $html.='<div class="titleDescription">';
@@ -424,13 +425,9 @@
 
     }   
 
-    // 'General Inputs',
-    // 'Timeline',
-    // 'Accordion Menu',
-    // 'Countdown',
-    // 'Expanding Text'
 
-    function ViewSection($section_id,$language='EN'){
+    function ViewSection($section_id,$language='EN')
+    {
 
         $section = Sections::with('columns')->find($section_id);
 
@@ -440,24 +437,218 @@
 
             $colsNum=count($sectionColumns);
 
-            foreach($sectionColumns as $column){
-                
-                $colType=$column->type_id;
-                if($colType==1){
-                    $html=ViewColumnGeneral($column->id);
-                }
+            $withBorder = $section->with_border_bottom == 1 ? 'sectionWithBorder' : '';
 
-            }
+            $html='<div class="section '.$withBorder.'">
 
+                <div class="row">';
 
- 
+                    foreach($sectionColumns as $sectionColumn){
+                        
+                        $html .= '<div class="col-lg-' . ($colsNum == 1 ? '12' : '6') . ' col-12" style="background:#F00;">';
+
+                        $colType=$sectionColumn->type_id;
+                        
+                        if($colType==1) //Get general inputs
+                        {
+                            $html.=ViewColumnGeneral($sectionColumn->id,"En");
+                        }
+                        else if($colType==2) //Get timeline
+                        {
+                            $html.=ViewTimeline($sectionColumn->id,"En");
+                        }
+                        else if($colType==3) //Get accordion
+                        {
+                            $html.=ViewAccordion($sectionColumn->id,"En");
+                        }
+                        else if($colType==4) //Get countdown
+                        {
+                            $html.=ViewCountdown($sectionColumn->id,"En");
+                        }
+                        else if($colType==5) //Get expanding text
+                        {
+                            $html.=ViewExpandingText($sectionColumn->id,"En");
+                        }
+
+                        $html.='</div>';
+
+                    }
+
+                $html.='</div>
+
+            </div>';
+
+            return $html;
+
         }
 
 
     }
 
-    function ViewColumnGeneral($column_id){
-        dd($column_id);
+
+    function ViewColumnGeneral($section_column_id,$language='EN'){
+
+        $htmlColumn='';
+
+        $column=SectionColumns::with('generalInputs')->find($section_column_id);
+
+        if($column){
+
+            $htmlColumn.='<div class="row">
+
+                <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
+
+                foreach($column->generalInputs as $generalInput){
+
+                    $input_type_id=$generalInput->input_type_id;
+
+                    if($input_type_id==1)
+                    {   //title
+                        $htmlColumn.='<div class="topSpacer big black">'.$generalInput->title.'</div>';
+                    }
+                    else if($input_type_id==2)
+                    {   //text
+                        $htmlColumn.='<div class="topSpacer medium black">'.$generalInput->text.'</div>';
+                    }
+                    else if($input_type_id==3)
+                    {   //gallery
+                        $htmlColumn.='<div class="topSpacer">Gallery</div>';
+                    }
+                    else if($input_type_id==4)
+                    {   //video
+                        $htmlColumn.='<div class="topSpacer"><iframe src="'.$generalInput->video.'" width="100%"></iframe></div>';
+                    }
+                    else if($input_type_id==5)
+                    {   //button
+                        $htmlColumn.='<div class="topSpacer">button</div>';
+                    }
+
+                }
+
+                $htmlColumn.='</div>
+
+            </div>';
+
+        }
+
+        return $htmlColumn;
+
+    }
+
+
+    function ViewTimeline($section_column_id,$language='EN'){
+
+        $htmlColumn='';
+
+        $column=SectionColumns::with('timelines')->find($section_column_id);
+
+        if($column){
+
+            $htmlColumn.='<div class="row">
+
+                <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
+
+                foreach($column->timelines as $timeline){
+
+                    $htmlColumn.= $timeline->date;
+
+                }
+
+                $htmlColumn.='</div>
+
+            </div>';
+
+        }
+
+        return $htmlColumn;
+
+    }
+
+
+    function ViewAccordion($section_column_id,$language='EN'){
+
+        $htmlColumn='';
+
+        $column=SectionColumns::with('accordions')->find($section_column_id);
+
+        if($column){
+
+            $htmlColumn.='<div class="row">
+
+                <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
+
+                foreach($column->accordions as $accordion){
+
+                    $htmlColumn.= $accordion->title;
+
+                }
+
+                $htmlColumn.='</div>
+
+            </div>';
+
+        }
+
+        return $htmlColumn;
+
+    }
+
+
+    function ViewCountdown($section_column_id,$language='EN'){
+
+        $htmlColumn='';
+
+        $column=SectionColumns::with('countdowns')->find($section_column_id);
+
+        if($column){
+
+            $htmlColumn.='<div class="row">
+
+                <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
+
+                foreach($column->countdowns as $countdown){
+
+                    $htmlColumn.= $countdown->title;
+
+                }
+
+                $htmlColumn.='</div>
+
+            </div>';
+
+        }
+
+        return $htmlColumn;
+
+    }
+
+
+    function ViewExpandingText($section_column_id,$language='EN'){
+
+        $htmlColumn='';
+
+        $column=SectionColumns::with('expandingTexts')->find($section_column_id);
+
+        if($column){
+
+            $htmlColumn.='<div class="row">
+
+                <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
+
+                foreach($column->expandingTexts as $expandingText){
+
+                    $htmlColumn.= $expandingText->title;
+
+                }
+
+                $htmlColumn.='</div>
+
+            </div>';
+
+        }
+
+        return $htmlColumn;
+
     }
 
 ?>
