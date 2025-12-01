@@ -12,6 +12,4 @@
 
 @section('content')
     Welcome Home
-
-    @include('frontend..donate-animation.square-diamond')
 @endsection
