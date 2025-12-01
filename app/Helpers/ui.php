@@ -494,7 +494,9 @@
 
         if($column){
 
-            $htmlColumn.='<div class="row">
+            $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
+
+            $htmlColumn.='<div class="row '.$textAlign.'">
 
                 <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
 
@@ -508,27 +510,35 @@
                     }
                     else if($input_type_id==2)
                     {   //text
-                        $htmlColumn.='<div class="topSpacerSmall medium black ABCDiatype">'.$generalInput->text.'</div>';
+                        $htmlColumn.='<div class="topSpacerSmall small black ABCDiatype">'.$generalInput->text.'</div>';
                     }
                     else if($input_type_id==3)
                     {   //gallery
                         $galleryImages=$generalInput->gallery->images;
                         if(count($galleryImages)==1){ //single image
-                            $htmlColumn.='<div class="topSpacerSmall"><img src='.asset("storage/".$galleryImages[0]->image_path).' width="100%" /></div>';
+                            $htmlColumn.='<div class="topSpacerSmall"><img src='.asset("storage/".$galleryImages[0]->image_path).' /></div>';
                         }
                         else{ //gallery images
                             foreach($galleryImages as $galleryImage){
-                                $htmlColumn.='<div class="topSpacerSmall"><img src='.asset("storage/".$galleryImage->image_path).' width="100%" /></div>';
+                                $htmlColumn.='<div class="topSpacerSmall"><img src='.asset("storage/".$galleryImage->image_path).' /></div>';
+                                break;
                             }
                         }
                     }
                     else if($input_type_id==4)
                     {   //video
-                        $htmlColumn.='<div class="topSpacer"><iframe src="'.$generalInput->video.'" width="100%" height="500px"></iframe></div>';
+                        $htmlColumn.='<div class="topSpacer"><iframe src="'.$generalInput->video.'" height="400px"></iframe></div>';
                     }
                     else if($input_type_id==5)
                     {   //button
-                        $htmlColumn.='<div class="topSpacer">button</div>';
+
+                        $textAlign = $generalInput->button_link == null ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
+                        
+                        $htmlColumn.='<div class="topSpacerBig">
+                            <a href="' . ($generalInput->button_link ?? '#') . '">
+                                <button class="'.strtolower($generalInput->shape->name).' small black">'.$generalInput->button_value.'</button>
+                            </a>
+                        </div>';
                     }
 
                 }
@@ -552,7 +562,9 @@
 
         if($column){
 
-            $htmlColumn.='<div class="row">
+            $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
+
+            $htmlColumn.='<div class="row '.$textAlign.'">
 
                 <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
 
@@ -581,7 +593,9 @@
 
         if($column){
 
-            $htmlColumn.='<div class="row">
+            $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
+
+            $htmlColumn.='<div class="row '.$textAlign.'">
 
                 <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
 
@@ -610,7 +624,9 @@
 
         if($column){
 
-            $htmlColumn.='<div class="row">
+            $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
+
+            $htmlColumn.='<div class="row '.$textAlign.'">
 
                 <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
 
@@ -639,7 +655,9 @@
 
         if($column){
 
-            $htmlColumn.='<div class="row">
+            $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
+
+            $htmlColumn.='<div class="row '.$textAlign.'">
 
                 <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
                 foreach($column->expandingTexts as $expandingText){

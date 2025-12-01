@@ -56,4 +56,9 @@ class ColumnGeneral extends Model
         return $this->hasOne(Shapes::class, 'id', 'button_shape_id');
     }
 
+    public function shapeHover()
+    {
+        return $this->hasOne(Shapes::class, 'id', 'button_hover_shape_id');
+    }
+
 }
