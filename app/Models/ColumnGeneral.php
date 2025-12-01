@@ -26,6 +26,9 @@ class ColumnGeneral extends Model
         'button_value',
         'button_value_arabic',
         'button_shape_id',
+        'button_hover_shape_id',
+        'button_bg_color_id',
+        'button_hover_bg_color_id',
         'button_link',
         'button_link_arabic',
         'list_order',
@@ -59,6 +62,16 @@ class ColumnGeneral extends Model
     public function shapeHover()
     {
         return $this->hasOne(Shapes::class, 'id', 'button_hover_shape_id');
+    }
+
+    public function btnBgColor()
+    {
+        return $this->hasOne(Colors::class, 'id', 'button_bg_color_id');
+    }
+
+    public function btnHoverBgColor()
+    {
+        return $this->hasOne(Colors::class, 'id', 'button_hover_bg_color_id');
     }
 
 }
