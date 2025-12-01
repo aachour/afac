@@ -19,12 +19,17 @@ return new class extends Migration
             $table->foreignId('type_id')->nullable()->constrained('types')->onDelete('cascade');
             $table->text('image')->nullable();
             $table->text('image_featured')->nullable();
+            $table->text('image_full')->nullable();
             $table->integer('image_width')->nullable();
             $table->foreignId('background_color_id')->nullable()->constrained('colors')->onDelete('cascade');
-            $table->text('button_link')->nullable();
             $table->text('button_value')->nullable();
             $table->text('button_value_arabic')->nullable();
-
+            $table->foreignId('button_shape_id')->nullable()->constrained('shapes')->onDelete('cascade');
+            $table->foreignId('button_hover_shape_id')->nullable()->constrained('shapes')->onDelete('cascade');
+            $table->text('button_link')->nullable();
+            $table->text('button_link_arabic')->nullable();
+            
+            
             //Event Fields
             $table->foreignId('event_category_id')->nullable()->constrained('event_categories')->onDelete('cascade');
             $table->text('event_title')->nullable();
@@ -82,8 +87,14 @@ return new class extends Migration
             $table->date('news_date')->nullable(); 
             $table->text('news_tags')->nullable(); 
             $table->text('news_tags_arabic')->nullable(); 
-            
 
+
+            //External Fields
+            $table->foreignId('external_category_id')->nullable()->constrained('external_categories')->onDelete('cascade');
+            $table->text('external_title')->nullable();
+            $table->text('external_title_arabic')->nullable();  
+            $table->text('external_link')->nullable();
+            $table->text('external_link_arabic')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

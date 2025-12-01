@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sections', function (Blueprint $table) {
+        Schema::create('library_files', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('page_id')->nullable()->constrained('pages')->onDelete('cascade');
-            $table->foreignId('entry_id')->nullable()->constrained('entries')->onDelete('cascade');
-            $table->string('name')->nullable();
-            $table->boolean('with_border_bottom')->nullable();
+            $table->text('title')->nullable();
+            $table->text('title_arabic')->nullable();
+            $table->text('path')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sections');
+        Schema::dropIfExists('library_files');
     }
 };

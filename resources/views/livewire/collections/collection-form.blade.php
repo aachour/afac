@@ -29,7 +29,7 @@
                                 <div class="col-12 col-md-6">
                                     <label class="form-label" for="name">Type <span class="text-danger">*</span></label>
                                     <select
-                                        wire:model="type_id"
+                                        wire:model.live="type_id"
                                         id="type_id"
                                         class="form-control">
                                         <option value=''>Select Type</option>
@@ -38,6 +38,15 @@
                                         @endforeach
                                     </select>
                                     @error('type_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+
+                                <div class="col-12 col-md-6 mt-3 {{ $type_id == 1 ? '' : 'd-none' }}">
+                                    <div class="form-check">
+                                        <input wire:model="calendar_view" type="checkbox" id="calendar_view" class="form-check-input" value="1">
+                                        <label for="calendar_view" class="form-check-label">Calendar View</label>
+                                    </div>
                                 </div>
 
                                 <div class="w-100 d-none d-md-block"></div>
@@ -99,26 +108,62 @@
                                         <label for="show_description" class="form-check-label">Show Description</label>
                                     </div>
                                 </div>
+                                
+                                <div class="w-100 d-none d-md-block"></div>
+
+                                <div class="col-12 col-md-6 mt-3">
+                                    <label class="form-label" for="view_all_title">View All Title</label>
+                                    <input
+                                        wire:model="view_all_title"
+                                        type="text"
+                                        id="view_all_title"
+                                        class="form-control" />
+                                    @error('view_all_title') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-3">
+                                    <label class="form-label" for="view_all_title_arabic">View All Title Arabic</label>
+                                    <input
+                                        wire:model="view_all_title_arabic"
+                                        type="text"
+                                        id="view_all_title_arabic"
+                                        class="form-control" />
+                                    @error('view_all_title_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="view_all_link">View All Link</label>
+                                    <input
+                                        wire:model="view_all_link"
+                                        type="text"
+                                        id="view_all_link"
+                                        class="form-control" />
+                                    @error('view_all_link') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="view_all_link_arabic">View All Link Arabic</label>
+                                    <input
+                                        wire:model="view_all_link_arabic"
+                                        type="text"
+                                        id="view_all_link_arabic"
+                                        class="form-control" />
+                                    @error('view_all_link_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
 
                                 <div class="w-100 d-none d-md-block"></div>
 
-                                <div class="col-12 mt-2">
-                                    <label class="form-label" for="name">Description Position</label>
-
-                                    <div class="form-check mt-1">
-                                        <input wire:model="description_position" type="radio" id="description_position_top" class="form-check-input" value="0" checked>
-                                        <label for="description_position" class="form-check-label">Top</label>
-                                    </div>
-
-                                    <div class="form-check mt-1">
-                                        <input wire:model="description_position" type="radio" id="description_position_bottom" class="form-check-input" value="1">
-                                        <label for="description_position" class="form-check-label">Bottom</label>
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-check">
+                                        <input wire:model="show_view_all" type="checkbox" id="show_view_all" class="form-check-input" value="1">
+                                        <label for="show_view_all" class="form-check-label">Show View All</label>
                                     </div>
                                 </div>
 
                                 <div class="w-100 d-none d-md-block"></div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-3">
                                     <label class="form-label" for="name">Background Color</label>
                                     <select
                                         wire:model="background_color_id"
@@ -317,7 +362,7 @@
                                 <h5>Collection Layout</h5>
 
                                 <div class="col-12">
-                                    <label class="form-label">Grid View <span class="text-danger">*</span></label>
+                                    <label class="form-label">Layout View <span class="text-danger">*</span></label>
 
                                     <div class="form-check mt-2">
                                         <input 
@@ -328,7 +373,7 @@
                                             class="form-check-input" 
                                             value="1"
                                         />
-                                        <label for="custom_entries" class="form-check-label">Layout View</label>
+                                        <label for="custom_entries" class="form-check-label">Grid View</label>
                                     </div>
 
                                     <div class="form-check mt-2">

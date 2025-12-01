@@ -17,7 +17,6 @@ class ShapesSeeder extends Seeder
         $shapes = [
             'Circle',
             'Square',
-            'Rectangle',
             'Diamond',
         ];
 

@@ -47,6 +47,10 @@
                             <th>Title</th>
                             <th>Title Arabic</th>
                             <th>Date</th>
+                        @elseif($type_id==8)
+                            <th>Title</th>
+                            <th>Title Arabic</th>
+                            <th>Link</th>
                         @endif
                         
                         <th>Actions</th>
@@ -87,6 +91,10 @@
                                 <td>{{ $entry->news_title }}</td>
                                 <td>{{ $entry->news_title_arabic }}</td>
                                 <td>{{ $entry->news_date }}</td>
+                            @elseif($type_id==8)
+                                <td>{{ $entry->external_title }}</td>
+                                <td>{{ $entry->external_title_arabic }}</td>
+                                <td>{{ $entry->external_link }}</td>
                             @endif
                             
                             <td>

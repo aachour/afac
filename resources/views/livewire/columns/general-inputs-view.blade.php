@@ -42,7 +42,7 @@
                                 @if($generalInput->input_type_id==1)
                                     {{$generalInput->title}}
                                 @elseif($generalInput->input_type_id==2)
-                                    {{$generalInput->text}}
+                                    {!!$generalInput->text!!}
                                 @elseif($generalInput->input_type_id==3)
                                     gallery images
                                 @elseif($generalInput->input_type_id==4)
@@ -144,10 +144,12 @@
                         <!--Text-->
                         <div class="mb-3 {{ $input_type_id == 2 ? '' : 'd-none' }}">
                             <label for="ColorCode" class="form-label">Text</label>
-                            <textarea
-                                class="form-control txtEditor @error('text') is-invalid @enderror"
-                                id="text"
-                                wire:model.defer="text" style="height:200px; resize:none;"></textarea>
+                            <div wire:ignore>
+                                <textarea
+                                    class="form-control txtEditor @error('text') is-invalid @enderror"
+                                    id="text"
+                                    wire:model.defer="text" style="height:200px; resize:none;"></textarea>
+                            </div>
                             @error('text')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -155,10 +157,12 @@
 
                         <div class="mb-3 {{ $input_type_id == 2 ? '' : 'd-none' }}">
                             <label for="text_arabic" class="form-label">النص</label>
-                            <textarea
-                                class="form-control txtEditor @error('text') is-invalid @enderror"
-                                id="text"
-                                wire:model.defer="text_arabic" style="height:200px; resize:none;"></textarea>
+                            <div wire:ignore>
+                                <textarea
+                                    class="form-control txtEditor @error('text_arabic') is-invalid @enderror"
+                                    id="text_arabic"
+                                    wire:model.defer="text_arabic" style="height:200px; resize:none;"></textarea>
+                            </div>
                             @error('text_arabic')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -250,6 +254,22 @@
                         </div>
 
                         <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
+                            <label for="button_hover_shape_id" class="form-label">Button Hover Shape</label>
+                            <select
+                                wire:model="button_hover_shape_id"
+                                id="button_hover_shape_id"
+                                class="form-control">
+                                <option value=''>Select Shape</option>
+                                @foreach($shapes as $shape)
+                                    <option value='{{$shape->id}}'>{{$shape->name}}</option>
+                                @endforeach
+                            </select>
+                            @error('button_hover_shape_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
                             <label for="button_link" class="form-label">Button Link</label>
                             <input type="text"
                                 class="form-control @error('button_link') is-invalid @enderror"
@@ -257,6 +277,18 @@
                                 wire:model="button_link"
                                 placeholder="button_link" />
                             @error('button_link')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
+                            <label for="button_link_arabic" class="form-label">رابط الزر</label>
+                            <input type="text"
+                                class="form-control @error('button_link_arabic') is-invalid @enderror"
+                                id="button_link_arabic"
+                                wire:model="button_link_arabic"
+                                placeholder="button_link_arabic" />
+                            @error('button_link_arabic')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
@@ -305,14 +337,26 @@
                             </thead>
                             <tbody>
                                 @if(count($gallery_images)>0)
-                                    @foreach ($gallery_images as $image)
-                                        <tr data-id="{{ @$image->id }}" style="cursor: move;">
-                                            <td>{{@$image->list_order}}</td>
+                                    @foreach ($gallery_images as $key=>$gallery_image)
+                                        <tr data-id="{{ @$gallery_image->id }}" style="cursor: move;">
+                                            <td>{{@$gallery_image->list_order}}</td>
                                             <td>
-                                                <img src="{{ asset('storage/'.@$image->image_path) }}" class="w-full h-32 object-cover rounded" width="200px" />
+                                                <img src="{{ asset('storage/'.@$gallery_image->image_path) }}" class="w-full h-32 object-cover rounded" width="200px" />
+                                                <div class="mt-2">
+                                                    <input type="text" wire:model="gallery_image_inputs.{{ $key }}.caption" placeholder="Image Caption" class="caption form-control" />
+                                                </div>
+                                                <div class="mt-2">
+                                                    <input type="text" wire:model="gallery_image_inputs.{{ $key }}.caption_arabic" placeholder="تسمية الصورة" class="caption form-control"  style="direction:rtl;" />
+                                                </div>
+                                                <div class="mt-2">
+                                                    <input type="text" wire:model="gallery_image_inputs.{{ $key }}.link" placeholder="Image Link" class="link form-control"/>
+                                                </div>
                                             </td>
                                             <td>
-                                                <a href="#" wire:click.prevent="deleteGalleryImage({{ @$image->id }})" class="text-body">
+                                                <a href="#" wire:click.prevent="editGalleryImage({{@$gallery_image->id}} , {{ $key }})" class="text-body">
+                                                    <i class="ti ti-check ti-sm cursor-pointer"></i>
+                                                </a>
+                                                <a href="#" wire:click.prevent="deleteGalleryImage({{ @$gallery_image->id }})" class="text-body">
                                                     <i class="ti ti-trash ti-sm mx-2 text-danger"></i>
                                                 </a>
                                             </td>
@@ -334,15 +378,17 @@
         <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
 
         <script>
+            
             window.ckeditors = {};
-
-            document.addEventListener('livewire:load', function () {
-                initEditors();
-            });
-
-            // Re-init CKEditor when Livewire re-renders
-            document.addEventListener('livewire:navigated', function () {
-                initEditors();
+            
+            document.addEventListener('livewire:init', () => {
+                Livewire.on('activateCkeditor', () => { 
+                    destroyEditors();
+                    setTimeout(() => { 
+                        initEditors();
+                    },50);
+                    
+                });
             });
 
             function initEditors() {
@@ -372,22 +418,14 @@
                 });
             }
 
-            // ✅ Livewire can call this:
-            window.setEditorValue = function (editorId, value) {
-                if (window.ckeditors[editorId]) {
-                    window.ckeditors[editorId].setData(value || "");
+            function destroyEditors() {
+                for (const id in window.ckeditors) {
+                    if (window.ckeditors[id]) {
+                        window.ckeditors[id].destroy();
+                        delete window.ckeditors[id];
+                    }
                 }
-            };
-
-            // Listen for Livewire event
-            document.addEventListener('set-editor-value', function (e) {
-                window.setEditorValue(e.detail.id, e.detail.value);
-            });
-
-            // Listen for Livewire event
-            document.addEventListener('set-editor-value-arabic', function (e) {
-                window.setEditorValue(e.detail.id, e.detail.value);
-            });
+            }
 
         </script>
 
@@ -437,6 +475,15 @@
                         }
                     });
                 }
+
+            });
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var modal = document.getElementById('generalInputsModal');
+
+                modal.addEventListener('hidden.bs.modal', function () {
+                    Livewire.dispatch('reset-modal');
+                });
             });
         </script>
 

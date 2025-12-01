@@ -134,7 +134,7 @@
 
                             <!--Time-->
                             <div class="col-12 col-lg-6 mb-3">
-                                <label for="start_time" class="form-label">Start Date</label>
+                                <label for="start_time" class="form-label">Start Time</label>
                                 <input type="time"
                                     class="form-control @error('start_time') is-invalid @enderror"
                                     id="start_time"
@@ -146,7 +146,7 @@
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
-                                <label for="end_time" class="form-label">End Date</label>
+                                <label for="end_time" class="form-label">End Time</label>
                                 <input type="time"
                                     class="form-control @error('end_time') is-invalid @enderror"
                                     id="end_time"
@@ -195,6 +195,20 @@
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
+                                <label for="button_hover_shape_id" class="form-label">Button hover shape</label>
+                                <select
+                                    wire:model="button_hover_shape_id"
+                                    id="button_hover_shape_id"
+                                    class="form-control">
+                                    <option value=''>Select Shape</option>
+                                    @foreach($shapes as $shape)
+                                        <option value='{{$shape->id}}'>{{$shape->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('button_hover_shape_id') <div class="text-danger">{{ $message }}</div> @enderror
+                            </div>
+
+                            <div class="col-12 col-lg-6 mb-3">
                                 <label for="button_link" class="form-label">Button Link</label>
                                 <input type="text"
                                     class="form-control @error('button_link') is-invalid @enderror"
@@ -202,6 +216,18 @@
                                     wire:model="button_link"
                                     placeholder="Button Link" />
                                 @error('button_link')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-12 col-lg-6 mb-3">
+                                <label for="button_link_arabic" class="form-label">رابط الزر</label>
+                                <input type="text"
+                                    class="form-control @error('button_link_arabic') is-invalid @enderror"
+                                    id="button_link_arabic"
+                                    wire:model="button_link_arabic"
+                                    placeholder="Button Link" />
+                                @error('button_link_arabic')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -244,6 +270,15 @@
                     });
                 }
             });
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var modal = document.getElementById('countdownModal');
+
+                modal.addEventListener('hidden.bs.modal', function () {
+                    Livewire.dispatch('reset-modal');
+                });
+            });
+
         </script>
 
     </div>

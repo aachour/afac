@@ -34,6 +34,10 @@ class PermissionSeeder extends Seeder
             // Permissions Page
             'permission-list',
 
+            // Countries Page
+            'country-list',
+            'country-edit',
+
             // Types Page
             'type-list',
             'type-create',
@@ -58,7 +62,8 @@ class PermissionSeeder extends Seeder
             'section-create',
             'section-edit',
             'section-delete',
-
+            'section-view',
+            
             // Collections Page
             'collection-list',
             'collection-create',
@@ -135,6 +140,20 @@ class PermissionSeeder extends Seeder
             'news-edit',
             'news-delete',
             'news-view',
+
+            // externals Page
+            'external-list',
+            'external-create',
+            'external-edit',
+            'external-delete',
+            'external-view',
+
+
+            // Files Library
+            'file-list',
+            'file-create',
+            'file-edit',
+            'file-delete',
 
         ];
         

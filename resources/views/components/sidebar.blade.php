@@ -24,8 +24,8 @@
 				</a>
 			</li>
 
-			@canany(['role-list', 'permission-list', 'user-list'])
-			<li class="menu-item {{ request()->is('roles') || request()->is('permissions') || request()->is('users*') || request()->is('types*') || request()->is('colors*') ? "active open" : "" }}">
+			@canany(['role-list', 'permission-list', 'user-list', 'country-list', 'color-list', 'file-list'])
+			<li class="menu-item {{ request()->is('roles') || request()->is('permissions') || request()->is('users*') || request()->is('countries*') || request()->is('types*') || request()->is('colors*') ? "active open" : "" }}">
 
 				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-settings"></i>
@@ -50,6 +50,14 @@
 					</li>
 					@endcan
 
+					@can('country-list')
+					<li class="menu-item {{ request()->is('countries*') ? "active" : "" }}">
+						<a href="{{ route('countries') }}" class="menu-link">
+							<div data-i18n="Countries">Countries</div>
+						</a>
+					</li>
+					@endcan
+
 					{{-- @can('type-list')
 					<li class="menu-item {{ request()->is('types*') ? "active" : "" }}">
 						<a href="{{ route('types') }}" class="menu-link">
@@ -62,6 +70,14 @@
 					<li class="menu-item {{ request()->is('colors*') ? "active" : "" }}">
 						<a href="{{ route('colors') }}" class="menu-link">
 							<div data-i18n="Colors">Colors</div>
+						</a>
+					</li>
+					@endcan
+
+					@can('file-list')
+					<li class="menu-item {{ request()->is('files*') ? "active" : "" }}">
+						<a href="{{ route('files') }}" class="menu-link">
+							<div data-i18n="Files">Files</div>
 						</a>
 					</li>
 					@endcan
@@ -194,6 +210,15 @@
 				<a href="{{ route('entries',['typeId'=>'7']) }}" class="menu-link">
 					<i class="menu-icon tf-icons ti ti-news"></i>
 					<div data-i18n="News">News</div>
+				</a>
+			</li>
+			@endcanany
+
+			@can('external-list')
+			<li class="menu-item {{ request()->is('entries/8*') && !request()->is('entries/*/years*') && !request()->is('entries/*/grantees*') ? "active" : "" }}">
+				<a href="{{ route('entries',['typeId'=>'8']) }}" class="menu-link">
+					<i class="menu-icon tf-icons ti ti-external-link"></i>
+					<div data-i18n="Externals">Externals</div>
 				</a>
 			</li>
 			@endcanany

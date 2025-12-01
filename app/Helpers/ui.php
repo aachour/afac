@@ -3,6 +3,14 @@
     use App\Models\Collections;
     use App\Models\CollectionEntries;
     use App\Models\Entries;
+    use App\Models\Sections;
+    use App\Models\SectionColumns;
+    use App\Models\ColumnGeneral;
+    use App\Models\ColumnTimeline;
+    use App\Models\ColumnAccordion;
+    use App\Models\ColumnCountdown;
+    use App\Models\ColumnExpandTexts;
+    
 
     function ViewCollection($collection_id,$language='EN')
     {
@@ -16,6 +24,9 @@
         $collection_type_id=$collection->type_id;
         $show_name=$collection->show_name;
         $show_description=$collection->show_description;
+        $show_view_all=$collection->show_view_all;
+        $view_all_title=$collection->view_all_title;
+        $view_all_link=$collection->view_all_link;
         $with_border_bottom=$collection->with_border_bottom;
         $entries_selection=$collection->entries_selection;
         $entries_per_row=$collection->entries_per_row;
@@ -106,12 +117,28 @@
         
         $withBorder = $with_border_bottom == 1 ? 'collectionWithBorder' : '';
 
-        $html='<div class="collection '.$withBorder.'" style="background-color:'.$bgColor.'; margin-bottom:50px;">';
+        $html='<div class="collection '.$withBorder.'" style="background-color:'.$bgColor.'; margin-bottom:40px;">';
 
-            if($show_name==1){
-                $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
+            if($show_name==1 || $show_description==1){
+                $html.='<div class="titleDescription">';
+                    if($show_name==1){
+                        $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
+                    }
+                    if($show_description==1){
+                        $html.='<div class="topSpacerSmall black tiny ABCDiatypeMedium">'.$collection->description.'</div>';
+                    }
+                $html.='</div>';
             }
 
+            if($with_featured==0 || $show_view_all==1){
+                $html.='<div class="viewAll">
+                    <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:5px;"></a>
+                </div>';
+            }
+
+            $html.='<div class="clear"></div>';
+
+       
             if(count($entries)>0)
             {
 
@@ -122,31 +149,50 @@
                     if($collection_type_id==1){
                         $entry_title=$entries[0]->event_title;
                         $entry_text=$entries[0]->event_text;
-                        
+                        $entry_href=$entries[0]->id;
+                        $entry_target='';
                     }
                     else if($collection_type_id==2){
                         $entry_title=$entries[0]->program_title;
                         $entry_text=$entries[0]->program_text;
+                        $entry_href=$entries[0]->id;
+                        $entry_target='';
                     }
                     else if($collection_type_id==3){
                         $entry_title=$entries[0]->project_title;
                         $entry_text=$entries[0]->project_text;
+                        $entry_href=$entries[0]->id;
+                        $entry_target='';
                     }
                     else if($collection_type_id==4){
                         $entry_title=$entries[0]->grantee_name;
                         $entry_text=$entries[0]->grantee_text;
+                        $entry_href=$entries[0]->id;
+                        $entry_target='';
                     }
                     else if($collection_type_id==5){
                         $entry_title=$entries[0]->jury_name;
                         $entry_text=$entries[0]->jury_text;
+                        $entry_href=$entries[0]->id;
+                        $entry_target='';
                     }
                     else if($collection_type_id==6){
                         $entry_title=$entries[0]->resource_title;
                         $entry_text=$entries[0]->resource_text;
+                        $entry_href=$entries[0]->id;
+                        $entry_target='';
                     }
                     else if($collection_type_id==7){
                         $entry_title=$entries[0]->news_title;
                         $entry_text=$entries[0]->news_text;
+                        $entry_href=$entries[0]->id;
+                        $entry_target='';
+                    }
+                    else if($collection_type_id==8){
+                        $entry_title=$entries[0]->external_title;
+                        $entry_text='';
+                        $entry_href=$entries[0]->external_link;
+                        $entry_target='_blank';
                     }
 
                     $image_path = asset('frontend/images/default-image.jpg');
@@ -154,56 +200,57 @@
                         $image_path = asset('storage/' . $entries[0]->image_featured);
                     }
 
-                    $html.='<div class="desktopOnly">
-                        <div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
-                            <div class="featured_info">
-                                <div class="title_or_labels" style="'.$title_position.'">
-                                    <div class="medium white ABCDiatypeMedium">'.$entry_title.'</div>';
-                                    if($show_description==1){
-                                        $html.='<div class="topSpacerSmall tiny white threeQuartersText">'.$entry_text.'</div>';
-                                    }
-                                $html.='</div>';
-                                if($with_label==1)
-                                {
-                                    $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">
-                                        <div class="label micro ABCDiatypeMedium">'.$entries[0]->type->name.'</div>';
-                                        if($collection_type_id==1){
-                                            $html.='<div class="label micro rounded ABCDiatypeMedium">'.date('d M',strtotime($entries[0]->event_date)).'</div>
-                                            <div class="label micro rounded ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
-                                            <div class="clear">&nbsp;</div>';
-                                        }
+                    $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
+                        <div class="desktopOnly">
+                            <div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
+                                <div class="featured_info">
+                                    <div class="title_or_labels" style="'.$title_position.'">
+                                        <div class="medium white ABCDiatypeMedium">'.$entry_title.'</div>
+                                        <div class="topSpacerSmall tiny white threeQuartersText">'.$entry_text.'</div>';
                                     $html.='</div>';
-                                }
-                            $html.='</div>
-                            <div class="featured_image">
-                                <img src="'.$image_path.'" width="100%" />
+                                    if($with_label==1)
+                                    {
+                                        $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">
+                                            <div class="label micro ABCDiatypeMedium">'.$entries[0]->type->name.'</div>';
+                                            if($collection_type_id==1){
+                                                $html.='<div class="label micro rounded ABCDiatypeMedium">'.date('d M',strtotime($entries[0]->event_date)).'</div>
+                                                <div class="label micro rounded ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
+                                                <div class="clear">&nbsp;</div>';
+                                            }
+                                        $html.='</div>';
+                                    }
+                                $html.='</div>
+                                <div class="featured_image">
+                                    <img src="'.$image_path.'" width="100%" />
+                                </div>
                             </div>
                         </div>
-                    </div>';
+                    </a>';
 
 
-                    $html.='<div class="entries mobileOnly">
-                        <div class="featured_entry_mobile" style="background:'.$featured_image_bgColor.';">
-                           <img src="'.$image_path.'" width="100%" />
-                            <div class="description">
-                                <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entry_title.'</div>';
-                                if($with_label==1)
-                                {
-                                    $html.='<div class="title_or_labels" style="'.$labels_position.'">
-                                        <div class="label micro black ABCDiatypeMedium">'.$entries[0]->type->name.'</div>';
-                                        if($collection_type_id==1){
-                                            $html.='<div class="label micro black ABCDiatypeMedium">'.date('d M',strtotime($entries[0]->event_date)).'</div>
-                                            <div class="clear"></div>
-                                            <div class="topSpacerSmall label micro black ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
-                                            <div class="clear">&nbsp;</div>';
-                                        }
-                                    $html.='</div>';
-                                }
-                            $html.='</div>
-                            
+                    $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
+                        <div class="entries mobileOnly">
+                            <div class="featured_entry_mobile" style="background:'.$featured_image_bgColor.';">
+                            <img src="'.$image_path.'" width="100%" />
+                                <div class="description">
+                                    <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entry_title.'</div>';
+                                    if($with_label==1)
+                                    {
+                                        $html.='<div class="title_or_labels" style="'.$labels_position.'">
+                                            <div class="label micro black ABCDiatypeMedium">'.$entries[0]->type->name.'</div>';
+                                            if($collection_type_id==1){
+                                                $html.='<div class="label micro black ABCDiatypeMedium">'.date('d M',strtotime($entries[0]->event_date)).'</div>
+                                                <div class="clear"></div>
+                                                <div class="topSpacerSmall label micro black ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
+                                                <div class="clear">&nbsp;</div>';
+                                            }
+                                        $html.='</div>';
+                                    }
+                                $html.='</div>
+                                
+                            </div>
                         </div>
-                    </div>';
-
+                    </a>';
                     
                 }
 
@@ -251,45 +298,65 @@
 
                         if($collection_type_id==1){
                             $entry_title=$entry->event_title;
+                            $entry_href=$entry->id;
+                            $entry_target='';
                         }
                         else if($collection_type_id==2){
                             $entry_title=$entry->program_title;
+                            $entry_href=$entry->id;
+                            $entry_target='';
                         }
                         else if($collection_type_id==3){
                             $entry_title=$entry->project_title;
+                            $entry_href=$entry->id;
+                            $entry_target='';
                         }
                         else if($collection_type_id==4){
                             $entry_title=$entry->grantee_name;
+                            $entry_href=$entry->id;
+                            $entry_target='';
                         }
                         else if($collection_type_id==5){
                             $entry_title=$entry->jury_name;
+                            $entry_href=$entry->id;
+                            $entry_target='';
                         }
                         else if($collection_type_id==6){
                             $entry_title=$entry->resource_title;
+                            $entry_href=$entry->id;
+                            $entry_target='';
                         }
                         else if($collection_type_id==7){
                             $entry_title=$entry->news_title;
+                            $entry_href=$entry->id;
+                            $entry_target='';
                         }
-                        
+                        else if($collection_type_id==8){
+                            $entry_title=$entry->external_title;
+                            $entry_href=$entry->external_link;
+                            $entry_target='_blank';
+                        }
 
                         $html.='<div class="swiper-slide entry">
-
-                            <img src="'.$image_path.'" width="100%" />
-                            <div class="description">
-                                <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entry_title.'</div>';
-                                if($with_label==1)
-                                {
-                                    $html.='<div class="title_or_labels" style="'.$labels_position.'">
-                                        <div class="label micro black ABCDiatypeMedium">'.$entry->type->name.'</div>';
-                                        if($collection_type_id==1){
-                                            $html.='<div class="label micro black rounded ABCDiatypeMedium">'.date('d M',strtotime($entry->event_date)).'</div>
-                                            <div class="clear"></div>
-                                            <div class="topSpacerSmall label micro black rounded ABCDiatypeMedium">'.date('h:i',strtotime($entry->event_start_time)).' - '.date('h:i',strtotime($entry->event_to_time)).'</div>
-                                            <div class="clear">&nbsp;</div>';
-                                        }
-                                    $html.='</div>';
-                                }
-                            $html.='</div>
+                            
+                            <a href="'.$entry_href.'" target="'.$entry_target.'">
+                                <img src="'.$image_path.'" width="100%" />
+                                <div class="description">
+                                    <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entry_title.'</div>';
+                                    if($with_label==1)
+                                    {
+                                        $html.='<div class="title_or_labels" style="'.$labels_position.'">
+                                            <div class="label micro black ABCDiatypeMedium">'.$entry->type->name.'</div>';
+                                            if($collection_type_id==1){
+                                                $html.='<div class="label micro black rounded ABCDiatypeMedium">'.date('d M',strtotime($entry->event_date)).'</div>
+                                                <div class="clear"></div>
+                                                <div class="topSpacerSmall label micro black rounded ABCDiatypeMedium">'.date('h:i',strtotime($entry->event_start_time)).' - '.date('h:i',strtotime($entry->event_to_time)).'</div>
+                                                <div class="clear">&nbsp;</div>';
+                                            }
+                                        $html.='</div>';
+                                    }
+                                $html.='</div>
+                            </a>
                                 
                         </div>';
 
@@ -355,6 +422,232 @@
         </script>';
         
         return $html;
+
+    }   
+
+
+    function ViewSection($section_id,$language='EN')
+    {
+
+        $section = Sections::with('columns')->find($section_id);
+
+        if($section){
+
+            $sectionColumns= $section->columns;
+
+            $colsNum=count($sectionColumns);
+
+            $withBorder = $section->with_border_bottom == 1 ? 'sectionWithBorder' : '';
+
+            $html='<div class="section '.$withBorder.'">
+
+                <div class="row">';
+
+                    foreach($sectionColumns as $sectionColumn){
+                        
+                        $html .= '<div class="col-lg-' . ($colsNum == 1 ? '12' : '6') . ' col-12" style="background:#F00;">';
+
+                        $colType=$sectionColumn->type_id;
+                        
+                        if($colType==1) //Get general inputs
+                        {
+                            $html.=ViewColumnGeneral($sectionColumn->id,"En");
+                        }
+                        else if($colType==2) //Get timeline
+                        {
+                            $html.=ViewTimeline($sectionColumn->id,"En");
+                        }
+                        else if($colType==3) //Get accordion
+                        {
+                            $html.=ViewAccordion($sectionColumn->id,"En");
+                        }
+                        else if($colType==4) //Get countdown
+                        {
+                            $html.=ViewCountdown($sectionColumn->id,"En");
+                        }
+                        else if($colType==5) //Get expanding text
+                        {
+                            $html.=ViewExpandingText($sectionColumn->id,"En");
+                        }
+
+                        $html.='</div>';
+
+                    }
+
+                $html.='</div>
+
+            </div>';
+
+            return $html;
+
+        }
+
+
+    }
+
+
+    function ViewColumnGeneral($section_column_id,$language='EN'){
+
+        $htmlColumn='';
+
+        $column=SectionColumns::with('generalInputs')->find($section_column_id);
+
+        if($column){
+
+            $htmlColumn.='<div class="row">
+
+                <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
+
+                foreach($column->generalInputs as $generalInput){
+
+                    $input_type_id=$generalInput->input_type_id;
+
+                    if($input_type_id==1)
+                    {   //title
+                        $htmlColumn.='<div class="topSpacer big black">'.$generalInput->title.'</div>';
+                    }
+                    else if($input_type_id==2)
+                    {   //text
+                        $htmlColumn.='<div class="topSpacer medium black">'.$generalInput->text.'</div>';
+                    }
+                    else if($input_type_id==3)
+                    {   //gallery
+                        $htmlColumn.='<div class="topSpacer">Gallery</div>';
+                    }
+                    else if($input_type_id==4)
+                    {   //video
+                        $htmlColumn.='<div class="topSpacer"><iframe src="'.$generalInput->video.'" width="100%"></iframe></div>';
+                    }
+                    else if($input_type_id==5)
+                    {   //button
+                        $htmlColumn.='<div class="topSpacer">button</div>';
+                    }
+
+                }
+
+                $htmlColumn.='</div>
+
+            </div>';
+
+        }
+
+        return $htmlColumn;
+
+    }
+
+
+    function ViewTimeline($section_column_id,$language='EN'){
+
+        $htmlColumn='';
+
+        $column=SectionColumns::with('timelines')->find($section_column_id);
+
+        if($column){
+
+            $htmlColumn.='<div class="row">
+
+                <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
+
+                foreach($column->timelines as $timeline){
+
+                    $htmlColumn.= $timeline->date;
+
+                }
+
+                $htmlColumn.='</div>
+
+            </div>';
+
+        }
+
+        return $htmlColumn;
+
+    }
+
+
+    function ViewAccordion($section_column_id,$language='EN'){
+
+        $htmlColumn='';
+
+        $column=SectionColumns::with('accordions')->find($section_column_id);
+
+        if($column){
+
+            $htmlColumn.='<div class="row">
+
+                <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
+
+                foreach($column->accordions as $accordion){
+
+                    $htmlColumn.= $accordion->title;
+
+                }
+
+                $htmlColumn.='</div>
+
+            </div>';
+
+        }
+
+        return $htmlColumn;
+
+    }
+
+
+    function ViewCountdown($section_column_id,$language='EN'){
+
+        $htmlColumn='';
+
+        $column=SectionColumns::with('countdowns')->find($section_column_id);
+
+        if($column){
+
+            $htmlColumn.='<div class="row">
+
+                <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
+
+                foreach($column->countdowns as $countdown){
+
+                    $htmlColumn.= $countdown->title;
+
+                }
+
+                $htmlColumn.='</div>
+
+            </div>';
+
+        }
+
+        return $htmlColumn;
+
+    }
+
+
+    function ViewExpandingText($section_column_id,$language='EN'){
+
+        $htmlColumn='';
+
+        $column=SectionColumns::with('expandingTexts')->find($section_column_id);
+
+        if($column){
+
+            $htmlColumn.='<div class="row">
+
+                <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
+
+                foreach($column->expandingTexts as $expandingText){
+
+                    $htmlColumn.= $expandingText->title;
+
+                }
+
+                $htmlColumn.='</div>
+
+            </div>';
+
+        }
+
+        return $htmlColumn;
 
     }
 

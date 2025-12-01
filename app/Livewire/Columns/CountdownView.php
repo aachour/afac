@@ -38,8 +38,11 @@ class CountdownView extends Component
     public $end_time;
     public $button_value;
     public $button_value_arabic;
-    public $button_shape_id ;
+    public $button_shape_id;
+    public $button_hover_shape_id;
     public $button_link;
+    public $button_link_arabic;
+    
             
     public function mount($sectionId,$id)
     {
@@ -69,6 +72,26 @@ class CountdownView extends Component
         $this->loadEntries();
     }
 
+    #[On('reset-modal')]
+    public function clearData()
+    {
+        $this->reset(
+            'bg_color_id',
+            'title',
+            'title_arabic',
+            'start_date',
+            'end_date',
+            'start_time',
+            'end_time',
+            'button_value',
+            'button_value_arabic',
+            'button_shape_id',
+            'button_hover_shape_id',
+            'button_link',
+            'button_link_arabic'
+        );
+    }
+
     public function loadEntries()
     {
         $this->shapes=Shapes::ORDERBY('name','ASC')->get();
@@ -91,7 +114,9 @@ class CountdownView extends Component
         $this->button_value=$columnCountdown->button_value;
         $this->button_value_arabic=$columnCountdown->button_value_arabic;
         $this->button_shape_id=$columnCountdown->button_shape_id;
+        $this->button_hover_shape_id=$columnCountdown->button_hover_shape_id;
         $this->button_link=$columnCountdown->button_link;
+        $this->button_link_arabic=$columnCountdown->button_link_arabic;
         
         $this->modalId=$id;
     }
@@ -116,7 +141,9 @@ class CountdownView extends Component
                 'button_value' => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
                 'button_shape_id' => $this->button_shape_id,
+                'button_hover_shape_id' => $this->button_hover_shape_id,
                 'button_link' => $this->button_link,
+                'button_link_arabic' => $this->button_link_arabic,
                 'list_order'=> $highestOrder+1
             ]);
 
@@ -137,7 +164,9 @@ class CountdownView extends Component
                 'button_value' => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
                 'button_shape_id' => $this->button_shape_id,
+                'button_hover_shape_id' => $this->button_hover_shape_id,
                 'button_link' => $this->button_link,
+                'button_link_arabic' => $this->button_link_arabic,
             ]);
             
             return to_route($this->return_route, ['pageId' => $this->page_id , 'sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry edited successfully!');

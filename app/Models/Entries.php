@@ -38,4 +38,9 @@ class Entries extends Model
         return $this->hasOne(Countries::class, 'id', 'jury_country_id');
     }
     
+    public function externalCategory()
+    {
+        return $this->hasOne(ExternalCategories::class, 'id', 'external_category_id');
+    }
+
 }

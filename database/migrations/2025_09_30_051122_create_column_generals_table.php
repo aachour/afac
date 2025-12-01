@@ -22,12 +22,13 @@ return new class extends Migration
             $table->text('text_arabic')->nullable();
             $table->foreignId('gallery_id')->nullable()->constrained('galleries')->onDelete('cascade');
             $table->text('video')->nullable();
-            $table->integer('percentage')->nullable();
             $table->text('button_bg_image')->nullable();
             $table->string('button_value')->nullable();
             $table->string('button_value_arabic')->nullable();
             $table->foreignId('button_shape_id')->nullable()->constrained('shapes')->onDelete('cascade');
+            $table->foreignId('button_hover_shape_id')->nullable()->constrained('shapes')->onDelete('cascade');
             $table->text('button_link')->nullable();
+            $table->text('button_link_arabic')->nullable();
             $table->integer('list_order')->nullable();
             $table->timestamps();
             $table->softDeletes();

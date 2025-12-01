@@ -23,6 +23,7 @@ class Events extends Model
         'image_width',
         'background_color_id',
         'button_link',
+        'button_link_arabic',
         'button_value',
         'button_value_arabic',
     ];

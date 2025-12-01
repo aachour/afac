@@ -60,6 +60,23 @@ class AccordionView extends Component
 
     }
 
+
+    #[On('reset-modal')]
+    public function clearData()
+    {
+        $this->reset([
+            'modalId',
+            'title',
+            'text',
+            'title_arabic',
+            'text_arabic',
+        ]);  
+        
+        $this->dispatch('set-editor-value', id: 'text', value: '');
+        $this->dispatch('set-editor-value-arabic', id: 'text_arabic', value: '');
+
+    }
+
     public function loadEntries()
     {
         $this->accordions=ColumnAccordion::WHERE('section_column_id',$this->section_column_id)->ORDERBY('list_order','ASC')->get();

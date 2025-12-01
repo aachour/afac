@@ -1,0 +1,27 @@
+@extends('frontend.layout.layout')
+
+@section('title-meta')
+
+    <title>Section | AFAC</title>
+    <meta property="og:title" content="">
+    <meta name="description" content="">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+    <meta property="og:type" content="website">
+
+@endsection
+
+@section('content')
+
+    <div class="fullContainer">
+        
+        {{-- <div class="centerContainer"> --}}
+    
+            {!! $sectionHTML !!}
+    
+        {{-- </div> --}}
+
+    </div>
+    
+@endsection

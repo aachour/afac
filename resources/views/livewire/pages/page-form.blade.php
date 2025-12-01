@@ -37,6 +37,15 @@
                                     @error('name_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-check">
+                                        <input wire:model="show_name" type="checkbox" id="show_name" class="form-check-input" value="1">
+                                        <label for="show_name" class="form-check-label">Show Name</label>
+                                    </div>
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+                                
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="name">Meta Title <span class="text-danger">*</span></label>
                                     <input

@@ -145,6 +145,14 @@
                     });
                 }
             });
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var modal = document.getElementById('expandtextModal');
+
+                modal.addEventListener('hidden.bs.modal', function () {
+                    Livewire.dispatch('reset-modal');
+                });
+            });
         </script>
 
     </div>

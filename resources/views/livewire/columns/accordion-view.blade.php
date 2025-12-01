@@ -206,6 +206,14 @@
                 window.setEditorValue(e.detail.id, e.detail.value);
             });
 
+            document.addEventListener('DOMContentLoaded', function () {
+                var modal = document.getElementById('accordionModal');
+
+                modal.addEventListener('hidden.bs.modal', function () {
+                    Livewire.dispatch('reset-modal');
+                });
+            });
+
         </script>
 
 

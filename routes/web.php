@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 use App\Livewire\Auth\Login;
 use App\Livewire\Dashboard;
 
+use App\Livewire\Countries\CountryView;
+
 use App\Livewire\Colors\ColorView;
 
 use App\Livewire\Types\TypeView;
@@ -42,11 +44,16 @@ use App\Livewire\Entries\EntryForm;
 use App\Livewire\Entries\ProgramYearsView;
 use App\Livewire\Entries\ProjectGranteesView;
 
+use App\Livewire\Library\FileView;
+
+
 Route::get('/', [HomeController::class, 'home'])->name('home'); 
 
 Route::get('/home', [HomeController::class, 'home'])->name('home'); 
 
 Route::get('/view/collection/{id}', [HomeController::class, 'ViewCollection'])->name('view.collection'); 
+
+Route::get('/view/section/{id}', [HomeController::class, 'ViewSection'])->name('view.section'); 
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,6 +81,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/create', UserForm::class)->name('users.create');
         Route::get('/edit/{id}', UserForm::class)->name('users.edit');
         Route::get('/view/{id}/{status}', UserForm::class)->name('users.view');
+    });
+
+
+    // |--------------------------------------------------------------------------
+    // |Countries
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'countries'], function () {
+        Route::get('/', CountryView::class)->name('countries');
+        Route::get('/edit/{id}', CountryView::class)->name('countries.edit');
     });
 
 
@@ -185,6 +202,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{projectId}/grantees/', ProjectGranteesView::class)->name('entry.project.grantees');
         
     }); 
+
+
+    // |--------------------------------------------------------------------------
+    // |Library Files
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'files'], function () {
+        Route::get('/', FileView::class)->name('files');
+    });
 
 
 });

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('project_id')->nullable()->constrained('entries')->onDelete('cascade');
             $table->foreignId('grantee_id')->nullable()->constrained('entries')->onDelete('cascade');
             $table->integer('list_order')->nullable();
-            $table->softDeletes();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

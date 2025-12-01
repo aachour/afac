@@ -118,11 +118,11 @@
                                 @endcan
                             </td>
                             <td>
-                                @can('page-view')
-                                    @if($page_id!=null)
-                                        <a href="{{ route('pages.view', [ 'id'=>$page_id ]) }}" class="text-body view-user-button"><i class="ti ti-eye ti-sm"></i></a>
-                                    @elseif($entry_id!=null)
-                                        <a href="{{ route('entry.sections.view', ['entryId' => $entry_id , 'id'=>$pageSection->id]) }}" class="text-body view-user-button"><i class="ti ti-eye ti-sm"></i></a>
+                                @can('section-view')
+                                    @if($pageSection->section_id!=null)
+                                        <a href="{{ route('view.section', [ 'id'=>$pageSection->section_id ]) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    @elseif($pageSection->collection_id!=null)
+                                        <a href="{{ route('view.collection', ['id' => $pageSection->collection_id ]) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
                                     @endif
                                 @endcan
                                 @can('section-edit')

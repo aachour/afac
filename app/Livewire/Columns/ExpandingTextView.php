@@ -59,6 +59,16 @@ class ExpandingTextView extends Component
         $this->loadEntries();
     }
 
+    #[On('reset-modal')]
+    public function clearData()
+    {
+        $this->reset(
+            'text',
+            'text_arabic',
+            'visible',
+        );
+    }
+
     public function loadEntries()
     {
         $this->expandingTexts=ColumnExpandTexts::WHERE('section_column_id',$this->section_column_id)->ORDERBY('list_order','ASC')->get();

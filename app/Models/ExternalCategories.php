@@ -6,19 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class GalleryImages extends Model
+class ExternalCategories extends Model
 {
     //
 
     use SoftDeletes;
-    
-    protected $fillable = [
-        'gallery_id',
-        'image_path',
-        'caption',
-        'caption_arabic',
-        'link',
-        'list_order',
-    ];
 
+    protected $fillable = [
+        'name',
+        'name_arabic',
+    ];
 }

@@ -4,13 +4,14 @@ namespace App\Livewire\Entries;
 
 use App\Models\EventCategories;
 use App\Models\ProjectCategories;
+use App\Models\ExternalCategories;
 use App\Models\Types;
 use App\Models\Entries;
 use App\Models\Colors;
 use App\Models\Countries;
 use App\Models\ProgramYears;
 use App\Models\ProgramYearProjects;
-
+use App\Models\Shapes;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -30,7 +31,10 @@ class EntryForm extends Component
 
     public $event_categories;
     public $project_categories;
+    public $external_categories;
+    
     public $colors;
+    public $shapes;
     public $countries;
     public $programs;
     public $programYears;
@@ -41,12 +45,18 @@ class EntryForm extends Component
     public $imagePreview;
     public $image_featured;
     public $imageFeaturedPreview;
+    public $image_full;
+    public $imageFullPreview;
     public $image_width;
     public $background_color_id ;
-    public $button_link;
     public $button_value;
     public $button_value_arabic;
-
+    public $button_shape_id;
+    public $button_hover_shape_id;
+    public $button_link;
+    public $button_link_arabic;
+ 
+    
     //1- Event
     public $event_category_id;
     public $event_title;
@@ -56,6 +66,7 @@ class EntryForm extends Component
     public $event_date;
     public $event_start_time;
     public $event_end_time;
+    
 
     //2- Program
     public $program_title;
@@ -106,6 +117,14 @@ class EntryForm extends Component
     public $news_tags;
     public $news_tags_arabic;
 
+    //8- Externals
+    public $external_category_id;
+    public $external_title;
+    public $external_title_arabic;
+    public $external_link;
+    public $external_link_arabic;
+    public $external_image;
+
 
     public function mount($typeId,$id=''){
 
@@ -131,12 +150,17 @@ class EntryForm extends Component
 
             $this->imagePreview = asset('storage/' . $this->entry->image);
             $this->imageFeaturedPreview = asset('storage/' . $this->entry->image_featured);
+            $this->imageFullPreview = asset('storage/' . $this->entry->image_full);
 
             $this->image_width=$this->entry->image_width;
             $this->background_color_id=$this->entry->background_color_id;
-            $this->button_link=$this->entry->button_link;
             $this->button_value=$this->entry->button_value;
             $this->button_value_arabic=$this->entry->button_value_arabic;
+            $this->button_shape_id=$this->entry->button_shape_id;
+            $this->button_hover_shape_id=$this->entry->button_hover_shape_id;
+            $this->button_link=$this->entry->button_link;
+            $this->button_link_arabic=$this->entry->button_link_arabic;
+            
             
             //Event
             $this->event_category_id=$this->entry->event_category_id;
@@ -199,15 +223,26 @@ class EntryForm extends Component
             $this->news_date=$this->entry->news_date;
             $this->news_tags=$this->entry->news_tags;
             $this->news_tags_arabic=$this->entry->news_tags_arabic;
+
+            //Externals
+            $this->external_category_id=$this->entry->external_category_id;
+            $this->external_title=$this->entry->external_title;
+            $this->external_title_arabic=$this->entry->external_title_arabic;
+            $this->external_link=$this->entry->external_link;
+            $this->external_link_arabic=$this->entry->external_link_arabic;
         }
 
         $this->event_categories=EventCategories::all();
 
         $this->project_categories=ProjectCategories::all();
+
+        $this->external_categories=ExternalCategories::all();
         
         $this->colors=Colors::all();
 
-        $this->countries=Countries::all();
+        $this->shapes=Shapes::all();
+        
+        $this->countries=Countries::WHERE('active','1')->get();
 
         $this->programs=Entries::WHERE('type_id','2')->ORDERBY('id','desc')->get();
 
@@ -232,12 +267,17 @@ class EntryForm extends Component
             'type_id' => ['required'],
             'image' => ['nullable'],
             'image_featured' => ['nullable'],
+            'image_full' => ['nullable'],
             'image_width' => ['nullable'],
             'background_color_id' => ['nullable'],
-            'button_link' => ['nullable'],
             'button_value' => ['nullable'],
             'button_value_arabic' => ['nullable'],
-
+            'button_shape_id' => ['nullable'],
+            'button_hover_shape_id' => ['nullable'],
+            'button_link' => ['nullable'],
+            'button_link_arabic' => ['nullable'],
+            
+            
             //Event
             'event_category_id' => ['required_if:type_id,1'],
             'event_title' => ['required_if:type_id,1'],
@@ -245,7 +285,7 @@ class EntryForm extends Component
             'event_date' => ['required_if:type_id,1'],
             'event_start_time' => ['required_if:type_id,1'],
             'event_end_time' => ['required_if:type_id,1'],
-
+            
             //Program
             'program_title' => ['required_if:type_id,2'],
             'program_title_arabic' => ['required_if:type_id,2'],
@@ -279,7 +319,14 @@ class EntryForm extends Component
             'news_title' => ['required_if:type_id,7'],
             'news_title_arabic' => ['required_if:type_id,7'],
             'news_date' => ['required_if:type_id,7'],
-            
+
+
+            //Externals
+            'external_category_id' => ['required_if:type_id,8'],
+            'external_title' => ['required_if:type_id,8'],
+            'external_title_arabic' => ['required_if:type_id,8'],
+            'external_link' => ['required_if:type_id,8'],
+            'external_link_arabic' => ['required_if:type_id,8'],
         ];
 
         return $data;
@@ -287,7 +334,7 @@ class EntryForm extends Component
 
     public function store()
     {
-
+        
         $this->validate();
 
         if($this->id==''){
@@ -301,15 +348,23 @@ class EntryForm extends Component
                 $path_featured = $this->image_featured->store('entries', 'public');
             }
 
+            if($this->image_full!=''){
+                $path_full = $this->image_full->store('entries', 'public');
+            }
+
             $entry=Entries::create([
                 'type_id' => $this->type_id,
                 'image' => @$path,
                 'image_featured' => @$path_featured,
+                'image_full' => @$path_full,
                 'image_width' => $this->image_width,
                 'background_color_id' => $this->background_color_id !== '' ? $this->background_color_id : null,
-                'button_link' => $this->button_link,
                 'button_value' => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
+                'button_shape_id' => $this->button_shape_id,
+                'button_hover_shape_id' => $this->button_hover_shape_id,
+                'button_link' => $this->button_link,
+                'button_link_arabic' => $this->button_link_arabic,
                 'event_category_id'=> $this->event_category_id !== '' ? $this->event_category_id : null,
                 'event_title'=>$this->event_title ?? '',
                 'event_title_arabic'=>$this->event_title_arabic ?? '',
@@ -352,6 +407,11 @@ class EntryForm extends Component
                 'news_date'=>$this->news_date ?? null,
                 'news_tags'=>$this->news_tags ?? '',
                 'news_tags_arabic'=>$this->news_tags_arabic ?? '',
+                'external_category_id'=> $this->external_category_id !== '' ? $this->external_category_id : null,
+                'external_title'=>$this->external_title ?? '',
+                'external_title_arabic'=>$this->external_title_arabic ?? '',
+                'external_link'=>$this->external_link ?? '',
+                'external_link_arabic'=>$this->external_link_arabic ?? '',
             ]);
 
             if($this->type_id==3){
@@ -377,15 +437,22 @@ class EntryForm extends Component
                 $path_feautred = $this->image_featured->store('entries', 'public');
             }
 
+            if($this->image_full!=''){
+                $path_full = $this->image_full->store('entries', 'public');
+            }
 
             $data = [
                 'image' => @$path ?? $this->entry->image,
                 'image_featured' => @$path_feautred ?? $this->entry->image_featured,
+                'image_full' => @$path_full ?? $this->entry->image_full,
                 'image_width' => $this->image_width,
                 'background_color_id' => $this->background_color_id !== '' ? $this->background_color_id : null,
-                'button_link' => $this->button_link,
                 'button_value' => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
+                'button_shape_id' => $this->button_shape_id,
+                'button_hover_shape_id' => $this->button_hover_shape_id,
+                'button_link' => $this->button_link,
+                'button_link_arabic' => $this->button_link_arabic,
                 'event_category_id'=> $this->event_category_id !== '' ? $this->event_category_id : null,
                 'event_title'=>$this->event_title ?? '',
                 'event_title_arabic'=>$this->event_title_arabic ?? '',
@@ -428,6 +495,12 @@ class EntryForm extends Component
                 'news_date'=>$this->news_date ?? null,
                 'news_tags'=>$this->news_tags ?? '',
                 'news_tags_arabic'=>$this->news_tags_arabic ?? '',
+                'external_category_id'=> $this->external_category_id !== '' ? $this->external_category_id : null,
+                'external_title'=>$this->external_title ?? '',
+                'external_title_arabic'=>$this->external_title_arabic ?? '',
+                'external_link'=>$this->external_link ?? '',
+                'external_link_arabic'=>$this->external_link_arabic ?? '',
+
             ];
 
             $this->entry->update($data);

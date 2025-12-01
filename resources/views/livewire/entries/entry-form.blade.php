@@ -46,11 +46,23 @@
                                     @error('image_width') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>  
 
-                                <div class="col-12 mt-2">
-                                    <label class="form-label" for="image">Featured Image [1000x1000px]</label>
+                                <div class="col-12 mt-3">
+                                    <label class="form-label" for="image_featured">Featured Image [1000x1000px]</label>
                                     <x-filepond 
                                         wire:model="image_featured"
                                         file-path="{{ $imageFeaturedPreview ?? '' }}"
+                                        delete-event="deleteImage"
+                                        is-multiple="false" />
+                                    @error('image_featured') 
+                                        <div class="text-danger">{{ $message }}</div> 
+                                    @enderror
+                                </div>
+
+                                <div class="col-12 mt-3 @if($type_id!=6 && $type_id!=7) d-none @endif">
+                                    <label class="form-label" for="image_full">Full Image [1920x450px]</label>
+                                    <x-filepond 
+                                        wire:model="image_full"
+                                        file-path="{{ $imageFullPreview ?? '' }}"
                                         delete-event="deleteImage"
                                         is-multiple="false" />
                                     @error('image_featured') 
@@ -68,19 +80,6 @@
                                     @error('image') 
                                         <div class="text-danger">{{ $message }}</div> 
                                     @enderror
-                                </div>
-
-                                <div class="w-100 d-none d-md-block"></div>
-
-                                <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="button_link">Button Link </label>
-                                    <input
-                                        wire:model="button_link"
-                                        type="text"
-                                        id="button_link"
-                                        class="form-control"
-                                        placeholder="Link" />
-                                    @error('button_link') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                                 <div class="w-100 d-none d-md-block"></div>
@@ -106,6 +105,60 @@
                                         placeholder="Link" />
                                     @error('button_value_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
+
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="button_shape_id">Button Shape </label>
+                                    <select
+                                        wire:model="button_shape_id"
+                                        id="button_shape_id"
+                                        class="form-control">
+                                        <option value=''>Select Shape</option>
+                                        @foreach($shapes as $shape)
+                                            <option value='{{$shape->id}}'>{{$shape->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('button_shape_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="button_hover_shape_id">Button Hover Shape</label>
+                                    <select
+                                        wire:model="button_hover_shape_id"
+                                        id="button_hover_shape_id"
+                                        class="form-control">
+                                        <option value=''>Select Shape</option>
+                                        @foreach($shapes as $shape)
+                                            <option value='{{$shape->id}}'>{{$shape->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('button_hover_shape_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="button_link">Button Link </label>
+                                    <input
+                                        wire:model="button_link"
+                                        type="text"
+                                        id="button_link"
+                                        class="form-control"
+                                        placeholder="Link" />
+                                    @error('button_link') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="button_link_arabic">رابط الزر</label>
+                                    <input
+                                        wire:model="button_link_arabic"
+                                        type="text"
+                                        id="button_link_arabic"
+                                        class="form-control"
+                                        placeholder="Link" />
+                                    @error('button_link_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
 
                             </div>
 
@@ -367,7 +420,6 @@
                                         id="project_countries_id"
                                         class="form-control"
                                         multiple>
-                                        <option value=''>Select Country</option>
                                         @foreach($countries as $country)
                                             <option value='{{$country->id}}'>{{$country->name}}</option>
                                         @endforeach
@@ -764,6 +816,85 @@
 
                     </div>
 
+
+                    <!--External-->
+                    <div class="card mt-5 @if($type_id!=8) d-none @endif">
+
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">External Details</h5>
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="external_category_id">Category <span class="text-danger">*</span></label>
+                                    <select
+                                        wire:model="external_category_id"
+                                        id="external_category_id"
+                                        class="form-control">
+                                        <option value=''>Select Type</option>
+                                        @foreach($external_categories as $category)
+                                            <option value='{{$category->id}}'>{{$category->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('external_category_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="external_title">Title <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="external_title"
+                                        type="text"
+                                        id="external_title"
+                                        class="form-control"
+                                        placeholder="Title" />
+                                    @error('external_title') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="external_title_arabic">العنوان <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="external_title_arabic"
+                                        type="text"
+                                        id="external_title_arabic"
+                                        class="form-control"
+                                        placeholder="العنوان" />
+                                    @error('external_title_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="external_link">Link <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="external_link"
+                                        type="text"
+                                        id="external_link"
+                                        class="form-control"
+                                        placeholder="Link" />
+                                    @error('external_link') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="external_link_arabic">رابط الزر<span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="external_link_arabic"
+                                        type="text"
+                                        id="external_link_arabic"
+                                        class="form-control"
+                                        placeholder="Link" />
+                                    @error('external_link_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+                                
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
                 </div>
 
                 <div class="col-12 text-end mt-4">

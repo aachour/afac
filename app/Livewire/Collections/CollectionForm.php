@@ -20,13 +20,18 @@ class CollectionForm extends Component
     public $collection;
     public $id;
     public $type_id;
+    public $calendar_view;
     public $name;
     public $name_arabic;
     public $show_name;
     public $description;
     public $description_arabic;
     public $show_description;
-    public $description_position;
+    public $view_all_title;
+    public $view_all_title_arabic;
+    public $view_all_link;
+    public $view_all_link_arabic;
+    public $show_view_all;
     public $background_color_id;
     public $with_border_bottom;
     public $with_filters;
@@ -58,10 +63,11 @@ class CollectionForm extends Component
         
         if($id==''){
             $this->authorize('collection-create');
+            $this->calendar_view=false;
             $this->show_name=true;
             $this->show_description=true;
+            $this->show_view_all=false;
             $this->with_border_bottom=true;
-            $this->description_position=0;
             $this->with_filters=0;
             $this->with_label=1;
             $this->entries_selection=1;
@@ -81,13 +87,18 @@ class CollectionForm extends Component
 
             $this->collection=Collections::find($id);
             $this->type_id=$this->collection->type_id;
+            $this->calendar_view=$this->collection->calendar_view == 1 ? true : false;
             $this->name=$this->collection->name;
             $this->name_arabic=$this->collection->name_arabic;
             $this->show_name=$this->collection->show_name == 1 ? true : false;
             $this->description=$this->collection->description;
             $this->description_arabic=$this->collection->description_arabic;
             $this->show_description=$this->collection->show_description == 1 ? true : false;
-            $this->description_position=$this->collection->description_position;
+            $this->view_all_title=$this->collection->view_all_title;
+            $this->view_all_title_arabic=$this->collection->view_all_title_arabic;
+            $this->view_all_link=$this->collection->view_all_link;
+            $this->view_all_link_arabic=$this->collection->view_all_link_arabic;
+            $this->show_view_all=$this->collection->show_view_all == 1 ? true : false;
             $this->background_color_id=$this->collection->background_color_id;
             $this->with_border_bottom=$this->collection->with_border_bottom == 1 ? true : false;
             $this->with_filters=$this->collection->with_filters;
@@ -111,18 +122,22 @@ class CollectionForm extends Component
         
     }
 
-
     public function rules()
     {
         $data = [
             'type_id' => ['required'],
+            'calendar_view' => ['nullable'],
             'name' => ['required'],
             'name_arabic' => ['required'],
             'show_name' => ['nullable'],
             'description' => ['nullable'],
             'description_arabic' => ['nullable'],
             'show_description' => ['nullable'],
-            'description_position' => ['required'],
+            'view_all_title' => ['nullable'],
+            'view_all_title_arabic' => ['nullable'],
+            'view_all_link' => ['nullable'],
+            'view_all_link_arabic' => ['nullable'],
+            'show_view_all' => ['nullable'],
             'background_color_id' => ['nullable'],
             'with_border_bottom' => ['nullable'],
             'with_filters' => ['nullable'],
@@ -152,13 +167,18 @@ class CollectionForm extends Component
         if($this->id==''){
             Collections::create([
                 'type_id'=>$this->type_id,
+                'calendar_view'=>$this->calendar_view == 1 ? true : false,
                 'name'=>$this->name,
                 'name_arabic'=>$this->name_arabic,
                 'show_name'=> $this->show_name,
                 'description'=>$this->description,
                 'description_arabic'=>$this->description_arabic,
                 'show_description'=> $this->show_description,
-                'description_position'=>$this->description_position,
+                'view_all_title'=>$this->view_all_title,
+                'view_all_title_arabic'=>$this->view_all_title_arabic,
+                'view_all_link'=>$this->view_all_link,
+                'view_all_link_arabic'=>$this->view_all_link_arabic,
+                'show_view_all'=>$this->show_view_all,
                 'background_color_id'=>$this->background_color_id,
                 'with_border_bottom'=> $this->with_border_bottom,
                 'with_filters'=>$this->with_filters,
@@ -182,13 +202,18 @@ class CollectionForm extends Component
         else if($this->id!=''){
             $data = [
                 'type_id'=>$this->type_id,
+                'calendar_view'=>$this->calendar_view == 1 ? true : false,
                 'name'=>$this->name,
                 'name_arabic'=>$this->name_arabic,
                 'show_name'=>$this->show_name,
                 'description'=>$this->description,
                 'description_arabic'=>$this->description_arabic,
                 'show_description'=>$this->show_description,
-                'description_position'=>$this->description_position,
+                'view_all_title'=>$this->view_all_title,
+                'view_all_title_arabic'=>$this->view_all_title_arabic,
+                'view_all_link'=>$this->view_all_link,
+                'view_all_link_arabic'=>$this->view_all_link_arabic,
+                'show_view_all'=>$this->show_view_all,
                 'background_color_id'=>$this->background_color_id,
                 'with_border_bottom'=>$this->with_border_bottom,
                 'with_filters'=>$this->with_filters,

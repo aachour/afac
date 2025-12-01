@@ -61,6 +61,17 @@ class TimelineView extends Component
 
     }
 
+    #[On('reset-modal')]
+    public function clearData()
+    {
+        $this->entries = [];
+
+        $this->reset([
+            'modalId',
+            'date',
+        ]);
+    }
+
     public function loadEntries()
     {
         $this->timelines=ColumnTimeline::WITH('percentages')->WHERE('section_column_id',$this->section_column_id)->ORDERBY('list_order','ASC')->get();
@@ -68,14 +79,18 @@ class TimelineView extends Component
         $this->entries=[];
     }
 
+
     public function addEntry(){
         $this->entries[] = ['id'=>'','text' => '','text_arabic'=>'','shape_id'=>'','percentage'=>''];
+        $this->dispatch('activateCkeditor');
     }
+
 
     public function deleteEntry($index){
         unset($this->entries[$index]);
         $this->entries = array_values($this->entries);
     }
+
 
     public function editEntry($id){
         $columnTimeline=ColumnTimeline::with('percentages')->find($id);
@@ -83,10 +98,13 @@ class TimelineView extends Component
 
         foreach($columnTimeline->percentages as $percentage){
             $this->entries[] = ['id'=>$percentage->id , 'text' => $percentage->text , 'text_arabic'=>$percentage->text_arabic , 'shape_id'=>$percentage->shape_id , 'percentage'=>$percentage->percentage];
-        }
 
+            $this->dispatch('activateCkeditor');
+        }
+            
         $this->modalId=$id;
     }
+
 
     public function saveEntry(){
 
@@ -159,6 +177,7 @@ class TimelineView extends Component
 
     }
 
+
     #[On('updateOrder')]
     public function updateOrder(array $order)
     {
@@ -169,6 +188,7 @@ class TimelineView extends Component
         return to_route($this->return_route, ['sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Order updated successfully!');
 
     }
+
     
     #[On('delete')]
     public function delete($id)
@@ -179,6 +199,7 @@ class TimelineView extends Component
 
         return to_route($this->return_route, ['sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry deleted successfully!');
     }
+
 
     public function render()
     {

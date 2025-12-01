@@ -46,6 +46,7 @@ class GeneralInputsView extends Component
     public $gallery_id;
     public $gallery;
     public $gallery_images = [];
+    public $gallery_image_inputs = [];
     
     public $video;
     public $percentage;
@@ -54,8 +55,10 @@ class GeneralInputsView extends Component
     public $button_value;
     public $button_value_arabic;
     public $button_shape_id;
+    public $button_hover_shape_id;
     public $button_link;
-    
+    public $button_link_arabic;
+        
     public function mount($sectionId,$id)
     {
 
@@ -92,10 +95,46 @@ class GeneralInputsView extends Component
 
     }
 
+    #[On('reset-modal')]
+    public function clearData()
+    {
+        $this->reset([
+            'modalId',
+            'bg_color_id',
+            'input_type_id',
+            'title',
+            'title_arabic',
+            'text',
+            'text_arabic',
+            'gallery_id',
+            'gallery',
+            'gallery_images',
+            'gallery_image_inputs',
+            'video',
+            'percentage',
+            'button_bg_image',
+            'btnImagePreview',
+            'button_value',
+            'button_value_arabic',
+            'button_shape_id',
+            'button_hover_shape_id',
+            'button_link',
+            'button_link_arabic',
+        ]);
+        
+        $this->dispatch('activateCkeditor');
+    }
 
     public function loadEntries()
     {
         $this->generalInputs=ColumnGeneral::WHERE('section_column_id',$this->section_column_id)->ORDERBY('list_order','ASC')->get();
+    }
+
+    public function updatedInputTypeId($value)
+    {
+        if($value==2){
+            $this->dispatch('activateCkeditor');
+        }
     }
 
 
@@ -103,6 +142,7 @@ class GeneralInputsView extends Component
     {
         $generalInput=ColumnGeneral::with('gallery','gallery.images')->find($id);
         $this->input_type_id=$generalInput->input_type_id;
+        
         $this->bg_color_id=$generalInput->bg_color_id;
         $this->title=$generalInput->title;
         $this->title_arabic=$generalInput->title_arabic;
@@ -116,8 +156,13 @@ class GeneralInputsView extends Component
         $this->button_value=$generalInput->button_value;
         $this->button_value_arabic=$generalInput->button_value_arabic;
         $this->button_shape_id=$generalInput->button_shape_id;
+        $this->button_hover_shape_id=$generalInput->button_hover_shape_id;
         $this->button_link=$generalInput->button_link;
+        $this->button_link_arabic=$generalInput->button_link_arabic;
         $this->modalId=$id;
+        if($this->input_type_id==2){
+            $this->dispatch('activateCkeditor');
+        }
 
     }
 
@@ -170,7 +215,9 @@ class GeneralInputsView extends Component
                 'button_value'      => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
                 'button_shape_id'      => $this->button_shape_id,
+                'button_hover_shape_id'      => $this->button_hover_shape_id,
                 'button_link'       => $this->button_link,
+                'button_link_arabic'       => $this->button_link_arabic,
                 'list_order'        => $highestOrder + 1
             ]);
 
@@ -218,7 +265,9 @@ class GeneralInputsView extends Component
                     'button_value'      => $this->button_value,
                     'button_value_arabic'      => $this->button_value_arabic,
                     'button_shape_id'      => $this->button_shape_id,
+                    'button_hover_shape_id'      => $this->button_hover_shape_id,
                     'button_link'       => $this->button_link,
+                    'button_link_arabic'       => $this->button_link_arabic,
                 ]
             );
             
@@ -255,6 +304,18 @@ class GeneralInputsView extends Component
         $generalInput=ColumnGeneral::with('gallery','gallery.images')->WHERE('gallery_id',$galleryId)->first();
         $this->gallery=$generalInput->gallery;
         $this->gallery_images=$this->gallery->images;
+
+        if($this->gallery_images){
+            foreach($this->gallery_images as $gallery_image){
+                $obj=[
+                    'caption'         => $gallery_image->caption,
+                    'caption_arabic'  => $gallery_image->caption_arabic,
+                    'link'            => $gallery_image->link,
+                ];
+                $this->gallery_image_inputs []= $obj;
+            }
+        }
+
     }
 
 
@@ -281,6 +342,20 @@ class GeneralInputsView extends Component
 
     }
 
+    public function editGalleryImage($id,$key){
+
+        $galleryImage = GalleryImages::find($id);
+        if (!$galleryImage) return;
+
+        $galleryImage->update([
+            'caption'         => $this->gallery_image_inputs[$key]['caption'],
+            'caption_arabic'  => $this->gallery_image_inputs[$key]['caption_arabic'],
+            'link'            => $this->gallery_image_inputs[$key]['link'],
+        ]);
+
+        $this->gallery_images=[];
+        $this->showGallery($this->section_column_id,$this->gallery_id);
+    }
 
     public function render()
     {

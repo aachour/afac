@@ -35,6 +35,15 @@
                                     @error('name') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
+                                <div class="w-100 d-none d-md-block"></div>
+
+                                <div class="col-12 col-md-6 mt-3">
+                                    <div class="form-check">
+                                        <input wire:model="with_border_bottom" type="checkbox" id="with_border_bottom" class="form-check-input" value="1">
+                                        <label for="with_border_bottom" class="form-check-label">With Border Bottom</label>
+                                    </div>
+                                </div>
+
                             </div>
 
                         </div>
@@ -111,6 +120,22 @@
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
 
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mt-3">
+                                        <label class="form-label" for="name">Column Width <span class="text-danger">*</span></label>
+                                        <select
+                                            wire:model="columns.{{$key}}.width"
+                                            id="columns.{{$key}}.width"
+                                            class="form-control">
+                                            <option value=''>Select Width</option>
+                                            @foreach($image_width_options as $key=>$value)
+                                                <option value='{{$key}}'>{{$value}}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('columns.{{$key}}.width') <div class="text-danger">{{ $message }}</div> @enderror
                                     </div>
                                 </div>
 
