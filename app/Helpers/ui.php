@@ -445,7 +445,7 @@
 
                     foreach($sectionColumns as $sectionColumn){
                         
-                        $html .= '<div class="col-lg-' . ($colsNum == 1 ? '12' : '6') . ' col-12" style="background:#F00;">';
+                        $html .= '<div class="col-lg-' . ($colsNum == 1 ? '12' : '6') . ' col-12">';
 
                         $colType=$sectionColumn->type_id;
                         
@@ -504,19 +504,27 @@
 
                     if($input_type_id==1)
                     {   //title
-                        $htmlColumn.='<div class="topSpacer big black">'.$generalInput->title.'</div>';
+                        $htmlColumn.='<div class="topSpacerSmall big black ABCDiatypeMedium">'.$generalInput->title.'</div>';
                     }
                     else if($input_type_id==2)
                     {   //text
-                        $htmlColumn.='<div class="topSpacer medium black">'.$generalInput->text.'</div>';
+                        $htmlColumn.='<div class="topSpacerSmall medium black ABCDiatype">'.$generalInput->text.'</div>';
                     }
                     else if($input_type_id==3)
                     {   //gallery
-                        $htmlColumn.='<div class="topSpacer">Gallery</div>';
+                        $galleryImages=$generalInput->gallery->images;
+                        if(count($galleryImages)==1){ //single image
+                            $htmlColumn.='<div class="topSpacerSmall"><img src='.asset("storage/".$galleryImages[0]->image_path).' width="100%" /></div>';
+                        }
+                        else{ //gallery images
+                            foreach($galleryImages as $galleryImage){
+                                $htmlColumn.='<div class="topSpacerSmall"><img src='.asset("storage/".$galleryImage->image_path).' width="100%" /></div>';
+                            }
+                        }
                     }
                     else if($input_type_id==4)
                     {   //video
-                        $htmlColumn.='<div class="topSpacer"><iframe src="'.$generalInput->video.'" width="100%"></iframe></div>';
+                        $htmlColumn.='<div class="topSpacer"><iframe src="'.$generalInput->video.'" width="100%" height="500px"></iframe></div>';
                     }
                     else if($input_type_id==5)
                     {   //button
@@ -579,8 +587,8 @@
 
                 foreach($column->accordions as $accordion){
 
-                    $htmlColumn.= $accordion->title;
-
+                    $htmlColumn.= '<div class="topSpacerSmall medium black ABCDiatypeMedium">'.$accordion->title.'</div>';
+                    $htmlColumn.= '<div class="topSpacerSmaller small black">'.$accordion->text.'</div>';
                 }
 
                 $htmlColumn.='</div>
@@ -634,10 +642,9 @@
             $htmlColumn.='<div class="row">
 
                 <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
-
                 foreach($column->expandingTexts as $expandingText){
 
-                    $htmlColumn.= $expandingText->title;
+                    $htmlColumn.= '<div class="topSpacerSmall medium black ABCDiatypeMedium '.($expandingText->visible == '1' ? '' : 'd-none').'">'.$expandingText->text.'</div>';
 
                 }
 

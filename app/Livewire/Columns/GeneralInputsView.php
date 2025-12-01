@@ -49,7 +49,6 @@ class GeneralInputsView extends Component
     public $gallery_image_inputs = [];
     
     public $video;
-    public $percentage;
     public $button_bg_image;
     public $btnImagePreview;
     public $button_value;
@@ -111,7 +110,6 @@ class GeneralInputsView extends Component
             'gallery_images',
             'gallery_image_inputs',
             'video',
-            'percentage',
             'button_bg_image',
             'btnImagePreview',
             'button_value',
@@ -150,7 +148,6 @@ class GeneralInputsView extends Component
         $this->text_arabic=$generalInput->text_arabic;
         $this->gallery_id=$generalInput->gallery_id;
         $this->video=$generalInput->video;
-        $this->percentage=$generalInput->percentage;
         $this->button_bg_image=$generalInput->button_bg_image;
         $this->btnImagePreview = asset('storage/' . $generalInput->button_bg_image);
         $this->button_value=$generalInput->button_value;
@@ -210,7 +207,6 @@ class GeneralInputsView extends Component
                 'text_arabic'       => $this->text_arabic,
                 'gallery_id'        => $this->gallery_id,
                 'video'             => $this->video,
-                'percentage'        => $this->percentage,
                 'button_bg_image'   => $btn_bg_path,
                 'button_value'      => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
@@ -260,7 +256,6 @@ class GeneralInputsView extends Component
                     'text_arabic'       => $this->text_arabic,
                     'gallery_id'        => $this->gallery_id,
                     'video'             => $this->video,
-                    'percentage'        => $this->percentage,
                     'button_bg_image'   => $btn_bg_path,
                     'button_value'      => $this->button_value,
                     'button_value_arabic'      => $this->button_value_arabic,

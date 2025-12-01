@@ -48,8 +48,6 @@
                                 @elseif($generalInput->input_type_id==4)
                                     {{$generalInput->video}}
                                 @elseif($generalInput->input_type_id==5)
-                                    {{$generalInput->percentage}}
-                                @elseif($generalInput->input_type_id==6)
                                     {{$generalInput->button_value}}
                                 @endif
                             </td>
@@ -293,18 +291,6 @@
                             @enderror
                         </div>
 
-                        <!--Percentage-->
-                        {{--<div class="mb-3 {{ $input_type_id == 6 ? '' : 'd-none' }}">
-                            <label for="percentage" class="form-label">Pattern Percentage</label>
-                            <input type="text"
-                                class="form-control @error('percentage') is-invalid @enderror"
-                                id="percentage"
-                                wire:model="percentage"
-                                placeholder="Percentage" />
-                            @error('percentage')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>--}}
 
                     </div>
 
