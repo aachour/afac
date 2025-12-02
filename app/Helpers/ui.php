@@ -572,9 +572,15 @@
 
             $htmlColumn.='<div class="timelines '.$textAlign.'">
 
-                <div class="row">
+                <div class="row">';
 
-                    <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
+                    if($column->width == 1){
+                    $htmlColumn.='<div class="col-lg-12 col-12">';
+                    }elseif($column->width == 2){
+                    $htmlColumn.='<div class="col-lg-9 col-12">';
+                    }elseif($column->width == 3){
+                    $htmlColumn.='<div class="col-lg-3"></div><div class="col-lg-6 col-12">';
+                    }
 
                         foreach($column->timelines as $timeline){
 
@@ -624,14 +630,26 @@
 
             $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
-            $htmlColumn.='<div class="row '.$textAlign.'">
+            $htmlColumn.='<div class="row '.$textAlign.'">';
 
-                <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
+                if($column->width == 1){
+                $htmlColumn.='<div class="col-lg-12 col-12">';
+                }elseif($column->width == 2){
+                $htmlColumn.='<div class="col-lg-9 col-12">';
+                }elseif($column->width == 3){
+                $htmlColumn.='<div class="col-lg-3"></div><div class="col-lg-6 col-12">';
+                }
 
-                foreach($column->accordions as $accordion){
+                foreach($column->accordions as $key=>$accordion){
 
-                    $htmlColumn.= '<div class="topSpacerSmall medium black ABCDiatypeMedium">'.$accordion->title.'</div>';
-                    $htmlColumn.= '<div class="topSpacerSmaller small black">'.$accordion->text.'</div>';
+                    $htmlColumn.= '<div class="topSpacerSmall">
+                        <div class="accordionTitle medium black ABCDiatypeMedium">'.$accordion->title.'</div>
+                        <div class="accordionArrow clickable">
+                            <img src="'.asset('frontend/images/arrow-down.png').'" width="30px" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>';
+                    $htmlColumn.= '<div class="topSpacer tiny black">'.$accordion->text.'</div>';
                 }
 
                 $htmlColumn.='</div>
@@ -655,13 +673,23 @@
 
             $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
-            $htmlColumn.='<div class="row '.$textAlign.'">
+            $htmlColumn.='<div class="row '.$textAlign.'">';
 
-                <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
+                if($column->width == 1){
+                $htmlColumn.='<div class="col-lg-12 col-12">';
+                }elseif($column->width == 2){
+                $htmlColumn.='<div class="col-lg-9 col-12">';
+                }elseif($column->width == 3){
+                $htmlColumn.='<div class="col-lg-3"></div><div class="col-lg-6 col-12">';
+                }
 
                 foreach($column->countdowns as $countdown){
 
-                    $htmlColumn.= $countdown->title;
+                    $htmlColumn.= '<div class="coutdown" style="background:'.$countdown->bgColor->code.'";>
+                    
+                        <div class="medium black ABCDiatypeMedium">'.$countdown->title.'</div>
+                        
+                    </div>';
 
                 }
 
@@ -686,9 +714,16 @@
 
             $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
-            $htmlColumn.='<div class="row '.$textAlign.'">
+            $htmlColumn.='<div class="row '.$textAlign.'">';
 
-                <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
+                if($column->width == 1){
+                $htmlColumn.='<div class="col-lg-12 col-12">';
+                }elseif($column->width == 2){
+                $htmlColumn.='<div class="col-lg-9 col-12">';
+                }elseif($column->width == 3){
+                $htmlColumn.='<div class="col-lg-3"></div><div class="col-lg-6 col-12">';
+                }
+
                 foreach($column->expandingTexts as $expandingText){
 
                     $htmlColumn.= '<div class="topSpacerSmall medium black ABCDiatypeMedium '.($expandingText->visible == '1' ? '' : 'd-none').'">'.$expandingText->text.'</div>';

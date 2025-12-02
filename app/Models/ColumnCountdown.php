@@ -38,4 +38,10 @@ class ColumnCountdown extends Model
     }
 
 
+    public function bgColor()
+    {
+        return $this->hasOne(Colors::class, 'id', 'bg_color_id');
+    }
+
+
 }
