@@ -1,12 +1,11 @@
 @php
     $text = $text ?? 'Apply Now';
-    $size = $size ?? 'medium'; // small, medium, large
-    $diamondColor = $diamondColor ?? '#E3F2FD'; // light blue
-    $textColor = $textColor ?? '#010101'; // black
+    $size = $size ?? 'medium';
+    $diamondColor = $diamondColor ?? '#E3F2FD'; 
+    $textColor = $textColor ?? '#010101'; 
 @endphp
 
 @php
-    // Size configurations
     $sizes = [
         'small' => [
             'diamond' => 160,
@@ -129,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         wrapper.addEventListener('mouseenter', function() {
-            // Show diamond with animation
+          
             gsap.to(overlay, {
                 opacity: 1,
                 scale: 1,
@@ -139,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         wrapper.addEventListener('mouseleave', function() {
-            // Hide diamond with animation
+            
             gsap.to(overlay, {
                 opacity: 0,
                 scale: 0.8,
