@@ -2,41 +2,44 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <style>
-    .donate-button-wrapper {
+    .circle-diamond-donate-button-wrapper {
         display: inline-block;
         position: relative;
     }
 
-    .donate-button-svg {
+    .circle-diamond-donate-button-svg {
         display: block;
         cursor: pointer;
     }
 
-    .donate-shape {
+    .circle-diamond-donate-shape {
         transform-origin: 154px 154px;
     }
 
-    .donate-text {
+    .circle-diamond-donate-text {
         pointer-events: none;
         user-select: none;
     }
 </style>
 
 <div class="container">
-    <div class="donate-button-wrapper">
-        <svg width="308" height="308" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" class="donate-button-svg">
+    <div class="circle-diamond-donate-button-wrapper">
+        <svg width="308" height="308" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" class="circle-diamond-donate-button-svg">
             <!-- Shape that morphs from circle to diamond -->
-            <rect class="donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="108.8935" fill="black"/>
+            <rect class="circle-diamond-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="108.8935" fill="black"/>
             <!-- Text inside -->
-            <text class="donate-text" x="154" y="168" fill="white" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle">Donate</text>
+            <text class="circle-diamond-donate-text" x="154" y="168" fill="white" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle">Donate</text>
         </svg>
     </div>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const donateButton = document.querySelector('.donate-button-svg');
-    const donateShape = document.querySelector('.donate-shape');
+    const wrapper = document.querySelector('.circle-diamond-donate-button-wrapper');
+    if (!wrapper) return;
+    
+    const donateButton = wrapper.querySelector('.circle-diamond-donate-button-svg');
+    const donateShape = wrapper.querySelector('.circle-diamond-donate-shape');
     
     if (donateButton && donateShape) {
         // Center of the SVG (308 / 2 = 154)

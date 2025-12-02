@@ -49,7 +49,9 @@ use App\Livewire\Library\FileView;
 
 Route::get('/', [HomeController::class, 'home'])->name('home'); 
 
-Route::get('/home', [HomeController::class, 'home'])->name('home'); 
+Route::get('/home', [HomeController::class, 'home'])->name('home');
+
+Route::get('/animation', [HomeController::class, 'animation'])->name('animation'); 
 
 Route::get('/view/collection/{id}', [HomeController::class, 'ViewCollection'])->name('view.collection'); 
 
