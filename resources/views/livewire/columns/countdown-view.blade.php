@@ -209,6 +209,34 @@
                             </div>
 
                             <div class="col-12 col-lg-6 mb-3">
+                                <label for="button_bg_color_id" class="form-label">Button Background Color</label>
+                                <select
+                                    wire:model="button_bg_color_id"
+                                    id="button_bg_color_id"
+                                    class="form-control">
+                                    <option value=''>Select Color</option>
+                                    @foreach($colors as $color)
+                                        <option value='{{$color->id}}'>{{$color->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('button_bg_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                            </div>
+
+                            <div class="col-12 col-lg-6 mb-3">
+                                <label for="button_hover_bg_color_id" class="form-label">Button hover Background Color</label>
+                                <select
+                                    wire:model="button_hover_bg_color_id"
+                                    id="button_hover_bg_color_id"
+                                    class="form-control">
+                                    <option value=''>Select Color</option>
+                                    @foreach($colors as $color)
+                                        <option value='{{$color->id}}'>{{$color->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('button_hover_bg_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                            </div>
+
+                            <div class="col-12 col-lg-6 mb-3">
                                 <label for="button_link" class="form-label">Button Link</label>
                                 <input type="text"
                                     class="form-control @error('button_link') is-invalid @enderror"

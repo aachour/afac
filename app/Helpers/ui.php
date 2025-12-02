@@ -445,7 +445,7 @@
 
                     foreach($sectionColumns as $sectionColumn){
                         
-                        $html .= '<div class="col-lg-' . ($colsNum == 1 ? '12' : '6') . ' col-12" style="background:#F00;">';
+                        $html .= '<div class="col-lg-' . ($colsNum == 1 ? '12' : '6') . ' col-12">';
 
                         $colType=$sectionColumn->type_id;
                         
@@ -494,9 +494,17 @@
 
         if($column){
 
-            $htmlColumn.='<div class="row">
+            $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
-                <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
+            $htmlColumn.='<div class="row '.$textAlign.'">';
+
+                if($column->width == 1){
+                $htmlColumn.='<div class="col-lg-12 col-12">';
+                }elseif($column->width == 2){
+                $htmlColumn.='<div class="col-lg-9 col-12">';
+                }elseif($column->width == 3){
+                $htmlColumn.='<div class="col-lg-3"></div><div class="col-lg-6 col-12">';
+                }
 
                 foreach($column->generalInputs as $generalInput){
 
@@ -504,23 +512,39 @@
 
                     if($input_type_id==1)
                     {   //title
-                        $htmlColumn.='<div class="topSpacer big black">'.$generalInput->title.'</div>';
+                        $htmlColumn.='<div class="topSpacerSmall big black ABCDiatypeMedium">'.$generalInput->title.'</div>';
                     }
                     else if($input_type_id==2)
                     {   //text
-                        $htmlColumn.='<div class="topSpacer medium black">'.$generalInput->text.'</div>';
+                        $htmlColumn.='<div class="topSpacerSmall small black ABCDiatype">'.$generalInput->text.'</div>';
                     }
                     else if($input_type_id==3)
                     {   //gallery
-                        $htmlColumn.='<div class="topSpacer">Gallery</div>';
+                        $galleryImages=$generalInput->gallery->images;
+                        if(count($galleryImages)==1){ //single image
+                            $htmlColumn.='<div class="topSpacerSmall"><img src='.asset("storage/".$galleryImages[0]->image_path).' /></div>';
+                        }
+                        else{ //gallery images
+                            foreach($galleryImages as $galleryImage){
+                                $htmlColumn.='<div class="topSpacerSmall"><img src='.asset("storage/".$galleryImage->image_path).' /></div>';
+                                break;
+                            }
+                        }
                     }
                     else if($input_type_id==4)
                     {   //video
-                        $htmlColumn.='<div class="topSpacer"><iframe src="'.$generalInput->video.'" width="100%"></iframe></div>';
+                        $htmlColumn.='<div class="topSpacer"><iframe src="'.$generalInput->video.'" height="400px"></iframe></div>';
                     }
                     else if($input_type_id==5)
                     {   //button
-                        $htmlColumn.='<div class="topSpacer">button</div>';
+
+                        $textAlign = $generalInput->button_link == null ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
+                        
+                        $htmlColumn.='<div class="topSpacerBig">
+                            <a href="' . ($generalInput->button_link ?? '#') . '">
+                                <button class="'.strtolower($generalInput->shape->name).' small black">'.$generalInput->button_value.'</button>
+                            </a>
+                        </div>';
                     }
 
                 }
@@ -544,7 +568,9 @@
 
         if($column){
 
-            $htmlColumn.='<div class="row">
+            $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
+
+            $htmlColumn.='<div class="row '.$textAlign.'">
 
                 <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
 
@@ -573,14 +599,16 @@
 
         if($column){
 
-            $htmlColumn.='<div class="row">
+            $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
+
+            $htmlColumn.='<div class="row '.$textAlign.'">
 
                 <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
 
                 foreach($column->accordions as $accordion){
 
-                    $htmlColumn.= $accordion->title;
-
+                    $htmlColumn.= '<div class="topSpacerSmall medium black ABCDiatypeMedium">'.$accordion->title.'</div>';
+                    $htmlColumn.= '<div class="topSpacerSmaller small black">'.$accordion->text.'</div>';
                 }
 
                 $htmlColumn.='</div>
@@ -602,7 +630,9 @@
 
         if($column){
 
-            $htmlColumn.='<div class="row">
+            $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
+
+            $htmlColumn.='<div class="row '.$textAlign.'">
 
                 <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
 
@@ -631,13 +661,14 @@
 
         if($column){
 
-            $htmlColumn.='<div class="row">
+            $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
+
+            $htmlColumn.='<div class="row '.$textAlign.'">
 
                 <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
-
                 foreach($column->expandingTexts as $expandingText){
 
-                    $htmlColumn.= $expandingText->title;
+                    $htmlColumn.= '<div class="topSpacerSmall medium black ABCDiatypeMedium '.($expandingText->visible == '1' ? '' : 'd-none').'">'.$expandingText->text.'</div>';
 
                 }
 

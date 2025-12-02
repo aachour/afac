@@ -82,7 +82,7 @@ class SectionForm extends Component
         
         $this->columnTypes=ColumnTypes::ORDERBY('id','ASC')->get();
         $this->alignmentTypes=AlignmentTypes::ORDERBY('id','ASC')->get();
-        $this->image_width_options=['1'=>'Full','2'=>'three-quarters'];
+        $this->image_width_options=['1'=>'Full','2'=>'three-quarters','3'=>'half-center'];
         
     }
 

@@ -48,8 +48,6 @@
                                 @elseif($generalInput->input_type_id==4)
                                     {{$generalInput->video}}
                                 @elseif($generalInput->input_type_id==5)
-                                    {{$generalInput->percentage}}
-                                @elseif($generalInput->input_type_id==6)
                                     {{$generalInput->button_value}}
                                 @endif
                             </td>
@@ -206,7 +204,7 @@
                                 file-path="{{ @$btnImagePreview ?? '' }}"
                                 delete-event="deleteImage"
                                 is-multiple="false" />
-                            @if($btnImagePreview)
+                            @if($btnImagePreview!='')
                                 <img src="{{$btnImagePreview}}" width="80px" />
                             @endif
                             @error('gallery')
@@ -215,58 +213,98 @@
 
                         </div>
 
-                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
-                            <label for="button_value" class="form-label">Button Value</label>
-                            <input type="text"
-                                class="form-control @error('button_value') is-invalid @enderror"
-                                id="button_value"
-                                wire:model="button_value" />
-                            @error('button_value')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        <div class="row">
+
+                            <div class="col-12 col-lg-6 mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
+                                <label for="button_value" class="form-label">Button Value</label>
+                                <input type="text"
+                                    class="form-control @error('button_value') is-invalid @enderror"
+                                    id="button_value"
+                                    wire:model="button_value" />
+                                @error('button_value')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-12 col-lg-6 mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
+                                <label for="button_value_arabic" class="form-label">نص الزر</label>
+                                <input type="text"
+                                    class="form-control @error('button_value_arabic') is-invalid @enderror"
+                                    id="button_value_arabic"
+                                    wire:model="button_value_arabic" />
+                                @error('button_value')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        
                         </div>
 
-                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
-                            <label for="button_value_arabic" class="form-label">نص الزر</label>
-                            <input type="text"
-                                class="form-control @error('button_value_arabic') is-invalid @enderror"
-                                id="button_value_arabic"
-                                wire:model="button_value_arabic" />
-                            @error('button_value')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        <div class="row">
+                            
+                            <div class="col-12 col-lg-6 mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
+                                <label for="button_shape_id" class="form-label">Button Shape</label>
+                                <select
+                                    wire:model="button_shape_id"
+                                    id="button_shape_id"
+                                    class="form-control">
+                                    <option value=''>Select Shape</option>
+                                    @foreach($shapes as $shape)
+                                        <option value='{{$shape->id}}'>{{$shape->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('button_shape_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-12 col-lg-6 mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
+                                <label for="button_hover_shape_id" class="form-label">Button Hover Shape</label>
+                                <select
+                                    wire:model="button_hover_shape_id"
+                                    id="button_hover_shape_id"
+                                    class="form-control">
+                                    <option value=''>Select Shape</option>
+                                    @foreach($shapes as $shape)
+                                        <option value='{{$shape->id}}'>{{$shape->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('button_hover_shape_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                         </div>
 
-                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
-                            <label for="button_shape_id" class="form-label">Button Shape</label>
-                            <select
-                                wire:model="button_shape_id"
-                                id="button_shape_id"
-                                class="form-control">
-                                <option value=''>Select Shape</option>
-                                @foreach($shapes as $shape)
-                                    <option value='{{$shape->id}}'>{{$shape->name}}</option>
-                                @endforeach
-                            </select>
-                            @error('button_shape_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        <div class="row">
 
-                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
-                            <label for="button_hover_shape_id" class="form-label">Button Hover Shape</label>
-                            <select
-                                wire:model="button_hover_shape_id"
-                                id="button_hover_shape_id"
-                                class="form-control">
-                                <option value=''>Select Shape</option>
-                                @foreach($shapes as $shape)
-                                    <option value='{{$shape->id}}'>{{$shape->name}}</option>
-                                @endforeach
-                            </select>
-                            @error('button_hover_shape_id')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <div class="col-12 col-lg-6  mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
+                                <label for="button_bg_color_id" class="form-label">Background Color</label>
+                                <select
+                                    wire:model="button_bg_color_id"
+                                    id="button_bg_color_id"
+                                    class="form-control">
+                                    <option value=''>Select Color</option>
+                                    @foreach($colors as $color)
+                                        <option value='{{$color->id}}'>{{$color->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('button_bg_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                            </div>
+
+                            <div class="col-12 col-lg-6  mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
+                                <label for="button_hover_bg_color_id" class="form-label">Background Color</label>
+                                <select
+                                    wire:model="button_hover_bg_color_id"
+                                    id="button_hover_bg_color_id"
+                                    class="form-control">
+                                    <option value=''>Select Color</option>
+                                    @foreach($colors as $color)
+                                        <option value='{{$color->id}}'>{{$color->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('button_hover_bg_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                            </div>
+                        
                         </div>
 
                         <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
@@ -293,18 +331,6 @@
                             @enderror
                         </div>
 
-                        <!--Percentage-->
-                        {{--<div class="mb-3 {{ $input_type_id == 6 ? '' : 'd-none' }}">
-                            <label for="percentage" class="form-label">Pattern Percentage</label>
-                            <input type="text"
-                                class="form-control @error('percentage') is-invalid @enderror"
-                                id="percentage"
-                                wire:model="percentage"
-                                placeholder="Percentage" />
-                            @error('percentage')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>--}}
 
                     </div>
 

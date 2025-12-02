@@ -135,6 +135,33 @@
                                     @error('button_hover_shape_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="button_bg_color_id">Button Color</label>
+                                    <select
+                                        wire:model="button_bg_color_id"
+                                        id="button_bg_color_id"
+                                        class="form-control">
+                                        <option value=''>Select Background</option>
+                                        @foreach($colors as $color)
+                                            <option value='{{$color->id}}'>{{$color->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('button_bg_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                 <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="button_hover_bg_color_id">Button Hover Color</label>
+                                    <select
+                                        wire:model="button_hover_bg_color_id"
+                                        id="button_hover_bg_color_id"
+                                        class="form-control">
+                                        <option value=''>Select Background</option>
+                                        @foreach($colors as $color)
+                                            <option value='{{$color->id}}'>{{$color->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('button_hover_bg_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
 
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="button_link">Button Link </label>
