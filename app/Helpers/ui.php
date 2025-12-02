@@ -496,9 +496,15 @@
 
             $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
-            $htmlColumn.='<div class="row '.$textAlign.'">
+            $htmlColumn.='<div class="row '.$textAlign.'">';
 
-                <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
+                if($column->width == 1){
+                $htmlColumn.='<div class="col-lg-12 col-12">';
+                }elseif($column->width == 2){
+                $htmlColumn.='<div class="col-lg-9 col-12">';
+                }elseif($column->width == 3){
+                $htmlColumn.='<div class="col-lg-3"></div><div class="col-lg-6 col-12">';
+                }
 
                 foreach($column->generalInputs as $generalInput){
 

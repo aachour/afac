@@ -55,6 +55,8 @@ class GeneralInputsView extends Component
     public $button_value_arabic;
     public $button_shape_id;
     public $button_hover_shape_id;
+    public $button_bg_color_id;
+    public $button_hover_bg_color_id;
     public $button_link;
     public $button_link_arabic;
         
@@ -116,6 +118,8 @@ class GeneralInputsView extends Component
             'button_value_arabic',
             'button_shape_id',
             'button_hover_shape_id',
+            'button_bg_color_id',
+            'button_hover_bg_color_id',
             'button_link',
             'button_link_arabic',
         ]);
@@ -149,11 +153,16 @@ class GeneralInputsView extends Component
         $this->gallery_id=$generalInput->gallery_id;
         $this->video=$generalInput->video;
         $this->button_bg_image=$generalInput->button_bg_image;
-        $this->btnImagePreview = asset('storage/' . $generalInput->button_bg_image);
+        $this->btnImagePreview='';
+        if($generalInput->button_bg_image!=''){
+            $this->btnImagePreview = asset('storage/' . $generalInput->button_bg_image);
+        }
         $this->button_value=$generalInput->button_value;
         $this->button_value_arabic=$generalInput->button_value_arabic;
         $this->button_shape_id=$generalInput->button_shape_id;
         $this->button_hover_shape_id=$generalInput->button_hover_shape_id;
+        $this->button_bg_color_id=$generalInput->button_bg_color_id;
+        $this->button_hover_bg_color_id=$generalInput->button_hover_bg_color_id;
         $this->button_link=$generalInput->button_link;
         $this->button_link_arabic=$generalInput->button_link_arabic;
         $this->modalId=$id;
@@ -212,6 +221,8 @@ class GeneralInputsView extends Component
                 'button_value_arabic' => $this->button_value_arabic,
                 'button_shape_id'      => $this->button_shape_id,
                 'button_hover_shape_id'      => $this->button_hover_shape_id,
+                'button_bg_color_id'      => $this->button_bg_color_id,
+                'button_hover_bg_color_id'      => $this->button_hover_bg_color_id,
                 'button_link'       => $this->button_link,
                 'button_link_arabic'       => $this->button_link_arabic,
                 'list_order'        => $highestOrder + 1
@@ -261,6 +272,8 @@ class GeneralInputsView extends Component
                     'button_value_arabic'      => $this->button_value_arabic,
                     'button_shape_id'      => $this->button_shape_id,
                     'button_hover_shape_id'      => $this->button_hover_shape_id,
+                    'button_bg_color_id'      => $this->button_bg_color_id,
+                    'button_hover_bg_color_id'      => $this->button_hover_bg_color_id,
                     'button_link'       => $this->button_link,
                     'button_link_arabic'       => $this->button_link_arabic,
                 ]

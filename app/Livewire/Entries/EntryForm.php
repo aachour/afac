@@ -53,6 +53,8 @@ class EntryForm extends Component
     public $button_value_arabic;
     public $button_shape_id;
     public $button_hover_shape_id;
+    public $button_bg_color_id;
+    public $button_hover_bg_color_id;
     public $button_link;
     public $button_link_arabic;
  
@@ -158,6 +160,8 @@ class EntryForm extends Component
             $this->button_value_arabic=$this->entry->button_value_arabic;
             $this->button_shape_id=$this->entry->button_shape_id;
             $this->button_hover_shape_id=$this->entry->button_hover_shape_id;
+            $this->button_bg_color_id=$this->entry->button_bg_color_id;
+            $this->button_hover_bg_color_id=$this->entry->button_hover_bg_color_id;
             $this->button_link=$this->entry->button_link;
             $this->button_link_arabic=$this->entry->button_link_arabic;
             
@@ -274,6 +278,8 @@ class EntryForm extends Component
             'button_value_arabic' => ['nullable'],
             'button_shape_id' => ['nullable'],
             'button_hover_shape_id' => ['nullable'],
+            'button_bg_color_id' => ['nullable'],
+            'button_hover_bg_color_id' => ['nullable'],
             'button_link' => ['nullable'],
             'button_link_arabic' => ['nullable'],
             
@@ -363,6 +369,8 @@ class EntryForm extends Component
                 'button_value_arabic' => $this->button_value_arabic,
                 'button_shape_id' => $this->button_shape_id,
                 'button_hover_shape_id' => $this->button_hover_shape_id,
+                'button_bg_color_id' => $this->button_bg_color_id,
+                'button_hover_bg_color_id' => $this->button_hover_bg_color_id,
                 'button_link' => $this->button_link,
                 'button_link_arabic' => $this->button_link_arabic,
                 'event_category_id'=> $this->event_category_id !== '' ? $this->event_category_id : null,
@@ -451,6 +459,8 @@ class EntryForm extends Component
                 'button_value_arabic' => $this->button_value_arabic,
                 'button_shape_id' => $this->button_shape_id,
                 'button_hover_shape_id' => $this->button_hover_shape_id,
+                'button_bg_color_id' => $this->button_bg_color_id,
+                'button_hover_bg_color_id' => $this->button_hover_bg_color_id,
                 'button_link' => $this->button_link,
                 'button_link_arabic' => $this->button_link_arabic,
                 'event_category_id'=> $this->event_category_id !== '' ? $this->event_category_id : null,
