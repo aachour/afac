@@ -570,17 +570,40 @@
 
             $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
-            $htmlColumn.='<div class="row '.$textAlign.'">
+            $htmlColumn.='<div class="timelines '.$textAlign.'">
 
-                <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
+                <div class="row">
 
-                foreach($column->timelines as $timeline){
+                    <div class="col-lg-'.($column->width == 1 ? '12' : '9').' col-12">';
 
-                    $htmlColumn.= $timeline->date;
+                        foreach($column->timelines as $timeline){
 
-                }
+                            $htmlColumn.= '<div class="timeline mb-5">
+                                <div class="row">
+                                    <div class="col-lg-6 col-12">
+                                        <div class="black medium ABCDiatypeMedium mb-2">
+                                            <img src="'.asset('frontend/images/diamond.png').'" width="25px" />&nbsp;&nbsp;
+                                            '.$timeline->date.'
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">';
 
-                $htmlColumn.='</div>
+                                        //get all text inside this timeline
+                                        foreach($timeline->percentages as $percentage){
+                                            $htmlColumn.='<div class="tiny black">'.$percentage->text.'</div>';     
+                                        }
+                                    
+                                    $htmlColumn.='</div>
+                                </div>
+                            </div>';
+
+                        }
+
+                        $htmlColumn.='<div class="verticalLine"></div>
+
+                    </div>
+
+                </div>
 
             </div>';
 
