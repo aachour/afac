@@ -536,7 +536,7 @@
                         
                         $htmlColumn.='<div class="topSpacerBig">
                             <a href="' . ($generalInput->button_link ?? '#') . '">
-                                <button class="'.strtolower($generalInput->shape->name).' small black">'.$generalInput->button_value.'</button>
+                                <button class="'.strtolower($generalInput->shape->name).' small black" style="background:'.$generalInput->buttonBgColor->code.';">'.$generalInput->button_value.'</button>
                             </a>
                         </div>';
                     }
