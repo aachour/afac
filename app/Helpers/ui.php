@@ -533,7 +533,7 @@
                     }
                     else if($input_type_id==4)
                     {   //video
-                        $htmlColumn.='<div class="topSpacer"><iframe src="'.$generalInput->video.'" height="400px"></iframe></div>';
+                        $htmlColumn.='<div class="topSpacer"><iframe src="'.$generalInput->video.'" width="50%" height="400px"></iframe></div>';
                     }
                     else if($input_type_id==5)
                     {   //button
