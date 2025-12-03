@@ -586,13 +586,13 @@
 
                             $htmlColumn.= '<div class="timeline mb-5">
                                 <div class="row">
-                                    <div class="col-lg-3 col-12">
+                                    <div class="col-lg-6 col-12">
                                         <div class="black medium ABCDiatypeMedium mb-2">
                                             <img src="'.asset('frontend/images/diamond.png').'" width="25px" />&nbsp;&nbsp;
                                             '.$timeline->date.'
                                         </div>
                                     </div>
-                                    <div class="col-lg-9 col-12">';
+                                    <div class="col-lg-6 col-12">';
 
                                         //get all text inside this timeline
                                         foreach($timeline->percentages as $percentage){
