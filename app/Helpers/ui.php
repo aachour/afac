@@ -588,7 +588,7 @@
                                 <div class="row">
                                     <div class="col-lg-3 col-12">
                                         <div class="black big ABCDiatypeMedium mb-2">
-                                            <img src="'.asset('frontend/images/diamond.png').'" width="25px" />&nbsp;&nbsp;
+                                            <img src="'.asset('frontend/images/diamond.png').'" width="40px" />&nbsp;&nbsp;
                                             '.$timeline->date.'
                                         </div>
                                     </div>
