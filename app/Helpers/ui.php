@@ -642,7 +642,7 @@
 
                 foreach($column->accordions as $key=>$accordion){
 
-                    $htmlColumn.= '<div class="topSpacerSmall">
+                    $htmlColumn.= '<div class="topSpacerSmall mb-3">
                         <div class="accordionTitle medium black ABCDiatypeMedium">'.$accordion->title.'</div>
                         <div class="accordionArrow clickable">
                             <img src="'.asset('frontend/images/arrow-down.png').'" width="30px" />
