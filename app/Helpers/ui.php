@@ -516,17 +516,17 @@
                     }
                     else if($input_type_id==2)
                     {   //text
-                        $htmlColumn.='<div class="topSpacerSmall small black ABCDiatype">'.$generalInput->text.'</div>';
+                        $htmlColumn.='<div class="topSpacer small black ABCDiatype">'.$generalInput->text.'</div>';
                     }
                     else if($input_type_id==3)
                     {   //gallery
                         $galleryImages=$generalInput->gallery->images;
                         if(count($galleryImages)==1){ //single image
-                            $htmlColumn.='<div class="topSpacerSmall"><img src='.asset("storage/".$galleryImages[0]->image_path).' /></div>';
+                            $htmlColumn.='<div class="topSpacer"><img src='.asset("storage/".$galleryImages[0]->image_path).' /></div>';
                         }
                         else{ //gallery images
                             foreach($galleryImages as $galleryImage){
-                                $htmlColumn.='<div class="topSpacerSmall"><img src='.asset("storage/".$galleryImage->image_path).' /></div>';
+                                $htmlColumn.='<div class="topSpacer"><img src='.asset("storage/".$galleryImage->image_path).' /></div>';
                                 break;
                             }
                         }
