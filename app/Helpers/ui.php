@@ -649,7 +649,7 @@
                         </div>
                         <div class="clear"></div>
                     </div>';
-                    $htmlColumn.= '<div class="topSpacer tiny black">'.$accordion->text.'</div>';
+                    $htmlColumn.= '<div class="topSpacer small black">'.$accordion->text.'</div>';
                 }
 
                 $htmlColumn.='</div>
