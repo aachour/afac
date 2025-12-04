@@ -439,7 +439,7 @@
 
             $withBorder = $section->with_border_bottom == 1 ? 'sectionWithBorder' : '';
 
-            $html='<div class="section '.$withBorder.'">
+            $html='<div class="section '.$withBorder.'" style="background:'.$section->bgColor->code.';">
 
                 <div class="row">';
 

@@ -28,5 +28,9 @@ class Sections extends Model
         return $this->hasMany(SectionColumns::class, 'section_id', 'id');
     }
 
+    public function bgColor()
+    {
+        return $this->hasOne(Colors::class, 'id', 'bg_color_id');
+    }
     
 }
