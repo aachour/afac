@@ -7,6 +7,7 @@ use App\Models\Sections;
 use App\Models\ColumnTypes;
 use App\Models\AlignmentTypes;
 use App\Models\SectionColumns;
+use App\Models\Colors;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -18,8 +19,11 @@ class SectionForm extends Component
 
     public $editing = false;
 
+    public $colors;
+
     public $section;
     public $name;
+    public $bg_color_id;
     public $with_border_bottom;
 
     public $page_id;
@@ -61,7 +65,9 @@ class SectionForm extends Component
             $this->section=Sections::find($this->section_id);
 
             $this->name=$this->section->name;
-
+            
+            $this->bg_color_id=$this->section->bg_color_id;
+            
             $this->with_border_bottom=$this->section->with_border_bottom == 1 ? true : false;
 
             $sectionColumns=SectionColumns::WHERE('section_id',$this->section_id)->get();
@@ -79,8 +85,8 @@ class SectionForm extends Component
             }
 
         }
-        
         $this->columnTypes=ColumnTypes::ORDERBY('id','ASC')->get();
+        $this->colors=Colors::all();
         $this->alignmentTypes=AlignmentTypes::ORDERBY('id','ASC')->get();
         $this->image_width_options=['1'=>'Full','2'=>'three-quarters','3'=>'half-center'];
         
@@ -106,6 +112,7 @@ class SectionForm extends Component
     {
         $data = [
             'name' => 'required',
+            'bg_color_id'=>'nullable',
             'with_border_bottom' => 'nullable',
             'columns' => 'required|array|min:1',
             'columns.*.type_id' => 'required|integer|exists:column_types,id',
@@ -129,6 +136,7 @@ class SectionForm extends Component
                 $section=Sections::create([
                     'page_id' => $this->page_id,
                     'name' => $this->name,
+                    'bg_color_id'=>$this->bg_color_id,
                     'with_border_bottom' => $this->with_border_bottom,
                 ]);
 
@@ -160,6 +168,7 @@ class SectionForm extends Component
                 $section=Sections::create([
                     'entry_id' => $this->entry_id,
                     'name' => $this->name,
+                    'bg_color_id' => $this->bg_color_id,
                     'with_border_bottom' => $this->with_border_bottom,
                 ]);
 
@@ -191,7 +200,7 @@ class SectionForm extends Component
         else if($this->section_id!=''){
 
             
-            Sections::WHERE('id', $this->section_id)->update(['name'=>$this->name , 'with_border_bottom' => $this->with_border_bottom]);
+            Sections::WHERE('id', $this->section_id)->update(['name'=>$this->name , 'bg_color_id' => $this->bg_color_id , 'with_border_bottom' => $this->with_border_bottom]);
 
             // Collect IDs of the submitted columns
             $sectionColumnsId = [];

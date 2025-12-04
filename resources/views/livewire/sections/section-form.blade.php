@@ -37,6 +37,22 @@
 
                                 <div class="w-100 d-none d-md-block"></div>
 
+                                <div class="col-12 col-lg-6  mt-2">
+                                    <label for="bg_color_id" class="form-label">Background Color</label>
+                                    <select
+                                        wire:model="bg_color_id"
+                                        id="bg_color_id"
+                                        class="form-control">
+                                        <option value=''>Select Color</option>
+                                        @foreach($colors as $color)
+                                            <option value='{{$color->id}}'>{{$color->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('bg_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+
                                 <div class="col-12 col-md-6 mt-3">
                                     <div class="form-check">
                                         <input wire:model="with_border_bottom" type="checkbox" id="with_border_bottom" class="form-check-input" value="1">

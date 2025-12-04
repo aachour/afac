@@ -14,6 +14,8 @@ class Sections extends Model
     protected $fillable = [
         'page_id',
         'name',
+        'bg_color_id',
+        'with_border_bottom',
     ];
 
     public function page()
