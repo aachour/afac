@@ -37,7 +37,6 @@ class GeneralInputsView extends Component
     public $shapes;
     public $generalInputs;
 
-    public $bg_color_id;
     public $input_type_id;
     public $title;
     public $title_arabic;
@@ -101,7 +100,6 @@ class GeneralInputsView extends Component
     {
         $this->reset([
             'modalId',
-            'bg_color_id',
             'input_type_id',
             'title',
             'title_arabic',
@@ -145,7 +143,6 @@ class GeneralInputsView extends Component
         $generalInput=ColumnGeneral::with('gallery','gallery.images')->find($id);
         $this->input_type_id=$generalInput->input_type_id;
         
-        $this->bg_color_id=$generalInput->bg_color_id;
         $this->title=$generalInput->title;
         $this->title_arabic=$generalInput->title_arabic;
         $this->text=$generalInput->text;
@@ -209,7 +206,6 @@ class GeneralInputsView extends Component
             ColumnGeneral::create([
                 'section_column_id' => $this->section_column_id,
                 'input_type_id'     => $this->input_type_id,
-                'bg_color_id'       => $this->bg_color_id,
                 'title'             => $this->title,
                 'title_arabic'      => $this->title_arabic,
                 'text'              => $this->text,
@@ -260,7 +256,6 @@ class GeneralInputsView extends Component
    
             ColumnGeneral::where('id', $this->modalId)->update(
                 [
-                    'bg_color_id'       => $this->bg_color_id,
                     'title'             => $this->title,
                     'title_arabic'      => $this->title_arabic,
                     'text'              => $this->text,
