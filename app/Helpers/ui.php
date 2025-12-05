@@ -33,6 +33,8 @@
         $entries_layout=$collection->entries_layout;
         $with_label=$collection->with_label;
         $with_featured=$collection->with_featured_image;
+        $all_featured=$collection->all_featured;
+        
 
         $featured_image_width=$collection->featured_image_width;
 
@@ -146,151 +148,8 @@
                 if($with_featured==1) 
                 { 
 
-                    if($collection_type_id==1){
-                        $entry_title=$entries[0]->event_title;
-                        $entry_text=$entries[0]->event_text;
-                        $entry_href=$entries[0]->id;
-                        $entry_target='';
-                    }
-                    else if($collection_type_id==2){
-                        $entry_title=$entries[0]->program_title;
-                        $entry_text=$entries[0]->program_text;
-                        $entry_href=$entries[0]->id;
-                        $entry_target='';
-                    }
-                    else if($collection_type_id==3){
-                        $entry_title=$entries[0]->project_title;
-                        $entry_text=$entries[0]->project_text;
-                        $entry_href=$entries[0]->id;
-                        $entry_target='';
-                    }
-                    else if($collection_type_id==4){
-                        $entry_title=$entries[0]->grantee_name;
-                        $entry_text=$entries[0]->grantee_text;
-                        $entry_href=$entries[0]->id;
-                        $entry_target='';
-                    }
-                    else if($collection_type_id==5){
-                        $entry_title=$entries[0]->jury_name;
-                        $entry_text=$entries[0]->jury_text;
-                        $entry_href=$entries[0]->id;
-                        $entry_target='';
-                    }
-                    else if($collection_type_id==6){
-                        $entry_title=$entries[0]->resource_title;
-                        $entry_text=$entries[0]->resource_text;
-                        $entry_href=$entries[0]->id;
-                        $entry_target='';
-                    }
-                    else if($collection_type_id==7){
-                        $entry_title=$entries[0]->news_title;
-                        $entry_text=$entries[0]->news_text;
-                        $entry_href=$entries[0]->id;
-                        $entry_target='';
-                    }
-                    else if($collection_type_id==8){
-                        $entry_title=$entries[0]->external_title;
-                        $entry_text='';
-                        $entry_href=$entries[0]->external_link;
-                        $entry_target='_blank';
-                    }
-
-                    $image_path = asset('frontend/images/default-image.jpg');
-                    if (!empty($entries[0]->image)) {
-                        $image_path = asset('storage/' . $entries[0]->image_featured);
-                    }
-
-                    $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
-                        <div class="desktopOnly">
-                            <div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
-                                <div class="featured_info">
-                                    <div class="title_or_labels" style="'.$title_position.'">
-                                        <div class="medium white ABCDiatypeMedium">'.$entry_title.'</div>
-                                        <div class="topSpacerSmall tiny white threeQuartersText">'.$entry_text.'</div>';
-                                    $html.='</div>';
-                                    if($with_label==1)
-                                    {
-                                        $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">
-                                            <div class="label micro ABCDiatypeMedium">'.$entries[0]->type->name.'</div>';
-                                            if($collection_type_id==1){
-                                                $html.='<div class="label micro rounded ABCDiatypeMedium">'.date('d M',strtotime($entries[0]->event_date)).'</div>
-                                                <div class="label micro rounded ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
-                                                <div class="clear">&nbsp;</div>';
-                                            }
-                                        $html.='</div>';
-                                    }
-                                $html.='</div>
-                                <div class="featured_image">
-                                    <img src="'.$image_path.'" width="100%" />
-                                </div>
-                            </div>
-                        </div>
-                    </a>';
-
-
-                    $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
-                        <div class="entries mobileOnly">
-                            <div class="featured_entry_mobile" style="background:'.$featured_image_bgColor.';">
-                            <img src="'.$image_path.'" width="100%" />
-                                <div class="description">
-                                    <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entry_title.'</div>';
-                                    if($with_label==1)
-                                    {
-                                        $html.='<div class="title_or_labels" style="'.$labels_position.'">
-                                            <div class="label micro black ABCDiatypeMedium">'.$entries[0]->type->name.'</div>';
-                                            if($collection_type_id==1){
-                                                $html.='<div class="label micro black ABCDiatypeMedium">'.date('d M',strtotime($entries[0]->event_date)).'</div>
-                                                <div class="clear"></div>
-                                                <div class="topSpacerSmall label micro black ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
-                                                <div class="clear">&nbsp;</div>';
-                                            }
-                                        $html.='</div>';
-                                    }
-                                $html.='</div>
-                                
-                            </div>
-                        </div>
-                    </a>';
-                    
-                }
-
-                $html.='<div class="entries">';
-                    
-                    $entries_count=0;
-
-                    if($entries_layout==1 && $entries_per_row<4){
-                        $html.='
-                        <style>
-                            @media(min-width:900px){
-                                .collection .entries .entry:nth-child(4n){
-                                    margin-right:2% !important;
-                                }
-                            }
-                        </style>';
-                    }
-
-                    //Open slider
-                    if($entries_layout==2) 
-                    {
-
-                        $html.='<style>
-                            .collection .entries .entry:nth-child(4n){
-                                margin-right:1.2% !important;
-                            }
-                        </style>';
-
-                        $html.='<div class="swiper" style="width:102.5%; padding-bottom:15px;">
-                            <div class="swiper-wrapper">';
-                    }
-
-                    //Fetch all entries
-                    foreach($entries as $key=>$entry)
-                    {
-
-                        if ($with_featured==1 && $key ==0) {
-                            continue; // skip first
-                        }
-
+                    foreach($entries as $key=>$entry){
+                        
                         $image_path = asset('frontend/images/default-image.jpg');
                         if (!empty($entry->image)) {
                             $image_path = asset('storage/' . $entry->image);
@@ -298,93 +157,248 @@
 
                         if($collection_type_id==1){
                             $entry_title=$entry->event_title;
+                            $entry_text=$entry->event_text;
                             $entry_href=$entry->id;
                             $entry_target='';
                         }
                         else if($collection_type_id==2){
                             $entry_title=$entry->program_title;
+                            $entry_text=$entry->program_text;
                             $entry_href=$entry->id;
                             $entry_target='';
                         }
                         else if($collection_type_id==3){
                             $entry_title=$entry->project_title;
+                            $entry_text=$entry->project_text;
                             $entry_href=$entry->id;
                             $entry_target='';
                         }
                         else if($collection_type_id==4){
                             $entry_title=$entry->grantee_name;
+                            $entry_text=$entry->grantee_text;
                             $entry_href=$entry->id;
                             $entry_target='';
                         }
                         else if($collection_type_id==5){
                             $entry_title=$entry->jury_name;
+                            $entry_text=$entry->jury_text;
                             $entry_href=$entry->id;
                             $entry_target='';
                         }
                         else if($collection_type_id==6){
                             $entry_title=$entry->resource_title;
+                            $entry_text=$entry->resource_text;
                             $entry_href=$entry->id;
                             $entry_target='';
                         }
                         else if($collection_type_id==7){
                             $entry_title=$entry->news_title;
+                            $entry_text=$entry->news_text;
                             $entry_href=$entry->id;
                             $entry_target='';
                         }
                         else if($collection_type_id==8){
                             $entry_title=$entry->external_title;
+                            $entry_text=$entry->external_text;
                             $entry_href=$entry->external_link;
                             $entry_target='_blank';
                         }
 
-                        $html.='<div class="swiper-slide entry">
-                            
-                            <a href="'.$entry_href.'" target="'.$entry_target.'">
-                                <img src="'.$image_path.'" width="100%" />
-                                <div class="description">
-                                    <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entry_title.'</div>';
-                                    if($with_label==1)
-                                    {
-                                        $html.='<div class="title_or_labels" style="'.$labels_position.'">
-                                            <div class="label micro black ABCDiatypeMedium">'.$entry->type->name.'</div>';
-                                            if($collection_type_id==1){
-                                                $html.='<div class="label micro black rounded ABCDiatypeMedium">'.date('d M',strtotime($entry->event_date)).'</div>
-                                                <div class="clear"></div>
-                                                <div class="topSpacerSmall label micro black rounded ABCDiatypeMedium">'.date('h:i',strtotime($entry->event_start_time)).' - '.date('h:i',strtotime($entry->event_to_time)).'</div>
-                                                <div class="clear">&nbsp;</div>';
-                                            }
+                        $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
+                            <div class="desktopOnly">
+                                <div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
+                                    <div class="featured_info">
+                                        <div class="title_or_labels" style="'.$title_position.'">
+                                            <div class="medium white ABCDiatypeMedium">'.$entry_title.'</div>
+                                            <div class="topSpacerSmall tiny white threeQuartersText">'.$entry_text.'</div>';
                                         $html.='</div>';
+                                        if($with_label==1)
+                                        {
+                                            $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">
+                                                <div class="label micro ABCDiatypeMedium">'.$entries[0]->type->name.'</div>';
+                                                if($collection_type_id==1){
+                                                    $html.='<div class="label micro rounded ABCDiatypeMedium">'.date('d M',strtotime($entries[0]->event_date)).'</div>
+                                                    <div class="label micro rounded ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
+                                                    <div class="clear">&nbsp;</div>';
+                                                }
+                                            $html.='</div>';
+                                        }
+                                    $html.='</div>
+                                    <div class="featured_image">
+                                        <img src="'.$image_path.'" width="100%" />
+                                    </div>
+                                </div>
+                            </div>
+                        </a>';
+
+
+                        $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
+                            <div class="entries mobileOnly">
+                                <div class="featured_entry_mobile" style="background:'.$featured_image_bgColor.';">
+                                <img src="'.$image_path.'" width="100%" />
+                                    <div class="description">
+                                        <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entry_title.'</div>';
+                                        if($with_label==1)
+                                        {
+                                            $html.='<div class="title_or_labels" style="'.$labels_position.'">
+                                                <div class="label micro black ABCDiatypeMedium">'.$entries[0]->type->name.'</div>';
+                                                if($collection_type_id==1){
+                                                    $html.='<div class="label micro black ABCDiatypeMedium">'.date('d M',strtotime($entries[0]->event_date)).'</div>
+                                                    <div class="clear"></div>
+                                                    <div class="topSpacerSmall label micro black ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
+                                                    <div class="clear">&nbsp;</div>';
+                                                }
+                                            $html.='</div>';
+                                        }
+                                    $html.='</div>
+                                    
+                                </div>
+                            </div>
+                        </a>';
+
+                        if($all_featured==0)
+                        {
+                            break; 
+                        }  
+                    }
+                                        
+                }
+
+                if($all_featured==0)
+                {
+
+                    $html.='<div class="entries">';
+                        
+                        $entries_count=0;
+
+                        if($entries_layout==1 && $entries_per_row<4){
+                            $html.='
+                            <style>
+                                @media(min-width:900px){
+                                    .collection .entries .entry:nth-child(4n){
+                                        margin-right:2% !important;
                                     }
-                                $html.='</div>
-                            </a>
-                                
-                        </div>';
-
-                        //check entries per row
-                        $entries_count++;
-
-                        if($entries_layout==1 && $entries_count % $entries_per_row==0){
-                            $html.='<div class="clear">&nbsp;</div>';
+                                }
+                            </style>';
                         }
 
+                        //Open slider
+                        if($entries_layout==2) 
+                        {
 
-                    }
+                            $html.='<style>
+                                .collection .entries .entry:nth-child(4n){
+                                    margin-right:1.2% !important;
+                                }
+                            </style>';
 
-                    $html.='<div class="clear"></div>';
-                    
-                    //Close Slider
-                    if($entries_layout==2) 
-                    {
-                            $html.='</div">                             
-                        </div>
-                        <!-- Navigation buttons --> 
-                        <div>
-                            <div class="swiper-button-prev"></div>
-                            <div class="swiper-button-next"></div>
-                        </div>';
-                    }
+                            $html.='<div class="swiper" style="width:102.5%; padding-bottom:15px;">
+                                <div class="swiper-wrapper">';
+                        }
 
-                $html.='</div>';
+                        //Fetch all entries
+                        foreach($entries as $key=>$entry)
+                        {
+
+                            if ($with_featured==1 && $key ==0) {
+                                continue; // skip first
+                            }
+
+                            $image_path = asset('frontend/images/default-image.jpg');
+                            if (!empty($entry->image)) {
+                                $image_path = asset('storage/' . $entry->image);
+                            }
+
+                            if($collection_type_id==1){
+                                $entry_title=$entry->event_title;
+                                $entry_href=$entry->id;
+                                $entry_target='';
+                            }
+                            else if($collection_type_id==2){
+                                $entry_title=$entry->program_title;
+                                $entry_href=$entry->id;
+                                $entry_target='';
+                            }
+                            else if($collection_type_id==3){
+                                $entry_title=$entry->project_title;
+                                $entry_href=$entry->id;
+                                $entry_target='';
+                            }
+                            else if($collection_type_id==4){
+                                $entry_title=$entry->grantee_name;
+                                $entry_href=$entry->id;
+                                $entry_target='';
+                            }
+                            else if($collection_type_id==5){
+                                $entry_title=$entry->jury_name;
+                                $entry_href=$entry->id;
+                                $entry_target='';
+                            }
+                            else if($collection_type_id==6){
+                                $entry_title=$entry->resource_title;
+                                $entry_href=$entry->id;
+                                $entry_target='';
+                            }
+                            else if($collection_type_id==7){
+                                $entry_title=$entry->news_title;
+                                $entry_href=$entry->id;
+                                $entry_target='';
+                            }
+                            else if($collection_type_id==8){
+                                $entry_title=$entry->external_title;
+                                $entry_href=$entry->external_link;
+                                $entry_target='_blank';
+                            }
+
+                            $html.='<div class="swiper-slide entry">
+                                
+                                <a href="'.$entry_href.'" target="'.$entry_target.'">
+                                    <img src="'.$image_path.'" width="100%" />
+                                    <div class="description">
+                                        <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entry_title.'</div>';
+                                        if($with_label==1)
+                                        {
+                                            $html.='<div class="title_or_labels" style="'.$labels_position.'">
+                                                <div class="label micro black ABCDiatypeMedium">'.$entry->type->name.'</div>';
+                                                if($collection_type_id==1){
+                                                    $html.='<div class="label micro black rounded ABCDiatypeMedium">'.date('d M',strtotime($entry->event_date)).'</div>
+                                                    <div class="clear"></div>
+                                                    <div class="topSpacerSmall label micro black rounded ABCDiatypeMedium">'.date('h:i',strtotime($entry->event_start_time)).' - '.date('h:i',strtotime($entry->event_to_time)).'</div>
+                                                    <div class="clear">&nbsp;</div>';
+                                                }
+                                            $html.='</div>';
+                                        }
+                                    $html.='</div>
+                                </a>
+                                    
+                            </div>';
+
+                            //check entries per row
+                            $entries_count++;
+
+                            if($entries_layout==1 && $entries_count % $entries_per_row==0){
+                                $html.='<div class="clear">&nbsp;</div>';
+                            }
+
+
+                        }
+
+                        $html.='<div class="clear"></div>';
+                        
+                        //Close Slider
+                        if($entries_layout==2) 
+                        {
+                                $html.='</div">                             
+                            </div>
+                            <!-- Navigation buttons --> 
+                            <div>
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-button-next"></div>
+                            </div>';
+                        }
+
+                    $html.='</div>';
+                }
 
             }
 

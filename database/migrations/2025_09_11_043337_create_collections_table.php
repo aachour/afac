@@ -39,6 +39,7 @@ return new class extends Migration
             $table->integer('entries_layout')->nullable();
             $table->integer('entries_per_row')->nullable();
             $table->integer('with_featured_image')->nullable();
+            $table->boolean('all_featured')->nullable();
             $table->integer('featured_image_width')->nullable();
             $table->foreignId('featured_image_background_color_id')->nullable()->constrained('colors')->onDelete('cascade');
             $table->text('featured_image_description_position')->nullable();

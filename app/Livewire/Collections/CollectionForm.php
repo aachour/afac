@@ -45,6 +45,7 @@ class CollectionForm extends Component
     public $entries_layout;
     public $entries_per_row;
     public $with_featured_image;
+    public $all_featured;
     public $featured_image_width;
     public $featured_image_background_color_id;	
     public $featured_image_description_position;
@@ -75,6 +76,7 @@ class CollectionForm extends Component
             $this->title_position=0;
             $this->entries_layout=1;
             $this->with_featured_image=0;
+            $this->all_featured=false;
             $this->featured_image_description_position=0;
         }
         else{
@@ -112,6 +114,7 @@ class CollectionForm extends Component
             $this->entries_layout=$this->collection->entries_layout;
             $this->entries_per_row=$this->collection->entries_per_row;
             $this->with_featured_image=$this->collection->with_featured_image;
+            $this->all_featured=$this->collection->all_featured == 1 ? true : false;
             $this->featured_image_width=$this->collection->featured_image_width;
             $this->featured_image_background_color_id=$this->collection->featured_image_background_color_id;
             $this->featured_image_description_position=$this->collection->featured_image_description_position;
@@ -151,6 +154,7 @@ class CollectionForm extends Component
             'entries_layout' => ['required'],
             'entries_per_row' => ['required'],
             'with_featured_image' => ['nullable'],
+            'all_featured' => ['nullable'],
             'featured_image_width' => ['required_if:with_featured_image,1'],
             'featured_image_background_color_id' => ['nullable'],	
             'featured_image_description_position' => ['nullable'],
@@ -192,6 +196,7 @@ class CollectionForm extends Component
                 'entries_layout'=>$this->entries_layout,
                 'entries_per_row'=>$this->entries_per_row,
                 'with_featured_image'=>$this->with_featured_image,
+                'all_featured'=> $this->all_featured,
                 'featured_image_width'=>$this->featured_image_width,
                 'featured_image_background_color_id'=>$this->featured_image_background_color_id,	
                 'featured_image_description_position'=>$this->featured_image_description_position,
@@ -227,6 +232,7 @@ class CollectionForm extends Component
                 'entries_layout'=>$this->entries_layout,
                 'entries_per_row'=>$this->entries_per_row,
                 'with_featured_image'=>$this->with_featured_image,
+                'all_featured'=>$this->all_featured,
                 'featured_image_width'=>$this->featured_image_width,
                 'featured_image_background_color_id'=>$this->featured_image_background_color_id,	
                 'featured_image_description_position'=>$this->featured_image_description_position,

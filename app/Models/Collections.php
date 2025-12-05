@@ -39,6 +39,7 @@ class Collections extends Model
         'entries_layout',
         'entries_per_row',
         'with_featured_image',
+        'all_featured',
         'featured_image_width',
         'featured_image_background_color_id',	
         'featured_image_description',

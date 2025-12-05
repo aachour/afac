@@ -437,6 +437,15 @@
                                 @if($with_featured_image == 1)
 
                                     <div class="col-12 col-md-6 mt-3">
+                                        <div class="form-check">
+                                            <input wire:model="all_featured" type="checkbox" id="all_featured" class="form-check-input" value="1">
+                                            <label for="all_featured" class="form-check-label">All Entries Featured</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="w-100 d-none d-md-block"></div>
+                                    
+                                    <div class="col-12 col-md-6 mt-3">
                                         <label class="form-label" for="name">Featured Image Width <span class="text-danger">*</span></label>
                                         <select
                                             wire:model.live="featured_image_width"
