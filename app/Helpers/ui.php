@@ -152,7 +152,7 @@
                         
                         $image_path = asset('frontend/images/default-image.jpg');
                         if (!empty($entry->image)) {
-                            $image_path = asset('storage/' . $entry->image);
+                            $image_path = asset('storage/' . $entry->image_featured);
                         }
 
                         if($collection_type_id==1){
