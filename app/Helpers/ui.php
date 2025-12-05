@@ -117,7 +117,7 @@
         
         $withBorder = $with_border_bottom == 1 ? 'collectionWithBorder' : '';
 
-        $html='<div class="collection '.$withBorder.'" style="background-color:'.$bgColor.'; margin-bottom:40px;">';
+        $html='<div class="collection '.$withBorder.'" style="background-color:'.$bgColor.';">';
 
             if($show_name==1 || $show_description==1){
                 $html.='<div class="titleDescription">';
@@ -254,7 +254,7 @@
                     
                 }
 
-                $html.='<div class="topSpacerBig entries">';
+                $html.='<div class="entries">';
                     
                     $entries_count=0;
 
@@ -370,7 +370,7 @@
 
                     }
 
-                    $html.='<div class="clear">&nbsp;</div>';
+                    $html.='<div class="clear"></div>';
                     
                     //Close Slider
                     if($entries_layout==2) 
@@ -542,7 +542,7 @@
                         
                         $htmlColumn.='<div class="topSpacerBig">
                             <a href="' . ($generalInput->button_link ?? '#') . '">
-                                <button class="'.strtolower($generalInput->shape->name).' small black" style="background:'.$generalInput->buttonBgColor->code.';">'.$generalInput->button_value.'</button>
+                                <button class="'.strtolower($generalInput->shape->name).' medium black ABCDiatypeMedium" style="background:'.$generalInput->buttonBgColor->code.';">'.$generalInput->button_value.'</button>
                             </a>
                         </div>';
                     }

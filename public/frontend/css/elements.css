@@ -56,6 +56,7 @@
 .collection .featured_entry_mobile{
     position:relative;
 }
+
 .collection .featured_entry_mobile .description{
     width:100%;
     padding:25px 15px 15px 15px;
@@ -98,7 +99,7 @@
         width:23.5%;
         height:auto;
         margin-right:2%;
-        margin-bottom:2%;
+        margin-top:2%;
     }
     .collection .entries .entry:nth-child(4n){
         margin-right:0px !important;

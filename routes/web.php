@@ -51,6 +51,8 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 
 Route::get('/home', [HomeController::class, 'home'])->name('home'); 
 
+Route::get('/page/{id}/{name}', [HomeController::class, 'ViewPage'])->name('page.view'); 
+
 Route::get('/view/collection/{id}', [HomeController::class, 'ViewCollection'])->name('view.collection'); 
 
 Route::get('/view/section/{id}', [HomeController::class, 'ViewSection'])->name('view.section'); 
