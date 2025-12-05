@@ -52,6 +52,11 @@ class HomeController extends Controller
 
     }
 
+    public function animation()
+    {
+        return view('frontend.animation');
+    }
+
     public function ViewSection($id){
         
         $sectionHTML = ViewSection($id,'EN');       
