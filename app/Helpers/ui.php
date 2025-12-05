@@ -391,6 +391,7 @@
                         {
                                 $html.='</div>                             
                             </div>
+
                             <!-- Navigation buttons --> 
                             <div class="mt-4">
                                 <div class="swiper-button-prev"></div>
