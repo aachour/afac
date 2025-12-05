@@ -204,6 +204,7 @@
                             $entry_target='_blank';
                         }
 
+                        //desktop view
                         $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
                             <div class="desktopOnly">
                                 <div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
@@ -230,8 +231,8 @@
                                 </div>
                             </div>
                         </a>';
-
-
+                        
+                        //mobile view
                         $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
                             <div class="entries mobileOnly">
                                 <div class="featured_entry_mobile" style="background:'.$featured_image_bgColor.';">
@@ -264,8 +265,8 @@
                                         
                 }
 
-                if($all_featured==0)
-                {
+                if($all_featured==0 || $all_featured==null)
+                { 
 
                     $html.='<div class="entries">';
                         
@@ -388,10 +389,10 @@
                         //Close Slider
                         if($entries_layout==2) 
                         {
-                                $html.='</div">                             
+                                $html.='</div>                             
                             </div>
                             <!-- Navigation buttons --> 
-                            <div>
+                            <div class="mt-4">
                                 <div class="swiper-button-prev"></div>
                                 <div class="swiper-button-next"></div>
                             </div>';

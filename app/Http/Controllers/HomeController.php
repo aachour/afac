@@ -29,10 +29,10 @@ class HomeController extends Controller
 
         foreach($pageSections as $pageSection){
             if($pageSection->section_id){
-                $pageHTML.= ViewSection($id,'EN');  
+                $pageHTML.= ViewSection($pageSection->section_id,'EN');  
             }
             else if($pageSection->collection_id){
-                $pageHTML.= ViewCollection($id,'EN');
+                $pageHTML.= ViewCollection($pageSection->collection_id,'EN');
             }
         }
 
