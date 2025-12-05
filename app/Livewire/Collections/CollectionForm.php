@@ -168,6 +168,10 @@ class CollectionForm extends Component
 
         $this->validate();
 
+        if($this->with_featured_image==0){
+            $this->all_featured=0;
+        }
+
         if($this->id==''){
             Collections::create([
                 'type_id'=>$this->type_id,
