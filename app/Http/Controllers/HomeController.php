@@ -36,6 +36,8 @@ class HomeController extends Controller
             }
         }
 
+        // dd($pageHTML);
+
         return view('frontend.page', [
             'pageHTML' => $pageHTML
         ]);

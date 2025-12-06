@@ -118,8 +118,11 @@
         $bgColor = $collection->bgColor?->code ?? '#ffffff';
         
         $withBorder = $with_border_bottom == 1 ? 'collectionWithBorder' : '';
+        
+        $sliderCollection = $entries_layout == 2 ? 'sliderCollection' : '';
+        
 
-        $html='<div class="collection '.$withBorder.'" style="background-color:'.$bgColor.';">';
+        $html='<div class="collection '.$sliderCollection.' '.$withBorder.'" style="background-color:'.$bgColor.';">';
 
             if($show_name==1 || $show_description==1){
                 $html.='<div class="titleDescription">';
@@ -288,12 +291,12 @@
                         {
 
                             $html.='<style>
-                                .collection .entries .entry:nth-child(4n){
+                                .sliderCollection .entries .entry:nth-child(4n){
                                     margin-right:1.2% !important;
                                 }
                             </style>';
 
-                            $html.='<div class="swiper" style="width:102.5%; padding-bottom:15px;">
+                            $html.='<div class="swiper" id="swiper'.$collection_id.'" style="width:102.5%; padding-bottom:15px;">
                                 <div class="swiper-wrapper">';
                         }
 
@@ -406,36 +409,40 @@
 
         $html.='</div>';
 
-        $html.='<script>
-            const swiper = new Swiper(".swiper", {
-                //loop: true,
-                grid: {
-                    rows: 1           
-                },
-                navigation: {
-                    nextEl: ".swiper-button-next",
-                    prevEl: ".swiper-button-prev",
-                },
-                /*autoplay: {
-                    delay: 2500,
-                    disableOnInteraction: false,
-                },*/
-                effect: "slide",
-                speed: 800,
-                breakpoints: {
-                // when window width is >= 320px
-                576: {
-                    slidesPerView: 1,
-                    spaceBetween: 0
-                },
-                // when window width is >= 992px
-                900: {
-                    slidesPerView: 4.12,
-                    spaceBetween: 20
-                },
+        //add swiper JS 
+        $html.='<script> 
+            if($("#swiper'.$collection_id.'").length>0){
+                const swiper'.$collection_id.' = new Swiper("#swiper'.$collection_id.'", {
+                    //loop: true,
+                    grid: {
+                        rows: 1           
+                    },
+                    navigation: {
+                        nextEl: ".swiper-button-next",
+                        prevEl: ".swiper-button-prev",
+                    },
+                    /*autoplay: {
+                        delay: 2500,
+                        disableOnInteraction: false,
+                    },*/
+                    effect: "slide",
+                    speed: 800,
+                    breakpoints: {
+                        // when window width is >= 320px
+                        576: {
+                            slidesPerView: 1,
+                            spaceBetween: 0
+                        },
+                        // when window width is >= 992px
+                        900: {
+                            slidesPerView: 4.12,
+                            spaceBetween: 20
+                        },
+                    }
+                });
             }
-            });
         </script>';
+        
         
         return $html;
 
