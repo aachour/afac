@@ -162,7 +162,8 @@
 }
 
 .sectionWithBorder{
-    box-shadow: 0 5px 8px -2px rgba(128, 128, 128, 0.5);
+    /* box-shadow: 0 5px 8px -2px rgba(128, 128, 128, 0.5); */
+    box-shadow: 0 -6px 12px -6px rgba(0,0,0,0.25);
 }
 
 .section .verticalLine{
