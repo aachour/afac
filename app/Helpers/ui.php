@@ -559,7 +559,8 @@
                     {   //gallery
                         $galleryImages=$generalInput->gallery->images;
                         if(count($galleryImages)==1){ //single image
-                            $htmlColumn.='<div class="topSpacer"><img src='.asset("storage/".$galleryImages[0]->image_path).' width="100%" /></div>';
+                            $htmlColumn.='<div class="topSpacer"><img src='.asset("storage/".$galleryImages[0]->image_path).' /></div>';
+                            $htmlColumn.='<div class="topSpacerSmaller tiny black">'.$galleryImages[0]->caption.'</div>';
                         }
                         else{ //gallery images
                             foreach($galleryImages as $galleryImage){
