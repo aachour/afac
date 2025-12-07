@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('entry_id')->nullable()->constrained('entries')->onDelete('cascade');
             $table->string('name')->nullable();
             $table->foreignId('bg_color_id')->nullable()->constrained('colors')->onDelete('cascade');
+            $table->text('bg_image')->nullable();
             $table->boolean('with_border_bottom')->nullable();
             $table->timestamps();
             $table->softDeletes();

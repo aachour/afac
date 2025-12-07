@@ -22,7 +22,6 @@ class ColumnGeneral extends Model
         'gallery_id',
         'video',
         'percentage',
-        'button_bg_image',
         'button_value',
         'button_value_arabic',
         'button_shape_id',

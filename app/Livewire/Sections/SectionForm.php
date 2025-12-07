@@ -12,9 +12,13 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+use Livewire\WithFileUploads;
+
+
 class SectionForm extends Component
 {
 
+    use WithFileUploads;
     use AuthorizesRequests; 
 
     public $editing = false;
@@ -23,8 +27,11 @@ class SectionForm extends Component
 
     public $section;
     public $name;
+    public $bg_image_old;
+    public $bg_image;
     public $bg_color_id;
     public $with_border_bottom;
+    public $bgImagePreview;
 
     public $page_id;
     public $entry_id;
@@ -67,6 +74,13 @@ class SectionForm extends Component
             $this->name=$this->section->name;
             
             $this->bg_color_id=$this->section->bg_color_id;
+
+            $this->bg_image_old=$this->section->bg_image;
+
+            $this->bgImagePreview='';
+            if($this->bg_image_old!=''){
+                $this->bgImagePreview = asset('storage/' . $this->bg_image_old);
+            }
             
             $this->with_border_bottom=$this->section->with_border_bottom == 1 ? true : false;
 
@@ -113,6 +127,7 @@ class SectionForm extends Component
         $data = [
             'name' => 'required',
             'bg_color_id'=>'nullable',
+            'bg_image'=>'nullable',
             'with_border_bottom' => 'nullable',
             'columns' => 'required|array|min:1',
             'columns.*.type_id' => 'required|integer|exists:column_types,id',
@@ -128,6 +143,11 @@ class SectionForm extends Component
 
         $this->validate();
 
+        $bg_image_path=$this->bg_image_old;
+        if ($this->bg_image) {
+            $bg_image_path = $this->bg_image->store('sections', 'public');
+        }
+            
         if($this->section_id==''){
             
             if($this->page_id!=null){
@@ -137,6 +157,7 @@ class SectionForm extends Component
                     'page_id' => $this->page_id,
                     'name' => $this->name,
                     'bg_color_id'=>$this->bg_color_id,
+                    'bg_image'=>$bg_image_path,
                     'with_border_bottom' => $this->with_border_bottom,
                 ]);
 
@@ -169,6 +190,7 @@ class SectionForm extends Component
                     'entry_id' => $this->entry_id,
                     'name' => $this->name,
                     'bg_color_id' => $this->bg_color_id,
+                    'bg_image'=>$bg_image_path,
                     'with_border_bottom' => $this->with_border_bottom,
                 ]);
 
@@ -199,8 +221,7 @@ class SectionForm extends Component
         }
         else if($this->section_id!=''){
 
-            
-            Sections::WHERE('id', $this->section_id)->update(['name'=>$this->name , 'bg_color_id' => $this->bg_color_id , 'with_border_bottom' => $this->with_border_bottom]);
+            Sections::WHERE('id', $this->section_id)->update(['name'=>$this->name , 'bg_color_id' => $this->bg_color_id , 'bg_image' =>$bg_image_path , 'with_border_bottom' => $this->with_border_bottom]);
 
             // Collect IDs of the submitted columns
             $sectionColumnsId = [];

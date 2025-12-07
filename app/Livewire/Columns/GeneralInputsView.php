@@ -48,7 +48,6 @@ class GeneralInputsView extends Component
     public $gallery_image_inputs = [];
     
     public $video;
-    public $button_bg_image;
     public $btnImagePreview;
     public $button_value;
     public $button_value_arabic;
@@ -110,7 +109,6 @@ class GeneralInputsView extends Component
             'gallery_images',
             'gallery_image_inputs',
             'video',
-            'button_bg_image',
             'btnImagePreview',
             'button_value',
             'button_value_arabic',
@@ -149,11 +147,6 @@ class GeneralInputsView extends Component
         $this->text_arabic=$generalInput->text_arabic;
         $this->gallery_id=$generalInput->gallery_id;
         $this->video=$generalInput->video;
-        $this->button_bg_image=$generalInput->button_bg_image;
-        $this->btnImagePreview='';
-        if($generalInput->button_bg_image!=''){
-            $this->btnImagePreview = asset('storage/' . $generalInput->button_bg_image);
-        }
         $this->button_value=$generalInput->button_value;
         $this->button_value_arabic=$generalInput->button_value_arabic;
         $this->button_shape_id=$generalInput->button_shape_id;
@@ -193,13 +186,6 @@ class GeneralInputsView extends Component
                 }
             }
 
-            $btn_bg_path='';
-            if($this->input_type_id==5){
-                if ($this->button_bg_image) {
-                    $btn_bg_path = $this->button_bg_image->store('buttons', 'public');
-                }
-            }
-
             //Add collection
             $highestOrder = ColumnGeneral::WHERE('section_column_id',$this->section_column_id)->max('list_order');
 
@@ -212,7 +198,6 @@ class GeneralInputsView extends Component
                 'text_arabic'       => $this->text_arabic,
                 'gallery_id'        => $this->gallery_id,
                 'video'             => $this->video,
-                'button_bg_image'   => $btn_bg_path,
                 'button_value'      => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
                 'button_shape_id'      => $this->button_shape_id,
@@ -246,13 +231,6 @@ class GeneralInputsView extends Component
                 }
 
             }
-
-            $btn_bg_path=$this->button_bg_image;
-            if($this->input_type_id==5){
-                if ($this->button_bg_image) {
-                    $btn_bg_path = $this->button_bg_image->store('buttons', 'public');
-                }
-            }
    
             ColumnGeneral::where('id', $this->modalId)->update(
                 [
@@ -262,7 +240,6 @@ class GeneralInputsView extends Component
                     'text_arabic'       => $this->text_arabic,
                     'gallery_id'        => $this->gallery_id,
                     'video'             => $this->video,
-                    'button_bg_image'   => $btn_bg_path,
                     'button_value'      => $this->button_value,
                     'button_value_arabic'      => $this->button_value_arabic,
                     'button_shape_id'      => $this->button_shape_id,

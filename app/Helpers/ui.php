@@ -117,12 +117,10 @@
 
         $bgColor = $collection->bgColor?->code ?? '#ffffff';
         
-        $withBorder = $with_border_bottom == 1 ? 'collectionWithBorder' : '';
-        
         $sliderCollection = $entries_layout == 2 ? 'sliderCollection' : '';
         
 
-        $html='<div class="collection '.$sliderCollection.' '.$withBorder.'" style="background-color:'.$bgColor.';">';
+        $html='<div class="collection '.$sliderCollection.'" style="background-color:'.$bgColor.';">';
 
             if($show_name==1 || $show_description==1){
                 $html.='<div class="titleDescription">';
@@ -409,6 +407,10 @@
 
         $html.='</div>';
 
+        if($with_border_bottom == 1){
+            $html.='<div class="collectionWithBorder"></div>';
+        }
+
         //add swiper JS 
         $html.='<script> 
             if($("#swiper'.$collection_id.'").length>0){
@@ -460,9 +462,7 @@
 
             $colsNum=count($sectionColumns);
 
-            $withBorder = $section->with_border_bottom == 1 ? 'sectionWithBorder' : '';
-
-            $html='<div class="section '.$withBorder.'" style="background:'.$section->bgColor->code.';">
+            $html='<div class="section" style="background:'.$section->bgColor->code.';">
 
                 <div class="row">';
 
@@ -500,6 +500,10 @@
                 $html.='</div>
 
             </div>';
+
+            if($section->with_border_bottom==1){
+                $html.='<div class="sectionWithBorder"></div>';
+            }
 
             return $html;
 

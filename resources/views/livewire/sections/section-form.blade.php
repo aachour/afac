@@ -53,6 +53,19 @@
 
                                 <div class="w-100 d-none d-md-block"></div>
 
+                                <div class="mt-2">
+                                    <label for="gallery_images" class="form-label">Button Background Image</label>
+                                    <x-filepond wire:model="bg_image"
+                                        id="bg_image"
+                                        file-path="{{ @$bgImagePreview ?? '' }}"
+                                        delete-event="deleteImage"
+                                        is-multiple="false" />
+                                    @error('gallery')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                
                                 <div class="col-12 col-md-6 mt-3">
                                     <div class="form-check">
                                         <input wire:model="with_border_bottom" type="checkbox" id="with_border_bottom" class="form-check-input" value="1">

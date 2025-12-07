@@ -182,23 +182,6 @@
                         </div>
                         
                         <!--Button-->
-                        <div class="mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
-                            <label for="gallery_images" class="form-label">Button Background Image</label>
-                            
-                            <x-filepond wire:model="button_bg_image"
-                                id="button_bg_image"
-                                file-path="{{ @$btnImagePreview ?? '' }}"
-                                delete-event="deleteImage"
-                                is-multiple="false" />
-                            @if($btnImagePreview!='')
-                                <img src="{{$btnImagePreview}}" width="80px" />
-                            @endif
-                            @error('gallery')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-
-                        </div>
-
                         <div class="row">
 
                             <div class="col-12 col-lg-6 mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">

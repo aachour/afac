@@ -21,7 +21,6 @@ return new class extends Migration
             $table->text('text_arabic')->nullable();
             $table->foreignId('gallery_id')->nullable()->constrained('galleries')->onDelete('cascade');
             $table->text('video')->nullable();
-            $table->text('button_bg_image')->nullable();
             $table->string('button_value')->nullable();
             $table->string('button_value_arabic')->nullable();
             $table->foreignId('button_shape_id')->nullable()->constrained('shapes')->onDelete('cascade');
