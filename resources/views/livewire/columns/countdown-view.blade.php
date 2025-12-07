@@ -69,20 +69,6 @@
                     <div class="modal-body">
                         <div class="row">
 
-                            <div class="col-12 col-lg-12 mb-3">
-                                <label for="bg_color_id" class="form-label">Background Color</label>
-                                <select
-                                    wire:model="bg_color_id"
-                                    id="bg_color_id"
-                                    class="form-control">
-                                    <option value=''>Select Color</option>
-                                    @foreach($colors as $color)
-                                        <option value='{{$color->id}}'>{{$color->name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('bg_color_id') <div class="text-danger">{{ $message }}</div> @enderror
-                            </div>
-
                             <div class="col-12 col-lg-6 mb-3">
                                 <label for="title" class="form-label">Title</label>
                                 <input type="text"

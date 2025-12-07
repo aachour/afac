@@ -722,7 +722,7 @@
 
                 foreach($column->countdowns as $countdown){
 
-                    $htmlColumn.= '<div class="coutdown" style="background:'.$countdown->bgColor->code.'";>
+                    $htmlColumn.= '<div class="coutdown">
                     
                         <div class="medium black ABCDiatypeMedium">'.$countdown->title.'</div>
                         

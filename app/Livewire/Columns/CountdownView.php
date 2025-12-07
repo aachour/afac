@@ -29,7 +29,6 @@ class CountdownView extends Component
     public $colors;
     
     public $countdowns;
-    public $bg_color_id;
     public $title;
     public $title_arabic;
     public $start_date;
@@ -78,7 +77,6 @@ class CountdownView extends Component
     public function clearData()
     {
         $this->reset(
-            'bg_color_id',
             'title',
             'title_arabic',
             'start_date',
@@ -106,9 +104,9 @@ class CountdownView extends Component
 
 
     public function editEntry($id){
+
         $columnCountdown=ColumnCountdown::find($id);
 
-        $this->bg_color_id=$columnCountdown->bg_color_id;
         $this->title=$columnCountdown->title;
         $this->title_arabic=$columnCountdown->title_arabic;
         $this->start_date=$columnCountdown->start_date;
@@ -137,7 +135,6 @@ class CountdownView extends Component
 
             ColumnCountdown::create([
                 'section_column_id'=>$this->section_column_id,
-                'bg_color_id' => $this->bg_color_id,
                 'title' => $this->title,
                 'title_arabic' => $this->title_arabic,
                 'start_date' => $this->start_date,
@@ -162,7 +159,6 @@ class CountdownView extends Component
             //Edit Collection
             ColumnCountdown::where('id', $this->modalId)
             ->update([
-                'bg_color_id' => $this->bg_color_id,
                 'title' => $this->title,
                 'title_arabic' => $this->title_arabic,
                 'start_date' => $this->start_date,
