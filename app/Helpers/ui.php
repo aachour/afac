@@ -462,7 +462,17 @@
 
             $colsNum=count($sectionColumns);
 
-            $html='<div class="section" style="background:'.$section->bgColor->code.';">
+            $bgColor=$section->bgColor->code;
+            $bgImage=$section->bg_image;
+
+            $sectionBg='';
+            if($bgImage!=''){ 
+                $sectionBg = "background: url('".asset("storage/$bgImage")."') center no-repeat; background-size: cover;";
+            }else if($bgColor!=''){
+                $sectionBg="background:".$bgColor.";";
+            }
+
+            $html='<div class="section" style="'.$sectionBg.'">
 
                 <div class="row">';
 
