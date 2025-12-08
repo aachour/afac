@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Square: rx="0", rotation: 0 (no rotation needed)
             gsap.to(donateShape, {
                 attr: { rx: 0 },
-                duration: 0.5,
+                duration: 0.7,
                 ease: "power2.inOut",
                 transformOrigin: "50% 50%"
             });
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Transform back from square to circle
             gsap.to(donateShape, {
                 attr: { rx: 108.8935 },
-                duration: 0.5,
+                duration: 0.7,
                 ease: "power2.inOut",
                 transformOrigin: "50% 50%"
             });

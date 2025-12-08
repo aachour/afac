@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
             gsap.to(donateShape, {
                 attr: { rx: 0 },
                 rotation: -45,
-                duration: 0.5,
+                duration: 0.7,
                 ease: "power2.inOut",
                 transformOrigin: "50% 50%"
             });
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
             gsap.to(donateShape, {
                 attr: { rx: 108.8935 },
                 rotation: 0,
-                duration: 0.5,
+                duration: 0.7,
                 ease: "power2.inOut",
                 transformOrigin: "50% 50%"
             });
