@@ -738,16 +738,16 @@
                         <div class="medium black ABCDiatypeMedium">'.$countdown->title.'</div>
 
                         <div class="row mt-5 align-items-center">
-                            <div class="mt-4 col-12 col-lg-5 text-center text-lg-end">
+                            <div class="mt-4 col-12 col-lg-4 text-center text-lg-end">
                                 <div class="huge black ABCDiatypeMedium">'.$diff->days.'</div>
                                 <div class="big black ABCDiatypeMedium">Day(s)</div>
                             </div>
-                            <div class="mt-4 col-12 col-lg-2 text-center">
+                            <div class="mt-4 col-12 col-lg-4 text-center">
                                 <a href="'.($countdown->button_link ?? '#').'">
                                     <button class="circle small ABCDiatypeMedium">'.$countdown->button_value.'</button>
                                 </a>
                             </div>
-                            <div class="mt-4 col-12 col-lg-5 text-center text-lg-start ">
+                            <div class="mt-4 col-12 col-lg-4 text-center text-lg-start ">
                                 <div class="huge black ABCDiatypeMedium">'.$diff->h.'</div>
                                 <div class="big black ABCDiatypeMedium">Hour(s)</div>
                             </div>
