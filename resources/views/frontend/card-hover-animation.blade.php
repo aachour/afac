@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
             gsap.to(overlay, {
                 opacity: 1,
                 scale: 1,
-                duration: 0.4,
+                duration: 0.8,
                 ease: "power2.out"
             });
         });
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function() {
             gsap.to(overlay, {
                 opacity: 0,
                 scale: 0.8,
-                duration: 0.3,
+                duration: 0.5,
                 ease: "power2.in"
             });
         });

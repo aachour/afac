@@ -64,7 +64,7 @@
                 // Square: rx="0", rotation: 0 (no rotation needed)
                 gsap.to(donateShape, {
                     rotation: 0,
-                    duration: 0.5,
+                    duration: 0.7,
                     ease: "power2.inOut",
                     transformOrigin: "50% 50%"
                 });
@@ -74,7 +74,7 @@
                 // Transform back from square to diamond
                 gsap.to(donateShape, {
                     rotation: -45,
-                    duration: 0.5,
+                    duration: 0.7,
                     ease: "power2.inOut",
                     transformOrigin: "50% 50%"
                 });

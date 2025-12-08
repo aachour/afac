@@ -133,7 +133,7 @@
                 // Rotate the diamond path 45 degrees around its center
                 gsap.to(diamondPath, {
                     rotation: -45,
-                    duration: 0.5,
+                    duration: 0.7,
                     transformOrigin: "50% 50%"
                 });
 
@@ -141,7 +141,7 @@
                 if (animation1) {
                     gsap.to(animation1, {
                         opacity: 1,
-                        duration: 0.3,
+                        duration: 0.5,
                         delay: 0.2
                     });
                 }
@@ -152,14 +152,14 @@
                 if (animation1) {
                     gsap.to(animation1, {
                         opacity: 0,
-                        duration: 0.2
+                        duration: 0.5
                     });
                 }
 
                 // Rotate diamond back to original position
                 gsap.to(diamondPath, {
                     rotation: 0,
-                    duration: 0.5,
+                    duration: 0.7,
                     transformOrigin: "50% 50%"
                 });
             });
@@ -171,7 +171,7 @@
                 gsap.to(animation2, {
                     opacity: 1,
                     scale: 1,
-                    duration: 0.1,
+                    duration: 0.5,
                     ease: "back.in(0.1)"
                 });
             });
@@ -180,7 +180,7 @@
                 gsap.to(animation2, {
                     opacity: 0,
                     scale: 1,
-                    duration: 0.1,
+                    duration: 0.3,
                     ease: "back.out(0.1)"
                 });
             });
@@ -197,7 +197,7 @@
                     y: 0
                 }, {
                     y: 0,
-                    duration: 0.1,
+                    duration: 0.4,
                     ease: "power2.out"
                 });
             });
