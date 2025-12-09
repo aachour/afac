@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('text_arabic')->nullable();
             $table->foreignId('shape_id')->nullable()->constrained('shapes')->onDelete('cascade');
             $table->integer('percentage')->nullable();
+            $table->foreignId('percentage_color_id')->nullable()->constrained('colors')->onDelete('cascade');
             $table->integer('list_order')->nullable();
             $table->timestamps();
             $table->softDeletes();

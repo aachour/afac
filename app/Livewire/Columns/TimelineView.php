@@ -3,6 +3,7 @@
 namespace App\Livewire\Columns;
 
 use App\Models\Shapes;
+use App\Models\Colors;
 use App\Models\ColumnTimeline;
 use App\Models\ColumnTimelinePercentages;
 use App\Models\PageSections;
@@ -26,6 +27,7 @@ class TimelineView extends Component
     public $section_column_id;
     
     public $shapes;
+    public $colors;
     public $timelines;
     public $date;
     public $entries;
@@ -56,6 +58,7 @@ class TimelineView extends Component
         $this->section_column_id=$id;
 
         $this->shapes=Shapes::ORDERBY('name','ASC')->get();
+        $this->colors=Colors::ORDERBY('name','ASC')->get();
 
         $this->loadEntries();
 
@@ -81,7 +84,7 @@ class TimelineView extends Component
 
 
     public function addEntry(){
-        $this->entries[] = ['id'=>'','text' => '','text_arabic'=>'','shape_id'=>'','percentage'=>''];
+        $this->entries[] = ['id'=>'','text' => '','text_arabic'=>'','shape_id'=>'','percentage'=>'','percentage_color_id'=>''];
         $this->dispatch('activateCkeditor');
     }
 
@@ -97,7 +100,7 @@ class TimelineView extends Component
         $this->date=$columnTimeline->date;
 
         foreach($columnTimeline->percentages as $percentage){
-            $this->entries[] = ['id'=>$percentage->id , 'text' => $percentage->text , 'text_arabic'=>$percentage->text_arabic , 'shape_id'=>$percentage->shape_id , 'percentage'=>$percentage->percentage];
+            $this->entries[] = ['id'=>$percentage->id , 'text' => $percentage->text , 'text_arabic'=>$percentage->text_arabic , 'shape_id'=>$percentage->shape_id , 'percentage'=>$percentage->percentage , 'percentage_color_id'=>$percentage->percentage_color_id];
 
             $this->dispatch('activateCkeditor');
         }
@@ -126,6 +129,7 @@ class TimelineView extends Component
                     'text_arabic'=>$entry["text_arabic"] ?? '',
                     'shape_id'=> $entry['shape_id'] !== '' ? $entry['shape_id'] : null,
                     'percentage'=>(int) ($entry["percentage"] ?? 0),
+                    'percentage_color_id'=>$entry["percentage_color_id"] ?? '',
                 ]);
             }
 
@@ -159,6 +163,7 @@ class TimelineView extends Component
                         'text_arabic'=>$entry["text_arabic"] ?? '',
                         'shape_id'=>$entry['shape_id'] !== '' ? $entry['shape_id'] : null,
                         'percentage'=>(int) ($entry["percentage"] ?? 0),
+                        'percentage_color_id'=>$entry["percentage_color_id"] ?? '',
                     ]);
                 } else {
                     // Create new
@@ -168,6 +173,7 @@ class TimelineView extends Component
                         'text_arabic'=>$entry["text_arabic"] ?? '',
                         'shape_id'=>$entry['shape_id'] !== '' ? $entry['shape_id'] : null,
                         'percentage'=>(int) ($entry["percentage"] ?? 0),
+                        'percentage_color_id'=>$entry["percentage_color_id"] ?? '',
                     ]);
                 }
             }

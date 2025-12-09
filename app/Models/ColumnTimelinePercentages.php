@@ -17,12 +17,18 @@ class ColumnTimelinePercentages extends Model
         'text_arabic',
         'shape_id',
         'percentage',
+        'percentage_color_id',
         'list_order',
     ];
 
     public function column()
     {
         return $this->belongsTo(SectionColumns::class, 'section_column_id', 'id');
+    }
+
+    public function color()
+    {
+        return $this->hasOne(Colors::class, 'id', 'percentage_color_id');
     }
 
 }

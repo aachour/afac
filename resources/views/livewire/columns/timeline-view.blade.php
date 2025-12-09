@@ -116,8 +116,8 @@
 
                                 <div class="small text-danger mb-1">Note: Skip Pattern Shape and Percentage if text only</div>
 
-                                <div class="col-12 col-lg-6 mb-3">
-                                    <label for="ColorName" class="form-label">Pattern Shape</label>
+                                <div class="col-12 col-lg-12 mb-3">
+                                    <label for="entries.{{$key}}.shape_id" class="form-label">Pattern Shape</label>
                                     <select
                                         wire:model="entries.{{$key}}.shape_id"
                                         id="entries.{{$key}}.shape_id"
@@ -133,7 +133,7 @@
                                 </div>
 
                                 <div class="col-12 col-lg-6 mb-3">
-                                    <label for="ColorName" class="form-label">Pattern Percentage</label>
+                                    <label for="entries.{{$key}}.percentage" class="form-label">Pattern Percentage</label>
                                     <input type="text"
                                         class="form-control @error('percentage') is-invalid @enderror"
                                         id="entries.{{$key}}.percentage"
@@ -142,6 +142,20 @@
                                     @error('entries.{{$key}}.percentage')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
+                                </div>
+
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label for="entries.{{$key}}.percentage_color_id" class="form-label">Pattern Color</label>
+                                    <select
+                                        wire:model="entries.{{$key}}.percentage_color_id"
+                                        id="entries.{{$key}}.percentage_color_id"
+                                        class="form-control">
+                                        <option value=''>Select Color</option>
+                                        @foreach($colors as $color)
+                                            <option value='{{$color->id}}'>{{$color->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('percentage_color_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                             </div>
