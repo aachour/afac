@@ -163,7 +163,7 @@ class TimelineView extends Component
                         'text_arabic'=>$entry["text_arabic"] ?? '',
                         'shape_id'=>$entry['shape_id'] !== '' ? $entry['shape_id'] : null,
                         'percentage'=>(int) ($entry["percentage"] ?? 0),
-                        'percentage_color_id'=>$entry["percentage_color_id"] ?? '',
+                        'percentage_color_id'=>$entry['percentage_color_id'] !== '' ? $entry['percentage_color_id'] : null,
                     ]);
                 } else {
                     // Create new
@@ -173,7 +173,7 @@ class TimelineView extends Component
                         'text_arabic'=>$entry["text_arabic"] ?? '',
                         'shape_id'=>$entry['shape_id'] !== '' ? $entry['shape_id'] : null,
                         'percentage'=>(int) ($entry["percentage"] ?? 0),
-                        'percentage_color_id'=>$entry["percentage_color_id"] ?? '',
+                        'percentage_color_id'=>$entry['percentage_color_id'] !== '' ? $entry['percentage_color_id'] : null,
                     ]);
                 }
             }
