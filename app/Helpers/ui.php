@@ -483,7 +483,7 @@
 
             $colsNum=count($sectionColumns);
 
-            $bgColor=$section->bgColor->code;
+            $bgColor=$section->bgColor->code ?? '';
             $bgImage=$section->bg_image;
 
             $sectionBg='';
