@@ -2,7 +2,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <div class="animated-logo-wrapper">
-    <svg width="437" height="233" viewBox="0 0 437 233" fill="none" xmlns="http://www.w3.org/2000/svg"
+    <svg width="1200" height="600" viewBox="0 0 437 233" fill="none" xmlns="http://www.w3.org/2000/svg"
         class="animated-logo-svg">
         <g class="logo-container">
             <!-- Left L shape -->
