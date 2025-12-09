@@ -66,7 +66,7 @@
                     attr: {
                         rx: 108.8935
                     },
-                    duration: 0.7,
+                    duration: 0.5,
                     ease: "power2.inOut",
                     transformOrigin: "50% 50%"
                 });
@@ -78,7 +78,7 @@
                     attr: {
                         rx: 0
                     },
-                    duration: 0.7,
+                    duration: 0.5,
                     ease: "power2.inOut",
                     transformOrigin: "50% 50%"
                 });
