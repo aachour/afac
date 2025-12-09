@@ -122,7 +122,7 @@
 
         $html='<div class="collection '.$sliderCollection.'" style="background-color:'.$bgColor.';">';
 
-            if($show_name==1 || $show_description==1){
+            if( ($show_name==1 || $show_description==1) && $featured_width!='74.3%' ){
                 $html.='<div class="titleDescription">';
                     if($show_name==1){
                         $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
@@ -133,7 +133,7 @@
                 $html.='</div>';
             }
 
-            if($with_featured==0 || $show_view_all==1){
+            if( ($with_featured==0 || $show_view_all==1) && $featured_width!='74.3%'){
                 $html.='<div class="viewAll">
                     <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:5px;"></a>
                 </div>';
@@ -207,9 +207,21 @@
 
                         //desktop view
                         $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
-                            <div class="desktopOnly">
-                                <div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">
-                                    <div class="featured_info">
+                            <div class="desktopOnly">';
+                                if( ($show_name==1 || $show_view_all==1) && $featured_width=='74.3%' && $key==0){
+                                    $html.='<div class="featured_title_view_all">';
+                                        if($show_name==1){
+                                            $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
+                                        }
+                                        if($show_view_all==1){
+                                            $html.='<div class="topSpacerSmaller">
+                                                <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:5px;"></a>
+                                            </div>';
+                                        }
+                                    $html.='</div>';
+                                }
+                                $html.='<div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">';
+                                    $html.='<div class="featured_info">
                                         <div class="title_or_labels" style="'.$title_position.'">
                                             <div class="medium white ABCDiatypeMedium">'.$entry_title.'</div>
                                             <div class="topSpacerSmall tiny white threeQuartersText">'.$entry_text.'</div>';
@@ -235,9 +247,19 @@
                         
                         //mobile view
                         $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
-                            <div class="entries mobileOnly">
-                                <div class="featured_entry_mobile" style="background:'.$featured_image_bgColor.';">
-                                <img src="'.$image_path.'" width="100%" />
+                            <div class="entries mobileOnly">';
+                                if( ($show_name==1 || $show_view_all==1) && $featured_width=='74.3%' && $key==0){
+                                    if($show_name==1){
+                                        $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
+                                    }
+                                    if($show_view_all==1){
+                                        $html.='<div class="topSpacerSmaller">
+                                            <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:5px;"></a>
+                                        </div>';
+                                    }
+                                }
+                                $html.='<div class="featured_entry_mobile" style="background:'.$featured_image_bgColor.';">
+                                    <img src="'.$image_path.'" width="100%" />
                                     <div class="description">
                                         <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entry_title.'</div>';
                                         if($with_label==1)
@@ -253,7 +275,6 @@
                                             $html.='</div>';
                                         }
                                     $html.='</div>
-                                    
                                 </div>
                             </div>
                         </a>';
@@ -432,7 +453,7 @@
                     breakpoints: {
                         // when window width is >= 320px
                         576: {
-                            slidesPerView: 1,
+                            slidesPerView: 0.85,
                             spaceBetween: 0
                         },
                         // when window width is >= 992px

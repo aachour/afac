@@ -38,6 +38,10 @@
 
     @yield('content')
 
+    <div class="footer">
+        
+    </div>
+
     <script>
 
         $.ajaxSetup({
@@ -45,11 +49,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         }); 
-
-        $(document).ready(function() { 
-
-            
-        });
 
     </script>
 
