@@ -207,3 +207,23 @@
 /**********************************************************************************************************************/
 /***Timeline***/
 
+.header{
+    position:relative;
+    padding:15px 0px;
+}
+
+.header .logo{
+    float:left;
+}
+.header .menu{
+    float:right;
+}
+.header .lang{
+    float:right;
+}
+
+
+.footer{
+    position:relative;
+    padding:40px 0px;
+}
