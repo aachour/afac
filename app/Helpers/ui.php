@@ -651,11 +651,26 @@
                                             '.$timeline->date.'
                                         </div>
                                     </div>
+
                                     <div class="col-lg-9 col-12">';
 
                                         //get all text inside this timeline
-                                        foreach($timeline->percentages as $percentage){
-                                            $htmlColumn.='<div class="big black">'.$percentage->text.'</div>';     
+                                        foreach($timeline->percentages as $key=>$percentage){
+
+                                            $htmlColumn.='<div class="percentage '.($key == '0' ? '' : 'd-none').'">
+
+                                                <div class="big black">'.$percentage->text.'</div>'; 
+                                                
+                                                if($percentage->percentage!=0){
+                                                    for($i=1;$i<=10;$i++){
+                                                        for($j=1;$j<=10;$j++){
+                                                            $htmlColumn.='<img src="'.asset('frontend/images/diamond.png').'" width="10%" />';
+                                                        }  
+                                                        $htmlColumn.='<br />';
+                                                    }
+                                                }
+                                            
+                                            $htmlColumn.='</div>';
                                         }
                                     
                                     $htmlColumn.='</div>
