@@ -68,8 +68,8 @@ class HomeController extends Controller
         if($entry)
         {
 
-            $headerBgCode=$entry->headerBgColor->code;
-            $footerBgCode=$entry->footerBgColor->code;
+            $headerBgCode=$entry->headerBgColor->code ?? '';
+            $footerBgCode=$entry->footerBgColor->code ?? '';
             
             $pageSections=PageSections::WHERE('entry_id',$id)->ORDERBY('list_order','ASC')->get();
 
