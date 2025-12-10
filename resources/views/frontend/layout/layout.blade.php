@@ -37,7 +37,7 @@
 <body>
 
     <!--Header-->
-    <div class="header" style="background:{{$headerBgCode}};">
+    <div class="header" style="background:{{@$headerBgCode}};">
         <div class="centerContainer">
             <div class="logo">
                 <img src="{{asset('frontend/images/logo.svg')}}" width="100px" />
@@ -52,7 +52,7 @@
     @yield('content')
 
     <!--Footer-->
-    <div class="footer" style="background:{{$footerBgCode}};">
+    <div class="footer" style="background:{{@$footerBgCode}};">
         <div class="centerContainer">
             <div class="row">
 
