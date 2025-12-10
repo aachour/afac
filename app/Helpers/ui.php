@@ -709,7 +709,7 @@
 
                                             $htmlColumn.='<div class="percentage '.($key == '0' ? '' : 'd-none').'">
 
-                                                <div class="big black mb-2">'.$percentage->text.'</div>'; 
+                                                <div class="big black mb-5">'.$percentage->text.'</div>'; 
                                                 
                                                 if($percentage->percentage!=0){
                                                     for($i=1;$i<=10;$i++){
