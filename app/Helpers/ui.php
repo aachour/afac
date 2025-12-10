@@ -20,7 +20,7 @@
             $html='<div class="fullContainer" style="background:'.$entry->ImageBgColor->code.';">
                 <div class="centerContainer">
                     <div class="row align-items-center">
-                        <div class="col-lg-6 col-12 text-center">
+                        <div class="col-lg-6 col-12 text-center" style="background:'.$entry->ImageBgColor->code.';">
                             <div class="big white ABCDiatypeMedium">';
                                 if($entry->type_id==1){
                                     $html.=$entry->event_title;
