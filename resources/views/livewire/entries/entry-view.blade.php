@@ -99,7 +99,23 @@
                             
                             <td>
                                 @can('entry-view')
-                                    <a href="{{ route('entry.view', [ 'typeId'=> $type_id , 'id'=> $entry->id] ) }}" class="text-body view-user-button"><i class="ti ti-eye ti-sm"></i></a>
+                                    @if($type_id==1)
+                                    <a href="{{ route('entry.view', [ 'entryType'=> 'event' , 'id'=> $entry->id] ) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    @elseif($type_id==2)
+                                    <a href="{{ route('entry.view', [ 'entryType'=> 'program' , 'id'=> $entry->id] ) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    @elseif($type_id==3)
+                                    <a href="{{ route('entry.view', [ 'entryType'=> 'project' , 'id'=> $entry->id] ) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    @elseif($type_id==4)
+                                    <a href="{{ route('entry.view', [ 'entryType'=> 'grantee' , 'id'=> $entry->id] ) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    @elseif($type_id==5)
+                                    <a href="{{ route('entry.view', [ 'entryType'=> 'juror' , 'id'=> $entry->id] ) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    @elseif($type_id==6)
+                                    <a href="{{ route('entry.view', [ 'entryType'=> 'resource' , 'id'=> $entry->id] ) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    @elseif($type_id==7)
+                                    <a href="{{ route('entry.view', [ 'entryType'=> 'news' , 'id'=> $entry->id] ) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    @elseif($type_id==8)
+                                    <a href="{{ route('entry.view', [ 'entryType'=> 'external' , 'id'=> $entry->id] ) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    @endif
                                 @endcan
                                 @can('entry-edit')
                                     <a href="{{ route('entry.edit', [ 'typeId'=> $type_id , 'id'=> $entry->id] ) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>

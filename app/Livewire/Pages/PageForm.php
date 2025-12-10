@@ -79,8 +79,8 @@ class PageForm extends Component
             'meta_description_arabic' => ['required'],
             'meta_keywords' => ['nullable'],
             'meta_keywords_arabic' => ['nullable'],
-            'header_color_id' => ['required'],
-            'footer_color_id' => ['required'],
+            'header_color_id' => ['nullable'],
+            'footer_color_id' => ['nullable'],
             'in_menu' => ['nullable'],
             'published' => ['nullable'],
         ];

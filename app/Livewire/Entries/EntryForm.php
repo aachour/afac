@@ -57,6 +57,9 @@ class EntryForm extends Component
     public $button_hover_bg_color_id;
     public $button_link;
     public $button_link_arabic;
+    public $header_color_id;
+    public $footer_color_id;
+    
  
     
     //1- Event
@@ -154,6 +157,8 @@ class EntryForm extends Component
             $this->imageFeaturedPreview = asset('storage/' . $this->entry->image_featured);
             $this->imageFullPreview = asset('storage/' . $this->entry->image_full);
 
+            $this->header_color_id=$this->entry->header_color_id;
+            $this->footer_color_id=$this->entry->footer_color_id;
             $this->image_width=$this->entry->image_width;
             $this->background_color_id=$this->entry->background_color_id;
             $this->button_value=$this->entry->button_value;
@@ -164,7 +169,6 @@ class EntryForm extends Component
             $this->button_hover_bg_color_id=$this->entry->button_hover_bg_color_id;
             $this->button_link=$this->entry->button_link;
             $this->button_link_arabic=$this->entry->button_link_arabic;
-            
             
             //Event
             $this->event_category_id=$this->entry->event_category_id;
@@ -269,6 +273,8 @@ class EntryForm extends Component
     {
         $data = [
             'type_id' => ['required'],
+            'header_color_id' => ['nullable'],
+            'footer_color_id' => ['nullable'],
             'image' => ['nullable'],
             'image_featured' => ['nullable'],
             'image_full' => ['nullable'],
@@ -282,7 +288,6 @@ class EntryForm extends Component
             'button_hover_bg_color_id' => ['nullable'],
             'button_link' => ['nullable'],
             'button_link_arabic' => ['nullable'],
-            
             
             //Event
             'event_category_id' => ['required_if:type_id,1'],
@@ -360,6 +365,8 @@ class EntryForm extends Component
 
             $entry=Entries::create([
                 'type_id' => $this->type_id,
+                'header_color_id' => $this->header_color_id,
+                'footer_color_id' => $this->footer_color_id,
                 'image' => @$path,
                 'image_featured' => @$path_featured,
                 'image_full' => @$path_full,
@@ -450,6 +457,8 @@ class EntryForm extends Component
             }
 
             $data = [
+                'header_color_id' => $this->header_color_id,
+                'footer_color_id' => $this->footer_color_id,
                 'image' => @$path ?? $this->entry->image,
                 'image_featured' => @$path_feautred ?? $this->entry->image_featured,
                 'image_full' => @$path_full ?? $this->entry->image_full,
@@ -510,7 +519,6 @@ class EntryForm extends Component
                 'external_title_arabic'=>$this->external_title_arabic ?? '',
                 'external_link'=>$this->external_link ?? '',
                 'external_link_arabic'=>$this->external_link_arabic ?? '',
-
             ];
 
             $this->entry->update($data);

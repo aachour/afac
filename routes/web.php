@@ -55,6 +55,8 @@ Route::get('/animation', [HomeController::class, 'animation'])->name('animation'
 
 Route::get('/page/{id}/{name}', [HomeController::class, 'ViewPage'])->name('page.view'); 
 
+Route::get('/{entryType}/{id}', [HomeController::class, 'ViewEntry'])->where('entryType', 'event|program|project|grantee|juror|resource|news|external')->name('entry.view');
+
 Route::get('/view/collection/{id}', [HomeController::class, 'ViewCollection'])->name('view.collection'); 
 
 Route::get('/view/section/{id}', [HomeController::class, 'ViewSection'])->name('view.section'); 
@@ -190,7 +192,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{typeId?}', EntryView::class)->name('entries');
         Route::get('/{typeId?}/create', EntryForm::class)->name('entry.create');
         Route::get('/{typeId?}/edit/{id}', EntryForm::class)->name('entry.edit');
-        Route::get('/{typeId?}/view/{id}/{status?}', EntryForm::class)->name('entry.view');
 
         Route::get('/{entryId}/sections/', SectionView::class)->name('entry.sections');
         Route::get('/{entryId}/sections/create/', SectionForm::class)->name('entry.sections.create');

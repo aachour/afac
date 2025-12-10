@@ -11,6 +11,5 @@
 @endsection
 
 @section('content')
-    Welcome Home
     
 @endsection

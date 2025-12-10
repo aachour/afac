@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\Pages;
+use App\Models\Entries;
 use App\Models\PageSections;
 
 use App\Models\Contacts;
@@ -21,6 +22,7 @@ class HomeController extends Controller
     {
         return view('frontend.home');
     }
+
 
     public function ViewPage($id){
         
@@ -58,6 +60,44 @@ class HomeController extends Controller
 
     }
 
+
+    public function ViewEntry($entryType,$id){
+        
+        $entry=Entries::find($id);
+
+        if($entry)
+        {
+
+            $headerBgCode=$entry->headerBgColor->code;
+            $footerBgCode=$entry->footerBgColor->code;
+            
+            $pageSections=PageSections::WHERE('entry_id',$id)->ORDERBY('list_order','ASC')->get();
+
+            $pageHTML='';
+
+            foreach($pageSections as $pageSection){
+                if($pageSection->section_id){
+                    $pageHTML.= ViewSection($pageSection->section_id,'EN');  
+                }
+                else if($pageSection->collection_id){
+                    $pageHTML.= ViewCollection($pageSection->collection_id,'EN');
+                }
+            }
+
+            return view('frontend.page', [
+                'pageHTML' => $pageHTML,
+                'headerBgCode'=>$headerBgCode,
+                'footerBgCode'=>$footerBgCode,
+            ]);
+        }
+        else
+        {
+            dd("!!");
+        }
+
+    }
+
+
     public function ViewCollection($id){
         
         $collectionHTML = ViewCollection($id,'EN');       
@@ -68,10 +108,6 @@ class HomeController extends Controller
 
     }
 
-    public function animation()
-    {
-        return view('frontend.animation');
-    }
 
     public function ViewSection($id){
         
@@ -83,5 +119,10 @@ class HomeController extends Controller
 
     }
 
+
+    public function animation()
+    {
+        return view('frontend.animation');
+    }
 
 }

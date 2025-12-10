@@ -17,21 +17,35 @@
                         <div class="card-body">
 
                             <div class="row">
-                                
+
                                 <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="category">Background Color</label>
+                                    <label class="form-label" for="header_color_id">Header Color</label>
                                     <select
-                                        wire:model="background_color_id"
-                                        id="background_color_id"
+                                        wire:model="header_color_id"
+                                        id="header_color_id"
                                         class="form-control">
                                         <option value=''>Select Background</option>
                                         @foreach($colors as $color)
                                             <option value='{{$color->id}}'>{{$color->name}}</option>
                                         @endforeach
                                     </select>
-                                    @error('background_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                    @error('header_color_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
-
+                    
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="footer_color_id">Footer Color</label>
+                                    <select
+                                        wire:model="footer_color_id"
+                                        id="footer_color_id"
+                                        class="form-control">
+                                        <option value=''>Select Background</option>
+                                        @foreach($colors as $color)
+                                            <option value='{{$color->id}}'>{{$color->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('footer_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+                                
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="image_width">Image Width</label>
                                     <select
@@ -45,6 +59,20 @@
                                     </select>
                                     @error('image_width') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>  
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="category">Image Bg Color</label>
+                                    <select
+                                        wire:model="background_color_id"
+                                        id="background_color_id"
+                                        class="form-control">
+                                        <option value=''>Select Background</option>
+                                        @foreach($colors as $color)
+                                            <option value='{{$color->id}}'>{{$color->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('background_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
 
                                 <div class="col-12 mt-3">
                                     <label class="form-label" for="image_featured">Featured Image [1000x1000px]</label>

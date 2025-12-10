@@ -17,6 +17,8 @@ return new class extends Migration
 
             //Common Fields
             $table->foreignId('type_id')->nullable()->constrained('types')->onDelete('cascade');
+            $table->foreignId('header_color_id')->nullable()->constrained('colors')->onDelete('cascade');
+            $table->foreignId('footer_color_id')->nullable()->constrained('colors')->onDelete('cascade');
             $table->text('image')->nullable();
             $table->text('image_featured')->nullable();
             $table->text('image_full')->nullable();
@@ -30,7 +32,6 @@ return new class extends Migration
             $table->foreignId('button_hover_bg_color_id')->nullable()->constrained('colors')->onDelete('cascade');
             $table->text('button_link')->nullable();
             $table->text('button_link_arabic')->nullable();
-            
             
             //Event Fields
             $table->foreignId('event_category_id')->nullable()->constrained('event_categories')->onDelete('cascade');
