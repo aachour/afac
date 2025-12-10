@@ -170,6 +170,7 @@ class CollectionForm extends Component
 
         if($this->with_featured_image==0){
             $this->all_featured=0;
+            $this->featured_image_width=0;
         }
 
         if($this->id==''){
