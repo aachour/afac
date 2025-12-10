@@ -845,7 +845,7 @@
 
                 foreach($column->expandingTexts as $expandingText){
 
-                    $htmlColumn.= '<div class="topSpacerSmall medium black ABCDiatypeMedium '.($expandingText->visible == '1' ? '' : 'd-none').'">'.$expandingText->text.'</div>';
+                    $htmlColumn.= '<div class="expandingText mb-3 medium black ABCDiatypeMedium '.($expandingText->visible == '1' ? '' : 'hiddenText d-none').'">'.$expandingText->text.'</div>';
 
                 }
 
@@ -854,6 +854,49 @@
             </div>';
 
         }
+
+        //add script
+        $htmlColumn.='<script>
+
+            function showExpandingText(callback){
+                const items = $(".hiddenText");
+
+                items.each(function(i){
+                    let el = $(this);
+
+                    setTimeout(() => {
+                        el.removeClass("d-none");
+
+                        // When the last element is shown → call callback
+                        if (i === items.length - 1 && callback) {
+                            callback();
+                        }
+                    }, i * 1000); // delay between each item (500ms)
+                });
+            }
+
+            function hideExpandingText(){
+                $(".hiddenText").addClass("d-none");
+            }
+            
+            $(document).ready(function(){
+
+                function loop(){
+                    showExpandingText(() => {
+                        setTimeout(() => {
+                            hideExpandingText();
+
+                            // Step 3: Wait again then restart the loop
+                            setTimeout(loop, 2000);
+
+                        }, 5000);
+                    });
+                }
+
+                loop();
+                
+            });
+        </script>';
 
         return $htmlColumn;
 
