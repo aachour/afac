@@ -11,6 +11,56 @@
     use App\Models\ColumnCountdown;
     use App\Models\ColumnExpandTexts;
     
+    function ViewEntryData($entry_id,$language='EN'){
+
+        $entry=Entries::find($entry_id);
+
+        if($entry){
+
+            $html='<div class="fullContainer" style="background:'.$entry->ImageBgColor->code.';">
+                <div class="centerContainer">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 col-12 text-center">
+                            <div class="big white ABCDiatypeMedium">';
+                                if($entry->type_id==1){
+                                    $html.=$entry->event_title;
+                                }
+                                else if($entry->type_id==2){
+                                    $html.=$entry->program_title;
+                                }
+                                else if($entry->type_id==3){
+                                    $html.=$entry->project_title;
+                                }
+                                else if($entry->type_id==4){
+                                    $html.=$entry->grantee_name;
+                                }
+                                else if($entry->type_id==5){
+                                    $html.=$entry->jury_name;
+                                }
+                                else if($entry->type_id==6){
+                                    $html.=$entry->resource_title;
+                                }
+                                else if($entry->type_id==7){
+                                    $html.=$entry->news_title;
+                                }
+                                else if($entry->type_id==8){
+                                    $html.=$entry->external_title;
+                                }
+                            $html.='</div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <img src="'.asset('storage/'.$entry->image_featured).'" width="100%" />
+                        </div>
+                    </div>
+                </div>
+            </div>';
+            
+            return $html;
+
+        }
+ 
+    }
+
 
     function ViewCollection($collection_id,$language='EN')
     {

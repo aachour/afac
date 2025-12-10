@@ -75,6 +75,8 @@ class HomeController extends Controller
 
             $pageHTML='';
 
+            $pageHTML.= ViewEntryData($id,'EN'); 
+
             foreach($pageSections as $pageSection){
                 if($pageSection->section_id){
                     $pageHTML.= ViewSection($pageSection->section_id,'EN');  

@@ -28,6 +28,11 @@ class Entries extends Model
         return $this->hasOne(Colors::class, 'id', 'footer_color_id');
     }
 
+    public function ImageBgColor()
+    {
+        return $this->hasOne(Colors::class, 'id', 'background_color_id');
+    }
+
     public function eventCategory()
     {
         return $this->hasOne(EventCategories::class, 'id', 'event_category_id');
