@@ -21,32 +21,7 @@
                 <div class="centerContainer">
                     <div class="row align-items-center">
                         <div class="col-lg-6 col-12 text-center" style="background:'.$entry->ImageBgColor->code.';">
-                            <div class="big white ABCDiatypeMedium">';
-                                if($entry->type_id==1){
-                                    $html.=$entry->event_title;
-                                }
-                                else if($entry->type_id==2){
-                                    $html.=$entry->program_title;
-                                }
-                                else if($entry->type_id==3){
-                                    $html.=$entry->project_title;
-                                }
-                                else if($entry->type_id==4){
-                                    $html.=$entry->grantee_name;
-                                }
-                                else if($entry->type_id==5){
-                                    $html.=$entry->jury_name;
-                                }
-                                else if($entry->type_id==6){
-                                    $html.=$entry->resource_title;
-                                }
-                                else if($entry->type_id==7){
-                                    $html.=$entry->news_title;
-                                }
-                                else if($entry->type_id==8){
-                                    $html.=$entry->external_title;
-                                }
-                            $html.='</div>
+                            <div class="big white ABCDiatypeMedium">'.getEntryTitle($entry).'</div>
                         </div>
                         <div class="col-lg-6 col-12">
                             <img src="'.asset('storage/'.$entry->image_featured).'" width="100%" />
@@ -206,54 +181,12 @@
                             $image_path = asset('storage/' . $entry->image_featured);
                         }
 
-                        if($collection_type_id==1){
-                            $entry_title=$entry->event_title;
-                            $entry_text=$entry->event_text;
-                            $entry_href=$entry->id;
-                            $entry_target='';
-                        }
-                        else if($collection_type_id==2){
-                            $entry_title=$entry->program_title;
-                            $entry_text=$entry->program_text;
-                            $entry_href=$entry->id;
-                            $entry_target='';
-                        }
-                        else if($collection_type_id==3){
-                            $entry_title=$entry->project_title;
-                            $entry_text=$entry->project_text;
-                            $entry_href=$entry->id;
-                            $entry_target='';
-                        }
-                        else if($collection_type_id==4){
-                            $entry_title=$entry->grantee_name;
-                            $entry_text=$entry->grantee_text;
-                            $entry_href=$entry->id;
-                            $entry_target='';
-                        }
-                        else if($collection_type_id==5){
-                            $entry_title=$entry->jury_name;
-                            $entry_text=$entry->jury_text;
-                            $entry_href=$entry->id;
-                            $entry_target='';
-                        }
-                        else if($collection_type_id==6){
-                            $entry_title=$entry->resource_title;
-                            $entry_text=$entry->resource_text;
-                            $entry_href=$entry->id;
-                            $entry_target='';
-                        }
-                        else if($collection_type_id==7){
-                            $entry_title=$entry->news_title;
-                            $entry_text=$entry->news_text;
-                            $entry_href=$entry->id;
-                            $entry_target='';
-                        }
-                        else if($collection_type_id==8){
-                            $entry_title=$entry->external_title;
-                            $entry_text=$entry->external_text;
-                            $entry_href=$entry->external_link;
-                            $entry_target='_blank';
-                        }
+                        //get entry details
+                        $entryDetails=getEntryDetails($collection_type_id,$entry);
+                        $entry_title=$entryDetails["entry_title"];
+                        $entry_text=$entryDetails["entry_text"];
+                        $entry_href=$entryDetails["entry_href"];
+                        $entry_target=$entryDetails["entry_target"];
 
                         //desktop view
                         $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
@@ -382,46 +315,12 @@
                                 $image_path = asset('storage/' . $entry->image);
                             }
 
-                            if($collection_type_id==1){
-                                $entry_title=$entry->event_title;
-                                $entry_href=$entry->id;
-                                $entry_target='';
-                            }
-                            else if($collection_type_id==2){
-                                $entry_title=$entry->program_title;
-                                $entry_href=$entry->id;
-                                $entry_target='';
-                            }
-                            else if($collection_type_id==3){
-                                $entry_title=$entry->project_title;
-                                $entry_href=$entry->id;
-                                $entry_target='';
-                            }
-                            else if($collection_type_id==4){
-                                $entry_title=$entry->grantee_name;
-                                $entry_href=$entry->id;
-                                $entry_target='';
-                            }
-                            else if($collection_type_id==5){
-                                $entry_title=$entry->jury_name;
-                                $entry_href=$entry->id;
-                                $entry_target='';
-                            }
-                            else if($collection_type_id==6){
-                                $entry_title=$entry->resource_title;
-                                $entry_href=$entry->id;
-                                $entry_target='';
-                            }
-                            else if($collection_type_id==7){
-                                $entry_title=$entry->news_title;
-                                $entry_href=$entry->id;
-                                $entry_target='';
-                            }
-                            else if($collection_type_id==8){
-                                $entry_title=$entry->external_title;
-                                $entry_href=$entry->external_link;
-                                $entry_target='_blank';
-                            }
+                            //get entry details
+                            $entryDetails=getEntryDetails($collection_type_id,$entry);
+                            $entry_title=$entryDetails["entry_title"];
+                            $entry_text=$entryDetails["entry_text"];
+                            $entry_href=$entryDetails["entry_href"];
+                            $entry_target=$entryDetails["entry_target"];
 
                             $html.='<div class="swiper-slide entry">
                                 
@@ -950,6 +849,99 @@
 
         return $htmlColumn;
 
+    }
+
+
+    ##########################################################################################
+    ##########################################################################################
+    ##########################################################################################
+    ##########################################################################################
+    ##########################################################################################
+    ###############################GENERAL FUNCTIONS##########################################
+
+    function getEntryTitle($entry){
+        if($entry->type_id==1){
+            return $entry->event_title;
+        }
+        else if($entry->type_id==2){
+            return $entry->program_title;
+        }
+        else if($entry->type_id==3){
+            return $entry->project_title;
+        }
+        else if($entry->type_id==4){
+            return $entry->grantee_name;
+        }
+        else if($entry->type_id==5){
+            return $entry->jury_name;
+        }
+        else if($entry->type_id==6){
+            return $entry->resource_title;
+        }
+        else if($entry->type_id==7){
+            return $entry->news_title;
+        }
+        else if($entry->type_id==8){
+            return $entry->external_title;
+        }
+    }
+
+    function getEntryDetails($collection_type_id,$entry){
+
+        $entryDetails=[];
+
+        if($collection_type_id==1){
+            $entry_title=$entry->event_title;
+            $entry_text=$entry->event_text;
+            $entry_href=$entry->id;
+            $entry_target='';
+        }
+        else if($collection_type_id==2){
+            $entry_title=$entry->program_title;
+            $entry_text=$entry->program_text;
+            $entry_href=$entry->id;
+            $entry_target='';
+        }
+        else if($collection_type_id==3){
+            $entry_title=$entry->project_title;
+            $entry_text=$entry->project_text;
+            $entry_href=$entry->id;
+            $entry_target='';
+        }
+        else if($collection_type_id==4){
+            $entry_title=$entry->grantee_name;
+            $entry_text=$entry->grantee_text;
+            $entry_href=$entry->id;
+            $entry_target='';
+        }
+        else if($collection_type_id==5){
+            $entry_title=$entry->jury_name;
+            $entry_text=$entry->jury_text;
+            $entry_href=$entry->id;
+            $entry_target='';
+        }
+        else if($collection_type_id==6){
+            $entry_title=$entry->resource_title;
+            $entry_text=$entry->resource_text;
+            $entry_href=$entry->id;
+            $entry_target='';
+        }
+        else if($collection_type_id==7){
+            $entry_title=$entry->news_title;
+            $entry_text=$entry->news_text;
+            $entry_href=$entry->id;
+            $entry_target='';
+        }
+        else if($collection_type_id==8){
+            $entry_title=$entry->external_title;
+            $entry_text=$entry->external_text;
+            $entry_href=$entry->external_link;
+            $entry_target='_blank';
+        }
+
+        $entryDetails=['entry_title'=>$entry_title,'entry_text'=>$entry_text,'entry_href'=>$entry_href,'entry_target'=>$entry_target];
+
+        return $entryDetails;
     }
 
 ?>
