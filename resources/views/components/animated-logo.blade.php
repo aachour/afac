@@ -73,15 +73,16 @@
                 style="cursor: pointer;" />
 
             <!-- Animation 3: Based in Beirut (bottom-left) -->
-            <g id="animation-3" class="animation-content" style="opacity: 0; pointer-events: none;">
+            <g id="animation-3" class="animation-content" style="pointer-events: none;">
                 <rect x="0" y="85" width="55" height="55" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2"
                     rx="2" />
-                {{-- <rect x="0" y="100" width="55" height="41" fill="transparent"/> --}}
                 <text x="0" y="105" fill="#010101" font-family="Arial, sans-serif" font-size="11"
                     font-weight="bold">Based</text>
                 <text x="0" y="125" fill="#010101" font-family="Arial, sans-serif" font-size="11" font-weight="bold">in
                     Beirut</text>
             </g>
+            <!-- Black cover that slides down to reveal animation-3 -->
+            <rect id="animation-3-cover" x="0" y="95" width="54.5" height="60" fill="#010101" />
             <!-- Hover zone for bottom-left -->
             <rect x="0" y="80" width="90" height="145" fill="transparent" class="hover-zone-bottom-left"
                 style="cursor: pointer;" />
@@ -123,6 +124,7 @@
 
         const hoverZoneBottomLeft = document.querySelector('.hover-zone-bottom-left');
         const animation3 = document.getElementById('animation-3');
+        const animation3Cover = document.getElementById('animation-3-cover');
 
         // Animation 1: Rotate middle diamond 45 degrees on hover and show text
         const animation1 = document.getElementById('animation-1');
@@ -186,33 +188,23 @@
             });
         }
 
-        // Animation 3: Bottom-left text - slides down without fading
-        if (hoverZoneBottomLeft && animation3) {
+        // Animation 3: Bottom-left text - black section slides down to reveal text
+        if (hoverZoneBottomLeft && animation3 && animation3Cover) {
             hoverZoneBottomLeft.addEventListener('mouseenter', function() {
-                // Set opacity instantly (no fade), then slide down
-                gsap.set(animation3, {
-                    opacity: 1
-                });
-                gsap.fromTo(animation3, {
-                    y: 0
-                }, {
-                    y: 0,
-                    duration: 0.1,
+                // Slide the black cover down to reveal the text
+                gsap.to(animation3Cover, {
+                    y: 60,
+                    duration: 0.7,
                     ease: "power2.out"
                 });
             });
 
             hoverZoneBottomLeft.addEventListener('mouseleave', function() {
-                // Slide up, then hide instantly (no fade)
-                gsap.to(animation3, {
+                // Slide the black cover back up to cover the text
+                gsap.to(animation3Cover, {
                     y: 0,
-                    duration: 0.2,
-                    ease: "power2.in",
-                    onComplete: function() {
-                        gsap.set(animation3, {
-                            opacity: 0
-                        });
-                    }
+                    duration: 0.7,
+                    ease: "power2.in"
                 });
             });
         }
