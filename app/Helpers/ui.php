@@ -572,7 +572,7 @@
 
         $htmlColumn='';
 
-        $column=SectionColumns::with('timelines')->find($section_column_id);
+        $column=SectionColumns::with('timelines.percentages.color')->find($section_column_id);
 
         if($column){
 
@@ -601,26 +601,57 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-9 col-12">';
+                                    <div class="col-lg-9 col-12">
+                                        <div class="timeline-percentages-wrapper">';
 
-                                        //get all text inside this timeline
+                                       
+                                        $percentageIndex = 0;
                                         foreach($timeline->percentages as $key=>$percentage){
+                                            $uniqueId = 'timeline-'.$timeline->id.'-percentage-'.$percentageIndex;
+                                            $percentageColor = $percentage->color->code ?? '#010101';
+                                            $percentageValue = $percentage->percentage ?? 0;
+                                            
+                                            $htmlColumn.='<div class="percentage-column '.($percentageIndex == 0 ? 'active' : 'd-none').'" 
+                                                data-percentage-id="'.$uniqueId.'" 
+                                                data-percentage-value="'.$percentageValue.'" 
+                                                data-percentage-color="'.$percentageColor.'"
+                                                data-timeline-id="'.$timeline->id.'">
 
-                                            $htmlColumn.='<div class="percentage '.($key == '0' ? '' : 'd-none').'">
-
-                                                <div class="big black mb-5">'.$percentage->text.'</div>'; 
+                                                <div class="percentage-text big black mb-5">'.$percentage->text.'</div>'; 
                                                 
                                                 if($percentage->percentage!=0){
+                                                    $diamondCount = 0;
+                                                    $totalDiamonds = 100;
+                                                    $coloredDiamonds = min($percentageValue, $totalDiamonds);
+                                                    
+                                                    $htmlColumn.='<div class="diamonds-grid" data-percentage-color="'.$percentageColor.'">';
                                                     for($i=1;$i<=10;$i++){
                                                         for($j=1;$j<=10;$j++){
-                                                            $htmlColumn.='<img src="'.asset('frontend/images/diamond.png').'" width="10%" />';
+                                                            $diamondCount++;
+                                                            $isColored = $diamondCount <= $coloredDiamonds;
+                                                            $diamondClass = $isColored ? 'diamond-colored' : 'diamond-default';
+                                                            $diamondFillColor = $isColored ? $percentageColor : '#010101';
+                                                            
+                                                            $htmlColumn.='<span class="diamond-wrapper">
+                                                                <svg width="100%" height="100%" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" 
+                                                                    class="diamond-percentage '.$diamondClass.'" 
+                                                                    data-diamond-index="'.$diamondCount.'"
+                                                                    data-is-colored="'.($isColored ? '1' : '0').'"
+                                                                    data-diamond-color="'.$diamondFillColor.'">
+                                                                    <rect y="153.999" width="217.787" height="217.787" transform="rotate(-45 0 153.999)" fill="'.$diamondFillColor.'"/>
+                                                                </svg>
+                                                            </span>';
                                                         }  
                                                         $htmlColumn.='<br />';
                                                     }
+                                                    $htmlColumn.='</div>';
                                                 }
                                             
                                             $htmlColumn.='</div>';
+                                            $percentageIndex++;
                                         }
+                                        
+                                        $htmlColumn.='</div>';
                                     
                                     $htmlColumn.='</div>
                                 </div>
@@ -635,6 +666,218 @@
                 </div>
 
             </div>';
+
+            $htmlColumn.='<style>
+                .timeline-percentages-wrapper {
+                    position: relative;
+                }
+                .percentage-column {
+                    position: relative;
+                }
+                .percentage-column.d-none {
+                    display: none !important;
+                }
+                .percentage-text {
+                    transition: transform 0.9s ease-out, opacity 0.9s ease-out;
+                    will-change: transform, opacity;
+                    transform: translateY(120px);
+                    opacity: 0;
+                }
+                .percentage-text.slide-up-start {
+                    transform: translateY(120px) !important;
+                    opacity: 0 !important;
+                }
+                .percentage-text.slide-up-end {
+                    transform: translateY(0) !important;
+                    opacity: 1 !important;
+                }
+                .diamond-percentage rect {
+                    transition: fill 0.3s ease-out;
+                }
+                .diamonds-grid {
+                    display: inline-block;
+                }
+                .diamond-wrapper {
+                    position: relative;
+                    display: inline-block;
+                    width: 10%;
+                }
+                .diamond-percentage {
+                    display: block;
+                    width: 100%;
+                    height: auto;
+                    transition: opacity 0.3s ease-out;
+                }
+                .percentage-column.exiting .diamond-percentage {
+                    opacity: 0;
+                }
+                .percentage-column.entering .diamond-percentage {
+                    opacity: 0;
+                }
+                .percentage-column.active .diamond-percentage {
+                    opacity: 1;
+                }
+            </style>
+            <script>
+                (function() {
+                    document.addEventListener("DOMContentLoaded", function() {
+                        
+                        const timelineWrappers = document.querySelectorAll(".timeline-percentages-wrapper");
+                        
+                        timelineWrappers.forEach(function(wrapper) {
+                            const percentageColumns = wrapper.querySelectorAll(".percentage-column");
+                            
+                            if (percentageColumns.length <= 1) return; 
+                            
+                            let currentIndex = 0;
+                            
+                            function resetDiamondsToBlack(column) {
+                                const allDiamonds = column.querySelectorAll(".diamond-percentage rect");
+                                allDiamonds.forEach(function(rect) {
+                                    rect.setAttribute("fill", "#010101");
+                                });
+                            }
+                            
+                            function lightUpDiamondsSequentially(column) {
+                                const diamondsGrid = column.querySelector(".diamonds-grid");
+                                if (!diamondsGrid) return;
+                                
+                                const color = diamondsGrid.getAttribute("data-percentage-color") || "#010101";
+                                const coloredDiamonds = column.querySelectorAll(".diamond-percentage[data-is-colored=\"1\"]");
+                                const defaultDiamonds = column.querySelectorAll(".diamond-percentage[data-is-colored=\"0\"]");
+                                
+                                const lightGrey = "#EEEEEE";
+                                
+                                resetDiamondsToBlack(column);
+                                
+                               
+                                coloredDiamonds.forEach(function(diamond, index) {
+                                    const rect = diamond.querySelector("rect");
+                                    if (rect) {
+                                        setTimeout(function() {
+                                            rect.setAttribute("fill", color);
+                                        }, index * 10); 
+                                    }
+                                });
+                                
+                               
+                                const delayAfterColored = coloredDiamonds.length * 10;
+                                defaultDiamonds.forEach(function(diamond, index) {
+                                    const rect = diamond.querySelector("rect");
+                                    if (rect) {
+                                        setTimeout(function() {
+                                            rect.setAttribute("fill", lightGrey);
+                                        }, delayAfterColored + (index * 5)); 
+                                    }
+                                });
+                            }
+                            
+                            
+                            function showNextColumn() {
+                                const currentColumn = percentageColumns[currentIndex];
+                                
+                                
+                                currentColumn.classList.add("exiting");
+                                
+                               
+                                setTimeout(function() {
+                                    
+                                    currentColumn.classList.add("d-none");
+                                    currentColumn.classList.remove("active", "exiting");
+                                    
+                                  
+                                    currentIndex = (currentIndex + 1) % percentageColumns.length;
+                                    
+                                    const nextColumn = percentageColumns[currentIndex];
+                                    
+                                  
+                                    const textElement = nextColumn.querySelector(".percentage-text");
+                                    
+                                    
+                                    if (textElement) {
+                                        textElement.classList.remove("slide-up-end");
+                                        textElement.classList.add("slide-up-start");
+                                       
+                                        textElement.style.transform = "translateY(120px)";
+                                        textElement.style.opacity = "0";
+                                    }
+                                    
+                                   
+                                    nextColumn.classList.remove("d-none");
+                                    nextColumn.classList.add("active", "entering");
+                                    
+                               
+                                    resetDiamondsToBlack(nextColumn);
+                                    
+                                    
+                                    if (textElement) {
+                                        
+                                        void textElement.offsetHeight;
+                                        
+                                       
+                                        textElement.style.transform = "";
+                                        textElement.style.opacity = "";
+                                        
+                                       
+                                        setTimeout(function() {
+                                            textElement.classList.remove("slide-up-start");
+                                            textElement.classList.add("slide-up-end");
+                                        }, 50);
+                                    }
+                                    
+                                  
+                                    setTimeout(function() {
+                                        nextColumn.classList.remove("entering");
+                                        
+                                        
+                                        lightUpDiamondsSequentially(nextColumn);
+                                    }, 100);
+                                }, 300); 
+                            }
+                            
+                            
+                            if (percentageColumns.length > 0) {
+                                const firstColumn = percentageColumns[0];
+                                firstColumn.classList.add("active");
+                               
+                                const firstText = firstColumn.querySelector(".percentage-text");
+                                if (firstText) {
+                                    firstText.classList.remove("slide-up-start");
+                                    firstText.classList.add("slide-up-end");
+                                    
+                                    firstText.style.transform = "translateY(0)";
+                                    firstText.style.opacity = "1";
+                                }
+                               
+                                const diamondsGrid = firstColumn.querySelector(".diamonds-grid");
+                                if (diamondsGrid) {
+                                    const color = diamondsGrid.getAttribute("data-percentage-color") || "#010101";
+                                    const coloredDiamonds = firstColumn.querySelectorAll(".diamond-percentage[data-is-colored=\"1\"]");
+                                    const defaultDiamonds = firstColumn.querySelectorAll(".diamond-percentage[data-is-colored=\"0\"]");
+                                    const lightGrey = "#EEEEEE";
+                                    
+                                    coloredDiamonds.forEach(function(diamond) {
+                                        const rect = diamond.querySelector("rect");
+                                        if (rect) {
+                                            rect.setAttribute("fill", color);
+                                        }
+                                    });
+                                    
+                                    defaultDiamonds.forEach(function(diamond) {
+                                        const rect = diamond.querySelector("rect");
+                                        if (rect) {
+                                            rect.setAttribute("fill", lightGrey);
+                                        }
+                                    });
+                                }
+                            }
+                            
+                          
+                            setInterval(showNextColumn, 5000);
+                        });
+                    });
+                })();
+            </script>';
 
         }
 
