@@ -668,55 +668,7 @@
             </div>';
 
             $htmlColumn.='<style>
-                .timeline-percentages-wrapper {
-                    position: relative;
-                }
-                .percentage-column {
-                    position: relative;
-                }
-                .percentage-column.d-none {
-                    display: none !important;
-                }
-                .percentage-text {
-                    transition: transform 0.9s ease-out, opacity 0.9s ease-out;
-                    will-change: transform, opacity;
-                    transform: translateY(120px);
-                    opacity: 0;
-                }
-                .percentage-text.slide-up-start {
-                    transform: translateY(120px) !important;
-                    opacity: 0 !important;
-                }
-                .percentage-text.slide-up-end {
-                    transform: translateY(0) !important;
-                    opacity: 1 !important;
-                }
-                .diamond-percentage rect {
-                    transition: fill 0.3s ease-out;
-                }
-                .diamonds-grid {
-                    display: inline-block;
-                }
-                .diamond-wrapper {
-                    position: relative;
-                    display: inline-block;
-                    width: 10%;
-                }
-                .diamond-percentage {
-                    display: block;
-                    width: 100%;
-                    height: auto;
-                    transition: opacity 0.3s ease-out;
-                }
-                .percentage-column.exiting .diamond-percentage {
-                    opacity: 0;
-                }
-                .percentage-column.entering .diamond-percentage {
-                    opacity: 0;
-                }
-                .percentage-column.active .diamond-percentage {
-                    opacity: 1;
-                }
+                
             </style>
             <script>
                 (function() {
