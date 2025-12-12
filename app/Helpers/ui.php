@@ -322,28 +322,24 @@
                             $entry_href=$entryDetails["entry_href"];
                             $entry_target=$entryDetails["entry_target"];
 
-                            $html.='<div class="swiper-slide entry">
-                                
-                                <a href="'.$entry_href.'" target="'.$entry_target.'">
-                                    <img src="'.$image_path.'" width="100%" />
-                                    <div class="description">
-                                        <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entry_title.'</div>';
-                                        if($with_label==1)
-                                        {
-                                            $html.='<div class="title_or_labels" style="'.$labels_position.'">
-                                                <div class="label micro black ABCDiatypeMedium">'.$entry->type->name.'</div>';
-                                                if($collection_type_id==1){
-                                                    $html.='<div class="label micro black rounded ABCDiatypeMedium">'.date('d M',strtotime($entry->event_date)).'</div>
-                                                    <div class="clear"></div>
-                                                    <div class="topSpacerSmall label micro black rounded ABCDiatypeMedium">'.date('h:i',strtotime($entry->event_start_time)).' - '.date('h:i',strtotime($entry->event_to_time)).'</div>
-                                                    <div class="clear">&nbsp;</div>';
-                                                }
-                                            $html.='</div>';
-                                        }
-                                    $html.='</div>
-                                </a>
-                                    
-                            </div>';
+                            $html.='<div class="swiper-slide entry">';
+
+                                $html .= view('frontend.card-hover-animation', [
+                                    'entry_href'=>$entry_href,
+                                    'entry_target'=>$entry_target,
+                                    'image_path'=>$image_path,
+                                    'entry_title' => $entry_title,
+                                    'title_position'=>$title_position,
+                                    'with_label' => $with_label,
+                                    'labels_position'=>$labels_position,
+                                    'entry_type_name' => $entry->type->name,
+                                    'collection_type_id' => $collection_type_id,
+                                    'event_date' => date('d M',strtotime($entry->event_date)),
+                                    'event_start_time' => date('h:i',strtotime($entry->event_start_time)),
+                                    'event_end_time' => date('h:i',strtotime($entry->event_to_time)),
+                                ])->render();
+                                                                    
+                            $html .='</div>';
 
                             //check entries per row
                             $entries_count++;
@@ -351,7 +347,6 @@
                             if($entries_layout==1 && $entries_count % $entries_per_row==0){
                                 $html.='<div class="clear">&nbsp;</div>';
                             }
-
 
                         }
 
