@@ -221,9 +221,14 @@
                                             $html.='</div>';
                                         }
                                     $html.='</div>
-                                    <div class="featured_image">
-                                        <img src="'.$image_path.'" width="100%" />
-                                    </div>
+                                    <div class="featured_image">';
+                                        $html .= view('frontend.entry-hover-animation', [
+                                            'image_path'=>$image_path,
+                                            'entry_href'=>$entry_href,
+                                            'entry_target'=>$entry_target,
+                                            'featured'=>'1',
+                                            ])->render();
+                                    $html.='</div>
                                 </div>
                             </div>
                         </a>';
@@ -324,7 +329,7 @@
 
                             $html.='<div class="swiper-slide entry">';
 
-                                $html .= view('frontend.card-hover-animation', [
+                                $html .= view('frontend.entry-hover-animation', [
                                     'entry_href'=>$entry_href,
                                     'entry_target'=>$entry_target,
                                     'image_path'=>$image_path,
@@ -337,6 +342,7 @@
                                     'event_date' => date('d M',strtotime($entry->event_date)),
                                     'event_start_time' => date('h:i',strtotime($entry->event_start_time)),
                                     'event_end_time' => date('h:i',strtotime($entry->event_to_time)),
+                                    'featured'=>'0',
                                 ])->render();
                                                                     
                             $html .='</div>';
