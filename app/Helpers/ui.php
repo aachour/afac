@@ -1089,43 +1089,43 @@
         if($collection_type_id==1){
             $entry_title=$entry->event_title;
             $entry_text=$entry->event_text;
-            $entry_href=$entry->id;
+            $entry_href=route('entry.view', ['entryType'=>'event','id'=>$entry->id]);
             $entry_target='';
         }
         else if($collection_type_id==2){
             $entry_title=$entry->program_title;
             $entry_text=$entry->program_text;
-            $entry_href=$entry->id;
+            $entry_href=route('entry.view', ['entryType'=>'program','id'=>$entry->id]);
             $entry_target='';
         }
         else if($collection_type_id==3){
             $entry_title=$entry->project_title;
             $entry_text=$entry->project_text;
-            $entry_href=$entry->id;
+            $entry_href=route('entry.view', ['entryType'=>'project','id'=>$entry->id]);
             $entry_target='';
         }
         else if($collection_type_id==4){
             $entry_title=$entry->grantee_name;
             $entry_text=$entry->grantee_text;
-            $entry_href=$entry->id;
+            $entry_href=route('entry.view', ['grantee'=>'grantee','id'=>$entry->id]);
             $entry_target='';
         }
         else if($collection_type_id==5){
             $entry_title=$entry->jury_name;
             $entry_text=$entry->jury_text;
-            $entry_href=$entry->id;
+            $entry_href=route('entry.view', ['entryType'=>'juror','id'=>$entry->id]);
             $entry_target='';
         }
         else if($collection_type_id==6){
             $entry_title=$entry->resource_title;
             $entry_text=$entry->resource_text;
-            $entry_href=$entry->id;
+            $entry_href=route('entry.view', ['entryType'=>'resource','id'=>$entry->id]);
             $entry_target='';
         }
         else if($collection_type_id==7){
             $entry_title=$entry->news_title;
             $entry_text=$entry->news_text;
-            $entry_href=$entry->id;
+            $entry_href=route('entry.view', ['entryType'=>'news','id'=>$entry->id]);
             $entry_target='';
         }
         else if($collection_type_id==8){
