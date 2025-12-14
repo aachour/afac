@@ -46,6 +46,8 @@ use App\Livewire\Entries\ProjectGranteesView;
 
 use App\Livewire\Library\FileView;
 
+use App\Livewire\Logo\LogoView;
+
 
 Route::get('/', [HomeController::class, 'home'])->name('home'); 
 
@@ -215,6 +217,14 @@ Route::middleware(['auth'])->group(function () {
     
     Route::group(['prefix' => 'files'], function () {
         Route::get('/', FileView::class)->name('files');
+    });
+
+    // |--------------------------------------------------------------------------
+    // |Logo
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'logo'], function () {
+        Route::get('/', LogoView::class)->name('logo');
     });
 
 });

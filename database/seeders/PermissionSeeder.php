@@ -155,6 +155,10 @@ class PermissionSeeder extends Seeder
             'file-edit',
             'file-delete',
 
+            // Logo
+            'logo-list',
+            'logo-edit',
+
         ];
         
         $permissionsIds = [];

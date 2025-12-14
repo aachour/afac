@@ -24,8 +24,8 @@
 				</a>
 			</li>
 
-			@canany(['role-list', 'permission-list', 'user-list', 'country-list', 'color-list', 'file-list'])
-			<li class="menu-item {{ request()->is('roles') || request()->is('permissions') || request()->is('users*') || request()->is('countries*') || request()->is('types*') || request()->is('colors*') ? "active open" : "" }}">
+			@canany(['role-list', 'permission-list', 'user-list', 'country-list', 'color-list', 'logo-list' , 'file-list'])
+			<li class="menu-item {{ request()->is('roles') || request()->is('permissions') || request()->is('users*') || request()->is('countries*') || request()->is('types*') || request()->is('colors*') || request()->is('files*') || request()->is('logo*') ? "active open" : "" }}">
 
 				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-settings"></i>
@@ -78,6 +78,14 @@
 					<li class="menu-item {{ request()->is('files*') ? "active" : "" }}">
 						<a href="{{ route('files') }}" class="menu-link">
 							<div data-i18n="Files">Files</div>
+						</a>
+					</li>
+					@endcan
+
+					@can('logo-list')
+					<li class="menu-item {{ request()->is('logo*') ? "active" : "" }}">
+						<a href="{{ route('logo') }}" class="menu-link">
+							<div data-i18n="Logo">Logo</div>
 						</a>
 					</li>
 					@endcan

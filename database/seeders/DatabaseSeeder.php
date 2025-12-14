@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(EventCategoriesSeeder::class);
         $this->call(ProjectCategoriesSeeder::class);
         $this->call(ExternalCategoriesSeeder::class);
-        $this->call(EventsSeeder::class);
-        $this->call(CollectionsSeeder::class);
+        $this->call(LogoSeeder::class);
+                
     }
 }
