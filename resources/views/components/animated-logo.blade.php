@@ -122,6 +122,14 @@
         const hoverZoneCircle = document.querySelector('.hover-zone-circle');
         const animation2 = document.getElementById('animation-2');
 
+        // Initialize animation2 with scale 0
+        if (animation2) {
+            gsap.set(animation2, {
+                scale: 0,
+                svgOrigin: "313.691 164.631"
+            });
+        }
+
         const hoverZoneBottomLeft = document.querySelector('.hover-zone-bottom-left');
         const animation3 = document.getElementById('animation-3');
         const animation3Cover = document.getElementById('animation-3-cover');
@@ -174,16 +182,18 @@
                     opacity: 1,
                     scale: 1,
                     duration: 0.2,
-                    ease: "back.in(0.1)"
+                    ease: "power2.out",
+                    svgOrigin: "313.691 164.631"
                 });
             });
 
             hoverZoneCircle.addEventListener('mouseleave', function() {
                 gsap.to(animation2, {
                     opacity: 0,
-                    scale: 1,
-                    duration: 0.1,
-                    ease: "back.out(0.1)"
+                    scale: 0,
+                    duration: 0.3,
+                    ease: "power2.in",
+                    svgOrigin: "313.691 164.631"
                 });
             });
         }
