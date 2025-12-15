@@ -50,6 +50,14 @@
 					</li>
 					@endcan
 
+					@can('logo-list')
+					<li class="menu-item {{ request()->is('logo*') ? "active" : "" }}">
+						<a href="{{ route('logo') }}" class="menu-link">
+							<div data-i18n="Logo">Logo</div>
+						</a>
+					</li>
+					@endcan
+
 					@can('country-list')
 					<li class="menu-item {{ request()->is('countries*') ? "active" : "" }}">
 						<a href="{{ route('countries') }}" class="menu-link">
@@ -82,13 +90,6 @@
 					</li>
 					@endcan
 
-					@can('logo-list')
-					<li class="menu-item {{ request()->is('logo*') ? "active" : "" }}">
-						<a href="{{ route('logo') }}" class="menu-link">
-							<div data-i18n="Logo">Logo</div>
-						</a>
-					</li>
-					@endcan
 
 				</ul>
 			</li>
