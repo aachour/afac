@@ -31,4 +31,8 @@ return [
         ],
     ],
 
+    'formstack' => [
+        'token' => env('FORMSTACK_TOKEN'),
+    ],
+
 ];

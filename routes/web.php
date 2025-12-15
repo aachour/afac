@@ -1,13 +1,16 @@
 <?php
 
-use App\Http\Controllers\HomeController;
-use App\Livewire\RolesPermissions\PermissionView;
+use Illuminate\Support\Facades\Route;
+
+use App\Livewire\Auth\Login;
+
+use App\Livewire\Dashboard;
+
 use App\Livewire\RolesPermissions\RoleView;
+use App\Livewire\RolesPermissions\PermissionView;
+
 use App\Livewire\Users\UserView;
 use App\Livewire\Users\UserForm;
-use Illuminate\Support\Facades\Route;
-use App\Livewire\Auth\Login;
-use App\Livewire\Dashboard;
 
 use App\Livewire\Countries\CountryView;
 
@@ -48,6 +51,9 @@ use App\Livewire\Library\FileView;
 
 use App\Livewire\Logo\LogoView;
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FormStackController;
+
 
 Route::get('/', [HomeController::class, 'home'])->name('home'); 
 
@@ -62,6 +68,8 @@ Route::get('/{entryType}/{id}', [HomeController::class, 'ViewEntry'])->where('en
 Route::get('/view/collection/{id}', [HomeController::class, 'ViewCollection'])->name('view.collection'); 
 
 Route::get('/view/section/{id}', [HomeController::class, 'ViewSection'])->name('view.section'); 
+
+Route::get('/get/forms', [FormStackController::class, 'getForms'])->name('get.forms'); 
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
