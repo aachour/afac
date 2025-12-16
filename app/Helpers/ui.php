@@ -1082,6 +1082,34 @@
         }
     }
 
+    function getEntryLabels($entry){
+        if($entry->type_id==1){
+            return $entry->event_title;
+        }
+        else if($entry->type_id==2){
+            return $entry->program_title;
+        }
+        else if($entry->type_id==3){
+            return $entry->project_title;
+        }
+        else if($entry->type_id==4){
+            return $entry->grantee_name;
+        }
+        else if($entry->type_id==5){
+            return $entry->jury_name;
+        }
+        else if($entry->type_id==6){
+            return $entry->resource_title;
+        }
+        else if($entry->type_id==7){
+            return $entry->news_title;
+        }
+        else if($entry->type_id==8){
+            return $entry->external_title;
+        }
+    }
+
+
     function getEntryDetails($collection_type_id,$entry){
 
         $entryDetails=[];

@@ -36,10 +36,89 @@ class FormStackController extends Controller
             ])
             ->values();
 
-            dd($forms);
+        foreach($forms as $form){
 
-       
+            //get submissions
+            $formId=$form["id"];
+            $formName=$form["name"];
+            $formDate=$form["created_at"];
+            
+            
+
+            if($formId=="5665395"){
+                            
+                echo "Form ID: ".$formId."<br />";
+                echo "Form Name: ".$formName."<br />";
+                echo "Form Date: ".$formDate."<br />";
+                
+
+                $submissionsResponse = Http::withToken(config('services.formstack.token'))
+                    ->acceptJson()
+                    ->get("https://www.formstack.com/api/v2/form/{$formId}/submission.json", 
+                        [
+                            'data' => 1
+                        ]
+                    );
+                
+                $submissions = collect(
+                    $submissionsResponse->json()['submissions'] ?? []
+                )->map(function ($submission) {
+
+                    $data = $submission['data'] ?? [];
+
+                    $candidate = collect($data)->mapWithKeys(
+                        fn ($value, $key) => ['field_' . $key => $value]
+                    );
+
+                    echo "Submission Id: " . $submission['id'] . "<br /><br />";
+
+                    // echo "Candidate Info<br />";
+                    // foreach ($candidate as $field => $value) {
+                    //     echo ucfirst(str_replace('_', ' ', $field)) . ": ";
+                    //     echo is_array($value) ? implode(', ', $value) : $value;
+                    //     echo "<br /><br />";
+                    // }
+
+                    echo "###################################################################<br />";
+                    echo "###################################################################<br />";
+                    echo "###################################################################<br />";
+                    echo "###################################################################<br /><br /><br />";
+
+                });
+            }
+
+            
+            
+        }
+
+        
+
+        
 
     }   
+
+    public function extractSubmission($id){
+
+        $submissionId = 1412293653;
+
+        $submission = Http::withToken(config('services.formstack.token'))
+            ->get("https://www.formstack.com/api/v2/submission/{$submissionId}.json")
+            ->json();
+
+        $fieldData=[];
+        foreach($submission['data'] as $data){
+            $obj=[
+                'label'=>$data["field"],
+                'value'=>$data["value"],
+            ];
+            $fieldData[]=$obj;
+        }
+
+        return view('submission', [
+            'submissionId' => $submissionId,
+            'displayFields' => $fieldData
+        ]);
+
+    }
 
 }
