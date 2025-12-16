@@ -211,14 +211,13 @@
                                         $html.='</div>';
                                         if($with_label==1)
                                         {
+                                            $labels=getEntryLabels($entry);
                                             $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">
-                                                <div class="label micro ABCDiatypeMedium">'.$entries[0]->type->name.'</div>';
-                                                if($collection_type_id==1){
-                                                    $html.='<div class="label micro rounded ABCDiatypeMedium">'.date('d M',strtotime($entries[0]->event_date)).'</div>
-                                                    <div class="label micro rounded ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
-                                                    <div class="clear">&nbsp;</div>';
-                                                }
-                                            $html.='</div>';
+                                                <div class="label micro ABCDiatypeMedium">'.$entry->type->name.'</div>
+                                                <div class="label micro rounded ABCDiatypeMedium">'.@$labels[0].'</div>
+                                                <div class="label micro rounded ABCDiatypeMedium">'.@$labels[1].' - '.@$labels[2].'</div>
+                                                <div class="clear">&nbsp;</div>
+                                            </div>';
                                         }
                                     $html.='</div>
                                     <div class="featured_image">';
@@ -254,13 +253,14 @@
                                         {
                                             $html.='<div class="title_or_labels" style="'.$labels_position.'">
                                                 <div class="label micro black ABCDiatypeMedium">'.$entries[0]->type->name.'</div>';
-                                                if($collection_type_id==1){
-                                                    $html.='<div class="label micro black ABCDiatypeMedium">'.date('d M',strtotime($entries[0]->event_date)).'</div>
-                                                    <div class="clear"></div>
-                                                    <div class="topSpacerSmall label micro black ABCDiatypeMedium">'.date('h:i',strtotime($entries[0]->event_start_time)).' - '.date('h:i',strtotime($entries[0]->event_to_time)).'</div>
-                                                    <div class="clear">&nbsp;</div>';
-                                                }
-                                            $html.='</div>';
+                                                $labels=getEntryLabels($entry);
+                                                $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">
+                                                    <div class="label micro ABCDiatypeMedium">'.$entry->type->name.'</div>
+                                                    <div class="label micro rounded ABCDiatypeMedium">'.@$labels[0].'</div>
+                                                    <div class="label micro rounded ABCDiatypeMedium">'.@$labels[1].' - '.@$labels[2].'</div>
+                                                    <div class="clear">&nbsp;</div>
+                                                </div>
+                                            </div>';
                                         }
                                     $html.='</div>
                                 </div>
@@ -329,6 +329,8 @@
 
                             $html.='<div class="swiper-slide entry">';
 
+                                $labels=getEntryLabels($entry);
+
                                 $html .= view('frontend.entry-hover-animation', [
                                     'entry_href'=>$entry_href,
                                     'entry_target'=>$entry_target,
@@ -339,9 +341,7 @@
                                     'labels_position'=>$labels_position,
                                     'entry_type_name' => $entry->type->name,
                                     'collection_type_id' => $collection_type_id,
-                                    'event_date' => date('d M',strtotime($entry->event_date)),
-                                    'event_start_time' => date('h:i',strtotime($entry->event_start_time)),
-                                    'event_end_time' => date('h:i',strtotime($entry->event_to_time)),
+                                    'labels' => $labels,
                                     'featured'=>'0',
                                 ])->render();
                                                                     
@@ -415,7 +415,6 @@
                 });
             }
         </script>';
-        
         
         return $html;
 
@@ -1055,6 +1054,7 @@
     ##########################################################################################
     ###############################GENERAL FUNCTIONS##########################################
 
+
     function getEntryTitle($entry){
         if($entry->type_id==1){
             return $entry->event_title;
@@ -1082,31 +1082,37 @@
         }
     }
 
+
     function getEntryLabels($entry){
+        $labels=[];
         if($entry->type_id==1){
-            return $entry->event_title;
+            $labels[]=date('d M',strtotime($entry->event_date));
+            $labels[]=date('h:i',strtotime($entry->event_start_time));
+            $labels[]=date('h:i',strtotime($entry->event_to_time));
         }
         else if($entry->type_id==2){
-            return $entry->program_title;
+            
         }
         else if($entry->type_id==3){
-            return $entry->project_title;
+            
         }
         else if($entry->type_id==4){
-            return $entry->grantee_name;
+            $labels[]=$entry->granteeCountry->name;
         }
         else if($entry->type_id==5){
-            return $entry->jury_name;
+            $labels[]=$entry->juryCountry->name;
         }
         else if($entry->type_id==6){
-            return $entry->resource_title;
+            
         }
         else if($entry->type_id==7){
-            return $entry->news_title;
+            $labels[]=date('d M',strtotime($entries[0]->news_date));
         }
         else if($entry->type_id==8){
-            return $entry->external_title;
+            
         }
+
+        return $labels;
     }
 
 

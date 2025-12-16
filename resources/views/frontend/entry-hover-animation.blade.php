@@ -79,12 +79,10 @@
                     @if($with_label==1)
                         <div class="title_or_labels" style="{{$labels_position}};">
                             <div class="label micro black ABCDiatypeMedium">{{$entry_type_name}}</div>
-                            @if($collection_type_id==1)
-                                <div class="label micro black rounded ABCDiatypeMedium">{{date('d M',strtotime($event_date))}}</div>
-                                <div class="clear"></div>
-                                <div class="topSpacerSmall label micro black rounded ABCDiatypeMedium">{{date('h:i',strtotime($event_start_time))}} - {{date('h:i',strtotime($event_end_time))}}</div>
-                                <div class="clear">&nbsp;</div>
-                            @endif
+                            <div class="label micro black rounded ABCDiatypeMedium">{{$labels[0]}}</div>
+                            <div class="clear"></div>
+                            <div class="topSpacerSmall label micro black rounded ABCDiatypeMedium">{{@$labels[1]}} - {{@$labels[2]}}</div>
+                            <div class="clear">&nbsp;</div>
                         </div>
                     @endif
                 </div>
