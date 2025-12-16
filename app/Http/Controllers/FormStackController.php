@@ -99,7 +99,7 @@ class FormStackController extends Controller
 
     public function extractSubmission($id){
 
-        $submissionId = 1412293653;
+        $submissionId = $id;
 
         $submission = Http::withToken(config('services.formstack.token'))
             ->get("https://www.formstack.com/api/v2/submission/{$submissionId}.json")
