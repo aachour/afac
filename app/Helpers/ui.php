@@ -28,7 +28,7 @@
                                     $html.='<div class="label micro">'.$label.'</div>';
                                 }
                             $html.='</div>
-                            <div class="mt-3 bigger black ABCDiatypeMedium">'.getEntryTitle($entry).'</div>
+                            <div class="mt-3 huge black ABCDiatypeMedium">'.getEntryTitle($entry).'</div>
                         </div>
                         <div class="col-lg-6 col-12">
                             <img src="'.asset('storage/'.$entry->image_featured).'" width="100%" />
