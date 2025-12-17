@@ -18,6 +18,7 @@ use PHPMailer\PHPMailer\Exception;
 
 class HomeController extends Controller
 {
+    
     public function home()
     {
         return view('frontend.home');
@@ -137,5 +138,6 @@ class HomeController extends Controller
         ]);
         
     }
+
 
 }

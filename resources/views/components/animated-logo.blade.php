@@ -1,10 +1,16 @@
 <!-- GSAP Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
+@php
+    print_r($logoElements);
+@endphp
+
 <div class="animated-logo-wrapper">
     <svg width="1200" height="600" viewBox="0 0 437 233" fill="none" xmlns="http://www.w3.org/2000/svg"
         class="animated-logo-svg">
+
         <g class="logo-container">
+
             <!-- Left L shape -->
             <path
                 d="M381.899 164.649C381.899 164.929 381.879 165.199 381.879 165.479V232.819H436.439V96.4492H381.879V163.829C381.879 164.109 381.899 164.379 381.899 164.659V164.649Z"
@@ -68,6 +74,7 @@
                 <text x="313.691" y="185" fill="#010101" font-family="Arial, sans-serif" font-size="9"
                     font-weight="bold" text-anchor="middle">and counting</text>
             </g>
+
             <!-- Hover zone for rightmost circle - matches the circle area -->
             <circle cx="313.691" cy="164.631" r="60" fill="transparent" class="hover-zone-circle"
                 style="cursor: pointer;" />
@@ -81,8 +88,10 @@
                 <text x="0" y="125" fill="#010101" font-family="Arial, sans-serif" font-size="11" font-weight="bold">in
                     Beirut</text>
             </g>
+
             <!-- Black cover that slides down to reveal animation-3 -->
             <rect id="animation-3-cover" x="0" y="95" width="54.5" height="60" fill="#010101" />
+            
             <!-- Hover zone for bottom-left -->
             <rect x="0" y="80" width="90" height="145" fill="transparent" class="hover-zone-bottom-left"
                 style="cursor: pointer;" />
