@@ -127,4 +127,15 @@ class HomeController extends Controller
         return view('frontend.animation');
     }
 
+
+    public function viewLogo(){
+
+        $logoElements=getLogoActiveElements();
+ 
+        return view('frontend.logo', [
+            'logoElements' => $logoElements
+        ]);
+        
+    }
+
 }

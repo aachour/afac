@@ -69,6 +69,8 @@ Route::get('/view/collection/{id}', [HomeController::class, 'ViewCollection'])->
 
 Route::get('/view/section/{id}', [HomeController::class, 'ViewSection'])->name('view.section'); 
 
+Route::get('/view/logo', [HomeController::class, 'viewLogo'])->name('view.logo'); 
+
 Route::get('/get/forms', [FormStackController::class, 'getForms'])->name('get.forms'); 
 
 Route::get('/extract/submission/{id}', [FormStackController::class, 'extractSubmission'])->name('extract.submission'); 

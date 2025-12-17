@@ -10,6 +10,8 @@
     use App\Models\ColumnAccordion;
     use App\Models\ColumnCountdown;
     use App\Models\ColumnExpandTexts;
+    use App\Models\Logo;
+        
     
     function ViewEntryData($entry_id,$language='EN'){
 
@@ -1179,6 +1181,14 @@
         $entryDetails=['entry_title'=>$entry_title,'entry_text'=>$entry_text,'entry_href'=>$entry_href,'entry_target'=>$entry_target];
 
         return $entryDetails;
+    }
+
+
+    function getLogoActiveElements(){
+
+        $logoElements=Logo::ORDERBY('id','ASC')->get();
+
+        return $logoElements;
     }
 
 ?>
