@@ -72,7 +72,7 @@ class HomeController extends Controller
             $footerBgCode=$entry->footerBgColor->code ?? '';
             
             $pageSections=PageSections::WHERE('entry_id',$id)->ORDERBY('list_order','ASC')->get();
-
+            
             $pageHTML='';
 
             $pageHTML.= ViewEntryData($id,'EN'); 

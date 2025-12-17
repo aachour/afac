@@ -281,3 +281,25 @@
 .percentage-column.active .diamond-percentage {
     opacity: 1;
 }
+
+
+/**********************************************************************************************************************/
+/**********************************************************************************************************************/
+/**********************************************************************************************************************/
+/***General***/
+
+.labels {
+    display: flex;
+    justify-content: center; /* center horizontally */
+    align-items: center;     /* center vertically (optional) */
+    gap: 10px;               /* space between divs */
+}
+
+.label{
+    padding:5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:#000;
+    background:#FFF;
+}

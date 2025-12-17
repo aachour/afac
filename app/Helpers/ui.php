@@ -17,11 +17,18 @@
 
         if($entry){
 
-            $html='<div class="fullContainer" style="background:'.$entry->ImageBgColor->code.';">
-                <div class="centerContainer">
+            $labels=getEntryLabels($entry);
+
+            $html='<div class="fullContainer" >
+                <div class="centerContainer" style="background:'.$entry->ImageBgColor->code.';">
                     <div class="row align-items-center">
-                        <div class="col-lg-6 col-12 text-center" style="background:'.$entry->ImageBgColor->code.';">
-                            <div class="big white ABCDiatypeMedium">'.getEntryTitle($entry).'</div>
+                        <div class="col-lg-6 col-12 text-center">
+                            <div class="labels">';
+                                foreach($labels as $label){
+                                    $html.='<div class="label micro">'.$label.'</div>';
+                                }
+                            $html.='</div>
+                            <div class="mt-3 big black ABCDiatypeMedium">'.getEntryTitle($entry).'</div>
                         </div>
                         <div class="col-lg-6 col-12">
                             <img src="'.asset('storage/'.$entry->image_featured).'" width="100%" />
