@@ -558,9 +558,8 @@
                         $textAlign = $generalInput->button_link == null ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
                         
                         $htmlColumn.='<div class="topSpacerBig">
-                            <a href="' . ($generalInput->button_link ?? '#') . '">
-                                <button class="'.strtolower($generalInput->shape->name).' medium black ABCDiatypeMedium" style="background:'.$generalInput->buttonBgColor->code.';">'.$generalInput->button_value.'</button>
-                            </a>
+                        
+                            <a href="' . ($generalInput->button_link ?? '#') . '">'.getEntryBtnShape($generalInput->button_value,$generalInput->button_value_arabic,$generalInput->shape->name,$generalInput->shapeHover->name,$generalInput->buttonBgColor->code,$generalInput->buttonhoverBgColor->code).'</a>
                         </div>';
                     }
 
@@ -951,9 +950,7 @@
                                 <div class="big black ABCDiatypeMedium">Day(s)</div>
                             </div>
                             <div class="mt-4 col-12 col-lg-4 text-center">
-                                <a href="'.($countdown->button_link ?? '#').'">
-                                    <button class="circle small ABCDiatypeMedium">'.$countdown->button_value.'</button>
-                                </a>
+                                <a href="'.($countdown->button_link ?? '#').'">'.getEntryBtnShape($countdown->button_value,$countdown->button_value_arabic,$countdown->shape->name,$countdown->shapeHover->name,$countdown->buttonBgColor->code,$countdown->buttonhoverBgColor->code).'</a>
                             </div>
                             <div class="mt-4 col-12 col-lg-4 text-center text-lg-start ">
                                 <div class="huge black ABCDiatypeMedium">'.$diff->h.'</div>
@@ -1184,11 +1181,72 @@
     }
 
 
+    function getEntryBtnShape($value,$value_arabic,$shape,$shape_hover,$bg_color,$hover_bg_color){
+
+        if($shape=="Circle" && $shape_hover=="Diamond")
+        {
+            $button = view('frontend.btn-animation.circle-diamond', [
+                'value'=>$value,
+                'value_arabic'=>$value_arabic,
+                'bg_color' => $bg_color,
+                'hover_bg_color' => $hover_bg_color,
+            ])->render();
+        }
+        else if($shape=="Circle" && $shape_hover=="Square")
+        {
+            $button = view('frontend.btn-animation.circle-square', [
+                'value'=>$value,
+                'value_arabic'=>$value_arabic,
+                'bg_color' => $bg_color,
+                'hover_bg_color' => $hover_bg_color,
+            ])->render();
+        }
+        else if($shape=="Square" && $shape_hover=="Circle")
+        {
+            $button = view('frontend.btn-animation.square-circle', [
+                'value'=>$value,
+                'value_arabic'=>$value_arabic,
+                'bg_color' => $bg_color,
+                'hover_bg_color' => $hover_bg_color,
+            ])->render();
+        }
+        else if($shape=="Square" && $shape_hover=="Diamond")
+        {
+            $button = view('frontend.btn-animation.square-diamond', [
+                'value'=>$value,
+                'value_arabic'=>$value_arabic,
+                'bg_color' => $bg_color,
+                'hover_bg_color' => $hover_bg_color,
+            ])->render();
+        }
+        else if($shape=="Diamond" && $shape_hover=="Circle")
+        {
+            $button = view('frontend.btn-animation.diamond-circle', [
+                'value'=>$value,
+                'value_arabic'=>$value_arabic,
+                'bg_color' => $bg_color,
+                'hover_bg_color' => $hover_bg_color,
+            ])->render();
+        }
+        else if($shape=="Diamond" && $shape_hover=="Square")
+        {
+            $button = view('frontend.btn-animation.diamond-square', [
+                'value'=>$value,
+                'value_arabic'=>$value_arabic,
+                'bg_color' => $bg_color,
+                'hover_bg_color' => $hover_bg_color,
+            ])->render();
+        }
+
+        return @$button;
+    }
+
     function getLogoActiveElements(){
 
         $logoElements=Logo::ORDERBY('id','ASC')->get();
 
         return $logoElements;
     }
+    
 
 ?>

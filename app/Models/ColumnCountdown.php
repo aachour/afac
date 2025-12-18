@@ -43,5 +43,24 @@ class ColumnCountdown extends Model
         return $this->hasOne(Colors::class, 'id', 'bg_color_id');
     }
 
+    public function shape()
+    {
+        return $this->hasOne(Shapes::class, 'id', 'button_shape_id');
+    }
+
+    public function shapeHover()
+    {
+        return $this->hasOne(Shapes::class, 'id', 'button_hover_shape_id');
+    }
+
+    public function buttonBgColor()
+    {
+        return $this->hasOne(Colors::class, 'id', 'button_bg_color_id');
+    }
+
+    public function buttonhoverBgColor()
+    {
+        return $this->hasOne(Colors::class, 'id', 'button_hover_bg_color_id');
+    }
 
 }
