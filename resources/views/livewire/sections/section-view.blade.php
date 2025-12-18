@@ -112,6 +112,12 @@
                                             @elseif($entry_id!=null)
                                                 <div class="mb-1"><a href="{{ route('entry.expendingText.view', [ $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Expanding Text <i class="ti ti-edit ti-sm"></i></a></div>
                                             @endif
+                                        @elseif($column->type_id==6)
+                                            @if($page_id!=null)
+                                                <div class="mb-1"><a href="{{ route('pattern.view', [ $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Pattern  <i class="ti ti-edit ti-sm"></i></a></div>
+                                            @elseif($entry_id!=null)
+                                                <div class="mb-1"><a href="{{ route('entry.pattern.view', [ $pageSection->section_id , $column->id]) }}" class="text-body edit-user-button">Pattern <i class="ti ti-edit ti-sm"></i></a></div>
+                                            @endif
                                         @endif
                                         @endforeach
                                     @endif
