@@ -23,7 +23,7 @@
             $labels=getEntryLabels($entry);
 
             $html='<div class="fullContainer" >
-                <div class="centerContainer" style="background:'.$entry->ImageBgColor->code.';">
+                <div class="centerContainer" style="background:'.$entry->ImageBgColor?->code.';">
                     <div class="row align-items-center">
                         <div class="col-lg-6 col-12 text-center">
                             <div class="labels">';
