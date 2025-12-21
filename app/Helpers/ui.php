@@ -872,7 +872,7 @@
                     $htmlColumn.= '<div class="mb-4">
                         <div class="accordionTitle medium black ABCDiatypeMedium">'.$accordion->title.'</div>
                         <div class="accordionArrow clickable" status="'.($key == '0' ? '1' : '0').'">
-                            <img src="'.asset('frontend/images/'.($key == '0' ? 'arrow-up.png' : 'arrow-down.png')).'" width="30px" />
+                            <img src="'.asset('frontend/images/'.($key == '0' ? 'arrow-down.png' : 'arrow-up.png')).'" width="30px" />
                         </div>
                         <div class="clear"></div>
                         <div class="accordionText mt-2 small black '.($key == '0' ? '' : 'd-none').' ">'.$accordion->text.'</div>
@@ -891,12 +891,12 @@
                 $(".accordionArrow").click(function(){ 
                     var status=$(this).attr("status");
                     if(status=="0"){
-                        $(this).find("img").attr("src","'.asset("frontend/images/arrow-down.png").'");
+                        $(this).find("img").attr("src","'.asset("frontend/images/arrow-up.png").'");
                         $(this).parent().find(".accordionText").removeClass("d-none");
                         $(this).attr("status","1");
                     }
                     else{
-                        $(this).find("img").attr("src","'.asset("frontend/images/arrow-up.png").'");
+                        $(this).find("img").attr("src","'.asset("frontend/images/arrow-down.png").'");
                         $(this).parent().find(".accordionText").addClass("d-none");
                         $(this).attr("status","0");
                     }
