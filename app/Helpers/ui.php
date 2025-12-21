@@ -870,12 +870,12 @@
                 foreach($column->accordions as $key=>$accordion){
 
                     $htmlColumn.= '<div class="mb-4">
-                        <div class="accordionTitle small black ABCDiatypeMedium">'.$accordion->title.'</div>
+                        <div class="accordionTitle medium black ABCDiatypeMedium">'.$accordion->title.'</div>
                         <div class="accordionArrow clickable" status="'.($key == '0' ? '1' : '0').'">
                             <img src="'.asset('frontend/images/'.($key == '0' ? 'arrow-up.png' : 'arrow-down.png')).'" width="30px" />
                         </div>
                         <div class="clear"></div>
-                        <div class="accordionText mt-2 tiny black '.($key == '0' ? '' : 'd-none').' ">'.$accordion->text.'</div>
+                        <div class="accordionText mt-2 small black '.($key == '0' ? '' : 'd-none').' ">'.$accordion->text.'</div>
                     </div>';
                 }
 
