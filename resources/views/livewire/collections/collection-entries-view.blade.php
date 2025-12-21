@@ -92,9 +92,9 @@
                                     @elseif($collection_type_id==3)
                                     <option value="{{ $entry->id }}">{{ $entry->project_title }}</option>
                                     @elseif($collection_type_id==4)
-                                    <option value="{{ $entry->id }}">{{ $entry->grantee_title }}</option>
+                                    <option value="{{ $entry->id }}">{{ $entry->grantee_name }}</option>
                                     @elseif($collection_type_id==5)
-                                    <option value="{{ $entry->id }}">{{ $entry->jury_title }}</option>
+                                    <option value="{{ $entry->id }}">{{ $entry->jury_name}}</option>
                                     @elseif($collection_type_id==6)
                                     <option value="{{ $entry->id }}">{{ $entry->resource_title }}</option>
                                     @elseif($collection_type_id==7)
