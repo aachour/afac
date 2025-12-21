@@ -1089,7 +1089,7 @@
             
         }
         else if($entry->type_id==7){
-            $labels[]=date('d M',strtotime($entries->news_date));
+            $labels[]=date('d M',strtotime($entry->news_date));
         }
         else if($entry->type_id==8){
             
