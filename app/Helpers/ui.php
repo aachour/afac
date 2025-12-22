@@ -23,7 +23,7 @@
             $labels=getEntryLabels($entry);
 
             $html='<div class="fullContainer" >
-                <div class="centerContainer" style="background:'.$entry->ImageBgColor->code.';">
+                <div class="centerContainer" style="background:'.$entry->ImageBgColor?->code.';">
                     <div class="row align-items-center">
                         <div class="col-lg-6 col-12 text-center">
                             <div class="labels">';
@@ -891,12 +891,12 @@
                 $(".accordionArrow").click(function(){ 
                     var status=$(this).attr("status");
                     if(status=="0"){
-                        $(this).find("img").attr("src","'.asset("frontend/images/arrow-down.png").'");
+                        $(this).find("img").attr("src","'.asset("frontend/images/arrow-up.png").'");
                         $(this).parent().find(".accordionText").removeClass("d-none");
                         $(this).attr("status","1");
                     }
                     else{
-                        $(this).find("img").attr("src","'.asset("frontend/images/arrow-up.png").'");
+                        $(this).find("img").attr("src","'.asset("frontend/images/arrow-down.png").'");
                         $(this).parent().find(".accordionText").addClass("d-none");
                         $(this).attr("status","0");
                     }
