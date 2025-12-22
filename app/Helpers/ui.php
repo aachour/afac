@@ -11,8 +11,8 @@
     use App\Models\ColumnCountdown;
     use App\Models\ColumnExpandTexts;
     use App\Models\Logo;
-        
-    
+    use Carbon\Carbon;
+            
     function ViewEntryData($entry_id,$language='EN')
     {
 
@@ -931,15 +931,20 @@
 
                 foreach($column->countdowns as $countdown){
 
-                    $start_date=$countdown->start_date;
-                    $end_date=$countdown->end_date;
-                    $start_time=$countdown->start_time;
-                    $end_time=$countdown->end_time;
+                    $startDateTime = Carbon::parse($countdown->start_date . ' ' . $countdown->start_time);
+                    $endDateTime   = Carbon::parse($countdown->end_date . ' ' . $countdown->end_time);
 
-                    $start = new DateTime("$start_date $start_time");
-                    $end   = new DateTime("$end_date $end_time");
+                    $now = Carbon::now();
 
-                    $diff = $start->diff($end);
+                    if ($now->lessThan($endDateTime)) {
+                        $diffInHours = $now->diffInHours($endDateTime);
+                        
+                        $days  = intdiv($diffInHours, 24);
+                        $hours = $diffInHours % 24;
+                    } else {
+                        $days = 0;
+                        $hours = 0;
+                    }
 
                     $htmlColumn.= '<div class="coutdown">
                     
@@ -947,14 +952,14 @@
 
                         <div class="row mt-5 align-items-center">
                             <div class="mt-4 col-12 col-lg-4 text-center text-lg-end">
-                                <div class="huge black ABCDiatypeMedium">'.$diff->days.'</div>
+                                <div class="huge black ABCDiatypeMedium">'.$days.'</div>
                                 <div class="big black ABCDiatypeMedium">Day(s)</div>
                             </div>
                             <div class="mt-4 col-12 col-lg-4 text-center">
                                 <a href="'.($countdown->button_link ?? '#').'">'.getEntryBtnShape($countdown->button_value,$countdown->button_value_arabic,$countdown->shape->name,$countdown->shapeHover->name,$countdown->buttonBgColor->code,$countdown->buttonhoverBgColor->code).'</a>
                             </div>
                             <div class="mt-4 col-12 col-lg-4 text-center text-lg-start ">
-                                <div class="huge black ABCDiatypeMedium">'.$diff->h.'</div>
+                                <div class="huge black ABCDiatypeMedium">'.$hours.'</div>
                                 <div class="big black ABCDiatypeMedium">Hour(s)</div>
                             </div>
                         </div>
@@ -1089,7 +1094,7 @@
             
         }
         else if($entry->type_id==7){
-            $labels[]=date('d M',strtotime($entries[0]->news_date));
+            $labels[]=date('d M',strtotime($entry->news_date));
         }
         else if($entry->type_id==8){
             
