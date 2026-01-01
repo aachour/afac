@@ -18,7 +18,7 @@
 
                             <div class="row">
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=8) d-none @endif">
                                     <label class="form-label" for="header_color_id">Header Color</label>
                                     <select
                                         wire:model="header_color_id"
@@ -32,7 +32,7 @@
                                     @error('header_color_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
                     
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=8) d-none @endif">
                                     <label class="form-label" for="footer_color_id">Footer Color</label>
                                     <select
                                         wire:model="footer_color_id"
@@ -46,7 +46,7 @@
                                     @error('footer_color_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
                                 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=8) d-none @endif">
                                     <label class="form-label" for="image_width">Image Width</label>
                                     <select
                                         wire:model="image_width"
@@ -60,7 +60,7 @@
                                     @error('image_width') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>  
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=8) d-none @endif">
                                     <label class="form-label" for="category">Image Bg Color</label>
                                     <select
                                         wire:model="background_color_id"
@@ -112,7 +112,7 @@
 
                                 <div class="w-100 d-none d-md-block"></div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=8) d-none @endif">
                                     <label class="form-label" for="button_value">Button Text </label>
                                     <input
                                         wire:model="button_value"
@@ -123,7 +123,7 @@
                                     @error('button_value') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=8) d-none @endif">
                                     <label class="form-label" for="button_value_arabic">نص الزر</label>
                                     <input
                                         wire:model="button_value_arabic"
@@ -135,7 +135,7 @@
                                 </div>
 
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=8) d-none @endif">
                                     <label class="form-label" for="button_shape_id">Button Shape </label>
                                     <select
                                         wire:model="button_shape_id"
@@ -149,7 +149,7 @@
                                     @error('button_shape_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=8) d-none @endif">
                                     <label class="form-label" for="button_hover_shape_id">Button Hover Shape</label>
                                     <select
                                         wire:model="button_hover_shape_id"
@@ -163,7 +163,7 @@
                                     @error('button_hover_shape_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=8) d-none @endif">
                                     <label class="form-label" for="button_bg_color_id">Button Color</label>
                                     <select
                                         wire:model="button_bg_color_id"
@@ -177,7 +177,7 @@
                                     @error('button_bg_color_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                 <div class="col-12 col-md-6 mt-2">
+                                 <div class="col-12 col-md-6 mt-2 @if($type_id>=8) d-none @endif">
                                     <label class="form-label" for="button_hover_bg_color_id">Button Hover Color</label>
                                     <select
                                         wire:model="button_hover_bg_color_id"
@@ -191,7 +191,7 @@
                                     @error('button_hover_bg_color_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=8) d-none @endif">
                                     <label class="form-label" for="button_link">Button Link </label>
                                     <input
                                         wire:model="button_link"
@@ -202,7 +202,7 @@
                                     @error('button_link') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=8) d-none @endif">
                                     <label class="form-label" for="button_link_arabic">رابط الزر</label>
                                     <input
                                         wire:model="button_link_arabic"
@@ -530,6 +530,22 @@
                         <div class="card-body">
 
                             <div class="row">
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="grantee_category_id">Category <span class="text-danger">*</span></label>
+                                    <select
+                                        wire:model="grantee_category_id"
+                                        id="grantee_category_id"
+                                        class="form-control">
+                                        <option value=''>Select Type</option>
+                                        @foreach($grantee_categories as $category)
+                                            <option value='{{$category->id}}'>{{$category->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('grantee_category_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
 
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="grantee_name">Name <span class="text-danger">*</span></label>
@@ -949,7 +965,130 @@
                         </div>
 
                     </div>
+
+
+                    <!--Team-->
+                    <div class="card mt-5 @if($type_id!=9) d-none @endif">
+
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Team Member Details</h5>
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="team_name">Name <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="team_name"
+                                        type="text"
+                                        id="team_name"
+                                        class="form-control"
+                                        placeholder="Name" />
+                                    @error('team_name') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="team_name_arabic">الاسم <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="team_name_arabic"
+                                        type="text"
+                                        id="team_name_arabic"
+                                        class="form-control"
+                                        placeholder="الاسم" />
+                                    @error('team_name_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
+                                    <label class="form-label" for="team_text">Text</label>
+                                    <textarea wire:ignore
+                                        wire:model="team_text"
+                                        type="text"
+                                        id="team_text"
+                                        class="form-control txtEditor" placeholder="Text"></textarea>
+                                    @error('team_text') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
+                                    <label class="form-label" for="team_text_arabic">Text</label>
+                                    <textarea wire:ignore
+                                        wire:model="team_text_arabic"
+                                        type="text"
+                                        id="team_text_arabic"
+                                        class="form-control txtEditor" placeholder="Text"></textarea>
+                                    @error('team_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+                                
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
                     
+                    <!--Board-->
+                    <div class="card mt-5 @if($type_id!=10) d-none @endif">
+
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Board Member Details</h5>
+                        </div>
+
+                        <div class="card-body">
+
+                            <div class="row">
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="board_name">Name <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="board_name"
+                                        type="text"
+                                        id="board_name"
+                                        class="form-control"
+                                        placeholder="Name" />
+                                    @error('board_name') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="board_name_arabic">الاسم <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="board_name_arabic"
+                                        type="text"
+                                        id="board_name_arabic"
+                                        class="form-control"
+                                        placeholder="الاسم" />
+                                    @error('board_name_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
+                                    <label class="form-label" for="board_text">Text</label>
+                                    <textarea wire:ignore
+                                        wire:model="board_text"
+                                        type="text"
+                                        id="board_text"
+                                        class="form-control txtEditor" placeholder="Text"></textarea>
+                                    @error('board_text') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
+                                    <label class="form-label" for="board_text_arabic">Text</label>
+                                    <textarea wire:ignore
+                                        wire:model="board_text_arabic"
+                                        type="text"
+                                        id="board_text_arabic"
+                                        class="form-control txtEditor" placeholder="Text"></textarea>
+                                    @error('board_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+                                
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
                 </div>
 
                 <div class="col-12 text-end mt-4">

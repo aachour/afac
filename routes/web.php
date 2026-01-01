@@ -36,10 +36,10 @@ use App\Livewire\Columns\ExpandingTextView;
 use App\Livewire\Columns\PatternView;
 
 use App\Livewire\Events\EventCategoryView;
-use App\Livewire\Events\EventView;
-use App\Livewire\Events\EventForm;
 
 use App\Livewire\Projects\ProjectCategoryView;
+
+use App\Livewire\Grantees\GranteeCategoryView;
 
 use App\Livewire\Entries\EntryView;
 use App\Livewire\Entries\EntryForm;
@@ -63,7 +63,7 @@ Route::get('/animation', [HomeController::class, 'animation'])->name('animation'
 
 Route::get('/page/{id}/{name}', [HomeController::class, 'ViewPage'])->name('page.view'); 
 
-Route::get('/{entryType}/{id}', [HomeController::class, 'ViewEntry'])->where('entryType', 'event|program|project|grantee|juror|resource|news|external')->name('entry.view');
+Route::get('/{entryType}/{id}', [HomeController::class, 'ViewEntry'])->where('entryType', 'event|program|project|grantee|juror|resource|news|external|team|member')->name('entry.view');
 
 Route::get('/view/collection/{id}', [HomeController::class, 'ViewCollection'])->name('view.collection'); 
 
@@ -196,6 +196,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/create', ProjectCategoryView::class)->name('project.categories.create');
         Route::get('/edit/{id}', ProjectCategoryView::class)->name('project.categories.edit');
         Route::get('/view/{id}/{status}', ProjectCategoryView::class)->name('project.categories.view');
+    });
+
+    // |--------------------------------------------------------------------------
+    // |Grantee Categories
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'granteeCategories'], function () {
+        Route::get('/', GranteeCategoryView::class)->name('grantee.categories');
+        Route::get('/create', GranteeCategoryView::class)->name('grantee.categories.create');
+        Route::get('/edit/{id}', GranteeCategoryView::class)->name('grantee.categories.edit');
+        Route::get('/view/{id}/{status}', GranteeCategoryView::class)->name('grantee.categories.view');
     });
 
 

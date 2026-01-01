@@ -187,12 +187,34 @@
 			</li>
 			@endcanany
 
-			@can('grantee-list')
-			<li class="menu-item {{ request()->is('entries/4*') && (!request()->is('entries/*/years*') && !request()->is('entries/*/grantees*')) ? "active" : "" }}">
-				<a href="{{ route('entries',['typeId'=>'4']) }}" class="menu-link">
+			@canany(['granteeCategory-list','grantee-list'])
+			<li class="menu-item {{ (request()->is('granteeCategories*') || ( request()->is('entries/4*') && (!request()->is('entries/*/years*') && !request()->is('entries/*/grantees*')) )) ? 'active open' : '' }}">
+
+				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-users"></i>
 					<div data-i18n="Grantees">Grantees</div>
 				</a>
+
+				<ul class="menu-sub">
+
+					@can('granteeCategory-list')
+					<li class="menu-item {{ request()->is('granteeCategories*') ? "active" : "" }}">
+						<a href="{{ route('grantee.categories') }}" class="menu-link">
+						<div data-i18n="Categories">Categories</div>
+						</a>
+					</li>
+					@endcan
+
+					@can('grantee-list')
+					<li class="menu-item {{ request()->is('entries/4*') || request()->is('entries/*/grantees') ? "active" : "" }}">
+						<a href="{{ route('entries',['typeId'=>'4']) }}" class="menu-link">
+							<div data-i18n="Grantees">Grantees</div>
+						</a>
+					</li>
+					@endcan
+
+				</ul>
+
 			</li>
 			@endcanany
 
@@ -203,8 +225,8 @@
 					<div data-i18n="Juries">Juries</div>
 				</a>
 			</li>
-			@endcanany
-
+			@endcan
+			
 			@can('resource-list')
 			<li class="menu-item {{ request()->is('entries/6*') && !request()->is('entries/*/years*') && !request()->is('entries/*/grantees*') ? "active" : "" }}">
 				<a href="{{ route('entries',['typeId'=>'6']) }}" class="menu-link">
@@ -212,7 +234,7 @@
 					<div data-i18n="Resources">Resources</div>
 				</a>
 			</li>
-			@endcanany
+			@endcan
 
 			@can('news-list')
 			<li class="menu-item {{ request()->is('entries/7*') && !request()->is('entries/*/years*') && !request()->is('entries/*/grantees*') ? "active" : "" }}">
@@ -221,7 +243,7 @@
 					<div data-i18n="News">News</div>
 				</a>
 			</li>
-			@endcanany
+			@endcan
 
 			@can('external-list')
 			<li class="menu-item {{ request()->is('entries/8*') && !request()->is('entries/*/years*') && !request()->is('entries/*/grantees*') ? "active" : "" }}">
@@ -230,7 +252,25 @@
 					<div data-i18n="Externals">Externals</div>
 				</a>
 			</li>
-			@endcanany
+			@endcan
+
+			@can('team-list')
+			<li class="menu-item {{ request()->is('entries/9*') && !request()->is('entries/*/years*') && !request()->is('entries/*/grantees*') ? "active" : "" }}">
+				<a href="{{ route('entries',['typeId'=>'9']) }}" class="menu-link">
+					<i class="menu-icon tf-icons ti ti-users-group"></i>
+					<div data-i18n="Team Members">Team Members</div>
+				</a>
+			</li>
+			@endcan
+
+			@can('board-list')
+			<li class="menu-item {{ request()->is('entries/10*') && !request()->is('entries/*/years*') && !request()->is('entries/*/grantees*') ? "active" : "" }}">
+				<a href="{{ route('entries',['typeId'=>'10']) }}" class="menu-link">
+					<i class="menu-icon tf-icons ti ti-user-circle"></i>
+					<div data-i18n="Board Members">Board Members</div>
+				</a>
+			</li>
+			@endcan
 
 		
 		</ul>

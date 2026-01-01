@@ -4,6 +4,7 @@ namespace App\Livewire\Entries;
 
 use App\Models\EventCategories;
 use App\Models\ProjectCategories;
+use App\Models\GranteeCategories;
 use App\Models\ExternalCategories;
 use App\Models\Types;
 use App\Models\Entries;
@@ -31,6 +32,7 @@ class EntryForm extends Component
 
     public $event_categories;
     public $project_categories;
+    public $grantee_categories;
     public $external_categories;
     
     public $colors;
@@ -91,6 +93,7 @@ class EntryForm extends Component
     public $program_year_id;
     
     //4- Grantee
+    public $grantee_category_id;
     public $grantee_name;
     public $grantee_name_arabic;
     public $grantee_text;
@@ -130,6 +133,18 @@ class EntryForm extends Component
     public $external_link_arabic;
     public $external_image;
 
+    //9- Team
+    public $team_name;
+    public $team_name_arabic;
+    public $team_text;
+    public $team_text_arabic;
+
+    //10- Board
+    public $board_name;
+    public $board_name_arabic;
+    public $board_text;
+    public $board_text_arabic;
+    
 
     public function mount($typeId,$id=''){
 
@@ -201,6 +216,7 @@ class EntryForm extends Component
             }
 
             //Grantee
+            $this->grantee_category_id=$this->entry->grantee_category_id;
             $this->grantee_name=$this->entry->grantee_name;
             $this->grantee_name_arabic=$this->entry->grantee_name_arabic;
             $this->grantee_text=$this->entry->grantee_text;
@@ -238,12 +254,27 @@ class EntryForm extends Component
             $this->external_title_arabic=$this->entry->external_title_arabic;
             $this->external_link=$this->entry->external_link;
             $this->external_link_arabic=$this->entry->external_link_arabic;
+
+            //Team
+            $this->team_name=$this->entry->team_name;
+            $this->team_name_arabic=$this->entry->team_name_arabic;
+            $this->team_text=$this->entry->team_text;
+            $this->team_text_arabic=$this->entry->team_text_arabic;
+
+            //Board
+            $this->board_name=$this->entry->board_name;
+            $this->board_name_arabic=$this->entry->board_name_arabic;
+            $this->board_text=$this->entry->board_text;
+            $this->board_text_arabic=$this->entry->board_text_arabic;
+            
         }
 
         $this->event_categories=EventCategories::all();
 
         $this->project_categories=ProjectCategories::all();
 
+        $this->grantee_categories=GranteeCategories::all();
+        
         $this->external_categories=ExternalCategories::all();
         
         $this->colors=Colors::all();
@@ -311,6 +342,7 @@ class EntryForm extends Component
             
 
             //Grantee
+            'grantee_category_id' => ['required_if:type_id,4'],
             'grantee_name' => ['required_if:type_id,4'],
             'grantee_name_arabic' => ['required_if:type_id,4'],
             'grantee_country_id' => ['required_if:type_id,4'],
@@ -338,6 +370,20 @@ class EntryForm extends Component
             'external_title_arabic' => ['required_if:type_id,8'],
             'external_link' => ['required_if:type_id,8'],
             'external_link_arabic' => ['required_if:type_id,8'],
+
+
+            //Team
+            'team_name' => ['required_if:type_id,9'],
+            'team_name_arabic' => ['required_if:type_id,9'],
+            'team_text' => ['required_if:type_id,9'],
+            'team_text_arabic' => ['required_if:type_id,9'],
+
+            
+            //Board
+            'board_name' => ['required_if:type_id,10'],
+            'board_name' => ['required_if:type_id,10'],
+            'board_text' => ['required_if:type_id,10'],
+            'board_text' => ['required_if:type_id,10'],
         ];
 
         return $data;
@@ -398,6 +444,7 @@ class EntryForm extends Component
                 'project_text'=>$this->project_text ?? '',
                 'project_text_arabic'=>$this->project_text_arabic ?? '',
                 'project_countries_id'=> $this->project_countries_id !== '' ? json_encode($this->project_countries_id) : null,
+                'grantee_category_id'=> $this->grantee_category_id !== '' ? $this->grantee_category_id : null, 
                 'grantee_name'=>$this->grantee_name ?? '',
                 'grantee_name_arabic'=>$this->grantee_name_arabic ?? '',
                 'grantee_text'=>$this->grantee_text ?? '',
@@ -427,6 +474,14 @@ class EntryForm extends Component
                 'external_title_arabic'=>$this->external_title_arabic ?? '',
                 'external_link'=>$this->external_link ?? '',
                 'external_link_arabic'=>$this->external_link_arabic ?? '',
+                'team_name'=>$this->team_name ?? '',
+                'team_name_arabic'=>$this->team_name_arabic ?? '',
+                'team_text'=>$this->team_text ?? '',
+                'team_text_arabic'=>$this->team_text_arabic ?? '',
+                'board_name'=>$this->board_name ?? '',
+                'board_name_arabic'=>$this->board_name_arabic ?? '',
+                'board_text'=>$this->board_text ?? '',
+                'board_text_arabic'=>$this->board_text_arabic ?? '',
             ]);
 
             if($this->type_id==3){
@@ -490,6 +545,7 @@ class EntryForm extends Component
                 'project_text'=>$this->project_text ?? '',
                 'project_text_arabic'=>$this->project_text_arabic ?? '',
                 'project_countries_id'=> $this->project_countries_id !== '' ? json_encode($this->project_countries_id) : null,
+                'grantee_category_id'=> $this->grantee_category_id !== '' ? $this->grantee_category_id : null, 
                 'grantee_name'=>$this->grantee_name ?? '',
                 'grantee_name_arabic'=>$this->grantee_name_arabic ?? '',
                 'grantee_text'=>$this->grantee_text ?? '',
@@ -519,6 +575,14 @@ class EntryForm extends Component
                 'external_title_arabic'=>$this->external_title_arabic ?? '',
                 'external_link'=>$this->external_link ?? '',
                 'external_link_arabic'=>$this->external_link_arabic ?? '',
+                'team_name'=>$this->team_name ?? '',
+                'team_name_arabic'=>$this->team_name_arabic ?? '',
+                'team_text'=>$this->team_text ?? '',
+                'team_text_arabic'=>$this->team_text_arabic ?? '',
+                'board_name'=>$this->board_name ?? '',
+                'board_name_arabic'=>$this->board_name_arabic ?? '',
+                'board_text'=>$this->board_text ?? '',
+                'board_text_arabic'=>$this->board_text_arabic ?? '',
             ];
 
             $this->entry->update($data);

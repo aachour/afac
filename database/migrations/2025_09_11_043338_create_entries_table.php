@@ -59,6 +59,7 @@ return new class extends Migration
             $table->json('project_countries_id')->nullable();
             
             //Grantee Fields
+            $table->foreignId('grantee_category_id')->nullable()->constrained('grantee_categories')->onDelete('cascade');
             $table->text('grantee_name')->nullable();
             $table->text('grantee_name_arabic')->nullable();
             $table->text('grantee_text')->nullable();
@@ -100,6 +101,18 @@ return new class extends Migration
             $table->text('external_link_arabic')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            //Team Fields
+            $table->text('team_name')->nullable();
+            $table->text('team_name_arabic')->nullable();  
+            $table->text('team_text')->nullable(); 
+            $table->text('team_text_arabic')->nullable(); 
+
+            //Member Fields
+            $table->text('board_name')->nullable();
+            $table->text('board_name_arabic')->nullable();  
+            $table->text('board_text')->nullable(); 
+            $table->text('board_text_arabic')->nullable(); 
 
         });
     }

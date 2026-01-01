@@ -22,6 +22,8 @@ class TypesSeeder extends Seeder
             'Resource',
             'News',
             'External',
+            'Team',
+            'Member',
         ];
 
         foreach ($types as $type) {

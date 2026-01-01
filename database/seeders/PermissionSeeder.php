@@ -113,6 +113,13 @@ class PermissionSeeder extends Seeder
             'project-delete',
             'project-view',
 
+            // Projects Categories
+            'granteeCategory-list',
+            'granteeCategory-create',
+            'granteeCategory-edit',
+            'granteeCategory-delete',
+            'granteeCategory-view',
+
             // Grantees Page
             'grantee-list',
             'grantee-create',
@@ -148,6 +155,19 @@ class PermissionSeeder extends Seeder
             'external-delete',
             'external-view',
 
+            // team member Page
+            'team-list',
+            'team-create',
+            'team-edit',
+            'team-delete',
+            'team-view',
+
+            // board member Page
+            'board-list',
+            'board-create',
+            'board-edit',
+            'board-delete',
+            'board-view',
 
             // Files Library
             'file-list',
