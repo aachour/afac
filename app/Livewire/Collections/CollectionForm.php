@@ -5,6 +5,8 @@ namespace App\Livewire\Collections;
 use App\Models\Collections;
 use App\Models\Colors;
 use App\Models\Types;
+use App\Models\Entries;
+use App\Models\ProgramYears;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -16,6 +18,8 @@ class CollectionForm extends Component
 
     public $types;
     public $colors;
+    public $programs;
+    public $programYears;
     public $editing = false;
     public $collection;
     public $id;
@@ -33,6 +37,8 @@ class CollectionForm extends Component
     public $view_all_link_arabic;
     public $show_view_all;
     public $background_color_id;
+    public $button_text;
+    public $button_text_arabic;
     public $with_border_bottom;
     public $with_filters;
     public $filter_fields;
@@ -40,6 +46,8 @@ class CollectionForm extends Component
     public $entries_number;
     public $entries_with_expired;
     public $entries_order;
+    public $entries_program_id;
+    public $entries_program_year_id;
     public $title_position;
     public $with_label;
     public $entries_layout;
@@ -50,7 +58,6 @@ class CollectionForm extends Component
     public $featured_image_background_color_id;	
     public $featured_image_description_position;
     
-
     public $entries_order_options=[];
 
     public $featured_image_width_options=[];
@@ -61,6 +68,9 @@ class CollectionForm extends Component
 
         $this->entries_order_options=['1'=>'Name ASC','2'=>'Name DESC','3'=>'Date ASC','4'=>'Date DESC'];
         $this->featured_image_width_options=['1'=>'Full','2'=>'three-quarters']; //'3'=>'one-half' '4'=>'one-quarter'
+
+        $this->programs=Entries::WHERE('type_id','2')->get();
+        $this->programYears=[];
         
         if($id==''){
             $this->authorize('collection-create');
@@ -102,6 +112,8 @@ class CollectionForm extends Component
             $this->view_all_link_arabic=$this->collection->view_all_link_arabic;
             $this->show_view_all=$this->collection->show_view_all == 1 ? true : false;
             $this->background_color_id=$this->collection->background_color_id;
+            $this->button_text=$this->collection->button_text;
+            $this->button_text_arabic=$this->collection->button_text_arabic;
             $this->with_border_bottom=$this->collection->with_border_bottom == 1 ? true : false;
             $this->with_filters=$this->collection->with_filters;
             $this->filter_fields=$this->collection->filter_fields;
@@ -109,6 +121,8 @@ class CollectionForm extends Component
             $this->entries_number=$this->collection->entries_number;
             $this->entries_with_expired=$this->collection->entries_with_expired;
             $this->entries_order=$this->collection->entries_order;
+            $this->entries_program_id=$this->collection->entries_program_id;
+            $this->entries_program_year_id=$this->collection->entries_program_year_id;
             $this->title_position=$this->collection->title_position;
             $this->with_label=$this->collection->with_label;
             $this->entries_layout=$this->collection->entries_layout;
@@ -118,11 +132,19 @@ class CollectionForm extends Component
             $this->featured_image_width=$this->collection->featured_image_width;
             $this->featured_image_background_color_id=$this->collection->featured_image_background_color_id;
             $this->featured_image_description_position=$this->collection->featured_image_description_position;
+
+            //get program Years
+            $this->programYears=ProgramYears::WHERE('program_id',$this->entries_program_id)->get();
         }
 
         $this->types=Types::all();
         $this->colors=Colors::all();
         
+    }
+
+    public function updatedEntriesProgramId($value)
+    {
+        $this->programYears=ProgramYears::WHERE('program_id',$this->entries_program_id)->get();
     }
 
     public function rules()
@@ -142,6 +164,8 @@ class CollectionForm extends Component
             'view_all_link_arabic' => ['nullable'],
             'show_view_all' => ['nullable'],
             'background_color_id' => ['nullable'],
+            'button_text' => ['nullable'],
+            'button_text_arabic' => ['nullable'],
             'with_border_bottom' => ['nullable'],
             'with_filters' => ['nullable'],
             'filter_fields' => ['nullable'],
@@ -149,6 +173,8 @@ class CollectionForm extends Component
             'entries_number' => ['required_if:entries_selection,2'],
             'entries_with_expired' => ['required_if:entries_selection,2'],
             'entries_order' => ['required_if:entries_selection,2'],
+            'entries_program_id' => ['nullable'],
+            'entries_program_year_id' => ['nullable'],
             'title_position' => ['required'],
             'with_label' => ['required'],
             'entries_layout' => ['required'],
@@ -189,6 +215,8 @@ class CollectionForm extends Component
                 'view_all_link_arabic'=>$this->view_all_link_arabic,
                 'show_view_all'=>$this->show_view_all,
                 'background_color_id'=>$this->background_color_id,
+                'button_text'=>$this->button_text,
+                'button_text_arabic'=>$this->button_text_arabic,
                 'with_border_bottom'=> $this->with_border_bottom,
                 'with_filters'=>$this->with_filters,
                 'filter_fields'=>$this->filter_fields,
@@ -196,6 +224,8 @@ class CollectionForm extends Component
                 'entries_number'=>$this->entries_number,
                 'entries_with_expired'=>$this->entries_with_expired,
                 'entries_order'=>$this->entries_order,
+                'entries_program_id'=>$this->entries_program_id,
+                'entries_program_year_id'=>$this->entries_program_year_id,
                 'title_position'=>$this->title_position,
                 'with_label'=>$this->with_label,
                 'entries_layout'=>$this->entries_layout,
@@ -225,6 +255,8 @@ class CollectionForm extends Component
                 'view_all_link_arabic'=>$this->view_all_link_arabic,
                 'show_view_all'=>$this->show_view_all,
                 'background_color_id'=>$this->background_color_id,
+                'button_text'=>$this->button_text,
+                'button_text_arabic'=>$this->button_text_arabic,
                 'with_border_bottom'=>$this->with_border_bottom,
                 'with_filters'=>$this->with_filters,
                 'filter_fields'=>$this->filter_fields,
@@ -232,6 +264,8 @@ class CollectionForm extends Component
                 'entries_number'=>$this->entries_number,
                 'entries_with_expired'=>$this->entries_with_expired,
                 'entries_order'=>$this->entries_order,
+                'entries_program_id'=>$this->entries_program_id,
+                'entries_program_year_id'=>$this->entries_program_year_id,
                 'title_position'=>$this->title_position,
                 'with_label'=>$this->with_label,
                 'entries_layout'=>$this->entries_layout,

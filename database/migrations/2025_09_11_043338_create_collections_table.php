@@ -27,6 +27,8 @@ return new class extends Migration
             $table->text('view_all_link_arabic')->nullable();
             $table->boolean('show_view_all')->nullable();
             $table->foreignId('background_color_id')->nullable()->constrained('colors')->onDelete('cascade');
+            $table->text('button_text')->nullable();
+            $table->text('button_text_arabic')->nullable();
             $table->boolean('with_border_bottom')->nullable();
             $table->integer('with_filters')->nullable();
             $table->json('filter_fields')->nullable();
@@ -34,6 +36,8 @@ return new class extends Migration
             $table->integer('entries_number')->nullable();
             $table->integer('entries_with_expired')->nullable();
             $table->integer('entries_order')->nullable();
+            $table->foreignId('entries_program_id')->nullable()->constrained('entries')->onDelete('cascade');
+            $table->foreignId('entries_program_year_id')->nullable()->constrained('program_years')->onDelete('cascade');
             $table->integer('title_position')->nullable();
             $table->integer('with_label')->nullable();
             $table->integer('entries_layout')->nullable();

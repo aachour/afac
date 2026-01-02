@@ -180,6 +180,28 @@
                                 <div class="w-100 d-none d-md-block"></div>
 
                                 <div class="col-12 col-md-6 mt-3">
+                                    <label class="form-label" for="button_text">Button Text</label>
+                                    <input
+                                        wire:model="button_text"
+                                        type="text"
+                                        id="button_text"
+                                        class="form-control" />
+                                    @error('button_text') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-3">
+                                    <label class="form-label" for="button_text_arabic">Button Text Arabic</label>
+                                    <input
+                                        wire:model="button_text_arabic"
+                                        type="text"
+                                        id="button_text_arabic"
+                                        class="form-control" />
+                                    @error('button_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+
+                                <div class="col-12 col-md-6 mt-3">
                                     <div class="form-check">
                                         <input wire:model="with_border_bottom" type="checkbox" id="with_border_bottom" class="form-check-input" value="1">
                                         <label for="with_border_bottom" class="form-check-label">With Border Bottom</label>
@@ -331,21 +353,56 @@
                                             <label for="entries_with_expired" class="form-check-label">Yes</label>
                                         </div>
 
+                                    </div>
+
+                                    <div class="col-12 col-md-6 mt-3">
+                                        <label class="form-label" for="name">Entries Order <span class="text-danger">*</span></label>
+                                        <select
+                                            wire:model.live="entries_order"
+                                            id="entries_order"
+                                            class="form-control">
+                                            <option value=''>Select Order</option>
+                                            @foreach($entries_order_options as $key=>$value)
+                                                <option value='{{$key}}'>{{$value}}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('entries_order') <div class="text-danger">{{ $message }}</div> @enderror
+                                    </div>
+
+                                    <div class="w-100 d-none d-md-block"></div>
+
+                                    @if($type_id==3 || $type_id==4 || $type_id==5)
+
                                         <div class="col-12 col-md-6 mt-3">
-                                            <label class="form-label" for="name">Entries Order <span class="text-danger">*</span></label>
+                                            <label class="form-label" for="name">Program</label>
                                             <select
-                                                wire:model.live="entries_order"
-                                                id="entries_order"
+                                                wire:model.live="entries_program_id"
+                                                id="entries_program_id"
                                                 class="form-control">
-                                                <option value=''>Select Order</option>
-                                                @foreach($entries_order_options as $key=>$value)
-                                                    <option value='{{$key}}'>{{$value}}</option>
+                                                <option value=''>Select Program</option>
+                                                @foreach($programs as $program)
+                                                    <option value='{{$program->id}}'>{{$program->program_title}}</option>
                                                 @endforeach
                                             </select>
-                                            @error('entries_order') <div class="text-danger">{{ $message }}</div> @enderror
+                                            @error('entries_program_id') <div class="text-danger">{{ $message }}</div> @enderror
                                         </div>
 
-                                    </div>
+                                        <div class="col-12 col-md-6 mt-3">
+                                            <label class="form-label" for="name">Program Year</label>
+                                            <select
+                                                wire:model.live="entries_program_year_id"
+                                                id="entries_program_year_id"
+                                                class="form-control">
+                                                <option value=''>Select Year</option>
+                                                @foreach($programYears as $programYear)
+                                                    <option value='{{$programYear->id}}'>{{$programYear->year}}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('entries_program_year_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                        </div>
+
+                                    @endif
+
                                 @endif
                             </div>
 
