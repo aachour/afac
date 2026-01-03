@@ -82,6 +82,9 @@ class EntryForm extends Component
     public $program_title_arabic;
     public $program_text;
     public $program_text_arabic;
+    public $program_start_date;
+    public $program_end_date;
+    
 
     //3- Project
     public $project_category_id;
@@ -204,6 +207,9 @@ class EntryForm extends Component
             $this->program_title_arabic=$this->entry->program_title_arabic;
             $this->program_text=$this->entry->program_text;
             $this->program_text_arabic=$this->entry->program_text_arabic;
+            $this->program_start_date=$this->entry->program_start_date;
+            $this->program_end_date=$this->entry->program_end_date;
+            
 
             //Project
             $this->project_category_id=$this->entry->project_category_id;
@@ -446,6 +452,8 @@ class EntryForm extends Component
                 'program_title_arabic'=>$this->program_title_arabic ?? '',
                 'program_text'=>$this->program_text ?? '',
                 'program_text_arabic'=>$this->program_text_arabic ?? '',
+                'program_start_date'=>$this->program_start_date ?? '',
+                'program_end_date'=>$this->program_end_date ?? '',
                 'project_category_id'=> $this->project_category_id !== '' ? $this->project_category_id : null, 
                 'project_title'=>$this->project_title ?? '',
                 'project_title_arabic'=>$this->project_title_arabic ?? '',
@@ -549,6 +557,8 @@ class EntryForm extends Component
                 'program_title_arabic'=>$this->program_title_arabic ?? '',
                 'program_text'=>$this->program_text ?? '',
                 'program_text_arabic'=>$this->program_text_arabic ?? '',
+                'program_start_date'=>$this->program_start_date ?? '',
+                'program_end_date'=>$this->program_end_date ?? '',
                 'project_category_id'=> $this->project_category_id !== '' ? $this->project_category_id : null, 
                 'project_title'=>$this->project_title ?? '',
                 'project_title_arabic'=>$this->project_title_arabic ?? '',

@@ -50,6 +50,8 @@ return new class extends Migration
             $table->text('program_title_arabic')->nullable();
             $table->text('program_text')->nullable();
             $table->text('program_text_arabic')->nullable();
+            $table->date('program_start_date')->nullable();
+            $table->date('program_end_date')->nullable();
             $table->integer('program_status')->nullable();
 
             //Project Fields

@@ -418,6 +418,31 @@
                                     @error('program_text_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
+                                <!--Dates-->
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label for="program_start_date" class="form-label">Start Date</label>
+                                    <input type="date"
+                                        class="form-control @error('program_start_date') is-invalid @enderror"
+                                        id="program_start_date"
+                                        wire:model="program_start_date"
+                                        placeholder="Start Date" />
+                                    @error('program_start_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="col-12 col-lg-6 mb-3">
+                                    <label for="program_end_date" class="form-label">End Date</label>
+                                    <input type="date"
+                                        class="form-control @error('program_end_date') is-invalid @enderror"
+                                        id="program_end_date"
+                                        wire:model="program_end_date"
+                                        placeholder="End Date" />
+                                    @error('program_end_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
                             </div>
 
                         </div>
