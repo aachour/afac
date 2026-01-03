@@ -247,6 +247,34 @@
                         <div class="row">
 
                             <div class="col-12 col-lg-6  mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
+                                <label for="button_color_id" class="form-label">Text Color</label>
+                                <select
+                                    wire:model="button_color_id"
+                                    id="button_color_id"
+                                    class="form-control">
+                                    <option value=''>Select Color</option>
+                                    @foreach($colors as $color)
+                                        <option value='{{$color->id}}'>{{$color->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('button_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                            </div>
+
+                            <div class="col-12 col-lg-6  mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
+                                <label for="button_hover_color_id" class="form-label">Hover Text Color</label>
+                                <select
+                                    wire:model="button_hover_color_id"
+                                    id="button_hover_color_id"
+                                    class="form-control">
+                                    <option value=''>Select Color</option>
+                                    @foreach($colors as $color)
+                                        <option value='{{$color->id}}'>{{$color->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('button_hover_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                            </div>
+
+                            <div class="col-12 col-lg-6  mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
                                 <label for="button_bg_color_id" class="form-label">Background Color</label>
                                 <select
                                     wire:model="button_bg_color_id"
@@ -261,7 +289,7 @@
                             </div>
 
                             <div class="col-12 col-lg-6  mb-3 {{ $input_type_id == 5 ? '' : 'd-none' }}">
-                                <label for="button_hover_bg_color_id" class="form-label">Background Color</label>
+                                <label for="button_hover_bg_color_id" class="form-label">Hover Background Color</label>
                                 <select
                                     wire:model="button_hover_bg_color_id"
                                     id="button_hover_bg_color_id"

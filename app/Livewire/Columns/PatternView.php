@@ -27,6 +27,8 @@ class PatternView extends Component
 
     public $button_shape_id;
     public $button_hover_shape_id;
+    public $button_color_id;
+    public $button_hover_color_id;
     public $button_bg_color_id;
     public $button_hover_bg_color_id;
     public $button_text;
@@ -77,6 +79,8 @@ class PatternView extends Component
             'modalId',
             'button_shape_id',
             'button_hover_shape_id',
+            'button_color_id',
+            'button_hover_color_id',
             'button_bg_color_id',
             'button_hover_bg_color_id',
             'button_text',
@@ -100,6 +104,8 @@ class PatternView extends Component
         $this->modalId=$id;
         $this->button_shape_id=$columnPattern->button_shape_id;
         $this->button_hover_shape_id=$columnPattern->button_hover_shape_id;
+        $this->button_color_id=$columnPattern->button_color_id;
+        $this->button_hover_color_id=$columnPattern->button_hover_color_id;
         $this->button_bg_color_id=$columnPattern->button_bg_color_id;
         $this->button_hover_bg_color_id=$columnPattern->button_hover_bg_color_id;
         $this->button_text=$columnPattern->button_text;
@@ -121,6 +127,8 @@ class PatternView extends Component
                 'section_column_id'=>$this->section_column_id,
                 'button_shape_id'=>$this->button_shape_id,
                 'button_hover_shape_id'=>$this->button_hover_shape_id,
+                'button_color_id'=>$this->button_color_id,
+                'button_hover_color_id'=>$this->button_hover_color_id,
                 'button_bg_color_id'=>$this->button_bg_color_id,
                 'button_hover_bg_color_id'=>$this->button_hover_bg_color_id,
                 'button_text'=>$this->button_text,
@@ -138,6 +146,8 @@ class PatternView extends Component
             $columnPattern=ColumnPattern::find($this->modalId);
             $columnPattern->button_shape_id=$this->button_shape_id;
             $columnPattern->button_shape_id=$this->button_shape_id;
+            $columnPattern->button_color_id=$this->button_color_id;
+            $columnPattern->button_hover_color_id=$this->button_hover_color_id;
             $columnPattern->button_bg_color_id=$this->button_bg_color_id;
             $columnPattern->button_hover_bg_color_id=$this->button_hover_bg_color_id;
             $columnPattern->button_text=$this->button_text;

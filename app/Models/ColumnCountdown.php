@@ -25,6 +25,8 @@ class ColumnCountdown extends Model
         'button_value_arabic',
         'button_shape_id',
         'button_hover_shape_id',
+        'button_color_id',
+        'button_hover_color_id',
         'button_bg_color_id',
         'button_hover_bg_color_id',
         'button_link',

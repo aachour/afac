@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('section_column_id')->nullable()->constrained('section_columns')->onDelete('cascade');
             $table->foreignId('button_shape_id')->nullable()->constrained('shapes')->onDelete('cascade');
             $table->foreignId('button_hover_shape_id')->nullable()->constrained('shapes')->onDelete('cascade');
+            $table->foreignId('button_color_id')->nullable()->constrained('colors')->onDelete('cascade');
+            $table->foreignId('button_hover_color_id')->nullable()->constrained('colors')->onDelete('cascade');
             $table->foreignId('button_bg_color_id')->nullable()->constrained('colors')->onDelete('cascade');
             $table->foreignId('button_hover_bg_color_id')->nullable()->constrained('colors')->onDelete('cascade');
             $table->text('button_text')->nullable();

@@ -164,7 +164,35 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2 @if($type_id>=8) d-none @endif">
-                                    <label class="form-label" for="button_bg_color_id">Button Color</label>
+                                    <label class="form-label" for="button_color_id">Button Text Color</label>
+                                    <select
+                                        wire:model="button_color_id"
+                                        id="button_color_id"
+                                        class="form-control">
+                                        <option value=''>Select Background</option>
+                                        @foreach($colors as $color)
+                                            <option value='{{$color->id}}'>{{$color->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('button_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=8) d-none @endif">
+                                    <label class="form-label" for="button_hover_color_id">Button Hover Text Color</label>
+                                    <select
+                                        wire:model="button_hover_color_id"
+                                        id="button_hover_color_id"
+                                        class="form-control">
+                                        <option value=''>Select Background</option>
+                                        @foreach($colors as $color)
+                                            <option value='{{$color->id}}'>{{$color->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('button_hover_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=8) d-none @endif">
+                                    <label class="form-label" for="button_bg_color_id">Button Background Color</label>
                                     <select
                                         wire:model="button_bg_color_id"
                                         id="button_bg_color_id"
@@ -178,7 +206,7 @@
                                 </div>
 
                                  <div class="col-12 col-md-6 mt-2 @if($type_id>=8) d-none @endif">
-                                    <label class="form-label" for="button_hover_bg_color_id">Button Hover Color</label>
+                                    <label class="form-label" for="button_hover_bg_color_id">Button Hover Background  Color</label>
                                     <select
                                         wire:model="button_hover_bg_color_id"
                                         id="button_hover_bg_color_id"
