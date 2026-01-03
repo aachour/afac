@@ -462,18 +462,18 @@
 
                             <div class="row">
 
-                                <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="project_category_id">Category <span class="text-danger">*</span></label>
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
+                                    <label class="form-label" for="project_categories_id">Themes <span class="text-danger">*</span></label>
                                     <select
-                                        wire:model="project_category_id"
-                                        id="project_category_id"
-                                        class="form-control">
-                                        <option value=''>Select Type</option>
+                                        wire:model="project_categories_id"
+                                        id="project_categories_id"
+                                        class="form-control"
+                                        multiple>
                                         @foreach($project_categories as $category)
                                             <option value='{{$category->id}}'>{{$category->name}}</option>
                                         @endforeach
                                     </select>
-                                    @error('project_category_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                    @error('project_categories_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                                 <div class="w-100 d-none d-md-block"></div>
@@ -584,18 +584,18 @@
 
                             <div class="row">
 
-                                <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="grantee_category_id">Category <span class="text-danger">*</span></label>
+                                <div class="col-12 col-md-6 mt-2" wire:ignore>
+                                    <label class="form-label" for="grantee_categories_id">Categories <span class="text-danger">*</span></label>
                                     <select
-                                        wire:model="grantee_category_id"
-                                        id="grantee_category_id"
-                                        class="form-control">
-                                        <option value=''>Select Type</option>
+                                        wire:model="grantee_categories_id"
+                                        id="grantee_categories_id"
+                                        class="form-control"
+                                        multiple>
                                         @foreach($grantee_categories as $category)
                                             <option value='{{$category->id}}'>{{$category->name}}</option>
                                         @endforeach
                                     </select>
-                                    @error('grantee_category_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                    @error('grantee_categories_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                                 <div class="w-100 d-none d-md-block"></div>
@@ -1156,23 +1156,73 @@
 
     @script
     <script>
+
         document.addEventListener('livewire:navigated', () => {
-            let el = $('#project_countries_id');
+            
+            //set multiple select to project categories
+            let el1 = $('#project_categories_id');
 
             // initialize
-            el.select2({
+            el1.select2({
+                placeholder: "Select themes",
+                allowClear: true,
+                width: "100%"
+            });
+
+            // set initial values from Livewire
+            el1.val(@json($project_categories_id)).trigger('change');
+
+            // handle change (update Livewire)
+            el1.on('change', function () {
+                $wire.set('project_categories_id', $(this).val());
+            });
+            
+            /*******************************************************/
+            /*******************************************************/
+            /*******************************************************/
+            
+            //set multiple select to project countries
+            let el2 = $('#project_countries_id');
+
+            // initialize
+            el2.select2({
                 placeholder: "Select countries",
                 allowClear: true,
                 width: "100%"
             });
 
             // set initial values from Livewire
-            el.val(@json($project_countries_id)).trigger('change');
+            el2.val(@json($project_countries_id)).trigger('change');
 
             // handle change (update Livewire)
-            el.on('change', function () {
+            el2.on('change', function () {
                 $wire.set('project_countries_id', $(this).val());
             });
+
+            /*******************************************************/
+            /*******************************************************/
+            /*******************************************************/
+            
+            //set multiple select to project countries
+            let el3 = $('#grantee_categories_id');
+
+            // initialize
+            el3.select2({
+                placeholder: "Select categories",
+                allowClear: true,
+                width: "100%"
+            });
+
+            // set initial values from Livewire
+            el3.val(@json($grantee_categories_id)).trigger('change');
+
+            // handle change (update Livewire)
+            el3.on('change', function () {
+                $wire.set('grantee_categories_id', $(this).val());
+            });
+
+            
+
         });
     </script>
     @endscript
@@ -1183,11 +1233,21 @@
     <script>
 
         document.addEventListener('livewire:load', function () {
-            $('#project_countries_id').select2();
+
+            $('#project_categories_id,#project_countries_id,#grantee_categories_id').select2();
+
+            $('#project_categories_id').on('change', function () {
+                @this.set('project_categories_id', $(this).val());
+            });
 
             $('#project_countries_id').on('change', function () {
                 @this.set('project_countries_id', $(this).val());
             });
+
+            $('#grantee_categories_id').on('change', function () {
+                @this.set('grantee_categories_id', $(this).val());
+            });
+
         });
 
         document.addEventListener('livewire:load', function () {

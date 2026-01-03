@@ -77,7 +77,7 @@
                                 <td>{{ $entry->program_title_arabic }}</td>
                                 <td>{{ $entry->program_status }}</td>
                             @elseif($type_id==3)
-                                <td>{{ $entry->projectCategory->name }}</td>
+                                <td>{{ @$entry->projectCategory->name }}</td>
                                 <td>{{ $entry->project_title }}</td>
                                 <td>{{ $entry->project_title_arabic }}</td>
                             @elseif($type_id==4)
