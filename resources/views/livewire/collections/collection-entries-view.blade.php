@@ -25,8 +25,8 @@
                     <tr>
                         <th>Order</th>
                         <th>Type</th>
-                        <th>Title</th>
-                        <th>Title Arabic</th>
+                        <th>Title/Name</th>
+                        <th>Title/Name Arabic</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -59,6 +59,12 @@
                             @elseif($collection_type_id==8)
                                 <td>{{$collectionEntry->entry->external_title}}</td>
                                 <td>{{$collectionEntry->entry->external_title_arabic}}</td>
+                            @elseif($collection_type_id==9)
+                                <td>{{$collectionEntry->entry->team_name}}</td>
+                                <td>{{$collectionEntry->entry->team_name_arabic}}</td>
+                            @elseif($collection_type_id==10)
+                                <td>{{$collectionEntry->entry->board_name}}</td>
+                                <td>{{$collectionEntry->entry->board_name_arabic}}</td>
                             @endif
                             <td>
                                 @can('collection-delete')
@@ -101,6 +107,10 @@
                                     <option value="{{ $entry->id }}">{{ $entry->news_title }}</option>
                                     @elseif($collection_type_id==8)
                                     <option value="{{ $entry->id }}">{{ $entry->external_title }}</option>
+                                    @elseif($collection_type_id==9)
+                                    <option value="{{ $entry->id }}">{{ $entry->team_name }}</option>
+                                    @elseif($collection_type_id==10)
+                                    <option value="{{ $entry->id }}">{{ $entry->board_name }}</option>
                                     @endif
                                 @endforeach
                             </select>
