@@ -79,7 +79,7 @@
                     @if($with_label==1)
                         <div class="title_or_labels" style="{{$labels_position}};">
                             <div class="label micro black ABCDiatypeMedium">{{$entry_type_name}}</div>
-                            <div class="label micro black rounded ABCDiatypeMedium">{{$labels[0]}}</div>
+                            <div class="label micro black rounded ABCDiatypeMedium">{{@$labels[0]}}</div>
                             <div class="clear"></div>
                             <div class="topSpacerSmall label micro black rounded ABCDiatypeMedium">{{@$labels[1]}} - {{@$labels[2]}}</div>
                             <div class="clear">&nbsp;</div>

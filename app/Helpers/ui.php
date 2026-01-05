@@ -1099,6 +1099,12 @@
         else if($entry->type_id==8){
             
         }
+        else if($entry->type_id==9){
+            
+        }
+        else if($entry->type_id==10){
+            
+        }
 
         return $labels;
     }
@@ -1155,6 +1161,18 @@
             $entry_text=$entry->external_text;
             $entry_href=$entry->external_link;
             $entry_target='_blank';
+        }
+        else if($collection_type_id==9){
+            $entry_title=$entry->team_name;
+            $entry_text=$entry->team_text;
+            $entry_href='';
+            $entry_target='';
+        }
+        else if($collection_type_id==10){
+            $entry_title=$entry->external_title;
+            $entry_text=$entry->external_text;
+            $entry_href='';
+            $entry_target='';
         }
 
         $entryDetails=['entry_title'=>$entry_title,'entry_text'=>$entry_text,'entry_href'=>$entry_href,'entry_target'=>$entry_target];
