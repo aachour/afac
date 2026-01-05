@@ -12,18 +12,21 @@
         cursor: pointer;
     }
 
+    .diamond-square-donate-text {
+        fill:{{ $text_color }};
+    }
     .diamond-square-donate-shape {
         transform-origin: 154px 154px;
     }
+    .diamond-square-donate-button-svg:hover .diamond-square-donate-text {
+        fill: {{ $hover_text_color }};
+    }
 
-    .diamond-square-donate-shape:hover {
+    .diamond-square-donate-button-svg:hover .diamond-square-donate-shape {
         fill: {{ $hover_bg_color }};
     }
 
-    .diamond-square-donate-text {
-        pointer-events: none;
-        user-select: none;
-    }
+
 </style>
 
 <div class="container">
@@ -34,7 +37,7 @@
             <rect class="diamond-square-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="0"
                 fill="{{$bg_color}}" />
             <!-- Text inside -->
-            <text class="diamond-square-donate-text medium black ABCDiatypeMedium medium black ABCDiatypeMedium" x="154" y="168" text-anchor="middle">{{ $value }}</text>
+            <text class="diamond-square-donate-text medium ABCDiatypeMedium medium black ABCDiatypeMedium" x="154" y="168" text-anchor="middle">{{ $value }}</text>
         </svg>
     </div>
 </div>

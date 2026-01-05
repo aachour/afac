@@ -12,13 +12,19 @@
         cursor: pointer;
     }
 
+    .circle-diamond-donate-text {
+        fill:{{ $text_color }};
+    }
     .circle-diamond-donate-shape {
         transform-origin: 154px 154px;
     }
-    .circle-diamond-donate-shape:hover {
-        fill: {{ $hover_bg_color }};
+    .circle-diamond-donate-button-svg:hover .circle-diamond-donate-text {
+        fill: {{ $hover_text_color }};
     }
 
+    .circle-diamond-donate-button-svg:hover .circle-diamond-donate-shape {
+        fill: {{ $hover_bg_color }};
+    }
 
     .circle-diamond-donate-text {
         pointer-events: none;
@@ -32,7 +38,7 @@
             <!-- Shape that morphs from circle to diamond -->
             <rect class="circle-diamond-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="108.8935" fill="{{$bg_color}}" />
             <!-- Text inside -->
-            <text class="circle-diamond-donate-text medium black ABCDiatypeMedium" x="154" y="168" fill="white" text-anchor="middle">{{ $value }}</text>
+            <text class="circle-diamond-donate-text medium ABCDiatypeMedium" x="154" y="168" text-anchor="middle">{{ $value }}</text>
         </svg>
     </div>
 </div>

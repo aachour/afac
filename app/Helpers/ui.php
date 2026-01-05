@@ -62,6 +62,7 @@
         $show_view_all=$collection->show_view_all;
         $view_all_title=$collection->view_all_title;
         $view_all_link=$collection->view_all_link;
+        $button_text=$collection->button_text;
         $with_border_bottom=$collection->with_border_bottom;
         $entries_selection=$collection->entries_selection;
         $entries_per_row=$collection->entries_per_row;
@@ -69,6 +70,7 @@
         $with_label=$collection->with_label;
         $with_featured=$collection->with_featured_image;
         $all_featured=$collection->all_featured;
+        
         
 
         $featured_image_width=$collection->featured_image_width;
@@ -235,6 +237,7 @@
                                             'image_path'=>$image_path,
                                             'entry_href'=>$entry_href,
                                             'entry_target'=>$entry_target,
+                                            'button_text'=>$button_text,
                                             'featured'=>'1',
                                             ])->render();
                                     $html.='</div>
@@ -352,6 +355,7 @@
                                     'entry_type_name' => $entry->type->name,
                                     'collection_type_id' => $collection_type_id,
                                     'labels' => $labels,
+                                    'button_text'=>$button_text,
                                     'featured'=>'0',
                                 ])->render();
                                                                     
@@ -560,7 +564,7 @@
                         
                         $htmlColumn.='<div class="topSpacerBig">
                         
-                            <a href="' . ($generalInput->button_link ?? '#') . '">'.getEntryBtnShape($generalInput->button_value,$generalInput->button_value_arabic,$generalInput->shape->name,$generalInput->shapeHover->name,$generalInput->buttonBgColor->code,$generalInput->buttonhoverBgColor->code).'</a>
+                            <a href="' . ($generalInput->button_link ?? '#') . '">'.getEntryBtnShape($generalInput->button_value,$generalInput->button_value_arabic,$generalInput->shape->name,$generalInput->shapeHover->name,$generalInput->buttonColor->code,$generalInput->buttonHoverColor->code,$generalInput->buttonBgColor->code,$generalInput->buttonHoverBgColor->code).'</a>
                         </div>';
                     }
 
@@ -956,7 +960,7 @@
                                 <div class="big black ABCDiatypeMedium">Day(s)</div>
                             </div>
                             <div class="mt-4 col-12 col-lg-4 text-center">
-                                <a href="'.($countdown->button_link ?? '#').'">'.getEntryBtnShape($countdown->button_value,$countdown->button_value_arabic,$countdown->shape->name,$countdown->shapeHover->name,$countdown->buttonBgColor->code,$countdown->buttonhoverBgColor->code).'</a>
+                                <a href="'.($countdown->button_link ?? '#').'">'.getEntryBtnShape($countdown->button_value,$countdown->button_value_arabic,$countdown->shape->name,$countdown->shapeHover->name,$countdown->buttonColor->code,$countdown->buttonHoverColor->code,$countdown->buttonBgColor->code,$countdown->buttonHoverBgColor->code).'</a>
                             </div>
                             <div class="mt-4 col-12 col-lg-4 text-center text-lg-start ">
                                 <div class="huge black ABCDiatypeMedium">'.$hours.'</div>
@@ -1181,13 +1185,15 @@
     }
 
 
-    function getEntryBtnShape($value,$value_arabic,$shape,$shape_hover,$bg_color,$hover_bg_color){
+    function getEntryBtnShape($value,$value_arabic,$shape,$shape_hover,$text_color,$hover_text_color,$bg_color,$hover_bg_color){
 
         if($shape=="Circle" && $shape_hover=="Diamond")
         {
             $button = view('frontend.btn-animation.circle-diamond', [
                 'value'=>$value,
                 'value_arabic'=>$value_arabic,
+                'text_color' => $text_color,
+                'hover_text_color' => $hover_text_color,
                 'bg_color' => $bg_color,
                 'hover_bg_color' => $hover_bg_color,
             ])->render();
@@ -1197,6 +1203,8 @@
             $button = view('frontend.btn-animation.circle-square', [
                 'value'=>$value,
                 'value_arabic'=>$value_arabic,
+                'text_color' => $text_color,
+                'hover_text_color' => $hover_text_color,
                 'bg_color' => $bg_color,
                 'hover_bg_color' => $hover_bg_color,
             ])->render();
@@ -1206,6 +1214,8 @@
             $button = view('frontend.btn-animation.square-circle', [
                 'value'=>$value,
                 'value_arabic'=>$value_arabic,
+                'text_color' => $text_color,
+                'hover_text_color' => $hover_text_color,
                 'bg_color' => $bg_color,
                 'hover_bg_color' => $hover_bg_color,
             ])->render();
@@ -1215,6 +1225,8 @@
             $button = view('frontend.btn-animation.square-diamond', [
                 'value'=>$value,
                 'value_arabic'=>$value_arabic,
+                'text_color' => $text_color,
+                'hover_text_color' => $hover_text_color,
                 'bg_color' => $bg_color,
                 'hover_bg_color' => $hover_bg_color,
             ])->render();
@@ -1224,6 +1236,8 @@
             $button = view('frontend.btn-animation.diamond-circle', [
                 'value'=>$value,
                 'value_arabic'=>$value_arabic,
+                'text_color' => $text_color,
+                'hover_text_color' => $hover_text_color,
                 'bg_color' => $bg_color,
                 'hover_bg_color' => $hover_bg_color,
             ])->render();
@@ -1233,6 +1247,8 @@
             $button = view('frontend.btn-animation.diamond-square', [
                 'value'=>$value,
                 'value_arabic'=>$value_arabic,
+                'text_color' => $text_color,
+                'hover_text_color' => $hover_text_color,
                 'bg_color' => $bg_color,
                 'hover_bg_color' => $hover_bg_color,
             ])->render();

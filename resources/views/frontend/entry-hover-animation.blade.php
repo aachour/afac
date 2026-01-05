@@ -1,5 +1,5 @@
 @php
-    $text = $text ?? 'Apply Now';
+    $text = $button_text ?? 'Press Here';
     $size = $size ?? 'medium';
     $diamondColor = $diamondColor ?? '#E3F2FD'; 
     $textColor = $textColor ?? '#010101'; 

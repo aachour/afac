@@ -12,10 +12,18 @@
         cursor: pointer;
     }
 
+    .circle-square-donate-text {
+        fill:{{ $text_color }};
+    }
+
     .circle-square-donate-shape {
         transform-origin: 154px 154px;
     }
-    .circle-square-donate-shape:hover {
+    .circle-square-donate-button-svg:hover .circle-square-donate-text {
+        fill: {{ $hover_text_color }};
+    }
+
+    .circle-square-donate-button-svg:hover .circle-square-donate-shape {
         fill: {{ $hover_bg_color }};
     }
 
@@ -31,7 +39,7 @@
             <!-- Shape that morphs from circle to square -->
             <rect class="circle-square-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="108.8935" fill="{{$bg_color}}"/>
             <!-- Text inside -->
-            <text class="circle-square-donate-text medium black ABCDiatypeMedium" x="154" y="168" fill="white"  text-anchor="middle">{{ $value }}</text>
+            <text class="circle-square-donate-text medium ABCDiatypeMedium" x="154" y="168"  text-anchor="middle">{{ $value }}</text>
         </svg>
     </div>
 </div>
