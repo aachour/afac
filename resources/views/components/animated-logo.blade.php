@@ -2,7 +2,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 @php
-    print_r($logoElements);
+    // print_r($logoElements);
 @endphp
 
 <div class="animated-logo-wrapper">
@@ -14,7 +14,7 @@
             <!-- Left L shape -->
             <path
                 d="M381.899 164.649C381.899 164.929 381.879 165.199 381.879 165.479V232.819H436.439V96.4492H381.879V163.829C381.879 164.109 381.899 164.379 381.899 164.659V164.649Z"
-                fill="#F00" />
+                fill="#010101" />
             <path
                 d="M381.881 163.821C381.431 126.551 351.091 96.4614 313.721 96.4614L313.701 96.4414C276.031 96.4414 245.511 126.981 245.511 164.631C245.511 191.631 261.201 214.951 283.951 226.011H245.511V96.4514H190.961V232.841H313.711C351.101 232.841 381.431 202.751 381.871 165.481V163.821H381.881ZM313.691 174.861C308.041 174.861 303.471 170.291 303.471 164.631C303.471 158.971 308.041 154.401 313.691 154.401C319.341 154.401 323.921 158.971 323.921 164.631C323.921 170.291 319.351 174.861 313.691 174.861Z"
                 fill="#010101" />
@@ -83,7 +83,7 @@
             <g id="animation-3" class="animation-content" style="pointer-events: none;">
                 <rect x="0" y="85" width="55" height="55" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2"
                     rx="2" />
-                <text x="0" y="105" fill="#010101" font-family="Arial, sans-serif" font-size="11"
+                <text x="0" y="105" fill="#F000" font-family="Arial, sans-serif" font-size="11"
                     font-weight="bold">Based</text>
                 <text x="0" y="125" fill="#010101" font-family="Arial, sans-serif" font-size="11" font-weight="bold">in
                     Beirut</text>
@@ -102,6 +102,14 @@
 <style>
     .animated-logo-wrapper {
         display: inline-block;
+        cursor: pointer;
+        position: relative;
+        will-change: transform;
+    }
+
+    .animated-logo-wrapper.logo-minimized {
+        position: fixed;
+        z-index: 9999;
     }
 
     .animated-logo-svg {
@@ -224,6 +232,71 @@
                     y: 0,
                     duration: 0.7,
                     ease: "power2.in"
+                });
+            });
+        }
+
+        // Click animation: Zoom out to 150px and move to upper left corner
+        const logoWrapper = document.querySelector('.animated-logo-wrapper');
+        const logoSvg = document.querySelector('.animated-logo-svg');
+        let isMinimized = false;
+
+        if (logoWrapper && logoSvg) {
+            logoWrapper.addEventListener('click', function(e) {
+                // Prevent triggering hover animations when clicking
+                e.stopPropagation();
+                
+                if (isMinimized) return; // Already minimized, prevent re-animation
+                isMinimized = true;
+
+                // Get current position and dimensions
+                const rect = logoWrapper.getBoundingClientRect();
+                const currentWidth = rect.width;
+                const currentX = rect.left + (rect.width / 2); // Center X
+                const currentY = rect.top + (rect.height / 2); // Center Y
+                
+                // Calculate scale to reach 150px width
+                const targetWidth = 150;
+                const scale = targetWidth / currentWidth;
+                
+                // Target position (upper left corner)
+                const targetX = 20 + (targetWidth / 2); // Center of logo at 20px from left
+                const targetY = 20 + ((rect.height * scale) / 2); // Center of logo at 20px from top
+
+                // Set fixed positioning immediately to prevent layout shifts
+                logoWrapper.classList.add('logo-minimized');
+                gsap.set(logoWrapper, {
+                    left: currentX - (rect.width / 2),
+                    top: currentY - (rect.height / 2),
+                    x: 0,
+                    y: 0,
+                    scale: 1
+                });
+
+                // Create timeline for smooth animation
+                const tl = gsap.timeline();
+
+                // Animate both scale and position simultaneously
+                tl.to(logoWrapper, {
+                    scale: scale,
+                    x: targetX - currentX,
+                    y: targetY - currentY,
+                    duration: 0.8,
+                    ease: "power2.inOut",
+                    transformOrigin: "center center",
+                    onComplete: function() {
+                        // Set final position and dimensions
+                        const finalHeight = rect.height * scale;
+                        gsap.set(logoWrapper, {
+                            left: 20,
+                            top: 20,
+                            clearProps: "x,y,scale"
+                        });
+                        gsap.set(logoSvg, {
+                            width: targetWidth,
+                            height: "auto"
+                        });
+                    }
                 });
             });
         }
