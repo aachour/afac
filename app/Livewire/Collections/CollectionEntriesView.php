@@ -32,9 +32,31 @@ class CollectionEntriesView extends Component
             $this->collection_type_id=$this->collection->type_id;
         }
 
-        $this->entries=[];
+        //check program and year in case of project/jury or grantee
+        $entries_program_id=$this->collection->entries_program_id;
 
-        $this->entries=Entries::WHERE('type_id',$this->collection_type_id)->ORDERBY('id','DESC')->get();
+        $entries_program_year_id=$this->collection->entries_program_year_id;
+        
+        $this->entries=[];
+        
+        if ($this->collection_type_id==3) //case of projects
+        {
+            // get all project that below to this program and year
+            
+        }
+        else if ($this->collection_type_id==4) //case of jurors
+        {
+            
+        }
+        else if ($this->collection_type_id==4) //case of grantees
+        {
+            
+        }
+        else
+        {
+            $this->entries=Entries::WHERE('type_id',$this->collection_type_id)->ORDERBY('id','DESC')->get();
+        }
+
         
         $this->collection_entries=CollectionEntries::WHERE('collection_id',$this->collection_id)->ORDERBY('list_order','ASC')->GET();
 
