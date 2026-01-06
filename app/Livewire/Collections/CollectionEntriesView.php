@@ -46,9 +46,10 @@ class CollectionEntriesView extends Component
         }
         else if ($this->collection_type_id==4) //case of jurors
         {
-            
+            // dd("!");
+            $this->entries=Entries::WHERE('type_id',$this->collection_type_id)->ORDERBY('id','DESC')->get();
         }
-        else if ($this->collection_type_id==4) //case of grantees
+        else if ($this->collection_type_id==5) //case of grantees
         {
             
         }
