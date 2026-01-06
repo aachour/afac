@@ -5,6 +5,9 @@ namespace App\Livewire\Collections;
 use App\Models\Collections;
 use App\Models\CollectionEntries;
 use App\Models\Entries;
+use App\Models\ProgramYearJurors;
+use App\Models\ProgramYearProjects;
+use App\Models\ProjectGrantees;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -41,26 +44,41 @@ class CollectionEntriesView extends Component
         
         if ($this->collection_type_id==3) //case of projects
         {
-            // get all project that below to this program and year
+            
+            $entriesID = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
+                ->pluck('project_id')
+                ->toArray();
+
+            $this->entries=Entries::WHEREIN('id',$entriesID)->ORDERBY('id','DESC')->get();
             
         }
-        else if ($this->collection_type_id==4) //case of jurors
+        else if ($this->collection_type_id==4) //case of grantees
         {
-            // dd("!");
-            $this->entries=Entries::WHERE('type_id',$this->collection_type_id)->ORDERBY('id','DESC')->get();
+            $projectsID = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
+                ->pluck('project_id')
+                ->toArray();
+
+            $entriesID = ProjectGrantees::WHEREIN('project_id', $projectsID)
+                ->pluck('grantee_id')
+                ->toArray();
+
+            $this->entries=Entries::WHEREIN('id',$entriesID)->ORDERBY('id','DESC')->get();
+
         }
-        else if ($this->collection_type_id==5) //case of grantees
+        else if ($this->collection_type_id==5) //case of jurors
         {
-            
+            $entriesID = ProgramYearJurors::where('program_year_id', $entries_program_year_id)
+                ->pluck('juror_id')
+                ->toArray();
+
+            $this->entries=Entries::WHEREIN('id',$entriesID)->ORDERBY('id','DESC')->get();
         }
         else
         {
             $this->entries=Entries::WHERE('type_id',$this->collection_type_id)->ORDERBY('id','DESC')->get();
         }
-
         
         $this->collection_entries=CollectionEntries::WHERE('collection_id',$this->collection_id)->ORDERBY('list_order','ASC')->GET();
-
         $this->authorize('collection-edit');
 
     }
