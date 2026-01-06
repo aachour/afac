@@ -40,6 +40,33 @@
     <script src="{{asset('frontend/js/gsap.js')}}"></script>
 
     <style>
+        .popupText{
+            position:absolute;
+            top:0px;
+            left:0px;
+            width:800px;
+            padding:30px 30px;
+            border:2px solid #000;
+            background:#FFF;
+            opacity:1;
+            z-index:9999;
+        }
+        .popupText .closeBtn{
+            position:absolute;
+            top:10px;
+            right:10px;
+            width:20px;
+            height:20px;
+            cursor:pointer;
+            background:url("{{asset('frontend/images/close.png')}}") center no-repeat;
+            background-size: 20px 20px;
+            z-index:99999;
+        }
+        @media(max-width:900px){
+            .popupText{
+            }
+        }
+
         .card-hover-animation-wrapper {
             position: relative;
             display: inline-block;
@@ -67,12 +94,16 @@
         }
     </style>
 
-    <div class="card-hover-animation-wrapper" data-hover-animation>
+    <div class="card-hover-animation-wrapper clickable" data-hover-animation>
 
         @if($featured==1)
             <img src="{{$image_path}}" width="100%" />
         @else
+
+            @if($collection_type_id!=9 && $collection_type_id!=10)
             <a href="{{ $entry_href }}" target="{{$entry_target}}">
+            @endif
+
                 <img src="{{$image_path}}" width="100%" />
                 <div class="description">
                     <div class="title_or_labels medium white ABCDiatypeMedium" style="{{$title_position}}">{{$entry_title}}</div>
@@ -86,7 +117,11 @@
                         </div>
                     @endif
                 </div>
+            
+            @if($collection_type_id!=9 && $collection_type_id!=10)
             </a>
+            @endif
+
         @endif
         
         <svg class="card-hover-animation-overlay" width="{{ $diamondSize }}" height="{{ $diamondSize }}" 
@@ -130,9 +165,18 @@
             @endif
         </svg>
 
+        @if($collection_type_id==9 || $collection_type_id==10)
+            <div class="popupText d-none">
+                <div class="closeBtn"></div>
+                <div class="medium black ABCDiatypeMedium">{{$entry_title}}</div>
+                <div class="topSpacer small black">{!!$entry_text!!}</div>
+            </div>
+        @endif
+
     </div>
 
     <script>
+
         document.addEventListener('DOMContentLoaded', function() {
             const wrappers = document.querySelectorAll('[data-hover-animation]');
             
@@ -169,5 +213,16 @@
                 });
             });
         });
+
+        $(document).on("click", ".card-hover-animation-wrapper", function () {
+            $(this).find(".popupText").removeClass("d-none");
+        });
+
+        $(document).on("click", ".closeBtn", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $(this).closest(".popupText").addClass("d-none");
+        });
+
     </script>
 

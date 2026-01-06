@@ -234,6 +234,8 @@
                                     $html.='</div>
                                     <div class="featured_image">';
                                         $html .= view('frontend.entry-hover-animation', [
+                                            'collection_type_id'=>$collection_type_id,
+                                            'entry_text'=>$entry_text,
                                             'image_path'=>$image_path,
                                             'entry_href'=>$entry_href,
                                             'entry_target'=>$entry_target,
@@ -345,10 +347,12 @@
                                 $labels=getEntryLabels($entry);
 
                                 $html .= view('frontend.entry-hover-animation', [
+                                    'collection_type_id'=>$collection_type_id,
                                     'entry_href'=>$entry_href,
                                     'entry_target'=>$entry_target,
                                     'image_path'=>$image_path,
                                     'entry_title' => $entry_title,
+                                    'entry_text' => $entry_text,
                                     'title_position'=>$title_position,
                                     'with_label' => $with_label,
                                     'labels_position'=>$labels_position,
@@ -1256,6 +1260,7 @@
 
         return @$button;
     }
+
 
     function getLogoActiveElements(){
 
