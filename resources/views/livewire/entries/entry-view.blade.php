@@ -133,7 +133,9 @@
                                     @endif
                                 @endcan
                                 @can('entry-edit')
+                                    @if($type_id<=7)
                                     <a href="{{ route('entry.edit', [ 'typeId'=> $type_id , 'id'=> $entry->id] ) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
+                                    @endif
                                 @endcan
                                 @can('section-list')
                                     @if($type_id<=7)
