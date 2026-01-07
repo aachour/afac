@@ -371,39 +371,39 @@
 
                                     <div class="w-100 d-none d-md-block"></div>
 
-                                    @if($type_id==3 || $type_id==4 || $type_id==5)
-
-                                        <div class="col-12 col-md-6 mt-3">
-                                            <label class="form-label" for="name">Program</label>
-                                            <select
-                                                wire:model.live="entries_program_id"
-                                                id="entries_program_id"
-                                                class="form-control">
-                                                <option value=''>Select Program</option>
-                                                @foreach($programs as $program)
-                                                    <option value='{{$program->id}}'>{{$program->program_title}}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('entries_program_id') <div class="text-danger">{{ $message }}</div> @enderror
-                                        </div>
-
-                                        <div class="col-12 col-md-6 mt-3">
-                                            <label class="form-label" for="name">Program Year</label>
-                                            <select
-                                                wire:model.live="entries_program_year_id"
-                                                id="entries_program_year_id"
-                                                class="form-control">
-                                                <option value=''>Select Year</option>
-                                                @foreach($programYears as $programYear)
-                                                    <option value='{{$programYear->id}}'>{{$programYear->year}}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('entries_program_year_id') <div class="text-danger">{{ $message }}</div> @enderror
-                                        </div>
-
-                                    @endif
-
                                 @endif
+
+                                @if($type_id==3 || $type_id==4 || $type_id==5)
+
+                                    <div class="col-12 col-md-6 mt-3">
+                                        <label class="form-label" for="name">Program</label>
+                                        <select
+                                            wire:model.live="entries_program_id"
+                                            id="entries_program_id"
+                                            class="form-control">
+                                            <option value=''>Select Program</option>
+                                            @foreach($programs as $program)
+                                                <option value='{{$program->id}}'>{{$program->program_title}}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('entries_program_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                    </div>
+
+                                    <div class="col-12 col-md-6 mt-3">
+                                        <label class="form-label" for="name">Program Year</label>
+                                        <select
+                                            wire:model.live="entries_program_year_id"
+                                            id="entries_program_year_id"
+                                            class="form-control">
+                                            <option value=''>Select Year</option>
+                                            @foreach($programYears as $programYear)
+                                                <option value='{{$programYear->id}}'>{{$programYear->year}}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('entries_program_year_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                    </div>
+                                @endif
+                                
                             </div>
 
                         </div>
