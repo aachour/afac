@@ -42,36 +42,38 @@ class CollectionEntriesView extends Component
         
         $this->entries=[];
         
-        if ($this->collection_type_id==3) //case of projects
-        {
-            
-            $entriesID = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
-                ->pluck('project_id')
-                ->toArray();
+        if (!empty($entries_program_year_id)) {
+            if ($this->collection_type_id==3) //case of projects
+            {
+                
+                $entriesID = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
+                    ->pluck('project_id')
+                    ->toArray();
 
-            $this->entries=Entries::WHEREIN('id',$entriesID)->ORDERBY('id','DESC')->get();
-            
-        }
-        else if ($this->collection_type_id==4) //case of grantees
-        {
-            $projectsID = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
-                ->pluck('project_id')
-                ->toArray();
+                $this->entries=Entries::WHEREIN('id',$entriesID)->ORDERBY('id','DESC')->get();
+                
+            }
+            else if ($this->collection_type_id==4) //case of grantees
+            {
+                $projectsID = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
+                    ->pluck('project_id')
+                    ->toArray();
 
-            $entriesID = ProjectGrantees::WHEREIN('project_id', $projectsID)
-                ->pluck('grantee_id')
-                ->toArray();
+                $entriesID = ProjectGrantees::WHEREIN('project_id', $projectsID)
+                    ->pluck('grantee_id')
+                    ->toArray();
 
-            $this->entries=Entries::WHEREIN('id',$entriesID)->ORDERBY('id','DESC')->get();
+                $this->entries=Entries::WHEREIN('id',$entriesID)->ORDERBY('id','DESC')->get();
 
-        }
-        else if ($this->collection_type_id==5) //case of jurors
-        {
-            $entriesID = ProgramYearJurors::where('program_year_id', $entries_program_year_id)
-                ->pluck('juror_id')
-                ->toArray();
+            }
+            else if ($this->collection_type_id==5) //case of jurors
+            {
+                $entriesID = ProgramYearJurors::where('program_year_id', $entries_program_year_id)
+                    ->pluck('juror_id')
+                    ->toArray();
 
-            $this->entries=Entries::WHEREIN('id',$entriesID)->ORDERBY('id','DESC')->get();
+                $this->entries=Entries::WHEREIN('id',$entriesID)->ORDERBY('id','DESC')->get();
+            }
         }
         else
         {
