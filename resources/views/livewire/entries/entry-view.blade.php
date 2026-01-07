@@ -124,18 +124,10 @@
                                     <a href="{{ route('entry.view', [ 'entryType'=> 'resource' , 'id'=> $entry->id] ) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
                                     @elseif($type_id==7)
                                     <a href="{{ route('entry.view', [ 'entryType'=> 'news' , 'id'=> $entry->id] ) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
-                                    @elseif($type_id==8)
-                                    <a href="{{ route('entry.view', [ 'entryType'=> 'external' , 'id'=> $entry->id] ) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
-                                    @elseif($type_id==9)
-                                    <a href="{{ route('entry.view', [ 'entryType'=> 'team' , 'id'=> $entry->id] ) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
-                                    @elseif($type_id==10)
-                                    <a href="{{ route('entry.view', [ 'entryType'=> 'member' , 'id'=> $entry->id] ) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
                                     @endif
                                 @endcan
                                 @can('entry-edit')
-                                    @if($type_id<=7)
                                     <a href="{{ route('entry.edit', [ 'typeId'=> $type_id , 'id'=> $entry->id] ) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
-                                    @endif
                                 @endcan
                                 @can('section-list')
                                     @if($type_id<=7)
