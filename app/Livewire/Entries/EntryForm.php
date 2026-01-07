@@ -301,7 +301,7 @@ class EntryForm extends Component
             $this->programYears=ProgramYears::WHERE('program_id',$this->program_id)->get();
         }
        
-        $this->image_width_options=['1'=>'Full','2'=>'three-quarters','3'=>'one-half','4'=>'one-quarter'];
+        $this->image_width_options=['1'=>'Full','2'=>'One-half'];
 
     }
 
