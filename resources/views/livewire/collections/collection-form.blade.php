@@ -180,7 +180,7 @@
                                 <div class="w-100 d-none d-md-block"></div>
 
                                 <div class="col-12 col-md-6 mt-3">
-                                    <label class="form-label" for="button_text">Button Text</label>
+                                    <label class="form-label" for="button_text">Button Hover Text</label>
                                     <input
                                         wire:model="button_text"
                                         type="text"
@@ -190,7 +190,7 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-3">
-                                    <label class="form-label" for="button_text_arabic">Button Text Arabic</label>
+                                    <label class="form-label" for="button_text_arabic">Button Hover Text Arabic</label>
                                     <input
                                         wire:model="button_text_arabic"
                                         type="text"
