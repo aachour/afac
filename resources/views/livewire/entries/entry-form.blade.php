@@ -1064,7 +1064,7 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
-                                    <label class="form-label" for="team_text_arabic">Text</label>
+                                    <label class="form-label" for="team_text_arabic">Text Arabic</label>
                                     <textarea wire:ignore
                                         wire:model="team_text_arabic"
                                         type="text"
@@ -1125,7 +1125,7 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
-                                    <label class="form-label" for="board_text_arabic">Text</label>
+                                    <label class="form-label" for="board_text_arabic">Text Arabic</label>
                                     <textarea wire:ignore
                                         wire:model="board_text_arabic"
                                         type="text"
