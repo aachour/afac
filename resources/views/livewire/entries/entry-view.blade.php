@@ -104,8 +104,8 @@
                                 <td>{{ $entry->team_name }}</td>
                                 <td>{{ $entry->team_name_arabic }}</td>
                             @elseif($type_id==10)
-                                <td>{{ $entry->member_name }}</td>
-                                <td>{{ $entry->member_name_arabic }}</td>
+                                <td>{{ $entry->board_name }}</td>
+                                <td>{{ $entry->board_name_arabic }}</td>
                             @endif
                             
                             <td>
