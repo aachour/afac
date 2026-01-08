@@ -87,7 +87,7 @@
                             @elseif($type_id==5)
                                 <td>{{ $entry->jury_name }}</td>
                                 <td>{{ $entry->jury_name_arabic }}</td>
-                                <td>{{ $entry->juryCountry->name }}</td>
+                                <td>{{ $entry->juryCountry?->name }}</td>
                             @elseif($type_id==6)
                                 <td>{{ $entry->resource_title }}</td>
                                 <td>{{ $entry->resource_title_arabic }}</td>
