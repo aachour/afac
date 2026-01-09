@@ -38,9 +38,20 @@ class Entries extends Model
         return $this->hasOne(EventCategories::class, 'id', 'event_category_id');
     }
 
-    public function projectCategory()
+    public function projectCategories(array $ids)
     {
-        return $this->hasOne(ProjectCategories::class, 'id', 'project_category_id');
+        return ProjectCategories::whereIn(
+            'id',
+            $ids ?? []
+        )->pluck('name');
+    }
+
+    public function projectCountries(array $ids)
+    {
+        return Countries::whereIn(
+        'id',
+            $ids ?? []
+        )->pluck('name');
     }
 
     public function granteeCountry()

@@ -1091,6 +1091,16 @@
             $labels[]=date('d M',strtotime($entry->program_end_date));
         }
         else if($entry->type_id==3){
+
+            $categories=$entry->projectCategories(json_decode($entry->project_categories_id, true) ?? []);
+            foreach($categories as $category){
+                $labels[]=$category;
+            }
+
+            $countries=$entry->projectCountries(json_decode($entry->project_countries_id, true) ?? []);
+            foreach($countries as $country){
+                $labels[]=$country;
+            }
             
         }
         else if($entry->type_id==4){
