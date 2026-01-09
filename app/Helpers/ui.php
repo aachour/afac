@@ -1087,7 +1087,8 @@
             $labels[]=date('h:i',strtotime($entry->event_to_time));
         }
         else if($entry->type_id==2){
-            
+            $labels[]=date('d M',strtotime($entry->program_start_date));
+            $labels[]=date('d M',strtotime($entry->program_end_date));
         }
         else if($entry->type_id==3){
             
@@ -1103,15 +1104,6 @@
         }
         else if($entry->type_id==7){
             $labels[]=date('d M',strtotime($entry->news_date));
-        }
-        else if($entry->type_id==8){
-            
-        }
-        else if($entry->type_id==9){
-            
-        }
-        else if($entry->type_id==10){
-            
         }
 
         return $labels;

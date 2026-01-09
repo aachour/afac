@@ -112,7 +112,9 @@
                             <div class="label micro black ABCDiatypeMedium">{{$entry_type_name}}</div>
                             <div class="label micro black rounded ABCDiatypeMedium">{{@$labels[0]}}</div>
                             <div class="clear"></div>
-                            <div class="topSpacerSmall label micro black rounded ABCDiatypeMedium">{{@$labels[1]}} - {{@$labels[2]}}</div>
+                            <div class="topSpacerSmall label micro black rounded ABCDiatypeMedium">
+                                {{ $labels[1] ?? '' }}{{ isset($labels[2]) ? ' - ' . $labels[2] : '' }}
+                            </div>
                             <div class="clear">&nbsp;</div>
                         </div>
                     @endif
