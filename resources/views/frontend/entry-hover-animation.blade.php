@@ -110,11 +110,16 @@
                     @if($with_label==1)
                         <div class="title_or_labels" style="{{$labels_position}};">
                             <div class="label micro black ABCDiatypeMedium">{{$entry_type_name}}</div>
-                            <div class="label micro black rounded ABCDiatypeMedium">{{@$labels[0]}}</div>
-                            <div class="clear"></div>
-                            <div class="topSpacerSmall label micro black rounded ABCDiatypeMedium">
-                                {{ $labels[1] ?? '' }}{{ isset($labels[2]) ? ' - ' . $labels[2] : '' }}
-                            </div>
+                            @if($collection_type_id==2)
+                                <div class="label micro black rounded ABCDiatypeMedium">{{@$labels[0]}}</div>
+                                <div class="label micro black rounded ABCDiatypeMedium">
+                                    {{ $labels[1] ?? '' }}{{ isset($labels[2]) ? ' - ' . $labels[2] : '' }}
+                                </div>
+                            @else
+                                @foreach($labels as $label)
+                                <div class="label micro black rounded ABCDiatypeMedium">{{$label}}</div>
+                                @endforeach
+                            @endif
                             <div class="clear">&nbsp;</div>
                         </div>
                     @endif

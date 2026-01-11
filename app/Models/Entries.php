@@ -54,6 +54,14 @@ class Entries extends Model
         )->pluck('name');
     }
 
+    public function granteeCategories(array $ids)
+    {
+        return GranteeCategories::whereIn(
+        'id',
+            $ids ?? []
+        )->pluck('name');
+    }
+
     public function granteeCountry()
     {
         return $this->hasOne(Countries::class, 'id', 'grantee_country_id');

@@ -1104,18 +1104,26 @@
             
         }
         else if($entry->type_id==4){
-            $labels[]=$entry->granteeCountry->name;
+            $categories=$entry->granteeCategories(json_decode($entry->grantee_categories_id, true) ?? []);
+            foreach($categories as $category){
+                $labels[]=$category;
+            }
+            $labels[]=$entry->granteeCountry?->name;
         }
         else if($entry->type_id==5){
-            $labels[]=$entry->juryCountry->name;
+            $labels[]=$entry->juryCountry?->name;
         }
         else if($entry->type_id==6){
-            
+            $labels[]=date('d M',strtotime($entry->resource_date));
         }
         else if($entry->type_id==7){
             $labels[]=date('d M',strtotime($entry->news_date));
         }
+        else if($entry->type_id==8){
+            $labels[]=$entry->externalCategory?->name;
+        }
 
+        
         return $labels;
     }
 
@@ -1145,7 +1153,7 @@
         else if($collection_type_id==4){
             $entry_title=$entry->grantee_name;
             $entry_text=$entry->grantee_text;
-            $entry_href=route('entry.view', ['grantee'=>'grantee','id'=>$entry->id]);
+            $entry_href=route('entry.view', ['entryType'=>'grantee','id'=>$entry->id]);
             $entry_target='';
         }
         else if($collection_type_id==5){

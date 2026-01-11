@@ -296,6 +296,7 @@
 }
 
 .label{
+    margin-top:15px;
     padding:5px;
     display: flex;
     align-items: center;
