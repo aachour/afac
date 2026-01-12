@@ -10,6 +10,7 @@
     use App\Models\ColumnAccordion;
     use App\Models\ColumnCountdown;
     use App\Models\ColumnExpandTexts;
+    use App\Models\ProjectGrantees;
     use App\Models\Logo;
     use Carbon\Carbon;
             
@@ -45,7 +46,7 @@
                 </div>
             </div>';
 
-            //show at a glance for Grantee & Supported Project
+            //show at a glance for Supported Project & Grantee. 
             if($entry->type_id==3 || $entry->type_id==4){
                 $html.='<div class="fullContainer mt-5">
                     <div class="centerContainer">
@@ -56,7 +57,7 @@
                             </div>
 
                             <div class="col-lg-6 col-12">';
-                                if($entry->type_id==3){
+                                if($entry->type_id==3){ //Supported Project
                                     $html.='<div class="mt-1 tiny black ABCDiatype">Program</div>';
                                     $html.='<div class="mt-1 topSpacer small black ABCDiatype">'.$entry->programYears?->programYear?->program?->program_title.'</div>';
 
@@ -65,10 +66,20 @@
                                     foreach($categories as $category){
                                         $html.='<div class="mt-1 small black ABCDiatype">'.$category.'</div>';
                                     }
-                                    
                                 }
-                                else if($entry->type_id==4){
+                                else if($entry->type_id==4){ //Grantee
 
+                                    $html.='<div class="mt-1 tiny black ABCDiatype">Projects</div>';
+                                    $projectGrantees=ProjectGrantees::WHERE('grantee_id',$entry->id)->get();
+                                    foreach($projectGrantees as $projectGrantee){
+                                        $html.='<div class="mt-1 topSpacer small black ABCDiatype">'.$projectGrantee->project?->project_title.'</div>';
+                                    }
+
+                                    $html.='<div class="mt-4 tiny black ABCDiatype">Theme</div>';
+                                    $categories=$entry->granteeCategories(json_decode($entry->grantee_categories_id, true) ?? []);
+                                    foreach($categories as $category){
+                                        $html.='<div class="mt-1 small black ABCDiatype">'.$category.'</div>';
+                                    }
                                 }
                             
                             $html.='</div>
