@@ -19,7 +19,7 @@
         $entry=Entries::find($entry_id);
 
         if($entry){
-
+            
             $labels=getEntryLabels($entry);
 
             $html='<div class="fullContainer" >
@@ -27,15 +27,20 @@
                     <div class="row align-items-center">
                         <div class="col-lg-6 col-12 text-center">
                             <div class="labels">';
+                               $html.='<div class="label micro black ABCDiatypeMedium rounded">'.$entry->type->name.'</div>';
                                 foreach($labels as $label){
                                     $html.='<div class="label micro">'.$label.'</div>';
                                 }
                             $html.='</div>
                             <div class="mt-3 huge black ABCDiatypeMedium">'.getEntryTitle($entry).'</div>
                         </div>
-                        <div class="col-lg-6 col-12">
-                            <img src="'.asset('storage/'.$entry->image_featured).'" width="100%" />
-                        </div>
+                        <div class="col-lg-6 col-12">';
+                            if($entry->image_featured){
+                                $html.='<img src="'.asset('storage/'.$entry->image_featured).'" width="100%" />';
+                            }else{
+                                $html.='<img src="'.asset('frontend/images/default-image.jpg').'" width="100%" />';
+                            }
+                        $html.='</div>
                     </div>
                 </div>
             </div>';
@@ -511,7 +516,8 @@
     }
 
 
-    function ViewColumnGeneral($section_column_id,$language='EN'){
+    function ViewColumnGeneral($section_column_id,$language='EN')
+    {
 
         $htmlColumn='';
 
@@ -585,7 +591,8 @@
     }
 
 
-    function ViewTimeline($section_column_id,$language='EN'){
+    function ViewTimeline($section_column_id,$language='EN')
+    {
 
         $htmlColumn='';
 
@@ -855,7 +862,8 @@
     }
 
 
-    function ViewAccordion($section_column_id,$language='EN'){
+    function ViewAccordion($section_column_id,$language='EN')
+    {
 
         $htmlColumn='';
 
@@ -917,7 +925,8 @@
     }
 
 
-    function ViewCountdown($section_column_id,$language='EN'){
+    function ViewCountdown($section_column_id,$language='EN')
+    {
 
         $htmlColumn='';
 
@@ -987,7 +996,8 @@
     }
 
 
-    function ViewExpandingText($section_column_id,$language='EN'){
+    function ViewExpandingText($section_column_id,$language='EN')
+    {
 
         $htmlColumn='';
 
@@ -1051,7 +1061,8 @@
     ###############################GENERAL FUNCTIONS##########################################
 
 
-    function getEntryTitle($entry){
+    function getEntryTitle($entry)
+    {
         if($entry->type_id==1){
             return $entry->event_title;
         }
@@ -1079,7 +1090,8 @@
     }
 
 
-    function getEntryLabels($entry){
+    function getEntryLabels($entry)
+    {
         $labels=[];
         if($entry->type_id==1){
             $labels[]=date('d M',strtotime($entry->event_date));
@@ -1128,7 +1140,8 @@
     }
 
 
-    function getEntryDetails($collection_type_id,$entry){
+    function getEntryDetails($collection_type_id,$entry)
+    {
 
         $entryDetails=[];
 
@@ -1199,7 +1212,8 @@
     }
 
 
-    function getEntryBtnShape($value,$value_arabic,$shape,$shape_hover,$text_color,$hover_text_color,$bg_color,$hover_bg_color){
+    function getEntryBtnShape($value,$value_arabic,$shape,$shape_hover,$text_color,$hover_text_color,$bg_color,$hover_bg_color)
+    {
 
         if($shape=="Circle" && $shape_hover=="Diamond")
         {
@@ -1272,7 +1286,8 @@
     }
 
 
-    function getLogoActiveElements(){
+    function getLogoActiveElements()
+    {
 
         $logoElements=Logo::ORDERBY('id','ASC')->get();
 
