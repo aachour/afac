@@ -1087,13 +1087,17 @@
                     $now = now();
 
                     if ($now->gte($end)) {
-                        $days = 0;
+                        $days  = 0;
                         $hours = 0;
                     } else {
-                        $days  = $now->diffInDays($end);
-                        $hours = $now->copy()->addDays($days)->diffInHours($end);
-                    }
+                        // Full integer days
+                        $days = (int) $now->diffInDays($end);
 
+                        // Remaining full hours AFTER days
+                        $hours = (int) $now->copy()
+                            ->addDays($days)
+                            ->diffInHours($end);
+                    }
 
                     $htmlColumn.= '<div class="coutdown">
                     
@@ -1108,7 +1112,7 @@
                                 <a href="'.($countdown->button_link ?? '#').'">'.getEntryBtnShape($countdown->button_value,$countdown->button_value_arabic,$countdown->shape->name,$countdown->shapeHover->name,$countdown->buttonColor->code,$countdown->buttonHoverColor->code,$countdown->buttonBgColor->code,$countdown->buttonHoverBgColor->code).'</a>
                             </div>
                             <div class="mt-4 col-12 col-lg-4 text-center text-lg-start ">
-                                <div class="huge black ABCDiatypeMedium">'.$hours.'</div>
+                                <div class="huge black ABCDiatypeMedium">'.@$hours.'</div>
                                 <div class="big black ABCDiatypeMedium">Hour(s)</div>
                             </div>
                         </div>
