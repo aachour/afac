@@ -13,7 +13,6 @@ class ProgramYears extends Model
 
     protected $guarded = [];
 
-
     public function program()
     {
         return $this->belongsTo(Entries::class, 'program_id', 'id');

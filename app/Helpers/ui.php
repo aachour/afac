@@ -22,7 +22,7 @@
             
             $labels=getEntryLabels($entry);
 
-            $html='<div class="fullContainer" >
+            $html='<div class="fullContainer">
                 <div class="centerContainer" style="background:'.$entry->ImageBgColor?->code.';">
                     <div class="row align-items-center">
                         <div class="col-lg-6 col-12 text-center">
@@ -44,7 +44,40 @@
                     </div>
                 </div>
             </div>';
+
+            //show at a glance for Grantee & Supported Project
+            if($entry->type_id==3 || $entry->type_id==4){
+                $html.='<div class="fullContainer mt-5">
+                    <div class="centerContainer">
+                        <div class="row">
+
+                            <div class="col-lg-6 col-12">
+                                <div class="big black ABCDiatypeMedium">At-A-Glance</div>
+                            </div>
+
+                            <div class="col-lg-6 col-12">';
+                                if($entry->type_id==3){
+                                    $html.='<div class="mt-1 tiny black ABCDiatype">Program</div>';
+                                    $html.='<div class="mt-1 topSpacer small black ABCDiatype">'.$entry->programYears?->programYear?->program?->program_title.'</div>';
+
+                                    $html.='<div class="mt-4 tiny black ABCDiatype">Theme</div>';
+                                    $categories=$entry->projectCategories(json_decode($entry->project_categories_id, true) ?? []);
+                                    foreach($categories as $category){
+                                        $html.='<div class="mt-1 small black ABCDiatype">'.$category.'</div>';
+                                    }
+                                    
+                                }
+                                else if($entry->type_id==4){
+
+                                }
+                            
+                            $html.='</div>
+                        </div>
+                    </div>
+                </div>';
+            }
             
+
             return $html;
 
         }

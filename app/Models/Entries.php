@@ -37,6 +37,11 @@ class Entries extends Model
     {
         return $this->hasOne(EventCategories::class, 'id', 'event_category_id');
     }
+    
+    public function programYears()
+    {
+        return $this->hasOne(ProgramYearProjects::class, 'id', 'project_program_year_id');
+    }
 
     public function projectCategories(array $ids)
     {
