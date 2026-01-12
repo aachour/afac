@@ -205,7 +205,8 @@
         $sliderCollection = $entries_layout == 2 ? 'sliderCollection' : '';
         
         //Show Calendar View
-        if($collection_type_id==1 && $calendar_view==1){
+        if($collection_type_id==1 && $calendar_view==1)
+        {
 
             $events=[];
 
@@ -242,7 +243,7 @@
                         <div class="entry">
                             <div class="big black ABCDiatypeMedium">'.date('M Y',strtotime($date)).'</div>
                         </div>';
-                        
+
                         foreach($dateEvents as $event){
 
                             $image_path = asset('frontend/images/default-image.jpg');
@@ -289,11 +290,10 @@
                 }
 
             $html.='</div>';
-
-            // dd($events,$monthEvents);
             
         }
-        else{
+        else
+        {
 
             $html='<div class="collection '.$sliderCollection.'" style="background-color:'.$bgColor.';">';
 
@@ -568,8 +568,8 @@
                 }
             </script>';
         }
-
-
+    
+        //Check shadow bottom
         if($with_border_bottom == 1){
             $html.='<div class="collectionWithBorder"></div>';
         }
@@ -578,9 +578,6 @@
 
     }   
 
-    function getEventsCalendarView($collection_id,$language='EN'){
-        
-    }
 
     function ViewSection($section_id,$language='EN')
     {
@@ -1086,20 +1083,17 @@
 
                 foreach($column->countdowns as $countdown){
 
-                    $startDateTime = Carbon::parse($countdown->start_date . ' ' . $countdown->start_time);
-                    $endDateTime   = Carbon::parse($countdown->end_date . ' ' . $countdown->end_time);
+                    $end = Carbon::parse("{$countdown->end_date} {$countdown->end_time}");
+                    $now = now();
 
-                    $now = Carbon::now();
-
-                    if ($now->lessThan($endDateTime)) {
-                        $diffInHours = $now->diffInHours($endDateTime);
-                        
-                        $days  = intdiv($diffInHours, 24);
-                        $hours = $diffInHours % 24;
-                    } else {
+                    if ($now->gte($end)) {
                         $days = 0;
                         $hours = 0;
+                    } else {
+                        $days  = $now->diffInDays($end);
+                        $hours = $now->copy()->addDays($days)->diffInHours($end);
                     }
+
 
                     $htmlColumn.= '<div class="coutdown">
                     
