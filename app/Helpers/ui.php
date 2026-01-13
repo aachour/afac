@@ -1286,8 +1286,8 @@
 
         $html='';
 
-        if($collection_type_id==1){
-            
+        if($collection_type_id==1) //Events
+        {
             //Get categories and dates
             $event_categories=[];
             $event_dates=[];
@@ -1307,16 +1307,18 @@
 
             $html.='<div class="filters" style="">
                 <div class="filter">
-                    <select>';
+                    <select class="filterDpd">
+                        <option value="">Select type</option>';
                         foreach($event_categories as $event_category){
                             $html.='<option '.$event_category["id"].'>'.$event_category["title"].'</option>';
                         }
                     $html.='</select>
                 </div>
                 <div class="filter">
-                    <select>';
-                        foreach($event_categories as $event_category){
-                            $html.='<option '.$event_category["id"].'>'.$event_category["title"].'</option>';
+                    <select class="filterDpd">    
+                        <option value="">Select date</option>';;
+                        foreach($event_dates as $date){
+                            $html.='<option '.$date.'>'.$date.'</option>';
                         }
                     $html.='</select>
                 </div>
@@ -1324,6 +1326,77 @@
                 <div class="clear"></div>
             </div>';
         }
+        else if($collection_type_id==2) // Programs
+        {
+            //Get start and end dates
+            $program_start_dates=[];
+            $program_end_dates=[];
+            foreach($entries as $entry){
+                if(!in_array($entry->program_start_date,$program_start_dates)){
+                    $program_start_dates[]=$entry->program_start_date;
+                }
+                if(!in_array($entry->program_end_date,$program_end_dates)){
+                    $program_end_dates[]=$entry->program_end_date;
+                }
+            }
+
+            $html.='<div class="filters" style="">
+                <div class="filter">
+                    <select class="filterDpd">
+                        <option value="">Select start date</option>';
+                        foreach($program_start_dates as $date){
+                            $html.='<option '.$date.'>'.$date.'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="filter">
+                    <select class="filterDpd">    
+                        <option value="">Select end date</option>';
+                        foreach($program_end_dates as $date){
+                            $html.='<option '.$date.'>'.$date.'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="sort">SORT DPD</div>
+                <div class="clear"></div>
+            </div>';
+        }
+        else if($collection_type_id==3) // Projects
+        {
+            //Get categories and countries
+            /*$project_categories=[];
+            $project_countries=[];
+            foreach($entries as $entry){
+                if(!in_array($entry->program_start_date,$program_start_dates)){
+                    $program_start_dates[]=$entry->program_start_date;
+                }
+                if(!in_array($entry->program_end_date,$program_end_dates)){
+                    $program_end_dates[]=$entry->program_end_date;
+                }
+            }
+
+            $html.='<div class="filters" style="">
+                <div class="filter">
+                    <select class="filterDpd">
+                        <option value="">Select theme</option>';
+                        foreach($program_start_dates as $date){
+                            $html.='<option '.$date.'>'.$date.'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="filter">
+                    <select class="filterDpd">    
+                        <option value="">Select country</option>';
+                        foreach($program_end_dates as $date){
+                            $html.='<option '.$date.'>'.$date.'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="sort">SORT DPD</div>
+                <div class="clear"></div>
+            </div>';*/
+        }
+
 
         return $html;
     }   

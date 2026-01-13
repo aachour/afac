@@ -176,7 +176,7 @@
             <div class="popupText d-none">
                 <div class="closeBtn"></div>
                 <div class="medium black ABCDiatypeMedium">{{$entry_title}}</div>
-                <div class="topSpacer small black">{!!$entry_text!!}</div>
+                <div class="topSpacer small black">{!! $entry_text !!}</div>
             </div>
         @endif
 
