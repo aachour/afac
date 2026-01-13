@@ -61,7 +61,7 @@
                                     $html.='<div class="mt-1 tiny black ABCDiatype">Program</div>';
                                     $html.='<div class="mt-1 topSpacer small black ABCDiatypeMedium">'.$entry->programYears?->programYear?->program?->program_title.'</div>';
 
-                                    $html.='<div class="mt-4 tiny black ABCDiatype">Theme</div>';
+                                    $html.='<div class="mt-5 tiny black ABCDiatype">Theme</div>';
                                     $categories=$entry->projectCategories(json_decode($entry->project_categories_id, true) ?? []);
                                     foreach($categories as $category){
                                         $html.='<div class="mt-1 small black ABCDiatypeMedium">'.$category.'</div>';
@@ -75,7 +75,7 @@
                                         $html.='<div class="mt-1 topSpacer small black ABCDiatypeMedium">'.$projectGrantee->project?->project_title.'</div>';
                                     }
 
-                                    $html.='<div class="mt-4 tiny black ABCDiatype">Theme</div>';
+                                    $html.='<div class="mt-5 tiny black ABCDiatype">Theme</div>';
                                     $categories=$entry->granteeCategories(json_decode($entry->grantee_categories_id, true) ?? []);
                                     foreach($categories as $category){
                                         $html.='<div class="mt-1 small black ABCDiatypeMedium">'.$category.'</div>';
