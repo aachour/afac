@@ -1111,14 +1111,14 @@
                         <div class="big black ABCDiatypeMedium text-center">'.$countdown->title.'</div>
 
                         <div class="row mt-5 align-items-center">
-                            <div class="mt-4 col-12 col-lg-4 text-center">
+                            <div class="mt-4 col-12 col-lg-4 text-end">
                                 <div class="huge black ABCDiatypeMedium">'.$days.'</div>
                                 <div class="big black ABCDiatypeMedium">Day(s)</div>
                             </div>
                             <div class="mt-4 col-12 col-lg-4 text-center">
                                 <a href="'.($countdown->button_link ?? '#').'">'.getEntryBtnShape($countdown->button_value,$countdown->button_value_arabic,$countdown->shape->name,$countdown->shapeHover->name,$countdown->buttonColor->code,$countdown->buttonHoverColor->code,$countdown->buttonBgColor->code,$countdown->buttonHoverBgColor->code).'</a>
                             </div>
-                            <div class="mt-4 col-12 col-lg-4 text-center">
+                            <div class="mt-4 col-12 col-lg-4 text-start">
                                 <div class="huge black ABCDiatypeMedium">'.@$hours.'</div>
                                 <div class="big black ABCDiatypeMedium">Hour(s)</div>
                             </div>
