@@ -1292,13 +1292,8 @@
             $event_categories=[];
             $event_dates=[];
             foreach($entries as $entry){
-                if(!in_array($entry->event_category_id,$event_categories)){
-                    $obj=[
-                        'id'=>$entry->event_category_id,
-                        'title'=>$entry->event_title,
-                        'title_arabic'=>$entry->event_title_arabic,
-                    ];
-                    $event_categories[] = $obj;
+                if(!in_array($entry->eventCategory->name,$event_categories)){
+                    $event_categories[] = $entry->eventCategory->name;
                 }
                 if(!in_array($entry->event_date,$event_dates)){
                     $event_dates[]=$entry->event_date;
@@ -1310,7 +1305,7 @@
                     <select class="filterDpd">
                         <option value="">Select type</option>';
                         foreach($event_categories as $event_category){
-                            $html.='<option '.$event_category["id"].'>'.$event_category["title"].'</option>';
+                            $html.='<option '.$event_category.'>'.$event_category.'</option>';
                         }
                     $html.='</select>
                 </div>
