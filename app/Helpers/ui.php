@@ -1108,7 +1108,7 @@
 
                     $htmlColumn.= '<div class="coutdown">
                     
-                        <div class="medium black ABCDiatypeMedium text-center">'.$countdown->title.'</div>
+                        <div class="big black ABCDiatypeMedium text-center">'.$countdown->title.'</div>
 
                         <div class="row mt-5 align-items-center">
                             <div class="mt-4 col-12 col-lg-4 text-center">
