@@ -59,12 +59,12 @@
                             <div class="col-lg-6 col-12">';
                                 if($entry->type_id==3){ //Supported Project
                                     $html.='<div class="mt-1 tiny black ABCDiatypeBlack">Program</div>';
-                                    $html.='<div class="mt-1 topSpacer small black ABCDiatypeMedium">'.$entry->programYears?->programYear?->program?->program_title.'</div>';
+                                    $html.='<div class="mt-1 topSpacer medium black ABCDiatypeMedium">'.$entry->programYears?->programYear?->program?->program_title.'</div>';
 
                                     $html.='<div class="mt-5 tiny black ABCDiatypeBlack">Theme</div>';
                                     $categories=$entry->projectCategories(json_decode($entry->project_categories_id, true) ?? []);
                                     foreach($categories as $category){
-                                        $html.='<div class="mt-1 small black ABCDiatypeMedium">'.$category.'</div>';
+                                        $html.='<div class="mt-1 medium black ABCDiatypeMedium">'.$category.'</div>';
                                     }
                                 }
                                 else if($entry->type_id==4){ //Grantee
@@ -72,13 +72,13 @@
                                     $html.='<div class="mt-1 tiny black ABCDiatypeBlack">Projects</div>';
                                     $projectGrantees=ProjectGrantees::WHERE('grantee_id',$entry->id)->get();
                                     foreach($projectGrantees as $projectGrantee){
-                                        $html.='<div class="mt-1 topSpacer small black ABCDiatypeMedium">'.$projectGrantee->project?->project_title.'</div>';
+                                        $html.='<div class="mt-1 topSpacer medium black ABCDiatypeMedium">'.$projectGrantee->project?->project_title.'</div>';
                                     }
 
                                     $html.='<div class="mt-5 tiny black ABCDiatypeBlack">Theme</div>';
                                     $categories=$entry->granteeCategories(json_decode($entry->grantee_categories_id, true) ?? []);
                                     foreach($categories as $category){
-                                        $html.='<div class="mt-1 small black ABCDiatypeMedium">'.$category.'</div>';
+                                        $html.='<div class="mt-1 medium black ABCDiatypeMedium">'.$category.'</div>';
                                     }
                                 }
                             
