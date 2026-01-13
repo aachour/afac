@@ -15,10 +15,15 @@ class GranteeCategoriesSeeder extends Seeder
     {
         //
 
-        $categories = [
-            'Cat1',
-            'Cat2',
-            'Cat3',
+        $categories=
+        [
+            'Memory',
+            'Identity',
+            'Home',
+            'Conflict',
+            'Family',
+            'Mental Health',
+            'Racial Justice',
         ];
 
         foreach ($categories as $category) {
