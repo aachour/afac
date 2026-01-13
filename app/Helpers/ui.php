@@ -1462,8 +1462,8 @@
             $entry_target='';
         }
         else if($collection_type_id==10){
-            $entry_title=$entry->external_title;
-            $entry_text=$entry->external_text;
+            $entry_title=$entry->board_title;
+            $entry_text=$entry->board_text;
             $entry_href='';
             $entry_target='';
         }
