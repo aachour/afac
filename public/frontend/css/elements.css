@@ -52,8 +52,21 @@
 /**********************************************************************************************************************/
 /***Collection***/
 
+.filters{
+    padding:30px 2.5% 0px 2.5%;
+    overflow:hidden;
+}
+
+.filters .filter{
+    float:left;
+    margin-right:30px;
+}
+.filters .sort{
+    float:right;
+}
+
 .collection{
-    padding:40px 2.5%;
+    padding:30px 2.5%;
     overflow:hidden;
 }
 

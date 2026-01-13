@@ -117,6 +117,7 @@
         $entries_selection=$collection->entries_selection;
         $entries_per_row=$collection->entries_per_row;
         $entries_layout=$collection->entries_layout;
+        $with_filters=$collection->with_filters;
         $with_label=$collection->with_label;
         $with_featured=$collection->with_featured_image;
         $all_featured=$collection->all_featured;
@@ -148,7 +149,6 @@
         }
 
         //Get All Entries
-
         $entries=[];
 
         if ($entries_selection == 1) // custom selection
@@ -200,6 +200,13 @@
             $entries = $query->limit($entries_number)->get();
         }
 
+        $html="";
+
+        //Set Filters
+        if($with_filters==1){   
+            $html.=setCollectionFilters($collection_type_id,$entries);
+        }
+
         $bgColor = $collection->bgColor?->code ?? '#ffffff';
         
         $sliderCollection = $entries_layout == 2 ? 'sliderCollection' : '';
@@ -234,7 +241,7 @@
                 }
             }
 
-            $html='<div class="collection '.$sliderCollection.'" style="background-color:'.$bgColor.';">';
+            $html.='<div class="collection '.$sliderCollection.'" style="background-color:'.$bgColor.';">';
                 
                 foreach($datesEvents as $date=>$dateEvents){
 
@@ -295,7 +302,7 @@
         else
         {
 
-            $html='<div class="collection '.$sliderCollection.'" style="background-color:'.$bgColor.';">';
+            $html.='<div class="collection '.$sliderCollection.'" style="background-color:'.$bgColor.';">';
 
                 if( ($show_name==1 || $show_description==1) && $featured_width!='74.3%' ){
                     $html.='<div class="titleDescription">';
@@ -1274,6 +1281,52 @@
         
         return $labels;
     }
+
+    function setCollectionFilters($collection_type_id,$entries){
+
+        $html='';
+
+        if($collection_type_id==1){
+            
+            //Get categories and dates
+            $event_categories=[];
+            $event_dates=[];
+            foreach($entries as $entry){
+                if(!in_array($entry->event_category_id,$event_categories)){
+                    $obj=[
+                        'id'=>$entry->event_category_id,
+                        'title'=>$entry->event_title,
+                        'title_arabic'=>$entry->event_title_arabic,
+                    ];
+                    $event_categories[] = $obj;
+                }
+                if(!in_array($entry->event_date,$event_dates)){
+                    $event_dates[]=$entry->event_date;
+                }
+            }
+
+            $html.='<div class="filters" style="">
+                <div class="filter">
+                    <select>';
+                        foreach($event_categories as $event_category){
+                            $html.='<option '.$event_category["id"].'>'.$event_category["title"].'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="filter">
+                    <select>';
+                        foreach($event_categories as $event_category){
+                            $html.='<option '.$event_category["id"].'>'.$event_category["title"].'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="sort">SORT DPD</div>
+                <div class="clear"></div>
+            </div>';
+        }
+
+        return $html;
+    }   
 
 
     function getEntryDetails($collection_type_id,$entry)
