@@ -172,7 +172,7 @@
             $entries_expired  = $collection->entries_with_expired;
             $entries_order    = $collection->entries_order;
 
-            $query = Entries::where('type_id', $collection_type_id);
+            $query = Entries::where(['type_id' => $collection_type_id , 'published' => '1']);
 
             // Filter expired only for events
             // if ($entries_expired == 1 && $collection_type_id == 1) {
