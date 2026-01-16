@@ -108,13 +108,17 @@ return new class extends Migration
 
             //Team Fields
             $table->text('team_name')->nullable();
-            $table->text('team_name_arabic')->nullable();  
+            $table->text('team_name_arabic')->nullable(); 
+            $table->text('team_position')->nullable();
+            $table->text('team_position_arabic')->nullable();   
             $table->text('team_text')->nullable(); 
             $table->text('team_text_arabic')->nullable(); 
 
             //Member Fields
             $table->text('board_name')->nullable();
             $table->text('board_name_arabic')->nullable();  
+            $table->text('board_position')->nullable();
+            $table->text('board_position_arabic')->nullable();  
             $table->text('board_text')->nullable(); 
             $table->text('board_text_arabic')->nullable(); 
 

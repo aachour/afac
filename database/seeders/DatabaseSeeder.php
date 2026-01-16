@@ -28,8 +28,8 @@ class DatabaseSeeder extends Seeder
         $this->call(GranteeCategoriesSeeder::class);
         $this->call(ExternalCategoriesSeeder::class);
         $this->call(LogoSeeder::class);
-        $this->call(JurorsSeeder::class);
-        $this->call(ProjectsSeeder::class);        
+        // $this->call(JurorsSeeder::class);
+        // $this->call(ProjectsSeeder::class);        
                 
     }
 }

@@ -1053,6 +1053,28 @@
                                     @error('team_name_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="team_position">Position <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="team_position"
+                                        type="text"
+                                        id="team_position"
+                                        class="form-control"
+                                        placeholder="Position" />
+                                    @error('team_position') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="team_position_arabic">المنصب <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="team_position_arabic"
+                                        type="text"
+                                        id="team_position_arabic"
+                                        class="form-control"
+                                        placeholder="المنصب" />
+                                    @error('team_position_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="team_text">Text</label>
                                     <textarea wire:ignore
@@ -1112,6 +1134,28 @@
                                         class="form-control"
                                         placeholder="الاسم" />
                                     @error('board_name_arabic') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="board_position">Position <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="board_position"
+                                        type="text"
+                                        id="board_position"
+                                        class="form-control"
+                                        placeholder="Position" />
+                                    @error('board_position') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="board_position_arabic">المنصب <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="board_position_arabic"
+                                        type="text"
+                                        id="board_position_arabic"
+                                        class="form-control"
+                                        placeholder="المنصب" />
+                                    @error('board_position_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>

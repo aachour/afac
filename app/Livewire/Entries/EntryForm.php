@@ -141,12 +141,16 @@ class EntryForm extends Component
     //9- Team
     public $team_name;
     public $team_name_arabic;
+    public $team_position;
+    public $team_position_arabic;
     public $team_text;
     public $team_text_arabic;
 
     //10- Board
     public $board_name;
     public $board_name_arabic;
+    public $board_position;
+    public $board_position_arabic;
     public $board_text;
     public $board_text_arabic;
     
@@ -268,12 +272,16 @@ class EntryForm extends Component
             //Team
             $this->team_name=$this->entry->team_name;
             $this->team_name_arabic=$this->entry->team_name_arabic;
+            $this->team_position=$this->entry->team_position;
+            $this->team_position_arabic=$this->entry->team_position_arabic;
             $this->team_text=$this->entry->team_text;
             $this->team_text_arabic=$this->entry->team_text_arabic;
 
             //Board
             $this->board_name=$this->entry->board_name;
             $this->board_name_arabic=$this->entry->board_name_arabic;
+            $this->board_position=$this->entry->board_position;
+            $this->board_position_arabic=$this->entry->board_position_arabic;
             $this->board_text=$this->entry->board_text;
             $this->board_text_arabic=$this->entry->board_text_arabic;
             
@@ -387,13 +395,17 @@ class EntryForm extends Component
             //Team
             'team_name' => ['required_if:type_id,9'],
             'team_name_arabic' => ['required_if:type_id,9'],
+            'team_position' => ['required_if:type_id,9'],
+            'team_position_arabic' => ['required_if:type_id,9'],
             'team_text' => ['required_if:type_id,9'],
             'team_text_arabic' => ['required_if:type_id,9'],
 
             
             //Board
             'board_name' => ['required_if:type_id,10'],
-            'board_name' => ['required_if:type_id,10'],
+            'board_name_arabic' => ['required_if:type_id,10'],
+            'board_position' => ['required_if:type_id,10'],
+            'board_position_arabic' => ['required_if:type_id,10'],
             'board_text' => ['required_if:type_id,10'],
             'board_text' => ['required_if:type_id,10'],
         ];
@@ -492,10 +504,14 @@ class EntryForm extends Component
                 'external_link_arabic'=>$this->external_link_arabic ?? '',
                 'team_name'=>$this->team_name ?? '',
                 'team_name_arabic'=>$this->team_name_arabic ?? '',
+                'team_position'=>$this->team_position ?? '',
+                'team_position_arabic'=>$this->team_position_arabic ?? '',
                 'team_text'=>$this->team_text ?? '',
                 'team_text_arabic'=>$this->team_text_arabic ?? '',
                 'board_name'=>$this->board_name ?? '',
                 'board_name_arabic'=>$this->board_name_arabic ?? '',
+                'board_position'=>$this->board_position ?? '',
+                'board_position_arabic'=>$this->board_position_arabic ?? '',
                 'board_text'=>$this->board_text ?? '',
                 'board_text_arabic'=>$this->board_text_arabic ?? '',
             ]);
@@ -597,10 +613,14 @@ class EntryForm extends Component
                 'external_link_arabic'=>$this->external_link_arabic ?? '',
                 'team_name'=>$this->team_name ?? '',
                 'team_name_arabic'=>$this->team_name_arabic ?? '',
+                'team_position'=>$this->team_position ?? '',
+                'team_position_arabic'=>$this->team_position_arabic ?? '',
                 'team_text'=>$this->team_text ?? '',
                 'team_text_arabic'=>$this->team_text_arabic ?? '',
                 'board_name'=>$this->board_name ?? '',
                 'board_name_arabic'=>$this->board_name_arabic ?? '',
+                'board_position'=>$this->board_position ?? '',
+                'board_position_arabic'=>$this->board_position_arabic ?? '',
                 'board_text'=>$this->board_text ?? '',
                 'board_text_arabic'=>$this->board_text_arabic ?? '',
             ];

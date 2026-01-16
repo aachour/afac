@@ -44,7 +44,8 @@
             position:absolute;
             top:0px;
             left:0px;
-            width:800px;
+            width:100%;
+            height:100%;
             padding:30px 30px;
             border:2px solid #000;
             background:#FFF;
