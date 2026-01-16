@@ -1331,40 +1331,45 @@
             $html.="<script>
                 $(document).ready(function(){
 
-                    //1- filter event categories
-                    $('.filter_event_category').change(function(){
-                        var event_category_name=$.trim($(this).val());
-                        $(this).parent().parent().parent().find('.entry_card').each(function(){
-                            var entry_category_name=$.trim($(this).attr('event_category_name'));
-                            if(entry_category_name==event_category_name || event_category_name=='' ){
-                                $(this).parent().removeClass('d-none');
-                            }else{
-                                $(this).parent().addClass('d-none');
-                            }
-                        });
-                    });
+                    $('.filter_event_category, .filter_event_from_date, .filter_event_to_date').change(function () {
 
-                    //2- filter date from - date to
-                    $('.filter_event_from_date , .filter_event_to_date').change(function(){
-                        
-                        var event_from_date=new Date($('.filter_event_from_date').val());
+                        var event_category_name = $.trim($('.filter_event_category').val());
+                        var event_from_date = new Date($('.filter_event_from_date').val());
+                        var event_to_date = new Date($('.filter_event_to_date').val());
+
+                        // Normalize time
                         event_from_date.setHours(0, 0, 0, 0);
-
-                        var event_to_date=new Date($('.filter_event_to_date').val());
                         event_to_date.setHours(0, 0, 0, 0);
 
+                        $(this).parent().parent().parent().find('.entry_card').each(function () {
 
-                        $(this).parent().parent().parent().find('.entry_card').each(function(){
-                            var entry_date=new Date($.trim($(this).attr('event_date')));
+                            var entry_category_name = $.trim($(this).attr('event_category_name'));
+                            var entry_date = new Date($.trim($(this).attr('event_date')));
                             entry_date.setHours(0, 0, 0, 0);
 
-                            if (entry_date >= event_from_date && entry_date <= event_to_date) {
+                            // Category match
+                            var match_category = (entry_category_name === event_category_name || event_category_name === '');
+
+                            // Date match
+                            var is_from_date_set = !isNaN(event_from_date.getTime());
+                            var is_to_date_set = !isNaN(event_to_date.getTime());
+
+                            var match_date = true;
+
+                            if (is_from_date_set && is_to_date_set) {
+                                match_date = (entry_date >= event_from_date && entry_date <= event_to_date);
+                            } else if (is_from_date_set) {
+                                match_date = entry_date.getTime() === event_from_date.getTime();
+                            } else if (is_to_date_set) {
+                                match_date = entry_date.getTime() === event_to_date.getTime();
+                            }
+
+                            if (match_category && match_date) {
                                 $(this).parent().removeClass('d-none');
                             } else {
                                 $(this).parent().addClass('d-none');
                             }
                         });
-                        
                     });
 
                 });
