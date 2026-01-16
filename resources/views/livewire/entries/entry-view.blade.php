@@ -58,6 +58,7 @@
                             <th>Name</th>
                             <th>Name Arabic</th>
                         @endif
+                        <th>Published</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -107,7 +108,14 @@
                                 <td>{{ $entry->board_name }}</td>
                                 <td>{{ $entry->board_name_arabic }}</td>
                             @endif
-                            
+                            <td>
+                                <button 
+                                    wire:click="togglePublish({{ $entry->id }})" 
+                                        class="px-4 rounded text-white 
+                                            {{ $entry->published ? 'btn-success' : 'btn-danger' }}">
+                                        {{ $entry->published == 1 ? 'Yes' : 'No' }}
+                                    </button>
+                                </td>
                             <td>
                                 @can('entry-view')
                                     @if($type_id==1)

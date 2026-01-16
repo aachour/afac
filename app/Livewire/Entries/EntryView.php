@@ -46,6 +46,19 @@ class EntryView extends Component
 
     }
 
+    public function togglePublish($id)
+    {
+        $entry = Entries::findOrFail($id);
+
+        $entry->published = $entry->published == 0 ? 1 : 0;
+
+        $text_action = $entry->published == 1 ? 'published' : 'unpublished';
+
+        $entry->save();
+
+        return to_route('entries',['typeId'=>$this->type_id])->with('success', 'Entry '.$text_action.' successfully!');
+    }
+
     #[On('delete')]
     public function delete($id)
     {
