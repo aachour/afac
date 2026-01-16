@@ -21,6 +21,7 @@
 
         if($entry){
             
+            //Get entry labels
             $labels=getEntryLabels($entry);
 
             $html='<div class="fullContainer">
@@ -506,6 +507,17 @@
                                         'labels' => $labels,
                                         'button_text'=>$button_text,
                                         'featured'=>'0',
+                                        'event_category_name'=>$entry->eventCategory?->name,
+                                        'event_date'=>$entry->event_date,
+                                        'program_start_date'=>$entry->program_start_date,
+                                        'program_end_date'=>$entry->program_end_date,
+                                        'project_categories_id'=>$entry->project_categories_id,
+                                        'project_countries_id'=>$entry->project_countries_id,
+                                        'grantee_categories_id'=>$entry->grantee_categories_id,
+                                        'grantee_country_id'=>$entry->grantee_country_id,
+                                        'jury_country_id'=>$entry->jury_country_id,
+                                        'resource_date'=>$entry->resource_date,
+                                        'news_date'=>$entry->news_date,
                                     ])->render();
                                                                         
                                 $html .='</div>';
@@ -1282,27 +1294,24 @@
         return $labels;
     }
 
+
     function setCollectionFilters($collection_type_id,$entries){
 
         $html='';
 
         if($collection_type_id==1) //Events
         {
-            //Get categories and dates
+            //Get categories
             $event_categories=[];
-            $event_dates=[];
             foreach($entries as $entry){
                 if(!in_array($entry->eventCategory->name,$event_categories)){
                     $event_categories[] = $entry->eventCategory->name;
-                }
-                if(!in_array($entry->event_date,$event_dates)){
-                    $event_dates[]=$entry->event_date;
                 }
             }
 
             $html.='<div class="filters" style="">
                 <div class="filter">
-                    <select class="filterDpd">
+                    <select class="filterDpd filter_event_category">
                         <option value="">Select type</option>';
                         foreach($event_categories as $event_category){
                             $html.='<option '.$event_category.'>'.$event_category.'</option>';
@@ -1310,16 +1319,56 @@
                     $html.='</select>
                 </div>
                 <div class="filter">
-                    <select class="filterDpd">    
-                        <option value="">Select date</option>';;
-                        foreach($event_dates as $date){
-                            $html.='<option '.$date.'>'.$date.'</option>';
-                        }
-                    $html.='</select>
+                    <input type="date" name="from_date" class="filter_event_from_date"  placeholder="From Date" />
+                </div>
+                <div class="filter">
+                    <input type="date" name="from_date" class="filter_event_to_date"  placeholder="To Date" />
                 </div>
                 <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
             </div>';
+
+            $html.="<script>
+                $(document).ready(function(){
+
+                    //1- filter event categories
+                    $('.filter_event_category').change(function(){
+                        var event_category_name=$.trim($(this).val());
+                        $(this).parent().parent().parent().find('.entry_card').each(function(){
+                            var entry_category_name=$.trim($(this).attr('event_category_name'));
+                            if(entry_category_name==event_category_name || event_category_name=='' ){
+                                $(this).parent().removeClass('d-none');
+                            }else{
+                                $(this).parent().addClass('d-none');
+                            }
+                        });
+                    });
+
+                    //2- filter date from - date to
+                    $('.filter_event_from_date , .filter_event_to_date').change(function(){
+                        
+                        var event_from_date=new Date($('.filter_event_from_date').val());
+                        event_from_date.setHours(0, 0, 0, 0);
+
+                        var event_to_date=new Date($('.filter_event_to_date').val());
+                        event_to_date.setHours(0, 0, 0, 0);
+
+
+                        $(this).parent().parent().parent().find('.entry_card').each(function(){
+                            var entry_date=new Date($.trim($(this).attr('event_date')));
+                            entry_date.setHours(0, 0, 0, 0);
+
+                            if (entry_date >= event_from_date && entry_date <= event_to_date) {
+                                $(this).parent().removeClass('d-none');
+                            } else {
+                                $(this).parent().addClass('d-none');
+                            }
+                        });
+                        
+                    });
+
+                });
+            </script>";
         }
         else if($collection_type_id==2) // Programs
         {
@@ -1337,7 +1386,7 @@
 
             $html.='<div class="filters" style="">
                 <div class="filter">
-                    <select class="filterDpd">
+                    <select class="filterDpd filter_program_start_date">
                         <option value="">Select start date</option>';
                         foreach($program_start_dates as $date){
                             $html.='<option '.$date.'>'.$date.'</option>';
@@ -1345,7 +1394,7 @@
                     $html.='</select>
                 </div>
                 <div class="filter">
-                    <select class="filterDpd">    
+                    <select class="filterDpd filter_program_end_date">    
                         <option value="">Select end date</option>';
                         foreach($program_end_dates as $date){
                             $html.='<option '.$date.'>'.$date.'</option>';
@@ -1359,39 +1408,130 @@
         else if($collection_type_id==3) // Projects
         {
             //Get categories and countries
-            /*$project_categories=[];
+            $project_categories=[];
             $project_countries=[];
+            
             foreach($entries as $entry){
-                if(!in_array($entry->program_start_date,$program_start_dates)){
-                    $program_start_dates[]=$entry->program_start_date;
+
+                $categories=$entry->projectCategories(json_decode($entry->project_categories_id, true) ?? []);
+                foreach($categories as $category){
+                    if(!in_array($category,$project_categories)){
+                        $project_categories[]=$category;
+                    }
                 }
-                if(!in_array($entry->program_end_date,$program_end_dates)){
-                    $program_end_dates[]=$entry->program_end_date;
+
+                $countries=$entry->projectCountries(json_decode($entry->project_countries_id, true) ?? []);
+                foreach($countries as $country){
+                    if(!in_array($country,$project_countries)){
+                        $project_countries[]=$country;
+                    }
                 }
+                
             }
 
             $html.='<div class="filters" style="">
                 <div class="filter">
-                    <select class="filterDpd">
+                    <select class="filterDpd filter_project_category">
                         <option value="">Select theme</option>';
-                        foreach($program_start_dates as $date){
-                            $html.='<option '.$date.'>'.$date.'</option>';
+                        foreach($project_categories as $category){
+                            $html.='<option '.$category.'>'.$category.'</option>';
                         }
                     $html.='</select>
                 </div>
                 <div class="filter">
-                    <select class="filterDpd">    
+                    <select class="filterDpd filter_project_country">    
                         <option value="">Select country</option>';
-                        foreach($program_end_dates as $date){
-                            $html.='<option '.$date.'>'.$date.'</option>';
+                        foreach($project_countries as $country){
+                            $html.='<option '.$country.'>'.$country.'</option>';
                         }
                     $html.='</select>
                 </div>
                 <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
-            </div>';*/
+            </div>';
         }
+        else if($collection_type_id==4) // Grantees
+        {
+            //Get categories and countries
+            $grantee_categories=[];
+            $grantee_countries=[];
+            
+            foreach($entries as $entry){
 
+                $categories=$entry->granteeCategories(json_decode($entry->grantee_categories_id, true) ?? []);
+                foreach($categories as $category){
+                    if(!in_array($category,$grantee_categories)){
+                        $grantee_categories[]=$category;
+                    }
+                }
+
+                if(!in_array($entry->granteeCountry->name,$grantee_countries)){
+                    $grantee_countries[]=$entry->granteeCountry->name;
+                }
+
+            }
+
+            $html.='<div class="filters" style="">
+                <div class="filter">
+                    <select class="filterDpd filter_grantee_category">
+                        <option value="">Select theme</option>';
+                        foreach($grantee_categories as $category){
+                            $html.='<option '.$category.'>'.$category.'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="filter">
+                    <select class="filterDpd filter_grantee_country">    
+                        <option value="">Select country</option>';
+                        foreach($grantee_countries as $country){
+                            $html.='<option '.$country.'>'.$country.'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="sort">SORT DPD</div>
+                <div class="clear"></div>
+            </div>';
+        }
+        else if($collection_type_id==5) // Jurors
+        {
+            //Get categories and countries
+            $juror_countries=[];
+            
+            foreach($entries as $entry){
+
+                if(!in_array($entry->juryCountry?->name,$juror_countries)){
+                    $juror_countries[]=$entry->juryCountry?->name;
+                }
+
+            }
+
+            $html.='<div class="filters" style="">
+                <div class="filter">
+                    <select class="filterDpd filter_jury_category">    
+                        <option value="">Select country</option>';
+                        foreach($juror_countries as $country){
+                            $html.='<option '.$country.'>'.$country.'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="sort">SORT DPD</div>
+                <div class="clear"></div>
+            </div>';
+        }
+        else if($collection_type_id==6 || $collection_type_id==7) //Resources & News
+        {
+
+            $html.='<div class="filters" style="">
+                <div class="filter">
+                    <input type="date" name="from_date" class="filter_resource_from_date"  placeholder="From Date" />
+                </div>
+                <div class="filter">
+                    <input type="date" name="from_date" class="filter_resource_from_date"  placeholder="To Date" />
+                </div>
+                <div class="sort">SORT DPD</div>
+                <div class="clear"></div>
+            </div>';
+        }
 
         return $html;
     }   

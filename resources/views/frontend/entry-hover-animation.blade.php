@@ -94,7 +94,7 @@
         }
     </style>
 
-    <div class="card-hover-animation-wrapper clickable" data-hover-animation>
+    <div class="card-hover-animation-wrapper entry_card clickable" event_category_name="{{$event_category_name}}" event_date="{{$event_date}}" program_start_date="{{$program_start_date}}" program_end_date="{{$program_end_date}}" project_categories_id="{{$project_categories_id}}" project_countries_id="{{$project_countries_id}}" grantee_categories_id="{{$grantee_categories_id}}" grantee_country_id="{{$grantee_country_id}}" jury_country_id="{{$jury_country_id}}" resource_date="{{$resource_date}}" news_date="{{$news_date}}" data-hover-animation>
 
         @if($featured==1)
             <img src="{{$image_path}}" width="100%" />
