@@ -67,7 +67,7 @@
                         <tr>
                             <td>{{ $entry->id }}</td>
                             @if($type_id==1)
-                                <td>{{ $entry->eventCategory->name }} </td>
+                                <td>{{ $entry->eventCategory?->name }} </td>
                                 <td>{{ $entry->event_title }}</td>
                                 <td>{{ $entry->event_title_arabic }}</td>
                                 <td>{{ $entry->event_date }}</td>
@@ -78,7 +78,7 @@
                                 <td>{{ $entry->program_title_arabic }}</td>
                                 <td>{{ $entry->program_status }}</td>
                             @elseif($type_id==3)
-                                <td>{{ @$entry->projectCategory->name }}</td>
+                                <td>{{ @$entry->projectCategory?->name }}</td>
                                 <td>{{ $entry->project_title }}</td>
                                 <td>{{ $entry->project_title_arabic }}</td>
                             @elseif($type_id==4)
