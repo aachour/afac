@@ -841,8 +841,8 @@ class JurorsSeeder extends Seeder
                 'type_id'=>'5',
                 'jury_name' => trim($juror[0]),
                 'jury_name_arabic' => trim($juror[1]),
-                'jury_text' => trim($juror[2]),
-                'jury_text_arabic' => trim($juror[3]),
+                'jury_text' => trim(str_replace("\\r\\n", "",$juror[2])),
+                'jury_text_arabic' => trim(str_replace("\\r\\n", "",$juror[3])),
                 'jury_country_id' => trim(@$juror[4]),
             ]);
 

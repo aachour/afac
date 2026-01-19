@@ -2677,8 +2677,8 @@ class ProjectsSeeder extends Seeder
                 'type_id'=>'3' , 
                 'project_title' => $project[0],
                 'project_title_arabic' => $project[1] , 
-                'project_text' => $project[2] , 
-                'project_text_arabic' => $project[3] , 
+                'project_text' => trim(str_replace("\\r\\n", "",$project[2])) , 
+                'project_text_arabic' => trim(str_replace("\\r\\n", "",$project[3])) , 
                 'project_countries_id' => json_encode($project[4]) ,                 
                 'published'=>'1']);
         }

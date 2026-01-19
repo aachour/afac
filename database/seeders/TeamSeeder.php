@@ -44,8 +44,8 @@ class TeamSeeder extends Seeder
                 'team_name_arabic' => $team[1],
                 'team_position' => preg_replace('/\s+/', ' ',$team[2]),
                 'team_position_arabic' => preg_replace('/\s+/', ' ',$team[3]),
-                'team_text' => preg_replace('/\s+/', ' ',$team[4]),
-                'team_text_arabic' => preg_replace('/\s+/', ' ',$team[5]),
+                'team_text' => trim(str_replace("\\r\\n", "",$team[4])),
+                'team_text_arabic' => trim(str_replace("\\r\\n", "",$team[5])),
                 'published'=>'1' 
             ]);
         }

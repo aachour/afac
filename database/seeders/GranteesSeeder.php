@@ -2068,8 +2068,8 @@ class GranteesSeeder extends Seeder
                 'type_id'=>'4',
                 'grantee_name' => $grantee[0],
                 'grantee_name_arabic' => $grantee[1],
-                'grantee_text' => preg_replace('/\s+/', ' ',$grantee[2]),
-                'grantee_text_arabic' => preg_replace('/\s+/', ' ',$grantee[3]),
+                'grantee_text' => trim(str_replace("\\r\\n", "",$grantee[2])),
+                'grantee_text_arabic' => trim(str_replace("\\r\\n", "",$grantee[3])),
                 'grantee_country_id' => $grantee[4],
                 'published'=>'1' 
             ]);

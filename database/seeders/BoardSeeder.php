@@ -35,8 +35,8 @@ class BoardSeeder extends Seeder
                 'board_name_arabic' => $board[1],
                 'board_position' => preg_replace('/\s+/', ' ',$board[2]),
                 'board_position_arabic' => preg_replace('/\s+/', ' ',$board[3]),
-                'board_text' => preg_replace('/\s+/', ' ',$board[4]),
-                'board_text_arabic' => preg_replace('/\s+/', ' ',$board[5]),
+                'board_text' => trim(str_replace("\\r\\n", "",$board[4])),
+                'board_text_arabic' => trim(str_replace("\\r\\n", "",$board[5])),
                 'published'=>'1' 
             ]);
         }
