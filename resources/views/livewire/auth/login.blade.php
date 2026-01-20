@@ -50,12 +50,12 @@
                                     <span class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                                 </div>
                             </div>
-                            <div class="mb-3">
+                            {{--<div class="mb-3">
                                 <div class="form-check">
                                     <input wire:model="rememberMe" class="form-check-input" type="checkbox" id="remember-me" />
                                     <label class="form-check-label" for="remember-me"> Remember Me </label>
                                 </div>
-                            </div>
+                            </div>--}}
                             @error('username')
                             <div class="d-flex justify-content-center align-content-center mb-2">
                                 <i class="ti ti-alert-triangle text-danger" style="color: red;"></i>
