@@ -1322,7 +1322,7 @@
                     <input type="date" name="from_date" class="filter_event_from_date"  placeholder="From Date" />
                 </div>
                 <div class="filter">
-                    <input type="date" name="from_date" class="filter_event_to_date"  placeholder="To Date" />
+                    <input type="date" name="to_date" class="filter_event_to_date"  placeholder="To Date" />
                 </div>
                 <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
@@ -1377,38 +1377,61 @@
         }
         else if($collection_type_id==2) // Programs
         {
-            //Get start and end dates
-            $program_start_dates=[];
-            $program_end_dates=[];
-            foreach($entries as $entry){
-                if(!in_array($entry->program_start_date,$program_start_dates)){
-                    $program_start_dates[]=$entry->program_start_date;
-                }
-                if(!in_array($entry->program_end_date,$program_end_dates)){
-                    $program_end_dates[]=$entry->program_end_date;
-                }
-            }
-
             $html.='<div class="filters" style="">
                 <div class="filter">
-                    <select class="filterDpd filter_program_start_date">
-                        <option value="">Select start date</option>';
-                        foreach($program_start_dates as $date){
-                            $html.='<option '.$date.'>'.$date.'</option>';
-                        }
-                    $html.='</select>
+                    <input type="date" name="start_date" class="filter_program_start_date"  placeholder="Start Date" />
                 </div>
                 <div class="filter">
-                    <select class="filterDpd filter_program_end_date">    
-                        <option value="">Select end date</option>';
-                        foreach($program_end_dates as $date){
-                            $html.='<option '.$date.'>'.$date.'</option>';
-                        }
-                    $html.='</select>
+                    <input type="date" name="end_date" class="filter_program_end_date"  placeholder="End Date" />
                 </div>
                 <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
             </div>';
+
+            $html.="<script>
+                $(document).ready(function(){
+
+                    $('.filter_program_start_date, .filter_program_end_date').change(function () {
+
+                        var program_start_date = new Date($('.filter_program_start_date').val());
+                        var program_end_date = new Date($('.filter_program_end_date').val());
+
+                        // Normalize time
+                        program_start_date.setHours(0, 0, 0, 0);
+                        program_end_date.setHours(0, 0, 0, 0);
+
+                        $(this).parent().parent().parent().find('.entry_card').each(function () {
+
+                            var entry_start_date = new Date($.trim($(this).attr('program_start_date')));
+                            entry_start_date.setHours(0, 0, 0, 0);
+
+                            var entry_end_date = new Date($.trim($(this).attr('program_end_date')));
+                            entry_end_date.setHours(0, 0, 0, 0);
+
+                            // Date match
+                            var is_from_date_set = !isNaN(program_start_date.getTime());
+                            var is_to_date_set = !isNaN(program_end_date.getTime());
+
+                            var match_date = true;
+
+                            if (is_from_date_set && is_to_date_set) {
+                                match_date = (entry_start_date >= program_start_date && entry_end_date <= program_end_date);
+                            } else if (is_from_date_set) {
+                                match_date = entry_start_date.getTime() >= program_start_date.getTime();
+                            } else if (is_to_date_set) {
+                                match_date = entry_end_date.getTime() <= program_end_date.getTime();
+                            }
+
+                            if (match_date) {
+                                $(this).parent().removeClass('d-none');
+                            } else {
+                                $(this).parent().addClass('d-none');
+                            }
+                        });
+                    });
+
+                });
+            </script>";
         }
         else if($collection_type_id==3) // Projects
         {
