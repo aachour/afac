@@ -51,6 +51,14 @@ class Entries extends Model
         )->pluck('name');
     }
 
+    public function projectCategoriesName(array $ids)
+    {
+        return ProjectCategories::whereIn(
+            'id',
+            $ids ?? []
+        )->pluck('name');
+    }
+
     public function projectCountries(array $ids)
     {
         return Countries::whereIn(

@@ -511,8 +511,8 @@
                                         'event_date'=>$entry->event_date,
                                         'program_start_date'=>$entry->program_start_date,
                                         'program_end_date'=>$entry->program_end_date,
-                                        'project_categories_id'=>$entry->project_categories_id,
-                                        'project_countries_id'=>$entry->project_countries_id,
+                                        'project_categories_id'=>$entry->projectCategoriesName(json_decode($entry->project_categories_id)),
+                                        'project_countries_id'=>$entry->projectCountries(json_decode($entry->project_countries_id)),
                                         'grantee_categories_id'=>$entry->grantee_categories_id,
                                         'grantee_country_id'=>$entry->grantee_country_id,
                                         'jury_country_id'=>$entry->jury_country_id,
@@ -1477,6 +1477,43 @@
                 <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
             </div>';
+
+            $html.="<script>
+                $(document).ready(function(){
+
+                    $('.filter_project_category, .filter_project_country').change(function () {
+
+                        var project_category_name = $.trim($('.filter_project_category').val());
+                        var project_country_name = $.trim($('.filter_project_country').val());
+                        
+                        $(this).parent().parent().parent().find('.entry_card').each(function () {
+
+                            var entry_categories_name = $.trim($(this).attr('project_categories_id'));
+                            var entry_countries_name = $.trim($(this).attr('project_countries_id'));
+
+                            // Category match
+                            var match_category = (
+                                entry_categories_name.includes(project_category_name) ||
+                                project_category_name === ''
+                            );
+                            
+                            // Country match
+                            var match_country = (
+                                entry_countries_name.includes(project_country_name) ||
+                                project_country_name === ''
+                            );
+                            
+
+                            if (match_category && match_country) {
+                                $(this).parent().removeClass('d-none');
+                            } else {
+                                $(this).parent().addClass('d-none');
+                            }
+                        });
+                    });
+
+                });
+            </script>";
         }
         else if($collection_type_id==4) // Grantees
         {
