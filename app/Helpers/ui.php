@@ -1295,7 +1295,8 @@
     }
 
 
-    function setCollectionFilters($collection_type_id,$entries){
+    function setCollectionFilters($collection_type_id,$entries)
+    {
 
         $html='';
 
