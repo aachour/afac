@@ -511,10 +511,10 @@
                                         'event_date'=>$entry->event_date,
                                         'program_start_date'=>$entry->program_start_date,
                                         'program_end_date'=>$entry->program_end_date,
-                                        'project_categories_id'=>$entry->projectCategoriesName(json_decode($entry->project_categories_id ?? '[]', true) ?? []),
-                                        'project_countries_id'=>$entry->projectCountries(json_decode($entry->project_countries_id ?? '[]', true) ?? []),
-                                        'grantee_categories_id'=>$entry->grantee_categories_id,
-                                        'grantee_country_id'=>$entry->grantee_country_id,
+                                        'project_categories'=>$entry->projectCategoriesName(json_decode($entry->project_categories_id ?? '[]', true) ?? []),
+                                        'project_countries'=>$entry->projectCountries(json_decode($entry->project_countries_id ?? '[]', true) ?? []),
+                                        'grantee_categories'=>$entry->granteeCategories(json_decode($entry->grantee_categories_id ?? '[]', true) ?? []),
+                                        'grantee_country'=>$entry->granteeCountry?->name,
                                         'jury_country_id'=>$entry->jury_country_id,
                                         'resource_date'=>$entry->resource_date,
                                         'news_date'=>$entry->news_date,
@@ -1488,8 +1488,8 @@
                         
                         $(this).parent().parent().parent().find('.entry_card').each(function () {
 
-                            var entry_categories_name = $.trim($(this).attr('project_categories_id'));
-                            var entry_countries_name = $.trim($(this).attr('project_countries_id'));
+                            var entry_categories_name = $.trim($(this).attr('project_categories'));
+                            var entry_countries_name = $.trim($(this).attr('project_countries'));
 
                             // Category match
                             var match_category = (
