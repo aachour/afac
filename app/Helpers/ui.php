@@ -1304,7 +1304,7 @@
             //Get categories
             $event_categories=[];
             foreach($entries as $entry){
-                if(!in_array($entry->eventCategory->name,$event_categories)){
+                if(!in_array($entry->eventCategory?->name,$event_categories)){
                     $event_categories[] = $entry->eventCategory->name;
                 }
             }
