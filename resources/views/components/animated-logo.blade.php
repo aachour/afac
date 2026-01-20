@@ -1,6 +1,5 @@
 <!-- GSAP Library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
+<script src="{{asset('frontend/js/gsap.js')}}"></script>
 
 <div class="animated-logo-wrapper">
     <svg width="1200" height="600" viewBox="0 0 437 233" fill="none" xmlns="http://www.w3.org/2000/svg"
