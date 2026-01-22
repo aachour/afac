@@ -316,7 +316,7 @@
                     $html.='</div>';
                 }
 
-                if( ($with_featured==0 || $show_view_all==1) && $featured_width!='74.3%'){
+                if( $with_featured==0 && $show_view_all==1 && $featured_width!='74.3%'){
                     $html.='<div class="viewAll">
                         <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:5px;"></a>
                     </div>';
@@ -365,8 +365,9 @@
                                         $html.='<div class="featured_info">
                                             <div class="title_or_labels" style="'.$title_position.'">
                                                 <div class="medium white ABCDiatypeMedium">'.$entry_title.'</div>
-                                                <div class="topSpacerSmall tiny white threeQuartersText">'.$entry_text.'</div>';
+                                                <div class="topSpacerSmall tiny white threeQuartersText">'.mb_substr($entry_text,0,350).'...</div>';
                                             $html.='</div>';
+
                                             if($with_label==1)
                                             {
                                                 $labels=getEntryLabels($entry);
