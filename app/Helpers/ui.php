@@ -40,7 +40,7 @@
                             if($entry->image_featured){
                                 $html.='<img src="'.asset('storage/'.$entry->image_featured).'" width="100%" />';
                             }else{
-                                $html.='<img src="'.asset('frontend/images/default-image.jpg').'" width="100%" />';
+                                $html.='<img src="'.asset('frontend/images/default-image-featured.png').'" width="100%" />';
                             }
                         $html.='</div>
                     </div>
@@ -254,7 +254,7 @@
 
                         foreach($dateEvents as $event){
 
-                            $image_path = asset('frontend/images/default-image.jpg');
+                            $image_path = asset('frontend/images/default-image.png');
                             if (!empty($entry->image)) {
                                 $image_path = asset('storage/' . $entry->image);
                             }
@@ -334,7 +334,7 @@
 
                         foreach($entries as $key=>$entry){
                             
-                            $image_path = asset('frontend/images/default-image.jpg');
+                            $image_path = asset('frontend/images/default-image-featured.png');
                             if (!empty($entry->image)) {
                                 $image_path = asset('storage/' . $entry->image_featured);
                             }
@@ -476,7 +476,7 @@
                                     continue; // skip first
                                 }
 
-                                $image_path = asset('frontend/images/default-image.jpg');
+                                $image_path = asset('frontend/images/default-image.png');
                                 if (!empty($entry->image)) {
                                     $image_path = asset('storage/' . $entry->image);
                                 }
