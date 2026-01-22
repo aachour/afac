@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-xl">
 
-            <form wire:submit="store" class="row g-3">
+            <form wire:submit.prevent="store" class="row g-3">
 
                 <div class="col-12">
                     <div class="card">
