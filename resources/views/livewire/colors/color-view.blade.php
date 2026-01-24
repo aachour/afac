@@ -74,8 +74,20 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" wire:click="closeModal" class="btn btn-secondary">Cancel</button>
-                            <button type="button" wire:click="saveColor" class="btn btn-primary">
-                                {{ $editingId ? 'Update' : 'Save' }}
+                            <button 
+                                type="button"
+                                wire:click="saveColor"
+                                wire:loading.attr="disabled"
+                                wire:target="saveColor"
+                                class="btn btn-primary"
+                            >
+                                <span wire:loading.remove wire:target="saveColor">
+                                    {{ $editingId ? 'Update' : 'Save' }}
+                                </span>
+
+                                <span wire:loading wire:target="saveColor">
+                                    Saving...
+                                </span>
                             </button>
                         </div>
                     </div>

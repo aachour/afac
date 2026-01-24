@@ -109,9 +109,22 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" wire:click="closeModal" class="btn btn-secondary">Cancel</button>
-                            <button type="button" wire:click="saveYear" class="btn btn-primary">
-                                {{ $editingId ? 'Update' : 'Save' }}
+                            <button 
+                                type="button"
+                                wire:click="saveYear"
+                                wire:loading.attr="disabled"
+                                wire:target="saveYear"
+                                class="btn btn-primary"
+                            >
+                                <span wire:loading.remove wire:target="saveYear">
+                                    {{ $editingId ? 'Update' : 'Save' }}
+                                </span>
+
+                                <span wire:loading wire:target="saveYear">
+                                    Saving...
+                                </span>
                             </button>
+                            
                         </div>
                     </div>
                 </div>
@@ -140,7 +153,19 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" wire:click="closeJurorModal" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                            <button type="button" wire:click="saveJuror" class="btn btn-primary">Save</button>
+                            <button 
+                                type="button"
+                                wire:click="saveJuror"
+                                wire:loading.attr="disabled"
+                                wire:target="saveJuror"
+                                class="btn btn-primary"
+                            >
+                                <span wire:loading.remove wire:target="saveJuror">Save</span>
+
+                                <span wire:loading wire:target="saveJuror">
+                                    Saving...
+                                </span>
+                            </button>
                         </div>
                     </div>
                 </div>

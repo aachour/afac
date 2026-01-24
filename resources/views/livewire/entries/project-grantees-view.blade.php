@@ -66,8 +66,20 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" wire:click="closeModal" class="btn btn-secondary">Cancel</button>
-                            <button type="button" wire:click="saveGrantee" class="btn btn-primary">
-                                {{ $editingId ? 'Update' : 'Save' }}
+                            <button 
+                                type="button"
+                                wire:click="saveGrantee"
+                                wire:loading.attr="disabled"
+                                wire:target="saveGrantee"
+                                class="btn btn-primary"
+                            >
+                                <span wire:loading.remove wire:target="saveGrantee">
+                                    {{ $editingId ? 'Update' : 'Save' }}
+                                </span>
+
+                                <span wire:loading wire:target="saveGrantee">
+                                    Saving...
+                                </span>
                             </button>
                         </div>
                     </div>
