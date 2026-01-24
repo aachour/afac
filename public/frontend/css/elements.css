@@ -139,16 +139,13 @@
         margin-bottom:20px;
     }
 }
-@media(min-width:900px){
+@media (min-width:900px){
     .collection .entries .entry{
         float:left;
         width:23.5%;
         height:auto;
         margin-right:2%;
         margin-top:2%;
-    }
-    .collection .entries .entry:nth-child(4n){
-        margin-right:0px !important;
     }
 }
 

@@ -444,12 +444,12 @@
                             
                             $entries_count=0;
 
-                            if($entries_layout==1 && $entries_per_row<4){
+                            if($entries_layout==1 && $entries_per_row==4){
                                 $html.='
                                 <style>
                                     @media(min-width:900px){
-                                        .collection .entries .entry:nth-child(4n){
-                                            margin-right:2% !important;
+                                        .collection .entries > .entry:nth-child(4n of .entry){
+                                            margin-right:0 !important;
                                         }
                                     }
                                 </style>';

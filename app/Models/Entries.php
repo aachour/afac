@@ -59,8 +59,17 @@ class Entries extends Model
         )->pluck('name');
     }
 
-    public function projectCountries(array $ids)
+    public function projectCountries(array|string|null $ids)
     {
+        if (empty($ids)) {
+            return collect(); // or [] if you prefer array
+        }
+
+        // convert string → array
+        if (is_string($ids)) {
+            $ids = explode(',', $ids);
+        }
+        
         return Countries::whereIn(
         'id',
             $ids ?? []
