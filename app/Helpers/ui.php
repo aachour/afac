@@ -11,6 +11,9 @@
     use App\Models\ColumnCountdown;
     use App\Models\ColumnExpandTexts;
     use App\Models\ProjectGrantees;
+    use App\Models\ProgramYearProjects;
+    use App\Models\ProgramYearJurors;
+    
     use App\Models\Logo;
     use Carbon\Carbon;
             
@@ -178,6 +181,47 @@
             // if ($entries_expired == 1 && $collection_type_id == 1) {
             //     $query->where('event_date', '>=', date('Y-m-d'));
             // }
+
+            // When type is project, check program and year
+            if($collection_type_id == 3)
+            {
+                $entries_program_year_id=$collection->entries_program_year_id;
+
+                $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
+                    ->pluck('project_id')
+                    ->toArray();
+
+                $query->whereIn('id', $projectIds);
+            }
+
+            // When type is grantee, check program and year
+            if($collection_type_id == 4)
+            {
+                $entries_program_year_id=$collection->entries_program_year_id;
+
+                //get projects
+                $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
+                    ->pluck('project_id')
+                    ->toArray();
+
+                //get grantees
+                $granteeIds=ProjectGrantees::WHEREIN('project_id',$projectIds)->pluck('grantee_id')
+                    ->toArray();
+
+                $query->whereIn('id', $granteeIds);
+            }
+
+            // When type is juror, check program and year
+            if($collection_type_id == 5)
+            {
+                $entries_program_year_id=$collection->entries_program_year_id;
+
+                $jurorIds = ProgramYearJurors::where('program_year_id', $entries_program_year_id)
+                    ->pluck('juror_id')
+                    ->toArray();
+
+                $query->whereIn('id', $jurorIds);
+            }
 
             // Ordering 
             if ($collection_type_id == 1 && $entries_order == 1) //event name asc
