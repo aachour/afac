@@ -169,8 +169,20 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                        <button type="button" wire:click="saveEntry" class="btn btn-primary">
-                            {{ $modalId ? 'Update' : 'Save' }}
+                        <button 
+                            type="button"
+                            wire:click="saveEntry"
+                            wire:loading.attr="disabled"
+                            wire:target="saveEntry"
+                            class="btn btn-primary"
+                        >
+                            <span wire:loading.remove wire:target="saveEntry">
+                                {{ $modalId ? 'Update' : 'Save' }}
+                            </span>
+
+                            <span wire:loading wire:target="saveEntry">
+                                Saving...
+                            </span>
                         </button>
                     </div>
                 </div>
