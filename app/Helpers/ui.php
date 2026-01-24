@@ -729,7 +729,7 @@
                         
                         $htmlColumn.='<div class="topSpacerBig">
                         
-                            <a href="' . ($generalInput->button_link ?? '#') . '">'.getEntryBtnShape($generalInput->button_value,$generalInput->button_value_arabic,$generalInput->shape->name,$generalInput->shapeHover->name,$generalInput->buttonColor->code,$generalInput->buttonHoverColor->code,$generalInput->buttonBgColor->code,$generalInput->buttonHoverBgColor->code).'</a>
+                            <a href="' . ($generalInput->button_link ?? '#') . '">'.getEntryBtnShape($generalInput->button_value,$generalInput->button_value_arabic,$generalInput->shape?->name,$generalInput->shapeHover->name,$generalInput->buttonColor->code,$generalInput->buttonHoverColor->code,$generalInput->buttonBgColor->code,$generalInput->buttonHoverBgColor->code).'</a>
                         </div>';
                     }
 
@@ -1129,7 +1129,7 @@
                                 <div class="big black ABCDiatypeMedium">Day(s)</div>
                             </div>
                             <div class="mt-4 col-12 col-lg-4 text-center">
-                                <a href="'.($countdown->button_link ?? '#').'">'.getEntryBtnShape($countdown->button_value,$countdown->button_value_arabic,$countdown->shape->name,$countdown->shapeHover->name,$countdown->buttonColor->code,$countdown->buttonHoverColor->code,$countdown->buttonBgColor->code,$countdown->buttonHoverBgColor->code).'</a>
+                                <a href="'.($countdown->button_link ?? '#').'">'.getEntryBtnShape($countdown->button_value,$countdown->button_value_arabic,$countdown->shape?->name,$countdown->shapeHover?->name,$countdown->buttonColor->code,$countdown->buttonHoverColor->code,$countdown->buttonBgColor->code,$countdown->buttonHoverBgColor->code).'</a>
                             </div>
                             <div class="mt-4 col-12 col-lg-4 text-start">
                                 <div class="huge black ABCDiatypeMedium">'.@$hours.'</div>

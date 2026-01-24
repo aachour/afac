@@ -38,8 +38,8 @@
                         <tr data-id="{{ $pattern->id }}" style="cursor: move;">
                             <td>{{$pattern->list_order}}</td>
                             <td>{{$pattern->button_text}}</td>
-                            <td>{{$pattern->shape->name}}</td>
-                            <td>{{$pattern->shapeHover->name}}</td>
+                            <td>{{$pattern->shape?->name}}</td>
+                            <td>{{$pattern->shapeHover?->name}}</td>
                             <td>
                                 @can('section-edit')
                                     <i  class="ti ti-edit ti-sm cursor-pointer"
