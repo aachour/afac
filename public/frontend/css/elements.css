@@ -317,3 +317,15 @@
     color:#000;
     background:#f2f2f2;
 }
+
+.filterDpd{
+    padding:3.5px 10px;
+    border-radius:0px !important;
+    border:2px solid #8F8F9D;
+    outline:none !important;
+    background:#FFF !important;
+}
+
+.filter input[type="date"] {
+    outline:none !important;
+}

@@ -1343,7 +1343,7 @@
                         event_from_date.setHours(0, 0, 0, 0);
                         event_to_date.setHours(0, 0, 0, 0);
 
-                        $(this).parent().parent().parent().find('.entry_card').each(function () {
+                        $(this).parent().parent().parent().find('.entry_card[featured!=1]').each(function () {
 
                             var entry_category_name = $.trim($(this).attr('event_category_name'));
                             var entry_date = new Date($.trim($(this).attr('event_date')));
@@ -1402,7 +1402,7 @@
                         program_start_date.setHours(0, 0, 0, 0);
                         program_end_date.setHours(0, 0, 0, 0);
 
-                        $(this).parent().parent().parent().find('.entry_card').each(function () {
+                        $(this).parent().parent().parent().find('.entry_card[featured!='1]').each(function () {
 
                             var entry_start_date = new Date($.trim($(this).attr('program_start_date')));
                             entry_start_date.setHours(0, 0, 0, 0);
