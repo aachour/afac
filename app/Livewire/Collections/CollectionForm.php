@@ -69,7 +69,7 @@ class CollectionForm extends Component
         $this->entries_order_options=['1'=>'Name ASC','2'=>'Name DESC','3'=>'Date ASC','4'=>'Date DESC'];
         $this->featured_image_width_options=['1'=>'Full','2'=>'three-quarters']; //'3'=>'one-half' '4'=>'one-quarter'
 
-        $this->programs=Entries::WHERE('type_id','2')->get();
+        $this->programs=Entries::WHERE('type_id','2')->ORDERBY('id','DESC')->get();
         $this->programYears=[];
         
         if($id==''){
