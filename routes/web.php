@@ -63,7 +63,7 @@ Route::get('/animation', [HomeController::class, 'animation'])->name('animation'
 
 Route::get('/page/{id}/{name}', [HomeController::class, 'ViewPage'])->name('page.view'); 
 
-Route::get('/{entryType}/{id}', [HomeController::class, 'ViewEntry'])->where('entryType', 'event|program|project|grantee|juror|resource|news|external|team|member')->name('entry.view');
+Route::get('/{entryType}/{id}', [HomeController::class, 'ViewEntry'])->where('entryType', 'event|program|project|grantee|juror|resource|news|external')->name('entry.view');
 
 Route::get('/view/collection/{id}', [HomeController::class, 'ViewCollection'])->name('view.collection'); 
 

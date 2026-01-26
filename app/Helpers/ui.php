@@ -51,7 +51,7 @@
                             $html.='</div>';
                         }
                         else
-                        {
+                        { // Resourses/News/Externals
                             $html.='<div class="col-12 text-center">';
                                 if($entry->image_featured){
                                     $html.='<img src="'.asset('storage/'.$entry->image_full).'" width="100%" />';
