@@ -629,12 +629,18 @@ class EntryForm extends Component
             
             if($this->type_id==3){
                 $project_id=$this->entry->id;
-
-                ProgramYearProjects::updateOrCreate(
+                
+                $project_program_year=ProgramYearProjects::updateOrCreate(
                     ['project_id' => $this->entry->id], // condition (search)
                     ['program_year_id' => $this->program_year_id] // values to update/create
                 );
+
+                $this->entry->update([
+                    'project_program_year_id' => $project_program_year->id !== '' ? $project_program_year->id : null,
+                ]);
             }
+
+            
 
             return to_route('entries',['typeId'=>$this->type_id])->with('success', 'Entry updated successfully!');
             
