@@ -76,6 +76,27 @@ class Entries extends Model
         )->pluck('name');
     }
 
+
+    public function projectGrantees($id)
+    {
+        $projectGrantees=projectGrantees::where('project_id',$id)->pluck('grantee_id');
+        $grantees=[];
+        foreach($projectGrantees as $projectGranteeId){
+            $grantee=Entries::find($projectGranteeId);
+            if($grantee){
+                $obj=[
+                    'id'=>$grantee->id,
+                    'name'=>$grantee->grantee_name,
+                    'name_arabic'=>$grantee->grantee_name_arabic,
+                ];
+                $grantees[]=$obj;
+            }
+        }
+
+        return $grantees;
+    }
+
+
     public function granteeCategories(array $ids)
     {
         return GranteeCategories::whereIn(

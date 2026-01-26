@@ -40,8 +40,16 @@
                                         $html.='<div class="label micro">'.$label.'</div>';
                                     }
                                 $html.='</div>
-                                <div class="mt-3 huge black ABCDiatypeMedium">'.getEntryTitle($entry).'</div>
-                            </div>
+                                <div class="mt-3 huge black ABCDiatypeMedium">'.getEntryTitle($entry).'</div>';
+                                if($entry->type_id==3) //get grantees
+                                {
+                                    foreach($entry->projectGrantees($entry->id) as $grantee){
+                                        $html.='<div class="mt-3">
+                                            <a href="'.route('entry.view', ['entryType'=>'grantee','id'=>$grantee["id"]]).'" class="small black ABCDiatypeMedium">'.$grantee["name"].'</a>
+                                        </div>';
+                                    }
+                                }
+                            $html.='</div>
                             <div class="col-lg-6 col-12">';
                                 if($entry->image_featured){
                                     $html.='<img src="'.asset('storage/'.$entry->image_featured).'" width="100%" />';
@@ -86,6 +94,7 @@
                                     foreach($categories as $category){
                                         $html.='<div class="mt-1 medium black ABCDiatypeMedium">'.$category.'</div>';
                                     }
+
                                 }
                                 else if($entry->type_id==4){ //Grantee
 
