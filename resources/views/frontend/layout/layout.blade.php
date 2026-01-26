@@ -49,7 +49,9 @@
     </div>
     
     <!--Page Content-->
-    @yield('content')
+    <div class="pageContent">
+        @yield('content')
+    </div>
 
     <!--Footer-->
     <div class="footer" style="background:{{@$footerBgCode}};">

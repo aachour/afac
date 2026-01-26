@@ -27,28 +27,44 @@
             //Get entry labels
             $labels=getEntryLabels($entry);
 
-            $html='<div class="fullContainer">
-                <div class="centerContainer" style="background:'.$entry->ImageBgColor?->code.';">
-                    <div class="row align-items-center">
-                        <div class="col-lg-6 col-12 text-center">
-                            <div class="labels">';
-                               $html.='<div class="label micro black ABCDiatypeMedium rounded">'.$entry->type->name.'</div>';
-                                foreach($labels as $label){
-                                    $html.='<div class="label micro">'.$label.'</div>';
+            $html='<div class="fullContainer">';
+                
+                $html.='<div class="centerContainer" style="background:'.$entry->ImageBgColor?->code.';">
+                    <div class="row align-items-center">';
+                        if($entry->type_id<=5)
+                        {
+                            $html.='<div class="col-lg-6 col-12 text-center">
+                                <div class="labels">';
+                                $html.='<div class="label micro black ABCDiatypeMedium rounded">'.$entry->type->name.'</div>';
+                                    foreach($labels as $label){
+                                        $html.='<div class="label micro">'.$label.'</div>';
+                                    }
+                                $html.='</div>
+                                <div class="mt-3 huge black ABCDiatypeMedium">'.getEntryTitle($entry).'</div>
+                            </div>
+                            <div class="col-lg-6 col-12">';
+                                if($entry->image_featured){
+                                    $html.='<img src="'.asset('storage/'.$entry->image_featured).'" width="100%" />';
+                                }else{
+                                    $html.='<img src="'.asset('frontend/images/default-image-featured.png').'" width="100%" />';
                                 }
-                            $html.='</div>
-                            <div class="mt-3 huge black ABCDiatypeMedium">'.getEntryTitle($entry).'</div>
-                        </div>
-                        <div class="col-lg-6 col-12">';
-                            if($entry->image_featured){
-                                $html.='<img src="'.asset('storage/'.$entry->image_featured).'" width="100%" />';
-                            }else{
-                                $html.='<img src="'.asset('frontend/images/default-image-featured.png').'" width="100%" />';
-                            }
-                        $html.='</div>
-                    </div>
-                </div>
-            </div>';
+                            $html.='</div>';
+                        }
+                        else
+                        {
+                            $html.='<div class="col-12 text-center">';
+                                if($entry->image_featured){
+                                    $html.='<img src="'.asset('storage/'.$entry->image_full).'" width="100%" />';
+                                }else{
+                                    $html.='<img src="'.asset('frontend/images/default-image-full.png').'" width="100%" />';
+                                }
+                            $html.='</div>';
+
+                        }
+                    $html.='</div>
+                </div>';
+                
+            $html.='</div>';
 
             //show at a glance for Supported Project & Grantee. 
             if($entry->type_id==3 || $entry->type_id==4){

@@ -13,12 +13,20 @@
         margin:0px auto;
         width:95%;
     }
+    .pageContent{
+        position:relative;
+        min-height: calc(100vh - 650px);
+    }
 }
 @media (min-width:900px){
     .centerContainer{
         position:relative;
         margin:0px auto;
         width:95%;
+    }
+    .pageContent{
+        position:relative;
+        min-height: calc(100vh - 340px);
     }
 }
 
