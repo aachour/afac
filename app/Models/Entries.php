@@ -79,7 +79,7 @@ class Entries extends Model
 
     public function projectGrantees($id)
     {
-        $projectGrantees=projectGrantees::where('project_id',$id)->pluck('grantee_id');
+        $projectGrantees=ProjectGrantees::where('project_id',$id)->pluck('grantee_id');
         $grantees=[];
         foreach($projectGrantees as $projectGranteeId){
             $grantee=Entries::find($projectGranteeId);
