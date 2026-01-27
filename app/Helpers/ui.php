@@ -630,7 +630,9 @@
 
                 }
 
-            $html.='</div>';
+                $html.='<div class="mt-1 filterEmptyResult small black ABCDiatypeMedium text-start d-none">No results to display for your selected filters </div>
+            
+            </div>';
 
             //add swiper JS 
             $html.='<script> 
@@ -1410,9 +1412,12 @@
 
             $html.="<script>
                 $(document).ready(function(){
-
+                    
                     $('.filter_event_category, .filter_event_from_date, .filter_event_to_date').change(function () {
 
+                        var allCards=0;
+                        var hiddenCards=0;
+                        
                         var event_category_name = $.trim($('.filter_event_category').val());
                         var event_from_date = new Date($('.filter_event_from_date').val());
                         var event_to_date = new Date($('.filter_event_to_date').val());
@@ -1448,8 +1453,18 @@
                                 $(this).parent().removeClass('d-none');
                             } else {
                                 $(this).parent().addClass('d-none');
+                                hiddenCards++;
                             }
+
+                            allCards++;
                         });
+
+                        if(allCards==hiddenCards){
+                            $(this).parent().parent().parent().find('.filterEmptyResult').removeClass('d-none');
+                        }
+                        else{
+                            $(this).parent().parent().parent().find('.filterEmptyResult').addClass('d-none');
+                        }
                     });
 
                 });
@@ -1472,6 +1487,9 @@
                 $(document).ready(function(){
 
                     $('.filter_program_start_date, .filter_program_end_date').change(function () {
+
+                        var allCards=0;
+                        var hiddenCards=0;
 
                         var program_start_date = new Date($('.filter_program_start_date').val());
                         var program_end_date = new Date($('.filter_program_end_date').val());
@@ -1506,8 +1524,20 @@
                                 $(this).parent().removeClass('d-none');
                             } else {
                                 $(this).parent().addClass('d-none');
+                                hiddenCards++;
                             }
+
+                            allCards++;
+
                         });
+                        
+                        if(allCards==hiddenCards){
+                            $(this).parent().parent().parent().find('.filterEmptyResult').removeClass('d-none');
+                        }
+                        else{
+                            $(this).parent().parent().parent().find('.filterEmptyResult').addClass('d-none');
+                        }
+
                     });
 
                 });
@@ -1563,6 +1593,9 @@
 
                     $('.filter_project_category, .filter_project_country').change(function () {
 
+                        var allCards=0;
+                        var hiddenCards=0;
+
                         var project_category_name = $.trim($('.filter_project_category').val());
                         var project_country_name = $.trim($('.filter_project_country').val());
                         
@@ -1588,8 +1621,19 @@
                                 $(this).parent().removeClass('d-none');
                             } else {
                                 $(this).parent().addClass('d-none');
+                                hiddenCards++;
                             }
+
+                            allCards++;
                         });
+
+                        if(allCards==hiddenCards){
+                            $(this).parent().parent().parent().find('.filterEmptyResult').removeClass('d-none');
+                        }
+                        else{
+                            $(this).parent().parent().parent().find('.filterEmptyResult').addClass('d-none');
+                        }
+
                     });
 
                 });
