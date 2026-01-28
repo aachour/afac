@@ -334,3 +334,52 @@
 .filter input[type="date"] {
     outline:none !important;
 }
+
+
+.toggleContainer{
+    margin:0px 2.5%;
+}.pill-toggle {
+  display: inline-block;
+  cursor: pointer;
+  user-select: none;
+}
+
+.pill-toggle input {
+  display: none;
+}
+
+/* pill */
+.pill {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 6px 16px 6px 36px;
+  background: #fff;
+  color: #000;
+  border: 2px solid #000;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+
+/* circle */
+.knob {
+  position: absolute;
+  left: 8px;
+  width: 14px;
+  height: 14px;
+  background: #000;
+  border-radius: 50%;
+  transition: 0.25s ease;
+}
+
+/* ✅ ACTIVE → only colors change */
+.pill-toggle input:checked + .pill {
+  background: #000;
+  color: #fff;
+}
+
+.pill-toggle input:checked + .pill .knob {
+  background: #fff;
+}

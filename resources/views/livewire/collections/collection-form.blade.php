@@ -163,6 +163,15 @@
 
                                 <div class="w-100 d-none d-md-block"></div>
 
+                                <div class="col-12 col-md-6 mt-3 {{ $type_id == 3 ? '' : 'd-none' }}">
+                                    <div class="form-check">
+                                        <input wire:model="show_projects_grantees" type="checkbox" id="show_projects_grantees" class="form-check-input" value="1">
+                                        <label for="show_projects_grantees" class="form-check-label">Show Projects Grantees</label>
+                                    </div>
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+
                                 <div class="col-12 col-md-6 mt-3">
                                     <label class="form-label" for="name">Background Color</label>
                                     <select
