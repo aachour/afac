@@ -691,7 +691,7 @@
             $granteeIds=ProjectGrantees::WHEREIN('project_id',$projectIds)->pluck('grantee_id')->toArray();
             $grantees=Entries::WHERE('published',1)->WHEREIN('id',$granteeIds)->get();
             if($grantees){
-                $html.='<div class="collection mt-1 d-none" id="projectGrantees" style="background-color:'.$bgColor.';">
+                $html.='<div class="collection d-none" id="projectGrantees" style="padding-top:0px; background-color:'.$bgColor.';">
                     <div class="entries">';
                                 
                         $entries_count=0;
@@ -768,10 +768,10 @@
             $html.='<script>
                 $(document).ready(function(){
                     $("#granteesToggle").on("change", function () { 
-                        if ($(this).is(":checked")){alert("!");
+                        if ($(this).is(":checked")){
                             $("#projectGrantees").removeClass("d-none");
                         } 
-                        else{alert("!!");
+                        else{
                             $("#projectGrantees").addClass("d-none");
                         }
                     });
