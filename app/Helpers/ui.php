@@ -1451,10 +1451,14 @@
         }
         else if($entry->type_id==3){
 
-            $categories=$entry->projectCategories(json_decode($entry->project_categories_id, true) ?? []);
-            foreach($categories as $category){
-                $labels[]=$category;
-            }
+            // $categories=$entry->projectCategories(json_decode($entry->project_categories_id, true) ?? []);
+            // foreach($categories as $category){
+            //     $labels[]=$category;
+            // }
+
+            $labels[]=$entry->projectProgram($entry->project_program_year_id);
+
+            $labels[]=$entry->projectProgramYear($entry->project_program_year_id);
 
             $countries=$entry->projectCountries(json_decode($entry->project_countries_id, true) ?? []);
             foreach($countries as $country){
@@ -1473,10 +1477,14 @@
             $labels[]=$entry->juryCountry?->name;
         }
         else if($entry->type_id==6){
-            $labels[]=date('d M',strtotime($entry->resource_date));
+            // $labels[]=date('d M Y',strtotime($entry->resource_date));
+            $tags=explode(",",$entry->resource_tags);
+            foreach($tags as $tag){
+                if($tag){$labels[]=$tag;}
+            }
         }
         else if($entry->type_id==7){
-            $labels[]=date('d M',strtotime($entry->news_date));
+            $labels[]=date('d M Y',strtotime($entry->news_date));
         }
         else if($entry->type_id==8){
             $labels[]=$entry->externalCategory?->name;
