@@ -244,15 +244,38 @@
 				</a>
 			</li>
 			@endcan
+			
+			
+			@canany(['externalCategory-list','external-list'])
+			<li class="menu-item {{ (request()->is('externalCategories*') || ( request()->is('entries/4*') && (!request()->is('entries/*/years*') && !request()->is('entries/*/externals*')) )) ? 'active open' : '' }}">
 
-			@can('external-list')
-			<li class="menu-item {{ request()->is('entries/8*') && !request()->is('entries/*/years*') && !request()->is('entries/*/grantees*') ? "active" : "" }}">
-				<a href="{{ route('entries',['typeId'=>'8']) }}" class="menu-link">
+				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-external-link"></i>
 					<div data-i18n="Externals">Externals</div>
 				</a>
+
+				<ul class="menu-sub">
+
+					@can('externalCategory-list')
+					<li class="menu-item {{ request()->is('externalCategories*') ? "active" : "" }}">
+						<a href="{{ route('external.categories') }}" class="menu-link">
+						<div data-i18n="Categories">Categories</div>
+						</a>
+					</li>
+					@endcan
+
+					@can('external-list')
+					<li class="menu-item {{ request()->is('entries/8*') || request()->is('entries/*/externals') ? "active" : "" }}">
+						<a href="{{ route('entries',['typeId'=>'8']) }}" class="menu-link">
+							<div data-i18n="Externals">Externals</div>
+						</a>
+					</li>
+					@endcan
+
+				</ul>
+
 			</li>
-			@endcan
+			@endcanany
 
 			@can('team-list')
 			<li class="menu-item {{ request()->is('entries/9*') && !request()->is('entries/*/years*') && !request()->is('entries/*/grantees*') ? "active" : "" }}">

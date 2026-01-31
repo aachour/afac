@@ -148,6 +148,13 @@ class PermissionSeeder extends Seeder
             'news-delete',
             'news-view',
 
+            // Projects Categories
+            'externalCategory-list',
+            'externalCategory-create',
+            'externalCategory-edit',
+            'externalCategory-delete',
+            'externalCategory-view',
+
             // externals Page
             'external-list',
             'external-create',

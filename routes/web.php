@@ -41,6 +41,8 @@ use App\Livewire\Projects\ProjectCategoryView;
 
 use App\Livewire\Grantees\GranteeCategoryView;
 
+use App\Livewire\Externals\ExternalCategoryView;
+
 use App\Livewire\Entries\EntryView;
 use App\Livewire\Entries\EntryForm;
 
@@ -207,6 +209,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/create', GranteeCategoryView::class)->name('grantee.categories.create');
         Route::get('/edit/{id}', GranteeCategoryView::class)->name('grantee.categories.edit');
         Route::get('/view/{id}/{status}', GranteeCategoryView::class)->name('grantee.categories.view');
+    });
+
+    // |--------------------------------------------------------------------------
+    // |External Categories
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'externalCategories'], function () {
+        Route::get('/', ExternalCategoryView::class)->name('external.categories');
+        Route::get('/create', ExternalCategoryView::class)->name('external.categories.create');
+        Route::get('/edit/{id}', ExternalCategoryView::class)->name('external.categories.edit');
+        Route::get('/view/{id}/{status}', ExternalCategoryView::class)->name('external.categories.view');
     });
 
 
