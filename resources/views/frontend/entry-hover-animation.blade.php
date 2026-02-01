@@ -111,7 +111,7 @@
                     @if($with_label==1)
                         <div class="title_or_labels" style="{{$labels_position}};">
                             <div class="label micro black ABCDiatypeMedium">{{$entry_type_name}}</div>
-                            @if($collection_type_id==1 || $collection_type_id==2)
+                            @if($collection_type_id==1)
                                 <div class="label micro black rounded ABCDiatypeMedium">{{@$labels[0]}}</div>
                                 <div class="label micro black rounded ABCDiatypeMedium">
                                     {{ $labels[1] ?? '' }}{{ isset($labels[2]) ? ' - ' . $labels[2] : '' }}
