@@ -1446,9 +1446,9 @@
             $labels[]=date('h:i',strtotime($entry->event_to_time));
         }
         else if($entry->type_id==2){
-            $current=date('d M');
-            $start_date=date('d M',strtotime($entry->program_start_date));
-            $end_date=date('d M',strtotime($entry->program_end_date));
+            $current=date('d M Y');
+            $start_date=date('d M Y',strtotime($entry->program_start_date));
+            $end_date=date('d M Y',strtotime($entry->program_end_date));
             if($start_date<=$end_date){
                 $labels[]="Open ".$start_date;
                 $labels[]="Closes: ".$end_date;
