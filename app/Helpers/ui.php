@@ -84,7 +84,7 @@
             $html.='</div>';
 
             //show at a glance for Supported Project & Grantee. 
-            if($entry->type_id==3 || $entry->type_id==4){
+            if($entry->type_id==3 || $entry->type_id==4 || $entry->type_id==5){
                 $html.='<div class="fullContainer mt-5">
                     <div class="centerContainer">
                         <div class="row">
@@ -118,6 +118,13 @@
                                     foreach($categories as $category){
                                         $html.='<div class="mt-1 medium black ABCDiatypeMedium">'.$category.'</div>';
                                     }
+
+                                    $html.='<div class="mt-5 tiny black ABCDiatypeBlack">Biography</div>';
+                                    $html.='<div class="mt-1 smnall black">'.nl2br($entry->grantee_text, false).'</div>';
+                                }
+                                else if($entry->type_id==5){ //Juror
+                                    $html.='<div class="mt-1 tiny black ABCDiatypeBlack">Biography</div>';
+                                    $html.='<div class="mt-1 smnall black">'.nl2br($entry->jury_text, false).'</div>';
                                 }
                             
                             $html.='</div>
