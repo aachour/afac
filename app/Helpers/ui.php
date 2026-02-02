@@ -1449,9 +1449,12 @@
             $current=date('d M Y');
             $start_date=date('d M Y',strtotime($entry->program_start_date));
             $end_date=date('d M Y',strtotime($entry->program_end_date));
-            if($start_date<=$end_date){
-                $labels[]="Open ".$start_date;
-                $labels[]="Closes: ".$end_date;
+            if($end_date<$current){
+                $labels[]="Closed";
+            }
+            else if($start_date<=$end_date){
+                $labels[]="Opens ".date('d M',strtotime($start_date));
+                $labels[]="Closes ".date('d M',strtotime($end_date));
                 $daysLeft = floor((strtotime($end_date) - strtotime($current)) / (60 * 60 * 24));
                 if($current>=$start_date &&  $daysLeft>0){
                     $labels[]="Days left: ".$daysLeft;
