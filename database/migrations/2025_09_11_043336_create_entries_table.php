@@ -90,6 +90,7 @@ return new class extends Migration
             
 
             //News Fields
+             $table->foreignId('news_category_id')->nullable()->constrained('news_categories')->onDelete('cascade');
             $table->text('news_title')->nullable();
             $table->text('news_title_arabic')->nullable();  
             $table->text('news_text')->nullable(); 

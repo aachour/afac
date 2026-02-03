@@ -141,6 +141,13 @@ class PermissionSeeder extends Seeder
             'resource-delete',
             'resource-view',
 
+            // News Categories
+            'newsCategory-list',
+            'newsCategory-create',
+            'newsCategory-edit',
+            'newsCategory-delete',
+            'newsCategory-view',
+
             // News Page
             'news-list',
             'news-create',

@@ -236,14 +236,36 @@
 			</li>
 			@endcan
 
-			@can('news-list')
-			<li class="menu-item {{ request()->is('entries/7*') && !request()->is('entries/*/years*') && !request()->is('entries/*/grantees*') ? "active" : "" }}">
-				<a href="{{ route('entries',['typeId'=>'7']) }}" class="menu-link">
+			@canany(['newsCategory-list','news-list'])
+			<li class="menu-item {{ (request()->is('newsCategories*') || ( request()->is('entries/7*') && (!request()->is('entries/*/years*') && !request()->is('entries/*/news*')) )) ? 'active open' : '' }}">
+
+				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-news"></i>
 					<div data-i18n="News">News</div>
 				</a>
+
+				<ul class="menu-sub">
+
+					@can('newsCategory-list')
+					<li class="menu-item {{ request()->is('newsCategories*') ? "active" : "" }}">
+						<a href="{{ route('news.categories') }}" class="menu-link">
+						<div data-i18n="Categories">Categories</div>
+						</a>
+					</li>
+					@endcan
+
+					@can('news-list')
+					<li class="menu-item {{ request()->is('entries/7*') || request()->is('entries/*/news') ? "active" : "" }}">
+						<a href="{{ route('entries',['typeId'=>'7']) }}" class="menu-link">
+							<div data-i18n="News">News</div>
+						</a>
+					</li>
+					@endcan
+
+				</ul>
+
 			</li>
-			@endcan
+			@endcanany
 			
 			
 			@canany(['externalCategory-list','external-list'])
