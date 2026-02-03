@@ -5,6 +5,7 @@ namespace App\Livewire\Entries;
 use App\Models\EventCategories;
 use App\Models\ProjectCategories;
 use App\Models\GranteeCategories;
+use App\Models\NewsCategories;
 use App\Models\ExternalCategories;
 use App\Models\Types;
 use App\Models\Entries;
@@ -33,6 +34,7 @@ class EntryForm extends Component
     public $event_categories;
     public $project_categories;
     public $grantee_categories;
+    public $news_categories;
     public $external_categories;
     
     public $colors;
@@ -122,6 +124,7 @@ class EntryForm extends Component
     public $resource_tags_arabic;
 
     //7- News
+    public $news_category_id;
     public $news_title;
     public $news_title_arabic;
     public $news_text;
@@ -254,6 +257,7 @@ class EntryForm extends Component
             $this->resource_tags_arabic=$this->entry->resource_tags_arabic;
 
             //News
+            $this->news_category_id=$this->entry->news_category_id;
             $this->news_title=$this->entry->news_title;
             $this->news_title_arabic=$this->entry->news_title_arabic;
             $this->news_text=$this->entry->news_text;
@@ -293,6 +297,8 @@ class EntryForm extends Component
 
         $this->grantee_categories=GranteeCategories::all();
         
+        $this->news_categories=NewsCategories::all();
+
         $this->external_categories=ExternalCategories::all();
         
         $this->colors=Colors::all();
@@ -379,6 +385,7 @@ class EntryForm extends Component
             
             
             //News
+            'news_category_id' => ['required_if:type_id,7'],
             'news_title' => ['required_if:type_id,7'],
             'news_title_arabic' => ['required_if:type_id,7'],
             'news_date' => ['required_if:type_id,7'],
@@ -490,6 +497,7 @@ class EntryForm extends Component
                 'resource_date'=> $this->resource_date ?? null,
                 'resource_tags'=>$this->resource_tags ?? '',
                 'resource_tags_arabic'=>$this->resource_tags_arabic ?? '',
+                'news_category_id'=> $this->news_category_id !== '' ? $this->news_category_id : null,
                 'news_title'=>$this->news_title ?? '',
                 'news_title_arabic'=>$this->news_title_arabic ?? '',
                 'news_text'=>$this->news_text ?? '',
@@ -599,6 +607,7 @@ class EntryForm extends Component
                 'resource_date'=> $this->resource_date ?? null,
                 'resource_tags'=>$this->resource_tags ?? '',
                 'resource_tags_arabic'=>$this->resource_tags_arabic ?? '',
+                'news_category_id'=> $this->news_category_id !== '' ? $this->news_category_id : null,
                 'news_title'=>$this->news_title ?? '',
                 'news_title_arabic'=>$this->news_title_arabic ?? '',
                 'news_text'=>$this->news_text ?? '',

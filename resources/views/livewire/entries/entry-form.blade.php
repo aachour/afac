@@ -854,6 +854,22 @@
                             <div class="row">
 
                                 <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="news_category_id">Category <span class="text-danger">*</span></label>
+                                    <select
+                                        wire:model="news_category_id"
+                                        id="news_category_id"
+                                        class="form-control">
+                                        <option value=''>Select Type</option>
+                                        @foreach($news_categories as $category)
+                                            <option value='{{$category->id}}'>{{$category->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('news_category_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+
+                                <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="news_title">Title <span class="text-danger">*</span></label>
                                     <input
                                         wire:model="news_title"
