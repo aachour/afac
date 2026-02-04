@@ -74,8 +74,8 @@
                                 }else{
                                     $html.='<img src="'.asset('frontend/images/default-image-full.png').'" width="100%" />';
                                 }
-
-                            $html.='</div>';
+                                $html.='<div class="tiny black">'.$entry->image_caption.'</div>
+                            </div>';
 
                         }
                     $html.='</div>
