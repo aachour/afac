@@ -52,6 +52,8 @@ class EntryForm extends Component
     public $image_full;
     public $imageFullPreview;
     public $image_width;
+    public $image_caption;
+    public $image_caption_arabic;
     public $background_color_id ;
     public $button_value;
     public $button_value_arabic;
@@ -187,6 +189,8 @@ class EntryForm extends Component
             $this->header_color_id=$this->entry->header_color_id;
             $this->footer_color_id=$this->entry->footer_color_id;
             $this->image_width=$this->entry->image_width;
+            $this->image_caption=$this->entry->image_caption;
+            $this->image_caption_arabic=$this->entry->image_caption_arabic;
             $this->background_color_id=$this->entry->background_color_id;
             $this->button_value=$this->entry->button_value;
             $this->button_value_arabic=$this->entry->button_value_arabic;
@@ -334,6 +338,8 @@ class EntryForm extends Component
             'image_featured' => ['nullable'],
             'image_full' => ['nullable'],
             'image_width' => ['nullable'],
+            'image_caption' => ['nullable'],
+            'image_caption_arabic' => ['nullable'],
             'background_color_id' => ['nullable'],
             'button_value' => ['nullable'],
             'button_value_arabic' => ['nullable'],
@@ -448,6 +454,8 @@ class EntryForm extends Component
                 'image_featured' => @$path_featured,
                 'image_full' => @$path_full,
                 'image_width' => $this->image_width,
+                'image_caption' => $this->image_caption,
+                'image_caption_arabic' => $this->image_caption_arabic,
                 'background_color_id' => $this->background_color_id !== '' ? $this->background_color_id : null,
                 'button_value' => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
@@ -558,6 +566,8 @@ class EntryForm extends Component
                 'image_featured' => @$path_feautred ?? $this->entry->image_featured,
                 'image_full' => @$path_full ?? $this->entry->image_full,
                 'image_width' => $this->image_width,
+                'image_caption' => $this->image_caption,
+                'image_caption_arabic' => $this->image_caption_arabic,
                 'background_color_id' => $this->background_color_id !== '' ? $this->background_color_id : null,
                 'button_value' => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,

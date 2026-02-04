@@ -46,7 +46,7 @@
                                     @error('footer_color_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
                                 
-                                <div class="col-12 col-md-6 mt-2 @if($type_id>=5) d-none @endif">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=6) d-none @endif">
                                     <label class="form-label" for="image_width">Image Width</label>
                                     <select
                                         wire:model="image_width"
@@ -59,6 +59,7 @@
                                     </select>
                                     @error('image_width') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>  
+                                
 
                                 <div class="col-12 col-md-6 mt-2 @if($type_id>=8) d-none @endif">
                                     <label class="form-label" for="category">Image Bg Color</label>
@@ -72,6 +73,28 @@
                                         @endforeach
                                     </select>
                                     @error('background_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="image_caption">Image Caption </label>
+                                    <input
+                                        wire:model="image_caption"
+                                        type="text"
+                                        id="image_caption"
+                                        class="form-control"
+                                        placeholder="Image Caption" />
+                                    @error('image_caption') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="image_caption_arabic">تعليق الصورة </label>
+                                    <input
+                                        wire:model="image_caption_arabic"
+                                        type="text"
+                                        id="image_caption_arabic"
+                                        class="form-control"
+                                        placeholder="تعليق الصورة" />
+                                    @error('image_caption_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
                                 <div class="col-12 mt-3">
@@ -112,7 +135,7 @@
 
                                 <div class="w-100 d-none d-md-block"></div>
 
-                                <div class="col-12 col-md-6 mt-2 @if($type_id>=5) d-none @endif">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=6) d-none @endif">
                                     <label class="form-label" for="button_value">Button Text </label>
                                     <input
                                         wire:model="button_value"
@@ -123,7 +146,7 @@
                                     @error('button_value') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2 @if($type_id>=5) d-none @endif">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=6) d-none @endif">
                                     <label class="form-label" for="button_value_arabic">نص الزر</label>
                                     <input
                                         wire:model="button_value_arabic"
@@ -135,7 +158,7 @@
                                 </div>
 
 
-                                <div class="col-12 col-md-6 mt-2 @if($type_id>=5) d-none @endif">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=6) d-none @endif">
                                     <label class="form-label" for="button_shape_id">Button Shape </label>
                                     <select
                                         wire:model="button_shape_id"
@@ -149,7 +172,7 @@
                                     @error('button_shape_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2 @if($type_id>=5) d-none @endif">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=6) d-none @endif">
                                     <label class="form-label" for="button_hover_shape_id">Button Hover Shape</label>
                                     <select
                                         wire:model="button_hover_shape_id"
@@ -163,7 +186,7 @@
                                     @error('button_hover_shape_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2 @if($type_id>=5) d-none @endif">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=6) d-none @endif">
                                     <label class="form-label" for="button_color_id">Button Text Color</label>
                                     <select
                                         wire:model="button_color_id"
@@ -177,7 +200,7 @@
                                     @error('button_color_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2 @if($type_id>=5) d-none @endif">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=6) d-none @endif">
                                     <label class="form-label" for="button_hover_color_id">Button Hover Text Color</label>
                                     <select
                                         wire:model="button_hover_color_id"
@@ -191,7 +214,7 @@
                                     @error('button_hover_color_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2 @if($type_id>=5) d-none @endif">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=6) d-none @endif">
                                     <label class="form-label" for="button_bg_color_id">Button Background Color</label>
                                     <select
                                         wire:model="button_bg_color_id"
@@ -205,7 +228,7 @@
                                     @error('button_bg_color_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                 <div class="col-12 col-md-6 mt-2 @if($type_id>=5) d-none @endif">
+                                 <div class="col-12 col-md-6 mt-2 @if($type_id>=6) d-none @endif">
                                     <label class="form-label" for="button_hover_bg_color_id">Button Hover Background  Color</label>
                                     <select
                                         wire:model="button_hover_bg_color_id"
@@ -219,7 +242,7 @@
                                     @error('button_hover_bg_color_id') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2 @if($type_id>=5) d-none @endif">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=6) d-none @endif">
                                     <label class="form-label" for="button_link">Button Link </label>
                                     <input
                                         wire:model="button_link"
@@ -230,7 +253,7 @@
                                     @error('button_link') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2 @if($type_id>=5) d-none @endif">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id>=6) d-none @endif">
                                     <label class="form-label" for="button_link_arabic">رابط الزر</label>
                                     <input
                                         wire:model="button_link_arabic"
