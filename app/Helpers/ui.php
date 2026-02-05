@@ -1461,14 +1461,14 @@
             if ($end_timestamp < $current) {
                 $labels[] = "Closed";
             }
-            else{
-
+            else {
                 $labels[] = "Opens " . date('d M', $start_timestamp);
                 $labels[] = "Closes " . date('d M', $end_timestamp);
 
                 $daysLeft = floor(($end_timestamp - $current) / 86400);
 
-                if ($daysLeft > 0 && $start_timestamp <= $current) {
+                //only show when program already started
+                if ($current >= $start_timestamp && $daysLeft > 0) {
                     $labels[] = "Days left: " . $daysLeft;
                 }
             }
