@@ -1453,18 +1453,23 @@
             $labels[]=date('h:i',strtotime($entry->event_to_time));
         }
         else if($entry->type_id==2){
-            $current=date('d M Y');
-            $start_date=date('d M Y',strtotime($entry->program_start_date));
-            $end_date=date('d M Y',strtotime($entry->program_end_date));
-            if($end_date<$current){
-                $labels[]="Closed";
+            $current = time();
+
+            $start_timestamp = strtotime($entry->program_start_date);
+            $end_timestamp   = strtotime($entry->program_end_date);
+
+            if ($end_timestamp < $current) {
+                $labels[] = "Closed";
             }
-            else if($start_date<=$end_date){
-                $labels[]="Opens ".date('d M',strtotime($start_date));
-                $labels[]="Closes ".date('d M',strtotime($end_date));
-                $daysLeft = floor((strtotime($end_date) - strtotime($current)) / (60 * 60 * 24));
-                if($current>=$start_date &&  $daysLeft>0){
-                    $labels[]="Days left: ".$daysLeft;
+            elseif ($start_timestamp <= $current) {
+
+                $labels[] = "Opens " . date('d M', $start_timestamp);
+                $labels[] = "Closes " . date('d M', $end_timestamp);
+
+                $daysLeft = floor(($end_timestamp - $current) / 86400);
+
+                if ($daysLeft > 0) {
+                    $labels[] = "Days left: " . $daysLeft;
                 }
             }
         }
