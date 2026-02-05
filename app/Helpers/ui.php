@@ -1468,7 +1468,7 @@
 
                 $daysLeft = floor(($end_timestamp - $current) / 86400);
 
-                if ($daysLeft > 0) {
+                if ($daysLeft > 0 && $start_timestamp <= $current) {
                     $labels[] = "Days left: " . $daysLeft;
                 }
             }
