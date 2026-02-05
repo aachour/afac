@@ -1461,7 +1461,7 @@
             if ($end_timestamp < $current) {
                 $labels[] = "Closed";
             }
-            elseif ($start_timestamp <= $current) {
+            else{
 
                 $labels[] = "Opens " . date('d M', $start_timestamp);
                 $labels[] = "Closes " . date('d M', $end_timestamp);
