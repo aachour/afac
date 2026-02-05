@@ -64,7 +64,7 @@
 
                                 $html.='<div class="big black ABCDiatypeMedium text-start">'.getEntryTitle($entry).'</div>';
 
-                                $html.='<div class="mt-2 mb-3 small black ABCDiatypeMedium text-start">';
+                                $html.='<div class="mt-2 mb-3 medium black ABCDiatypeMedium text-start">';
                                     if($entry->type_id==6){$html.=date('d M Y',strtotime($entry->resource_date));}
                                     else if($entry->type_id==7){$html.=date('d M Y',strtotime($entry->news_date));}
                                 $html.='</div>';
