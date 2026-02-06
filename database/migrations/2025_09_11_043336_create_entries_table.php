@@ -49,6 +49,7 @@ return new class extends Migration
             $table->time('event_start_time')->nullable();
             $table->time('event_end_time')->nullable();
 
+            
             //Program Fields
             $table->text('program_title')->nullable();
             $table->text('program_title_arabic')->nullable();
@@ -58,6 +59,7 @@ return new class extends Migration
             $table->date('program_end_date')->nullable();
             $table->integer('program_status')->nullable();
 
+            
             //Project Fields
             $table->json('project_categories_id')->nullable();
             $table->text('project_title')->nullable();
@@ -66,6 +68,7 @@ return new class extends Migration
             $table->text('project_text_arabic')->nullable();  
             $table->json('project_countries_id')->nullable();
             
+
             //Grantee Fields
             $table->json('grantee_categories_id')->nullable();
             $table->text('grantee_name')->nullable();
@@ -74,6 +77,7 @@ return new class extends Migration
             $table->text('grantee_text_arabic')->nullable();  
             $table->foreignId('grantee_country_id')->nullable()->constrained('countries')->onDelete('cascade'); 
 
+
             //Jury Fields
             $table->text('jury_name')->nullable();
             $table->text('jury_name_arabic')->nullable();  
@@ -81,7 +85,9 @@ return new class extends Migration
             $table->text('jury_text_arabic')->nullable();  
             $table->foreignId('jury_country_id')->nullable()->constrained('countries')->onDelete('cascade'); 
 
+
             //Resource Fields
+            $table->foreignId('resource_category_id')->nullable()->constrained('resource_categories')->onDelete('cascade');
             $table->text('resource_title')->nullable();
             $table->text('resource_title_arabic')->nullable();  
             $table->text('resource_text')->nullable(); 
@@ -92,7 +98,7 @@ return new class extends Migration
             
 
             //News Fields
-             $table->foreignId('news_category_id')->nullable()->constrained('news_categories')->onDelete('cascade');
+            $table->foreignId('news_category_id')->nullable()->constrained('news_categories')->onDelete('cascade');
             $table->text('news_title')->nullable();
             $table->text('news_title_arabic')->nullable();  
             $table->text('news_text')->nullable(); 
@@ -111,6 +117,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+
             //Team Fields
             $table->text('team_name')->nullable();
             $table->text('team_name_arabic')->nullable(); 
@@ -118,6 +125,7 @@ return new class extends Migration
             $table->text('team_position_arabic')->nullable();   
             $table->text('team_text')->nullable(); 
             $table->text('team_text_arabic')->nullable(); 
+
 
             //Member Fields
             $table->text('board_name')->nullable();

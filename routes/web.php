@@ -41,6 +41,8 @@ use App\Livewire\Projects\ProjectCategoryView;
 
 use App\Livewire\Grantees\GranteeCategoryView;
 
+use App\Livewire\Resources\ResourceCategoryView;
+
 use App\Livewire\News\NewsCategoryView;
 
 use App\Livewire\Externals\ExternalCategoryView;
@@ -211,6 +213,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/create', GranteeCategoryView::class)->name('grantee.categories.create');
         Route::get('/edit/{id}', GranteeCategoryView::class)->name('grantee.categories.edit');
         Route::get('/view/{id}/{status}', GranteeCategoryView::class)->name('grantee.categories.view');
+    });
+
+    // |--------------------------------------------------------------------------
+    // |Resource Categories
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'resourceCategories'], function () {
+        Route::get('/', ResourceCategoryView::class)->name('resource.categories');
+        Route::get('/create', ResourceCategoryView::class)->name('resource.categories.create');
+        Route::get('/edit/{id}', ResourceCategoryView::class)->name('resource.categories.edit');
+        Route::get('/view/{id}/{status}', ResourceCategoryView::class)->name('resource.categories.view');
     });
 
     // |--------------------------------------------------------------------------

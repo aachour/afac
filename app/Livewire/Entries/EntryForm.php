@@ -5,6 +5,7 @@ namespace App\Livewire\Entries;
 use App\Models\EventCategories;
 use App\Models\ProjectCategories;
 use App\Models\GranteeCategories;
+use App\Models\ResourceCategories;
 use App\Models\NewsCategories;
 use App\Models\ExternalCategories;
 use App\Models\Types;
@@ -34,6 +35,7 @@ class EntryForm extends Component
     public $event_categories;
     public $project_categories;
     public $grantee_categories;
+    public $resource_categories;
     public $news_categories;
     public $external_categories;
     
@@ -117,6 +119,7 @@ class EntryForm extends Component
     public $jury_country_id;
 
     //6- Resource
+    public $resource_category_id;
     public $resource_title;
     public $resource_title_arabic;
     public $resource_text;
@@ -252,6 +255,7 @@ class EntryForm extends Component
             $this->jury_country_id=$this->entry->jury_country_id;
 
             //Resource
+            $this->resource_category_id=$this->entry->resource_category_id;
             $this->resource_title=$this->entry->resource_title;
             $this->resource_title_arabic=$this->entry->resource_title_arabic;
             $this->resource_text=$this->entry->resource_text;
@@ -300,7 +304,9 @@ class EntryForm extends Component
         $this->project_categories=ProjectCategories::all();
 
         $this->grantee_categories=GranteeCategories::all();
-        
+
+        $this->resource_categories=ResourceCategories::all();
+
         $this->news_categories=NewsCategories::all();
 
         $this->external_categories=ExternalCategories::all();
@@ -385,6 +391,7 @@ class EntryForm extends Component
             'jury_country_id' => ['required_if:type_id,5'],
 
             //Resource
+            'resource_category_id' => ['required_if:type_id,6'],
             'resource_title' => ['required_if:type_id,6'],
             'resource_title_arabic' => ['required_if:type_id,6'],
             'resource_date' => ['required_if:type_id,6'],
@@ -498,6 +505,7 @@ class EntryForm extends Component
                 'jury_text'=>$this->jury_text ?? '',
                 'jury_text_arabic'=>$this->jury_text_arabic ?? '',
                 'jury_country_id'=>$this->jury_country_id !== '' ? $this->jury_country_id : null, 
+                'resource_category_id'=> $this->resource_category_id !== '' ? $this->resource_category_id : null,
                 'resource_title'=>$this->resource_title ?? '',
                 'resource_title_arabic'=>$this->resource_title_arabic ?? '',
                 'resource_text'=>$this->resource_text ?? '',
@@ -610,6 +618,7 @@ class EntryForm extends Component
                 'jury_text'=>$this->jury_text ?? '',
                 'jury_text_arabic'=>$this->jury_text_arabic ?? '',
                 'jury_country_id'=>$this->jury_country_id !== '' ? $this->jury_country_id : null, 
+                'resource_category_id'=> $this->resource_category_id !== '' ? $this->resource_category_id : null,
                 'resource_title'=>$this->resource_title ?? '',
                 'resource_title_arabic'=>$this->resource_title_arabic ?? '',
                 'resource_text'=>$this->resource_text ?? '',
