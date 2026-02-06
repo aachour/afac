@@ -128,6 +128,11 @@ class Entries extends Model
     {
         return $this->hasOne(Countries::class, 'id', 'jury_country_id');
     }
+
+    public function resourceCategory()
+    {
+        return $this->hasOne(ResourceCategories::class, 'id', 'resource_category_id');
+    }
     
     public function externalCategory()
     {
