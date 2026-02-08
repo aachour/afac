@@ -225,7 +225,7 @@
             // }
 
             // When type is project, check program and year
-            if($collection_type_id == 3)
+            if($collection_type_id == 3 && $collection->entries_program_year_id!=null)
             {
                 $entries_program_year_id=$collection->entries_program_year_id;
 
@@ -237,7 +237,7 @@
             }
 
             // When type is grantee, check program and year
-            if($collection_type_id == 4)
+            if($collection_type_id == 4 && $collection->entries_program_year_id!=null)
             {
                 $entries_program_year_id=$collection->entries_program_year_id;
 
@@ -254,7 +254,7 @@
             }
 
             // When type is juror, check program and year
-            if($collection_type_id == 5)
+            if($collection_type_id == 5 && $collection->entries_program_year_id!=null)
             {
                 $entries_program_year_id=$collection->entries_program_year_id;
 
