@@ -45,7 +45,8 @@ return new class extends Migration
             $table->text('event_title_arabic')->nullable();
             $table->text('event_text')->nullable();
             $table->text('event_text_arabic')->nullable();
-            $table->date('event_date')->nullable();
+            $table->date('event_start_date')->nullable();
+            $table->date('event_end_date')->nullable();
             $table->time('event_start_time')->nullable();
             $table->time('event_end_time')->nullable();
 

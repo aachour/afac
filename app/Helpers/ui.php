@@ -221,7 +221,7 @@
 
             // Filter expired only for events
             // if ($entries_expired == 1 && $collection_type_id == 1) {
-            //     $query->where('event_date', '>=', date('Y-m-d'));
+            //     $query->where('event_start_date', '>=', date('Y-m-d'));
             // }
 
             // When type is project, check program and year
@@ -321,7 +321,7 @@
             foreach($entries as $entry){
                 $obj=[
                     'id'=>$entry->id,
-                    'event_date'=>$entry->event_date,
+                    'event_start_date'=>$entry->event_start_date,
                 ];
                 $events [] = $obj;
             }  
@@ -330,7 +330,7 @@
             $monthCounters = [];
 
             foreach ($events as $event) {
-                $monthKey = date('Y-m', strtotime($event['event_date']));
+                $monthKey = date('Y-m', strtotime($event['event_start_date']));
 
                 if (!isset($monthCounters[$monthKey])) {
                     $monthCounters[$monthKey] = 0;
@@ -609,7 +609,7 @@
                                         'button_text'=>$button_text,
                                         'featured'=>'0',
                                         'event_category_name'=>$entry->eventCategory?->name,
-                                        'event_date'=>$entry->event_date,
+                                        'event_start_date'=>$entry->event_start_date,
                                         'program_start_date'=>$entry->program_start_date,
                                         'program_end_date'=>$entry->program_end_date,
                                         'project_categories'=>$entry->projectCategoriesName(json_decode($entry->project_categories_id ?? '[]', true) ?? []),
@@ -744,7 +744,7 @@
                                     'button_text'=>$button_text,
                                     'featured'=>'0',
                                     'event_category_name'=>$entry->eventCategory?->name,
-                                    'event_date'=>$entry->event_date,
+                                    'event_start_date'=>$entry->event_start_date,
                                     'program_start_date'=>$entry->program_start_date,
                                     'program_end_date'=>$entry->program_end_date,
                                     'project_categories'=>$entry->projectCategoriesName(json_decode($entry->project_categories_id ?? '[]', true) ?? []),
@@ -1449,7 +1449,10 @@
     {
         $labels=[];
         if($entry->type_id==1){
-            $labels[]=date('d M',strtotime($entry->event_date));
+            $labels[]=date('d M',strtotime($entry->event_start_date));
+            if($entry->event_end_date!=null){
+                $labels[]=date('d M',strtotime($entry->event_end_date));
+            }
             if($entry->event_start_time!=null){
                 $labels[]=date('h:i',strtotime($entry->event_start_time));
             }
@@ -1579,7 +1582,7 @@
                         $(this).parent().parent().parent().find('.entry_card[featured!=1]').each(function () {
 
                             var entry_category_name = $.trim($(this).attr('event_category_name'));
-                            var entry_date = new Date($.trim($(this).attr('event_date')));
+                            var entry_date = new Date($.trim($(this).attr('event_start_date')));
                             entry_date.setHours(0, 0, 0, 0);
 
                             // Category match

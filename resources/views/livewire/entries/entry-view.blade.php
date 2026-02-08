@@ -70,7 +70,7 @@
                                 <td>{{ $entry->eventCategory?->name }} </td>
                                 <td>{{ $entry->event_title }}</td>
                                 <td>{{ $entry->event_title_arabic }}</td>
-                                <td>{{ $entry->event_date }}</td>
+                                <td>{{ $entry->event_start_date }}</td>
                                 <td>{{ $entry->event_start_time }}</td>
                                 <td>{{ $entry->event_end_time }}</td>
                             @elseif($type_id==2)

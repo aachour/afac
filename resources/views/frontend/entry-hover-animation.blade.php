@@ -95,7 +95,7 @@
         }
     </style>
 
-    <div class="card-hover-animation-wrapper entry_card clickable" event_category_name="{{@$event_category_name}}" event_date="{{@$event_date}}" program_start_date="{{@$program_start_date}}" program_end_date="{{@$program_end_date}}" project_categories="{{@$project_categories}}" project_countries="{{@$project_countries}}" grantee_categories="{{@$grantee_categories}}" grantee_country="{{@$grantee_country}}" jury_country_id="{{@$jury_country_id}}" resource_category_name="{{@$resource_category_name}}" resource_date="{{@$resource_date}}" news_date="{{@$news_date}}" featured="{{@$featured}}" data-hover-animation>
+    <div class="card-hover-animation-wrapper entry_card clickable" event_category_name="{{@$event_category_name}}" event_start_date="{{@$event_start_date}}" program_start_date="{{@$program_start_date}}" program_end_date="{{@$program_end_date}}" project_categories="{{@$project_categories}}" project_countries="{{@$project_countries}}" grantee_categories="{{@$grantee_categories}}" grantee_country="{{@$grantee_country}}" jury_country_id="{{@$jury_country_id}}" resource_category_name="{{@$resource_category_name}}" resource_date="{{@$resource_date}}" news_date="{{@$news_date}}" featured="{{@$featured}}" data-hover-animation>
 
         @if($featured==1)
             <img src="{{$image_path}}" width="100%" />

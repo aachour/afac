@@ -124,7 +124,7 @@ class EventsSeeder extends Seeder
                 'event_title_arabic' => $event[1],
                 'event_text' => trim(str_replace("\\r\\n", "",$event[2])),
                 'event_text_arabic' => trim(str_replace("\\r\\n", "",$event[3])),
-                'event_date' => $event[4],
+                'event_start_date' => $event[4],
                 'published'=>'1' 
             ]);
         }

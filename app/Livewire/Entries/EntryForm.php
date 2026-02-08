@@ -78,7 +78,8 @@ class EntryForm extends Component
     public $event_title_arabic;
     public $event_text;
     public $event_text_arabic;
-    public $event_date;
+    public $event_start_date;
+    public $event_end_date;
     public $event_start_time;
     public $event_end_time;
     
@@ -212,7 +213,8 @@ class EntryForm extends Component
             $this->event_title_arabic=$this->entry->event_title_arabic;
             $this->event_text=$this->entry->event_text;
             $this->event_text_arabic=$this->entry->event_text_arabic;
-            $this->event_date=$this->entry->event_date;
+            $this->event_start_date=$this->entry->event_start_date;
+            $this->event_end_date=$this->entry->event_end_date;
             $this->event_start_time=$this->entry->event_start_time;
             $this->event_end_time=$this->entry->event_end_time;
 
@@ -362,7 +364,8 @@ class EntryForm extends Component
             'event_category_id' => ['required_if:type_id,1'],
             'event_title' => ['required_if:type_id,1'],
             'event_title_arabic' => ['required_if:type_id,1'],
-            'event_date' => ['required_if:type_id,1'],
+            'event_start_date' => ['required_if:type_id,1'],
+            'event_end_date' => ['nullable'],
             'event_start_time' => ['nullable'],
             'event_end_time' => ['nullable'],
             
@@ -479,7 +482,8 @@ class EntryForm extends Component
                 'event_title_arabic'=>$this->event_title_arabic ?? '',
                 'event_text'=>$this->event_text ?? '',
                 'event_text_arabic'=>$this->event_text_arabic ?? '',
-                'event_date'=>$this->event_date ?? null,
+                'event_start_date'=>$this->event_start_date ?? null,
+                'event_end_date'=>$this->event_end_date ?? null,
                 'event_start_time'=>$this->event_start_time ?? null,
                 'event_end_time'=>$this->event_end_time ?? null,
                 'program_title'=>$this->program_title ?? '',
@@ -592,7 +596,8 @@ class EntryForm extends Component
                 'event_title_arabic'=>$this->event_title_arabic ?? '',
                 'event_text'=>$this->event_text ?? '',
                 'event_text_arabic'=>$this->event_text_arabic ?? '',
-                'event_date'=>$this->event_date ?? null,
+                'event_start_date'=>$this->event_start_date ?? null,
+                'event_end_date'=>$this->event_end_date ?? null,
                 'event_start_time'=>$this->event_start_time ?? null,
                 'event_end_time'=>$this->event_end_time ?? null,
                 'program_title'=>$this->program_title ?? '',
