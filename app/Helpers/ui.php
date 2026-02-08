@@ -1450,8 +1450,12 @@
         $labels=[];
         if($entry->type_id==1){
             $labels[]=date('d M',strtotime($entry->event_date));
-            $labels[]=date('h:i',strtotime($entry->event_start_time));
-            $labels[]=date('h:i',strtotime($entry->event_to_time));
+            if($entry->event_start_time!=null){
+                $labels[]=date('h:i',strtotime($entry->event_start_time));
+            }
+            if($entry->event_to_time!=null){
+                $labels[]=date('h:i',strtotime($entry->event_to_time));
+            }
         }
         else if($entry->type_id==2){
             $current = time();

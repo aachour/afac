@@ -363,8 +363,8 @@ class EntryForm extends Component
             'event_title' => ['required_if:type_id,1'],
             'event_title_arabic' => ['required_if:type_id,1'],
             'event_date' => ['required_if:type_id,1'],
-            'event_start_time' => ['required_if:type_id,1'],
-            'event_end_time' => ['required_if:type_id,1'],
+            'event_start_time' => ['nullable'],
+            'event_end_time' => ['nullable'],
             
             //Program
             'program_title' => ['required_if:type_id,2'],

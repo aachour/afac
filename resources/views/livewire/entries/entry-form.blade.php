@@ -360,7 +360,7 @@
                                 <div class="w-100 d-none d-md-block"></div>
 
                                 <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="event_start_time">From Time <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="event_start_time">From Time</label>
                                     <input
                                         wire:model="event_start_time"
                                         type="time"
@@ -371,7 +371,7 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="event_end_time">To Time <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="event_end_time">To Time</label>
                                     <input
                                         wire:model="event_end_time"
                                         type="time"
