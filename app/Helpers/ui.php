@@ -1487,11 +1487,12 @@
             // foreach($categories as $category){
             //     $labels[]=$category;
             // }
+            if($entry->project_program_year_id!=null){
+                $labels[]=$entry->projectProgram($entry->project_program_year_id);
 
-            $labels[]=$entry->projectProgram($entry->project_program_year_id);
-
-            $labels[]=$entry->projectProgramYear($entry->project_program_year_id);
-
+                $labels[]=$entry->projectProgramYear($entry->project_program_year_id);
+            }
+            
             $countries=$entry->projectCountries(json_decode($entry->project_countries_id, true) ?? []);
             foreach($countries as $country){
                 $labels[]=$country;
