@@ -1482,6 +1482,7 @@
 
                 //only show when program already started
                 if ($current >= $start_timestamp && $daysLeft > 0) {
+                    $labels[] = "Open";
                     $labels[] = "Days left: " . $daysLeft;
                 }
                 else{
