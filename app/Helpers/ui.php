@@ -1449,11 +1449,14 @@
     {
         $labels=[];
         if($entry->type_id==1){
-            //$labels[]=date('d M',strtotime($entry->event_start_date));
+            
+            $labels[]=date('d M',strtotime($entry->event_start_date));
             $labels[]=$entry->eventCategory?->name;
-            if($entry->event_end_date!=null){
-                $labels[]=date('d M',strtotime($entry->event_end_date));
-            }
+
+            // if($entry->event_end_date!=null){
+            //     $labels[]=date('d M',strtotime($entry->event_end_date));
+            // }
+
             if($entry->event_start_time!=null){
                 $start_end_time=date('h:i',strtotime($entry->event_start_time));
                 if($entry->event_end_time!=null){
