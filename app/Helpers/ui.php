@@ -1658,19 +1658,18 @@
             $html.="<script>
                 $(document).ready(function(){
 
-                    $('.filter_program_start_date, .filter_program_end_date').change(function () {
+                    $('.filter_program_start_date, .filter_program_end_date').change(function () { 
 
                         var allCards=0;
                         var hiddenCards=0;
 
                         var program_start_date = new Date($('.filter_program_start_date').val());
-                        var program_end_date = new Date($('.filter_program_end_date').val());
-
-                        // Normalize time
                         program_start_date.setHours(0, 0, 0, 0);
-                        program_end_date.setHours(0, 0, 0, 0);
 
-                        $(this).parent().parent().parent().find('.entry_card[featured!='1]').each(function () {
+                        var program_end_date = new Date($('.filter_program_end_date').val());
+                        program_end_date.setHours(0, 0, 0, 0); 
+                        
+                        $(this).parent().parent().parent().find('.entry_card[featured!=1]').each(function () {
 
                             var entry_start_date = new Date($.trim($(this).attr('program_start_date')));
                             entry_start_date.setHours(0, 0, 0, 0);
@@ -1685,11 +1684,11 @@
                             var match_date = true;
 
                             if (is_from_date_set && is_to_date_set) {
-                                match_date = (entry_start_date >= program_start_date && entry_end_date <= program_end_date);
+                                match_date = (entry_start_date >= program_start_date && entry_start_date <= program_end_date);
                             } else if (is_from_date_set) {
-                                match_date = entry_start_date.getTime() >= program_start_date.getTime();
+                                match_date = entry_start_date.getTime() === program_start_date.getTime();
                             } else if (is_to_date_set) {
-                                match_date = entry_end_date.getTime() <= program_end_date.getTime();
+                                match_date = entry_start_date.getTime() === program_end_date.getTime();
                             }
 
                             if (match_date) {
