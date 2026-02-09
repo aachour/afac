@@ -1389,20 +1389,19 @@
         //add script
         $htmlColumn.='<script>
 
-            $(document).on("click", "#expandingTextContainer", function () {
+            $(document).on("click", ".expandingTextContainer", function () {
 
-                // find the first hidden expandingText AFTER the clicked one
-                const nextHidden = $(this)
-                    .closest(".expandingText")
-                    .nextAll(".expandingText.hiddenText:first");
+            const nextHidden = $(this)
+                .find(".expandingText.hiddenText:first");
 
-                if (nextHidden.length) {
-                    nextHidden
-                        .removeClass("hiddenText d-none")
-                        .hide()
-                        .slideDown(300);
-                }
-            });
+            if (nextHidden.length) {
+                nextHidden
+                    .removeClass("hiddenText d-none")
+                    .hide()
+                    .slideDown(300);
+            }
+
+        });
         </script>';
 
         return $htmlColumn;
