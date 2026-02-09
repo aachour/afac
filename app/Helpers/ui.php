@@ -306,12 +306,14 @@
         //Set Filters
         if($with_filters==1){   
             $html.=setCollectionFilters($collection_type_id,$entries);
+            if (!blank($collection->background_color_id)){$html.='<div class="mt-4"></div>';}
         }
 
         $bgColor = $collection->bgColor?->code ?? '#ffffff';
         
         $sliderCollection = $entries_layout == 2 ? 'sliderCollection' : '';
-        
+
+
         //Show Calendar View
         if($collection_type_id==1 && $calendar_view==1)
         {
@@ -342,7 +344,7 @@
                 }
             }
 
-            $html.='<div class="collection '.$sliderCollection.'" style="background-color:'.$bgColor.';">';
+            $html.='<div class="collection '.$sliderCollection.' '.($bgColor ? 'mt-3' : '').'" style="background-color:'.$bgColor.';">';
                 
                 foreach($datesEvents as $date=>$dateEvents){
 
