@@ -107,7 +107,7 @@ class Entries extends Model
     {
         $projectProgramYear=ProgramYearProjects::find($id);
 
-        return $projectProgramYear->programYear->year;
+        return $projectProgramYear?->programYear?->year;
     }
 
 
