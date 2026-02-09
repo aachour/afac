@@ -1362,7 +1362,7 @@
 
             $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
-            $htmlColumn.='<div class="row '.$textAlign.'">';
+            $htmlColumn.='<div class="row '.$textAlign.'" id="expandingTextContainer">';
 
                 if($column->width == 1){
                 $htmlColumn.='<div class="col-lg-12 col-12">';
@@ -1387,7 +1387,7 @@
         //add script
         $htmlColumn.='<script>
 
-            $(document).on("click", ".expandingText", function () {
+            $(document).on("click", "#expandingTextContainer", function () {
 
                 // find the first hidden expandingText AFTER the clicked one
                 const nextHidden = $(this)
