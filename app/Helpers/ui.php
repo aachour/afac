@@ -1455,10 +1455,11 @@
             }
             if($entry->event_start_time!=null){
                 $labels[]=date('h:i',strtotime($entry->event_start_time));
+                if($entry->event_to_time!=null){
+                    $labels[]=" - ".date('h:i',strtotime($entry->event_to_time));
+                }
             }
-            if($entry->event_to_time!=null){
-                $labels[]=date('h:i',strtotime($entry->event_to_time));
-            }
+            
         }
         else if($entry->type_id==2){
             $current = time();
