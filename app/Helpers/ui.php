@@ -1389,19 +1389,19 @@
         //add script
         $htmlColumn.='<script>
 
-            $(document).on("click", ".expandingTextContainer", function () {
+            $(document).on("click", "#expandingTextContainer", function () {
 
-            const nextHidden = $(this)
-                .find(".expandingText.hiddenText:first");
+                const nextHidden = $(this)
+                    .find(".expandingText.hiddenText:first");
 
-            if (nextHidden.length) {
-                nextHidden
-                    .removeClass("hiddenText d-none")
-                    .hide()
-                    .slideDown(300);
-            }
+                if (nextHidden.length) {
+                    nextHidden
+                        .removeClass("hiddenText d-none")
+                        .hide()
+                        .slideDown(300);
+                }
 
-        });
+            });
         </script>';
 
         return $htmlColumn;
