@@ -35,7 +35,7 @@
                         {
                             $html.='<div class="col-lg-6 col-12 text-center">
                                 <div class="labels">';
-                                $html.='<div class="label micro black ABCDiatypeMedium">'.$entry->type->name.'</div>';
+                                    $html.='<div class="label micro black ABCDiatypeMedium">'.$entry->type->name.'</div>';
                                     foreach($labels as $label){
                                         $html.='<div class="label micro rounded">'.$label.'</div>';
                                     }
