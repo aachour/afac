@@ -203,6 +203,10 @@ class CollectionForm extends Component
             $this->featured_image_width=0;
         }
 
+        if (blank($this->entries_program_id)) {
+            $this->entries_program_year_id='';
+        }
+
         if($this->id==''){
             Collections::create([
                 'type_id'=>$this->type_id,
@@ -229,8 +233,8 @@ class CollectionForm extends Component
                 'entries_number'=>$this->entries_number,
                 'entries_with_expired'=>$this->entries_with_expired,
                 'entries_order'=>$this->entries_order,
-                'entries_program_id'      => blank($this->entries_program_id) ? null : $this->entries_program_id,
-                'entries_program_year_id' => blank($this->entries_program_year_id) ? null : $this->entries_program_year_id,
+                'entries_program_id' => $this->entries_program_id ?: null,
+                'entries_program_year_id' => $this->entries_program_year_id ?: null,
                 'title_position'=>$this->title_position,
                 'with_label'=>$this->with_label,
                 'entries_layout'=>$this->entries_layout,
@@ -270,8 +274,8 @@ class CollectionForm extends Component
                 'entries_number'=>$this->entries_number,
                 'entries_with_expired'=>$this->entries_with_expired,
                 'entries_order'=>$this->entries_order,
-                'entries_program_id'      => blank($this->entries_program_id) ? null : $this->entries_program_id,
-                'entries_program_year_id' => blank($this->entries_program_year_id) ? null : $this->entries_program_year_id,
+                'entries_program_id' => $this->entries_program_id ?: null,
+                'entries_program_year_id' => $this->entries_program_year_id ?: null,
                 'title_position'=>$this->title_position,
                 'with_label'=>$this->with_label,
                 'entries_layout'=>$this->entries_layout,
