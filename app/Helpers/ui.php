@@ -35,9 +35,9 @@
                         {
                             $html.='<div class="col-lg-6 col-12 text-center">
                                 <div class="labels">';
-                                $html.='<div class="label micro black ABCDiatypeMedium rounded">'.$entry->type->name.'</div>';
+                                $html.='<div class="label micro black ABCDiatypeMedium">'.$entry->type->name.'</div>';
                                     foreach($labels as $label){
-                                        $html.='<div class="label micro">'.$label.'</div>';
+                                        $html.='<div class="label micro rounded">'.$label.'</div>';
                                     }
                                 $html.='</div>
                                 <div class="mt-3 huge black ABCDiatypeMedium">'.getEntryTitle($entry).'</div>';
@@ -1449,7 +1449,7 @@
     {
         $labels=[];
         if($entry->type_id==1){
-            
+
             $labels[]=date('d M',strtotime($entry->event_start_date));
             $labels[]=$entry->eventCategory?->name;
 
