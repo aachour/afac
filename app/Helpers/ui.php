@@ -1477,14 +1477,16 @@
                 $labels[] = "Closed";
             }
             else {
-                $labels[] = "Opens " . date('d M', $start_timestamp);
-                $labels[] = "Closes " . date('d M', $end_timestamp);
 
                 $daysLeft = floor(($end_timestamp - $current) / 86400);
 
                 //only show when program already started
                 if ($current >= $start_timestamp && $daysLeft > 0) {
                     $labels[] = "Days left: " . $daysLeft;
+                }
+                else{
+                    $labels[] = "Opens " . date('d M', $start_timestamp);
+                    $labels[] = "Closes " . date('d M', $end_timestamp);
                 }
             }
         }
