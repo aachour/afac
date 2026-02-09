@@ -324,6 +324,7 @@
                 $obj=[
                     'id'=>$entry->id,
                     'event_start_date'=>$entry->event_start_date,
+                    'event_end_date'=>$entry->event_end_date,
                 ];
                 $events [] = $obj;
             }  
@@ -612,6 +613,7 @@
                                         'featured'=>'0',
                                         'event_category_name'=>$entry->eventCategory?->name,
                                         'event_start_date'=>$entry->event_start_date,
+                                        'event_end_date'=>$entry->event_end_date,
                                         'program_start_date'=>$entry->program_start_date,
                                         'program_end_date'=>$entry->program_end_date,
                                         'project_categories'=>$entry->projectCategoriesName(json_decode($entry->project_categories_id ?? '[]', true) ?? []),
@@ -747,6 +749,7 @@
                                     'featured'=>'0',
                                     'event_category_name'=>$entry->eventCategory?->name,
                                     'event_start_date'=>$entry->event_start_date,
+                                    'event_end_date'=>$entry->event_end_date,
                                     'program_start_date'=>$entry->program_start_date,
                                     'program_end_date'=>$entry->program_end_date,
                                     'project_categories'=>$entry->projectCategoriesName(json_decode($entry->project_categories_id ?? '[]', true) ?? []),
@@ -1459,11 +1462,11 @@
             // }
 
             if($entry->event_start_time!=null){
-                $start_end_time=date('h:i',strtotime($entry->event_start_time));
+                $from_to_time=date('h:i',strtotime($entry->event_start_time));
                 if($entry->event_end_time!=null){
-                    $start_end_time.=" - ".date('h:i A',strtotime($entry->event_end_time));
+                    $from_to_time.=" - ".date('h:i A',strtotime($entry->event_end_time));
                 }
-                $labels[]=$start_end_time;
+                $labels[]=$from_to_time;
             }
             
         }
@@ -1594,9 +1597,13 @@
                         $(this).parent().parent().parent().find('.entry_card[featured!=1]').each(function () {
 
                             var entry_category_name = $.trim($(this).attr('event_category_name'));
-                            var entry_date = new Date($.trim($(this).attr('event_start_date')));
-                            entry_date.setHours(0, 0, 0, 0);
 
+                            var entry_from_date = new Date($.trim($(this).attr('event_start_date'))); 
+                            entry_from_date.setHours(0, 0, 0, 0);
+                            
+                            var entry_to_date = new Date($.trim($(this).attr('event_end_date'))); 
+                            entry_to_date.setHours(0, 0, 0, 0);
+                            
                             // Category match
                             var match_category = (entry_category_name === event_category_name || event_category_name === '');
 
@@ -1606,12 +1613,12 @@
 
                             var match_date = true;
 
-                            if (is_from_date_set && is_to_date_set) {
-                                match_date = (entry_date >= event_from_date && entry_date <= event_to_date);
+                            if (is_from_date_set && is_to_date_set) { 
+                                match_date = (entry_from_date >= event_from_date && entry_from_date <= event_to_date);
                             } else if (is_from_date_set) {
-                                match_date = entry_date.getTime() === event_from_date.getTime();
+                                match_date = entry_from_date.getTime() === event_from_date.getTime();
                             } else if (is_to_date_set) {
-                                match_date = entry_date.getTime() === event_to_date.getTime();
+                                match_date = entry_from_date.getTime() === event_to_date.getTime();
                             }
 
                             if (match_category && match_date) {
