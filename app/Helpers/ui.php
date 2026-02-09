@@ -285,7 +285,6 @@
 
             // Limit & get results
             $entries = $query->limit($entries_number)->get();
-            dd($entries);
         }
 
         $html="";
