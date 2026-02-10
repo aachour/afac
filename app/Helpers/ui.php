@@ -632,7 +632,7 @@
                                 $entries_count++;
 
                                 if($entries_layout==1 && $entries_count % $entries_per_row==0){
-                                    $html.='<div class="clear">&nbsp;</div>';
+                                    //$html.='<div class="clear">&nbsp;</div>';
                                 }
 
                             }
