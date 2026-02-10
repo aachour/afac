@@ -456,6 +456,10 @@ class EntryForm extends Component
                 $path_full = $this->image_full->store('entries', 'public');
             }
 
+            if (blank($this->event_end_date)) {
+                $this->event_start_time='';
+            }
+
             if (blank($this->event_start_time)) {
                 $this->event_start_time='';
             }
@@ -492,7 +496,7 @@ class EntryForm extends Component
                 'event_text'=>$this->event_text ?? '',
                 'event_text_arabic'=>$this->event_text_arabic ?? '',
                 'event_start_date'=>$this->event_start_date ?? null,
-                'event_end_date'=>$this->event_end_date ?? null,
+                'event_end_date'=>$this->event_end_date ?: null,
                 'event_start_time' => $this->event_start_time ?: null,
                 'event_end_time' => $this->event_end_time ?: null,
                 'program_title'=>$this->program_title ?? '',
@@ -606,7 +610,7 @@ class EntryForm extends Component
                 'event_text'=>$this->event_text ?? '',
                 'event_text_arabic'=>$this->event_text_arabic ?? '',
                 'event_start_date'=>$this->event_start_date ?? null,
-                'event_end_date'=>$this->event_end_date ?? null,
+                'event_end_date'=>$this->event_end_date ?: null,
                 'event_start_time' => $this->event_start_time ?: null,
                 'event_end_time' => $this->event_end_time ?: null,
                 'program_title'=>$this->program_title ?? '',
