@@ -456,6 +456,15 @@ class EntryForm extends Component
                 $path_full = $this->image_full->store('entries', 'public');
             }
 
+            if (blank($this->event_start_time)) {
+                $this->event_start_time='';
+            }
+
+            if (blank($this->event_end_time)) {
+                $this->event_end_time='';
+            }
+
+
             $entry=Entries::create([
                 'type_id' => $this->type_id,
                 'header_color_id' => $this->header_color_id,
