@@ -427,7 +427,7 @@
 
                 $html.='<div class="clear"></div>';
 
-
+                
                 if(count($entries)>0)
                 {
 
@@ -542,117 +542,7 @@
 
                     if($all_featured==0 || $all_featured==null)
                     { 
-
-                        $html.='<div class="entries">';
-                            
-                            $entries_count=0;
-
-                            if($entries_layout==1 && $entries_per_row==4){
-                                $html.='
-                                <style>
-                                    @media(min-width:900px){
-                                        .collection .entries > .entry:nth-child(4n of .entry){
-                                            margin-right:0 !important;
-                                        }
-                                    }
-                                </style>';
-                            }
-
-                            //Open slider
-                            if($entries_layout==2) 
-                            {
-
-                                $html.='<style>
-                                    .sliderCollection .entries .entry:nth-child(4n){
-                                        margin-right:1.2% !important;
-                                    }
-                                </style>';
-
-                                $html.='<div class="swiper" id="swiper'.$collection_id.'" style="width:102.5%; padding-bottom:15px;">
-                                    <div class="swiper-wrapper">';
-                            }
-
-                            //Fetch all entries
-                            foreach($entries as $key=>$entry)
-                            {
-
-                                if ($with_featured==1 && $key ==0) {
-                                    continue; // skip first
-                                }
-
-                                $image_path = asset('frontend/images/default-image.png');
-                                if (!empty($entry->image)) {
-                                    $image_path = asset('storage/' . $entry->image);
-                                }
-
-                                //get entry details
-                                $entryDetails=getEntryDetails($collection_type_id,$entry);
-                                $entry_title=$entryDetails["entry_title"];
-                                $entry_text=$entryDetails["entry_text"];
-                                $entry_href=$entryDetails["entry_href"];
-                                $entry_target=$entryDetails["entry_target"];
-
-                                $html.='<div class="swiper-slide entry">';
-
-                                    $labels=getEntryLabels($entry);
-
-                                    $html .= view('frontend.entry-hover-animation', [
-                                        'collection_type_id'=>$collection_type_id,
-                                        'entry_href'=>$entry_href,
-                                        'entry_target'=>$entry_target,
-                                        'image_path'=>$image_path,
-                                        'entry_title' => $entry_title,
-                                        'entry_text' => $entry_text,
-                                        'title_position'=>$title_position,
-                                        'with_label' => $with_label,
-                                        'labels_position'=>$labels_position,
-                                        'entry_type_name' => $entry->type->name,
-                                        'collection_type_id' => $collection_type_id,
-                                        'labels' => $labels,
-                                        'button_text'=>$button_text,
-                                        'featured'=>'0',
-                                        'event_category_name'=>$entry->eventCategory?->name,
-                                        'event_start_date'=>$entry->event_start_date,
-                                        'event_end_date'=>$entry->event_end_date,
-                                        'program_start_date'=>$entry->program_start_date,
-                                        'program_end_date'=>$entry->program_end_date,
-                                        'project_categories'=>$entry->projectCategoriesName(json_decode($entry->project_categories_id ?? '[]', true) ?? []),
-                                        'project_countries'=>$entry->projectCountries(json_decode($entry->project_countries_id ?? '[]', true) ?? []),
-                                        'grantee_categories'=>$entry->granteeCategories(json_decode($entry->grantee_categories_id ?? '[]', true) ?? []),
-                                        'grantee_country'=>$entry->granteeCountry?->name,
-                                        'jury_country_id'=>$entry->jury_country_id,
-                                        'resource_category_name'=>$entry->resourceCategory?->name,
-                                        'resource_date'=>$entry->resource_date,
-                                        'news_date'=>$entry->news_date,
-                                    ])->render();
-                                                                        
-                                $html .='</div>';
-
-                                //check entries per row
-                                $entries_count++;
-
-                                if($entries_layout==1 && $entries_count % $entries_per_row==0){
-                                    $html.='<div class="clear">&nbsp;</div>';
-                                }
-
-                            }
-
-                            $html.='<div class="clear"></div>';
-                            
-                            //Close Slider
-                            if($entries_layout==2) 
-                            {
-                                    $html.='</div>                             
-                                </div>
-
-                                <!-- Navigation buttons --> 
-                                <div class="mt-4">
-                                    <div class="swiper-button-prev"></div>
-                                    <div class="swiper-button-next"></div>
-                                </div>';
-                            }
-
-                        $html.='</div>';
+                        $html.='<div class="entries" id="entries"></div>';
                     }
 
                 }
@@ -660,6 +550,38 @@
                 $html.='<div class="mt-1 filterEmptyResult small black ABCDiatypeMedium text-start d-none">No results to display for your selected filters </div>
             
             </div>';
+
+            $html.='<script>
+
+                $(document).ready(function(){ 
+
+                    let collection_id= ' . $collection_id . ';
+                    let entries_layout = ' . $entries_layout . ';
+                    let entries_per_row = ' . $entries_per_row . ';
+                    let entries = ' . json_encode($entries) . ';
+
+                    $.ajax({
+                        url: "' . route('get.entries') . '",
+                        method: "POST",
+                        data: {
+                            collection_id: collection_id,
+                            entries_layout: entries_layout,
+                            entries_per_row: entries_per_row,
+                            entries: entries,
+                            
+                        },
+                        success: function(response) {
+                            $("#entries").html(response);
+                        },
+                        error: function(xhr) {
+                            if(xhr.responseJSON && xhr.responseJSON.errors){
+                                alert(JSON.stringify(xhr.responseJSON.errors));
+                            }
+                        }
+                    });
+                });
+
+            </script>';
 
             //add swiper JS 
             $html.='<script> 
