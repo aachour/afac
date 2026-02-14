@@ -156,7 +156,8 @@ class HomeController extends Controller
     public function getEntries(Request $request){
         
         $collection_id = $request->collection_id;
-
+        $filters = $request->filters;
+        
         $collection=Collections::find($collection_id);
 
         if($collection==null){
@@ -236,6 +237,15 @@ class HomeController extends Controller
             // if ($entries_expired == 1 && $collection_type_id == 1) {
             //     $query->where('event_start_date', '>=', date('Y-m-d'));
             // }
+
+            if($collection_type_id==1 && $filters!=''){
+                $event_category=@$filters["event_category"]; 
+                if($event_category!=''){
+                    $query->where('event_category_id', $event_category);
+                }
+                $event_from_date=@$filters["event_from_date"];
+                $event_to_date=@$filters["event_to_date"]; 
+            }
 
             // When type is project, check program and year
             if($collection_type_id == 3 && $collection->entries_program_year_id!=null)

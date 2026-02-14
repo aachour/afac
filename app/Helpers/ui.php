@@ -261,7 +261,7 @@
 
         $html.='<script>
 
-            function getEntries(filters=""){ 
+            function getEntries(filters=""){ console.log(filters);
                 let collection_id= '.$collection_id.';
                 $("#collectionEntries-'.$collection_id.'").empty();
                 $("#loader").removeClass("d-none");
@@ -1048,9 +1048,15 @@
         {
             //Get categories
             $event_categories=[];
-            foreach($entries as $entry){
-                if(!in_array($entry->eventCategory?->name,$event_categories)){
-                    $event_categories[] = $entry->eventCategory?->name;
+            foreach ($entries as $entry) {
+                if ($entry->eventCategory) {
+                    // Check if this category ID already exists
+                    if (!in_array($entry->eventCategory->id, array_column($event_categories, 'id'))) {
+                        $event_categories[] = [
+                            'id'   => $entry->eventCategory->id,
+                            'name' => $entry->eventCategory->name,
+                        ];
+                    }
                 }
             }
 
@@ -1059,7 +1065,7 @@
                     <select class="filterDpd filter_event_category">
                         <option value="">Select type</option>';
                         foreach($event_categories as $event_category){
-                            $html.='<option '.$event_category.'>'.$event_category.'</option>';
+                            $html.='<option value="'.$event_category["id"].'">'.$event_category["name"].'</option>';
                         }
                     $html.='</select>
                 </div>
