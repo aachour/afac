@@ -251,29 +251,31 @@
                 $entries = $query->limit($entries_number)->get();
             }
 
-            $html.=setCollectionFilters($collection_type_id,$entries);
+            $html.=setCollectionFilters($collection_id,$collection_type_id,$entries);
             if (!blank($collection->background_color_id)){$html.='<div class="mt-4"></div>';}
         }
 
 
-        $html.='<div id="collectionEntries"></div>';
+        $html.='<div id="collectionEntries-'.$collection_id.'"></div>';
         $html.='<div class="mt-5 text-center d-none" id="loader"><div class="loader"></div></div>';
 
         $html.='<script>
 
-            $(document).ready(function(){ 
-
-                let collection_id= ' . $collection_id . ';
+            function getEntries(filters=""){ 
+                let collection_id= '.$collection_id.';
+                $("#collectionEntries-'.$collection_id.'").empty();
                 $("#loader").removeClass("d-none");
                 $.ajax({
                     url: "' . route('get.entries') . '",
                     method: "POST",
                     data: {
                         collection_id: collection_id,
+                        filters: filters,
+                        
                     },
                     success: function(response) {
                         $("#loader").addClass("d-none");
-                        $("#collectionEntries").html(response);
+                        $("#collectionEntries-'.$collection_id.'").html(response);
                     },
                     error: function(xhr) {
                         if(xhr.responseJSON && xhr.responseJSON.errors){
@@ -281,6 +283,12 @@
                         }
                     }
                 });
+            }
+
+            $(document).ready(function(){ 
+
+                getEntries();
+                
             });
 
         </script>';
@@ -1031,7 +1039,7 @@
     }
 
 
-    function setCollectionFilters($collection_type_id,$entries)
+    function setCollectionFilters($collection_id,$collection_type_id,$entries)
     {
 
         $html='';
@@ -1061,6 +1069,9 @@
                 <div class="filter">
                     <input type="date" name="to_date" class="filter_event_to_date"  placeholder="To Date" />
                 </div>
+                <div class="filter">
+                    <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
+                </div>
                 <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
             </div>';
@@ -1068,62 +1079,19 @@
             $html.="<script>
                 $(document).ready(function(){
                     
-                    $('.filter_event_category, .filter_event_from_date, .filter_event_to_date').change(function () {
-
-                        var allCards=0;
-                        var hiddenCards=0;
+                    $('#filter-collection-".$collection_id."').click(function () {
+                        var parent=$(this).parent().parent();
+                        var event_category=$(parent).find('.filter_event_category').val();
+                        var event_from_date=$(parent).find('.filter_event_from_date').val();
+                        var event_to_date=$(parent).find('.filter_event_to_date').val();
                         
-                        var event_category_name = $.trim($('.filter_event_category').val());
-                        var event_from_date = new Date($('.filter_event_from_date').val());
-                        var event_to_date = new Date($('.filter_event_to_date').val());
+                        var filters = {
+                            event_category: event_category,
+                            event_from_date: event_from_date,
+                            event_to_date: event_to_date
+                        };
 
-                        // Normalize time
-                        event_from_date.setHours(0, 0, 0, 0);
-                        event_to_date.setHours(0, 0, 0, 0);
-
-                        $(this).parent().parent().parent().find('.entry_card[featured!=1]').each(function () {
-
-                            var entry_category_name = $.trim($(this).attr('event_category_name'));
-
-                            var entry_from_date = new Date($.trim($(this).attr('event_start_date'))); 
-                            entry_from_date.setHours(0, 0, 0, 0);
-                            
-                            var entry_to_date = new Date($.trim($(this).attr('event_end_date'))); 
-                            entry_to_date.setHours(0, 0, 0, 0);
-                            
-                            // Category match
-                            var match_category = (entry_category_name === event_category_name || event_category_name === '');
-
-                            // Date match
-                            var is_from_date_set = !isNaN(event_from_date.getTime());
-                            var is_to_date_set = !isNaN(event_to_date.getTime());
-
-                            var match_date = true;
-
-                            if (is_from_date_set && is_to_date_set) { 
-                                match_date = (entry_from_date >= event_from_date && entry_from_date <= event_to_date);
-                            } else if (is_from_date_set) {
-                                match_date = entry_from_date.getTime() === event_from_date.getTime();
-                            } else if (is_to_date_set) {
-                                match_date = entry_from_date.getTime() === event_to_date.getTime();
-                            }
-
-                            if (match_category && match_date) {
-                                $(this).parent().removeClass('d-none');
-                            } else {
-                                $(this).parent().addClass('d-none');
-                                hiddenCards++;
-                            }
-
-                            allCards++;
-                        });
-
-                        if(allCards==hiddenCards){
-                            $(this).parent().parent().parent().find('.filterEmptyResult').removeClass('d-none');
-                        }
-                        else{
-                            $(this).parent().parent().parent().find('.filterEmptyResult').addClass('d-none');
-                        }
+                        getEntries(filters);
                     });
 
                 });
