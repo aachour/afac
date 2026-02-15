@@ -238,6 +238,7 @@ class HomeController extends Controller
             //     $query->where('event_start_date', '>=', date('Y-m-d'));
             // }
 
+            //Events Filtration
             if($collection_type_id==1 && $filters!=''){
                 
                 $event_category=@$filters["event_category"]; 
@@ -258,6 +259,7 @@ class HomeController extends Controller
                 
             }
 
+            //Programs Filtration
             if($collection_type_id==2 && $filters!=''){
                 
                 $program_start_date=@$filters["program_start_date"];
@@ -272,6 +274,25 @@ class HomeController extends Controller
                 }
                 else if ($program_start_date == '' && $program_end_date != '') {
                     $query->where('program_end_date', '=', $program_end_date);
+                }
+                
+            }
+
+            //News Filtration
+            if($collection_type_id==7 && $filters!=''){
+                
+                $news_from_date=@$filters["news_from_date"];
+                $news_to_date=@$filters["news_to_date"]; 
+                
+                if ($news_from_date != '' && $news_to_date != '') {
+                    $query->where('news_date', '>=', $news_from_date)
+                        ->where('news_date', '<=', $news_to_date);
+                }
+                else if ($news_from_date != '' && $news_to_date == '') {
+                    $query->where('news_date', '=', $news_from_date);
+                }
+                else if ($news_from_date == '' && $news_to_date != '') {
+                    $query->where('news_date', '=', $news_to_date);
                 }
                 
             }
