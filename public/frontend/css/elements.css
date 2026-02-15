@@ -331,6 +331,19 @@
     background:#FFF !important;
 }
 
+.filterBtn{
+    padding:1.5px 15px;
+    border-radius:0px !important;
+    border:2px solid #000;
+    outline:none !important;
+    color:#FFF;
+    background:#000 !important;
+}
+.filterBtn:hover{
+    border:2px solid #8F8F9D;
+    background:#8F8F9D !important;
+}
+
 .filter input[type="date"] {
     outline:none !important;
 }
