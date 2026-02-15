@@ -1112,68 +1112,32 @@
                 <div class="filter">
                     <input type="date" name="end_date" class="filter_program_end_date"  placeholder="End Date" />
                 </div>
+                <div class="filter">
+                    <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
+                </div>
                 <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
             </div>';
 
             $html.="<script>
                 $(document).ready(function(){
-
-                    $('.filter_program_start_date, .filter_program_end_date').change(function () { 
-
-                        var allCards=0;
-                        var hiddenCards=0;
-
-                        var program_start_date = new Date($('.filter_program_start_date').val());
-                        program_start_date.setHours(0, 0, 0, 0);
-
-                        var program_end_date = new Date($('.filter_program_end_date').val());
-                        program_end_date.setHours(0, 0, 0, 0); 
+                    
+                    $('#filter-collection-".$collection_id."').click(function () {
+                        var parent=$(this).parent().parent();
+                        var program_start_date=$(parent).find('.filter_program_start_date').val();
+                        var program_end_date=$(parent).find('.filter_program_end_date').val();
                         
-                        $(this).parent().parent().parent().find('.entry_card[featured!=1]').each(function () {
+                        var filters = {
+                            program_start_date: program_start_date,
+                            program_end_date: program_end_date,
+                        };
 
-                            var entry_start_date = new Date($.trim($(this).attr('program_start_date')));
-                            entry_start_date.setHours(0, 0, 0, 0);
-
-                            var entry_end_date = new Date($.trim($(this).attr('program_end_date')));
-                            entry_end_date.setHours(0, 0, 0, 0);
-
-                            // Date match
-                            var is_from_date_set = !isNaN(program_start_date.getTime());
-                            var is_to_date_set = !isNaN(program_end_date.getTime());
-
-                            var match_date = true;
-
-                            if (is_from_date_set && is_to_date_set) {
-                                match_date = (entry_start_date >= program_start_date && entry_start_date <= program_end_date);
-                            } else if (is_from_date_set) {
-                                match_date = entry_start_date.getTime() === program_start_date.getTime();
-                            } else if (is_to_date_set) {
-                                match_date = entry_start_date.getTime() === program_end_date.getTime();
-                            }
-
-                            if (match_date) {
-                                $(this).parent().removeClass('d-none');
-                            } else {
-                                $(this).parent().addClass('d-none');
-                                hiddenCards++;
-                            }
-
-                            allCards++;
-
-                        });
-                        
-                        if(allCards==hiddenCards){
-                            $(this).parent().parent().parent().find('.filterEmptyResult').removeClass('d-none');
-                        }
-                        else{
-                            $(this).parent().parent().parent().find('.filterEmptyResult').addClass('d-none');
-                        }
-
+                        getEntries(filters);
                     });
 
                 });
             </script>";
+
         }
         else if($collection_type_id==3) // Projects
         {
