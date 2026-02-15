@@ -238,6 +238,7 @@ class HomeController extends Controller
             //     $query->where('event_start_date', '>=', date('Y-m-d'));
             // }
 
+            // Events Filtration
             if($collection_type_id==1 && $filters!=''){
                 
                 $event_category=@$filters["event_category"]; 
@@ -258,6 +259,7 @@ class HomeController extends Controller
                 
             }
 
+            // Programs Filtration
             if($collection_type_id==2 && $filters!=''){
                 
                 $program_start_date=@$filters["program_start_date"];
@@ -317,6 +319,66 @@ class HomeController extends Controller
                 $query->whereIn('id', $jurorIds);
             }
 
+            // Resources Filtration
+            if($collection_type_id==6 && $filters!=''){
+                
+                $resource_category=@$filters["resource_category"]; 
+                $resource_from_date=@$filters["resource_from_date"];
+                $resource_to_date=@$filters["resource_to_date"]; 
+
+                if (!empty($resource_category)) {
+                    $query->where('resource_category_id', $resource_category);
+                }
+                
+                if ($resource_from_date != '' && $resource_to_date != '') {
+                    $query->where('resource_date', '>=', $resource_from_date)
+                        ->where('resource_date', '<=', $resource_to_date);
+                }
+                else if ($resource_from_date != '' && $resource_to_date == '') {
+                    $query->where('resource_date', '=', $resource_from_date);
+                }
+                else if ($resource_from_date == '' && $resource_to_date != '') {
+                    $query->where('resource_date', '=', $resource_to_date);
+                }
+                
+            }
+
+            // News Filtration
+            if($collection_type_id==7 && $filters!=''){
+                
+                $news_tags=@$filters["news_tags"];
+                $news_from_date=@$filters["news_from_date"];
+                $news_to_date=@$filters["news_to_date"]; 
+
+                if ($news_tags != '') {
+                    $query->where('news_tags', 'LIKE', '%' . $news_tags . '%')->orwhere('news_tags_arabic', 'LIKE', '%' . $news_tags . '%');
+                }
+                
+                if ($news_from_date != '' && $news_to_date != '') {
+                    $query->where('news_date', '>=', $news_from_date)
+                        ->where('news_date', '<=', $news_to_date);
+                }
+                else if ($news_from_date != '' && $news_to_date == '') {
+                    $query->where('news_date', '=', $news_from_date);
+                }
+                else if ($news_from_date == '' && $news_to_date != '') {
+                    $query->where('news_date', '=', $news_to_date);
+                }
+                
+            }
+
+            // Externals Filtration
+            if($collection_type_id==8 && $filters!=''){
+                
+                $external_category=@$filters["external_category"]; 
+
+                if (!empty($external_category)) {
+                    $query->where('external_category_id', $external_category);
+                }
+                
+            }
+
+            
             // Ordering 
             if ($collection_type_id == 1 && $entries_order == 1) //event name asc
             {

@@ -261,8 +261,8 @@
 
         $html.='<script>
 
-            function getEntries(filters=""){ console.log(filters);
-                let collection_id= '.$collection_id.';
+            function getEntries(filters=""){
+                let collection_id= '.$collection_id.'; 
                 $("#collectionEntries-'.$collection_id.'").empty();
                 $("#loader").removeClass("d-none");
                 $.ajax({
@@ -1019,7 +1019,7 @@
             $labels[]=$entry->juryCountry?->name;
         }
         else if($entry->type_id==6){
-            $labels[]=$entry->resourceCategory->name;
+            $labels[]=$entry->resourceCategory?->name;
             $labels[]=date('d M Y',strtotime($entry->resource_date));
             $tags=explode(",",$entry->resource_tags);
             foreach($tags as $tag){
@@ -1031,7 +1031,6 @@
         }
         else if($entry->type_id==8){
             $labels[]=$entry->externalCategory?->name;
-            $labels[]=date('d M Y',strtotime($entry->news_date));
         }
 
         
@@ -1308,9 +1307,15 @@
 
             //Get categories 
             $resource_categories=[];
-            foreach($entries as $entry){
-                if(!in_array($entry->resourceCategory?->name,$resource_categories)){
-                    $resource_categories[]=$entry->resourceCategory?->name;
+            foreach ($entries as $entry) {
+                if ($entry->resourceCategory) {
+                    // Check if this category ID already exists
+                    if (!in_array($entry->resourceCategory->id, array_column($resource_categories, 'id'))) {
+                        $resource_categories[] = [
+                            'id'   => $entry->resourceCategory->id,
+                            'name' => $entry->resourceCategory->name,
+                        ];
+                    }
                 }
             }
 
@@ -1319,7 +1324,7 @@
                     <select class="filterDpd filter_resource_category">
                         <option value="">Select category</option>';
                         foreach($resource_categories as $category){
-                            $html.='<option '.$category.'>'.$category.'</option>';
+                            $html.='<option value="'.$category["id"].'">'.$category["name"].'</option>';
                         }
                     $html.='</select>
                 </div>
@@ -1329,6 +1334,9 @@
                 <div class="filter">
                     <input type="date" name="to_date" class="filter_resource_to_date"  placeholder="To Date" />
                 </div>
+                <div class="filter">
+                    <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
+                </div>
                 <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
             </div>';
@@ -1336,58 +1344,18 @@
             $html.="<script>
                 $(document).ready(function(){
                     
-                    $('.filter_resource_category, .filter_resource_from_date, .filter_resource_to_date').change(function () {
+                    $('#filter-collection-".$collection_id."').click(function () {
+                        var parent=$(this).parent().parent();
+                        var resource_category=$(parent).find('.filter_resource_category').val();
+                        var resource_from_date=$(parent).find('.filter_resource_from_date').val();
+                        var resource_to_date=$(parent).find('.filter_resource_to_date').val();
+                        var filters = {
+                            resource_category: resource_category,
+                            resource_from_date: resource_from_date,
+                            resource_to_date: resource_to_date,
+                        };
 
-                        var allCards=0;
-                        var hiddenCards=0;
-                        
-                        var resource_category_name = $.trim($('.filter_resource_category').val());
-                        var resource_from_date = new Date($('.filter_resource_from_date').val());
-                        var resource_to_date = new Date($('.filter_resource_to_date').val());
-
-                        // Normalize time
-                        resource_from_date.setHours(0, 0, 0, 0);
-                        resource_to_date.setHours(0, 0, 0, 0);
-
-                        $(this).parent().parent().parent().find('.entry_card[featured!=1]').each(function () {
-
-                            var entry_category_name = $.trim($(this).attr('resource_category_name'));
-                            var entry_date = new Date($.trim($(this).attr('resource_date')));
-                            entry_date.setHours(0, 0, 0, 0);
-
-                            // Category match
-                            var match_category = (entry_category_name === resource_category_name || resource_category_name === '');
-
-                            // Date match
-                            var is_from_date_set = !isNaN(resource_from_date.getTime());
-                            var is_to_date_set = !isNaN(resource_to_date.getTime());
-
-                            var match_date = true;
-
-                            if (is_from_date_set && is_to_date_set) {
-                                match_date = (entry_date >= resource_from_date && entry_date <= resource_to_date);
-                            } else if (is_from_date_set) {
-                                match_date = entry_date.getTime() === resource_from_date.getTime();
-                            } else if (is_to_date_set) {
-                                match_date = entry_date.getTime() === resource_to_date.getTime();
-                            }
-
-                            if (match_category && match_date) {
-                                $(this).parent().removeClass('d-none');
-                            } else {
-                                $(this).parent().addClass('d-none');
-                                hiddenCards++;
-                            }
-
-                            allCards++;
-                        });
-
-                        if(allCards==hiddenCards){
-                            $(this).parent().parent().parent().find('.filterEmptyResult').removeClass('d-none');
-                        }
-                        else{
-                            $(this).parent().parent().parent().find('.filterEmptyResult').addClass('d-none');
-                        }
+                        getEntries(filters);
                     });
 
                 });
@@ -1399,14 +1367,91 @@
 
             $html.='<div class="filters" style="">
                 <div class="filter">
+                    <input type="text" name="tags" class="filter_news_tags"  placeholder="Tags" />
+                </div>
+                <div class="filter">
                     <input type="date" name="from_date" class="filter_news_from_date"  placeholder="From Date" />
                 </div>
                 <div class="filter">
-                    <input type="date" name="from_date" class="filter_news_from_date"  placeholder="To Date" />
+                    <input type="date" name="to_date" class="filter_news_to_date"  placeholder="To Date" />
+                </div>
+                <div class="filter">
+                    <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
                 </div>
                 <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
             </div>';
+
+            $html.="<script>
+                $(document).ready(function(){
+                    
+                    $('#filter-collection-".$collection_id."').click(function () {
+                        var parent=$(this).parent().parent();
+                        var news_tags=$(parent).find('.filter_news_tags').val();
+                        var news_from_date=$(parent).find('.filter_news_from_date').val();
+                        var news_to_date=$(parent).find('.filter_news_to_date').val();
+                        
+                        var filters = {
+                            news_tags: news_tags,
+                            news_from_date: news_from_date,
+                            news_to_date: news_to_date,
+                        };
+
+                        getEntries(filters);
+                    });
+
+                });
+            </script>";
+        }
+        else if($collection_type_id==8) //Externals
+        {
+
+            //Get categories 
+            $external_categories=[];
+            foreach ($entries as $entry) {
+                if ($entry->externalCategory) {
+                    // Check if this category ID already exists
+                    if (!in_array($entry->externalCategory->id, array_column($external_categories, 'id'))) {
+                        $external_categories[] = [
+                            'id'   => $entry->externalCategory->id,
+                            'name' => $entry->externalCategory->name,
+                        ];
+                    }
+                }
+            }
+
+            $html.='<div class="filters" style="">
+                <div class="filter">
+                    <select class="filterDpd filter_external_category">
+                        <option value="">Select category</option>';
+                        foreach($external_categories as $category){
+                            $html.='<option value="'.$category["id"].'">'.$category["name"].'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="filter">
+                    <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
+                </div>
+                <div class="sort">SORT DPD</div>
+                <div class="clear"></div>
+            </div>';
+            
+            $html.="<script>
+                $(document).ready(function(){
+                    
+                    $('#filter-collection-".$collection_id."').click(function () {
+                        var parent=$(this).parent().parent();
+                        var external_category=$(parent).find('.filter_external_category').val();
+                        var filters = {
+                            external_category: external_category,
+                        };
+
+                        getEntries(filters);
+                    });
+
+                });
+            </script>";
+            
         }
 
         return $html;
