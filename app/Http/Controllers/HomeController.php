@@ -258,6 +258,24 @@ class HomeController extends Controller
                 
             }
 
+            if($collection_type_id==2 && $filters!=''){
+                
+                $program_start_date=@$filters["program_start_date"];
+                $program_end_date=@$filters["program_end_date"]; 
+                
+                if ($program_start_date != '' && $program_end_date != '') {
+                    $query->where('program_start_date', '>=', $program_start_date)
+                        ->where('program_end_date', '<=', $program_end_date);
+                }
+                else if ($program_start_date != '' && $program_end_date == '') {
+                    $query->where('program_start_date', '=', $program_start_date);
+                }
+                else if ($program_start_date == '' && $program_end_date != '') {
+                    $query->where('program_end_date', '=', $program_end_date);
+                }
+                
+            }
+
             // When type is project, check program and year
             if($collection_type_id == 3 && $collection->entries_program_year_id!=null)
             {
