@@ -1399,6 +1399,9 @@
 
             $html.='<div class="filters" style="">
                 <div class="filter">
+                    <input type="text" name="tags" class="filter_news_tags"  placeholder="Tags" />
+                </div>
+                <div class="filter">
                     <input type="date" name="from_date" class="filter_news_from_date"  placeholder="From Date" />
                 </div>
                 <div class="filter">
@@ -1416,10 +1419,12 @@
                     
                     $('#filter-collection-".$collection_id."').click(function () {
                         var parent=$(this).parent().parent();
+                        var news_tags=$(parent).find('.filter_news_tags').val();
                         var news_from_date=$(parent).find('.filter_news_from_date').val();
                         var news_to_date=$(parent).find('.filter_news_to_date').val();
                         
                         var filters = {
+                            news_tags: news_tags,
                             news_from_date: news_from_date,
                             news_to_date: news_to_date,
                         };

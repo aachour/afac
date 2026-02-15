@@ -281,8 +281,13 @@ class HomeController extends Controller
             //News Filtration
             if($collection_type_id==7 && $filters!=''){
                 
+                $news_tags=@$filters["news_tags"];
                 $news_from_date=@$filters["news_from_date"];
                 $news_to_date=@$filters["news_to_date"]; 
+
+                if ($news_tags != '') {
+                    $query->where('news_tags', 'LIKE', '%' . $news_tags . '%')->orwhere('news_tags_arabic', 'LIKE', '%' . $news_tags . '%');
+                }
                 
                 if ($news_from_date != '' && $news_to_date != '') {
                     $query->where('news_date', '>=', $news_from_date)
