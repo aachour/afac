@@ -26,6 +26,7 @@ return new class extends Migration
             $table->text('view_all_link')->nullable();
             $table->text('view_all_link_arabic')->nullable();
             $table->boolean('show_view_all')->nullable();
+            $table->boolean('show_projects_grantees')->nullable();
             $table->foreignId('background_color_id')->nullable()->constrained('colors')->onDelete('cascade');
             $table->text('button_text')->nullable();
             $table->text('button_text_arabic')->nullable();

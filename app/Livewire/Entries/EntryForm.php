@@ -5,6 +5,8 @@ namespace App\Livewire\Entries;
 use App\Models\EventCategories;
 use App\Models\ProjectCategories;
 use App\Models\GranteeCategories;
+use App\Models\ResourceCategories;
+use App\Models\NewsCategories;
 use App\Models\ExternalCategories;
 use App\Models\Types;
 use App\Models\Entries;
@@ -33,6 +35,8 @@ class EntryForm extends Component
     public $event_categories;
     public $project_categories;
     public $grantee_categories;
+    public $resource_categories;
+    public $news_categories;
     public $external_categories;
     
     public $colors;
@@ -50,6 +54,8 @@ class EntryForm extends Component
     public $image_full;
     public $imageFullPreview;
     public $image_width;
+    public $image_caption;
+    public $image_caption_arabic;
     public $background_color_id ;
     public $button_value;
     public $button_value_arabic;
@@ -72,7 +78,8 @@ class EntryForm extends Component
     public $event_title_arabic;
     public $event_text;
     public $event_text_arabic;
-    public $event_date;
+    public $event_start_date;
+    public $event_end_date;
     public $event_start_time;
     public $event_end_time;
     
@@ -113,6 +120,7 @@ class EntryForm extends Component
     public $jury_country_id;
 
     //6- Resource
+    public $resource_category_id;
     public $resource_title;
     public $resource_title_arabic;
     public $resource_text;
@@ -122,6 +130,7 @@ class EntryForm extends Component
     public $resource_tags_arabic;
 
     //7- News
+    public $news_category_id;
     public $news_title;
     public $news_title_arabic;
     public $news_text;
@@ -184,6 +193,8 @@ class EntryForm extends Component
             $this->header_color_id=$this->entry->header_color_id;
             $this->footer_color_id=$this->entry->footer_color_id;
             $this->image_width=$this->entry->image_width;
+            $this->image_caption=$this->entry->image_caption;
+            $this->image_caption_arabic=$this->entry->image_caption_arabic;
             $this->background_color_id=$this->entry->background_color_id;
             $this->button_value=$this->entry->button_value;
             $this->button_value_arabic=$this->entry->button_value_arabic;
@@ -202,7 +213,8 @@ class EntryForm extends Component
             $this->event_title_arabic=$this->entry->event_title_arabic;
             $this->event_text=$this->entry->event_text;
             $this->event_text_arabic=$this->entry->event_text_arabic;
-            $this->event_date=$this->entry->event_date;
+            $this->event_start_date=$this->entry->event_start_date;
+            $this->event_end_date=$this->entry->event_end_date;
             $this->event_start_time=$this->entry->event_start_time;
             $this->event_end_time=$this->entry->event_end_time;
 
@@ -245,6 +257,7 @@ class EntryForm extends Component
             $this->jury_country_id=$this->entry->jury_country_id;
 
             //Resource
+            $this->resource_category_id=$this->entry->resource_category_id;
             $this->resource_title=$this->entry->resource_title;
             $this->resource_title_arabic=$this->entry->resource_title_arabic;
             $this->resource_text=$this->entry->resource_text;
@@ -254,6 +267,7 @@ class EntryForm extends Component
             $this->resource_tags_arabic=$this->entry->resource_tags_arabic;
 
             //News
+            $this->news_category_id=$this->entry->news_category_id;
             $this->news_title=$this->entry->news_title;
             $this->news_title_arabic=$this->entry->news_title_arabic;
             $this->news_text=$this->entry->news_text;
@@ -292,7 +306,11 @@ class EntryForm extends Component
         $this->project_categories=ProjectCategories::all();
 
         $this->grantee_categories=GranteeCategories::all();
-        
+
+        $this->resource_categories=ResourceCategories::all();
+
+        $this->news_categories=NewsCategories::all();
+
         $this->external_categories=ExternalCategories::all();
         
         $this->colors=Colors::all();
@@ -328,6 +346,8 @@ class EntryForm extends Component
             'image_featured' => ['nullable'],
             'image_full' => ['nullable'],
             'image_width' => ['nullable'],
+            'image_caption' => ['nullable'],
+            'image_caption_arabic' => ['nullable'],
             'background_color_id' => ['nullable'],
             'button_value' => ['nullable'],
             'button_value_arabic' => ['nullable'],
@@ -344,9 +364,10 @@ class EntryForm extends Component
             'event_category_id' => ['required_if:type_id,1'],
             'event_title' => ['required_if:type_id,1'],
             'event_title_arabic' => ['required_if:type_id,1'],
-            'event_date' => ['required_if:type_id,1'],
-            'event_start_time' => ['required_if:type_id,1'],
-            'event_end_time' => ['required_if:type_id,1'],
+            'event_start_date' => ['required_if:type_id,1'],
+            'event_end_date' => ['nullable'],
+            'event_start_time' => ['nullable'],
+            'event_end_time' => ['nullable'],
             
             //Program
             'program_title' => ['required_if:type_id,2'],
@@ -373,12 +394,14 @@ class EntryForm extends Component
             'jury_country_id' => ['required_if:type_id,5'],
 
             //Resource
+            'resource_category_id' => ['required_if:type_id,6'],
             'resource_title' => ['required_if:type_id,6'],
             'resource_title_arabic' => ['required_if:type_id,6'],
             'resource_date' => ['required_if:type_id,6'],
             
             
             //News
+            'news_category_id' => ['required_if:type_id,7'],
             'news_title' => ['required_if:type_id,7'],
             'news_title_arabic' => ['required_if:type_id,7'],
             'news_date' => ['required_if:type_id,7'],
@@ -433,6 +456,19 @@ class EntryForm extends Component
                 $path_full = $this->image_full->store('entries', 'public');
             }
 
+            if (blank($this->event_end_date)) {
+                $this->event_start_time='';
+            }
+
+            if (blank($this->event_start_time)) {
+                $this->event_start_time='';
+            }
+
+            if (blank($this->event_end_time)) {
+                $this->event_end_time='';
+            }
+
+
             $entry=Entries::create([
                 'type_id' => $this->type_id,
                 'header_color_id' => $this->header_color_id,
@@ -441,6 +477,8 @@ class EntryForm extends Component
                 'image_featured' => @$path_featured,
                 'image_full' => @$path_full,
                 'image_width' => $this->image_width,
+                'image_caption' => $this->image_caption,
+                'image_caption_arabic' => $this->image_caption_arabic,
                 'background_color_id' => $this->background_color_id !== '' ? $this->background_color_id : null,
                 'button_value' => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
@@ -457,9 +495,10 @@ class EntryForm extends Component
                 'event_title_arabic'=>$this->event_title_arabic ?? '',
                 'event_text'=>$this->event_text ?? '',
                 'event_text_arabic'=>$this->event_text_arabic ?? '',
-                'event_date'=>$this->event_date ?? null,
-                'event_start_time'=>$this->event_start_time ?? null,
-                'event_end_time'=>$this->event_end_time ?? null,
+                'event_start_date'=>$this->event_start_date ?? null,
+                'event_end_date'=>$this->event_end_date ?: null,
+                'event_start_time' => $this->event_start_time ?: null,
+                'event_end_time' => $this->event_end_time ?: null,
                 'program_title'=>$this->program_title ?? '',
                 'program_title_arabic'=>$this->program_title_arabic ?? '',
                 'program_text'=>$this->program_text ?? '',
@@ -483,6 +522,7 @@ class EntryForm extends Component
                 'jury_text'=>$this->jury_text ?? '',
                 'jury_text_arabic'=>$this->jury_text_arabic ?? '',
                 'jury_country_id'=>$this->jury_country_id !== '' ? $this->jury_country_id : null, 
+                'resource_category_id'=> $this->resource_category_id !== '' ? $this->resource_category_id : null,
                 'resource_title'=>$this->resource_title ?? '',
                 'resource_title_arabic'=>$this->resource_title_arabic ?? '',
                 'resource_text'=>$this->resource_text ?? '',
@@ -490,6 +530,7 @@ class EntryForm extends Component
                 'resource_date'=> $this->resource_date ?? null,
                 'resource_tags'=>$this->resource_tags ?? '',
                 'resource_tags_arabic'=>$this->resource_tags_arabic ?? '',
+                'news_category_id'=> $this->news_category_id !== '' ? $this->news_category_id : null,
                 'news_title'=>$this->news_title ?? '',
                 'news_title_arabic'=>$this->news_title_arabic ?? '',
                 'news_text'=>$this->news_text ?? '',
@@ -550,6 +591,8 @@ class EntryForm extends Component
                 'image_featured' => @$path_feautred ?? $this->entry->image_featured,
                 'image_full' => @$path_full ?? $this->entry->image_full,
                 'image_width' => $this->image_width,
+                'image_caption' => $this->image_caption,
+                'image_caption_arabic' => $this->image_caption_arabic,
                 'background_color_id' => $this->background_color_id !== '' ? $this->background_color_id : null,
                 'button_value' => $this->button_value,
                 'button_value_arabic' => $this->button_value_arabic,
@@ -566,9 +609,10 @@ class EntryForm extends Component
                 'event_title_arabic'=>$this->event_title_arabic ?? '',
                 'event_text'=>$this->event_text ?? '',
                 'event_text_arabic'=>$this->event_text_arabic ?? '',
-                'event_date'=>$this->event_date ?? null,
-                'event_start_time'=>$this->event_start_time ?? null,
-                'event_end_time'=>$this->event_end_time ?? null,
+                'event_start_date'=>$this->event_start_date ?? null,
+                'event_end_date'=>$this->event_end_date ?: null,
+                'event_start_time' => $this->event_start_time ?: null,
+                'event_end_time' => $this->event_end_time ?: null,
                 'program_title'=>$this->program_title ?? '',
                 'program_title_arabic'=>$this->program_title_arabic ?? '',
                 'program_text'=>$this->program_text ?? '',
@@ -592,6 +636,7 @@ class EntryForm extends Component
                 'jury_text'=>$this->jury_text ?? '',
                 'jury_text_arabic'=>$this->jury_text_arabic ?? '',
                 'jury_country_id'=>$this->jury_country_id !== '' ? $this->jury_country_id : null, 
+                'resource_category_id'=> $this->resource_category_id !== '' ? $this->resource_category_id : null,
                 'resource_title'=>$this->resource_title ?? '',
                 'resource_title_arabic'=>$this->resource_title_arabic ?? '',
                 'resource_text'=>$this->resource_text ?? '',
@@ -599,6 +644,7 @@ class EntryForm extends Component
                 'resource_date'=> $this->resource_date ?? null,
                 'resource_tags'=>$this->resource_tags ?? '',
                 'resource_tags_arabic'=>$this->resource_tags_arabic ?? '',
+                'news_category_id'=> $this->news_category_id !== '' ? $this->news_category_id : null,
                 'news_title'=>$this->news_title ?? '',
                 'news_title_arabic'=>$this->news_title_arabic ?? '',
                 'news_text'=>$this->news_text ?? '',

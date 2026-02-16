@@ -227,32 +227,99 @@
 			</li>
 			@endcan
 			
-			@can('resource-list')
-			<li class="menu-item {{ request()->is('entries/6*') && !request()->is('entries/*/years*') && !request()->is('entries/*/grantees*') ? "active" : "" }}">
-				<a href="{{ route('entries',['typeId'=>'6']) }}" class="menu-link">
+			@canany(['resourceCategory-list','resource-list'])
+			<li class="menu-item {{ (request()->is('resourceCategories*') || ( request()->is('entries/6*') && (!request()->is('entries/*/years*') && !request()->is('entries/*/resources*')) )) ? 'active open' : '' }}">
+
+				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-database"></i>
 					<div data-i18n="Resources">Resources</div>
 				</a>
-			</li>
-			@endcan
 
-			@can('news-list')
-			<li class="menu-item {{ request()->is('entries/7*') && !request()->is('entries/*/years*') && !request()->is('entries/*/grantees*') ? "active" : "" }}">
-				<a href="{{ route('entries',['typeId'=>'7']) }}" class="menu-link">
+				<ul class="menu-sub">
+
+					@can('resourceCategory-list')
+					<li class="menu-item {{ request()->is('resourceCategories*') ? "active" : "" }}">
+						<a href="{{ route('resource.categories') }}" class="menu-link">
+						<div data-i18n="Categories">Categories</div>
+						</a>
+					</li>
+					@endcan
+
+					@can('resource-list')
+					<li class="menu-item {{ request()->is('entries/6*') || request()->is('entries/*/resources') ? "active" : "" }}">
+						<a href="{{ route('entries',['typeId'=>'6']) }}" class="menu-link">
+							<div data-i18n="Resources">Resources</div>
+						</a>
+					</li>
+					@endcan
+
+				</ul>
+
+			</li>
+			@endcanany
+
+			@canany(['newsCategory-list','news-list'])
+			<li class="menu-item {{ (request()->is('newsCategories*') || ( request()->is('entries/7*') && (!request()->is('entries/*/years*') && !request()->is('entries/*/news*')) )) ? 'active open' : '' }}">
+
+				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-news"></i>
 					<div data-i18n="News">News</div>
 				</a>
-			</li>
-			@endcan
 
-			@can('external-list')
-			<li class="menu-item {{ request()->is('entries/8*') && !request()->is('entries/*/years*') && !request()->is('entries/*/grantees*') ? "active" : "" }}">
-				<a href="{{ route('entries',['typeId'=>'8']) }}" class="menu-link">
+				<ul class="menu-sub">
+
+					@can('newsCategory-list')
+					<li class="menu-item {{ request()->is('newsCategories*') ? "active" : "" }}">
+						<a href="{{ route('news.categories') }}" class="menu-link">
+						<div data-i18n="Categories">Categories</div>
+						</a>
+					</li>
+					@endcan
+
+					@can('news-list')
+					<li class="menu-item {{ request()->is('entries/7*') || request()->is('entries/*/news') ? "active" : "" }}">
+						<a href="{{ route('entries',['typeId'=>'7']) }}" class="menu-link">
+							<div data-i18n="News">News</div>
+						</a>
+					</li>
+					@endcan
+
+				</ul>
+
+			</li>
+			@endcanany
+			
+			
+			@canany(['externalCategory-list','external-list'])
+			<li class="menu-item {{ (request()->is('externalCategories*') || ( request()->is('entries/4*') && (!request()->is('entries/*/years*') && !request()->is('entries/*/externals*')) )) ? 'active open' : '' }}">
+
+				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-external-link"></i>
 					<div data-i18n="Externals">Externals</div>
 				</a>
+
+				<ul class="menu-sub">
+
+					@can('externalCategory-list')
+					<li class="menu-item {{ request()->is('externalCategories*') ? "active" : "" }}">
+						<a href="{{ route('external.categories') }}" class="menu-link">
+						<div data-i18n="Categories">Categories</div>
+						</a>
+					</li>
+					@endcan
+
+					@can('external-list')
+					<li class="menu-item {{ request()->is('entries/8*') || request()->is('entries/*/externals') ? "active" : "" }}">
+						<a href="{{ route('entries',['typeId'=>'8']) }}" class="menu-link">
+							<div data-i18n="Externals">Externals</div>
+						</a>
+					</li>
+					@endcan
+
+				</ul>
+
 			</li>
-			@endcan
+			@endcanany
 
 			@can('team-list')
 			<li class="menu-item {{ request()->is('entries/9*') && !request()->is('entries/*/years*') && !request()->is('entries/*/grantees*') ? "active" : "" }}">

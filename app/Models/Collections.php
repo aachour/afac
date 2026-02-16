@@ -26,6 +26,7 @@ class Collections extends Model
         'view_all_link',
         'view_all_link_arabic',
         'show_view_all',
+        'show_projects_grantees',
         'background_color_id',
         'button_text',
         'button_text_arabic',

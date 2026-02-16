@@ -134,6 +134,13 @@ class PermissionSeeder extends Seeder
             'jury-delete',
             'jury-view',
 
+            // Resources Categories
+            'resourceCategory-list',
+            'resourceCategory-create',
+            'resourceCategory-edit',
+            'resourceCategory-delete',
+            'resourceCategory-view',
+
             // Resources Page
             'resource-list',
             'resource-create',
@@ -141,12 +148,26 @@ class PermissionSeeder extends Seeder
             'resource-delete',
             'resource-view',
 
+            // News Categories
+            'newsCategory-list',
+            'newsCategory-create',
+            'newsCategory-edit',
+            'newsCategory-delete',
+            'newsCategory-view',
+
             // News Page
             'news-list',
             'news-create',
             'news-edit',
             'news-delete',
             'news-view',
+
+            // Externals Categories
+            'externalCategory-list',
+            'externalCategory-create',
+            'externalCategory-edit',
+            'externalCategory-delete',
+            'externalCategory-view',
 
             // externals Page
             'external-list',

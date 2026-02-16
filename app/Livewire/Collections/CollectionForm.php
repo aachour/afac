@@ -36,6 +36,7 @@ class CollectionForm extends Component
     public $view_all_link;
     public $view_all_link_arabic;
     public $show_view_all;
+    public $show_projects_grantees;
     public $background_color_id;
     public $button_text;
     public $button_text_arabic;
@@ -78,6 +79,7 @@ class CollectionForm extends Component
             $this->show_name=true;
             $this->show_description=true;
             $this->show_view_all=false;
+            $this->show_projects_grantees=false;
             $this->with_border_bottom=true;
             $this->with_filters=0;
             $this->with_label=1;
@@ -111,6 +113,7 @@ class CollectionForm extends Component
             $this->view_all_link=$this->collection->view_all_link;
             $this->view_all_link_arabic=$this->collection->view_all_link_arabic;
             $this->show_view_all=$this->collection->show_view_all == 1 ? true : false;
+            $this->show_projects_grantees=$this->collection->show_projects_grantees == 1 ? true : false;
             $this->background_color_id=$this->collection->background_color_id;
             $this->button_text=$this->collection->button_text;
             $this->button_text_arabic=$this->collection->button_text_arabic;
@@ -163,6 +166,7 @@ class CollectionForm extends Component
             'view_all_link' => ['nullable'],
             'view_all_link_arabic' => ['nullable'],
             'show_view_all' => ['nullable'],
+            'show_projects_grantees' => ['nullable'],
             'background_color_id' => ['nullable'],
             'button_text' => ['nullable'],
             'button_text_arabic' => ['nullable'],
@@ -199,6 +203,10 @@ class CollectionForm extends Component
             $this->featured_image_width=0;
         }
 
+        if (blank($this->entries_program_id)) {
+            $this->entries_program_year_id='';
+        }
+
         if($this->id==''){
             Collections::create([
                 'type_id'=>$this->type_id,
@@ -214,7 +222,8 @@ class CollectionForm extends Component
                 'view_all_link'=>$this->view_all_link,
                 'view_all_link_arabic'=>$this->view_all_link_arabic,
                 'show_view_all'=>$this->show_view_all,
-                'background_color_id'=>$this->background_color_id,
+                'show_projects_grantees'=>$this->show_projects_grantees == 1 ? true : false,
+                'background_color_id' => $this->background_color_id ?: null,
                 'button_text'=>$this->button_text,
                 'button_text_arabic'=>$this->button_text_arabic,
                 'with_border_bottom'=> $this->with_border_bottom,
@@ -224,8 +233,8 @@ class CollectionForm extends Component
                 'entries_number'=>$this->entries_number,
                 'entries_with_expired'=>$this->entries_with_expired,
                 'entries_order'=>$this->entries_order,
-                'entries_program_id'      => blank($this->entries_program_id) ? null : $this->entries_program_id,
-                'entries_program_year_id' => blank($this->entries_program_year_id) ? null : $this->entries_program_year_id,
+                'entries_program_id' => $this->entries_program_id ?: null,
+                'entries_program_year_id' => $this->entries_program_year_id ?: null,
                 'title_position'=>$this->title_position,
                 'with_label'=>$this->with_label,
                 'entries_layout'=>$this->entries_layout,
@@ -254,7 +263,8 @@ class CollectionForm extends Component
                 'view_all_link'=>$this->view_all_link,
                 'view_all_link_arabic'=>$this->view_all_link_arabic,
                 'show_view_all'=>$this->show_view_all,
-                'background_color_id'=>$this->background_color_id,
+                'show_projects_grantees'=>$this->show_projects_grantees == 1 ? true : false,
+                'background_color_id' => $this->background_color_id ?: null,
                 'button_text'=>$this->button_text,
                 'button_text_arabic'=>$this->button_text_arabic,
                 'with_border_bottom'=>$this->with_border_bottom,
@@ -264,8 +274,8 @@ class CollectionForm extends Component
                 'entries_number'=>$this->entries_number,
                 'entries_with_expired'=>$this->entries_with_expired,
                 'entries_order'=>$this->entries_order,
-                'entries_program_id'      => blank($this->entries_program_id) ? null : $this->entries_program_id,
-                'entries_program_year_id' => blank($this->entries_program_year_id) ? null : $this->entries_program_year_id,
+                'entries_program_id' => $this->entries_program_id ?: null,
+                'entries_program_year_id' => $this->entries_program_year_id ?: null,
                 'title_position'=>$this->title_position,
                 'with_label'=>$this->with_label,
                 'entries_layout'=>$this->entries_layout,

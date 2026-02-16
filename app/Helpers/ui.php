@@ -35,9 +35,9 @@
                         {
                             $html.='<div class="col-lg-6 col-12 text-center">
                                 <div class="labels">';
-                                $html.='<div class="label micro black ABCDiatypeMedium rounded">'.$entry->type->name.'</div>';
+                                    $html.='<div class="label micro black ABCDiatypeMedium">'.$entry->type->name.'</div>';
                                     foreach($labels as $label){
-                                        $html.='<div class="label micro">'.$label.'</div>';
+                                        $html.='<div class="label micro rounded">'.$label.'</div>';
                                     }
                                 $html.='</div>
                                 <div class="mt-3 huge black ABCDiatypeMedium">'.getEntryTitle($entry).'</div>';
@@ -64,7 +64,7 @@
 
                                 $html.='<div class="big black ABCDiatypeMedium text-start">'.getEntryTitle($entry).'</div>';
 
-                                $html.='<div class="mt-2 mb-3 small black ABCDiatypeMedium text-start">';
+                                $html.='<div class="mt-2 mb-3 medium black ABCDiatypeMedium text-start">';
                                     if($entry->type_id==6){$html.=date('d M Y',strtotime($entry->resource_date));}
                                     else if($entry->type_id==7){$html.=date('d M Y',strtotime($entry->news_date));}
                                 $html.='</div>';
@@ -74,8 +74,8 @@
                                 }else{
                                     $html.='<img src="'.asset('frontend/images/default-image-full.png').'" width="100%" />';
                                 }
-
-                            $html.='</div>';
+                                $html.='<div class="mt-2 micro black text-start">'.$entry->image_caption.'</div>
+                            </div>';
 
                         }
                     $html.='</div>
@@ -84,7 +84,7 @@
             $html.='</div>';
 
             //show at a glance for Supported Project & Grantee. 
-            if($entry->type_id==3 || $entry->type_id==4){
+            if($entry->type_id==3 || $entry->type_id==4 || $entry->type_id==5){
                 $html.='<div class="fullContainer mt-5">
                     <div class="centerContainer">
                         <div class="row">
@@ -118,6 +118,13 @@
                                     foreach($categories as $category){
                                         $html.='<div class="mt-1 medium black ABCDiatypeMedium">'.$category.'</div>';
                                     }
+
+                                    $html.='<div class="mt-5 tiny black ABCDiatypeBlack">Biography</div>';
+                                    $html.='<div class="mt-1 smnall black">'.nl2br($entry->grantee_text, false).'</div>';
+                                }
+                                else if($entry->type_id==5){ //Juror
+                                    $html.='<div class="mt-1 tiny black ABCDiatypeBlack">Biography</div>';
+                                    $html.='<div class="mt-1 smnall black">'.nl2br($entry->jury_text, false).'</div>';
                                 }
                             
                             $html.='</div>
@@ -143,537 +150,149 @@
             return '';
         }
 
+        $html='';
+
         $collection_type_id=$collection->type_id;
-        $calendar_view=$collection->calendar_view;
-        $show_name=$collection->show_name;
-        $show_description=$collection->show_description;
-        $show_view_all=$collection->show_view_all;
-        $view_all_title=$collection->view_all_title;
-        $view_all_link=$collection->view_all_link;
-        $button_text=$collection->button_text;
-        $with_border_bottom=$collection->with_border_bottom;
-        $entries_selection=$collection->entries_selection;
-        $entries_per_row=$collection->entries_per_row;
-        $entries_layout=$collection->entries_layout;
         $with_filters=$collection->with_filters;
-        $with_label=$collection->with_label;
-        $with_featured=$collection->with_featured_image;
-        $all_featured=$collection->all_featured;
-        
-        $featured_image_width=$collection->featured_image_width;
-
-        $featured_width=0;
-        $featured_margin=0;
-        if($featured_image_width==1) //full
-        {
-            $featured_width='100%';
-            $featured_margin='0%';
-        }
-        else if($featured_image_width==2) //three quarter
-        {
-            $featured_width='74.3%';
-            $featured_margin='25.3%';
-        }
-
-        $featured_image_bgColor = $collection->featuredImageBgColor?->code ?? '#ffffff';
-        
-        $title_position='top:15px;';
-        $labels_position='bottom:15px;';
-
-        if($collection->title_position=='1')
-        {
-            $title_position='bottom:15px;';
-            $labels_position='top:15px;';
-        }
-
-        //Get All Entries
-        $entries=[];
-
-        if ($entries_selection == 1) // custom selection
-        {
-            $collectionEntries = CollectionEntries::where('collection_id', $collection_id)
-                    ->with('entry')
-                    ->orderBy('list_order', 'ASC')
-                    ->get();
-            
-            //extract entries from collection
-            if(count($collectionEntries)>0){
-                foreach($collectionEntries as $collectionEntry){
-                    $entries[]=$collectionEntry->entry;
-                }
-            }
-        }
-        else if ($entries_selection == 2) // system selection
-        {
-            $entries_number   = $collection->entries_number;
-            $entries_expired  = $collection->entries_with_expired;
-            $entries_order    = $collection->entries_order;
-
-            $query = Entries::where(['type_id' => $collection_type_id , 'published' => '1']);
-
-            // Filter expired only for events
-            // if ($entries_expired == 1 && $collection_type_id == 1) {
-            //     $query->where('event_date', '>=', date('Y-m-d'));
-            // }
-
-            // When type is project, check program and year
-            if($collection_type_id == 3)
-            {
-                $entries_program_year_id=$collection->entries_program_year_id;
-
-                $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
-                    ->pluck('project_id')
-                    ->toArray();
-
-                $query->whereIn('id', $projectIds);
-            }
-
-            // When type is grantee, check program and year
-            if($collection_type_id == 4)
-            {
-                $entries_program_year_id=$collection->entries_program_year_id;
-
-                //get projects
-                $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
-                    ->pluck('project_id')
-                    ->toArray();
-
-                //get grantees
-                $granteeIds=ProjectGrantees::WHEREIN('project_id',$projectIds)->pluck('grantee_id')
-                    ->toArray();
-
-                $query->whereIn('id', $granteeIds);
-            }
-
-            // When type is juror, check program and year
-            if($collection_type_id == 5)
-            {
-                $entries_program_year_id=$collection->entries_program_year_id;
-
-                $jurorIds = ProgramYearJurors::where('program_year_id', $entries_program_year_id)
-                    ->pluck('juror_id')
-                    ->toArray();
-
-                $query->whereIn('id', $jurorIds);
-            }
-
-            // Ordering 
-            if ($collection_type_id == 1 && $entries_order == 1) //event name asc
-            {
-                $query->orderBy('event_title', 'asc');
-            } 
-            else if ($collection_type_id == 1 && $entries_order == 2)  //event name desc
-            {
-                $query->orderBy('event_title', 'desc');
-            } 
-            else if ($entries_order == 3) //id asc
-            {
-                $query->orderBy('id', 'asc');
-            } 
-            else if ($entries_order == 4) //id desc
-            {
-                $query->orderBy('id', 'desc');
-            }
-
-            // Limit & get results
-            $entries = $query->limit($entries_number)->get();
-        }
-
-        $html="";
+        $entries_selection=$collection->entries_selection;
 
         //Set Filters
         if($with_filters==1){   
-            $html.=setCollectionFilters($collection_type_id,$entries);
-        }
 
-        $bgColor = $collection->bgColor?->code ?? '#ffffff';
-        
-        $sliderCollection = $entries_layout == 2 ? 'sliderCollection' : '';
-        
-        //Show Calendar View
-        if($collection_type_id==1 && $calendar_view==1)
-        {
+            $entries=[];
 
-            $events=[];
-
-            foreach($entries as $entry){
-                $obj=[
-                    'id'=>$entry->id,
-                    'event_date'=>$entry->event_date,
-                ];
-                $events [] = $obj;
-            }  
-
-            $datesEvents = [];
-            $monthCounters = [];
-
-            foreach ($events as $event) {
-                $monthKey = date('Y-m', strtotime($event['event_date']));
-
-                if (!isset($monthCounters[$monthKey])) {
-                    $monthCounters[$monthKey] = 0;
-                }
-
-                if ($monthCounters[$monthKey] < 3) {
-                    $datesEvents[$monthKey][] = $event;
-                    $monthCounters[$monthKey]++;
+            if ($entries_selection == 1) // custom selection
+            {
+                $collectionEntries = CollectionEntries::where('collection_id', $collection_id)
+                        ->with('entry')
+                        ->orderBy('list_order', 'ASC')
+                        ->get();
+                
+                //extract entries from collection
+                if(count($collectionEntries)>0){
+                    foreach($collectionEntries as $collectionEntry){
+                        $entries[]=$collectionEntry->entry;
+                    }
                 }
             }
+            else if ($entries_selection == 2) // system selection
+            {
+                $entries_number   = $collection->entries_number;
+                $entries_expired  = $collection->entries_with_expired;
+                $entries_order    = $collection->entries_order;
 
-            $html.='<div class="collection '.$sliderCollection.'" style="background-color:'.$bgColor.';">';
-                
-                foreach($datesEvents as $date=>$dateEvents){
+                $query = Entries::where(['type_id' => $collection_type_id , 'published' => '1']);
 
-                    $html.='<div class="entries">
-                            
-                        <div class="entry">
-                            <div class="big black ABCDiatypeMedium">'.date('M Y',strtotime($date)).'</div>
-                        </div>';
+                // Filter expired only for events
+                // if ($entries_expired == 1 && $collection_type_id == 1) {
+                //     $query->where('event_start_date', '>=', date('Y-m-d'));
+                // }
 
-                        foreach($dateEvents as $event){
-
-                            $image_path = asset('frontend/images/default-image.png');
-                            if (!empty($entry->image)) {
-                                $image_path = asset('storage/' . $entry->image);
-                            }
-
-                            //get entry details
-                            $entryDetails=getEntryDetails($collection_type_id,$entry);
-                            $entry_title=$entryDetails["entry_title"];
-                            $entry_text=$entryDetails["entry_text"];
-                            $entry_href=$entryDetails["entry_href"];
-                            $entry_target=$entryDetails["entry_target"];
-
-                            $html.='<div class="swiper-slide entry">';
-
-                                $labels=getEntryLabels($entry);
-
-                                $html .= view('frontend.entry-hover-animation', [
-                                    'collection_type_id'=>$collection_type_id,
-                                    'entry_href'=>$entry_href,
-                                    'entry_target'=>$entry_target,
-                                    'image_path'=>$image_path,
-                                    'entry_title' => $entry_title,
-                                    'entry_text' => $entry_text,
-                                    'title_position'=>$title_position,
-                                    'with_label' => $with_label,
-                                    'labels_position'=>$labels_position,
-                                    'entry_type_name' => $entry->type->name,
-                                    'collection_type_id' => $collection_type_id,
-                                    'labels' => $labels,
-                                    'button_text'=>$button_text,
-                                    'featured'=>'0',
-                                ])->render();
-                                                                    
-                            $html .='</div>';
-
-                        }
-                            
-                        $html.='<div class="clear"></div>';
-
-                    $html.='</div>';
-
-                }
-
-            $html.='</div>';
-            
-        }
-        else
-        {
-
-            $html.='<div class="collection '.$sliderCollection.'" style="background-color:'.$bgColor.';">';
-
-                if( ($show_name==1 || $show_description==1) && $featured_width!='74.3%' ){
-                    $html.='<div class="titleDescription">';
-                        if($show_name==1){
-                            $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
-                        }
-                        if($show_description==1){
-                            $html.='<div class="topSpacerSmall black tiny ABCDiatypeMedium">'.$collection->description.'</div>';
-                        }
-                    $html.='</div>';
-                }
-
-                if( $with_featured==0 && $show_view_all==1 && $featured_width!='74.3%'){
-                    $html.='<div class="viewAll">
-                        <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:5px;"></a>
-                    </div>';
-                }
-
-                $html.='<div class="clear"></div>';
-
-
-                if(count($entries)>0)
+                // When type is project, check program and year
+                if($collection_type_id == 3 && $collection->entries_program_year_id!=null)
                 {
+                    $entries_program_year_id=$collection->entries_program_year_id;
 
-                    //show featured entry on top
-                    if($with_featured==1) 
-                    { 
+                    $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
+                        ->pluck('project_id')
+                        ->toArray();
 
-                        foreach($entries as $key=>$entry){
-                            
-                            $image_path = asset('frontend/images/default-image-featured.png');
-                            if (!empty($entry->image)) {
-                                $image_path = asset('storage/' . $entry->image_featured);
-                            }
-
-                            //get entry details
-                            $entryDetails=getEntryDetails($collection_type_id,$entry);
-                            $entry_title=$entryDetails["entry_title"];
-                            $entry_text=$entryDetails["entry_text"];
-                            $entry_href=$entryDetails["entry_href"];
-                            $entry_target=$entryDetails["entry_target"];
-
-                            //desktop view
-                            $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
-                                <div class="desktopOnly">';
-                                    if( ($show_name==1 || $show_view_all==1) && $featured_width=='74.3%' && $key==0){
-                                        $html.='<div class="featured_title_view_all">';
-                                            if($show_name==1){
-                                                $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
-                                            }
-                                            if($show_view_all==1){
-                                                $html.='<div class="topSpacerSmaller">
-                                                    <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:5px;"></a>
-                                                </div>';
-                                            }
-                                        $html.='</div>';
-                                    }
-                                    $html.='<div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">';
-                                        $html.='<div class="featured_info">
-                                            <div class="title_or_labels" style="'.$title_position.'">
-                                                <div class="medium white ABCDiatypeMedium">'.$entry_title.'</div>
-                                                <div class="topSpacerSmall tiny white threeQuartersText">'.mb_substr($entry_text,0,350).'...</div>';
-                                            $html.='</div>';
-
-                                            if($with_label==1)
-                                            {
-                                                $labels=getEntryLabels($entry);
-                                                $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">
-                                                    <div class="label micro ABCDiatypeMedium">'.$entry->type->name.'</div>
-                                                    <div class="label micro rounded ABCDiatypeMedium">'.@$labels[0].'</div>
-                                                    <div class="label micro rounded ABCDiatypeMedium">'.@$labels[1].' - '.@$labels[2].'</div>
-                                                    <div class="clear">&nbsp;</div>
-                                                </div>';
-                                            }
-                                        $html.='</div>
-                                        <div class="featured_image">';
-                                            $html .= view('frontend.entry-hover-animation', [
-                                                'collection_type_id'=>$collection_type_id,
-                                                'entry_text'=>$entry_text,
-                                                'image_path'=>$image_path,
-                                                'entry_href'=>$entry_href,
-                                                'entry_target'=>$entry_target,
-                                                'button_text'=>$button_text,
-                                                'featured'=>'1',
-                                                ])->render();
-                                        $html.='</div>
-                                    </div>
-                                </div>
-                            </a>';
-                            
-                            //mobile view
-                            $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
-                                <div class="entries mobileOnly">';
-                                    if( ($show_name==1 || $show_view_all==1) && $featured_width=='74.3%' && $key==0){
-                                        if($show_name==1){
-                                            $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
-                                        }
-                                        if($show_view_all==1){
-                                            $html.='<div class="topSpacerSmaller">
-                                                <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:5px;"></a>
-                                            </div>';
-                                        }
-                                    }
-                                    $html.='<div class="featured_entry_mobile" style="background:'.$featured_image_bgColor.';">
-                                        <img src="'.$image_path.'" width="100%" />
-                                        <div class="description">
-                                            <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entry_title.'</div>';
-                                            if($with_label==1)
-                                            {
-                                                $html.='<div class="title_or_labels" style="'.$labels_position.'">
-                                                    <div class="label micro black ABCDiatypeMedium">'.$entries[0]->type->name.'</div>';
-                                                    $labels=getEntryLabels($entry);
-                                                    $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">
-                                                        <div class="label micro ABCDiatypeMedium">'.$entry->type->name.'</div>
-                                                        <div class="label micro rounded ABCDiatypeMedium">'.@$labels[0].'</div>
-                                                        <div class="label micro rounded ABCDiatypeMedium">'.@$labels[1].' - '.@$labels[2].'</div>
-                                                        <div class="clear">&nbsp;</div>
-                                                    </div>
-                                                </div>';
-                                            }
-                                        $html.='</div>
-                                    </div>
-                                </div>
-                            </a>';
-
-                            if($all_featured==0)
-                            {
-                                break; 
-                            }  
-                        }
-                                            
-                    }
-
-                    if($all_featured==0 || $all_featured==null)
-                    { 
-
-                        $html.='<div class="entries">';
-                            
-                            $entries_count=0;
-
-                            if($entries_layout==1 && $entries_per_row==4){
-                                $html.='
-                                <style>
-                                    @media(min-width:900px){
-                                        .collection .entries > .entry:nth-child(4n of .entry){
-                                            margin-right:0 !important;
-                                        }
-                                    }
-                                </style>';
-                            }
-
-                            //Open slider
-                            if($entries_layout==2) 
-                            {
-
-                                $html.='<style>
-                                    .sliderCollection .entries .entry:nth-child(4n){
-                                        margin-right:1.2% !important;
-                                    }
-                                </style>';
-
-                                $html.='<div class="swiper" id="swiper'.$collection_id.'" style="width:102.5%; padding-bottom:15px;">
-                                    <div class="swiper-wrapper">';
-                            }
-
-                            //Fetch all entries
-                            foreach($entries as $key=>$entry)
-                            {
-
-                                if ($with_featured==1 && $key ==0) {
-                                    continue; // skip first
-                                }
-
-                                $image_path = asset('frontend/images/default-image.png');
-                                if (!empty($entry->image)) {
-                                    $image_path = asset('storage/' . $entry->image);
-                                }
-
-                                //get entry details
-                                $entryDetails=getEntryDetails($collection_type_id,$entry);
-                                $entry_title=$entryDetails["entry_title"];
-                                $entry_text=$entryDetails["entry_text"];
-                                $entry_href=$entryDetails["entry_href"];
-                                $entry_target=$entryDetails["entry_target"];
-
-                                $html.='<div class="swiper-slide entry">';
-
-                                    $labels=getEntryLabels($entry);
-
-                                    $html .= view('frontend.entry-hover-animation', [
-                                        'collection_type_id'=>$collection_type_id,
-                                        'entry_href'=>$entry_href,
-                                        'entry_target'=>$entry_target,
-                                        'image_path'=>$image_path,
-                                        'entry_title' => $entry_title,
-                                        'entry_text' => $entry_text,
-                                        'title_position'=>$title_position,
-                                        'with_label' => $with_label,
-                                        'labels_position'=>$labels_position,
-                                        'entry_type_name' => $entry->type->name,
-                                        'collection_type_id' => $collection_type_id,
-                                        'labels' => $labels,
-                                        'button_text'=>$button_text,
-                                        'featured'=>'0',
-                                        'event_category_name'=>$entry->eventCategory?->name,
-                                        'event_date'=>$entry->event_date,
-                                        'program_start_date'=>$entry->program_start_date,
-                                        'program_end_date'=>$entry->program_end_date,
-                                        'project_categories'=>$entry->projectCategoriesName(json_decode($entry->project_categories_id ?? '[]', true) ?? []),
-                                        'project_countries'=>$entry->projectCountries(json_decode($entry->project_countries_id ?? '[]', true) ?? []),
-                                        'grantee_categories'=>$entry->granteeCategories(json_decode($entry->grantee_categories_id ?? '[]', true) ?? []),
-                                        'grantee_country'=>$entry->granteeCountry?->name,
-                                        'jury_country_id'=>$entry->jury_country_id,
-                                        'resource_date'=>$entry->resource_date,
-                                        'news_date'=>$entry->news_date,
-                                    ])->render();
-                                                                        
-                                $html .='</div>';
-
-                                //check entries per row
-                                $entries_count++;
-
-                                if($entries_layout==1 && $entries_count % $entries_per_row==0){
-                                    $html.='<div class="clear">&nbsp;</div>';
-                                }
-
-                            }
-
-                            $html.='<div class="clear"></div>';
-                            
-                            //Close Slider
-                            if($entries_layout==2) 
-                            {
-                                    $html.='</div>                             
-                                </div>
-
-                                <!-- Navigation buttons --> 
-                                <div class="mt-4">
-                                    <div class="swiper-button-prev"></div>
-                                    <div class="swiper-button-next"></div>
-                                </div>';
-                            }
-
-                        $html.='</div>';
-                    }
-
+                    $query->whereIn('id', $projectIds);
                 }
 
-                $html.='<div class="mt-1 filterEmptyResult small black ABCDiatypeMedium text-start d-none">No results to display for your selected filters </div>
-            
-            </div>';
+                // When type is grantee, check program and year
+                if($collection_type_id == 4 && $collection->entries_program_year_id!=null)
+                {
+                    $entries_program_year_id=$collection->entries_program_year_id;
 
-            //add swiper JS 
-            $html.='<script> 
-                if($("#swiper'.$collection_id.'").length>0){
-                    const swiper'.$collection_id.' = new Swiper("#swiper'.$collection_id.'", {
-                        //loop: true,
-                        grid: {
-                            rows: 1           
-                        },
-                        navigation: {
-                            nextEl: ".swiper-button-next",
-                            prevEl: ".swiper-button-prev",
-                        },
-                        /*autoplay: {
-                            delay: 2500,
-                            disableOnInteraction: false,
-                        },*/
-                        effect: "slide",
-                        speed: 800,
-                        breakpoints: {
-                            // when window width is >= 320px
-                            576: {
-                                slidesPerView: 0.85,
-                                spaceBetween: 0
-                            },
-                            // when window width is >= 992px
-                            900: {
-                                slidesPerView: 4.12,
-                                spaceBetween: 20
-                            },
-                        }
-                    });
+                    //get projects
+                    $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
+                        ->pluck('project_id')
+                        ->toArray();
+
+                    //get grantees
+                    $granteeIds=ProjectGrantees::WHEREIN('project_id',$projectIds)->pluck('grantee_id')
+                        ->toArray();
+
+                    $query->whereIn('id', $granteeIds);
                 }
-            </script>';
-        }
-    
-        //Check shadow bottom
-        if($with_border_bottom == 1){
-            $html.='<div class="collectionWithBorder"></div>';
+
+                // When type is juror, check program and year
+                if($collection_type_id == 5 && $collection->entries_program_year_id!=null)
+                {
+                    $entries_program_year_id=$collection->entries_program_year_id;
+
+                    $jurorIds = ProgramYearJurors::where('program_year_id', $entries_program_year_id)
+                        ->pluck('juror_id')
+                        ->toArray();
+
+                    $query->whereIn('id', $jurorIds);
+                }
+
+                // Ordering 
+                if ($collection_type_id == 1 && $entries_order == 1) //event name asc
+                {
+                    $query->orderBy('event_title', 'asc');
+                } 
+                else if ($collection_type_id == 1 && $entries_order == 2)  //event name desc
+                {
+                    $query->orderBy('event_title', 'desc');
+                } 
+                else if ($entries_order == 3) //id asc
+                {
+                    $query->orderBy('id', 'asc');
+                } 
+                else if ($entries_order == 4) //id desc
+                {
+                    $query->orderBy('id', 'desc');
+                }
+
+                // Limit & get results
+                $entries = $query->limit($entries_number)->get();
+            }
+
+            $html.=setCollectionFilters($collection_id,$collection_type_id,$entries);
+            if (!blank($collection->background_color_id)){$html.='<div class="mt-4"></div>';}
         }
 
+
+        $html.='<div id="collectionEntries-'.$collection_id.'"></div>';
+        $html.='<div class="mt-5 text-center d-none" id="loader"><div class="loader"></div></div>';
+
+        $html.='<script>
+
+            function getEntries(filters=""){
+                let collection_id= '.$collection_id.'; 
+                $("#collectionEntries-'.$collection_id.'").empty();
+                $("#loader").removeClass("d-none");
+                $.ajax({
+                    url: "' . route('get.entries') . '",
+                    method: "POST",
+                    data: {
+                        collection_id: collection_id,
+                        filters: filters,
+                        
+                    },
+                    success: function(response) {
+                        $("#loader").addClass("d-none");
+                        $("#collectionEntries-'.$collection_id.'").html(response);
+                    },
+                    error: function(xhr) {
+                        if(xhr.responseJSON && xhr.responseJSON.errors){
+                            alert(JSON.stringify(xhr.responseJSON.errors));
+                        }
+                    }
+                });
+            }
+
+            $(document).ready(function(){ 
+
+                getEntries();
+                
+            });
+
+        </script>';
+        
         return $html;
 
     }   
@@ -1243,7 +862,7 @@
 
             $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
-            $htmlColumn.='<div class="row '.$textAlign.'">';
+            $htmlColumn.='<div class="row '.$textAlign.'" id="expandingTextContainer">';
 
                 if($column->width == 1){
                 $htmlColumn.='<div class="col-lg-12 col-12">';
@@ -1268,12 +887,10 @@
         //add script
         $htmlColumn.='<script>
 
-            $(document).on("click", ".expandingText", function () {
+            $(document).on("click", "#expandingTextContainer", function () {
 
-                // find the first hidden expandingText AFTER the clicked one
                 const nextHidden = $(this)
-                    .closest(".expandingText")
-                    .nextAll(".expandingText.hiddenText:first");
+                    .find(".expandingText.hiddenText:first");
 
                 if (nextHidden.length) {
                     nextHidden
@@ -1281,6 +898,7 @@
                         .hide()
                         .slideDown(300);
                 }
+
             });
         </script>';
 
@@ -1330,19 +948,58 @@
     {
         $labels=[];
         if($entry->type_id==1){
-            $labels[]=date('d M',strtotime($entry->event_date));
-            $labels[]=date('h:i',strtotime($entry->event_start_time));
-            $labels[]=date('h:i',strtotime($entry->event_to_time));
+
+            $labels[]=$entry->eventCategory?->name;
+            $labels[]=date('d M',strtotime($entry->event_start_date));
+
+            // if($entry->event_end_date!=null){
+            //     $labels[]=date('d M',strtotime($entry->event_end_date));
+            // }
+
+            if($entry->event_start_time!=null){
+                $from_to_time=date('h:i',strtotime($entry->event_start_time));
+                if($entry->event_end_time!=null){
+                    $from_to_time.=" - ".date('h:i A',strtotime($entry->event_end_time));
+                }
+                $labels[]=$from_to_time;
+            }
+            
         }
         else if($entry->type_id==2){
-            $labels[]=date('d M',strtotime($entry->program_start_date));
-            $labels[]=date('d M',strtotime($entry->program_end_date));
+            $current = time();
+
+            $start_timestamp = strtotime($entry->program_start_date);
+            $end_timestamp   = strtotime($entry->program_end_date);
+
+            if ($end_timestamp < $current) {
+                $labels[] = "Closed";
+            }
+            else {
+
+                $daysLeft = floor(($end_timestamp - $current) / 86400);
+
+                //only show when program already started
+                if ($current >= $start_timestamp && $daysLeft > 0) {
+                    $labels[] = "Open";
+                    $labels[] = "Days left: " . $daysLeft;
+                }
+                else{
+                    $labels[] = "Opens " . date('d M', $start_timestamp);
+                    $labels[] = "Closes " . date('d M', $end_timestamp);
+                }
+            }
         }
         else if($entry->type_id==3){
 
-            $categories=$entry->projectCategories(json_decode($entry->project_categories_id, true) ?? []);
-            foreach($categories as $category){
-                $labels[]=$category;
+            // $categories=$entry->projectCategories(json_decode($entry->project_categories_id, true) ?? []);
+            // foreach($categories as $category){
+            //     $labels[]=$category;
+            // }
+            
+            if($entry->project_program_year_id!=null){
+                $labels[]=$entry->projectProgram($entry->project_program_year_id);
+
+                $labels[]=$entry->projectProgramYear($entry->project_program_year_id);
             }
 
             $countries=$entry->projectCountries(json_decode($entry->project_countries_id, true) ?? []);
@@ -1362,10 +1019,15 @@
             $labels[]=$entry->juryCountry?->name;
         }
         else if($entry->type_id==6){
-            $labels[]=date('d M',strtotime($entry->resource_date));
+            $labels[]=$entry->resourceCategory?->name;
+            $labels[]=date('d M Y',strtotime($entry->resource_date));
+            $tags=explode(",",$entry->resource_tags);
+            foreach($tags as $tag){
+                if($tag){$labels[]=$tag;}
+            }
         }
         else if($entry->type_id==7){
-            $labels[]=date('d M',strtotime($entry->news_date));
+            $labels[]=date('d M Y',strtotime($entry->news_date));
         }
         else if($entry->type_id==8){
             $labels[]=$entry->externalCategory?->name;
@@ -1376,7 +1038,7 @@
     }
 
 
-    function setCollectionFilters($collection_type_id,$entries)
+    function setCollectionFilters($collection_id,$collection_type_id,$entries)
     {
 
         $html='';
@@ -1385,9 +1047,15 @@
         {
             //Get categories
             $event_categories=[];
-            foreach($entries as $entry){
-                if(!in_array($entry->eventCategory?->name,$event_categories)){
-                    $event_categories[] = $entry->eventCategory?->name;
+            foreach ($entries as $entry) {
+                if ($entry->eventCategory) {
+                    // Check if this category ID already exists
+                    if (!in_array($entry->eventCategory->id, array_column($event_categories, 'id'))) {
+                        $event_categories[] = [
+                            'id'   => $entry->eventCategory->id,
+                            'name' => $entry->eventCategory->name,
+                        ];
+                    }
                 }
             }
 
@@ -1396,7 +1064,7 @@
                     <select class="filterDpd filter_event_category">
                         <option value="">Select type</option>';
                         foreach($event_categories as $event_category){
-                            $html.='<option '.$event_category.'>'.$event_category.'</option>';
+                            $html.='<option value="'.$event_category["id"].'">'.$event_category["name"].'</option>';
                         }
                     $html.='</select>
                 </div>
@@ -1406,6 +1074,9 @@
                 <div class="filter">
                     <input type="date" name="to_date" class="filter_event_to_date"  placeholder="To Date" />
                 </div>
+                <div class="filter">
+                    <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
+                </div>
                 <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
             </div>';
@@ -1413,58 +1084,19 @@
             $html.="<script>
                 $(document).ready(function(){
                     
-                    $('.filter_event_category, .filter_event_from_date, .filter_event_to_date').change(function () {
-
-                        var allCards=0;
-                        var hiddenCards=0;
+                    $('#filter-collection-".$collection_id."').click(function () {
+                        var parent=$(this).parent().parent();
+                        var event_category=$(parent).find('.filter_event_category').val();
+                        var event_from_date=$(parent).find('.filter_event_from_date').val();
+                        var event_to_date=$(parent).find('.filter_event_to_date').val();
                         
-                        var event_category_name = $.trim($('.filter_event_category').val());
-                        var event_from_date = new Date($('.filter_event_from_date').val());
-                        var event_to_date = new Date($('.filter_event_to_date').val());
+                        var filters = {
+                            event_category: event_category,
+                            event_from_date: event_from_date,
+                            event_to_date: event_to_date
+                        };
 
-                        // Normalize time
-                        event_from_date.setHours(0, 0, 0, 0);
-                        event_to_date.setHours(0, 0, 0, 0);
-
-                        $(this).parent().parent().parent().find('.entry_card[featured!=1]').each(function () {
-
-                            var entry_category_name = $.trim($(this).attr('event_category_name'));
-                            var entry_date = new Date($.trim($(this).attr('event_date')));
-                            entry_date.setHours(0, 0, 0, 0);
-
-                            // Category match
-                            var match_category = (entry_category_name === event_category_name || event_category_name === '');
-
-                            // Date match
-                            var is_from_date_set = !isNaN(event_from_date.getTime());
-                            var is_to_date_set = !isNaN(event_to_date.getTime());
-
-                            var match_date = true;
-
-                            if (is_from_date_set && is_to_date_set) {
-                                match_date = (entry_date >= event_from_date && entry_date <= event_to_date);
-                            } else if (is_from_date_set) {
-                                match_date = entry_date.getTime() === event_from_date.getTime();
-                            } else if (is_to_date_set) {
-                                match_date = entry_date.getTime() === event_to_date.getTime();
-                            }
-
-                            if (match_category && match_date) {
-                                $(this).parent().removeClass('d-none');
-                            } else {
-                                $(this).parent().addClass('d-none');
-                                hiddenCards++;
-                            }
-
-                            allCards++;
-                        });
-
-                        if(allCards==hiddenCards){
-                            $(this).parent().parent().parent().find('.filterEmptyResult').removeClass('d-none');
-                        }
-                        else{
-                            $(this).parent().parent().parent().find('.filterEmptyResult').addClass('d-none');
-                        }
+                        getEntries(filters);
                     });
 
                 });
@@ -1479,69 +1111,32 @@
                 <div class="filter">
                     <input type="date" name="end_date" class="filter_program_end_date"  placeholder="End Date" />
                 </div>
+                <div class="filter">
+                    <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
+                </div>
                 <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
             </div>';
 
             $html.="<script>
                 $(document).ready(function(){
-
-                    $('.filter_program_start_date, .filter_program_end_date').change(function () {
-
-                        var allCards=0;
-                        var hiddenCards=0;
-
-                        var program_start_date = new Date($('.filter_program_start_date').val());
-                        var program_end_date = new Date($('.filter_program_end_date').val());
-
-                        // Normalize time
-                        program_start_date.setHours(0, 0, 0, 0);
-                        program_end_date.setHours(0, 0, 0, 0);
-
-                        $(this).parent().parent().parent().find('.entry_card[featured!='1]').each(function () {
-
-                            var entry_start_date = new Date($.trim($(this).attr('program_start_date')));
-                            entry_start_date.setHours(0, 0, 0, 0);
-
-                            var entry_end_date = new Date($.trim($(this).attr('program_end_date')));
-                            entry_end_date.setHours(0, 0, 0, 0);
-
-                            // Date match
-                            var is_from_date_set = !isNaN(program_start_date.getTime());
-                            var is_to_date_set = !isNaN(program_end_date.getTime());
-
-                            var match_date = true;
-
-                            if (is_from_date_set && is_to_date_set) {
-                                match_date = (entry_start_date >= program_start_date && entry_end_date <= program_end_date);
-                            } else if (is_from_date_set) {
-                                match_date = entry_start_date.getTime() >= program_start_date.getTime();
-                            } else if (is_to_date_set) {
-                                match_date = entry_end_date.getTime() <= program_end_date.getTime();
-                            }
-
-                            if (match_date) {
-                                $(this).parent().removeClass('d-none');
-                            } else {
-                                $(this).parent().addClass('d-none');
-                                hiddenCards++;
-                            }
-
-                            allCards++;
-
-                        });
+                    
+                    $('#filter-collection-".$collection_id."').click(function () {
+                        var parent=$(this).parent().parent();
+                        var program_start_date=$(parent).find('.filter_program_start_date').val();
+                        var program_end_date=$(parent).find('.filter_program_end_date').val();
                         
-                        if(allCards==hiddenCards){
-                            $(this).parent().parent().parent().find('.filterEmptyResult').removeClass('d-none');
-                        }
-                        else{
-                            $(this).parent().parent().parent().find('.filterEmptyResult').addClass('d-none');
-                        }
+                        var filters = {
+                            program_start_date: program_start_date,
+                            program_end_date: program_end_date,
+                        };
 
+                        getEntries(filters);
                     });
 
                 });
             </script>";
+
         }
         else if($collection_type_id==3) // Projects
         {
@@ -1707,19 +1302,156 @@
                 <div class="clear"></div>
             </div>';
         }
-        else if($collection_type_id==6 || $collection_type_id==7) //Resources & News
+        else if($collection_type_id==6) //Resources
         {
 
+            //Get categories 
+            $resource_categories=[];
+            foreach ($entries as $entry) {
+                if ($entry->resourceCategory) {
+                    // Check if this category ID already exists
+                    if (!in_array($entry->resourceCategory->id, array_column($resource_categories, 'id'))) {
+                        $resource_categories[] = [
+                            'id'   => $entry->resourceCategory->id,
+                            'name' => $entry->resourceCategory->name,
+                        ];
+                    }
+                }
+            }
+
             $html.='<div class="filters" style="">
+                <div class="filter">
+                    <select class="filterDpd filter_resource_category">
+                        <option value="">Select category</option>';
+                        foreach($resource_categories as $category){
+                            $html.='<option value="'.$category["id"].'">'.$category["name"].'</option>';
+                        }
+                    $html.='</select>
+                </div>
                 <div class="filter">
                     <input type="date" name="from_date" class="filter_resource_from_date"  placeholder="From Date" />
                 </div>
                 <div class="filter">
-                    <input type="date" name="from_date" class="filter_resource_from_date"  placeholder="To Date" />
+                    <input type="date" name="to_date" class="filter_resource_to_date"  placeholder="To Date" />
+                </div>
+                <div class="filter">
+                    <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
                 </div>
                 <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
             </div>';
+            
+            $html.="<script>
+                $(document).ready(function(){
+                    
+                    $('#filter-collection-".$collection_id."').click(function () {
+                        var parent=$(this).parent().parent();
+                        var resource_category=$(parent).find('.filter_resource_category').val();
+                        var resource_from_date=$(parent).find('.filter_resource_from_date').val();
+                        var resource_to_date=$(parent).find('.filter_resource_to_date').val();
+                        var filters = {
+                            resource_category: resource_category,
+                            resource_from_date: resource_from_date,
+                            resource_to_date: resource_to_date,
+                        };
+
+                        getEntries(filters);
+                    });
+
+                });
+            </script>";
+            
+        }
+        else if($collection_type_id==7) //News
+        {
+
+            $html.='<div class="filters" style="">
+                <div class="filter">
+                    <input type="text" name="tags" class="filter_news_tags"  placeholder="Tags" />
+                </div>
+                <div class="filter">
+                    <input type="date" name="from_date" class="filter_news_from_date"  placeholder="From Date" />
+                </div>
+                <div class="filter">
+                    <input type="date" name="to_date" class="filter_news_to_date"  placeholder="To Date" />
+                </div>
+                <div class="filter">
+                    <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
+                </div>
+                <div class="sort">SORT DPD</div>
+                <div class="clear"></div>
+            </div>';
+
+            $html.="<script>
+                $(document).ready(function(){
+                    
+                    $('#filter-collection-".$collection_id."').click(function () {
+                        var parent=$(this).parent().parent();
+                        var news_tags=$(parent).find('.filter_news_tags').val();
+                        var news_from_date=$(parent).find('.filter_news_from_date').val();
+                        var news_to_date=$(parent).find('.filter_news_to_date').val();
+                        
+                        var filters = {
+                            news_tags: news_tags,
+                            news_from_date: news_from_date,
+                            news_to_date: news_to_date,
+                        };
+
+                        getEntries(filters);
+                    });
+
+                });
+            </script>";
+        }
+        else if($collection_type_id==8) //Externals
+        {
+
+            //Get categories 
+            $external_categories=[];
+            foreach ($entries as $entry) {
+                if ($entry->externalCategory) {
+                    // Check if this category ID already exists
+                    if (!in_array($entry->externalCategory->id, array_column($external_categories, 'id'))) {
+                        $external_categories[] = [
+                            'id'   => $entry->externalCategory->id,
+                            'name' => $entry->externalCategory->name,
+                        ];
+                    }
+                }
+            }
+
+            $html.='<div class="filters" style="">
+                <div class="filter">
+                    <select class="filterDpd filter_external_category">
+                        <option value="">Select category</option>';
+                        foreach($external_categories as $category){
+                            $html.='<option value="'.$category["id"].'">'.$category["name"].'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="filter">
+                    <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
+                </div>
+                <div class="sort">SORT DPD</div>
+                <div class="clear"></div>
+            </div>';
+            
+            $html.="<script>
+                $(document).ready(function(){
+                    
+                    $('#filter-collection-".$collection_id."').click(function () {
+                        var parent=$(this).parent().parent();
+                        var external_category=$(parent).find('.filter_external_category').val();
+                        var filters = {
+                            external_category: external_category,
+                        };
+
+                        getEntries(filters);
+                    });
+
+                });
+            </script>";
+            
         }
 
         return $html;
@@ -1881,4 +1613,5 @@
     }
     
 
+    
 ?>

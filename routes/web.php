@@ -41,6 +41,12 @@ use App\Livewire\Projects\ProjectCategoryView;
 
 use App\Livewire\Grantees\GranteeCategoryView;
 
+use App\Livewire\Resources\ResourceCategoryView;
+
+use App\Livewire\News\NewsCategoryView;
+
+use App\Livewire\Externals\ExternalCategoryView;
+
 use App\Livewire\Entries\EntryView;
 use App\Livewire\Entries\EntryForm;
 
@@ -70,6 +76,8 @@ Route::get('/view/collection/{id}', [HomeController::class, 'ViewCollection'])->
 Route::get('/view/section/{id}', [HomeController::class, 'ViewSection'])->name('view.section'); 
 
 Route::get('/view/logo', [HomeController::class, 'viewLogo'])->name('view.logo'); 
+
+Route::post('/get/entries/', [HomeController::class, 'getEntries'])->name('get.entries');
 
 Route::get('/get/forms', [FormStackController::class, 'getForms'])->name('get.forms'); 
 
@@ -207,6 +215,39 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/create', GranteeCategoryView::class)->name('grantee.categories.create');
         Route::get('/edit/{id}', GranteeCategoryView::class)->name('grantee.categories.edit');
         Route::get('/view/{id}/{status}', GranteeCategoryView::class)->name('grantee.categories.view');
+    });
+
+    // |--------------------------------------------------------------------------
+    // |Resource Categories
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'resourceCategories'], function () {
+        Route::get('/', ResourceCategoryView::class)->name('resource.categories');
+        Route::get('/create', ResourceCategoryView::class)->name('resource.categories.create');
+        Route::get('/edit/{id}', ResourceCategoryView::class)->name('resource.categories.edit');
+        Route::get('/view/{id}/{status}', ResourceCategoryView::class)->name('resource.categories.view');
+    });
+
+    // |--------------------------------------------------------------------------
+    // |News Categories
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'newsCategories'], function () {
+        Route::get('/', NewsCategoryView::class)->name('news.categories');
+        Route::get('/create', NewsCategoryView::class)->name('news.categories.create');
+        Route::get('/edit/{id}', NewsCategoryView::class)->name('news.categories.edit');
+        Route::get('/view/{id}/{status}', NewsCategoryView::class)->name('news.categories.view');
+    });
+
+    // |--------------------------------------------------------------------------
+    // |External Categories
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'externalCategories'], function () {
+        Route::get('/', ExternalCategoryView::class)->name('external.categories');
+        Route::get('/create', ExternalCategoryView::class)->name('external.categories.create');
+        Route::get('/edit/{id}', ExternalCategoryView::class)->name('external.categories.edit');
+        Route::get('/view/{id}/{status}', ExternalCategoryView::class)->name('external.categories.view');
     });
 
 

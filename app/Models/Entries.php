@@ -96,6 +96,20 @@ class Entries extends Model
         return $grantees;
     }
 
+    public function projectProgram($id)
+    {
+        $projectProgram=ProgramYearProjects::find($id);
+
+        return $projectProgram?->programYear?->program->program_title;
+    }
+
+    public function projectProgramYear($id)
+    {
+        $projectProgramYear=ProgramYearProjects::find($id);
+
+        return $projectProgramYear?->programYear?->year;
+    }
+
 
     public function granteeCategories(array $ids)
     {
@@ -113,6 +127,11 @@ class Entries extends Model
     public function juryCountry()
     {
         return $this->hasOne(Countries::class, 'id', 'jury_country_id');
+    }
+
+    public function resourceCategory()
+    {
+        return $this->hasOne(ResourceCategories::class, 'id', 'resource_category_id');
     }
     
     public function externalCategory()

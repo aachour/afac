@@ -38,8 +38,8 @@ class NewsSeeder extends Seeder
                 'type_id'=>'7',
                 'news_title' => $news[0],
                 'news_title_arabic' => $news[1] , 
-                'news_text' => trim(str_replace("\\r\\n", "",$news[2])),
-                'news_text_arabic' => trim(str_replace("\\r\\n", "",$news[3])), 
+                //'news_text' => trim(str_replace("\\r\\n", "",$news[2])),
+                //'news_text_arabic' => trim(str_replace("\\r\\n", "",$news[3])), 
                 'news_date' => date('y-m-d',strtotime($news[4])) , 
                 'published'=>'1'
             ]);
