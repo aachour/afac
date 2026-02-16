@@ -1059,6 +1059,19 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
+                                    <label class="form-label" for="external_date">Date <span class="text-danger">*</span></label>
+                                    <input
+                                        wire:model="external_date"
+                                        type="date"
+                                        id="external_date"
+                                        class="form-control"
+                                        placeholder="Date" />
+                                    @error('external_date') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+
+                                <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="external_link">Link <span class="text-danger">*</span></label>
                                     <input
                                         wire:model="external_link"

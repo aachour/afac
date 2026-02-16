@@ -371,11 +371,23 @@ class HomeController extends Controller
             if($collection_type_id==8 && $filters!=''){
                 
                 $external_category=@$filters["external_category"]; 
+                $external_from_date=@$filters["external_from_date"];
+                $external_to_date=@$filters["external_to_date"]; 
 
                 if (!empty($external_category)) {
                     $query->where('external_category_id', $external_category);
                 }
-                
+
+                if ($external_from_date != '' && $external_to_date != '') {
+                    $query->where('external_date', '>=', $external_from_date)
+                        ->where('external_date', '<=', $external_to_date);
+                }
+                else if ($external_from_date != '' && $external_to_date == '') {
+                    $query->where('external_date', '=', $external_from_date);
+                }
+                else if ($external_from_date == '' && $external_to_date != '') {
+                    $query->where('external_date', '=', $external_to_date);
+                }
             }
 
             
