@@ -1031,6 +1031,7 @@
         }
         else if($entry->type_id==8){
             $labels[]=$entry->externalCategory?->name;
+            $labels[]=date('d M Y',strtotime($entry->external_date));
         }
 
         
@@ -1430,6 +1431,12 @@
                     $html.='</select>
                 </div>
                 <div class="filter">
+                    <input type="date" name="from_date" class="filter_external_from_date"  placeholder="From Date" />
+                </div>
+                <div class="filter">
+                    <input type="date" name="to_date" class="filter_external_to_date"  placeholder="To Date" />
+                </div>
+                <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
                 </div>
                 <div class="sort">SORT DPD</div>
@@ -1442,8 +1449,13 @@
                     $('#filter-collection-".$collection_id."').click(function () {
                         var parent=$(this).parent().parent();
                         var external_category=$(parent).find('.filter_external_category').val();
+                        var external_from_date=$(parent).find('.filter_external_from_date').val();
+                        var external_to_date=$(parent).find('.filter_external_to_date').val();
                         var filters = {
                             external_category: external_category,
+                            external_from_date: external_from_date,
+                            external_to_date: external_to_date,
+                            
                         };
 
                         getEntries(filters);
