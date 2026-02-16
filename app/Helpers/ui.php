@@ -1279,29 +1279,102 @@
         }
         else if($collection_type_id==5) // Jurors
         {
-            //Get categories and countries
+            //Get Countries
             $juror_countries=[];
-            
+            $juror_ids=[];
             foreach($entries as $entry){
 
-                if(!in_array($entry->juryCountry?->name,$juror_countries)){
-                    $juror_countries[]=$entry->juryCountry?->name;
+                $countryId = $entry->juryCountry?->id;
+                if ($countryId && !in_array($countryId, array_column($juror_countries, 'id'))) {
+                    $juror_countries[] = [
+                        'id'   => $countryId,
+                        'name' => $entry->juryCountry?->name,
+                    ];
+                }
+
+                //get all jurors ids
+                if(!in_array($entry->id,$juror_ids)){
+                    $juror_ids[]=$entry->id;
+                }
+            }
+            
+            //Get Programs & Years
+            $juror_programs=[];
+            $juror_program_years=[];
+
+            $jurorsProgramsYears=ProgramYearJurors::WHEREIN('juror_id',$juror_ids)->get();
+
+            foreach($jurorsProgramsYears as $jurorProgramYear){
+                //Set Programs
+                $programId = $jurorProgramYear->programYear?->program?->id;
+                if ($programId && !in_array($programId, array_column($juror_programs, 'id'))) {
+                    $juror_programs[] = [
+                        'id'   => $programId,
+                        'name' => $jurorProgramYear->programYear?->program?->program_title,
+                    ];
+                }
+                
+                //Set Years
+                $programYearId = $jurorProgramYear->programYear?->id;
+                if ($programYearId && !in_array($programYearId, array_column($juror_program_years, 'id'))) {
+                    $juror_program_years[] = [
+                        //'id'   => $programYearId,
+                        'id'   => $jurorProgramYear->programYear?->year,
+                        'name' => $jurorProgramYear->programYear?->year,
+                    ];
                 }
 
             }
 
             $html.='<div class="filters" style="">
                 <div class="filter">
-                    <select class="filterDpd filter_jury_category">    
+                    <select class="filterDpd filter_juror_category">    
                         <option value="">Select country</option>';
                         foreach($juror_countries as $country){
-                            $html.='<option '.$country.'>'.$country.'</option>';
+                            $html.='<option value="'.$country["id"].'">'.$country["name"].'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="filter">
+                    <select class="filterDpd filter_juror_program_year">    
+                        <option value="">Select year</option>';
+                        foreach($juror_program_years as $juror_program_year){
+                            $html.='<option value="'.$juror_program_year["id"].'">'.$juror_program_year["name"].'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="filter">
+                    <select class="filterDpd filter_juror_program">    
+                        <option value="">Select program</option>';
+                        foreach($juror_programs as $juror_program){
+                            $html.='<option value="'.$juror_program["id"].'">'.$juror_program["name"].'</option>';
                         }
                     $html.='</select>
                 </div>
                 <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
             </div>';
+
+            $html.="<script>
+                $(document).ready(function(){
+                    
+                    $('#filter-collection-".$collection_id."').click(function () {
+                        var parent=$(this).parent().parent();
+                        var juror_category=$(parent).find('.filter_juror_category').val();
+                        var juror_program_year=$(parent).find('.filter_juror_program_year').val();
+                        var juror_program=$(parent).find('.filter_juror_program').val();
+                        
+                        var filters = {
+                            juror_category: juror_category,
+                            juror_program_year: juror_program_year,
+                            juror_program: juror_program,
+                        };
+
+                        getEntries(filters);
+                    });
+
+                });
+            </script>";
         }
         else if($collection_type_id==6) //Resources
         {
