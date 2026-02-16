@@ -95,14 +95,13 @@
             <g id="animation-3" class="animation-content" style="pointer-events: none;">
                 <rect x="0" y="85" width="55" height="55" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2"
                     rx="2" />
-                <text x="0" y="105" fill="#0101010" font-family="Arial, sans-serif" font-size="11"
-                    font-weight="bold">Based</text>
-                <text x="0" y="125" fill="#010101" font-family="Arial, sans-serif" font-size="11" font-weight="bold">in
-                    Beirut</text>
+                
+                <text x="1" y="104" fill="#010101" font-family="Arial, sans-serif" font-size="11" font-weight="bold">Based</text>
+                <text x="1" y="118" fill="#010101" font-family="Arial, sans-serif" font-size="11" font-weight="bold">in Beirut</text>
             </g>
 
             <!-- Black cover that slides down to reveal animation-3 -->
-            <rect id="animation-3-cover" x="0" y="95" width="54.5" height="60" fill="#010101" />
+            <rect id="animation-3-cover" x="1.5" y="95" width="54.2" height="60" fill="#010101" />
             
             <!-- Hover zone for bottom-left -->
             <rect x="0" y="80" width="90" height="145" fill="transparent" class="hover-zone-bottom-left"
