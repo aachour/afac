@@ -1316,14 +1316,15 @@
                 
                 //Set Years
                 $programYearId = $jurorProgramYear->programYear?->id;
-                if ($programYearId && !in_array($programYearId, array_column($juror_program_years, 'id'))) {
+                $programYear = $jurorProgramYear->programYear?->year;
+                
+                if ($programYear && !in_array($programYear, array_column($juror_program_years, 'name'))) {
                     $juror_program_years[] = [
                         //'id'   => $programYearId,
                         'id'   => $jurorProgramYear->programYear?->year,
                         'name' => $jurorProgramYear->programYear?->year,
                     ];
                 }
-
             }
 
             $html.='<div class="filters" style="">
