@@ -1241,7 +1241,11 @@ use App\Models\ProjectGrantees;
             //Get categories and countries
             $grantee_categories=[];
             $grantee_countries=[];
+            $grantee_ids=[];
+
             foreach($entries as $entry){
+
+                $grantee_ids[]=$entry->id;
 
                 $countryId = $entry->granteeCountry?->id;
                 if ($countryId && !in_array($countryId, array_column($grantee_countries, 'id'))) {
@@ -1264,6 +1268,28 @@ use App\Models\ProjectGrantees;
 
             }
 
+            //get all programs years related to these grantees
+            $grantee_programs=[];
+            $grantee_program_years=[];
+
+            $programYears = ProgramYearProjects::whereIn('project_id', function ($query) use ($grantee_ids) {
+                $query->select('project_id')
+                    ->from('project_grantees')
+                    ->whereIn('grantee_id', $grantee_ids);
+            })->get();
+
+            foreach($programYears as $programYear){
+                dd($programYear);
+                $programId=$programYear->program?->id;
+                if ($programId && !in_array($programId, array_column($grantee_programs, 'id'))) {
+                    $grantee_programs[]=[
+                        'id'   => $programId,
+                        'name' => $programYear?->program->program_title,
+                    ];
+                }
+            }
+
+            dd($grantee_programs);
 
             $html.='<div class="filters" style="">
                 <div class="filter">

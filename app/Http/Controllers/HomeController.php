@@ -294,7 +294,7 @@ class HomeController extends Controller
                 }
 
                 //2- filter program year & program
-                /*$juror_program_year = $filters["juror_program_year"] ?? null;
+                $juror_program_year = $filters["juror_program_year"] ?? null;
                 $juror_program      = $filters["juror_program"] ?? null;
 
                 if (!empty($juror_program_year) || !empty($juror_program)) {
@@ -323,7 +323,7 @@ class HomeController extends Controller
                     else{
                          $query->whereRaw('1 = 0');
                     }
-                }*/
+                }
            
             }
 
