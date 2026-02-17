@@ -24,7 +24,7 @@ use App\Models\ColumnExpandTexts;
 use App\Models\ProjectGrantees;
 use App\Models\ProgramYearProjects;
 use App\Models\ProgramYearJurors;
-
+use App\Models\ProgramYears;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -278,45 +278,48 @@ class HomeController extends Controller
                 
             }
 
-            // When type is project, check program and year
-            if($collection_type_id == 3 && $collection->entries_program_year_id!=null)
-            {
-                $entries_program_year_id=$collection->entries_program_year_id;
 
-                $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
-                    ->pluck('project_id')
-                    ->toArray();
+            // Jurors Filtration
+            if($collection_type_id==5 && $filters!=''){
+                
+                //1- filter country
+                $juror_country=@$filters["juror_country"]; 
+                if($juror_country!=''){
+                    $query->where('jury_country_id', $juror_country);
+                }
 
-                $query->whereIn('id', $projectIds);
-            }
+                //2- filter program year & program
+                $juror_program_year = $filters["juror_program_year"] ?? null;
+                $juror_program      = $filters["juror_program"] ?? null;
 
-            // When type is grantee, check program and year
-            if($collection_type_id == 4 && $collection->entries_program_year_id!=null)
-            {
-                $entries_program_year_id=$collection->entries_program_year_id;
+                if (!empty($juror_program_year) || !empty($juror_program)) {
 
-                //get projects
-                $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
-                    ->pluck('project_id')
-                    ->toArray();
+                    $programYearsQuery = ProgramYears::query();
 
-                //get grantees
-                $granteeIds=ProjectGrantees::WHEREIN('project_id',$projectIds)->pluck('grantee_id')
-                    ->toArray();
+                    if (!empty($juror_program_year)) {
+                        $programYearsQuery->where('year', $juror_program_year);
+                    }
 
-                $query->whereIn('id', $granteeIds);
-            }
+                    if (!empty($juror_program)) {
+                        $programYearsQuery->where('program_id', $juror_program);
+                    }
 
-            // When type is juror, check program and year
-            if($collection_type_id == 5 && $collection->entries_program_year_id!=null)
-            {
-                $entries_program_year_id=$collection->entries_program_year_id;
+                    $program_years_ids = $programYearsQuery->pluck('id')->toArray();
 
-                $jurorIds = ProgramYearJurors::where('program_year_id', $entries_program_year_id)
-                    ->pluck('juror_id')
-                    ->toArray();
+                    if (!empty($program_years_ids)) {
+                        $program_year_jurors_ids = ProgramYearJurors::whereIn('program_year_id', $program_years_ids)
+                            ->pluck('juror_id')
+                            ->toArray();
 
-                $query->whereIn('id', $jurorIds);
+                        if (!empty($program_year_jurors_ids)) {
+                            $query->whereIn('id', $program_year_jurors_ids);
+                        }
+                    }
+                    else{
+                         $query->whereRaw('1 = 0');
+                    }
+                }
+           
             }
 
             // Resources Filtration
@@ -388,6 +391,48 @@ class HomeController extends Controller
                 else if ($external_from_date == '' && $external_to_date != '') {
                     $query->where('external_date', '=', $external_to_date);
                 }
+            }
+
+            
+            // When type is project, check program and year
+            if($collection_type_id == 3 && $collection->entries_program_year_id!=null)
+            {
+                $entries_program_year_id=$collection->entries_program_year_id;
+
+                $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
+                    ->pluck('project_id')
+                    ->toArray();
+
+                $query->whereIn('id', $projectIds);
+            }
+
+            // When type is grantee, check program and year
+            if($collection_type_id == 4 && $collection->entries_program_year_id!=null)
+            {
+                $entries_program_year_id=$collection->entries_program_year_id;
+
+                //get projects
+                $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
+                    ->pluck('project_id')
+                    ->toArray();
+
+                //get grantees
+                $granteeIds=ProjectGrantees::WHEREIN('project_id',$projectIds)->pluck('grantee_id')
+                    ->toArray();
+
+                $query->whereIn('id', $granteeIds);
+            }
+
+            // When type is juror, check program and year
+            if($collection_type_id == 5 && $collection->entries_program_year_id!=null)
+            {
+                $entries_program_year_id=$collection->entries_program_year_id;
+
+                $jurorIds = ProgramYearJurors::where('program_year_id', $entries_program_year_id)
+                    ->pluck('juror_id')
+                    ->toArray();
+
+                $query->whereIn('id', $jurorIds);
             }
 
             
@@ -774,10 +819,11 @@ class HomeController extends Controller
                     }
 
                 }
-
-                $html.='<div class="mt-1 filterEmptyResult small black ABCDiatypeMedium text-start d-none">No results to display for your selected filters </div>
+                else{
+                    $html.='<div class="mt-3 small black ABCDiatypeMedium text-start">No results to display for your selected filters </div>';
+                }
             
-            </div>';
+            $html.='</div>';
 
             //add swiper JS 
             $html.='<script> 

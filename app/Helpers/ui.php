@@ -1329,7 +1329,7 @@
 
             $html.='<div class="filters" style="">
                 <div class="filter">
-                    <select class="filterDpd filter_juror_category">    
+                    <select class="filterDpd filter_juror_country">    
                         <option value="">Select country</option>';
                         foreach($juror_countries as $country){
                             $html.='<option value="'.$country["id"].'">'.$country["name"].'</option>';
@@ -1352,6 +1352,9 @@
                         }
                     $html.='</select>
                 </div>
+                <div class="filter">
+                    <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
+                </div>
                 <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
             </div>';
@@ -1361,12 +1364,12 @@
                     
                     $('#filter-collection-".$collection_id."').click(function () {
                         var parent=$(this).parent().parent();
-                        var juror_category=$(parent).find('.filter_juror_category').val();
+                        var juror_country=$(parent).find('.filter_juror_country').val();
                         var juror_program_year=$(parent).find('.filter_juror_program_year').val();
                         var juror_program=$(parent).find('.filter_juror_program').val();
                         
                         var filters = {
-                            juror_category: juror_category,
+                            juror_country: juror_country,
                             juror_program_year: juror_program_year,
                             juror_program: juror_program,
                         };
