@@ -278,6 +278,54 @@ class HomeController extends Controller
                 
             }
 
+            // Grantees Filtration
+            if($collection_type_id==4 && $filters!=''){
+                
+                //1- filter country
+                $grantee_country=@$filters["grantee_country"]; 
+                if($grantee_country!=''){
+                    $query->where('grantee_country_id', $grantee_country);
+                }
+
+                //2- filter category
+                $grantee_category=@$filters["grantee_category"]; 
+                if($grantee_category!=''){
+                    $query->whereJsonContains('grantee_categories_id', $grantee_category);
+                }
+
+                //2- filter program year & program
+                /*$juror_program_year = $filters["juror_program_year"] ?? null;
+                $juror_program      = $filters["juror_program"] ?? null;
+
+                if (!empty($juror_program_year) || !empty($juror_program)) {
+
+                    $programYearsQuery = ProgramYears::query();
+
+                    if (!empty($juror_program_year)) {
+                        $programYearsQuery->where('year', $juror_program_year);
+                    }
+
+                    if (!empty($juror_program)) {
+                        $programYearsQuery->where('program_id', $juror_program);
+                    }
+
+                    $program_years_ids = $programYearsQuery->pluck('id')->toArray();
+
+                    if (!empty($program_years_ids)) {
+                        $program_year_jurors_ids = ProgramYearJurors::whereIn('program_year_id', $program_years_ids)
+                            ->pluck('juror_id')
+                            ->toArray();
+
+                        if (!empty($program_year_jurors_ids)) {
+                            $query->whereIn('id', $program_year_jurors_ids);
+                        }
+                    }
+                    else{
+                         $query->whereRaw('1 = 0');
+                    }
+                }*/
+           
+            }
 
             // Jurors Filtration
             if($collection_type_id==5 && $filters!=''){

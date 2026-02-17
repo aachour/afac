@@ -10,7 +10,8 @@
     use App\Models\ColumnAccordion;
     use App\Models\ColumnCountdown;
     use App\Models\ColumnExpandTexts;
-    use App\Models\ProjectGrantees;
+use App\Models\GranteeCategories;
+use App\Models\ProjectGrantees;
     use App\Models\ProgramYearProjects;
     use App\Models\ProgramYearJurors;
     
@@ -1240,42 +1241,73 @@
             //Get categories and countries
             $grantee_categories=[];
             $grantee_countries=[];
-            
             foreach($entries as $entry){
 
-                $categories=$entry->granteeCategories(json_decode($entry->grantee_categories_id, true) ?? []);
-                foreach($categories as $category){
-                    if(!in_array($category,$grantee_categories)){
-                        $grantee_categories[]=$category;
-                    }
+                $countryId = $entry->granteeCountry?->id;
+                if ($countryId && !in_array($countryId, array_column($grantee_countries, 'id'))) {
+                    $grantee_countries[] = [
+                        'id'   => $countryId,
+                        'name' => $entry->granteeCountry?->name,
+                    ];
                 }
 
-                if(!in_array($entry->granteeCountry->name,$grantee_countries)){
-                    $grantee_countries[]=$entry->granteeCountry->name;
+                $categoriesId=json_decode($entry->grantee_categories_id, true) ?? [];
+
+                foreach($categoriesId as $categoryId){
+                    if ($categoryId && !in_array($categoryId, array_column($grantee_categories, 'id'))) {
+                        $grantee_categories[]=[
+                            'id'   => $categoryId,
+                            'name' => GranteeCategories::find($categoryId)?->name,
+                        ];
+                    }
                 }
 
             }
 
+
             $html.='<div class="filters" style="">
-                <div class="filter">
-                    <select class="filterDpd filter_grantee_category">
-                        <option value="">Select theme</option>';
-                        foreach($grantee_categories as $category){
-                            $html.='<option '.$category.'>'.$category.'</option>';
-                        }
-                    $html.='</select>
-                </div>
                 <div class="filter">
                     <select class="filterDpd filter_grantee_country">    
                         <option value="">Select country</option>';
                         foreach($grantee_countries as $country){
-                            $html.='<option '.$country.'>'.$country.'</option>';
+                            $html.='<option value="'.$country["id"].'">'.$country["name"].'</option>';
                         }
                     $html.='</select>
+                </div>    
+                <div class="filter">
+                    <select class="filterDpd filter_grantee_category">
+                        <option value="">Select theme</option>';
+                        foreach($grantee_categories as $category){
+                            $html.='<option value="'.$category["id"].'">'.$category["name"].'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                
+                <div class="filter">
+                    <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
                 </div>
                 <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
             </div>';
+
+            $html.="<script>
+                $(document).ready(function(){
+                    
+                    $('#filter-collection-".$collection_id."').click(function () {
+                        var parent=$(this).parent().parent();
+                        var grantee_country=$(parent).find('.filter_grantee_country').val();
+                        var grantee_category=$(parent).find('.filter_grantee_category').val();
+                        
+                        var filters = {
+                            grantee_country: grantee_country,
+                            grantee_category: grantee_category,
+                        };
+
+                        getEntries(filters);
+                    });
+
+                });
+            </script>";
         }
         else if($collection_type_id==5) // Jurors
         {
