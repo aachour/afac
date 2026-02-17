@@ -17,5 +17,10 @@ class ProgramYearJurors extends Model
     {
         return $this->belongsTo(Entries::class, 'juror_id', 'id');
     }
+
+    public function programYear()
+    {
+        return $this->belongsTo(ProgramYears::class, 'program_year_id', 'id');
+    }
     
 }
