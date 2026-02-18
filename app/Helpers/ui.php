@@ -265,9 +265,8 @@
 
         $html.='<script>
 
-            function getEntries(filters=""){
-                let collection_id= '.$collection_id.'; 
-                $("#collectionEntries-'.$collection_id.'").empty();
+            function getEntries(collection_id,filters=""){
+                $("#collectionEntries-"+collection_id).empty();
                 $("#loader").removeClass("d-none");
                 $.ajax({
                     url: "' . route('get.entries') . '",
@@ -275,11 +274,10 @@
                     data: {
                         collection_id: collection_id,
                         filters: filters,
-                        
                     },
                     success: function(response) {
                         $("#loader").addClass("d-none");
-                        $("#collectionEntries-'.$collection_id.'").html(response);
+                        $("#collectionEntries-"+collection_id).html(response);
                     },
                     error: function(xhr) {
                         if(xhr.responseJSON && xhr.responseJSON.errors){
@@ -290,8 +288,8 @@
             }
 
             $(document).ready(function(){ 
-
-                getEntries();
+                let collection_id= '.$collection_id.'; 
+                getEntries(collection_id);
                 
             });
 
@@ -415,10 +413,47 @@
                             $htmlColumn.='<div class="topSpacerSmaller tiny black">'.$galleryImages[0]->caption.'</div>';
                         }
                         else{ //gallery images
-                            foreach($galleryImages as $galleryImage){
-                                $htmlColumn.='<div class="topSpacer"><img src='.asset("storage/".$galleryImage->image_path).' width="100%" /></div>';
-                                break;
-                            }
+                            $htmlColumn.='<div class="topSpacer swiper" id="swiper-gallery-'.$section_column_id.'">
+                                <div class="swiper-wrapper">';
+                                    foreach($galleryImages as $galleryImage){
+                                        $htmlColumn.='<div class="swiper-slide">
+                                            <img src='.asset("storage/".$galleryImage->image_path).' width="100%" />
+                                            <div class="topSpacerSmaller tiny black">'.$galleryImage->caption.'</div>
+                                        </div>';
+                                    }
+                                $htmlColumn.='</div>
+                                 <!-- Navigation Buttons -->
+                                <div class="swiper-button-next swiper-button-next-'.$section_column_id.'"></div>
+                                <div class="swiper-button-prev swiper-button-prev-'.$section_column_id.'"></div>
+                            </div>';
+
+                            //add swiper JS 
+                            $htmlColumn.='<script> 
+                                const swiper'.$section_column_id.' = new Swiper("#swiper-gallery-'.$section_column_id.'", {
+                                    //loop: true,
+                                    grid: {
+                                        rows: 1           
+                                    },
+                                    navigation: {
+                                        nextEl: ".swiper-button-next-'.$section_column_id.'",
+                                        prevEl: ".swiper-button-prev-'.$section_column_id.'",
+                                    },
+                                    effect: "slide",
+                                    speed: 800,
+                                    breakpoints: {
+                                        // when window width is >= 320px
+                                        576: {
+                                            slidesPerView: 0.85,
+                                            spaceBetween: 0
+                                        },
+                                        // when window width is >= 992px
+                                        900: {
+                                            slidesPerView: 1,
+                                            spaceBetween: 20
+                                        },
+                                    }
+                                });
+                            </script>';
                         }
                     }
                     else if($input_type_id==4)
