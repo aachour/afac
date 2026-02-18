@@ -96,6 +96,7 @@ class Entries extends Model
         return $grantees;
     }
 
+
     public function projectProgram($id)
     {
         $projectProgram=ProgramYearProjects::find($id);

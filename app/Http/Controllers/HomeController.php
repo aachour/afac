@@ -278,6 +278,55 @@ class HomeController extends Controller
                 
             }
 
+            // projects Filtration
+            if($collection_type_id==3 && $filters!=''){
+                
+                //1- filter country
+                $project_country=@$filters["project_country"]; 
+                if($project_country!=''){
+                    $query->whereJsonContains('project_countries_id', $project_country);
+                }
+
+                //2- filter category
+                $project_category=@$filters["project_category"]; 
+                if($project_category!=''){
+                    $query->whereJsonContains('project_categories_id', $project_category);
+                }
+
+                //3- filter program year & program
+                $project_program_year = $filters["project_program_year"] ?? null; 
+                $project_program      = $filters["project_program"] ?? null;
+
+                if (!empty($project_program_year) || !empty($project_program)) {
+
+                    $programYearsQuery = ProgramYears::query();
+
+                    if (!empty($project_program_year)) {
+                        $programYearsQuery->where('year', $project_program_year);
+                    }
+
+                    if (!empty($project_program)) {
+                        $programYearsQuery->where('program_id', $project_program);
+                    }
+
+                    $program_years_ids = $programYearsQuery->pluck('id')->toArray();
+
+
+                    if (!empty($program_years_ids)) {
+
+                        $project_ids = ProgramYearProjects::whereIn('program_year_id', $program_years_ids) ->pluck('project_id') ->toArray(); 
+                        
+                        if (!empty($project_ids)) {
+                            $query->whereIn('id', $project_ids);
+                        }
+                    }
+                    else{
+                         $query->whereRaw('1 = 0');
+                    }
+                }
+           
+            }
+
             // Grantees Filtration
             if($collection_type_id==4 && $filters!=''){
                 
@@ -442,7 +491,6 @@ class HomeController extends Controller
                 }
             }
 
-            
             // When type is project, check program and year
             if($collection_type_id == 3 && $collection->entries_program_year_id!=null)
             {
