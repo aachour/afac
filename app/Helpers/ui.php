@@ -1225,7 +1225,7 @@
                     $html.='</select>
                 </div>
                 <div class="filter">
-                    <select class="filterDpd filter_grantee_program_year">
+                    <select class="filterDpd filter_project_program_year">
                         <option value="">Select year</option>';
                         foreach($project_program_years as $project_program_year){
                             $html.='<option value="'.$project_program_year["name"].'">'.$project_program_year["name"].'</option>';
@@ -1233,7 +1233,7 @@
                     $html.='</select>
                 </div>
                 <div class="filter">
-                    <select class="filterDpd filter_grantee_program">
+                    <select class="filterDpd filter_project_program">
                         <option value="">Select program</option>';
                         foreach($project_programs as $project_program){
                             $html.='<option value="'.$project_program["id"].'">'.$project_program["name"].'</option>';

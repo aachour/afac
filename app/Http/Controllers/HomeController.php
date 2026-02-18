@@ -293,32 +293,31 @@ class HomeController extends Controller
                     $query->whereJsonContains('project_categories_id', $project_category);
                 }
 
-                //2- filter program year & program
-                $project_program_year = $filters["project_program_year"] ?? null;
-                $project_program      = $filters["grantee_program"] ?? null;
+                //3- filter program year & program
+                $project_program_year = $filters["project_program_year"] ?? null; 
+                $project_program      = $filters["project_program"] ?? null;
 
                 if (!empty($project_program_year) || !empty($project_program)) {
 
                     $programYearsQuery = ProgramYears::query();
 
-                    if (!empty($grantee_program_year)) {
-                        $programYearsQuery->where('year', $grantee_program_year);
+                    if (!empty($project_program_year)) {
+                        $programYearsQuery->where('year', $project_program_year);
                     }
 
-                    if (!empty($grantee_program)) {
-                        $programYearsQuery->where('program_id', $grantee_program);
+                    if (!empty($project_program)) {
+                        $programYearsQuery->where('program_id', $project_program);
                     }
 
                     $program_years_ids = $programYearsQuery->pluck('id')->toArray();
 
+
                     if (!empty($program_years_ids)) {
 
-                        $program_year_project_ids = ProgramYearProjects::whereIn('program_year_id', $program_years_ids) ->pluck('project_id') ->toArray(); 
+                        $project_ids = ProgramYearProjects::whereIn('program_year_id', $program_years_ids) ->pluck('project_id') ->toArray(); 
                         
-                        $grantee_ids = ProjectGrantees::whereIn('project_id', $program_year_project_ids) ->pluck('grantee_id') ->toArray();
-
-                        if (!empty($grantee_ids)) {
-                            $query->whereIn('id', $grantee_ids);
+                        if (!empty($project_ids)) {
+                            $query->whereIn('id', $project_ids);
                         }
                     }
                     else{
