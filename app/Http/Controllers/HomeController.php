@@ -278,6 +278,55 @@ class HomeController extends Controller
                 
             }
 
+            // Grantees Filtration
+            if($collection_type_id==4 && $filters!=''){
+                
+                //1- filter country
+                $grantee_country=@$filters["grantee_country"]; 
+                if($grantee_country!=''){
+                    $query->where('grantee_country_id', $grantee_country);
+                }
+
+                //2- filter category
+                $grantee_category=@$filters["grantee_category"]; 
+                if($grantee_category!=''){
+                    $query->whereJsonContains('grantee_categories_id', $grantee_category);
+                }
+
+                //2- filter program year & program
+                $grantee_program_year = $filters["grantee_program_year"] ?? null;
+                $grantee_program      = $filters["grantee_program"] ?? null;
+
+                if (!empty($grantee_program_year) || !empty($grantee_program)) {
+
+                    $programYearsQuery = ProgramYears::query();
+
+                    if (!empty($grantee_program_year)) {
+                        $programYearsQuery->where('year', $grantee_program_year);
+                    }
+
+                    if (!empty($grantee_program)) {
+                        $programYearsQuery->where('program_id', $grantee_program);
+                    }
+
+                    $program_years_ids = $programYearsQuery->pluck('id')->toArray();
+
+                    if (!empty($program_years_ids)) {
+
+                        $program_year_project_ids = ProgramYearProjects::whereIn('program_year_id', $program_years_ids) ->pluck('project_id') ->toArray(); 
+                        
+                        $grantee_ids = ProjectGrantees::whereIn('project_id', $program_year_project_ids) ->pluck('grantee_id') ->toArray();
+
+                        if (!empty($grantee_ids)) {
+                            $query->whereIn('id', $grantee_ids);
+                        }
+                    }
+                    else{
+                         $query->whereRaw('1 = 0');
+                    }
+                }
+           
+            }
 
             // Jurors Filtration
             if($collection_type_id==5 && $filters!=''){

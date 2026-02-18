@@ -10,7 +10,8 @@
     use App\Models\ColumnAccordion;
     use App\Models\ColumnCountdown;
     use App\Models\ColumnExpandTexts;
-    use App\Models\ProjectGrantees;
+use App\Models\GranteeCategories;
+use App\Models\ProjectGrantees;
     use App\Models\ProgramYearProjects;
     use App\Models\ProgramYearJurors;
     
@@ -1240,42 +1241,128 @@
             //Get categories and countries
             $grantee_categories=[];
             $grantee_countries=[];
-            
+            $grantee_ids=[];
+
             foreach($entries as $entry){
 
-                $categories=$entry->granteeCategories(json_decode($entry->grantee_categories_id, true) ?? []);
-                foreach($categories as $category){
-                    if(!in_array($category,$grantee_categories)){
-                        $grantee_categories[]=$category;
-                    }
+                $grantee_ids[]=$entry->id;
+
+                $countryId = $entry->granteeCountry?->id;
+                if ($countryId && !in_array($countryId, array_column($grantee_countries, 'id'))) {
+                    $grantee_countries[] = [
+                        'id'   => $countryId,
+                        'name' => $entry->granteeCountry?->name,
+                    ];
                 }
 
-                if(!in_array($entry->granteeCountry->name,$grantee_countries)){
-                    $grantee_countries[]=$entry->granteeCountry->name;
+                $categoriesId=json_decode($entry->grantee_categories_id, true) ?? [];
+
+                foreach($categoriesId as $categoryId){
+                    if ($categoryId && !in_array($categoryId, array_column($grantee_categories, 'id'))) {
+                        $grantee_categories[]=[
+                            'id'   => $categoryId,
+                            'name' => GranteeCategories::find($categoryId)?->name,
+                        ];
+                    }
                 }
 
             }
 
+            //get all programs years related to these grantees
+            $grantee_programs=[];
+            $grantee_program_years=[];
+
+            $programYearProjects = ProgramYearProjects::whereIn('project_id', function ($query) use ($grantee_ids) {
+                $query->select('project_id')
+                    ->from('project_grantees')
+                    ->whereIn('grantee_id', $grantee_ids);
+            })->get();
+
+            foreach($programYearProjects as $programYearProject){
+
+                //Set Programs
+                $program=$programYearProject->programYear->program;
+                if ($program?->id && !in_array($program?->id, array_column($grantee_programs, 'id'))) {
+                    $grantee_programs[]=[
+                        'id'   => $program?->id,
+                        'name' => $program?->program_title,
+                    ];
+                }
+
+                //Set Years
+                $programYear=$programYearProject->programYear;
+                if ($programYear->year && !in_array($programYear->year, array_column($grantee_program_years, 'name'))) {
+                    $grantee_program_years[] = [
+                        //'id'   => $programYearId,
+                        'id'   => $programYear->id,
+                        'name' => $programYear->year,
+                    ];
+                }
+            }
+
             $html.='<div class="filters" style="">
-                <div class="filter">
-                    <select class="filterDpd filter_grantee_category">
-                        <option value="">Select theme</option>';
-                        foreach($grantee_categories as $category){
-                            $html.='<option '.$category.'>'.$category.'</option>';
-                        }
-                    $html.='</select>
-                </div>
                 <div class="filter">
                     <select class="filterDpd filter_grantee_country">    
                         <option value="">Select country</option>';
                         foreach($grantee_countries as $country){
-                            $html.='<option '.$country.'>'.$country.'</option>';
+                            $html.='<option value="'.$country["id"].'">'.$country["name"].'</option>';
                         }
                     $html.='</select>
+                </div>    
+                <div class="filter">
+                    <select class="filterDpd filter_grantee_category">
+                        <option value="">Select theme</option>';
+                        foreach($grantee_categories as $category){
+                            $html.='<option value="'.$category["id"].'">'.$category["name"].'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="filter">
+                    <select class="filterDpd filter_grantee_program_year">
+                        <option value="">Select year</option>';
+                        foreach($grantee_program_years as $grantee_program_year){
+                            $html.='<option value="'.$grantee_program_year["name"].'">'.$grantee_program_year["name"].'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="filter">
+                    <select class="filterDpd filter_grantee_program">
+                        <option value="">Select program</option>';
+                        foreach($grantee_programs as $grantee_program){
+                            $html.='<option value="'.$grantee_program["id"].'">'.$grantee_program["name"].'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="filter">
+                    <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
                 </div>
                 <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
             </div>';
+
+            $html.="<script>
+                $(document).ready(function(){
+                    
+                    $('#filter-collection-".$collection_id."').click(function () {
+                        var parent=$(this).parent().parent();
+                        var grantee_country=$(parent).find('.filter_grantee_country').val();
+                        var grantee_category=$(parent).find('.filter_grantee_category').val();
+                        var grantee_program_year=$(parent).find('.filter_grantee_program_year').val();
+                        var grantee_program=$(parent).find('.filter_grantee_program').val();
+                        
+                        
+                        var filters = {
+                            grantee_country: grantee_country,
+                            grantee_category: grantee_category,
+                            grantee_program_year: grantee_program_year,
+                            grantee_program: grantee_program,
+                        };
+
+                        getEntries(filters);
+                    });
+
+                });
+            </script>";
         }
         else if($collection_type_id==5) // Jurors
         {
@@ -1340,7 +1427,7 @@
                     <select class="filterDpd filter_juror_program_year">    
                         <option value="">Select year</option>';
                         foreach($juror_program_years as $juror_program_year){
-                            $html.='<option value="'.$juror_program_year["id"].'">'.$juror_program_year["name"].'</option>';
+                            $html.='<option value="'.$juror_program_year["name"].'">'.$juror_program_year["name"].'</option>';
                         }
                     $html.='</select>
                 </div>
