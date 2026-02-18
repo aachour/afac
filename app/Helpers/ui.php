@@ -1427,7 +1427,7 @@ use App\Models\ProjectGrantees;
                     <select class="filterDpd filter_juror_program_year">    
                         <option value="">Select year</option>';
                         foreach($juror_program_years as $juror_program_year){
-                            $html.='<option value="'.$juror_program_year["id"].'">'.$juror_program_year["name"].'</option>';
+                            $html.='<option value="'.$juror_program_year["name"].'">'.$juror_program_year["name"].'</option>';
                         }
                     $html.='</select>
                 </div>
