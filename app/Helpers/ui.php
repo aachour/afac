@@ -1318,15 +1318,15 @@ use App\Models\ProjectGrantees;
                     $html.='</select>
                 </div>
                 <div class="filter">
-                    <select class="filterDpd filter_juror_program_year">
+                    <select class="filterDpd filter_grantee_program_year">
                         <option value="">Select year</option>';
                         foreach($grantee_program_years as $grantee_program_year){
-                            $html.='<option value="'.$grantee_program_year["id"].'">'.$grantee_program_year["name"].'</option>';
+                            $html.='<option value="'.$grantee_program_year["name"].'">'.$grantee_program_year["name"].'</option>';
                         }
                     $html.='</select>
                 </div>
                 <div class="filter">
-                    <select class="filterDpd filter_juror_program">
+                    <select class="filterDpd filter_grantee_program">
                         <option value="">Select program</option>';
                         foreach($grantee_programs as $grantee_program){
                             $html.='<option value="'.$grantee_program["id"].'">'.$grantee_program["name"].'</option>';
@@ -1347,10 +1347,15 @@ use App\Models\ProjectGrantees;
                         var parent=$(this).parent().parent();
                         var grantee_country=$(parent).find('.filter_grantee_country').val();
                         var grantee_category=$(parent).find('.filter_grantee_category').val();
+                        var grantee_program_year=$(parent).find('.filter_grantee_program_year').val();
+                        var grantee_program=$(parent).find('.filter_grantee_program').val();
+                        
                         
                         var filters = {
                             grantee_country: grantee_country,
                             grantee_category: grantee_category,
+                            grantee_program_year: grantee_program_year,
+                            grantee_program: grantee_program,
                         };
 
                         getEntries(filters);
