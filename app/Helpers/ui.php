@@ -265,9 +265,8 @@
 
         $html.='<script>
 
-            function getEntries(filters=""){
-                let collection_id= '.$collection_id.'; 
-                $("#collectionEntries-'.$collection_id.'").empty();
+            function getEntries(collection_id,filters=""){
+                $("#collectionEntries-"+collection_id).empty();
                 $("#loader").removeClass("d-none");
                 $.ajax({
                     url: "' . route('get.entries') . '",
@@ -275,11 +274,10 @@
                     data: {
                         collection_id: collection_id,
                         filters: filters,
-                        
                     },
                     success: function(response) {
                         $("#loader").addClass("d-none");
-                        $("#collectionEntries-'.$collection_id.'").html(response);
+                        $("#collectionEntries-"+collection_id).html(response);
                     },
                     error: function(xhr) {
                         if(xhr.responseJSON && xhr.responseJSON.errors){
@@ -290,8 +288,8 @@
             }
 
             $(document).ready(function(){ 
-
-                getEntries();
+                let collection_id= '.$collection_id.'; 
+                getEntries(collection_id);
                 
             });
 
