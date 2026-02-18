@@ -4,14 +4,17 @@
     use App\Models\CollectionEntries;
     use App\Models\Entries;
     use App\Models\Sections;
+    use App\Models\Countries;
     use App\Models\SectionColumns;
     use App\Models\ColumnGeneral;
     use App\Models\ColumnTimeline;
     use App\Models\ColumnAccordion;
     use App\Models\ColumnCountdown;
     use App\Models\ColumnExpandTexts;
-use App\Models\GranteeCategories;
-use App\Models\ProjectGrantees;
+    use App\Models\GranteeCategories;
+    use App\Models\ProjectCategories;
+    use App\Models\ProjectGrantees;
+    use App\Models\ProgramYears;
     use App\Models\ProgramYearProjects;
     use App\Models\ProgramYearJurors;
     
@@ -1145,41 +1148,100 @@ use App\Models\ProjectGrantees;
             //Get categories and countries
             $project_categories=[];
             $project_countries=[];
-            
+            $project_ids=[];
+
             foreach($entries as $entry){
 
-                $categories=$entry->projectCategories(json_decode($entry->project_categories_id, true) ?? []);
-                foreach($categories as $category){
-                    if(!in_array($category,$project_categories)){
-                        $project_categories[]=$category;
+                $countriesId=json_decode($entry->project_countries_id, true) ?? []; 
+                foreach($countriesId as $countryId){ 
+                    if ($countryId && !in_array($countryId, array_column($project_countries, 'id'))) {
+                        $project_countries[]=[
+                            'id'   => $countryId,
+                            'name' => Countries::find($countryId)?->name,
+                        ];
                     }
+               }
+
+
+                $categoriesId=json_decode($entry->project_categories_id, true) ?? [];
+                foreach($categoriesId as $categoryId){
+                    if ($categoryId && !in_array($categoryId, array_column($project_categories, 'id'))) {
+                        $project_categories[]=[
+                            'id'   => $categoryId,
+                            'name' => ProjectCategories::find($categoryId)?->name,
+                        ];
+                    }
+                }
+                $project_ids[]=$entry->id;
+
+            }
+
+
+            //Get Programs and Years
+            $project_programs=[];
+            $project_program_years=[];
+
+            $programYears = ProgramYears::whereIn('id', function ($query) use ($project_ids) {
+                $query->select('program_year_id')
+                    ->from('program_year_projects')
+                    ->whereIn('project_id', $project_ids);
+                })->get();
+
+            foreach($programYears as $programYear){
+                //Set Programs
+                $program=$programYear->program;
+                if ($program?->id && !in_array($program?->id, array_column($project_programs, 'id'))) {
+                    $project_programs[]=[
+                        'id'   => $program?->id,
+                        'name' => $program?->program_title,
+                    ];
                 }
 
-                $countries=$entry->projectCountries(json_decode($entry->project_countries_id, true) ?? []);
-                foreach($countries as $country){
-                    if(!in_array($country,$project_countries)){
-                        $project_countries[]=$country;
-                    }
+                //Set Years
+                if ($programYear->year && !in_array($programYear->year, array_column($project_program_years, 'name'))) {
+                    $project_program_years[] = [
+                        //'id'   => $programYearId,
+                        'id'   => $programYear->id,
+                        'name' => $programYear->year,
+                    ];
                 }
-                
             }
 
             $html.='<div class="filters" style="">
                 <div class="filter">
-                    <select class="filterDpd filter_project_category">
-                        <option value="">Select theme</option>';
-                        foreach($project_categories as $category){
-                            $html.='<option '.$category.'>'.$category.'</option>';
+                    <select class="filterDpd filter_project_country">    
+                        <option value="">Select country</option>';
+                        foreach($project_countries as $country){
+                            $html.='<option value='.$country["id"].'>'.$country["name"].'</option>';
                         }
                     $html.='</select>
                 </div>
                 <div class="filter">
-                    <select class="filterDpd filter_project_country">    
-                        <option value="">Select country</option>';
-                        foreach($project_countries as $country){
-                            $html.='<option '.$country.'>'.$country.'</option>';
+                    <select class="filterDpd filter_project_category">
+                        <option value="">Select theme</option>';
+                        foreach($project_categories as $category){
+                            $html.='<option value="'.$category["id"].'">'.$category["name"].'</option>';
                         }
                     $html.='</select>
+                </div>
+                <div class="filter">
+                    <select class="filterDpd filter_grantee_program_year">
+                        <option value="">Select year</option>';
+                        foreach($project_program_years as $project_program_year){
+                            $html.='<option value="'.$project_program_year["name"].'">'.$project_program_year["name"].'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="filter">
+                    <select class="filterDpd filter_grantee_program">
+                        <option value="">Select program</option>';
+                        foreach($project_programs as $project_program){
+                            $html.='<option value="'.$project_program["id"].'">'.$project_program["name"].'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="filter">
+                    <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
                 </div>
                 <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
@@ -1187,50 +1249,22 @@ use App\Models\ProjectGrantees;
 
             $html.="<script>
                 $(document).ready(function(){
-
-                    $('.filter_project_category, .filter_project_country').change(function () {
-
-                        var allCards=0;
-                        var hiddenCards=0;
-
-                        var project_category_name = $.trim($('.filter_project_category').val());
-                        var project_country_name = $.trim($('.filter_project_country').val());
+                    
+                    $('#filter-collection-".$collection_id."').click(function () {
+                        var parent=$(this).parent().parent();
+                        var project_country=$(parent).find('.filter_project_country').val();
+                        var project_category=$(parent).find('.filter_project_category').val();
+                        var project_program_year=$(parent).find('.filter_project_program_year').val();
+                        var project_program=$(parent).find('.filter_project_program').val();
                         
-                        $(this).parent().parent().parent().find('.entry_card').each(function () {
+                        var filters = {
+                            project_country: project_country,
+                            project_category: project_category,
+                            project_program_year: project_program_year,
+                            project_program: project_program,
+                        };
 
-                            var entry_categories_name = $.trim($(this).attr('project_categories'));
-                            var entry_countries_name = $.trim($(this).attr('project_countries'));
-
-                            // Category match
-                            var match_category = (
-                                entry_categories_name.includes(project_category_name) ||
-                                project_category_name === ''
-                            );
-                            
-                            // Country match
-                            var match_country = (
-                                entry_countries_name.includes(project_country_name) ||
-                                project_country_name === ''
-                            );
-                            
-
-                            if (match_category && match_country) {
-                                $(this).parent().removeClass('d-none');
-                            } else {
-                                $(this).parent().addClass('d-none');
-                                hiddenCards++;
-                            }
-
-                            allCards++;
-                        });
-
-                        if(allCards==hiddenCards){
-                            $(this).parent().parent().parent().find('.filterEmptyResult').removeClass('d-none');
-                        }
-                        else{
-                            $(this).parent().parent().parent().find('.filterEmptyResult').addClass('d-none');
-                        }
-
+                        getEntries(filters);
                     });
 
                 });
