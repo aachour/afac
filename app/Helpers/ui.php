@@ -1272,24 +1272,33 @@ use App\Models\ProjectGrantees;
             $grantee_programs=[];
             $grantee_program_years=[];
 
-            $programYears = ProgramYearProjects::whereIn('project_id', function ($query) use ($grantee_ids) {
+            $programYearProjects = ProgramYearProjects::whereIn('project_id', function ($query) use ($grantee_ids) {
                 $query->select('project_id')
                     ->from('project_grantees')
                     ->whereIn('grantee_id', $grantee_ids);
             })->get();
 
-            foreach($programYears as $programYear){
-                dd($programYear);
-                $programId=$programYear->program?->id;
-                if ($programId && !in_array($programId, array_column($grantee_programs, 'id'))) {
+            foreach($programYearProjects as $programYearProject){
+
+                //Set Programs
+                $program=$programYearProject->programYear->program;
+                if ($program?->id && !in_array($program?->id, array_column($grantee_programs, 'id'))) {
                     $grantee_programs[]=[
-                        'id'   => $programId,
-                        'name' => $programYear?->program->program_title,
+                        'id'   => $program?->id,
+                        'name' => $program?->program_title,
+                    ];
+                }
+
+                //Set Years
+                $programYear=$programYearProject->programYear;
+                if ($programYear->year && !in_array($programYear->year, array_column($grantee_program_years, 'name'))) {
+                    $grantee_program_years[] = [
+                        //'id'   => $programYearId,
+                        'id'   => $programYear->id,
+                        'name' => $programYear->year,
                     ];
                 }
             }
-
-            dd($grantee_programs);
 
             $html.='<div class="filters" style="">
                 <div class="filter">
@@ -1308,7 +1317,22 @@ use App\Models\ProjectGrantees;
                         }
                     $html.='</select>
                 </div>
-                
+                <div class="filter">
+                    <select class="filterDpd filter_juror_program_year">
+                        <option value="">Select year</option>';
+                        foreach($grantee_program_years as $grantee_program_year){
+                            $html.='<option value="'.$grantee_program_year["id"].'">'.$grantee_program_year["name"].'</option>';
+                        }
+                    $html.='</select>
+                </div>
+                <div class="filter">
+                    <select class="filterDpd filter_juror_program">
+                        <option value="">Select program</option>';
+                        foreach($grantee_programs as $grantee_program){
+                            $html.='<option value="'.$grantee_program["id"].'">'.$grantee_program["name"].'</option>';
+                        }
+                    $html.='</select>
+                </div>
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
                 </div>
