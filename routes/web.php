@@ -77,7 +77,7 @@ Route::get('/view/section/{id}', [HomeController::class, 'ViewSection'])->name('
 
 Route::get('/view/logo', [HomeController::class, 'viewLogo'])->name('view.logo'); 
 
-Route::post('/get/entries/', [HomeController::class, 'getEntries'])->name('get.entries');
+Route::post('/get/entries/', [HomeController::class, 'getFilteredEntries'])->name('get.entries');
 
 Route::get('/get/forms', [FormStackController::class, 'getForms'])->name('get.forms'); 
 
