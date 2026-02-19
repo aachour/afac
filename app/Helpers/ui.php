@@ -17,7 +17,6 @@
     use App\Models\ProgramYears;
     use App\Models\ProgramYearProjects;
     use App\Models\ProgramYearJurors;
-    
     use App\Models\Logo;
     use Carbon\Carbon;
             
@@ -158,102 +157,12 @@
 
         $collection_type_id=$collection->type_id;
         $with_filters=$collection->with_filters;
-        $entries_selection=$collection->entries_selection;
+
+        //get all entries
+        $entries=buildEntriesQuery($collection_id);
 
         //Set Filters
         if($with_filters==1){   
-
-            $entries=[];
-
-            if ($entries_selection == 1) // custom selection
-            {
-                $collectionEntries = CollectionEntries::where('collection_id', $collection_id)
-                        ->with('entry')
-                        ->orderBy('list_order', 'ASC')
-                        ->get();
-                
-                //extract entries from collection
-                if(count($collectionEntries)>0){
-                    foreach($collectionEntries as $collectionEntry){
-                        $entries[]=$collectionEntry->entry;
-                    }
-                }
-            }
-            else if ($entries_selection == 2) // system selection
-            {
-                $entries_number   = $collection->entries_number;
-                $entries_expired  = $collection->entries_with_expired;
-                $entries_order    = $collection->entries_order;
-
-                $query = Entries::where(['type_id' => $collection_type_id , 'published' => '1']);
-
-                // Filter expired only for events
-                // if ($entries_expired == 1 && $collection_type_id == 1) {
-                //     $query->where('event_start_date', '>=', date('Y-m-d'));
-                // }
-
-                // When type is project, check program and year
-                if($collection_type_id == 3 && $collection->entries_program_year_id!=null)
-                {
-                    $entries_program_year_id=$collection->entries_program_year_id;
-
-                    $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
-                        ->pluck('project_id')
-                        ->toArray();
-
-                    $query->whereIn('id', $projectIds);
-                }
-
-                // When type is grantee, check program and year
-                if($collection_type_id == 4 && $collection->entries_program_year_id!=null)
-                {
-                    $entries_program_year_id=$collection->entries_program_year_id;
-
-                    //get projects
-                    $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
-                        ->pluck('project_id')
-                        ->toArray();
-
-                    //get grantees
-                    $granteeIds=ProjectGrantees::WHEREIN('project_id',$projectIds)->pluck('grantee_id')
-                        ->toArray();
-
-                    $query->whereIn('id', $granteeIds);
-                }
-
-                // When type is juror, check program and year
-                if($collection_type_id == 5 && $collection->entries_program_year_id!=null)
-                {
-                    $entries_program_year_id=$collection->entries_program_year_id;
-
-                    $jurorIds = ProgramYearJurors::where('program_year_id', $entries_program_year_id)
-                        ->pluck('juror_id')
-                        ->toArray();
-
-                    $query->whereIn('id', $jurorIds);
-                }
-
-                // Ordering 
-                if ($collection_type_id == 1 && $entries_order == 1) //event name asc
-                {
-                    $query->orderBy('event_title', 'asc');
-                } 
-                else if ($collection_type_id == 1 && $entries_order == 2)  //event name desc
-                {
-                    $query->orderBy('event_title', 'desc');
-                } 
-                else if ($entries_order == 3) //id asc
-                {
-                    $query->orderBy('id', 'asc');
-                } 
-                else if ($entries_order == 4) //id desc
-                {
-                    $query->orderBy('id', 'desc');
-                }
-
-                // Limit & get results
-                $entries = $query->limit($entries_number)->get();
-            }
 
             $html.=setCollectionFilters($collection_id,$collection_type_id,$entries);
             if (!blank($collection->background_color_id)){$html.='<div class="mt-4"></div>';}
@@ -265,7 +174,7 @@
 
         $html.='<script>
 
-            function getEntries(collection_id,filters=""){
+            function getFilteredEntries(collection_id,filters=""){
                 $("#collectionEntries-"+collection_id).empty();
                 $("#loader").removeClass("d-none");
                 $.ajax({
@@ -289,7 +198,7 @@
 
             $(document).ready(function(){ 
                 let collection_id= '.$collection_id.'; 
-                getEntries(collection_id);
+                getFilteredEntries(collection_id);
                 
             });
 
@@ -1134,9 +1043,9 @@
                             event_category: event_category,
                             event_from_date: event_from_date,
                             event_to_date: event_to_date
-                        };
+                        }; 
 
-                        getEntries(filters);
+                        getFilteredEntries(".$collection_id.",filters);
                     });
 
                 });
@@ -1171,7 +1080,7 @@
                             program_end_date: program_end_date,
                         };
 
-                        getEntries(filters);
+                        getFilteredEntries(".$collection_id.",filters);
                     });
 
                 });
@@ -1299,7 +1208,7 @@
                             project_program: project_program,
                         };
 
-                        getEntries(filters);
+                        getFilteredEntries(".$collection_id.",filters);
                     });
 
                 });
@@ -1427,7 +1336,7 @@
                             grantee_program: grantee_program,
                         };
 
-                        getEntries(filters);
+                        getFilteredEntries(".$collection_id.",filters);
                     });
 
                 });
@@ -1530,7 +1439,7 @@
                             juror_program: juror_program,
                         };
 
-                        getEntries(filters);
+                        getFilteredEntries(".$collection_id.",filters);
                     });
 
                 });
@@ -1589,7 +1498,7 @@
                             resource_to_date: resource_to_date,
                         };
 
-                        getEntries(filters);
+                        getFilteredEntries(".$collection_id.",filters);
                     });
 
                 });
@@ -1631,7 +1540,7 @@
                             news_to_date: news_to_date,
                         };
 
-                        getEntries(filters);
+                        getFilteredEntries(".$collection_id.",filters);
                     });
 
                 });
@@ -1691,7 +1600,7 @@
                             
                         };
 
-                        getEntries(filters);
+                        getFilteredEntries(".$collection_id.",filters);
                     });
 
                 });
@@ -1856,7 +1765,390 @@
 
         return $logoElements;
     }
-    
 
+
+    function buildEntriesQuery($collection_id,$filters=""){
+
+        $collection=Collections::find($collection_id);
+
+        $collection_type_id=$collection->type_id;
+        $with_filters=$collection->with_filters;
+        $entries_selection=$collection->entries_selection;
+
+        $entries=[];
+
+        if ($entries_selection == 1) // custom selection
+        {
+            $collectionEntries = CollectionEntries::where('collection_id', $collection_id)
+                    ->with('entry')
+                    ->orderBy('list_order', 'ASC')
+                    ->get();
+            
+            //extract entries from collection
+            if(count($collectionEntries)>0){
+                foreach($collectionEntries as $collectionEntry){
+                    $entries[]=$collectionEntry->entry;
+                }
+            }
+        }
+        else if ($entries_selection == 2) // system selection
+        {
+            $entries_number   = $collection->entries_number;
+            $entries_expired  = $collection->entries_with_expired;
+            $entries_order    = $collection->entries_order;
+
+            $query = Entries::where(['type_id' => $collection_type_id , 'published' => '1']);
+
+            ///////////////////////////////////////////////////////////////////////////////////
+            // Check Program & Year
+            ///////////////////////////////////////////////////////////////////////////////////
+            
+            // When type is project, check program and year
+            if($collection_type_id == 3 && $collection->entries_program_year_id!=null)
+            {
+                $entries_program_year_id=$collection->entries_program_year_id;
+
+                $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
+                    ->pluck('project_id')
+                    ->toArray();
+
+                $query->whereIn('id', $projectIds);
+            }
+
+            // When type is grantee, check program and year
+            if($collection_type_id == 4 && $collection->entries_program_year_id!=null)
+            {
+                $entries_program_year_id=$collection->entries_program_year_id;
+
+                //get projects
+                $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
+                    ->pluck('project_id')
+                    ->toArray();
+
+                //get grantees
+                $granteeIds=ProjectGrantees::WHEREIN('project_id',$projectIds)->pluck('grantee_id')
+                    ->toArray();
+
+                $query->whereIn('id', $granteeIds);
+            }
+
+            // When type is juror, check program and year
+            if($collection_type_id == 5 && $collection->entries_program_year_id!=null)
+            {
+                $entries_program_year_id=$collection->entries_program_year_id;
+
+                $jurorIds = ProgramYearJurors::where('program_year_id', $entries_program_year_id)
+                    ->pluck('juror_id')
+                    ->toArray();
+
+                $query->whereIn('id', $jurorIds);
+            }
+
+            ///////////////////////////////////////////////////////////////////////////////////
+            //Check Filters
+            ///////////////////////////////////////////////////////////////////////////////////
+            
+            // Events Filtration
+            if($collection_type_id==1 && $filters!=''){
+                
+                $event_category=@$filters["event_category"]; 
+                if($event_category!=''){
+                    $query->where('event_category_id', $event_category);
+                }
+
+                $event_from_date=@$filters["event_from_date"];
+                $event_to_date=@$filters["event_to_date"]; 
+                
+                if ($event_from_date != '' && $event_to_date != '') {
+                    $query->where('event_start_date', '>=', $event_from_date)
+                        ->where('event_start_date', '<=', $event_to_date);
+                }
+                if ($event_from_date != '' && $event_to_date == '') {
+                    $query->where('event_start_date', '=', $event_from_date);
+                }
+                
+            }
+
+            // Programs Filtration
+            if($collection_type_id==2 && $filters!=''){
+                
+                $program_start_date=@$filters["program_start_date"];
+                $program_end_date=@$filters["program_end_date"]; 
+                
+                if ($program_start_date != '' && $program_end_date != '') {
+                    $query->where('program_start_date', '>=', $program_start_date)
+                        ->where('program_end_date', '<=', $program_end_date);
+                }
+                else if ($program_start_date != '' && $program_end_date == '') {
+                    $query->where('program_start_date', '=', $program_start_date);
+                }
+                else if ($program_start_date == '' && $program_end_date != '') {
+                    $query->where('program_end_date', '=', $program_end_date);
+                }
+                
+            }
+
+            // projects Filtration
+            if($collection_type_id==3 && $filters!=''){
+                
+                //1- filter country
+                $project_country=@$filters["project_country"]; 
+                if($project_country!=''){
+                    $query->whereJsonContains('project_countries_id', $project_country);
+                }
+
+                //2- filter category
+                $project_category=@$filters["project_category"]; 
+                if($project_category!=''){
+                    $query->whereJsonContains('project_categories_id', $project_category);
+                }
+
+                //3- filter program year & program
+                $project_program_year = $filters["project_program_year"] ?? null; 
+                $project_program      = $filters["project_program"] ?? null;
+
+                if (!empty($project_program_year) || !empty($project_program)) {
+
+                    $programYearsQuery = ProgramYears::query();
+
+                    if (!empty($project_program_year)) {
+                        $programYearsQuery->where('year', $project_program_year);
+                    }
+
+                    if (!empty($project_program)) {
+                        $programYearsQuery->where('program_id', $project_program);
+                    }
+
+                    $program_years_ids = $programYearsQuery->pluck('id')->toArray();
+
+
+                    if (!empty($program_years_ids)) {
+
+                        $project_ids = ProgramYearProjects::whereIn('program_year_id', $program_years_ids) ->pluck('project_id') ->toArray(); 
+                        
+                        if (!empty($project_ids)) {
+                            $query->whereIn('id', $project_ids);
+                        }
+                    }
+                    else{
+                         $query->whereRaw('1 = 0');
+                    }
+                }
+           
+            }
+
+            // Grantees Filtration
+            if($collection_type_id==4 && $filters!=''){
+                
+                //1- filter country
+                $grantee_country=@$filters["grantee_country"]; 
+                if($grantee_country!=''){
+                    $query->where('grantee_country_id', $grantee_country);
+                }
+
+                //2- filter category
+                $grantee_category=@$filters["grantee_category"]; 
+                if($grantee_category!=''){
+                    $query->whereJsonContains('grantee_categories_id', $grantee_category);
+                }
+
+                //2- filter program year & program
+                $grantee_program_year = $filters["grantee_program_year"] ?? null;
+                $grantee_program      = $filters["grantee_program"] ?? null;
+
+                if (!empty($grantee_program_year) || !empty($grantee_program)) {
+
+                    $programYearsQuery = ProgramYears::query();
+
+                    if (!empty($grantee_program_year)) {
+                        $programYearsQuery->where('year', $grantee_program_year);
+                    }
+
+                    if (!empty($grantee_program)) {
+                        $programYearsQuery->where('program_id', $grantee_program);
+                    }
+
+                    $program_years_ids = $programYearsQuery->pluck('id')->toArray();
+
+                    if (!empty($program_years_ids)) {
+
+                        $program_year_project_ids = ProgramYearProjects::whereIn('program_year_id', $program_years_ids) ->pluck('project_id') ->toArray(); 
+                        
+                        $grantee_ids = ProjectGrantees::whereIn('project_id', $program_year_project_ids) ->pluck('grantee_id') ->toArray();
+
+                        if (!empty($grantee_ids)) {
+                            $query->whereIn('id', $grantee_ids);
+                        }
+                    }
+                    else{
+                         $query->whereRaw('1 = 0');
+                    }
+                }
+           
+            }
+
+            // Jurors Filtration
+            if($collection_type_id==5 && $filters!=''){
+                
+                //1- filter country
+                $juror_country=@$filters["juror_country"]; 
+                if($juror_country!=''){
+                    $query->where('jury_country_id', $juror_country);
+                }
+
+                //2- filter program year & program
+                $juror_program_year = $filters["juror_program_year"] ?? null;
+                $juror_program      = $filters["juror_program"] ?? null;
+
+                if (!empty($juror_program_year) || !empty($juror_program)) {
+
+                    $programYearsQuery = ProgramYears::query();
+
+                    if (!empty($juror_program_year)) {
+                        $programYearsQuery->where('year', $juror_program_year);
+                    }
+
+                    if (!empty($juror_program)) {
+                        $programYearsQuery->where('program_id', $juror_program);
+                    }
+
+                    $program_years_ids = $programYearsQuery->pluck('id')->toArray();
+
+                    if (!empty($program_years_ids)) {
+                        $program_year_jurors_ids = ProgramYearJurors::whereIn('program_year_id', $program_years_ids)
+                            ->pluck('juror_id')
+                            ->toArray();
+
+                        if (!empty($program_year_jurors_ids)) {
+                            $query->whereIn('id', $program_year_jurors_ids);
+                        }
+                    }
+                    else{
+                         $query->whereRaw('1 = 0');
+                    }
+                }
+           
+            }
+
+            // Resources Filtration
+            if($collection_type_id==6 && $filters!=''){
+                
+                $resource_category=@$filters["resource_category"]; 
+                $resource_from_date=@$filters["resource_from_date"];
+                $resource_to_date=@$filters["resource_to_date"]; 
+
+                if (!empty($resource_category)) {
+                    $query->where('resource_category_id', $resource_category);
+                }
+                
+                if ($resource_from_date != '' && $resource_to_date != '') {
+                    $query->where('resource_date', '>=', $resource_from_date)
+                        ->where('resource_date', '<=', $resource_to_date);
+                }
+                else if ($resource_from_date != '' && $resource_to_date == '') {
+                    $query->where('resource_date', '=', $resource_from_date);
+                }
+                else if ($resource_from_date == '' && $resource_to_date != '') {
+                    $query->where('resource_date', '=', $resource_to_date);
+                }
+                
+            }
+
+            // News Filtration
+            if($collection_type_id==7 && $filters!=''){
+                
+                $news_tags=@$filters["news_tags"];
+                $news_from_date=@$filters["news_from_date"];
+                $news_to_date=@$filters["news_to_date"]; 
+
+                if ($news_tags != '') {
+                    $query->where('news_tags', 'LIKE', '%' . $news_tags . '%')->orwhere('news_tags_arabic', 'LIKE', '%' . $news_tags . '%');
+                }
+                
+                if ($news_from_date != '' && $news_to_date != '') {
+                    $query->where('news_date', '>=', $news_from_date)
+                        ->where('news_date', '<=', $news_to_date);
+                }
+                else if ($news_from_date != '' && $news_to_date == '') {
+                    $query->where('news_date', '=', $news_from_date);
+                }
+                else if ($news_from_date == '' && $news_to_date != '') {
+                    $query->where('news_date', '=', $news_to_date);
+                }
+                
+            }
+
+            // Externals Filtration
+            if($collection_type_id==8 && $filters!=''){
+                
+                $external_category=@$filters["external_category"]; 
+                $external_from_date=@$filters["external_from_date"];
+                $external_to_date=@$filters["external_to_date"]; 
+
+                if (!empty($external_category)) {
+                    $query->where('external_category_id', $external_category);
+                }
+
+                if ($external_from_date != '' && $external_to_date != '') {
+                    $query->where('external_date', '>=', $external_from_date)
+                        ->where('external_date', '<=', $external_to_date);
+                }
+                else if ($external_from_date != '' && $external_to_date == '') {
+                    $query->where('external_date', '=', $external_from_date);
+                }
+                else if ($external_from_date == '' && $external_to_date != '') {
+                    $query->where('external_date', '=', $external_to_date);
+                }
+            }
+
+            ///////////////////////////////////////////////////////////////////////////////////
+            // Check Expired
+            ///////////////////////////////////////////////////////////////////////////////////
+            
+            if ($collection_type_id == 1 && $entries_expired == 1) {
+                $query->where('event_start_date', '>=', date('Y-m-d'));
+            }
+            else if ($collection_type_id == 2 && $entries_expired == 1) {
+                $query->where('program_start_date', '>=', date('Y-m-d'));
+            }
+            else if ($collection_type_id == 6 && $entries_expired == 1) {
+                $query->where('resource_date', '>=', date('Y-m-d'));
+            }
+            else if ($collection_type_id == 7 && $entries_expired == 1) {
+                $query->where('news_date', '>=', date('Y-m-d'));
+            }
+            else if ($collection_type_id == 8 && $entries_expired == 1) {
+                $query->where('external_date', '>=', date('Y-m-d'));
+            }
+
+            ///////////////////////////////////////////////////////////////////////////////////
+            // Check Ordering 
+            ///////////////////////////////////////////////////////////////////////////////////
+            
+            if ($collection_type_id == 1 && $entries_order == 1) //event name asc
+            {
+                $query->orderBy('event_title', 'asc');
+            } 
+            else if ($collection_type_id == 1 && $entries_order == 2)  //event name desc
+            {
+                $query->orderBy('event_title', 'desc');
+            } 
+            else if ($entries_order == 3) //id asc
+            {
+                $query->orderBy('id', 'asc');
+            } 
+            else if ($entries_order == 4) //id desc
+            {
+                $query->orderBy('id', 'desc');
+            }
+
+            // Limit & get results
+            $entries = $query->limit($entries_number)->get();
+        }
+
+        return $entries;
+
+    }
+    
     
 ?>
