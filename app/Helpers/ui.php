@@ -158,7 +158,6 @@
 
         $collection_type_id=$collection->type_id;
         $with_filters=$collection->with_filters;
-        $entries_selection=$collection->entries_selection;
 
         //get all entries
         $entries=buildEntriesQuery($collection_id);
