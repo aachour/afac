@@ -153,24 +153,81 @@
             return '';
         }
 
-        $html='';
-
         $collection_type_id=$collection->type_id;
+        $show_name=$collection->show_name;
+        $show_description=$collection->show_description;
+        $show_view_all=$collection->show_view_all;
+        $view_all_title=$collection->view_all_title;
+        $view_all_link=$collection->view_all_link;
+        $entries_selection=$collection->entries_selection;
+        $entries_layout=$collection->entries_layout;
         $with_filters=$collection->with_filters;
+        $with_featured=$collection->with_featured_image;
+        $with_border_bottom=$collection->with_border_bottom;
+        
+        $featured_image_width=$collection->featured_image_width;
+
+        $featured_width=0;
+        $featured_margin=0;
+        if($featured_image_width==1) //full
+        {
+            $featured_width='100%';
+            $featured_margin='0%';
+        }
+        else if($featured_image_width==2) //three quarter
+        {
+            $featured_width='74.3%';
+            $featured_margin='25.3%';
+        }
+
+        $featured_image_bgColor = $collection->featuredImageBgColor?->code ?? '#ffffff';        
+
+        $bgColor = $collection->bgColor?->code ?? '#ffffff';
+        
+        $sliderCollection = $entries_layout == 2 ? 'sliderCollection' : '';
 
         //get all entries
         $entries=buildEntriesQuery($collection_id);
 
-        //Set Filters
-        if($with_filters==1){   
+        $html='<div class="collection '.$sliderCollection.'" style="background-color:'.$bgColor.';">';
 
-            $html.=setCollectionFilters($collection_id,$collection_type_id,$entries);
-            if (!blank($collection->background_color_id)){$html.='<div class="mt-4"></div>';}
+            if( ($show_name==1 || $show_description==1) && $featured_width!='74.3%' ){
+                $html.='<div class="titleDescription">';
+                    if($show_name==1){
+                        $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
+                    }
+                    if($show_description==1){
+                        $html.='<div class="topSpacerSmall black tiny ABCDiatypeMedium">'.$collection->description.'</div>';
+                    }
+                $html.='</div>';
+            }
+
+            if( $with_featured==0 && $show_view_all==1 && $featured_width!='74.3%'){
+                $html.='<div class="viewAll">
+                    <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:5px;"></a>
+                </div>';
+            }
+
+            $html.='<div class="clear"></div>';
+
+            //Set Filters
+            if($with_filters==1){   
+                $html.=setCollectionFilters($collection_id,$collection_type_id,$entries);
+                if (!blank($collection->background_color_id)){$html.='<div class="mt-4"></div>';}
+            }
+
+            $html.='<div id="collectionEntries-'.$collection_id.'"></div>';
+            $html.='<div class="mt-5 text-center d-none" id="loader"><div class="loader"></div></div>';
+
+
+        $html.='</div>';
+
+        //Check shadow bottom
+        if($with_border_bottom == 1){
+            $html.='<div class="collectionWithBorder"></div>';
         }
 
-
-        $html.='<div id="collectionEntries-'.$collection_id.'"></div>';
-        $html.='<div class="mt-5 text-center d-none" id="loader"><div class="loader"></div></div>';
+        
 
         $html.='<script>
 
