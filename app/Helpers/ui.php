@@ -1146,23 +1146,47 @@
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
                 </div>
-                <div class="sort">SORT DPD</div>
+                <div class="sort">
+                    <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
+                        <option value="">Select type</option>
+                        <option value="1">Name ASC</option>
+                        <option value="2">Name DESC</option>
+                        <option value="3">Date ASC</option>
+                        <option value="4">Date DESC</option>
+                    </select>
+                </div>
                 <div class="clear"></div>
             </div>';
 
             $html.="<script>
                 $(document).ready(function(){
+
+                    //initiate variables
+                    var program_start_date_".$collection_id."='';
+                    var program_end_date_".$collection_id."='';
+                    var sort_".$collection_id."='';
                     
                     $('#filter-collection-".$collection_id."').click(function () {
                         var parent=$(this).parent().parent();
-                        var program_start_date=$(parent).find('.filter_program_start_date').val();
-                        var program_end_date=$(parent).find('.filter_program_end_date').val();
+                        program_start_date_".$collection_id."=$(parent).find('.filter_program_start_date').val();
+                        program_end_date_".$collection_id."=$(parent).find('.filter_program_end_date').val();
                         
                         var filters = {
-                            program_start_date: program_start_date,
-                            program_end_date: program_end_date,
+                            program_start_date: program_start_date_".$collection_id.",
+                            program_end_date: program_end_date_".$collection_id.",
+                            sort: sort_".$collection_id.",
                         };
+                        getFilteredEntries(".$collection_id.",filters);
+                    });
 
+                    $('#sort-collection-".$collection_id."').change(function () {
+                        var parent=$(this).parent().parent();
+                        sort_".$collection_id."=$(parent).find('.sortDpd').val();
+                        var filters = {
+                            program_start_date: program_start_date_".$collection_id.",
+                            program_end_date: program_end_date_".$collection_id.",
+                            sort: sort_".$collection_id.",
+                        }; 
                         getFilteredEntries(".$collection_id.",filters);
                     });
 
@@ -2212,7 +2236,10 @@
                 $sort=@$filters["sort"]; 
             }
             
+            //print_r($filters);
+
             if(!empty($sort)){
+                //Events Sort
                 if ($collection_type_id == 1 && $sort == 1) //event name asc
                 {
                     $query->orderBy('event_title', 'asc');
@@ -2221,13 +2248,31 @@
                 {
                     $query->orderBy('event_title', 'desc');
                 } 
-                else if ($collection_type_id == 1 && $sort == 3) //id asc
+                else if ($collection_type_id == 1 && $sort == 3) //date asc
                 {
                     $query->orderBy('event_start_date', 'asc');
                 } 
-                else if ($collection_type_id == 1 && $sort == 4) //id desc
+                else if ($collection_type_id == 1 && $sort == 4) //date desc
                 {
                     $query->orderBy('event_start_date', 'desc');
+                }
+
+                //Programs Sort
+                if ($collection_type_id == 2 && $sort == 1) //event name asc
+                {
+                    $query->orderBy('program_title', 'asc');
+                } 
+                else if ($collection_type_id == 2 && $sort == 2)  //event name desc
+                {
+                    $query->orderBy('program_title', 'desc');
+                } 
+                else if ($collection_type_id == 2 && $sort == 3) //date asc
+                {
+                    $query->orderBy('program_start_date', 'asc');
+                } 
+                else if ($collection_type_id == 2 && $sort == 4) //date desc
+                {
+                    $query->orderBy('program_start_date', 'desc');
                 }
                 
             }
