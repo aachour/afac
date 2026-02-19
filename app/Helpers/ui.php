@@ -17,7 +17,6 @@
     use App\Models\ProgramYears;
     use App\Models\ProgramYearProjects;
     use App\Models\ProgramYearJurors;
-    
     use App\Models\Logo;
     use Carbon\Carbon;
             
