@@ -153,24 +153,81 @@
             return '';
         }
 
-        $html='';
-
         $collection_type_id=$collection->type_id;
+        $show_name=$collection->show_name;
+        $show_description=$collection->show_description;
+        $show_view_all=$collection->show_view_all;
+        $view_all_title=$collection->view_all_title;
+        $view_all_link=$collection->view_all_link;
+        $entries_selection=$collection->entries_selection;
+        $entries_layout=$collection->entries_layout;
         $with_filters=$collection->with_filters;
+        $with_featured=$collection->with_featured_image;
+        $with_border_bottom=$collection->with_border_bottom;
+        
+        $featured_image_width=$collection->featured_image_width;
+
+        $featured_width=0;
+        $featured_margin=0;
+        if($featured_image_width==1) //full
+        {
+            $featured_width='100%';
+            $featured_margin='0%';
+        }
+        else if($featured_image_width==2) //three quarter
+        {
+            $featured_width='74.3%';
+            $featured_margin='25.3%';
+        }
+
+        $featured_image_bgColor = $collection->featuredImageBgColor?->code ?? '#ffffff';        
+
+        $bgColor = $collection->bgColor?->code ?? '#ffffff';
+        
+        $sliderCollection = $entries_layout == 2 ? 'sliderCollection' : '';
 
         //get all entries
         $entries=buildEntriesQuery($collection_id);
 
-        //Set Filters
-        if($with_filters==1){   
+        $html='<div class="collection '.$sliderCollection.'" style="background-color:'.$bgColor.';">';
 
-            $html.=setCollectionFilters($collection_id,$collection_type_id,$entries);
-            if (!blank($collection->background_color_id)){$html.='<div class="mt-4"></div>';}
+            if( ($show_name==1 || $show_description==1) && $featured_width!='74.3%' ){
+                $html.='<div class="titleDescription">';
+                    if($show_name==1){
+                        $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
+                    }
+                    if($show_description==1){
+                        $html.='<div class="topSpacerSmall black tiny ABCDiatypeMedium">'.$collection->description.'</div>';
+                    }
+                $html.='</div>';
+            }
+
+            if( $with_featured==0 && $show_view_all==1 && $featured_width!='74.3%'){
+                $html.='<div class="viewAll">
+                    <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:5px;"></a>
+                </div>';
+            }
+
+            $html.='<div class="clear"></div>';
+
+            //Set Filters
+            if($with_filters==1){   
+                $html.=setCollectionFilters($collection_id,$collection_type_id,$entries);
+                if (!blank($collection->background_color_id)){$html.='<div class="mt-4"></div>';}
+            }
+
+            $html.='<div id="collectionEntries-'.$collection_id.'"></div>';
+            $html.='<div class="mt-5 text-center d-none" id="loader"><div class="loader"></div></div>';
+
+
+        $html.='</div>';
+
+        //Check shadow bottom
+        if($with_border_bottom == 1){
+            $html.='<div class="collectionWithBorder"></div>';
         }
 
-
-        $html.='<div id="collectionEntries-'.$collection_id.'"></div>';
-        $html.='<div class="mt-5 text-center d-none" id="loader"><div class="loader"></div></div>';
+        
 
         $html.='<script>
 
@@ -1026,25 +1083,51 @@
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
                 </div>
-                <div class="sort">SORT DPD</div>
+                <div class="sort">
+                    <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
+                        <option value="">Select type</option>
+                        <option value="1">Name ASC</option>
+                        <option value="2">Name DESC</option>
+                        <option value="3">Date ASC</option>
+                        <option value="4">Date DESC</option>
+                    </select>
+                </div>
                 <div class="clear"></div>
             </div>';
 
             $html.="<script>
+
                 $(document).ready(function(){
+
+                    //initiate variables
+                    var event_category_".$collection_id."='';
+                    var event_from_date_".$collection_id."='';
+                    var event_to_date_".$collection_id."='';
+                    var sort_".$collection_id."='';
                     
                     $('#filter-collection-".$collection_id."').click(function () {
                         var parent=$(this).parent().parent();
-                        var event_category=$(parent).find('.filter_event_category').val();
-                        var event_from_date=$(parent).find('.filter_event_from_date').val();
-                        var event_to_date=$(parent).find('.filter_event_to_date').val();
-                        
+                        event_category_".$collection_id."=$(parent).find('.filter_event_category').val();
+                        event_from_date_".$collection_id."=$(parent).find('.filter_event_from_date').val();
+                        event_to_date_".$collection_id."=$(parent).find('.filter_event_to_date').val();
                         var filters = {
-                            event_category: event_category,
-                            event_from_date: event_from_date,
-                            event_to_date: event_to_date
+                            event_category: event_category_".$collection_id.",
+                            event_from_date: event_from_date_".$collection_id.",
+                            event_to_date: event_to_date_".$collection_id.",
+                            sort: sort_".$collection_id.",
                         }; 
+                        getFilteredEntries(".$collection_id.",filters);
+                    });
 
+                    $('#sort-collection-".$collection_id."').change(function () {
+                        var parent=$(this).parent().parent();
+                        sort_".$collection_id."=$(parent).find('.sortDpd').val();
+                        var filters = {
+                            event_category: event_category_".$collection_id.",
+                            event_from_date: event_from_date_".$collection_id.",
+                            event_to_date: event_to_date_".$collection_id.",
+                            sort: sort_".$collection_id.",
+                        }; 
                         getFilteredEntries(".$collection_id.",filters);
                     });
 
@@ -1063,23 +1146,47 @@
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
                 </div>
-                <div class="sort">SORT DPD</div>
+                <div class="sort">
+                    <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
+                        <option value="">Select type</option>
+                        <option value="1">Name ASC</option>
+                        <option value="2">Name DESC</option>
+                        <option value="3">Date ASC</option>
+                        <option value="4">Date DESC</option>
+                    </select>
+                </div>
                 <div class="clear"></div>
             </div>';
 
             $html.="<script>
                 $(document).ready(function(){
+
+                    //initiate variables
+                    var program_start_date_".$collection_id."='';
+                    var program_end_date_".$collection_id."='';
+                    var sort_".$collection_id."='';
                     
                     $('#filter-collection-".$collection_id."').click(function () {
                         var parent=$(this).parent().parent();
-                        var program_start_date=$(parent).find('.filter_program_start_date').val();
-                        var program_end_date=$(parent).find('.filter_program_end_date').val();
+                        program_start_date_".$collection_id."=$(parent).find('.filter_program_start_date').val();
+                        program_end_date_".$collection_id."=$(parent).find('.filter_program_end_date').val();
                         
                         var filters = {
-                            program_start_date: program_start_date,
-                            program_end_date: program_end_date,
+                            program_start_date: program_start_date_".$collection_id.",
+                            program_end_date: program_end_date_".$collection_id.",
+                            sort: sort_".$collection_id.",
                         };
+                        getFilteredEntries(".$collection_id.",filters);
+                    });
 
+                    $('#sort-collection-".$collection_id."').change(function () {
+                        var parent=$(this).parent().parent();
+                        sort_".$collection_id."=$(parent).find('.sortDpd').val();
+                        var filters = {
+                            program_start_date: program_start_date_".$collection_id.",
+                            program_end_date: program_end_date_".$collection_id.",
+                            sort: sort_".$collection_id.",
+                        }; 
                         getFilteredEntries(".$collection_id.",filters);
                     });
 
@@ -1768,7 +1875,6 @@
 
 
     function buildEntriesQuery($collection_id,$filters=""){
-
         $collection=Collections::find($collection_id);
 
         $collection_type_id=$collection->type_id;
@@ -2124,22 +2230,69 @@
             ///////////////////////////////////////////////////////////////////////////////////
             // Check Ordering 
             ///////////////////////////////////////////////////////////////////////////////////
+
+            $sort='';
+            if(!empty($filters)){
+                $sort=@$filters["sort"]; 
+            }
             
-            if ($collection_type_id == 1 && $entries_order == 1) //event name asc
-            {
-                $query->orderBy('event_title', 'asc');
-            } 
-            else if ($collection_type_id == 1 && $entries_order == 2)  //event name desc
-            {
-                $query->orderBy('event_title', 'desc');
-            } 
-            else if ($entries_order == 3) //id asc
-            {
-                $query->orderBy('id', 'asc');
-            } 
-            else if ($entries_order == 4) //id desc
-            {
-                $query->orderBy('id', 'desc');
+            //print_r($filters);
+
+            if(!empty($sort)){
+                //Events Sort
+                if ($collection_type_id == 1 && $sort == 1) //event name asc
+                {
+                    $query->orderBy('event_title', 'asc');
+                } 
+                else if ($collection_type_id == 1 && $sort == 2)  //event name desc
+                {
+                    $query->orderBy('event_title', 'desc');
+                } 
+                else if ($collection_type_id == 1 && $sort == 3) //date asc
+                {
+                    $query->orderBy('event_start_date', 'asc');
+                } 
+                else if ($collection_type_id == 1 && $sort == 4) //date desc
+                {
+                    $query->orderBy('event_start_date', 'desc');
+                }
+
+                //Programs Sort
+                if ($collection_type_id == 2 && $sort == 1) //event name asc
+                {
+                    $query->orderBy('program_title', 'asc');
+                } 
+                else if ($collection_type_id == 2 && $sort == 2)  //event name desc
+                {
+                    $query->orderBy('program_title', 'desc');
+                } 
+                else if ($collection_type_id == 2 && $sort == 3) //date asc
+                {
+                    $query->orderBy('program_start_date', 'asc');
+                } 
+                else if ($collection_type_id == 2 && $sort == 4) //date desc
+                {
+                    $query->orderBy('program_start_date', 'desc');
+                }
+                
+            }
+            else{
+                if ($collection_type_id == 1 && $entries_order == 1) //event name asc
+                {
+                    $query->orderBy('event_title', 'asc');
+                } 
+                else if ($collection_type_id == 1 && $entries_order == 2)  //event name desc
+                {
+                    $query->orderBy('event_title', 'desc');
+                } 
+                else if ($entries_order == 3) //id asc
+                {
+                    $query->orderBy('id', 'asc');
+                } 
+                else if ($entries_order == 4) //id desc
+                {
+                    $query->orderBy('id', 'desc');
+                }
             }
 
             // Limit & get results
