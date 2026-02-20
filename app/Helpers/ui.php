@@ -227,8 +227,6 @@
             $html.='<div class="collectionWithBorder"></div>';
         }
 
-        
-
         $html.='<script>
 
             function getFilteredEntries(collection_id,filters=""){
@@ -1085,7 +1083,7 @@
                 </div>
                 <div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
-                        <option value="">Select type</option>
+                        <option value="">Select sort</option>
                         <option value="1">Name ASC</option>
                         <option value="2">Name DESC</option>
                         <option value="3">Date ASC</option>
@@ -1148,7 +1146,7 @@
                 </div>
                 <div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
-                        <option value="">Select type</option>
+                        <option value="">Select sort</option>
                         <option value="1">Name ASC</option>
                         <option value="2">Name DESC</option>
                         <option value="3">Date ASC</option>
@@ -1291,30 +1289,57 @@
                         }
                     $html.='</select>
                 </div>
+                <div class="sort">
+                    <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
+                        <option value="">Select sort</option>
+                        <option value="1">Name ASC</option>
+                        <option value="2">Name DESC</option>
+                    </select>
+                </div>
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
                 </div>
-                <div class="sort">SORT DPD</div>
                 <div class="clear"></div>
             </div>';
 
             $html.="<script>
                 $(document).ready(function(){
                     
+                    //initiate variables
+                    var project_country_".$collection_id."='';
+                    var project_category_".$collection_id."='';
+                    var project_program_year_".$collection_id."='';
+                    var project_program_".$collection_id."='';
+                    var sort_".$collection_id."='';
+
                     $('#filter-collection-".$collection_id."').click(function () {
-                        var parent=$(this).parent().parent();
-                        var project_country=$(parent).find('.filter_project_country').val();
-                        var project_category=$(parent).find('.filter_project_category').val();
-                        var project_program_year=$(parent).find('.filter_project_program_year').val();
-                        var project_program=$(parent).find('.filter_project_program').val();
-                        
+                        var parent=$(this).parent().parent();                        
+                        project_country_".$collection_id."=$(parent).find('.filter_project_country').val();
+                        project_category_".$collection_id."=$(parent).find('.filter_project_category').val();
+                        project_program_".$collection_id."_year=$(parent).find('.filter_project_program_year').val();
+                        project_program_".$collection_id."=$(parent).find('.filter_project_program').val();
+
                         var filters = {
-                            project_country: project_country,
-                            project_category: project_category,
-                            project_program_year: project_program_year,
-                            project_program: project_program,
+                            project_country: project_country_".$collection_id.",
+                            project_category: project_category_".$collection_id.",
+                            project_program_year: project_program_year_".$collection_id.",
+                            project_program: project_program_".$collection_id.",
+                            sort: sort_".$collection_id.",
                         };
 
+                        getFilteredEntries(".$collection_id.",filters);
+                    });
+
+                    $('#sort-collection-".$collection_id."').change(function () {
+                        var parent=$(this).parent().parent();
+                        sort_".$collection_id."=$(parent).find('.sortDpd').val();
+                        var filters = {
+                            project_country: project_country_".$collection_id.",
+                            project_category: project_category_".$collection_id.",
+                            project_program_year: project_program_year_".$collection_id.",
+                            project_program: project_program_".$collection_id.",
+                            sort: sort_".$collection_id.",
+                        };
                         getFilteredEntries(".$collection_id.",filters);
                     });
 
@@ -1421,28 +1446,54 @@
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
                 </div>
-                <div class="sort">SORT DPD</div>
+                <div class="sort">
+                    <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
+                        <option value="">Select sort</option>
+                        <option value="1">Name ASC</option>
+                        <option value="2">Name DESC</option>
+                    </select>
+                </div>
                 <div class="clear"></div>
             </div>';
 
             $html.="<script>
                 $(document).ready(function(){
+
+                    //initiate variables
+                    var grantee_country_".$collection_id."='';
+                    var grantee_category_".$collection_id."='';
+                    var grantee_program_year_".$collection_id."='';
+                    var grantee_program_".$collection_id."='';
+                    var sort_".$collection_id."='';
                     
                     $('#filter-collection-".$collection_id."').click(function () {
                         var parent=$(this).parent().parent();
-                        var grantee_country=$(parent).find('.filter_grantee_country').val();
-                        var grantee_category=$(parent).find('.filter_grantee_category').val();
-                        var grantee_program_year=$(parent).find('.filter_grantee_program_year').val();
-                        var grantee_program=$(parent).find('.filter_grantee_program').val();
-                        
+                        grantee_country_".$collection_id."=$(parent).find('.filter_grantee_country').val();
+                        grantee_category_".$collection_id."=$(parent).find('.filter_grantee_category').val();
+                        grantee_program_year_".$collection_id."=$(parent).find('.filter_grantee_program_year').val();
+                        grantee_program_".$collection_id."=$(parent).find('.filter_grantee_program').val();
                         
                         var filters = {
-                            grantee_country: grantee_country,
-                            grantee_category: grantee_category,
-                            grantee_program_year: grantee_program_year,
-                            grantee_program: grantee_program,
+                            grantee_country: grantee_country_".$collection_id.",
+                            grantee_category: grantee_category_".$collection_id.",
+                            grantee_program_year: grantee_program_year_".$collection_id.",
+                            grantee_program: grantee_program_".$collection_id.",
+                            sort: sort_".$collection_id.",
                         };
 
+                        getFilteredEntries(".$collection_id.",filters);
+                    });
+
+                    $('#sort-collection-".$collection_id."').change(function () {
+                        var parent=$(this).parent().parent();
+                        sort_".$collection_id."=$(parent).find('.sortDpd').val();
+                        var filters = {
+                            grantee_country: grantee_country_".$collection_id.",
+                            grantee_category: grantee_category_".$collection_id.",
+                            grantee_program_year: grantee_program_year_".$collection_id.",
+                            grantee_program: grantee_program_".$collection_id.",
+                            sort: sort_".$collection_id.",
+                        }; 
                         getFilteredEntries(".$collection_id.",filters);
                     });
 
@@ -1527,25 +1578,49 @@
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
                 </div>
-                <div class="sort">SORT DPD</div>
+                <div class="sort">
+                    <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
+                        <option value="">Select sort</option>
+                        <option value="1">Name ASC</option>
+                        <option value="2">Name DESC</option>
+                    </select>
+                </div>
                 <div class="clear"></div>
             </div>';
 
             $html.="<script>
                 $(document).ready(function(){
                     
+                    //initiate variables
+                    var juror_country_".$collection_id."='';
+                    var juror_program_year_".$collection_id."='';
+                    var juror_program_".$collection_id."='';
+                    var sort_".$collection_id."='';
+
                     $('#filter-collection-".$collection_id."').click(function () {
                         var parent=$(this).parent().parent();
-                        var juror_country=$(parent).find('.filter_juror_country').val();
-                        var juror_program_year=$(parent).find('.filter_juror_program_year').val();
-                        var juror_program=$(parent).find('.filter_juror_program').val();
+                        var juror_country_".$collection_id."=$(parent).find('.filter_juror_country').val();
+                        var juror_program_year_".$collection_id."=$(parent).find('.filter_juror_program_year').val();
+                        var juror_program_".$collection_id."=$(parent).find('.filter_juror_program').val();
                         
                         var filters = {
-                            juror_country: juror_country,
-                            juror_program_year: juror_program_year,
-                            juror_program: juror_program,
-                        };
+                            juror_country_: juror_country_".$collection_id.",
+                            juror_program_year_: juror_program_year_".$collection_id.",
+                            juror_program_: juror_program_".$collection_id.",
+                            sort: sort_".$collection_id.",
+                        }; 
+                        getFilteredEntries(".$collection_id.",filters);
+                    });
 
+                    $('#sort-collection-".$collection_id."').change(function () {
+                        var parent=$(this).parent().parent();
+                        sort_".$collection_id."=$(parent).find('.sortDpd').val();
+                        var filters = {
+                            juror_country_: juror_country_".$collection_id.",
+                            juror_program_year_: juror_program_year_".$collection_id.",
+                            juror_program_: juror_program_".$collection_id.",
+                            sort: sort_".$collection_id.",
+                        }; 
                         getFilteredEntries(".$collection_id.",filters);
                     });
 
@@ -1587,27 +1662,53 @@
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
                 </div>
-                <div class="sort">SORT DPD</div>
+                <div class="sort">
+                    <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
+                        <option value="">Select sort</option>
+                        <option value="1">Name ASC</option>
+                        <option value="2">Name DESC</option>
+                        <option value="3">Date ASC</option>
+                        <option value="4">Date DESC</option>
+                    </select>
+                </div>
                 <div class="clear"></div>
             </div>';
             
             $html.="<script>
                 $(document).ready(function(){
+
+                    //initiate variables
+                    var resource_category_".$collection_id."='';
+                    var resource_from_date_".$collection_id."='';
+                    var resource_to_date_".$collection_id."='';
+                    var sort_".$collection_id."='';
                     
                     $('#filter-collection-".$collection_id."').click(function () {
                         var parent=$(this).parent().parent();
-                        var resource_category=$(parent).find('.filter_resource_category').val();
-                        var resource_from_date=$(parent).find('.filter_resource_from_date').val();
-                        var resource_to_date=$(parent).find('.filter_resource_to_date').val();
+                        resource_category_".$collection_id."=$(parent).find('.filter_resource_category').val();
+                        resource_from_date_".$collection_id."=$(parent).find('.filter_resource_from_date').val();
+                        resource_to_date_".$collection_id."=$(parent).find('.filter_resource_to_date').val();
                         var filters = {
-                            resource_category: resource_category,
-                            resource_from_date: resource_from_date,
-                            resource_to_date: resource_to_date,
+                            resource_category: resource_category_".$collection_id.",
+                            resource_from_date: resource_from_date_".$collection_id.",
+                            resource_to_date: resource_to_date_".$collection_id.",
+                            sort: sort_".$collection_id.",
                         };
 
                         getFilteredEntries(".$collection_id.",filters);
                     });
-
+                    
+                    $('#sort-collection-".$collection_id."').change(function () {
+                        var parent=$(this).parent().parent();
+                        sort_".$collection_id."=$(parent).find('.sortDpd').val();
+                        var filters = {
+                            resource_category: resource_category_".$collection_id.",
+                            resource_from_date: resource_from_date_".$collection_id.",
+                            resource_to_date: resource_to_date_".$collection_id.",
+                            sort: sort_".$collection_id.",
+                        };
+                        getFilteredEntries(".$collection_id.",filters);
+                    });
                 });
             </script>";
             
@@ -1628,25 +1729,52 @@
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
                 </div>
-                <div class="sort">SORT DPD</div>
+                <div class="sort">
+                    <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
+                        <option value="">Select sort</option>
+                        <option value="1">Name ASC</option>
+                        <option value="2">Name DESC</option>
+                        <option value="3">Date ASC</option>
+                        <option value="4">Date DESC</option>
+                    </select>
+                </div>
                 <div class="clear"></div>
             </div>';
 
             $html.="<script>
                 $(document).ready(function(){
+
+                    //initiate variables
+                    var news_tags_".$collection_id."='';
+                    var news_from_date_".$collection_id."='';
+                    var news_to_date_".$collection_id."='';
+                    var sort_".$collection_id."='';
                     
                     $('#filter-collection-".$collection_id."').click(function () {
-                        var parent=$(this).parent().parent();
-                        var news_tags=$(parent).find('.filter_news_tags').val();
-                        var news_from_date=$(parent).find('.filter_news_from_date').val();
-                        var news_to_date=$(parent).find('.filter_news_to_date').val();
+                        parent=$(this).parent().parent();
+                        news_tags_".$collection_id."=$(parent).find('.filter_news_tags').val();
+                        news_from_date_".$collection_id."=$(parent).find('.filter_news_from_date').val();
+                        news_to_date_".$collection_id."=$(parent).find('.filter_news_to_date').val();
                         
                         var filters = {
-                            news_tags: news_tags,
-                            news_from_date: news_from_date,
-                            news_to_date: news_to_date,
+                            news_tags: news_tags_".$collection_id.",
+                            news_from_date: news_from_date_".$collection_id.",
+                            news_to_date: news_to_date_".$collection_id.",
+                            sort: sort_".$collection_id.",
                         };
 
+                        getFilteredEntries(".$collection_id.",filters);
+                    });
+
+                    $('#sort-collection-".$collection_id."').change(function () {
+                        var parent=$(this).parent().parent();
+                        sort_".$collection_id."=$(parent).find('.sortDpd').val();
+                        var filters = {
+                            news_tags: news_tags_".$collection_id.",
+                            news_from_date: news_from_date_".$collection_id.",
+                            news_to_date: news_to_date_".$collection_id.",
+                            sort: sort_".$collection_id.",
+                        };
                         getFilteredEntries(".$collection_id.",filters);
                     });
 
@@ -1688,25 +1816,52 @@
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
                 </div>
-                <div class="sort">SORT DPD</div>
+                <div class="sort">
+                    <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
+                        <option value="">Select sort</option>
+                        <option value="1">Name ASC</option>
+                        <option value="2">Name DESC</option>
+                        <option value="3">Date ASC</option>
+                        <option value="4">Date DESC</option>
+                    </select>
+                </div>
                 <div class="clear"></div>
             </div>';
             
             $html.="<script>
                 $(document).ready(function(){
+
+                    //initiate variables
+                    var external_category_".$collection_id."='';
+                    var external_from_date_".$collection_id."='';
+                    var external_to_date_".$collection_id."='';
+                    var sort_".$collection_id."='';
                     
                     $('#filter-collection-".$collection_id."').click(function () {
                         var parent=$(this).parent().parent();
-                        var external_category=$(parent).find('.filter_external_category').val();
-                        var external_from_date=$(parent).find('.filter_external_from_date').val();
-                        var external_to_date=$(parent).find('.filter_external_to_date').val();
+                        external_category_".$collection_id."=$(parent).find('.filter_external_category').val();
+                        external_from_date_".$collection_id."=$(parent).find('.filter_external_from_date').val();
+                        external_to_date_".$collection_id."=$(parent).find('.filter_external_to_date').val();
                         var filters = {
-                            external_category: external_category,
-                            external_from_date: external_from_date,
-                            external_to_date: external_to_date,
-                            
+                            external_category: external_category_".$collection_id.",
+                            external_from_date: external_from_date_".$collection_id.",
+                            external_to_date: external_to_date_".$collection_id.",
+                            sort: sort_".$collection_id.",
                         };
 
+                        getFilteredEntries(".$collection_id.",filters);
+                    });
+
+
+                    $('#sort-collection-".$collection_id."').change(function () {
+                        var parent=$(this).parent().parent();
+                        sort_".$collection_id."=$(parent).find('.sortDpd').val();
+                        var filters = {
+                            external_category: external_category_".$collection_id.",
+                            external_from_date: external_from_date_".$collection_id.",
+                            external_to_date: external_to_date_".$collection_id.",
+                            sort: sort_".$collection_id.",
+                        };
                         getFilteredEntries(".$collection_id.",filters);
                     });
 
@@ -2274,7 +2429,90 @@
                 {
                     $query->orderBy('program_start_date', 'desc');
                 }
-                
+
+                //Projects Sort
+                if ($collection_type_id == 3 && $sort == 1) //event name asc
+                {
+                    $query->orderBy('project_title', 'asc');
+                } 
+                else if ($collection_type_id == 3 && $sort == 2)  //event name desc
+                {
+                    $query->orderBy('project_title', 'desc');
+                } 
+
+                //Grantees Sort
+                if ($collection_type_id == 4 && $sort == 1) //event name asc
+                {
+                    $query->orderBy('grantee_name', 'asc');
+                } 
+                else if ($collection_type_id == 4 && $sort == 2)  //event name desc
+                {
+                    $query->orderBy('grantee_name', 'desc');
+                } 
+
+                //juror Sort
+                if ($collection_type_id == 5 && $sort == 1) //event name asc
+                {
+                    $query->orderBy('jury_name', 'asc');
+                } 
+                else if ($collection_type_id == 5 && $sort == 2)  //event name desc
+                {
+                    $query->orderBy('jury_name', 'desc');
+                } 
+
+                //resource Sort
+                if ($collection_type_id == 6 && $sort == 1) //news name asc
+                {
+                    $query->orderBy('resource_title', 'asc');
+                } 
+                else if ($collection_type_id == 6 && $sort == 2)  //news name desc
+                {
+                    $query->orderBy('resource_title', 'desc');
+                } 
+                else if ($collection_type_id == 6 && $sort == 3) //date asc
+                {
+                    $query->orderBy('resource_date', 'asc');
+                } 
+                else if ($collection_type_id == 6 && $sort == 4) //date desc
+                {
+                    $query->orderBy('resource_date', 'desc');
+                }
+
+                //news Sort
+                if ($collection_type_id == 7 && $sort == 1) //news name asc
+                {
+                    $query->orderBy('news_title', 'asc');
+                } 
+                else if ($collection_type_id == 7 && $sort == 2)  //news name desc
+                {
+                    $query->orderBy('news_title', 'desc');
+                } 
+                else if ($collection_type_id == 7 && $sort == 3) //date asc
+                {
+                    $query->orderBy('news_date', 'asc');
+                } 
+                else if ($collection_type_id == 7 && $sort == 4) //date desc
+                {
+                    $query->orderBy('news_date', 'desc');
+                }
+
+                //Externals Sort
+                if ($collection_type_id == 8 && $sort == 1) //news name asc
+                {
+                    $query->orderBy('external_title', 'asc');
+                } 
+                else if ($collection_type_id == 8 && $sort == 2)  //news name desc
+                {
+                    $query->orderBy('external_title', 'desc');
+                } 
+                else if ($collection_type_id == 8 && $sort == 3) //date asc
+                {
+                    $query->orderBy('external_date', 'asc');
+                } 
+                else if ($collection_type_id == 8 && $sort == 4) //date desc
+                {
+                    $query->orderBy('external_date', 'desc');
+                }
             }
             else{
                 if ($collection_type_id == 1 && $entries_order == 1) //event name asc
