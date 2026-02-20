@@ -188,23 +188,18 @@
 
     <script>
 
-        document.addEventListener('DOMContentLoaded', function() {
+        function initHoverAnimations() {
             const wrappers = document.querySelectorAll('[data-hover-animation]');
             
             wrappers.forEach(function(wrapper) {
+                if (wrapper.dataset.hoverInitialized) return;
+
                 const overlay = wrapper.querySelector('.card-hover-animation-overlay');
-                const diamond = wrapper.querySelector('.card-hover-animation-diamond');
-                
-                if (!overlay || !diamond) return;
-                
-                // Set initial state
-                gsap.set(overlay, {
-                    opacity: 0,
-                    scale: 0.8
-                });
-                
+                if (!overlay) return;
+
+                gsap.set(overlay, { opacity: 0, scale: 0.8 });
+
                 wrapper.addEventListener('mouseenter', function() {
-                
                     gsap.to(overlay, {
                         opacity: 1,
                         scale: 1,
@@ -212,9 +207,8 @@
                         ease: "power2.out"
                     });
                 });
-                
+
                 wrapper.addEventListener('mouseleave', function() {
-                    
                     gsap.to(overlay, {
                         opacity: 0,
                         scale: 0.8,
@@ -222,8 +216,21 @@
                         ease: "power2.in"
                     });
                 });
+
+                wrapper.dataset.hoverInitialized = true;
             });
+        }
+
+        // Run on page load
+        document.addEventListener('DOMContentLoaded', initHoverAnimations);
+
+        // Run again after AJAX success
+        // example:
+        $(document).ajaxComplete(function () {
+            initHoverAnimations();
         });
+
+        
 
         $(document).on("click", ".card-hover-animation-wrapper", function () {
             $(this).find(".popupText").removeClass("d-none");
