@@ -877,7 +877,7 @@
 
                 foreach($column->expandingTexts as $expandingText){
 
-                    $htmlColumn.= '<div class="expandingText clickable mb-3 small black ABCDiatypeMedium '.($expandingText->visible == '1' ? '' : 'hiddenText d-none').'">'.$expandingText->text.'</div>';
+                    $htmlColumn.= '<div class="expandingText clickable mb-3 big black ABCDiatypeMedium '.($expandingText->visible == '1' ? '' : 'hiddenText d-none').'">'.$expandingText->text.'</div>';
 
                 }
 
