@@ -196,6 +196,8 @@ class HomeController extends Controller
             $featured_margin='25.3%';
         }
 
+        $featured_image_bgColor = $collection->featuredImageBgColor?->code ?? '#ffffff';   
+
         $title_position='top:15px;';
         $labels_position='bottom:15px;';
 
