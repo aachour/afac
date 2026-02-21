@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ExternalCategoriesSeeder::class);
         $this->call(LogoSeeder::class);
         $this->call(ProgramsSeeder::class);
+        $this->call(ProgramYearsSeeder::class);
         $this->call(EventsSeeder::class);
         $this->call(JurorsSeeder::class);
         $this->call(ProjectsSeeder::class);        
