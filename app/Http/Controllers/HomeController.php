@@ -181,6 +181,21 @@ class HomeController extends Controller
         $with_featured=$collection->with_featured_image;
         $all_featured=$collection->all_featured;
 
+        $featured_image_width=$collection->featured_image_width;
+
+        $featured_width=0;
+        $featured_margin=0;
+        if($featured_image_width==1) //full
+        {
+            $featured_width='100%';
+            $featured_margin='0%';
+        }
+        else if($featured_image_width==2) //three quarter
+        {
+            $featured_width='74.3%';
+            $featured_margin='25.3%';
+        }
+
         $title_position='top:15px;';
         $labels_position='bottom:15px;';
 
