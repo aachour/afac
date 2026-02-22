@@ -342,12 +342,12 @@
                                         <label class="form-label" for="name">Show all entries? <span class="text-danger">*</span></label>
 
                                         <div class="form-check mt-1">
-                                            <input wire:model.live="show_all_entries" type="radio" id="show_all_entries_no" class="form-check-input" value="0" checked>
+                                            <input wire:model.live="show_all_entries" name="show_all_entries" type="radio" id="show_all_entries_no" class="form-check-input" value="0" checked>
                                             <label for="show_all_entries_no" class="form-check-label">No</label>
                                         </div>
 
                                         <div class="form-check mt-1">
-                                            <input wire:model.live="show_all_entries" type="radio" id="show_all_entries_yes" class="form-check-input" value="1">
+                                            <input wire:model.live="show_all_entries" name="show_all_entries" type="radio" id="show_all_entries_yes" class="form-check-input" value="1">
                                             <label for="show_all_entries_yes" class="form-check-label">Yes</label>
                                         </div>
 

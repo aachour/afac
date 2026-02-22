@@ -120,7 +120,7 @@ class CollectionForm extends Component
             $this->background_color_id=$this->collection->background_color_id;
             $this->button_text=$this->collection->button_text;
             $this->button_text_arabic=$this->collection->button_text_arabic;
-            $this->button_background_color_id=$this->collection->background_color_id;
+            $this->button_background_color_id=$this->collection->button_background_color_id;
             $this->with_border_bottom=$this->collection->with_border_bottom == 1 ? true : false;
             $this->with_filters=$this->collection->with_filters;
             $this->filter_fields=$this->collection->filter_fields;
@@ -181,7 +181,7 @@ class CollectionForm extends Component
             'filter_fields' => ['nullable'],
             'entries_selection' => ['nullable'],
             'show_all_entries' => ['nullable'],
-            'entries_number' => ['required_if:show_all_entries,1'],
+            'entries_number' => ['required_if:show_all_entries,0'],
             'entries_with_expired' => ['required_if:entries_selection,2'],
             'entries_order' => ['required_if:entries_selection,2'],
             'entries_program_id' => ['nullable'],
@@ -212,6 +212,10 @@ class CollectionForm extends Component
 
         if (blank($this->entries_program_id)) {
             $this->entries_program_year_id='';
+        }
+
+        if($this->show_all_entries==1){
+            $this->entries_number=0;
         }
 
         if($this->id==''){
