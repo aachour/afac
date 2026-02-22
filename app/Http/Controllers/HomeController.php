@@ -173,7 +173,7 @@ class HomeController extends Controller
         $view_all_title=$collection->view_all_title;
         $view_all_link=$collection->view_all_link;
         $button_text=$collection->button_text;
-        $button_bg_color=$collection->buttonBgColor->code;
+        $button_bg_color=$collection->buttonBgColor?->code;
         $entries_selection=$collection->entries_selection;
         $entries_per_row=$collection->entries_per_row;
         $entries_layout=$collection->entries_layout;
