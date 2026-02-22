@@ -2055,6 +2055,7 @@
         else if ($entries_selection == 2) // system selection
         {
             $entries_number   = $collection->entries_number;
+            $show_all_entries   = $collection->show_all_entries;
             $entries_expired  = $collection->entries_with_expired;
             $entries_order    = $collection->entries_order;
 
@@ -2534,7 +2535,11 @@
             }
 
             // Limit & get results
-            $entries = $query->limit($entries_number)->get();
+            if($show_all_entries==0){
+                $entries = $query->limit($entries_number)->get();
+            }else{
+                $entries = $query->get();
+            }
         }
 
         return $entries;

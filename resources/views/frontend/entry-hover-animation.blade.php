@@ -1,7 +1,7 @@
 @php
     $text = $button_text ?? 'Press Here';
     $size = $size ?? 'medium';
-    $diamondColor = $diamondColor ?? '#E3F2FD'; 
+    $button_bg_color = $button_bg_color ?? '#E3F2FD'; 
     $textColor = $textColor ?? '#010101'; 
 @endphp
 
@@ -146,7 +146,7 @@
                     width="{{ $diamondSize * 0.707 }}" 
                     height="{{ $diamondSize * 0.707 }}" 
                     rx="4" 
-                    fill="{{ $diamondColor }}"/>
+                    fill="{{ $button_bg_color }}"/>
             </g>
             
             <!-- Text inside diamond - not rotated, centered -->

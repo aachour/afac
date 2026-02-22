@@ -65,6 +65,11 @@ class Collections extends Model
         return $this->hasOne(Colors::class, 'id', 'background_color_id');
     }
 
+    public function buttonBgColor()
+    {
+        return $this->hasOne(Colors::class, 'id', 'button_background_color_id');
+    }
+
     public function featuredImageBgColor()
     {
         return $this->hasOne(Colors::class, 'id', 'featured_image_background_color_id');
