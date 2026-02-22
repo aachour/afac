@@ -211,6 +211,22 @@
                                 <div class="w-100 d-none d-md-block"></div>
 
                                 <div class="col-12 col-md-6 mt-3">
+                                    <label class="form-label" for="name">Button Hover Background Color</label>
+                                    <select
+                                        wire:model="button_background_color_id"
+                                        id="button_background_color_id"
+                                        class="form-control">
+                                        <option value=''>Select Color</option>
+                                        @foreach($colors as $color)
+                                            <option value='{{$color->id}}'>{{$color->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('button_background_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
+                                <div class="w-100 d-none d-md-block"></div>
+
+                                <div class="col-12 col-md-6 mt-3">
                                     <div class="form-check">
                                         <input wire:model="with_border_bottom" type="checkbox" id="with_border_bottom" class="form-check-input" value="1">
                                         <label for="with_border_bottom" class="form-check-label">With Border Bottom</label>
@@ -321,6 +337,23 @@
 
                                 <!-- Show fields if System Entries is selected -->
                                 @if($entries_selection == 2)
+
+                                    <div class="col-12 mt-3">
+                                        <label class="form-label" for="name">Show all entries? <span class="text-danger">*</span></label>
+
+                                        <div class="form-check mt-1">
+                                            <input wire:model.live="show_all_entries" type="radio" id="show_all_entries_no" class="form-check-input" value="0" checked>
+                                            <label for="show_all_entries_no" class="form-check-label">No</label>
+                                        </div>
+
+                                        <div class="form-check mt-1">
+                                            <input wire:model.live="show_all_entries" type="radio" id="show_all_entries_yes" class="form-check-input" value="1">
+                                            <label for="show_all_entries_yes" class="form-check-label">Yes</label>
+                                        </div>
+
+                                    </div>
+                                    
+                                    @if($show_all_entries == 0)
                                     <div class="col-12 col-md-6 mt-3">
                                         <label class="form-label" for="entries_number">Number of Entries <span class="text-danger">*</span></label>
                                         <input
@@ -334,6 +367,7 @@
                                             <div class="text-danger">{{ $message }}</div> 
                                         @enderror
                                     </div>
+                                    @endif
 
                                     <div class="col-12 mt-3">
                                         <label class="form-label">With Expired Entries? <span class="text-danger">*</span></label>

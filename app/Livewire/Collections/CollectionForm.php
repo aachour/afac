@@ -40,11 +40,13 @@ class CollectionForm extends Component
     public $background_color_id;
     public $button_text;
     public $button_text_arabic;
+    public $button_background_color_id;
     public $with_border_bottom;
     public $with_filters;
     public $filter_fields;
     public $entries_selection;
     public $entries_number;
+    public $show_all_entries;
     public $entries_with_expired;
     public $entries_order;
     public $entries_program_id;
@@ -82,6 +84,7 @@ class CollectionForm extends Component
             $this->show_projects_grantees=false;
             $this->with_border_bottom=true;
             $this->with_filters=0;
+            $this->show_all_entries=false;
             $this->with_label=1;
             $this->entries_selection=1;
             $this->entries_with_expired=0;
@@ -117,11 +120,13 @@ class CollectionForm extends Component
             $this->background_color_id=$this->collection->background_color_id;
             $this->button_text=$this->collection->button_text;
             $this->button_text_arabic=$this->collection->button_text_arabic;
+            $this->button_background_color_id=$this->collection->background_color_id;
             $this->with_border_bottom=$this->collection->with_border_bottom == 1 ? true : false;
             $this->with_filters=$this->collection->with_filters;
             $this->filter_fields=$this->collection->filter_fields;
             $this->entries_selection=$this->collection->entries_selection;
             $this->entries_number=$this->collection->entries_number;
+            $this->show_all_entries=$this->collection->show_all_entries == 1 ? true : false;
             $this->entries_with_expired=$this->collection->entries_with_expired;
             $this->entries_order=$this->collection->entries_order;
             $this->entries_program_id=$this->collection->entries_program_id;
@@ -170,11 +175,13 @@ class CollectionForm extends Component
             'background_color_id' => ['nullable'],
             'button_text' => ['nullable'],
             'button_text_arabic' => ['nullable'],
+            'button_background_color_id' => ['nullable'],
             'with_border_bottom' => ['nullable'],
             'with_filters' => ['nullable'],
             'filter_fields' => ['nullable'],
             'entries_selection' => ['nullable'],
-            'entries_number' => ['required_if:entries_selection,2'],
+            'show_all_entries' => ['nullable'],
+            'entries_number' => ['required_if:show_all_entries,1'],
             'entries_with_expired' => ['required_if:entries_selection,2'],
             'entries_order' => ['required_if:entries_selection,2'],
             'entries_program_id' => ['nullable'],
@@ -226,11 +233,13 @@ class CollectionForm extends Component
                 'background_color_id' => $this->background_color_id ?: null,
                 'button_text'=>$this->button_text,
                 'button_text_arabic'=>$this->button_text_arabic,
+                'button_background_color_id' => $this->button_background_color_id ?: null,
                 'with_border_bottom'=> $this->with_border_bottom,
                 'with_filters'=>$this->with_filters,
                 'filter_fields'=>$this->filter_fields,
                 'entries_selection'=>$this->entries_selection,
                 'entries_number'=>$this->entries_number,
+                'show_all_entries'=>$this->show_all_entries,
                 'entries_with_expired'=>$this->entries_with_expired,
                 'entries_order'=>$this->entries_order,
                 'entries_program_id' => $this->entries_program_id ?: null,
@@ -267,11 +276,13 @@ class CollectionForm extends Component
                 'background_color_id' => $this->background_color_id ?: null,
                 'button_text'=>$this->button_text,
                 'button_text_arabic'=>$this->button_text_arabic,
+                'button_background_color_id' => $this->button_background_color_id ?: null,
                 'with_border_bottom'=>$this->with_border_bottom,
                 'with_filters'=>$this->with_filters,
                 'filter_fields'=>$this->filter_fields,
                 'entries_selection'=>$this->entries_selection,
                 'entries_number'=>$this->entries_number,
+                'show_all_entries'=>$this->show_all_entries,
                 'entries_with_expired'=>$this->entries_with_expired,
                 'entries_order'=>$this->entries_order,
                 'entries_program_id' => $this->entries_program_id ?: null,
