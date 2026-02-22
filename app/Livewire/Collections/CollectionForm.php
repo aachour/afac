@@ -153,6 +153,7 @@ class CollectionForm extends Component
     public function updatedEntriesProgramId($value)
     {
         $this->programYears=ProgramYears::WHERE('program_id',$this->entries_program_id)->get();
+        $this->entries_program_year_id='';
     }
 
     public function rules()
