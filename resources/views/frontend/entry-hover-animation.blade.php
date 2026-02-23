@@ -107,9 +107,9 @@
 
                 <img src="{{$image_path}}" width="100%" />
                 <div class="description">
-                    <div class="title_or_labels medium white ABCDiatypeMedium" style="{{$title_position}}">{{$entry_title}}</div>
+                    <div class="title_or_labels medium white ABCDiatypeMedium" style="{{$title_position}} padding-right:5px;">{{$entry_title}}</div>
                     @if($with_label==1)
-                        <div class="title_or_labels" style="{{$labels_position}}; padding-right:5px;">
+                        <div class="title_or_labels" style="{{$labels_position}}">
                             <div class="label micro black ABCDiatypeMedium">{{$entry_type_name}}</div>
                             @if($collection_type_id==1)
                                 <div class="label micro black rounded ABCDiatypeMedium">{{@$labels[0]}}</div>
