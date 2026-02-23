@@ -194,7 +194,7 @@ class HomeController extends Controller
         else if($featured_image_width==2) //three quarter
         {
             $featured_width='74.3%';
-            $featured_margin='25.3%';
+            $featured_margin='25.6%';
         }
 
         $featured_image_bgColor = $collection->featuredImageBgColor?->code ?? '#ffffff'; 
