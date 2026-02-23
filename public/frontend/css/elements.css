@@ -254,7 +254,7 @@
     padding-bottom:40px !important;
 }
 .gallery .gallery-swiper-button-prev::after, .gallery .gallery-swiper-button-next::after {
-  display: none !important; /* hide Swiper’s default icons */
+  display: none !important;
 }
 .gallery .gallery-swiper-button-prev, .gallery .gallery-swiper-button-next {
     position: absolute;
@@ -266,7 +266,6 @@
     background:url("../images/arrow-right.png") center no-repeat !important;
     background-size: 14px 28px !important;
 }
-
 /* Position prev button to the left of next button */
 .gallery .gallery-swiper-button-prev {
     left: calc( 99.5% - 40px) !important;
