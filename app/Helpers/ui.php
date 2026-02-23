@@ -377,7 +377,7 @@
                             $htmlColumn.='<div class="topSpacerSmaller tiny black">'.$galleryImages[0]->caption.'</div>';
                         }
                         else{ //gallery images
-                            $htmlColumn.='<div class="topSpacer gallery swiper" id="swiper-gallery-'.$section_column_id.'">
+                            $htmlColumn.='<div class="topSpacer swiper gallery" id="swiper-gallery-'.$section_column_id.'">
                                 <div class="swiper-wrapper">';
                                     foreach($galleryImages as $galleryImage){
                                         $htmlColumn.='<div class="swiper-slide">
