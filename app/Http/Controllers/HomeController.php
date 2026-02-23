@@ -581,7 +581,7 @@ class HomeController extends Controller
                             },
                             // when window width is >= 992px
                             900: {
-                                slidesPerView: 4.12,
+                                slidesPerView: 4.1,
                                 spaceBetween: 20
                             },
                         }

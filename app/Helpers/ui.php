@@ -386,10 +386,10 @@
                                         </div>';
                                     }
                                 $htmlColumn.='</div>
-                                 <!-- Navigation Buttons -->
-                                <div class="gallery-swiper-button-next gallery-swiper-button-next-'.$section_column_id.'"></div>
-                                <div class="gallery-swiper-button-prev gallery-swiper-button-prev-'.$section_column_id.'"></div>
-                            </div>';
+                            </div>
+                            <!-- Navigation Buttons -->
+                            <div class="gallery-swiper-button-next gallery-swiper-button-next-'.$section_column_id.'"></div>
+                            <div class="gallery-swiper-button-prev gallery-swiper-button-prev-'.$section_column_id.'"></div>';
 
                             //add swiper JS 
                             $htmlColumn.='<script> 
