@@ -253,10 +253,10 @@
 .gallery{
     padding-bottom:40px;
 }
-.gallery .gallery-swiper-button-prev::after, .gallery .gallery-swiper-button-next::after {
+gallery-swiper-button-prev::after, ..gallery-swiper-button-next::after {
   display: none; /* hide Swiper’s default icons */
 }
-.gallery .gallery-swiper-button-prev, .gallery .gallery-swiper-button-next {
+.gallery-swiper-button-prev, .gallery-swiper-button-next {
     position: absolute;
     top: calc(100% - 32px);      
     right:0.5%;  
@@ -268,7 +268,7 @@
 }
 
 /* Position prev button to the left of next button */
-.gallery .gallery-swiper-button-prev {
+.gallery-swiper-button-prev {
     left: calc( 99.5% - 40px) !important;
     background:url("../images/arrow-left.png") center no-repeat;
     background-size: 14px 28px;
