@@ -212,7 +212,7 @@
 
             //Set Filters
             if($with_filters==1){   
-                $html.=setCollectionFilters($collection_id,$collection_type_id,$entries);
+                $html.=setCollectionFilters($collection_id,$collection_type_id,$entries_selection,$entries);
                 if (!blank($collection->background_color_id)){$html.='<div class="mt-4"></div>';}
             }
 
@@ -1042,7 +1042,7 @@
     }
 
 
-    function setCollectionFilters($collection_id,$collection_type_id,$entries)
+    function setCollectionFilters($collection_id,$collection_type_id,$entries_selection,$entries)
     {
 
         $html='';
@@ -1080,17 +1080,19 @@
                 </div>
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
-                </div>
-                <div class="sort">
-                    <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
-                        <option value="">Select sort</option>
-                        <option value="1">Name ASC</option>
-                        <option value="2">Name DESC</option>
-                        <option value="3">Date ASC</option>
-                        <option value="4">Date DESC</option>
-                    </select>
-                </div>
-                <div class="clear"></div>
+                </div>';
+                if($entries_selection==2){
+                    $html.='<div class="sort">
+                        <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
+                            <option value="">Select sort</option>
+                            <option value="1">Name ASC</option>
+                            <option value="2">Name DESC</option>
+                            <option value="3">Date ASC</option>
+                            <option value="4">Date DESC</option>
+                        </select>
+                    </div>';
+                }
+                $html.='<div class="clear"></div>
             </div>';
 
             $html.="<script>
@@ -1144,6 +1146,7 @@
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
                 </div>
+                if($entries_selection==2){
                 <div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
                         <option value="">Select sort</option>
@@ -1153,6 +1156,7 @@
                         <option value="4">Date DESC</option>
                     </select>
                 </div>
+                }
                 <div class="clear"></div>
             </div>';
 
@@ -1289,17 +1293,19 @@
                         }
                     $html.='</select>
                 </div>
-                <div class="sort">
-                    <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
-                        <option value="">Select sort</option>
-                        <option value="1">Name ASC</option>
-                        <option value="2">Name DESC</option>
-                    </select>
-                </div>
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
-                </div>
-                <div class="clear"></div>
+                </div>';
+                if($entries_selection==2){
+                    $html.='<div class="sort">
+                        <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
+                            <option value="">Select sort</option>
+                            <option value="1">Name ASC</option>
+                            <option value="2">Name DESC</option>
+                        </select>
+                    </div>';
+                }
+                $html.='<div class="clear"></div>
             </div>';
 
             $html.="<script>
@@ -1445,15 +1451,17 @@
                 </div>
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
-                </div>
-                <div class="sort">
-                    <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
-                        <option value="">Select sort</option>
-                        <option value="1">Name ASC</option>
-                        <option value="2">Name DESC</option>
-                    </select>
-                </div>
-                <div class="clear"></div>
+                </div>';
+                if($entries_selection==2){
+                    $html.='<div class="sort">
+                        <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
+                            <option value="">Select sort</option>
+                            <option value="1">Name ASC</option>
+                            <option value="2">Name DESC</option>
+                        </select>
+                    </div>';
+                }
+                $html.='<div class="clear"></div>
             </div>';
 
             $html.="<script>
@@ -1577,15 +1585,17 @@
                 </div>
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
-                </div>
-                <div class="sort">
-                    <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
-                        <option value="">Select sort</option>
-                        <option value="1">Name ASC</option>
-                        <option value="2">Name DESC</option>
-                    </select>
-                </div>
-                <div class="clear"></div>
+                </div>';
+                if($entries_selection==2){
+                    $html.='<div class="sort">
+                        <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
+                            <option value="">Select sort</option>
+                            <option value="1">Name ASC</option>
+                            <option value="2">Name DESC</option>
+                        </select>
+                    </div>';
+                }
+                $html.='<div class="clear"></div>
             </div>';
 
             $html.="<script>
@@ -1661,17 +1671,19 @@
                 </div>
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
-                </div>
-                <div class="sort">
-                    <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
-                        <option value="">Select sort</option>
-                        <option value="1">Name ASC</option>
-                        <option value="2">Name DESC</option>
-                        <option value="3">Date ASC</option>
-                        <option value="4">Date DESC</option>
-                    </select>
-                </div>
-                <div class="clear"></div>
+                </div>';
+                if($entries_selection==2){
+                    $html.='<div class="sort">
+                        <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
+                            <option value="">Select sort</option>
+                            <option value="1">Name ASC</option>
+                            <option value="2">Name DESC</option>
+                            <option value="3">Date ASC</option>
+                            <option value="4">Date DESC</option>
+                        </select>
+                    </div>';
+                }
+                $html.='<div class="clear"></div>
             </div>';
             
             $html.="<script>
@@ -1728,17 +1740,19 @@
                 </div>
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
-                </div>
-                <div class="sort">
-                    <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
-                        <option value="">Select sort</option>
-                        <option value="1">Name ASC</option>
-                        <option value="2">Name DESC</option>
-                        <option value="3">Date ASC</option>
-                        <option value="4">Date DESC</option>
-                    </select>
-                </div>
-                <div class="clear"></div>
+                </div>';
+                if($entries_selection==2){
+                    $html.='<div class="sort">
+                        <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
+                            <option value="">Select sort</option>
+                            <option value="1">Name ASC</option>
+                            <option value="2">Name DESC</option>
+                            <option value="3">Date ASC</option>
+                            <option value="4">Date DESC</option>
+                        </select>
+                    </div>';
+                }
+                $html.='<div class="clear"></div>
             </div>';
 
             $html.="<script>
@@ -1815,17 +1829,19 @@
                 </div>
                 <div class="filter">
                     <input type="button" class="filterBtn" id="filter-collection-'.$collection_id.'" value="Filter" />
-                </div>
-                <div class="sort">
-                    <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
-                        <option value="">Select sort</option>
-                        <option value="1">Name ASC</option>
-                        <option value="2">Name DESC</option>
-                        <option value="3">Date ASC</option>
-                        <option value="4">Date DESC</option>
-                    </select>
-                </div>
-                <div class="clear"></div>
+                </div>';
+                if($entries_selection==2){
+                    $html.='<div class="sort">
+                        <select class="filterDpd sortDpd" id="sort-collection-'.$collection_id.'">
+                            <option value="">Select sort</option>
+                            <option value="1">Name ASC</option>
+                            <option value="2">Name DESC</option>
+                            <option value="3">Date ASC</option>
+                            <option value="4">Date DESC</option>
+                        </select>
+                    </div>';
+                }
+                $html.='<div class="clear"></div>
             </div>';
             
             $html.="<script>
@@ -2437,8 +2453,6 @@
                 $sort=@$filters["sort"]; 
             }
             
-            //print_r($filters);
-
             if(!empty($sort)){
                 //Events Sort
                 if ($collection_type_id == 1 && $sort == 1) //event name asc
