@@ -407,7 +407,7 @@ class HomeController extends Controller
                                 $html.='<div class="featured_entry_mobile" style="background:'.$featured_image_bgColor.';">
                                     <img src="'.$image_path.'" width="100%" />
                                     <div class="description">
-                                        <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.' padding-right:5px;">'.$entry_title.'</div>';
+                                        <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entry_title.'</div>';
                                         if($with_label==1)
                                         {
                                             $html.='<div class="title_or_labels" style="'.$labels_position.'">
