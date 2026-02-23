@@ -386,10 +386,10 @@
                                         </div>';
                                     }
                                 $htmlColumn.='</div>
-                            </div>
-                            <!-- Navigation Buttons -->
-                            <div class="gallery-swiper-button-next gallery-swiper-button-next-'.$section_column_id.'"></div>
-                            <div class="gallery-swiper-button-prev gallery-swiper-button-prev-'.$section_column_id.'"></div>';
+                                <!-- Navigation Buttons -->
+                                <div class="gallery-swiper-button-next" id="gallery-swiper-button-next-'.$section_column_id.'"></div>
+                                <div class="gallery-swiper-button-prev" id="gallery-swiper-button-prev-'.$section_column_id.'"></div>
+                            </div>';
 
                             //add swiper JS 
                             $htmlColumn.='<script> 
@@ -399,8 +399,8 @@
                                         rows: 1           
                                     },
                                     navigation: {
-                                        nextEl: ".gallery-swiper-button-next-'.$section_column_id.'",
-                                        prevEl: ".gallery-swiper-button-prev-'.$section_column_id.'",
+                                        nextEl: "#gallery-swiper-button-next-'.$section_column_id.'",
+                                        prevEl: "#gallery-swiper-button-prev-'.$section_column_id.'",
                                     },
                                     effect: "slide",
                                     speed: 800,
