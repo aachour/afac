@@ -189,6 +189,11 @@
         //get all entries
         $entries=buildEntriesQuery($collection_id);
 
+        $entries_id=[];
+        foreach($entries as $entry){
+            $entries_id[]=$entry->id;
+        }
+
         $html='<div class="collection '.$sliderCollection.'" style="background-color:'.$bgColor.';">';
 
             if( ($show_name==1 || $show_description==1) && $featured_width!='74.3%' ){
@@ -237,6 +242,7 @@
                     method: "POST",
                     data: {
                         collection_id: collection_id,
+                        entries_id: '.json_encode($entries_id ?? []).',
                         filters: filters,
                     },
                     success: function(response) {
@@ -2045,7 +2051,8 @@
     }
 
 
-    function buildEntriesQuery($collection_id,$filters=""){
+    function buildEntriesQuery($collection_id,$filters="", $entries_id=[]){
+        
         $collection=Collections::find($collection_id);
 
         $collection_type_id=$collection->type_id;
@@ -2591,6 +2598,10 @@
                 {
                     $query->orderBy('id', 'desc');
                 }
+            }
+
+            if(@count($entries_id)>0){
+                $entries = $query->WHEREIN('id',$entries_id);
             }
 
             // Limit & get results
