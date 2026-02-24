@@ -2075,7 +2075,6 @@
         $entries_expired  = $collection->entries_with_expired;
         $entries_order    = $collection->entries_order;
 
-        
         $query = Entries::where(['type_id' => $collection_type_id , 'published' => '1']);
 
         if($entries_selection == 1 && @count($custom_entries_id)>0){
@@ -2091,7 +2090,7 @@
         ///////////////////////////////////////////////////////////////////////////////////
         
         // When type is project, check program and year
-        if($collection_type_id == 3 && ($collection->entries_program_id!=null || $collection->entries_program_year_id!=null) )
+        if($entries_selection == 2 && $collection_type_id == 3 && ($collection->entries_program_id!=null || $collection->entries_program_year_id!=null) )
         {
             if($collection->entries_program_year_id!=null){
                 $entries_program_year_id=$collection->entries_program_year_id;
@@ -2116,7 +2115,7 @@
         }
 
         // When type is grantee, check program and year
-        if($collection_type_id == 4 && ($collection->entries_program_id!=null || $collection->entries_program_year_id!=null))
+        if($entries_selection == 2 && $collection_type_id == 4 && ($collection->entries_program_id!=null || $collection->entries_program_year_id!=null))
         {   
             if($collection->entries_program_year_id!=null){
                 $entries_program_year_id=$collection->entries_program_year_id;
@@ -2151,7 +2150,7 @@
         }
 
         // When type is juror, check program and year
-        if($collection_type_id == 5 && ($collection->entries_program_id!=null || $collection->entries_program_year_id!=null))
+        if($entries_selection == 2 && $collection_type_id == 5 && ($collection->entries_program_id!=null || $collection->entries_program_year_id!=null))
         {
             if($collection->entries_program_year_id!=null){
                 $entries_program_year_id=$collection->entries_program_year_id;
@@ -2437,19 +2436,19 @@
         // Check Expired
         ///////////////////////////////////////////////////////////////////////////////////
         
-        if ($collection_type_id == 1 && $entries_expired == 1) {
+        if ($entries_selection == 2 && $collection_type_id == 1 && $entries_expired == 1) {
             $query->where('event_start_date', '>=', date('Y-m-d'));
         }
-        else if ($collection_type_id == 2 && $entries_expired == 1) {
+        else if ($entries_selection == 2 && $collection_type_id == 2 && $entries_expired == 1) {
             $query->where('program_start_date', '>=', date('Y-m-d'));
         }
-        else if ($collection_type_id == 6 && $entries_expired == 1) {
+        else if ($entries_selection == 2 && $collection_type_id == 6 && $entries_expired == 1) {
             $query->where('resource_date', '>=', date('Y-m-d'));
         }
-        else if ($collection_type_id == 7 && $entries_expired == 1) {
+        else if ($entries_selection == 2 && $collection_type_id == 7 && $entries_expired == 1) {
             $query->where('news_date', '>=', date('Y-m-d'));
         }
-        else if ($collection_type_id == 8 && $entries_expired == 1) {
+        else if ($entries_selection == 2 && $collection_type_id == 8 && $entries_expired == 1) {
             $query->where('external_date', '>=', date('Y-m-d'));
         }
 
@@ -2603,7 +2602,7 @@
         }
 
         // Limit & get results
-        if($show_all_entries==0){
+        if($entries_selection == 2 && $show_all_entries==0){
             $entries = $query->limit($entries_number)->get();
         }else{
             $entries = $query->get();
