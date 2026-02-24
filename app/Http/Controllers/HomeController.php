@@ -156,6 +156,7 @@ class HomeController extends Controller
     public function getFilteredEntries(Request $request){
         
         $collection_id = $request->collection_id;
+        $entries_id = $request->entries_id ?? [];
         $filters = $request->filters;
         
         $collection=Collections::find($collection_id);
@@ -209,7 +210,11 @@ class HomeController extends Controller
         }
         
         //Get All Entries with filters
-        $entries=buildEntriesQuery($collection_id,$filters);
+        /*if (!is_array($entries_id)) {
+            $entries_id = json_decode($entries_id, true) ?? [];
+        }*/
+
+        $entries=buildEntriesQuery($collection_id,$filters,$entries_id);
 
         $html="";
 
