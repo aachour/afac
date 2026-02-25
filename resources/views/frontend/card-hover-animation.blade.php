@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         wrapper.addEventListener('mouseenter', function() {
-          
+            gsap.killTweensOf(overlay);
             gsap.to(overlay, {
                 opacity: 1,
                 scale: 1,
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         wrapper.addEventListener('mouseleave', function() {
-            
+            gsap.killTweensOf(overlay);
             gsap.to(overlay, {
                 opacity: 0,
                 scale: 0.8,

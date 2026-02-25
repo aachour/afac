@@ -1,8 +1,8 @@
 @php
     $text = $button_text ?? 'Press Here';
     $size = $size ?? 'medium';
-    $button_bg_color = $button_bg_color ?? '#E3F2FD'; 
-    $textColor = $textColor ?? '#010101'; 
+    $button_bg_color = $button_bg_color ?? '#E3F2FD';
+    $textColor = $textColor ?? '#010101';
 @endphp
 
 
@@ -12,22 +12,22 @@
             'diamond' => 160,
             'fontSize' => 18,
             'lineHeight' => 20,
-            'padding' => 12
+            'padding' => 12,
         ],
         'medium' => [
             'diamond' => 200,
             'fontSize' => 20,
             'lineHeight' => 22,
-            'padding' => 16
+            'padding' => 16,
         ],
         'large' => [
             'diamond' => 240,
             'fontSize' => 24,
             'lineHeight' => 26,
-            'padding' => 20
-        ]
+            'padding' => 20,
+        ],
     ];
-    
+
     $config = $sizes[$size] ?? $sizes['medium'];
     $diamondSize = $config['diamond'];
     $center = $diamondSize / 2;
@@ -36,169 +36,160 @@
     $line2 = implode(' ', array_slice($textLines, 1)) ?? '';
 @endphp
 
-    <!-- GSAP Library -->
-    <script src="{{asset('frontend/js/gsap.js')}}"></script>
+<!-- GSAP Library -->
+<script src="{{ asset('frontend/js/gsap.js') }}"></script>
 
-    <style>
-        .popupText{
-            position:absolute;
-            top:0px;
-            left:0px;
-            width:100%;
-            height:100%;
-            padding:30px 30px;
-            border:2px solid #000;
-            background:#FFF;
-            opacity:1;
-            z-index:9999;
-        }
-        .popupText .closeBtn{
-            position:absolute;
-            top:10px;
-            right:10px;
-            width:20px;
-            height:20px;
-            cursor:pointer;
-            background:url("{{asset('frontend/images/close.png')}}") center no-repeat;
-            background-size: 20px 20px;
-            z-index:99999;
-        }
-        @media(max-width:900px){
-            .popupText{
-            }
-        }
+<style>
+    .popupText {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        padding: 30px 30px;
+        border: 2px solid #000;
+        background: #FFF;
+        opacity: 1;
+        z-index: 9999;
+    }
 
-        .card-hover-animation-wrapper {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-            height: 100%;
-        }
+    .popupText .closeBtn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        background: url("{{ asset('frontend/images/close.png') }}") center no-repeat;
+        background-size: 20px 20px;
+        z-index: 99999;
+    }
 
-        .card-hover-animation-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 100;
-            opacity: 0;
-        }
+    @media(max-width:900px) {
+        .popupText {}
+    }
 
-        .card-hover-animation-diamond {
-            transform-origin: center center;
-        }
+    .card-hover-animation-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+    }
 
-        .card-hover-animation-text {
-            pointer-events: none;
-            user-select: none;
-        }
-    </style>
+    .card-hover-animation-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 100;
+        opacity: 0;
+    }
 
-    <div class="card-hover-animation-wrapper entry_card clickable" event_category_name="{{@$event_category_name}}" event_start_date="{{@$event_start_date}}" event_end_date="{{@$event_end_date}}" program_start_date="{{@$program_start_date}}" program_end_date="{{@$program_end_date}}" project_categories="{{@$project_categories}}" project_countries="{{@$project_countries}}" grantee_categories="{{@$grantee_categories}}" grantee_country="{{@$grantee_country}}" jury_country_id="{{@$jury_country_id}}" resource_category_name="{{@$resource_category_name}}" resource_date="{{@$resource_date}}" news_date="{{@$news_date}}" featured="{{@$featured}}" data-hover-animation>
+    .card-hover-animation-diamond {
+        transform-origin: center center;
+    }
 
-        @if($featured==1)
-            <img src="{{$image_path}}" width="100%" />
-        @else
+    .card-hover-animation-text {
+        pointer-events: none;
+        user-select: none;
+    }
+</style>
 
-            @if($collection_type_id!=9 && $collection_type_id!=10)
-            <a href="{{ $entry_href }}" target="{{$entry_target}}">
-            @endif
+<div class="card-hover-animation-wrapper entry_card clickable" event_category_name="{{ @$event_category_name }}"
+    event_start_date="{{ @$event_start_date }}" event_end_date="{{ @$event_end_date }}"
+    program_start_date="{{ @$program_start_date }}" program_end_date="{{ @$program_end_date }}"
+    project_categories="{{ @$project_categories }}" project_countries="{{ @$project_countries }}"
+    grantee_categories="{{ @$grantee_categories }}" grantee_country="{{ @$grantee_country }}"
+    jury_country_id="{{ @$jury_country_id }}" resource_category_name="{{ @$resource_category_name }}"
+    resource_date="{{ @$resource_date }}" news_date="{{ @$news_date }}" featured="{{ @$featured }}"
+    data-hover-animation>
 
-                <img src="{{$image_path}}" width="100%" />
-                <div class="description">
-                    <div class="title_or_labels medium white ABCDiatypeMedium" style="{{$title_position}} padding-right:5px;">{{$entry_title}}</div>
-                    @if($with_label==1)
-                        <div class="title_or_labels" style="{{$labels_position}}">
-                            <div class="label micro black ABCDiatypeMedium">{{$entry_type_name}}</div>
-                            @if($collection_type_id==1)
-                                <div class="label micro black rounded ABCDiatypeMedium">{{@$labels[0]}}</div>
-                                <div class="label micro black rounded ABCDiatypeMedium">{{@$labels[1]}}</div>
-                                @if(@$labels[2]!='')
-                                <div class="label micro black rounded ABCDiatypeMedium">
-                                    {{ $labels[2] ?? '' }}{{ isset($labels[3]) ? ' - ' . $labels[3] : '' }}
-                                </div>
-                                @endif
-                            @else
-                                @foreach($labels as $label)
-                                <div class="label micro black rounded ABCDiatypeMedium">{{$label}}</div>
-                                @endforeach
-                            @endif
-                            <div class="clear">&nbsp;</div>
-                        </div>
-                    @endif
-                </div>
-            
-            @if($collection_type_id!=9 && $collection_type_id!=10)
-            </a>
-            @endif
-
+    @if ($featured == 1)
+        <img src="{{ $image_path }}" width="100%" />
+    @else
+        @if ($collection_type_id != 9 && $collection_type_id != 10)
+            <a href="{{ $entry_href }}" target="{{ $entry_target }}">
         @endif
-        
-        <svg class="card-hover-animation-overlay" width="{{ $diamondSize }}" height="{{ $diamondSize }}" 
-            viewBox="0 0 {{ $diamondSize }} {{ $diamondSize }}" fill="none" 
-            xmlns="http://www.w3.org/2000/svg">
-            <!-- Diamond shape - rotated square -->
-            <g transform="translate({{ $center }}, {{ $center }}) rotate(-45)">
-                <rect class="card-hover-animation-diamond" 
-                    x="{{ -$diamondSize * 0.3535 }}" 
-                    y="{{ -$diamondSize * 0.3535 }}" 
-                    width="{{ $diamondSize * 0.707 }}" 
-                    height="{{ $diamondSize * 0.707 }}" 
-                    rx="4" 
-                    fill="{{ $button_bg_color }}"/>
-            </g>
-            
-            <!-- Text inside diamond - not rotated, centered -->
-            <text class="card-hover-animation-text" 
-                x="{{ $center }}" 
-                y="{{ $center - ($config['lineHeight'] * 0.4) }}" 
-                fill="{{ $textColor }}" 
-                font-family="Arial, sans-serif" 
-                font-size="{{ $config['fontSize'] }}" 
-                font-weight="bold" 
-                text-anchor="middle"
-                dominant-baseline="central">
-                {{ $line1 }}
-            </text>
-            @if($line2)
-            <text class="card-hover-animation-text" 
-                x="{{ $center }}" 
-                y="{{ $center + ($config['lineHeight'] * 0.6) }}" 
-                fill="{{ $textColor }}" 
-                font-family="Arial, sans-serif" 
-                font-size="{{ $config['fontSize'] }}" 
-                font-weight="bold" 
-                text-anchor="middle"
-                dominant-baseline="central">
+
+        <img src="{{ $image_path }}" width="100%" />
+        <div class="description">
+            <div class="title_or_labels medium white ABCDiatypeMedium"
+                style="{{ $title_position }} padding-right:5px;">{{ $entry_title }}</div>
+            @if ($with_label == 1)
+                <div class="title_or_labels" style="{{ $labels_position }}">
+                    <div class="label micro black ABCDiatypeMedium">{{ $entry_type_name }}</div>
+                    @if ($collection_type_id == 1)
+                        <div class="label micro black rounded ABCDiatypeMedium">{{ @$labels[0] }}</div>
+                        <div class="label micro black rounded ABCDiatypeMedium">{{ @$labels[1] }}</div>
+                        @if (@$labels[2] != '')
+                            <div class="label micro black rounded ABCDiatypeMedium">
+                                {{ $labels[2] ?? '' }}{{ isset($labels[3]) ? ' - ' . $labels[3] : '' }}
+                            </div>
+                        @endif
+                    @else
+                        @foreach ($labels as $label)
+                            <div class="label micro black rounded ABCDiatypeMedium">{{ $label }}</div>
+                        @endforeach
+                    @endif
+                    <div class="clear">&nbsp;</div>
+                </div>
+            @endif
+        </div>
+
+        @if ($collection_type_id != 9 && $collection_type_id != 10)
+            </a>
+        @endif
+
+    @endif
+
+    <svg class="card-hover-animation-overlay" width="{{ $diamondSize }}" height="{{ $diamondSize }}"
+        viewBox="0 0 {{ $diamondSize }} {{ $diamondSize }}" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Diamond shape - rotated square -->
+        <g transform="translate({{ $center }}, {{ $center }}) rotate(-45)">
+            <rect class="card-hover-animation-diamond" x="{{ -$diamondSize * 0.3535 }}"
+                y="{{ -$diamondSize * 0.3535 }}" width="{{ $diamondSize * 0.707 }}"
+                height="{{ $diamondSize * 0.707 }}" rx="4" fill="{{ $button_bg_color }}" />
+        </g>
+
+        <!-- Text inside diamond - not rotated, centered -->
+        <text class="card-hover-animation-text" x="{{ $center }}"
+            y="{{ $center - $config['lineHeight'] * 0.4 }}" fill="{{ $textColor }}"
+            font-family="Arial, sans-serif" font-size="{{ $config['fontSize'] }}" font-weight="bold"
+            text-anchor="middle" dominant-baseline="central">
+            {{ $line1 }}
+        </text>
+        @if ($line2)
+            <text class="card-hover-animation-text" x="{{ $center }}"
+                y="{{ $center + $config['lineHeight'] * 0.6 }}" fill="{{ $textColor }}"
+                font-family="Arial, sans-serif" font-size="{{ $config['fontSize'] }}" font-weight="bold"
+                text-anchor="middle" dominant-baseline="central">
                 {{ $line2 }}
             </text>
-            @endif
-        </svg>
-
-        @if($collection_type_id==9 || $collection_type_id==10)
-            <div class="popupText d-none">
-                <div class="closeBtn"></div>
-                <div class="medium black ABCDiatypeMedium">{{$entry_title}}</div>
-                <div class="topSpacer small black">{!! $entry_text !!}</div>
-            </div>
         @endif
+    </svg>
 
-    </div>
+    @if ($collection_type_id == 9 || $collection_type_id == 10)
+        <div class="popupText d-none">
+            <div class="closeBtn"></div>
+            <div class="medium black ABCDiatypeMedium">{{ $entry_title }}</div>
+            <div class="topSpacer small black">{!! $entry_text !!}</div>
+        </div>
+    @endif
 
-    <script>
+</div>
 
-        function initHoverAnimations() {
-            const wrappers = document.querySelectorAll('[data-hover-animation]');
-            
-            wrappers.forEach(function(wrapper) {
-                if (wrapper.dataset.hoverInitialized) return;
+<script>
+    function initHoverAnimations() {
+        const wrappers = document.querySelectorAll('[data-hover-animation]');
 
-                const overlay = wrapper.querySelector('.card-hover-animation-overlay');
-                if (!overlay) return;
+        wrappers.forEach(function(wrapper) {
+            if (wrapper.dataset.hoverInitialized) return;
 
-                gsap.set(overlay, { opacity: 0, scale: 0.8 });
+            const overlay = wrapper.querySelector('.card-hover-animation-overlay');
+            if (!overlay) return;
 
+<<<<<<< HEAD
                 wrapper.addEventListener('mouseenter', function() {
                     gsap.to(overlay, {
                         opacity: 1,
@@ -218,29 +209,55 @@
                 });
 
                 wrapper.dataset.hoverInitialized = true;
+=======
+            gsap.set(overlay, {
+                opacity: 0,
+                scale: 0.8
+>>>>>>> 1eaf66428f1e7cf1a9cd18fd9aba25b75ca37246
             });
-        }
 
-        // Run on page load
-        document.addEventListener('DOMContentLoaded', initHoverAnimations);
+            wrapper.addEventListener('mouseenter', function() {
+                gsap.killTweensOf(overlay);
+                gsap.to(overlay, {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: "power2.out"
+                });
+            });
 
-        // Run again after AJAX success
-        // example:
-        $(document).ajaxComplete(function () {
-            initHoverAnimations();
+            wrapper.addEventListener('mouseleave', function() {
+                gsap.killTweensOf(overlay);
+                gsap.to(overlay, {
+                    opacity: 0,
+                    scale: 0.8,
+                    duration: 0.5,
+                    ease: "power2.in"
+                });
+            });
+
+            wrapper.dataset.hoverInitialized = true;
         });
+    }
 
-        
+    // Run on page load
+    document.addEventListener('DOMContentLoaded', initHoverAnimations);
 
-        $(document).on("click", ".card-hover-animation-wrapper", function () {
-            $(this).find(".popupText").removeClass("d-none");
-        });
+    // Run again after AJAX success
+    // example:
+    $(document).ajaxComplete(function() {
+        initHoverAnimations();
+    });
 
-        $(document).on("click", ".closeBtn", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            $(this).closest(".popupText").addClass("d-none");
-        });
 
-    </script>
 
+    $(document).on("click", ".card-hover-animation-wrapper", function() {
+        $(this).find(".popupText").removeClass("d-none");
+    });
+
+    $(document).on("click", ".closeBtn", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).closest(".popupText").addClass("d-none");
+    });
+</script>

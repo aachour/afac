@@ -7,46 +7,62 @@
 
         <g class="logo-container">
 
-            <!-- Left L shape -->
-            <path
-                d="M381.899 164.649C381.899 164.929 381.879 165.199 381.879 165.479V232.819H436.439V96.4492H381.879V163.829C381.879 164.109 381.899 164.379 381.899 164.659V164.649Z"
+            <!-- Base logo shapes from official SVG -->
+            <!-- Small connector near right vertical -->
+            <path d="M381.88 163.82V165.48C381.88 165.2 381.9 164.93 381.9 164.65C381.9 164.37 381.88 164.1 381.88 163.82Z"
                 fill="#010101" />
-            <path
-                d="M381.881 163.821C381.431 126.551 351.091 96.4614 313.721 96.4614L313.701 96.4414C276.031 96.4414 245.511 126.981 245.511 164.631C245.511 191.631 261.201 214.951 283.951 226.011H245.511V96.4514H190.961V232.841H313.711C351.101 232.841 381.431 202.751 381.871 165.481V163.821H381.881ZM313.691 174.861C308.041 174.861 303.471 170.291 303.471 164.631C303.471 158.971 308.041 154.401 313.691 154.401C319.341 154.401 323.921 158.971 323.921 164.631C323.921 170.291 319.351 174.861 313.691 174.861Z"
-                fill="#010101" />
-            <path
-                d="M381.879 163.82V165.48C381.879 165.2 381.899 164.93 381.899 164.65C381.899 164.37 381.879 164.1 381.879 163.82Z"
-                fill="#CCC" />
-            <path
-                d="M190.94 164.651C190.94 127.001 160.4 96.4614 122.75 96.4614V96.4414C85.1 96.4414 54.56 126.981 54.56 164.631C54.56 191.631 70.25 214.951 93 226.011H54.56V96.4514H0V232.841H122.75C160.4 232.841 190.94 202.301 190.94 164.651ZM112.53 164.631C112.53 158.981 117.1 154.401 122.76 154.401C128.42 154.401 132.99 158.971 132.99 164.631C132.99 170.291 128.42 174.861 122.76 174.861C117.1 174.861 112.53 170.291 112.53 164.631Z"
-                fill="#010101" />
+
+            <!-- Right Diamond (Rhombus) -->
+            <g class="diamond-right">
+                <path
+                    d="M266.22 48.47L314.17 96.43L362.39 48.22L314.17 0L266.22 47.96L266.47 48.22L266.22 48.47Z"
+                    fill="#010101" />
+            </g>
 
             <!-- Left Diamond (Rhombus) -->
             <g class="diamond-left">
-                <path d="M170.08 48.25L170.04 48.21L170.08 48.18L121.9 0L73.6797 48.21L121.9 96.43L170.08 48.25Z"
+                <path d="M170.08 48.25L170.04 48.21L170.08 48.18L121.9 0L73.68 48.21L121.9 96.43L170.08 48.25Z"
                     fill="#010101" />
             </g>
 
             <!-- Middle Diamond (Rhombus) - This will rotate 45 degrees to become a square -->
             <g class="diamond-middle" id="middle-diamond" transform-origin="218.148 48.25">
                 <path class="diamond-path"
-                    d="M170.078 48.25L218.258 96.43L266.218 48.47L265.958 48.21L266.218 47.96L218.258 0L170.078 48.18L170.108 48.22L170.078 48.25Z"
+                    d="M170.08 48.25L218.26 96.43L266.22 48.47L265.96 48.21L266.22 47.96L218.26 0L170.08 48.18L170.11 48.22L170.08 48.25Z"
                     fill="#010101" />
                 <!-- Invisible hover zone for middle diamond -->
                 <rect x="170" y="0" width="96" height="96" fill="transparent" class="hover-zone-middle"
                     style="cursor: pointer;" />
             </g>
 
-            <!-- Right Diamond (Rhombus) -->
-            <g class="diamond-right">
-                <path
-                    d="M266.219 48.47L314.169 96.43L362.389 48.22L314.169 0L266.219 47.96L266.469 48.22L266.219 48.47Z"
-                    fill="#010101" />
-            </g>
+            <!-- Tiny connector paths from official SVG -->
+            <path d="M266.22 47.98L265.97 48.23L266.22 48.48L266.48 48.23L266.22 47.98Z" fill="#010101" />
+            <path d="M170.08 48.25L170.11 48.22L170.08 48.18L170.04 48.21L170.08 48.25Z" fill="#010101" />
 
-            <path d="M266.223 47.9759L265.969 48.2305L266.223 48.485L266.478 48.2304L266.223 47.9759Z" fill="#010101" />
-            <path d="M170.079 48.2497L170.109 48.2197L170.079 48.1797L170.039 48.2097L170.079 48.2497Z"
+            <!-- Left vertical block -->
+            <rect x="1.62" y="98.02" width="54.12" height="134.53" fill="#010101" />
+
+            <!-- Left circle (O) -->
+            <path
+                d="M123.78 96.43C86.21 96.43 55.75 126.89 55.75 164.46C55.75 202.03 86.21 232.49 123.78 232.49C161.35 232.49 191.81 202.03 191.81 164.46C191.81 126.89 161.35 96.43 123.78 96.43ZM123.78 175.51C117.68 175.51 112.73 170.56 112.73 164.46C112.73 158.36 117.68 153.41 123.78 153.41C129.88 153.41 134.83 158.36 134.83 164.46C134.83 170.56 129.88 175.51 123.78 175.51Z"
                 fill="#010101" />
+
+            <!-- Left bottom bar -->
+            <rect x="55.74" y="221.7" width="69.58" height="10.79" fill="#010101" />
+
+            <!-- Middle vertical block -->
+            <rect x="191.81" y="98.25" width="54.12" height="134.53" fill="#010101" />
+
+            <!-- Right circle (O) -->
+            <path
+                d="M313.96 96.66C276.39 96.66 245.93 127.12 245.93 164.69C245.93 202.26 276.39 232.72 313.96 232.72C351.53 232.72 381.99 202.26 381.99 164.69C381.99 127.12 351.53 96.66 313.96 96.66ZM313.96 175.74C307.86 175.74 302.91 170.79 302.91 164.69C302.91 158.59 307.86 153.64 313.96 153.64C320.06 153.64 325.01 158.59 325.01 164.69C325.01 170.79 320.06 175.74 313.96 175.74Z"
+                fill="#010101" />
+
+            <!-- Right bottom bar -->
+            <rect x="245.93" y="221.93" width="69.58" height="10.79" fill="#010101" />
+
+            <!-- Right vertical block -->
+            <rect x="381.99" y="96.56" width="54.12" height="134.53" fill="#010101" />
 
             <!-- Animation 1: Text that appears over the rotated middle diamond -->
             <g id="animation-1" class="animation-content" style="opacity: 0; pointer-events: none;">
@@ -79,14 +95,13 @@
             <g id="animation-3" class="animation-content" style="pointer-events: none;">
                 <rect x="0" y="85" width="55" height="55" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2"
                     rx="2" />
-                <text x="0" y="105" fill="#F000" font-family="Arial, sans-serif" font-size="11"
-                    font-weight="bold">Based</text>
-                <text x="0" y="125" fill="#010101" font-family="Arial, sans-serif" font-size="11" font-weight="bold">in
-                    Beirut</text>
+                
+                <text x="1" y="104" fill="#010101" font-family="Arial, sans-serif" font-size="11" font-weight="bold">Based</text>
+                <text x="1" y="118" fill="#010101" font-family="Arial, sans-serif" font-size="11" font-weight="bold">in Beirut</text>
             </g>
 
             <!-- Black cover that slides down to reveal animation-3 -->
-            <rect id="animation-3-cover" x="0" y="95" width="54.5" height="60" fill="#010101" />
+            <rect id="animation-3-cover" x="1.5" y="95" width="54.2" height="60" fill="#010101" />
             
             <!-- Hover zone for bottom-left -->
             <rect x="0" y="80" width="90" height="145" fill="transparent" class="hover-zone-bottom-left"
