@@ -16,6 +16,9 @@
     }
 }
 @media (min-width: 900px) {
+    .topSpacerHuge{
+        margin-top:100px;
+    }
     .topSpacerBigger{
         margin-top:50px;
     }
