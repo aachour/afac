@@ -43,4 +43,8 @@ class SectionColumns extends Model
         return $this->hasMany(ColumnExpandTexts::class, 'section_column_id', 'id')->orderBy('list_order');
     }
 
+    public function patterns(){
+        return $this->hasMany(ColumnPattern::class, 'section_column_id', 'id')->orderBy('list_order');
+    }
+
 }

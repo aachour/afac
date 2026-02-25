@@ -321,6 +321,10 @@
                         {
                             $html.=ViewExpandingText($sectionColumn->id,"En");
                         }
+                        else if($colType==6) //Get Pattern
+                        {
+                            $html.=ViewPattern($sectionColumn->id,"En");
+                        }
 
                         $html.='</div>';
 
@@ -910,6 +914,55 @@
 
             });
         </script>';
+
+        return $htmlColumn;
+
+    }
+
+    function ViewPattern($section_column_id,$language='EN')
+    {
+
+        $htmlColumn='';
+
+        $column=SectionColumns::with('patterns')->find($section_column_id);
+
+        if($column){
+
+            $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
+
+            $htmlColumn.='<div class="row '.$textAlign.'">';
+
+                if($column->width == 1){
+                $htmlColumn.='<div class="col-lg-12 col-12">';
+                }elseif($column->width == 2){
+                $htmlColumn.='<div class="col-lg-9 col-12">';
+                }elseif($column->width == 3){
+                $htmlColumn.='<div class="col-lg-3"></div><div class="col-lg-6 col-12">';
+                }
+
+                    $htmlColumn.='<div class="row">';
+                        foreach($column->patterns as $pattern){
+                            
+                            $value=$pattern->button_text;
+                            $value_arabic=$pattern->button_text_arabic;
+                            $shape=$pattern->shape->name;
+                            $shape_hover=$pattern->shapeHover->name; 
+                            $text_color=$pattern->buttonColor->code;
+                            $hover_text_color=$pattern->buttonHoverColor->code; 
+                            $bg_color=$pattern->buttonBgColor->code;
+                            $hover_bg_color=$pattern->buttonHoverBgColor->code;
+                            
+                            $htmlColumn.= '<div class="col-lg-2">'.getEntryBtnShape($value,$value_arabic,$shape,$shape_hover,$text_color,$hover_text_color,$bg_color,$hover_bg_color,"tiny").'</div>';
+
+                        }
+
+                    $htmlColumn.='</div>
+
+                </div>
+
+            </div>';
+
+        }
 
         return $htmlColumn;
 
@@ -1968,7 +2021,7 @@
     }
 
 
-    function getEntryBtnShape($value,$value_arabic,$shape,$shape_hover,$text_color,$hover_text_color,$bg_color,$hover_bg_color)
+    function getEntryBtnShape($value,$value_arabic,$shape,$shape_hover,$text_color,$hover_text_color,$bg_color,$hover_bg_color,$size="")
     {
 
         if($shape=="Circle" && $shape_hover=="Diamond")
@@ -1980,6 +2033,7 @@
                 'hover_text_color' => $hover_text_color,
                 'bg_color' => $bg_color,
                 'hover_bg_color' => $hover_bg_color,
+                'size' => $size,
             ])->render();
         }
         else if($shape=="Circle" && $shape_hover=="Square")
@@ -1991,6 +2045,7 @@
                 'hover_text_color' => $hover_text_color,
                 'bg_color' => $bg_color,
                 'hover_bg_color' => $hover_bg_color,
+                'size' => $size,
             ])->render();
         }
         else if($shape=="Square" && $shape_hover=="Circle")
@@ -2002,6 +2057,7 @@
                 'hover_text_color' => $hover_text_color,
                 'bg_color' => $bg_color,
                 'hover_bg_color' => $hover_bg_color,
+                'size' => $size,
             ])->render();
         }
         else if($shape=="Square" && $shape_hover=="Diamond")
@@ -2013,6 +2069,7 @@
                 'hover_text_color' => $hover_text_color,
                 'bg_color' => $bg_color,
                 'hover_bg_color' => $hover_bg_color,
+                'size' => $size,
             ])->render();
         }
         else if($shape=="Diamond" && $shape_hover=="Circle")
@@ -2024,6 +2081,7 @@
                 'hover_text_color' => $hover_text_color,
                 'bg_color' => $bg_color,
                 'hover_bg_color' => $hover_bg_color,
+                'size' => $size,
             ])->render();
         }
         else if($shape=="Diamond" && $shape_hover=="Square")
@@ -2035,6 +2093,7 @@
                 'hover_text_color' => $hover_text_color,
                 'bg_color' => $bg_color,
                 'hover_bg_color' => $hover_bg_color,
+                'size' => $size,
             ])->render();
         }
 
