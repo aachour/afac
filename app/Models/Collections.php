@@ -30,10 +30,12 @@ class Collections extends Model
         'background_color_id',
         'button_text',
         'button_text_arabic',
+        'button_background_color_id',
         'with_border_bottom',
         'with_filters',
         'filter_fields',
         'entries_selection',
+        'show_all_entries',
         'entries_number',
         'entries_with_expired',
         'entries_order',
@@ -61,6 +63,11 @@ class Collections extends Model
     public function bgColor()
     {
         return $this->hasOne(Colors::class, 'id', 'background_color_id');
+    }
+
+    public function buttonBgColor()
+    {
+        return $this->hasOne(Colors::class, 'id', 'button_background_color_id');
     }
 
     public function featuredImageBgColor()

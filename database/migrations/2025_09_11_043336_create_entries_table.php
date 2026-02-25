@@ -115,6 +115,7 @@ return new class extends Migration
             $table->text('external_title_arabic')->nullable();  
             $table->text('external_link')->nullable();
             $table->text('external_link_arabic')->nullable();
+            $table->date('external_date')->nullable(); 
             $table->timestamps();
             $table->softDeletes();
 

@@ -29,10 +29,14 @@ class DatabaseSeeder extends Seeder
         $this->call(ExternalCategoriesSeeder::class);
         $this->call(LogoSeeder::class);
         $this->call(ProgramsSeeder::class);
+        $this->call(ProgramYearsSeeder::class);
         $this->call(EventsSeeder::class);
         $this->call(JurorsSeeder::class);
-        $this->call(ProjectsSeeder::class);        
-        $this->call(GranteesSeeder::class);    
+        $this->call(ProjectsSeeder::class);   
+        $this->call(ProjectCountrySeeder::class);   
+        $this->call(ProjectProgramYearSeeder::class);   
+        $this->call(GranteesSeeder::class);   
+        $this->call(ProjectGranteeSeeder::class);   
         $this->call(ResourcesSeeder::class);
         $this->call(NewsSeeder::class);
         $this->call(TeamSeeder::class);        

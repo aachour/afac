@@ -145,6 +145,7 @@ class EntryForm extends Component
     public $external_title_arabic;
     public $external_link;
     public $external_link_arabic;
+    public $external_date;
     public $external_image;
 
     //9- Team
@@ -282,6 +283,7 @@ class EntryForm extends Component
             $this->external_title_arabic=$this->entry->external_title_arabic;
             $this->external_link=$this->entry->external_link;
             $this->external_link_arabic=$this->entry->external_link_arabic;
+            $this->external_date=$this->entry->external_date;
 
             //Team
             $this->team_name=$this->entry->team_name;
@@ -413,6 +415,7 @@ class EntryForm extends Component
             'external_title_arabic' => ['required_if:type_id,8'],
             'external_link' => ['required_if:type_id,8'],
             'external_link_arabic' => ['required_if:type_id,8'],
+            'external_date' => ['required_if:type_id,8'],
 
 
             //Team
@@ -543,6 +546,7 @@ class EntryForm extends Component
                 'external_title_arabic'=>$this->external_title_arabic ?? '',
                 'external_link'=>$this->external_link ?? '',
                 'external_link_arabic'=>$this->external_link_arabic ?? '',
+                'external_date'=>$this->external_date ?? null,
                 'team_name'=>$this->team_name ?? '',
                 'team_name_arabic'=>$this->team_name_arabic ?? '',
                 'team_position'=>$this->team_position ?? '',
@@ -657,6 +661,7 @@ class EntryForm extends Component
                 'external_title_arabic'=>$this->external_title_arabic ?? '',
                 'external_link'=>$this->external_link ?? '',
                 'external_link_arabic'=>$this->external_link_arabic ?? '',
+                'external_date'=>$this->external_date ?? null,
                 'team_name'=>$this->team_name ?? '',
                 'team_name_arabic'=>$this->team_name_arabic ?? '',
                 'team_position'=>$this->team_position ?? '',
