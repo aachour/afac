@@ -189,31 +189,9 @@
             const overlay = wrapper.querySelector('.card-hover-animation-overlay');
             if (!overlay) return;
 
-<<<<<<< HEAD
-                wrapper.addEventListener('mouseenter', function() {
-                    gsap.to(overlay, {
-                        opacity: 1,
-                        scale: 1,
-                        duration: 0.65,
-                        ease: "power2.out"
-                    });
-                });
-
-                wrapper.addEventListener('mouseleave', function() {
-                    gsap.to(overlay, {
-                        opacity: 0,
-                        scale: 0.8,
-                        duration: 0.4,
-                        ease: "power2.in"
-                    });
-                });
-
-                wrapper.dataset.hoverInitialized = true;
-=======
             gsap.set(overlay, {
                 opacity: 0,
                 scale: 0.8
->>>>>>> 1eaf66428f1e7cf1a9cd18fd9aba25b75ca37246
             });
 
             wrapper.addEventListener('mouseenter', function() {
@@ -221,7 +199,7 @@
                 gsap.to(overlay, {
                     opacity: 1,
                     scale: 1,
-                    duration: 0.8,
+                    duration: 0.65,
                     ease: "power2.out"
                 });
             });
@@ -231,7 +209,7 @@
                 gsap.to(overlay, {
                     opacity: 0,
                     scale: 0.8,
-                    duration: 0.5,
+                    duration: 0.4,
                     ease: "power2.in"
                 });
             });
