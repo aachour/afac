@@ -947,12 +947,12 @@
                             
                             $value=$pattern->button_text;
                             $value_arabic=$pattern->button_text_arabic;
-                            $shape=$pattern->shape->name;
-                            $shape_hover=$pattern->shapeHover->name; 
-                            $text_color=$pattern->buttonColor->code;
-                            $hover_text_color=$pattern->buttonHoverColor->code; 
-                            $bg_color=$pattern->buttonBgColor->code;
-                            $hover_bg_color=$pattern->buttonHoverBgColor->code;
+                            $shape=$pattern->shape?->name;
+                            $shape_hover=$pattern->shapeHover?->name; 
+                            $text_color=$pattern->buttonColor?->code;
+                            $hover_text_color=$pattern->buttonHoverColor?->code; 
+                            $bg_color=$pattern->buttonBgColor?->code;
+                            $hover_bg_color=$pattern->buttonHoverBgColor?->code;
                             
                             $htmlColumn.= '<div class="col-lg-2">'.getEntryBtnShape($value,$value_arabic,$shape,$shape_hover,$text_color,$hover_text_color,$bg_color,$hover_bg_color,"tiny").'</div>';
 
