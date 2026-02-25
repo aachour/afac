@@ -875,7 +875,7 @@
 
             $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
-            $htmlColumn.='<div class="row '.$textAlign.'" id="expandingTextContainer">';
+            $htmlColumn.='<div class="mt-5 mb-5 row '.$textAlign.'" id="expandingTextContainer">';
 
                 if($column->width == 1){
                 $htmlColumn.='<div class="col-lg-12 col-12">';
