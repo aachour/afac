@@ -58,12 +58,17 @@ use App\Livewire\Library\FileView;
 use App\Livewire\Logo\LogoView;
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\FormStackController;
 
 
 Route::get('/', [HomeController::class, 'home'])->name('home'); 
 
 Route::get('/home', [HomeController::class, 'home'])->name('home');
+
+Route::get('/projects', [ProjectsController::class, 'projects'])->name('projects');
+
+Route::post('/get/projects', [ProjectsController::class, 'getProjects'])->name('/get.projects'); 
 
 Route::get('/animation', [HomeController::class, 'animation'])->name('animation'); 
 
