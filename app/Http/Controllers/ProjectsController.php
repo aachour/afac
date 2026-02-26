@@ -33,7 +33,7 @@ class ProjectsController extends Controller
             ->flatten()  // Merge all arrays into one
             ->unique()   // Optional: remove duplicates
             ->values()   // Reset keys
-            ->toArray();
+        ->toArray();
         
         $project_categories = ProjectCategories::whereIn('id', $categoryIds)
             ->pluck('name', 'id');
@@ -47,11 +47,11 @@ class ProjectsController extends Controller
             ->flatten()  // Merge all arrays into one
             ->unique()   // Optional: remove duplicates
             ->values()   // Reset keys
-            ->toArray();
+        ->toArray();
        
         $project_countries = Countries::whereIn('id', $countryIds)
             ->pluck('name', 'id')
-            ->toArray();
+        ->toArray();
 
         //Programs and Years
         $project_programs=[];
@@ -61,7 +61,7 @@ class ProjectsController extends Controller
             $query->select('program_year_id')
                 ->from('program_year_projects')
                 ->whereIn('project_id', $project_ids);
-            })->get();
+        })->get();
 
         foreach($programYears as $programYear){
             //Set Programs
@@ -96,9 +96,20 @@ class ProjectsController extends Controller
 
         $filters = $request->filters;
 
+        //$page = $request->page;
+
+        $page=1;
+        
+
         $entries=buildEntriesQuery("",$filters,[]);
 
+        $totalEntries = count($entries);
+        $limitEntries = 80;
+        $totalPages = ceil($totalEntries / $limitEntries);
+        
         $html='';
+        
+        
         if(count($entries)>0)
         {
 
@@ -112,7 +123,14 @@ class ProjectsController extends Controller
                     }
                 </style>';
 
+                $title_position='top:15px;';
+                $labels_position='bottom:15px;';
+
+                
                 //Fetch all entries
+                
+                $entries_count=0;
+                
                 foreach($entries as $key=>$entry)
                 {
 
@@ -128,7 +146,7 @@ class ProjectsController extends Controller
                     $entry_href=$entryDetails["entry_href"];
                     $entry_target=$entryDetails["entry_target"];
 
-                    $html.='<div class="swiper-slide entry">';
+                    $html.='<div class="entry">';
 
                         $labels=getEntryLabels($entry);
 
@@ -139,13 +157,13 @@ class ProjectsController extends Controller
                             'image_path'=>$image_path,
                             'entry_title' => $entry_title,
                             'entry_text' => $entry_text,
-                            'title_position'=>'1',
+                            'title_position'=>$title_position,
                             'with_label' => '1',
-                            'labels_position'=>'0',
+                            'labels_position'=>$labels_position,
                             'entry_type_name' => $entry->type->name,
                             'labels' => $labels,
-                            'button_text'=>'#000',
-                            'button_bg_color'=>'#F00',
+                            'button_text'=>'Press',
+                            'button_bg_color'=>'#F1F1F1',
                             'featured'=>'0',
                             'event_category_name'=>$entry->eventCategory?->name,
                             'event_start_date'=>$entry->event_start_date,
@@ -164,6 +182,10 @@ class ProjectsController extends Controller
                                                             
                     $html .='</div>';
 
+                    $entries_count++;
+ 
+                    if($entries_count==$limitEntries){break;}
+
                 }
 
                 $html.='<div class="clear"></div>';
@@ -172,6 +194,15 @@ class ProjectsController extends Controller
             $html.='</div>';
 
         }
+
+        // Pagination links
+        $html .= "<div class='pagination mt-4'>";
+        for($i = 1; $i <= $totalPages; $i++){
+            $active = ($i == $page) ? "active" : "";
+            $html .= "<a class='$active' data-page='$i'>$i</a>";
+        }
+        $html .= "</div>";
+
 
         return $html;
     }
