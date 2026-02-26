@@ -26,8 +26,8 @@
             <div class="filter">
                 <select class="filterDpd filter_project_category">
                     <option value="">Select theme</option>';
-                    @foreach($project_categories as $category){
-                        <option value="{{ $category['id'] }}">{{$category["name"]}}</option>
+                    @foreach($project_categories as $key=>$category){
+                        <option value="{{ $key }}">{{$category}}</option>
                     @endforeach
                 </select>
             </div>
