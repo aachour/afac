@@ -32,28 +32,27 @@
 
             $html='<div class="fullContainer">';
                 
-                $html.='<div class="centerContainer" style="background:'.$entry->ImageBgColor?->code.';">
-                    <div class="row align-items-center">';
+                $html.='<div class="centerContainer">
+                    <div class="row align-items-stretch g-0 no-gutters">';
                         if($entry->type_id<=5)
                         {
-                            $html.='<div class="col-lg-6 col-12 text-center">
-                                <div class="labels">';
-                                    $html.='<div class="label micro black ABCDiatypeMedium">'.$entry->type->name.'</div>';
-                                    foreach($labels as $label){
-                                        $html.='<div class="label micro rounded">'.$label.'</div>';
-                                    }
-                                $html.='</div>
-                                <div class="mt-3 huge black ABCDiatypeMedium">'.getEntryTitle($entry).'</div>';
-                                if($entry->type_id==3) //get grantees
-                                {
-                                    foreach($entry->projectGrantees($entry->id) as $grantee){
-                                        $html.='<div class="mt-3">
-                                            <a href="'.route('entry.view', ['entryType'=>'grantee','id'=>$grantee["id"]]).'" class="small black ABCDiatypeMedium">'.$grantee["name"].'</a>
-                                        </div>';
-                                    }
+                            $bgCode = $entry->ImageBgColor?->code ?? 'transparent';
+                            $heroContent = '<div class="labels">';
+                            $heroContent.='<div class="label micro black ABCDiatypeMedium">'.$entry->type->name.'</div>';
+                            foreach($labels as $label){
+                                $heroContent.='<div class="label micro rounded">'.$label.'</div>';
+                            }
+                            $heroContent.='</div><div class="mt-3 huge black ABCDiatypeMedium">'.getEntryTitle($entry).'</div>';
+                            if($entry->type_id==3) //get grantees
+                            {
+                                foreach($entry->projectGrantees($entry->id) as $grantee){
+                                    $heroContent.='<div class="mt-3"><a href="'.route('entry.view', ['entryType'=>'grantee','id'=>$grantee["id"]]).'" class="small black ABCDiatypeMedium">'.$grantee["name"].'</a></div>';
                                 }
+                            }
+                            $html.='<div class="col-lg-6 col-12 text-center d-flex h-100">';
+                            $html.= view('frontend.btn-animation.entry-hero-square-diamond', ['bg_color' => $bgCode, 'content' => $heroContent])->render();
                             $html.='</div>
-                            <div class="col-lg-6 col-12">';
+                            <div class="col-lg-6 col-12 d-flex">';
                                 if($entry->image_featured){
                                     $html.='<img src="'.asset('storage/'.$entry->image_featured).'" width="100%" />';
                                 }else{
