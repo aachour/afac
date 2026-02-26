@@ -2112,32 +2112,43 @@
     }
 
 
-    function buildEntriesQuery($collection_id,$filters="", $entries_id=[]){
+    function buildEntriesQuery($collection_id="",$filters="", $entries_id=[]){
         
-        $collection=Collections::find($collection_id);
-
-        $collection_type_id=$collection->type_id;
-        $with_filters=$collection->with_filters;
-        $entries_selection=$collection->entries_selection;
-
+        $collection=null;
+        $custom_entries_id=[];
         $entries=[];
 
-        $custom_entries_id=[];
-        if ($entries_selection == 1) // custom selection
-        {
-            $custom_entries_id = CollectionEntries::where('collection_id', $collection_id)
-                ->orderBy('list_order', 'ASC')
-                ->pluck('entry_id')
-                ->toArray();
+        if(!empty($collection_id)){
+            $collection=Collections::find($collection_id);
+
+            $collection_type_id=$collection->type_id;
+            $with_filters=$collection->with_filters;
+            $entries_selection=$collection->entries_selection;
+
+            if ($entries_selection == 1) // custom selection
+            {
+                $custom_entries_id = CollectionEntries::where('collection_id', $collection_id)
+                    ->orderBy('list_order', 'ASC')
+                    ->pluck('entry_id')
+                    ->toArray();
+            }
+
+            $entries_number   = $collection->entries_number;
+            $show_all_entries   = $collection->show_all_entries;
+            $entries_expired  = $collection->entries_with_expired;
+            $entries_order    = $collection->entries_order;
+            
+            $query = Entries::where(['type_id' => $collection_type_id , 'published' => '1']);
+
         }
-
-        $entries_number   = $collection->entries_number;
-        $show_all_entries   = $collection->show_all_entries;
-        $entries_expired  = $collection->entries_with_expired;
-        $entries_order    = $collection->entries_order;
-
-        $query = Entries::where(['type_id' => $collection_type_id , 'published' => '1']);
-
+        else{ //select for page projects
+            $query = Entries::where(['type_id' => '3' , 'published' => '1']);
+            $entries_selection=2;
+            $collection_type_id=3;
+            $show_all_entries=0;
+            $entries_number=20;
+        }
+        
         if($entries_selection == 1 && @count($custom_entries_id)>0){
             $entries = $query->WHEREIN('id',$custom_entries_id);
         }
@@ -2145,94 +2156,95 @@
             $entries = $query->WHEREIN('id',$entries_id);
         }
         
-
         ///////////////////////////////////////////////////////////////////////////////////
         // Check Program & Year
         ///////////////////////////////////////////////////////////////////////////////////
         
-        // When type is project, check program and year
-        if($entries_selection == 2 && $collection_type_id == 3 && ($collection->entries_program_id!=null || $collection->entries_program_year_id!=null) )
-        {
-            if($collection->entries_program_year_id!=null){
-                $entries_program_year_id=$collection->entries_program_year_id;
+        if(!empty($collection)){
+            // When type is project, check program and year
+            if($entries_selection == 2 && $collection_type_id == 3 && ($collection->entries_program_id!=null || $collection->entries_program_year_id!=null) )
+            {
+                if($collection->entries_program_year_id!=null){
+                    $entries_program_year_id=$collection->entries_program_year_id;
 
-                $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
-                    ->pluck('project_id')
-                    ->toArray();
+                    $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
+                        ->pluck('project_id')
+                        ->toArray();
 
-                $query->whereIn('id', $projectIds);
+                    $query->whereIn('id', $projectIds);
+                }
+                else if($collection->entries_program_id!=null){
+
+                    //get all program_years
+                    $program_year_ids=ProgramYears::WHERE('program_id',$collection->entries_program_id)->pluck('id')->toArray();
+
+                    $projectIds = ProgramYearProjects::whereIN('program_year_id', $program_year_ids)
+                        ->pluck('project_id')
+                        ->toArray();
+
+                    $query->whereIn('id', $projectIds);
+                }
             }
-            else if($collection->entries_program_id!=null){
 
-                //get all program_years
-                $program_year_ids=ProgramYears::WHERE('program_id',$collection->entries_program_id)->pluck('id')->toArray();
-
-                $projectIds = ProgramYearProjects::whereIN('program_year_id', $program_year_ids)
-                    ->pluck('project_id')
-                    ->toArray();
-
-                $query->whereIn('id', $projectIds);
-            }
-        }
-
-        // When type is grantee, check program and year
-        if($entries_selection == 2 && $collection_type_id == 4 && ($collection->entries_program_id!=null || $collection->entries_program_year_id!=null))
-        {   
-            if($collection->entries_program_year_id!=null){
-                $entries_program_year_id=$collection->entries_program_year_id;
-            
-                //get projects
-                $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
-                    ->pluck('project_id')
-                    ->toArray();
-
-                //get grantees
-                $granteeIds=ProjectGrantees::WHEREIN('project_id',$projectIds)->pluck('grantee_id')
-                    ->toArray();
-
-                $query->whereIn('id', $granteeIds);
-            }
-            else if($collection->entries_program_id!=null){
+            // When type is grantee, check program and year
+            if($entries_selection == 2 && $collection_type_id == 4 && ($collection->entries_program_id!=null || $collection->entries_program_year_id!=null))
+            {   
+                if($collection->entries_program_year_id!=null){
+                    $entries_program_year_id=$collection->entries_program_year_id;
                 
-                //get all program_years
-                $program_year_ids=ProgramYears::WHERE('program_id',$collection->entries_program_id)->pluck('id')->toArray();
+                    //get projects
+                    $projectIds = ProgramYearProjects::where('program_year_id', $entries_program_year_id)
+                        ->pluck('project_id')
+                        ->toArray();
 
-                //get projects
-                $projectIds = ProgramYearProjects::whereIN('program_year_id', $program_year_ids)
-                    ->pluck('project_id')
-                    ->toArray();
+                    //get grantees
+                    $granteeIds=ProjectGrantees::WHEREIN('project_id',$projectIds)->pluck('grantee_id')
+                        ->toArray();
 
-                //get grantees
-                $granteeIds=ProjectGrantees::WHEREIN('project_id',$projectIds)->pluck('grantee_id')
-                    ->toArray();
+                    $query->whereIn('id', $granteeIds);
+                }
+                else if($collection->entries_program_id!=null){
+                    
+                    //get all program_years
+                    $program_year_ids=ProgramYears::WHERE('program_id',$collection->entries_program_id)->pluck('id')->toArray();
 
-                $query->whereIn('id', $granteeIds);
+                    //get projects
+                    $projectIds = ProgramYearProjects::whereIN('program_year_id', $program_year_ids)
+                        ->pluck('project_id')
+                        ->toArray();
+
+                    //get grantees
+                    $granteeIds=ProjectGrantees::WHEREIN('project_id',$projectIds)->pluck('grantee_id')
+                        ->toArray();
+
+                    $query->whereIn('id', $granteeIds);
+                }
             }
-        }
 
-        // When type is juror, check program and year
-        if($entries_selection == 2 && $collection_type_id == 5 && ($collection->entries_program_id!=null || $collection->entries_program_year_id!=null))
-        {
-            if($collection->entries_program_year_id!=null){
-                $entries_program_year_id=$collection->entries_program_year_id;
+            // When type is juror, check program and year
+            if($entries_selection == 2 && $collection_type_id == 5 && ($collection->entries_program_id!=null || $collection->entries_program_year_id!=null))
+            {
+                if($collection->entries_program_year_id!=null){
+                    $entries_program_year_id=$collection->entries_program_year_id;
 
-                $jurorIds = ProgramYearJurors::where('program_year_id', $entries_program_year_id)
-                    ->pluck('juror_id')
-                    ->toArray();
+                    $jurorIds = ProgramYearJurors::where('program_year_id', $entries_program_year_id)
+                        ->pluck('juror_id')
+                        ->toArray();
 
-                $query->whereIn('id', $jurorIds);
-            }
-            else if($collection->entries_program_id!=null){
+                    $query->whereIn('id', $jurorIds);
+                }
+                else if($collection->entries_program_id!=null){
 
-                //get all program_years
-                $program_year_ids=ProgramYears::WHERE('program_id',$collection->entries_program_id)->pluck('id')->toArray();
+                    //get all program_years
+                    $program_year_ids=ProgramYears::WHERE('program_id',$collection->entries_program_id)->pluck('id')->toArray();
 
-                $jurorIds = ProgramYearJurors::whereIN('program_year_id', $program_year_ids)
-                    ->pluck('juror_id')
-                    ->toArray();
+                    $jurorIds = ProgramYearJurors::whereIN('program_year_id', $program_year_ids)
+                        ->pluck('juror_id')
+                        ->toArray();
 
-                $query->whereIn('id', $jurorIds);
+                    $query->whereIn('id', $jurorIds);
 
+                }
             }
         }
 
@@ -2497,7 +2509,7 @@
         // Check Expired
         ///////////////////////////////////////////////////////////////////////////////////
         
-        if ($entries_selection == 2 && $collection_type_id == 1 && $entries_expired == 1) {
+        /*if ($entries_selection == 2 && $collection_type_id == 1 && $entries_expired == 1) {
             $query->where('event_start_date', '>=', date('Y-m-d'));
         }
         else if ($entries_selection == 2 && $collection_type_id == 2 && $entries_expired == 1) {
@@ -2511,7 +2523,7 @@
         }
         else if ($entries_selection == 2 && $collection_type_id == 8 && $entries_expired == 1) {
             $query->where('external_date', '>=', date('Y-m-d'));
-        }
+        }*/
 
         ///////////////////////////////////////////////////////////////////////////////////
         // Check Sort Order 
@@ -2644,7 +2656,7 @@
             }
         }
         else{
-            if ($collection_type_id == 1 && $entries_order == 1) //event name asc
+            /*if ($collection_type_id == 1 && $entries_order == 1) //event name asc
             {
                 $query->orderBy('event_title', 'asc');
             } 
@@ -2659,7 +2671,7 @@
             else if ($entries_order == 4) //id desc
             {
                 $query->orderBy('id', 'desc');
-            }
+            }*/
         }
 
         // Limit & get results
