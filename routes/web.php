@@ -68,7 +68,7 @@ Route::get('/home', [HomeController::class, 'home'])->name('home');
 
 Route::get('/projects', [ProjectsController::class, 'projects'])->name('projects');
 
-Route::post('/get/projects', [ProjectsController::class, 'getProjects'])->name('/get.projects'); 
+Route::post('/get/projects', [ProjectsController::class, 'getProjects'])->name('get.projects'); 
 
 Route::get('/animation', [HomeController::class, 'animation'])->name('animation'); 
 
