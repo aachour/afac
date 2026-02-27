@@ -274,6 +274,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/section/{sectionId}/timeline/view/{id}', TimelineView::class)->name('entry.timeline.view');
         Route::get('/section/{sectionId}/accordion/view/{id}', AccordionView::class)->name('entry.accordion.view');
         Route::get('/section/{sectionId}/countdown/view/{id}', CountdownView::class)->name('entry.countdown.view');
+        Route::get('/section/{sectionId}/expendingText/view/{id}', ExpandingTextView::class)->name('entry.expendingText.view');
+        Route::get('/section/{sectionId}/pattern/view/{id}', PatternView::class)->name('entry.pattern.view');
+        
 
         Route::get('/{programId}/years/', ProgramYearsView::class)->name('entry.program.years');
         Route::get('/{projectId}/grantees/', ProjectGranteesView::class)->name('entry.project.grantees');
