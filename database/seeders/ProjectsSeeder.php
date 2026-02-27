@@ -2670,8 +2670,7 @@ class ProjectsSeeder extends Seeder
             ['Safe Exit', 'خروج آمن', '<div>A psychological thriller, <i>Safe Exit</i> tells the story of a 23-year old man who suffers from PTSD caused by witnessing the killing of his father.</div><div><br></div>', '<div>فيلم إثارة نفسية يروي قصة شاب عمره 23 عاماً يعاني من اضطراب ما بعد الصدمة إثر مشاهدته مقتل والده.</div><div><br></div>', '71'],
             ['Anza', 'أنزا ', '<div>Somewhere in the heart of the Algerian desert, Sahar, a journalist, investigates mysterious reports of haunting voices in abandoned colonial ruins. Guided by her instinct, she meets villagers who share their supernatural encounters, each pointing to a hidden and painful history. As she sets out on her journey, she stumbles upon Lalla Yamna, a mysterious female shaman who warns her of an evil curse.</div><div><br></div>', 'في مكان ما في قلب الصحراء الجزائرية، تحقق سحر، الصحفية، في روايات غامضة عن أصوات تسكن أطلال مهجورة من زمن الاستعمار. يقودها حدسها لتلتقي بقرويين يروون تجاربهم مع ظواهر خارقة للطبيعة، كل منها يشير إلى تاريخ مخفي ومؤلم. وأثناء رحلتها، تصادف لالّا يامنة، وهي عرافة وساحرة غامضة تحذرها من لعنة شريرة.', '5'],    
         ];  
-        
-
+                
         foreach ($projects as $project) {
             Entries::updateOrCreate([
                 'type_id'=>'3' , 
