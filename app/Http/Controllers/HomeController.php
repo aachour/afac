@@ -156,7 +156,7 @@ class HomeController extends Controller
     public function getFilteredEntries(Request $request){
         
         $collection_id = $request->collection_id;
-        $entries_id = $request->entries_id ?? [];
+        $entries_id = explode(",",$request->entries_id ?? []);
         $filters = $request->filters;
         
         $collection=Collections::find($collection_id);
@@ -214,6 +214,7 @@ class HomeController extends Controller
             $entries_id = json_decode($entries_id, true) ?? [];
         }*/
 
+        // $entries_id=[];
         $entries=buildEntriesQuery($collection_id,$filters,$entries_id);
 
         $html="";
@@ -596,7 +597,7 @@ class HomeController extends Controller
         }
 
         //get all grantees related to collection of type projects.
-        if($collection_type_id==3 && $show_projects_grantees==1){
+        /*if($collection_type_id==3 && $show_projects_grantees==1){
 
             $projectIds=CollectionEntries::WHERE('collection_id',$collection_id)->pluck('entry_id')->toArray();
             $granteeIds=ProjectGrantees::WHEREIN('project_id',$projectIds)->pluck('grantee_id')->toArray();
@@ -691,7 +692,7 @@ class HomeController extends Controller
                 });
             </script>';
             
-        }
+        }*/
     
         return $html;
         

@@ -186,7 +186,7 @@ function ViewCollection($collection_id, $language = 'EN')
         $entries_id[] = $entry->id;
     }
 
-    $html = '<div class="collection ' . $sliderCollection . '" style="background-color:' . $bgColor . ';">';
+    $html = '<div class="collection ' . $sliderCollection . '" id="collection_'.$collection_id.'" entries_id="'.implode(",",$entries_id).'" style="background-color:' . $bgColor . ';">';
 
     if (($show_name == 1 || $show_description == 1) && $featured_width != '74.3%') {
         $html .= '<div class="titleDescription">';
@@ -216,7 +216,7 @@ function ViewCollection($collection_id, $language = 'EN')
     }
 
     $html .= '<div id="collectionEntries-' . $collection_id . '"></div>';
-    $html .= '<div class="mt-5 text-center d-none" id="loader"><div class="loader"></div></div>';
+    $html .= '<div class="mt-5 text-center d-none" id="loader-'.$collection_id.'"><div class="loader"></div></div>';
 
 
     $html .= '</div>';
@@ -229,18 +229,22 @@ function ViewCollection($collection_id, $language = 'EN')
     $html .= '<script>
 
             function getFilteredEntries(collection_id,filters=""){
+
                 $("#collectionEntries-"+collection_id).empty();
-                $("#loader").removeClass("d-none");
+                var entries_id=$("#collection_"+collection_id).attr("entries_id");
+                entries_id.split(",");
+                
+                $("#loader-"+collection_id).removeClass("d-none");
                 $.ajax({
                     url: "' . route('get.entries') . '",
                     method: "POST",
                     data: {
                         collection_id: collection_id,
-                        entries_id: ' . json_encode($entries_id ?? []) . ',
+                        entries_id: entries_id,
                         filters: filters,
                     },
                     success: function(response) {
-                        $("#loader").addClass("d-none");
+                        $("#loader-"+collection_id).addClass("d-none");
                         $("#collectionEntries-"+collection_id).html(response);
                     },
                     error: function(xhr) {
