@@ -30,7 +30,7 @@ class ProjectCountrySeeder extends Seeder
             if(!empty($countryId)){
                 Entries::where('id', $projectIds[$key])
                     ->update([
-                        'project_countries_id' => json_encode($countryId),
+                        'project_countries_id' => [$countryId],
                     ]);
             }
         }
