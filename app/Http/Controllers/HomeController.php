@@ -217,8 +217,6 @@ class HomeController extends Controller
         // $entries_id=[];
         $entries=buildEntriesQuery($collection_id,$filters,$entries_id);
 
-        echo count($entries);
-
         $html="";
 
         //Set toggle show project grantees
