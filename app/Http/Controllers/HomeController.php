@@ -217,6 +217,8 @@ class HomeController extends Controller
         // $entries_id=[];
         $entries=buildEntriesQuery($collection_id,$filters,$entries_id);
 
+        echo count($entries);
+
         $html="";
 
         //Set toggle show project grantees
@@ -232,7 +234,6 @@ class HomeController extends Controller
                 </label>
             </div>';
         }
-        
 
         //Show Calendar View
         if($collection_type_id==1 && $calendar_view==1)

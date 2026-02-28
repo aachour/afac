@@ -2596,6 +2596,8 @@ function buildEntriesQuery($collection_id="",$filters="", $entries_id=[]){
         }*/
     }
 
+    
+
     // Limit & get results
     if($entries_selection == 2 && $show_all_entries==0){
         $entries = $query->limit($entries_number)->get();
