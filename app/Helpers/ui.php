@@ -977,7 +977,7 @@ function getEntryLabels($entry)
     if ($entry->type_id == 1) {
 
         $labels[] = $entry->eventCategory?->name;
-        $labels[] = date('d M', strtotime($entry->event_start_date));
+        $labels[] = date('d M Y', strtotime($entry->event_start_date));
 
         // if($entry->event_end_date!=null){
         //     $labels[]=date('d M',strtotime($entry->event_end_date));
@@ -1899,7 +1899,7 @@ function getEntryDetails($collection_type_id, $entry)
     $entryDetails = [];
 
     if ($collection_type_id == 1) {
-        $entry_title = $entry->event_title;
+        $entry_title = $entry->event_title ?? '';
         $entry_text = $entry->event_text;
         $entry_href = route('entry.view', ['entryType' => 'event', 'id' => $entry->id]);
         $entry_target = '';

@@ -257,12 +257,21 @@ class HomeController extends Controller
                 if (!isset($monthCounters[$monthKey])) {
                     $monthCounters[$monthKey] = 0;
                 }
-
-                if ($monthCounters[$monthKey] < 3) {
-                    $datesEvents[$monthKey][] = $event;
-                    $monthCounters[$monthKey]++;
-                }
+                $datesEvents[$monthKey][] = $event;
+                $monthCounters[$monthKey]++;
             }
+
+            $bgColor = $collection->bgColor?->code ?? '#ffffff';
+
+            $sliderCollection = $entries_layout == 2 ? 'sliderCollection' : '';
+
+            $html.='<style>
+                @media(min-width:900px){
+                    .collection .entries > .entry:nth-child(4n of .entry){
+                        margin-right:0 !important;
+                    }
+                }
+            </style>';
 
             $html.='<div class="collection '.$sliderCollection.' '.($bgColor ? 'mt-3' : '').'" style="background-color:'.$bgColor.';">';
                 
@@ -274,7 +283,11 @@ class HomeController extends Controller
                             <div class="big black ABCDiatypeMedium">'.date('M Y',strtotime($date)).'</div>
                         </div>';
 
-                        foreach($dateEvents as $event){
+                        foreach($dateEvents as $key=>$event){
+
+                            if($key % 3==0 && $key != 0){
+                                $html.='<div class="entry">&nbsp;</div>';
+                            }
 
                             $image_path = asset('frontend/images/default-image.png');
                             if (!empty($entry->image)) {
@@ -282,13 +295,16 @@ class HomeController extends Controller
                             }
 
                             //get entry details
-                            $entryDetails=getEntryDetails($collection_type_id,$entry);
-                            $entry_title=$entryDetails["entry_title"];
-                            $entry_text=$entryDetails["entry_text"];
-                            $entry_href=$entryDetails["entry_href"];
-                            $entry_target=$entryDetails["entry_target"];
 
-                            $html.='<div class="swiper-slide entry">';
+                            $entry=Entries::find($event["id"]);
+
+                            $entryDetails=getEntryDetails($collection_type_id,$entry); 
+                            $entry_title=@$entryDetails["entry_title"];
+                            $entry_text=@$entryDetails["entry_text"];
+                            $entry_href=@$entryDetails["entry_href"];
+                            $entry_target=@$entryDetails["entry_target"];
+
+                            $html.='<div class="entry">';
 
                                 $labels=getEntryLabels($entry);
 
