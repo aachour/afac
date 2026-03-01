@@ -49,16 +49,16 @@
     .bigger{
         font-size:6vw !important;
     }
-    .big{
+    .big , h1{
         font-size:5vw !important;
     }
-    .medium{
+    .medium , h2{
         font-size:4vw !important;
     }
-    .small{
+    .small , h3{
         font-size:3.5vw !important;
     }
-    .tiny{
+    .tiny , p{
         font-size:2.6vw !important;
     }
 }
@@ -73,22 +73,22 @@
         line-height: 100% !important;
         letter-spacing: -4% !important;
     }
-    .big{
+    .big , h1{
         font-size:2.5vw !important;
         line-height: 100% !important;
         letter-spacing: -3% !important;
     }
-    .medium{
+    .medium , h2{
         font-size:1.85vw !important;
         line-height: 100% !important;
         letter-spacing: -3% !important;
     }
-    .small{
+    .small , h3{
         font-size:1.2vw !important;
         line-height: 120% !important;
         letter-spacing: -1% !important;
     }
-    .tiny{
+    .tiny , p{
         font-size:0.9vw !important;
         line-height: 120% !important;
         letter-spacing: -1% !important;
