@@ -300,6 +300,7 @@ class HomeController extends Controller
 
                             $entryDetails=getEntryDetails($collection_type_id,$entry); 
                             $entry_title=@$entryDetails["entry_title"];
+                            $entry_position=@$entryDetails["entry_position"];
                             $entry_text=@$entryDetails["entry_text"];
                             $entry_href=@$entryDetails["entry_href"];
                             $entry_target=@$entryDetails["entry_target"];
@@ -314,6 +315,7 @@ class HomeController extends Controller
                                     'entry_target'=>$entry_target,
                                     'image_path'=>$image_path,
                                     'entry_title' => $entry_title,
+                                    'entry_position' => $entry_position,
                                     'entry_text' => $entry_text,
                                     'title_position'=>$title_position,
                                     'with_label' => $with_label,
@@ -503,6 +505,7 @@ class HomeController extends Controller
                             //get entry details
                             $entryDetails=getEntryDetails($collection_type_id,$entry);
                             $entry_title=$entryDetails["entry_title"];
+                            $entry_position=@$entryDetails["entry_position"];
                             $entry_text=$entryDetails["entry_text"];
                             $entry_href=$entryDetails["entry_href"];
                             $entry_target=$entryDetails["entry_target"];
@@ -517,6 +520,7 @@ class HomeController extends Controller
                                     'entry_target'=>$entry_target,
                                     'image_path'=>$image_path,
                                     'entry_title' => $entry_title,
+                                    'entry_position' => $entry_position,
                                     'entry_text' => $entry_text,
                                     'title_position'=>$title_position,
                                     'with_label' => $with_label,
@@ -639,6 +643,7 @@ class HomeController extends Controller
                             //get entry details
                             $entryDetails=getEntryDetails($entry->type_id,$entry);
                             $entry_title=$entryDetails["entry_title"];
+                            $entry_position=@$entryDetails["entry_position"];
                             $entry_text=$entryDetails["entry_text"];
                             $entry_href=$entryDetails["entry_href"];
                             $entry_target=$entryDetails["entry_target"];
@@ -653,6 +658,7 @@ class HomeController extends Controller
                                     'entry_target'=>$entry_target,
                                     'image_path'=>$image_path,
                                     'entry_title' => $entry_title,
+                                    'entry_position' => $entry_position,
                                     'entry_text' => $entry_text,
                                     'title_position'=>$title_position,
                                     'with_label' => $with_label,
