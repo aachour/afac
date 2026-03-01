@@ -46,9 +46,9 @@
         left: 0px;
         width: 100%;
         height: 100%;
-        padding: 30px 30px;
+        padding: 15px 15px;
         border: 2px solid #000;
-        background: #FFF;
+        background:#FFF;
         opacity: 1;
         z-index: 9999;
     }
@@ -57,11 +57,11 @@
         position: absolute;
         top: 10px;
         right: 10px;
-        width: 20px;
-        height: 20px;
+        width: 10px;
+        height: 10px;
         cursor: pointer;
         background: url("{{ asset('frontend/images/close.png') }}") center no-repeat;
-        background-size: 20px 20px;
+        background-size: 10px 10px;
         z-index: 99999;
     }
 

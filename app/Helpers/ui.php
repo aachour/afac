@@ -42,6 +42,25 @@ function ViewEntryData($entry_id, $language = 'EN')
                 $heroContent .= '<div class="label micro rounded">' . $label . '</div>';
             }
             $heroContent .= '</div><div class="mt-3 huge black ABCDiatypeMedium">' . getEntryTitle($entry) . '</div>';
+            if ($entry->type_id == 2) //check program status
+            {
+            
+                $current = time();
+
+                $start_timestamp = strtotime($entry->program_start_date);
+                $end_timestamp   = strtotime($entry->program_end_date);
+
+                if ($end_timestamp >= $current) {
+
+                    $daysLeft = floor(($end_timestamp - $current) / 86400);
+
+                    //only show when program already started
+                    if ($current >= $start_timestamp && $daysLeft > 0) {
+                        $heroContent .= '<a href="'.$entry->button_link.'" target="_blank"><div class="mt-3 black small">'.$entry->button_value.'</div></a>';
+                    } 
+                }
+
+            }
             if ($entry->type_id == 3) //get grantees
             {
                 foreach ($entry->projectGrantees($entry->id) as $grantee) {
@@ -469,8 +488,6 @@ function ViewTimeline($section_column_id, $language = 'EN')
 
                                     <div class="col-lg-9 col-12">
                                         <div class="timeline-percentages-wrapper">';
-
-
             $percentageIndex = 0;
             foreach ($timeline->percentages as $key => $percentage) {
                 $uniqueId = 'timeline-' . $timeline->id . '-percentage-' . $percentageIndex;
