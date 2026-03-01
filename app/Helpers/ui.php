@@ -1940,17 +1940,19 @@ function getEntryDetails($collection_type_id, $entry)
         $entry_target = '_blank';
     } else if ($collection_type_id == 9) {
         $entry_title = $entry->team_name;
+        $entry_position = $entry->team_position;
         $entry_text = $entry->team_text;
         $entry_href = '';
         $entry_target = '';
     } else if ($collection_type_id == 10) {
-        $entry_title = $entry->board_title;
+        $entry_title = $entry->board_name;
+        $entry_position = $entry->board_position;
         $entry_text = $entry->board_text;
         $entry_href = '';
         $entry_target = '';
     }
 
-    $entryDetails = ['entry_title' => $entry_title, 'entry_text' => $entry_text, 'entry_href' => $entry_href, 'entry_target' => $entry_target];
+    $entryDetails = ['entry_title' => $entry_title, 'entry_position' => @$entry_position, 'entry_text' => $entry_text, 'entry_href' => $entry_href, 'entry_target' => $entry_target];
 
     return $entryDetails;
 }

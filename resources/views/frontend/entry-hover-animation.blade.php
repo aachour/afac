@@ -115,7 +115,13 @@
         <img src="{{ $image_path }}" width="100%" />
         <div class="description">
             <div class="title_or_labels medium white ABCDiatypeMedium"
-                style="{{ $title_position }} padding-right:5px;">{{ $entry_title }}</div>
+                style="{{ $title_position }} padding-right:5px;">
+                {{ $entry_title }}
+                @if(!empty($entry_position))
+                    <div class="mt-2 tiny">{!!$entry_position!!}</div>
+                @endif
+            </div>
+
             @if ($with_label == 1)
                 <div class="title_or_labels" style="{{ $labels_position }}">
                     <div class="label micro black ABCDiatypeMedium">{{ $entry_type_name }}</div>
