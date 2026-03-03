@@ -391,8 +391,7 @@ class HomeController extends Controller
                                         {
                                             $labels=getEntryLabels($entry);
                                             $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">
-                                                <div class="label micro ABCDiatypeMedium">'.$entry->type->name.'</div>
-                                                <div class="label micro rounded ABCDiatypeMedium">'.@$labels[0].'</div>
+                                                <div class="label micro ABCDiatypeMedium">'.@$labels[0].'</div>
                                                 <div class="label micro rounded ABCDiatypeMedium">'.@$labels[1].' - '.@$labels[2].'</div>
                                                 <div class="clear">&nbsp;</div>
                                             </div>';
@@ -437,8 +436,7 @@ class HomeController extends Controller
                                                 <div class="label micro black ABCDiatypeMedium">'.$entries[0]->type->name.'</div>';
                                                 $labels=getEntryLabels($entry);
                                                 $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">
-                                                    <div class="label micro ABCDiatypeMedium">'.$entry->type->name.'</div>
-                                                    <div class="label micro rounded ABCDiatypeMedium">'.@$labels[0].'</div>
+                                                    <div class="label micro ABCDiatypeMedium">'.@$labels[0].'</div>
                                                     <div class="label micro rounded ABCDiatypeMedium">'.@$labels[1].' - '.@$labels[2].'</div>
                                                     <div class="clear">&nbsp;</div>
                                                 </div>
