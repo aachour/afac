@@ -126,9 +126,9 @@
 
             @if ($with_label == 1)
                 <div class="title_or_labels" style="{{ $labels_position }}">
-                    <div class="label micro black ABCDiatypeMedium">{{ $entry_type_name }}</div>
+                    <!-- <div class="label micro black ABCDiatypeMedium">{{ $entry_type_name }}</div> -->
                     @if ($collection_type_id == 1)
-                        <div class="label micro black rounded ABCDiatypeMedium">{{ @$labels[0] }}</div>
+                        <div class="label micro black ABCDiatypeMedium">{{ @$labels[0] }}</div>
                         <div class="label micro black rounded ABCDiatypeMedium">{{ @$labels[1] }}</div>
                         @if (@$labels[2] != '')
                             <div class="label micro black rounded ABCDiatypeMedium">
@@ -136,8 +136,8 @@
                             </div>
                         @endif
                     @else
-                        @foreach ($labels as $label)
-                            <div class="label micro black rounded ABCDiatypeMedium">{{ $label }}</div>
+                        @foreach ($labels as $key=>$label)
+                            <div class="label micro black ABCDiatypeMedium {{ $key != 0 ? 'rounded' : '' }}">{{ $label }}</div>
                         @endforeach
                     @endif
                     <div class="clear">&nbsp;</div>
