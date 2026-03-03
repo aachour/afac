@@ -2597,22 +2597,48 @@ function buildEntriesQuery($collection_id="",$filters="", $entries_id=[]){
         }
     }
     else{
-        /*if ($collection_type_id == 1 && $entries_order == 1) //event name asc
-        {
-            $query->orderBy('event_title', 'asc');
+        if ($entries_order == 1) //event name asc
+        {   
+            if($collection_type_id == 1){$query->orderBy('event_title', 'asc');}
+            if($collection_type_id == 2){$query->orderBy('program_title', 'asc');}
+            if($collection_type_id == 3){$query->orderBy('project_title', 'asc');}
+            if($collection_type_id == 4){$query->orderBy('grantee_name', 'asc');}
+            if($collection_type_id == 5){$query->orderBy('jury_name', 'asc');}
+            if($collection_type_id == 6){$query->orderBy('resource_title', 'asc');}
+            if($collection_type_id == 7){$query->orderBy('news_title', 'asc');}
+            if($collection_type_id == 8){$query->orderBy('external_title', 'asc');}
+            if($collection_type_id == 9){$query->orderBy('team_name', 'asc');}
+            if($collection_type_id == 10){$query->orderBy('board_name', 'asc');}
         } 
-        else if ($collection_type_id == 1 && $entries_order == 2)  //event name desc
+        else if ($entries_order == 2)  //event name desc
         {
-            $query->orderBy('event_title', 'desc');
+            if($collection_type_id == 1){$query->orderBy('event_title', 'desc');}
+            if($collection_type_id == 2){$query->orderBy('program_title', 'desc');}
+            if($collection_type_id == 3){$query->orderBy('project_title', 'desc');}
+            if($collection_type_id == 4){$query->orderBy('grantee_name', 'desc');}
+            if($collection_type_id == 5){$query->orderBy('jury_name', 'desc');}
+            if($collection_type_id == 6){$query->orderBy('resource_title', 'desc');}
+            if($collection_type_id == 7){$query->orderBy('news_title', 'desc');}
+            if($collection_type_id == 8){$query->orderBy('external_title', 'desc');}
+            if($collection_type_id == 9){$query->orderBy('team_name', 'desc');}
+            if($collection_type_id == 10){$query->orderBy('board_name', 'desc');}
         } 
-        else if ($entries_order == 3) //id asc
+        else if ($entries_order == 3) //date asc
         {
-            $query->orderBy('id', 'asc');
+            if($collection_type_id == 1){$query->orderBy('event_start_date', 'asc');}
+            if($collection_type_id == 2){$query->orderBy('program_start_date', 'asc');}
+            if($collection_type_id == 6){$query->orderBy('resource_date', 'asc');}
+            if($collection_type_id == 7){$query->orderBy('news_date', 'asc');}
+            if($collection_type_id == 8){$query->orderBy('external_date', 'asc');}
         } 
-        else if ($entries_order == 4) //id desc
+        else if ($entries_order == 4) //date desc
         {
-            $query->orderBy('id', 'desc');
-        }*/
+            if($collection_type_id == 1){$query->orderBy('event_start_date', 'desc');}
+            if($collection_type_id == 2){$query->orderBy('program_start_date', 'desc');}
+            if($collection_type_id == 6){$query->orderBy('resource_date', 'desc');}
+            if($collection_type_id == 7){$query->orderBy('news_date', 'desc');}
+            if($collection_type_id == 8){$query->orderBy('external_date', 'desc');}
+        }
     }
 
     
