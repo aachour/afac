@@ -132,7 +132,12 @@
                         <div class="label micro black rounded ABCDiatypeMedium">{{ @$labels[1] }}</div>
                         @if (@$labels[2] != '')
                             <div class="label micro black rounded ABCDiatypeMedium">
-                                {{ $labels[2] ?? '' }}{{ isset($labels[3]) ? ' - ' . $labels[3] : '' }}
+                                {{ $labels[2] ?? '' }}
+                            </div>
+                        @endif
+                        @if (@$labels[3] != '')
+                            <div class="label micro black rounded ABCDiatypeMedium">
+                                {{ $labels[3] ?? '' }}{{ isset($labels[4]) ? ' - ' . $labels[4] : '' }}
                             </div>
                         @endif
                     @else
