@@ -46,22 +46,24 @@
         left: 0px;
         width: 100%;
         height: 100%;
+        overflow-y: scroll;
         padding: 15px 15px;
         border: 2px solid #000;
         background:#FFF;
         opacity: 1;
         z-index: 9999;
+        cursor: default !important;
     }
 
     .popupText .closeBtn {
         position: absolute;
         top: 10px;
         right: 10px;
-        width: 10px;
-        height: 10px;
+        width: 15px;
+        height: 15px;
         cursor: pointer;
         background: url("{{ asset('frontend/images/close.png') }}") center no-repeat;
-        background-size: 10px 10px;
+        background-size: 15px 15px;
         z-index: 99999;
     }
 
@@ -178,7 +180,7 @@
     @if ($collection_type_id == 9 || $collection_type_id == 10)
         <div class="popupText d-none">
             <div class="closeBtn"></div>
-            <div class="medium black ABCDiatypeMedium">{{ $entry_title }}</div>
+            <div class="mt-2 medium black ABCDiatypeMedium">{{ $entry_title }}</div>
             <div class="topSpacer small black">{!! $entry_text !!}</div>
         </div>
     @endif
