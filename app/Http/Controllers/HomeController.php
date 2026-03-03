@@ -273,7 +273,7 @@ class HomeController extends Controller
                 }
             </style>';
 
-            $html.='<div class="collection '.$sliderCollection.' '.($bgColor ? 'mt-3' : '').'" style="background-color:'.$bgColor.';">';
+            //$html.='<div class="collection '.$sliderCollection.' '.($bgColor ? 'mt-3' : '').'" style="background-color:'.$bgColor.';">';
                 
                 foreach($datesEvents as $date=>$dateEvents){
 
@@ -338,7 +338,7 @@ class HomeController extends Controller
 
                 }
 
-            $html.='</div>';
+            //$html.='</div>';
             
         }
         else
@@ -384,7 +384,7 @@ class HomeController extends Controller
                                     $html.='<div class="featured_info">
                                         <div class="title_or_labels" style="'.$title_position.'">
                                             <div class="medium white ABCDiatypeMedium">'.$entry_title.'</div>
-                                            <div class="topSpacerSmall tiny white threeQuartersText">'.mb_substr($entry_text,0,350).'</div>';
+                                            <div class="topSpacerSmall tiny white threeQuartersText">'.mb_substr($entry_text,0,350).'...</div>';
                                         $html.='</div>';
 
                                         if($with_label==1)
