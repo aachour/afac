@@ -159,92 +159,7 @@
                                     @error('button_value_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-
                                 <div class="col-12 col-md-6 mt-2 @if($type_id!=2 && $type_id<=8) d-none @endif">
-                                    <label class="form-label" for="button_shape_id">Button Shape </label>
-                                    <select
-                                        wire:model="button_shape_id"
-                                        id="button_shape_id"
-                                        class="form-control">
-                                        <option value=''>Select Shape</option>
-                                        @foreach($shapes as $shape)
-                                            <option value='{{$shape->id}}'>{{$shape->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('button_shape_id') <div class="text-danger">{{ $message }}</div> @enderror
-                                </div>
-
-                                <div class="col-12 col-md-6 mt-2 @if($type_id!=2 && $type_id<=8) d-none @endif">
-                                    <label class="form-label" for="button_hover_shape_id">Button Hover Shape</label>
-                                    <select
-                                        wire:model="button_hover_shape_id"
-                                        id="button_hover_shape_id"
-                                        class="form-control">
-                                        <option value=''>Select Shape</option>
-                                        @foreach($shapes as $shape)
-                                            <option value='{{$shape->id}}'>{{$shape->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('button_hover_shape_id') <div class="text-danger">{{ $message }}</div> @enderror
-                                </div>
-
-                                <div class="col-12 col-md-6 mt-2 @if($type_id!=2 && $type_id<=8) d-none @endif">
-                                    <label class="form-label" for="button_color_id">Button Text Color</label>
-                                    <select
-                                        wire:model="button_color_id"
-                                        id="button_color_id"
-                                        class="form-control">
-                                        <option value=''>Select Background</option>
-                                        @foreach($colors as $color)
-                                            <option value='{{$color->id}}'>{{$color->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('button_color_id') <div class="text-danger">{{ $message }}</div> @enderror
-                                </div>
-
-                                <div class="col-12 col-md-6 mt-2 @if($type_id!=2 && $type_id<=8) d-none @endif">
-                                    <label class="form-label" for="button_hover_color_id">Button Hover Text Color</label>
-                                    <select
-                                        wire:model="button_hover_color_id"
-                                        id="button_hover_color_id"
-                                        class="form-control">
-                                        <option value=''>Select Background</option>
-                                        @foreach($colors as $color)
-                                            <option value='{{$color->id}}'>{{$color->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('button_hover_color_id') <div class="text-danger">{{ $message }}</div> @enderror
-                                </div>
-
-                                <div class="col-12 col-md-6 mt-2 @if($type_id!=2 && $type_id<=8) d-none @endif">
-                                    <label class="form-label" for="button_bg_color_id">Button Background Color</label>
-                                    <select
-                                        wire:model="button_bg_color_id"
-                                        id="button_bg_color_id"
-                                        class="form-control">
-                                        <option value=''>Select Background</option>
-                                        @foreach($colors as $color)
-                                            <option value='{{$color->id}}'>{{$color->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('button_bg_color_id') <div class="text-danger">{{ $message }}</div> @enderror
-                                </div>
-
-                                 <div class="col-12 col-md-6 mt-2 @if($type_id!=2 && $type_id<=8) d-none @endif">
-                                    <label class="form-label" for="button_hover_bg_color_id">Button Hover Background  Color</label>
-                                    <select
-                                        wire:model="button_hover_bg_color_id"
-                                        id="button_hover_bg_color_id"
-                                        class="form-control">
-                                        <option value=''>Select Background</option>
-                                        @foreach($colors as $color)
-                                            <option value='{{$color->id}}'>{{$color->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('button_hover_bg_color_id') <div class="text-danger">{{ $message }}</div> @enderror
-                                </div>
-
-                                <div class="col-12 col-md-6 mt-2 @if($type_id<=8) d-none @endif">
                                     <label class="form-label" for="button_link">Button Link </label>
                                     <input
                                         wire:model="button_link"
@@ -255,7 +170,7 @@
                                     @error('button_link') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2 @if($type_id<=8) d-none @endif">
+                                <div class="col-12 col-md-6 mt-2 @if($type_id!=2 && $type_id<=8) d-none @endif">
                                     <label class="form-label" for="button_link_arabic">رابط الزر</label>
                                     <input
                                         wire:model="button_link_arabic"
