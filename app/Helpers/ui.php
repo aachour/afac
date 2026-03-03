@@ -994,11 +994,14 @@ function getEntryLabels($entry)
     if ($entry->type_id == 1) {
 
         $labels[] = $entry->eventCategory?->name;
-        $labels[] = date('d M Y', strtotime($entry->event_start_date));
 
-        // if($entry->event_end_date!=null){
-        //     $labels[]=date('d M',strtotime($entry->event_end_date));
-        // }
+        if ($entry->event_start_date != null) {
+            $from_to_date = date('d M Y', strtotime($entry->event_start_date));
+            if ($entry->event_end_date != null) {
+                $from_to_date .= " - " . date('d M Y', strtotime($entry->event_end_date));
+            }
+            $labels[] = $from_to_date;
+        }
 
         if ($entry->event_start_time != null) {
             $from_to_time = date('h:i A', strtotime($entry->event_start_time));
