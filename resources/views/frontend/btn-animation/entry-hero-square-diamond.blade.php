@@ -66,12 +66,13 @@
     function initEntryHeroSquareDiamond() {
         document.querySelectorAll('.entry-hero-square-diamond-wrapper').forEach(function(wrapper) {
             var shape = wrapper.querySelector('.entry-hero-square-diamond-shape');
-            if (!shape) return;
+            var trigger = wrapper.querySelector('.entry-hero-diamond-trigger');
+            if (!shape || !trigger) return;
             gsap.set(shape, { rotation: 0, scale: 1, transformOrigin: '50% 50%' });
-            wrapper.addEventListener('mouseenter', function() {
-                gsap.to(shape, { rotation: -45, scale: 0.65, duration: 0.5, ease: 'power2.inOut', transformOrigin: '50% 50%' });
+            trigger.addEventListener('mouseenter', function() {
+                gsap.to(shape, { rotation: 45, scale: 0.65, duration: 0.5, ease: 'power2.inOut', transformOrigin: '50% 50%' });
             });
-            wrapper.addEventListener('mouseleave', function() {
+            trigger.addEventListener('mouseleave', function() {
                 gsap.to(shape, { rotation: 0, scale: 1, duration: 0.5, ease: 'power2.inOut', transformOrigin: '50% 50%' });
             });
         });

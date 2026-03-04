@@ -56,7 +56,7 @@ function ViewEntryData($entry_id, $language = 'EN')
 
                     //only show when program already started
                     if ($current >= $start_timestamp && $daysLeft > 0) {
-                        $heroContent .= '<a href="'.$entry->button_link.'" target="_blank"><div class="mt-3 black small">'.$entry->button_value.'</div></a>';
+                        $heroContent .= '<a href="'.$entry->button_link.'" target="_blank" class="entry-hero-diamond-trigger"><div class="mt-3 black small">'.$entry->button_value.'</div></a>';
                     } 
                 }
 
