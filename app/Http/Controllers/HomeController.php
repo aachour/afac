@@ -375,7 +375,7 @@ class HomeController extends Controller
                                         }
                                         if($show_view_all==1){
                                             $html.='<div class="topSpacerSmaller">
-                                                <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:5px;"></a>
+                                                <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:8px;"></a>
                                             </div>';
                                         }
                                     $html.='</div>';
@@ -423,7 +423,7 @@ class HomeController extends Controller
                                     }
                                     if($show_view_all==1){
                                         $html.='<div class="topSpacerSmaller">
-                                            <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:5px;"></a>
+                                            <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:8px;"></a>
                                         </div>';
                                     }
                                 }
