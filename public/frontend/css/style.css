@@ -1,4 +1,7 @@
 @media (max-width: 900px) {
+    .topSpacerHuge{
+        margin-top:80px;
+    }
     .topSpacerBig{
         margin-top:30px;
     }
