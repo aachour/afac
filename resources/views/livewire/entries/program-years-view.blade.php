@@ -131,29 +131,39 @@
             </div>
         @endif
 
-        <!-- Add Juror-->
+        
+        <!-- Add Juror -->
         @if($showModalJuror)
             <div class="modal fade show" tabindex="-1" style="display: block; background-color: rgba(0,0,0,0.5)">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">{{ $modalJurorTitle}}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" wire:click="closeJurorModal"></button>
+                            <h5 class="modal-title">{{ $modalJurorTitle }}</h5>
+                            <button type="button" class="btn-close" wire:click="closeJurorModal" aria-label="Close"></button>
                         </div>
+
                         <div class="modal-body">
-                            <div class="mb-3">
+                            <div class="mb-3" wire:ignore>
                                 <label for="juror_id" class="form-label">Juror</label>
-                                <select wire:model="juror_id" id="juror_id" class="form-control">
+                                <select id="juror_id" class="form-control" style="width: 100%;">
                                     <option value="">Select Juror</option>
                                     @foreach($jurors as $juror)
                                         <option value="{{ $juror->id }}">{{ $juror->jury_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
+
+                            @error('juror_id')
+                                <div class="text-danger mt-1">{{ $message }}</div>
+                            @enderror
                         </div>
+
                         <div class="modal-footer">
-                            <button type="button" wire:click="closeJurorModal" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                            <button 
+                            <button type="button" wire:click="closeJurorModal" class="btn btn-secondary">
+                                Cancel
+                            </button>
+
+                            <button
                                 type="button"
                                 wire:click="saveJuror"
                                 wire:loading.attr="disabled"
@@ -161,10 +171,7 @@
                                 class="btn btn-primary"
                             >
                                 <span wire:loading.remove wire:target="saveJuror">Save</span>
-
-                                <span wire:loading wire:target="saveJuror">
-                                    Saving...
-                                </span>
+                                <span wire:loading wire:target="saveJuror">Saving...</span>
                             </button>
                         </div>
                     </div>
@@ -329,6 +336,61 @@
             });
 
 
+        </script>
+
+        <script>
+            let jurorSelect2Initialized = false;
+
+            function initJurorSelect2() {
+                const $select = $('#juror_id');
+
+                if (!$select.length) return;
+                if (typeof $.fn.select2 === 'undefined') {
+                    console.error('Select2 is not loaded');
+                    return;
+                }
+
+                // destroy old instance before re-init
+                if ($select.hasClass('select2-hidden-accessible')) {
+                    $select.select2('destroy');
+                }
+
+                $select.select2({
+                    placeholder: 'Select Juror',
+                    allowClear: true,
+                    width: '100%',
+                    dropdownParent: $select.closest('.modal')
+                });
+
+                // Set current Livewire value if needed
+                const currentValue = @js($juror_id);
+                if (currentValue !== null && currentValue !== '') {
+                    $select.val(String(currentValue)).trigger('change.select2');
+                }
+
+                // Sync Select2 -> Livewire
+                $select.off('select2:select select2:clear').on('select2:select select2:clear', function () {
+                    const value = $(this).val();
+                    @this.set('juror_id', value);
+                });
+
+                jurorSelect2Initialized = true;
+            }
+
+            document.addEventListener('livewire:init', () => {
+                Livewire.on('juror-modal-opened', () => {
+                    setTimeout(() => {
+                        initJurorSelect2();
+                    }, 100);
+                });
+
+                Livewire.on('juror-modal-closed', () => {
+                    const $select = $('#juror_id');
+                    if ($select.length && $select.hasClass('select2-hidden-accessible')) {
+                        $select.select2('destroy');
+                    }
+                });
+            });
         </script>
 
     </div>

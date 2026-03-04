@@ -129,14 +129,21 @@ class ProgramYearsView extends Component
     
     public function openJurorModal($yearId = null)
     {
-        $this->program_year_id=$yearId;
+        $this->program_year_id = $yearId;
+        $this->juror_id = '';
         $this->showModalJuror = true;
-        $this->jurors=Entries::WHERE('type_id','5')->ORDERBY('id','DESC')->get();
+
+        $this->jurors = Entries::where('type_id', 5)
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        $this->dispatch('juror-modal-opened');
     }
 
     public function closeJurorModal()
     {
         $this->showModalJuror = false;
+        $this->dispatch('juror-modal-closed');
         $this->reset(['program_year_id', 'juror_id']); 
     }
 
