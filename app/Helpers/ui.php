@@ -56,19 +56,22 @@ function ViewEntryData($entry_id, $language = 'EN')
 
                     //only show when program already started
                     if ($current >= $start_timestamp && $daysLeft > 0) {
-                        $heroContent .= '<a href="'.$entry->button_link.'" target="_blank"><div class="mt-3 black small">'.$entry->button_value.'</div></a>';
+                        $arrowSvg = '<span class="entry-hero-cta-arrow-wrap"><svg class="entry-hero-cta-arrow" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.2128 23.5743L11.9388 21.3256L19.8348 13.4295H0V10.1448H19.8348L11.9388 2.26142L14.2128 0L26 11.7872L14.2128 23.5743Z" fill="currentColor"/></svg></span>';
+                        $heroContent .= '<a href="'.$entry->button_link.'" target="_blank" class="entry-hero-diamond-trigger"><span class="entry-hero-cta mt-3 black small"><span class="entry-hero-cta-text">'.$entry->button_value.'</span>'.$arrowSvg.'</span></a>';
                     } 
                 }
 
             }
             if ($entry->type_id == 3) //get grantees
             {
+                $granteeArrowSvg = '<span class="entry-hero-grantee-arrow-wrap"><svg class="entry-hero-grantee-arrow" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.2128 23.5743L11.9388 21.3256L19.8348 13.4295H0V10.1448H19.8348L11.9388 2.26142L14.2128 0L26 11.7872L14.2128 23.5743Z" fill="currentColor"/></svg></span>';
                 foreach ($entry->projectGrantees($entry->id) as $grantee) {
-                    $heroContent .= '<div class="mt-3"><a href="' . route('entry.view', ['entryType' => 'grantee', 'id' => $grantee["id"]]) . '" class="small black ABCDiatypeMedium">' . $grantee["name"] . '</a></div>';
+                    $heroContent .= '<div class="mt-3 entry-hero-grantee-link-wrap"><a href="' . route('entry.view', ['entryType' => 'grantee', 'id' => $grantee["id"]]) . '" class="small black ABCDiatypeMedium square-diamond-grantee-trigger entry-hero-grantee-link"><span class="entry-hero-grantee-name">' . $grantee["name"] . '</span>' . $granteeArrowSvg . '</a></div>';
                 }
             }
+            $grantee_trigger = ($entry->type_id == 3 && count($entry->projectGrantees($entry->id)) > 0) ? '.square-diamond-grantee-trigger' : null;
             $html .= '<div class="col-lg-6 col-12 text-center d-flex h-100">';
-            $html .= view('frontend.btn-animation.entry-hero-square-diamond', ['bg_color' => $bgCode, 'content' => $heroContent])->render();
+            $html .= view('frontend.btn-animation.entry-hero-square-diamond', ['bg_color' => $bgCode, 'content' => $heroContent, 'trigger_selector' => $grantee_trigger])->render();
             $html .= '</div>
                             <div class="col-lg-6 col-12 d-flex">';
             if ($entry->image_featured) {
@@ -1978,7 +1981,7 @@ function getEntryDetails($collection_type_id, $entry)
 }
 
 
-function getEntryBtnShape($value, $value_arabic, $shape, $shape_hover, $text_color, $hover_text_color, $bg_color, $hover_bg_color, $size = "")
+function getEntryBtnShape($value, $value_arabic, $shape, $shape_hover, $text_color, $hover_text_color, $bg_color, $hover_bg_color, $size = "", $trigger_selector = null)
 {
 
     if ($shape == "Circle" && $shape_hover == "Diamond") {
@@ -2020,6 +2023,7 @@ function getEntryBtnShape($value, $value_arabic, $shape, $shape_hover, $text_col
             'bg_color' => $bg_color,
             'hover_bg_color' => $hover_bg_color,
             'size' => $size,
+            'trigger_selector' => $trigger_selector,
         ])->render();
     } else if ($shape == "Diamond" && $shape_hover == "Circle") {
         $button = view('frontend.btn-animation.diamond-circle', [
