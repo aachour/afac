@@ -366,21 +366,20 @@ class HomeController extends Controller
                         $entry_target=$entryDetails["entry_target"];
 
                         //desktop view
-                        $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
-                            <div class="desktopOnly">';
-                                if( ($show_name==1 || $show_view_all==1) && $featured_width=='74.3%' && $key==0){
-                                    $html.='<div class="featured_title_view_all">';
-                                        if($show_name==1){
-                                            $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
-                                        }
-                                        if($show_view_all==1){
-                                            $html.='<div class="topSpacerSmaller">
-                                                <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:8px;"></a>
-                                            </div>';
-                                        }
-                                    $html.='</div>';
-                                }
-                                $html.='<div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">';
+                        $html.='<div class="desktopOnly">';
+                            if( ($show_name==1 || $show_view_all==1) && $featured_width=='74.3%' && $key==0){
+                                $html.='<div class="featured_title_view_all">';
+                                    if($show_name==1){
+                                        $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
+                                    }
+                                    if($show_view_all==1){
+                                        $html.='<a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">
+                                            <div class="topSpacerSmaller blackBg">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:8px;"></div></a>';
+                                    }
+                                $html.='</div>';
+                            }
+                            $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
+                                <div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">';
                                     $html.='<div class="featured_info">
                                         <div class="title_or_labels" style="'.$title_position.'">
                                             <div class="medium white ABCDiatypeMedium">'.$entry_title.'</div>
@@ -411,23 +410,24 @@ class HomeController extends Controller
                                             ])->render();
                                     $html.='</div>
                                 </div>
-                            </div>
-                        </a>';
+                            </a>
+                        </div>';
                         
                         //mobile view
-                        $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
-                            <div class="entries mobileOnly">';
-                                if( ($show_name==1 || $show_view_all==1) && $featured_width=='74.3%' && $key==0){
-                                    if($show_name==1){
-                                        $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
-                                    }
-                                    if($show_view_all==1){
-                                        $html.='<div class="topSpacerSmaller">
-                                            <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:8px;"></a>
-                                        </div>';
-                                    }
+                        $html.='<div class="entries mobileOnly">';
+                            if( ($show_name==1 || $show_view_all==1) && $featured_width=='74.3%' && $key==0){
+                                if($show_name==1){
+                                    $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
                                 }
-                                $html.='<div class="featured_entry_mobile" style="background:'.$featured_image_bgColor.';">
+                                if($show_view_all==1){
+                                    $html.='<div class="topSpacerSmaller">
+                                        <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:8px;"></a>
+                                    </div>';
+                                }
+                            }
+                            $html.='
+                            <a href="'.$entry_href.'" target="'.$entry_target.'">
+                                <div class="featured_entry_mobile" style="background:'.$featured_image_bgColor.';">
                                     <img src="'.$image_path.'" width="100%" />
                                     <div class="description">
                                         <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entry_title.'</div>';
@@ -446,8 +446,8 @@ class HomeController extends Controller
                                         }
                                     $html.='</div>
                                 </div>
-                            </div>
-                        </a>';
+                            </a>
+                        </div>';
 
                         if($all_featured==0)
                         {
