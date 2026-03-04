@@ -44,9 +44,10 @@
         position: absolute;
         top: 0px;
         left: 0px;
-        width: 100%;
-        height: 100%;
-        overflow-y: scroll;
+        width: 200%;
+        height:auto;
+        /* height: 100%; */
+        /* overflow-y: scroll; */
         padding: 15px 15px;
         border: 2px solid #000;
         background:#FFF;
@@ -242,8 +243,27 @@
 
 
 
-    $(document).on("click", ".card-hover-animation-wrapper", function() {
-        $(this).find(".popupText").removeClass("d-none");
+    $(document).on("click", ".card-hover-animation-wrapper", function () {
+
+        $(".popupText").addClass("d-none");
+
+        var $mainContainer = $(this).parent().parent();
+        var $popupText = $(this).find(".popupText");
+
+        $popupText.removeClass("d-none");
+
+        var containerLeft = $mainContainer.offset().left;
+        var containerWidth = $mainContainer.outerWidth();
+
+        var popupParentLeft = $popupText.offsetParent().offset().left;
+        var popupWidth = $popupText.outerWidth();
+
+        var left = (containerLeft - popupParentLeft) + (containerWidth / 2) - (popupWidth / 2);
+
+        $popupText.css({
+            position: "absolute",
+            left: left + "px"
+        });
     });
 
     $(document).on("click", ".closeBtn", function(e) {
