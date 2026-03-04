@@ -53,17 +53,23 @@
                             <h5 class="modal-title">{{ $modalTitle }}</h5>
                             <button type="button" wire:click="closeModal" class="btn-close"></button>
                         </div>
+
                         <div class="modal-body">
-                            <div class="mb-3">
+                            <div class="mb-3" wire:ignore>
                                 <label for="grantee_id" class="form-label">Grantee</label>
-                                <select wire:model="grantee_id" id="grantee_id" class="form-control">
+                                <select id="grantee_id" class="form-control" style="width:100%;">
                                     <option value="">Select Grantee</option>
                                     @foreach($grantees as $grantee)
                                         <option value="{{ $grantee->id }}">{{ $grantee->grantee_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
+
+                            @error('grantee_id')
+                                <div class="text-danger mt-1">{{ $message }}</div>
+                            @enderror
                         </div>
+
                         <div class="modal-footer">
                             <button type="button" wire:click="closeModal" class="btn btn-secondary">Cancel</button>
                             <button 
@@ -76,10 +82,7 @@
                                 <span wire:loading.remove wire:target="saveGrantee">
                                     {{ $editingId ? 'Update' : 'Save' }}
                                 </span>
-
-                                <span wire:loading wire:target="saveGrantee">
-                                    Saving...
-                                </span>
+                                <span wire:loading wire:target="saveGrantee">Saving...</span>
                             </button>
                         </div>
                     </div>
@@ -110,6 +113,54 @@
                         }
                     });
                 }
+            });
+        </script>
+
+        <script>
+            function initGranteeSelect2() {
+                const $select = $('#grantee_id');
+
+                if (!$select.length) return;
+                if (typeof $.fn.select2 === 'undefined') return;
+
+                if ($select.hasClass('select2-hidden-accessible')) {
+                    $select.select2('destroy');
+                }
+
+                $select.select2({
+                    placeholder: 'Select Grantee',
+                    allowClear: true,
+                    width: '100%',
+                    dropdownParent: $select.closest('.modal')
+                });
+
+                const currentValue = @js((string) $grantee_id);
+
+                if (currentValue !== '') {
+                    $select.val(currentValue).trigger('change.select2');
+                } else {
+                    $select.val('').trigger('change.select2');
+                }
+
+                $select.off('change.grantee').on('change.grantee', function () {
+                    @this.set('grantee_id', $(this).val());
+                });
+            }
+
+            document.addEventListener('livewire:init', () => {
+                Livewire.on('grantee-modal-opened', () => {
+                    setTimeout(() => {
+                        initGranteeSelect2();
+                    }, 100);
+                });
+
+                Livewire.on('grantee-modal-closed', () => {
+                    const $select = $('#grantee_id');
+
+                    if ($select.length && $select.hasClass('select2-hidden-accessible')) {
+                        $select.select2('destroy');
+                    }
+                });
             });
         </script>
 

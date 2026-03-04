@@ -47,22 +47,31 @@ class ProjectGranteesView extends Component
 
     public function openModal($projectGranteeId = null)
     {
+        $this->reset(['editingId', 'grantee_id']);
+
         if ($projectGranteeId) {
             $projectGrantee = ProjectGrantees::find($projectGranteeId);
-            $this->editingId = $projectGranteeId;
-            $this->grantee_id = $projectGrantee->grantee_id;
-            $this->modalTitle = 'Add Grantee';
+
+            if ($projectGrantee) {
+                $this->editingId = $projectGranteeId;
+                $this->grantee_id = (string) $projectGrantee->grantee_id;
+                $this->modalTitle = 'Edit Grantee';
+            } else {
+                $this->modalTitle = 'Add Grantee';
+            }
         } else {
-            $this->reset(['editingId', 'grantee_id']);
             $this->modalTitle = 'Add Grantee';
         }
+
         $this->showModal = true;
+        $this->dispatch('grantee-modal-opened');
     }
 
     public function closeModal()
     {
         $this->showModal = false;
         $this->reset(['editingId', 'grantee_id']);
+        $this->dispatch('grantee-modal-closed');
     }
 
     public function saveGrantee()
