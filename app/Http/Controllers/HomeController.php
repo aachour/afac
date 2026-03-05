@@ -374,7 +374,7 @@ class HomeController extends Controller
                                     }
                                     if($show_view_all==1){
                                         $html.='<a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">
-                                            <div class="topSpacerSmaller">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:8px;"></div></a>';
+                                            <div class="topSpacerSmaller">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:10px;"></div></a>';
                                     }
                                 $html.='</div>';
                             }
