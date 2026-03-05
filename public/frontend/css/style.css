@@ -108,13 +108,13 @@
 /**********************************************************************************/
 /**********************************************************************************/
 p strong{
-    line-height: 120%;
+    line-height: 120% !important;
 }
 
 p a{
     color:#000;
     text-decoration: underline !important;
-    line-height: 120%;
+    line-height: 120% !important;
 }
 p a:hover{
     color:#ccc !important;
