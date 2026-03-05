@@ -85,7 +85,7 @@
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="name">Description</label>
                                     <textarea
-                                        wire:model="description"
+                                        wire:model.defer="description"
                                         id="description"
                                         class="form-control txtEditor"
                                         placeholder="Description"></textarea>
@@ -95,7 +95,7 @@
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="name">الوصف</label>
                                     <textarea
-                                        wire:model="description_arabic"
+                                        wire:model.defer="description_arabic"
                                         id="description_arabic"
                                         class="form-control txtEditor"
                                         placeholder="الوصف"></textarea>
@@ -613,38 +613,114 @@
     </div>
 
     <!-- ✅ Load CKEditor -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/super-build/ckeditor.js"></script>
 
     <script>
-        document.addEventListener('livewire:load', function () {
-            // Wait until Livewire DOM is ready
-            initEditors();
-        });
-
-        // ✅ Re-init CKEditor if Livewire re-renders (after save/validation)
-        document.addEventListener('livewire:navigated', function () {
-            initEditors();
-        });
+        document.addEventListener('livewire:load', () => initEditors());
+        document.addEventListener('livewire:navigated', () => initEditors());
 
         function initEditors() {
             document.querySelectorAll('.txtEditor').forEach((el) => {
-                // Prevent double init
-                if (el.classList.contains('ck-loaded')) return;
-                el.classList.add('ck-loaded');
+                if (el.dataset.editorInitialized === 'true') return;
 
-                ClassicEditor.create(el)
-                    .then(editor => {
-                        const model = el.getAttribute('wire:model') || el.getAttribute('wire:model.defer');
+                const model =
+                    el.getAttribute('wire:model') ||
+                    el.getAttribute('wire:model.live') ||
+                    el.getAttribute('wire:model.blur') ||
+                    el.getAttribute('wire:model.defer');
 
-                        // Sync editor → Livewire
-                        editor.model.document.on('change:data', () => {
-                            const component = el.closest('[wire\\:id]');
-                            if (!component) return;
-                            Livewire.find(component.getAttribute('wire:id'))
-                                .set(model.replace('.defer', ''), editor.getData());
-                        });
-                    })
-                    .catch(error => console.error('CKEditor init error:', error));
+                if (!model) {
+                    console.warn('No wire:model found for:', el);
+                    return;
+                }
+
+                CKEDITOR.ClassicEditor.create(el, {
+                    toolbar: {
+                        items: [
+                            'heading',
+                            '|',
+                            'bold', 'italic', 'underline', 'strikethrough',
+                            '|',
+                            '|',
+                            'alignment',
+                            '|',
+                            'bulletedList', 'numberedList', 'outdent', 'indent',
+                            '|',
+                            'link', 'blockQuote', 'insertTable',
+                            '|',
+                            'undo', 'redo',
+                            '|',
+                            'sourceEditing'
+                        ],
+                        shouldNotGroupWhenFull: true
+                    },
+
+                    link: {
+                        decorators: {
+                            openInNewTab: {
+                                mode: 'manual',
+                                label: 'Open in a new tab',
+                                attributes: {
+                                    target: '_blank',
+                                    rel: 'noopener noreferrer'
+                                }
+                            }
+                        }
+                    },
+
+                    htmlSupport: {
+                        allow: [
+                            { name: /.*/, attributes: true, classes: true, styles: true }
+                        ]
+                    },
+
+                    removePlugins: [
+                        'PasteFromOfficeEnhanced',
+                        'TableOfContents',
+
+                        'CloudServices',
+                        'CKBox',
+                        'CKFinder',
+                        'EasyImage',
+                        'ExportPdf',
+                        'ExportWord',
+
+                        'DocumentOutline',
+
+                        'AIAssistant',
+                        'PresenceList',
+                        'Comments',
+                        'TrackChanges',
+                        'TrackChangesData',
+                        'RevisionHistory',
+                        'Pagination',
+                        'WProofreader',
+                        'RealTimeCollaborativeComments',
+                        'RealTimeCollaborativeTrackChanges',
+                        'RealTimeCollaborativeRevisionHistory',
+                        'MathType',
+                        'SlashCommand',
+                        'Template',
+                        'FormatPainter'
+                    ]
+                })
+                .then((editor) => {
+                    el.dataset.editorInitialized = 'true';
+                    el.editorInstance = editor;
+
+                    editor.model.document.on('change:data', () => {
+                        const componentEl = el.closest('[wire\\:id]');
+                        if (!componentEl) return;
+
+                        const component = Livewire.find(componentEl.getAttribute('wire:id'));
+                        if (!component) return;
+
+                        component.set(model, editor.getData());
+                    });
+                })
+                .catch((error) => {
+                    console.error('CKEditor init error:', error);
+                });
             });
         }
     </script>
