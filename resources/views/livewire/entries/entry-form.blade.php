@@ -241,8 +241,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="event_text">Text</label>
-                                    <textarea wire:ignore
-                                        wire:model="event_text"
+                                    <textarea
+                                        wire:model.defer="event_text"
                                         type="text"
                                         id="event_text"
                                         class="form-control txtEditor" placeholder="Text"></textarea>
@@ -251,8 +251,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="event_text_arabic">النص </label>
-                                    <textarea wire:ignore
-                                        wire:model="event_text_arabic"
+                                    <textarea
+                                        wire:model.defer="event_text_arabic"
                                         type="text"
                                         id="event_text_arabic"
                                         class="form-control txtEditor"
@@ -350,8 +350,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="program_text">Text</label>
-                                    <textarea wire:ignore
-                                        wire:model="program_text"
+                                    <textarea
+                                        wire:model.defer="program_text"
                                         type="text"
                                         id="program_text"
                                         class="form-control txtEditor" placeholder="Text"></textarea>
@@ -360,8 +360,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="program_text_arabic">النص </label>
-                                    <textarea wire:ignore
-                                        wire:model="program_text_arabic"
+                                    <textarea
+                                        wire:model.defer="program_text_arabic"
                                         type="text"
                                         id="program_text_arabic"
                                         class="form-control txtEditor"
@@ -453,8 +453,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="project_text">Text</label>
-                                    <textarea wire:ignore
-                                        wire:model="project_text"
+                                    <textarea
+                                        wire:model.defer="project_text"
                                         type="text"
                                         id="project_text"
                                         class="form-control txtEditor" placeholder="Text"></textarea>
@@ -463,8 +463,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="project_text_arabic">النص </label>
-                                    <textarea wire:ignore
-                                        wire:model="project_text_arabic"
+                                    <textarea
+                                        wire:model.defer="project_text_arabic"
                                         type="text"
                                         id="project_text_arabic"
                                         class="form-control txtEditor"
@@ -575,8 +575,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="grantee_text">Text</label>
-                                    <textarea wire:ignore
-                                        wire:model="grantee_text"
+                                    <textarea
+                                        wire:model.defer="grantee_text"
                                         type="text"
                                         id="grantee_text"
                                         class="form-control txtEditor" placeholder="Text"></textarea>
@@ -585,8 +585,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="grantee_text_arabic">النص </label>
-                                    <textarea wire:ignore
-                                        wire:model="grantee_text_arabic"
+                                    <textarea
+                                        wire:model.defer="grantee_text_arabic"
                                         type="text"
                                         id="grantee_text_arabic"
                                         class="form-control txtEditor"
@@ -652,8 +652,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="jury_text">Biography <span class="text-danger">*</span></label>
-                                    <textarea wire:ignore
-                                        wire:model="jury_text"
+                                    <textarea
+                                        wire:model.defer="jury_text"
                                         type="text"
                                         id="jury_text"
                                         class="form-control txtEditor" placeholder="Biography"></textarea>
@@ -662,8 +662,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="jury_text_arabic">السيرة الذاتية <span class="text-danger">*</span></label>
-                                    <textarea wire:ignore
-                                        wire:model="jury_text_arabic"
+                                    <textarea
+                                        wire:model.defer="jury_text_arabic"
                                         type="text"
                                         id="jury_text_arabic"
                                         class="form-control txtEditor"
@@ -745,8 +745,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="resource_text">Text</label>
-                                    <textarea wire:ignore
-                                        wire:model="resource_text"
+                                    <textarea
+                                        wire:model.defer="resource_text"
                                         type="text"
                                         id="resource_text"
                                         class="form-control txtEditor" placeholder="Text"></textarea>
@@ -755,8 +755,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="resource_text_arabic">النص </label>
-                                    <textarea wire:ignore
-                                        wire:model="resource_text_arabic"
+                                    <textarea
+                                        wire:model.defer="resource_text_arabic"
                                         type="text"
                                         id="resource_text_arabic"
                                         class="form-control txtEditor"
@@ -860,8 +860,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="news_text">Text</label>
-                                    <textarea wire:ignore
-                                        wire:model="news_text"
+                                    <textarea
+                                        wire:model.defer="news_text"
                                         type="text"
                                         id="news_text"
                                         class="form-control txtEditor" placeholder="Text"></textarea>
@@ -870,8 +870,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="news_text_arabic">النص </label>
-                                    <textarea wire:ignore
-                                        wire:model="news_text_arabic"
+                                    <textarea
+                                        wire:model.defer="news_text_arabic"
                                         type="text"
                                         id="news_text_arabic"
                                         class="form-control txtEditor"
@@ -1073,8 +1073,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="team_text">Text</label>
-                                    <textarea wire:ignore
-                                        wire:model="team_text"
+                                    <textarea
+                                        wire:model.defer="team_text"
                                         type="text"
                                         id="team_text"
                                         class="form-control txtEditor" placeholder="Text"></textarea>
@@ -1083,8 +1083,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="team_text_arabic">النص</label>
-                                    <textarea wire:ignore
-                                        wire:model="team_text_arabic"
+                                    <textarea
+                                        wire:model.defer="team_text_arabic"
                                         type="text"
                                         id="team_text_arabic"
                                         class="form-control txtEditor" placeholder="Text"></textarea>
@@ -1156,8 +1156,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="board_text">Text</label>
-                                    <textarea wire:ignore
-                                        wire:model="board_text"
+                                    <textarea
+                                        wire:model.defer="board_text"
                                         type="text"
                                         id="board_text"
                                         class="form-control txtEditor" placeholder="Text"></textarea>
@@ -1166,8 +1166,8 @@
 
                                 <div class="col-12 col-md-6 mt-2" wire:ignore>
                                     <label class="form-label" for="board_text_arabic">النص</label>
-                                    <textarea wire:ignore
-                                        wire:model="board_text_arabic"
+                                    <textarea
+                                        wire:model.defer="board_text_arabic"
                                         type="text"
                                         id="board_text_arabic"
                                         class="form-control txtEditor" placeholder="Text"></textarea>
@@ -1267,9 +1267,6 @@
     </script>
     @endscript
   
-    <!-- ✅ Load CKEditor -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
-
     <script>
 
         document.addEventListener('livewire:load', function () {
@@ -1290,35 +1287,118 @@
 
         });
 
-        document.addEventListener('livewire:load', function () {
-            // Wait until Livewire DOM is ready
-            initEditors();
-        });
+    </script>
 
-        // ✅ Re-init CKEditor if Livewire re-renders (after save/validation)
-        document.addEventListener('livewire:navigated', function () {
-            initEditors();
-        });
+    <!-- ✅ Load CKEditor -->
+    <!-- <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script> -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/super-build/ckeditor.js"></script>
+
+    <script>
+        document.addEventListener('livewire:load', () => initEditors());
+        document.addEventListener('livewire:navigated', () => initEditors());
 
         function initEditors() {
             document.querySelectorAll('.txtEditor').forEach((el) => {
-                // Prevent double init
-                if (el.classList.contains('ck-loaded')) return;
-                el.classList.add('ck-loaded');
+                if (el.dataset.editorInitialized === 'true') return;
 
-                ClassicEditor.create(el)
-                    .then(editor => {
-                        const model = el.getAttribute('wire:model') || el.getAttribute('wire:model.defer');
+                const model =
+                    el.getAttribute('wire:model') ||
+                    el.getAttribute('wire:model.live') ||
+                    el.getAttribute('wire:model.blur') ||
+                    el.getAttribute('wire:model.defer');
 
-                        // Sync editor → Livewire
-                        editor.model.document.on('change:data', () => {
-                            const component = el.closest('[wire\\:id]');
-                            if (!component) return;
-                            Livewire.find(component.getAttribute('wire:id'))
-                                .set(model.replace('.defer', ''), editor.getData());
-                        });
-                    })
-                    .catch(error => console.error('CKEditor init error:', error));
+                if (!model) {
+                    console.warn('No wire:model found for:', el);
+                    return;
+                }
+
+                CKEDITOR.ClassicEditor.create(el, {
+                    toolbar: {
+                        items: [
+                            'heading',
+                            '|',
+                            'bold', 'italic', 'underline', 'strikethrough',
+                            '|',
+                            '|',
+                            'alignment',
+                            '|',
+                            'bulletedList', 'numberedList', 'outdent', 'indent',
+                            '|',
+                            'link', 'blockQuote', 'insertTable',
+                            '|',
+                            'undo', 'redo',
+                            '|',
+                            'sourceEditing'
+                        ],
+                        shouldNotGroupWhenFull: true
+                    },
+
+                    link: {
+                        decorators: {
+                            openInNewTab: {
+                                mode: 'manual',
+                                label: 'Open in a new tab',
+                                attributes: {
+                                    target: '_blank',
+                                    rel: 'noopener noreferrer'
+                                }
+                            }
+                        }
+                    },
+
+                    htmlSupport: {
+                        allow: [
+                            { name: /.*/, attributes: true, classes: true, styles: true }
+                        ]
+                    },
+
+                    removePlugins: [
+                        'PasteFromOfficeEnhanced',
+                        'TableOfContents',
+
+                        'CloudServices',
+                        'CKBox',
+                        'CKFinder',
+                        'EasyImage',
+                        'ExportPdf',
+                        'ExportWord',
+
+                        'DocumentOutline',
+
+                        'AIAssistant',
+                        'PresenceList',
+                        'Comments',
+                        'TrackChanges',
+                        'TrackChangesData',
+                        'RevisionHistory',
+                        'Pagination',
+                        'WProofreader',
+                        'RealTimeCollaborativeComments',
+                        'RealTimeCollaborativeTrackChanges',
+                        'RealTimeCollaborativeRevisionHistory',
+                        'MathType',
+                        'SlashCommand',
+                        'Template',
+                        'FormatPainter'
+                    ]
+                })
+                .then((editor) => {
+                    el.dataset.editorInitialized = 'true';
+                    el.editorInstance = editor;
+
+                    editor.model.document.on('change:data', () => {
+                        const componentEl = el.closest('[wire\\:id]');
+                        if (!componentEl) return;
+
+                        const component = Livewire.find(componentEl.getAttribute('wire:id'));
+                        if (!component) return;
+
+                        component.set(model, editor.getData());
+                    });
+                })
+                .catch((error) => {
+                    console.error('CKEditor init error:', error);
+                });
             });
         }
     </script>
