@@ -49,7 +49,7 @@
     </div>
     
     <!--Page Content-->
-    <div class="pageContent mt-5 mb-5">
+    <div class="pageContent mt-5">
         @yield('content')
     </div>
 
