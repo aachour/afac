@@ -44,11 +44,11 @@
         position: absolute;
         top: 0px;
         left: 0px;
-        width: 200%;
+        width: 225%;
         height:auto;
         /* height: 100%; */
         /* overflow-y: scroll; */
-        padding: 15px 15px;
+        padding: 25px 25px;
         border: 2px solid #000;
         background:#FFF;
         opacity: 1;
@@ -58,13 +58,13 @@
 
     .popupText .closeBtn {
         position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 15px;
-        height: 15px;
+        top: 15px;
+        right: 15px;
+        width: 20px;
+        height: 20px;
         cursor: pointer;
         background: url("{{ asset('frontend/images/close.png') }}") center no-repeat;
-        background-size: 15px 15px;
+        background-size: 20px 20px;
         z-index: 99999;
     }
 
