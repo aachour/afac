@@ -98,8 +98,12 @@
                 <div class="title_or_labels" style="{{ $labels_position }}">
                     <!-- <div class="label micro black ABCDiatypeMedium">{{ $entry_type_name }}</div> -->
                     @if ($collection_type_id == 1)
+                        @if (@$labels[0] != '')
                         <div class="label micro black ABCDiatypeMedium">{{ @$labels[0] }}</div>
+                        @endif
+                        @if (@$labels[1] != '')
                         <div class="label micro black rounded ABCDiatypeMedium">{{ @$labels[1] }}</div>
+                        @endif
                         @if (@$labels[2] != '')
                             <div class="label micro black rounded ABCDiatypeMedium">
                                 {{ $labels[2] ?? '' }}
