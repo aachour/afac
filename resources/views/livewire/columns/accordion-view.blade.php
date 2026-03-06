@@ -82,7 +82,7 @@
                                 class="form-control txtEditor @error('text') is-invalid @enderror"
                                 id="text"
                                 wire:model.defer="text"
-                                placeholder="Text" style="height:200px; resize:none;"></textarea>
+                                placeholder="Text" style="height:200px; resize:none;">{{$text}}</textarea>
                             @error('text')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -104,7 +104,7 @@
                                 class="form-control txtEditor @error('text_arabic') is-invalid @enderror"
                                 id="text_arabic"
                                 wire:model.defer="text_arabic"
-                                style="height:200px; resize:none;"></textarea>
+                                style="height:200px; resize:none;">{{$text_arabic}}</textarea>
                             @error('النص')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -157,66 +157,6 @@
                     });
                 }
             });
-        </script>
-
-        <!-- ✅ Load CKEditor -->
-        <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
-
-        <script>
-            window.ckeditors = {};
-
-            document.addEventListener('livewire:load', function () {
-                initEditors();
-            });
-
-            // Re-init CKEditor when Livewire re-renders
-            document.addEventListener('livewire:navigated', function () {
-                initEditors();
-            });
-
-            function initEditors() {
-                document.querySelectorAll('.txtEditor').forEach((el) => {
-                    const id = el.getAttribute('id');
-                    if (!id) return; // CKEditor must have a unique id
-
-                    // Prevent double init
-                    if (window.ckeditors[id]) return;
-
-                    ClassicEditor.create(el)
-                        .then(editor => {
-                            window.ckeditors[id] = editor;
-
-                            const model = el.getAttribute('wire:model') || el.getAttribute('wire:model.defer');
-
-                            // Sync editor → Livewire
-                            editor.model.document.on('change:data', () => {
-                                const component = el.closest('[wire\\:id]');
-                                if (!component) return;
-
-                                Livewire.find(component.getAttribute('wire:id'))
-                                    .set(model.replace('.defer', ''), editor.getData());
-                            });
-                        })
-                        .catch(error => console.error('CKEditor init error:', error));
-                });
-            }
-
-            // ✅ Livewire can call this:
-            window.setEditorValue = function (editorId, value) {
-                if (window.ckeditors[editorId]) {
-                    window.ckeditors[editorId].setData(value || "");
-                }
-            };
-
-            // Listen for Livewire event
-            document.addEventListener('set-editor-value', function (e) {
-                window.setEditorValue(e.detail.id, e.detail.value);
-            });
-
-            // Listen for Livewire event
-            document.addEventListener('set-editor-value-arabic', function (e) {
-                window.setEditorValue(e.detail.id, e.detail.value);
-            });
 
             document.addEventListener('DOMContentLoaded', function () {
                 var modal = document.getElementById('accordionModal');
@@ -228,6 +168,188 @@
 
         </script>
 
+        <!-- ✅ Load CKEditor -->
+        <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/super-build/ckeditor.js"></script>
+
+        <script>
+            document.addEventListener('livewire:load', () => {
+                initEditors();
+
+                Livewire.hook('message.processed', () => {
+                    initEditors();
+                    syncEditorData();
+                });
+            });
+
+            document.addEventListener('livewire:navigated', () => {
+                initEditors();
+                syncEditorData();
+            });
+
+            function getEditorValue(el) {
+                return el.value || '';
+            }
+
+            function initEditors() {
+                document.querySelectorAll('.txtEditor').forEach((el) => {
+                    if (el.dataset.editorInitialized === 'true') return;
+
+                    const model =
+                        el.getAttribute('wire:model') ||
+                        el.getAttribute('wire:model.live') ||
+                        el.getAttribute('wire:model.blur') ||
+                        el.getAttribute('wire:model.defer');
+
+                    if (!model) return;
+
+                    CKEDITOR.ClassicEditor.create(el, {
+                        toolbar: {
+                            items: [
+                                'heading',
+                                '|',
+                                'bold', 'italic', 'underline', 'strikethrough',
+                                '|',
+                                'alignment',
+                                '|',
+                                'bulletedList', 'numberedList', 'outdent', 'indent',
+                                '|',
+                                'link', 'blockQuote', 'insertTable',
+                                '|',
+                                'undo', 'redo',
+                                '|',
+                                'sourceEditing'
+                            ],
+                            shouldNotGroupWhenFull: true
+                        },
+                        heading: {
+                            options: [
+                                {
+                                    model: 'paragraph',
+                                    title: 'Paragraph',
+                                    class: 'ck-heading_paragraph'
+                                },
+                                {
+                                    model: 'heading1',
+                                    view: 'h1',
+                                    title: 'Heading 1',
+                                    class: 'ck-heading_heading1'
+                                },
+                                {
+                                    model: 'heading2',
+                                    view: 'h2',
+                                    title: 'Heading 2',
+                                    class: 'ck-heading_heading2'
+                                },
+                                {
+                                    model: 'heading3',
+                                    view: 'h3',
+                                    title: 'Heading 3',
+                                    class: 'ck-heading_heading3'
+                                }
+                            ]
+                        },
+                        link: {
+                            decorators: {
+                                openInNewTab: {
+                                    mode: 'manual',
+                                    label: 'Open in a new tab',
+                                    attributes: {
+                                        target: '_blank',
+                                        rel: 'noopener noreferrer'
+                                    }
+                                }
+                            }
+                        },
+                        htmlSupport: {
+                            allow: [
+                                { name: /.*/, attributes: true, classes: true, styles: true }
+                            ]
+                        },
+                        removePlugins: [
+                            'PasteFromOfficeEnhanced',
+                            'TableOfContents',
+                            'CloudServices',
+                            'CKBox',
+                            'CKFinder',
+                            'EasyImage',
+                            'ExportPdf',
+                            'ExportWord',
+                            'DocumentOutline',
+                            'AIAssistant',
+                            'PresenceList',
+                            'Comments',
+                            'TrackChanges',
+                            'TrackChangesData',
+                            'RevisionHistory',
+                            'Pagination',
+                            'WProofreader',
+                            'RealTimeCollaborativeComments',
+                            'RealTimeCollaborativeTrackChanges',
+                            'RealTimeCollaborativeRevisionHistory',
+                            'MathType',
+                            'SlashCommand',
+                            'Template',
+                            'FormatPainter'
+                        ]
+                    })
+                    .then((editor) => {
+                        el.dataset.editorInitialized = 'true';
+                        el.editorInstance = editor;
+
+                        editor.setData(getEditorValue(el));
+
+                        editor.model.document.on('change:data', () => {
+                            const componentEl = el.closest('[wire\\:id]');
+                            if (!componentEl) return;
+
+                            const component = Livewire.find(componentEl.getAttribute('wire:id'));
+                            if (!component) return;
+
+                            component.set(model, editor.getData());
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('CKEditor init error:', error);
+                    });
+                });
+            }
+
+            function syncEditorData() {
+                document.querySelectorAll('.txtEditor').forEach((el) => {
+                    if (!el.editorInstance) return;
+
+                    const newValue = getEditorValue(el);
+                    if (el.editorInstance.getData() !== newValue) {
+                        el.editorInstance.setData(newValue);
+                    }
+                });
+            }
+        </script>
+
+        <script>
+            window.addEventListener('open-general-input-modal', () => {
+                const modalEl = document.getElementById('accordionModal');
+                const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+                modal.show();
+            });
+
+            window.addEventListener('fill-editors', (event) => {
+                const data = event.detail[0] || event.detail;
+
+                setTimeout(() => {
+                    const textEl = document.getElementById('text');
+                    const textArabicEl = document.getElementById('text_arabic');
+
+                    if (textEl?.editorInstance) {
+                        textEl.editorInstance.setData(data.text || '');
+                    }
+
+                    if (textArabicEl?.editorInstance) {
+                        textArabicEl.editorInstance.setData(data.text_arabic || '');
+                    }
+                }, 300);
+            });
+        </script>
 
         <style>
             .ck-editor__editable_inline {

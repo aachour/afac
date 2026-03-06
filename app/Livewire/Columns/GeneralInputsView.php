@@ -124,7 +124,6 @@ class GeneralInputsView extends Component
             'button_link_arabic',
         ]);
         
-        $this->dispatch('activateCkeditor');
     }
 
     public function loadEntries()
@@ -135,7 +134,12 @@ class GeneralInputsView extends Component
     public function updatedInputTypeId($value)
     {
         if($value==2){
-            $this->dispatch('activateCkeditor');
+            $this->dispatch('fill-editors', [
+                'text' => '',
+                'text_arabic' => '',
+            ]);
+
+            $this->dispatch('open-general-input-modal');
         }
     }
 
@@ -163,7 +167,12 @@ class GeneralInputsView extends Component
         $this->button_link_arabic=$generalInput->button_link_arabic;
         $this->modalId=$id;
         if($this->input_type_id==2){
-            $this->dispatch('activateCkeditor');
+            $this->dispatch('fill-editors', [
+                'text' => $this->text ?? '',
+                'text_arabic' => $this->text_arabic ?? '',
+            ]);
+
+            $this->dispatch('open-general-input-modal');
         }
 
     }
