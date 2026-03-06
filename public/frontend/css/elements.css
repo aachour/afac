@@ -423,10 +423,10 @@
 
 .popupEntry .popupText {
     position: absolute;
-    top: 35%;
+    top: 25%;
     left: 25%;
     width: 50%;
-    height:30%;
+    height:50%;
     /* height: 100%; */
     overflow-y: scroll;
     padding: 25px 25px;
