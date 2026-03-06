@@ -75,7 +75,7 @@
     grantee_categories="{{ @$grantee_categories }}" grantee_country="{{ @$grantee_country }}"
     jury_country_id="{{ @$jury_country_id }}" resource_category_name="{{ @$resource_category_name }}"
     resource_date="{{ @$resource_date }}" news_date="{{ @$news_date }}" featured="{{ @$featured }}"
-    data-hover-animation entry_title="{{@$entry_title}}" entry_position="{{@$entry_position}}" entry_text="{{@$entry_text}}">
+    data-hover-animation entry_title="{{@$entry_title}}" entry_position="{{@$entry_position}}" entry_text="{{@$entry_text}}" entry_href="{{@$entry_href}}">
 
     @if ($featured == 1)
         <img src="{{ $image_path }}" width="100%" />
@@ -207,14 +207,16 @@
 
     $(document).on("click", ".card-hover-animation-wrapper", function () {
 
+        var entry_href=$(this).attr("entry_href"); 
         var entry_title=$(this).attr("entry_title");
         var entry_position=$(this).attr("entry_position");
         var entry_text=$(this).attr("entry_text");
-
-        $(".popupEntry").find("#title").text(entry_title);
-        $(".popupEntry").find("#position").html(entry_position);
-        $(".popupEntry").find("#text").html(entry_text);
-        $(".popupEntry").removeClass("d-none");
+        if($.trim(entry_href)==''){
+            $(".popupEntry").find("#title").text(entry_title);
+            $(".popupEntry").find("#position").html(entry_position);
+            $(".popupEntry").find("#text").html(entry_text);
+            $(".popupEntry").removeClass("d-none");
+        }
         
     });
 
