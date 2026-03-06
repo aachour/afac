@@ -72,8 +72,10 @@ class AccordionView extends Component
             'text_arabic',
         ]);  
         
-        $this->dispatch('set-editor-value', id: 'text', value: '');
-        $this->dispatch('set-editor-value-arabic', id: 'text_arabic', value: '');
+        $this->dispatch('fill-editors', [
+            'text' => '',
+            'text_arabic' => '',
+        ]);
 
     }
 
@@ -101,8 +103,13 @@ class AccordionView extends Component
         $this->title_arabic=$columnAccordion->title_arabic;
         $this->text_arabic=$columnAccordion->text_arabic;
         $this->modalId=$id;
-        $this->dispatch('set-editor-value', id: 'text', value: $this->text);
-        $this->dispatch('set-editor-value-arabic', id: 'text_arabic', value: $this->text_arabic);
+        $this->dispatch('fill-editors', [
+                'text' => $this->text ?? '',
+                'text_arabic' => $this->text_arabic ?? '',
+            ]);
+
+        $this->dispatch('open-general-input-modal');
+
     }
 
     public function saveEntry(){

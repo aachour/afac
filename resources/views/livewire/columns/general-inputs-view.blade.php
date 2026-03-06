@@ -60,8 +60,6 @@
                                             wire:click="showGallery({{ $generalInput->id }} , {{ $generalInput->gallery_id }})"></i>
                                     @endif
                                     <i  class="ti ti-edit ti-sm cursor-pointer"
-                                        data-bs-target="#generalInputsModal"
-                                        data-bs-toggle="modal"
                                         wire:click="editEntry({{ $generalInput->id }})"></i>
                                 @endcan
                                 @can('section-delete')
@@ -132,7 +130,8 @@
                                 <textarea
                                     class="form-control txtEditor @error('text') is-invalid @enderror"
                                     id="text"
-                                    wire:model.defer="text" style="height:200px; resize:none;"></textarea>
+                                    wire:model.defer="text"
+                                    style="height:200px; resize:none;">{{ $text }}</textarea>
                             </div>
                             @error('text')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -145,7 +144,8 @@
                                 <textarea
                                     class="form-control txtEditor @error('text_arabic') is-invalid @enderror"
                                     id="text_arabic"
-                                    wire:model.defer="text_arabic" style="height:200px; resize:none;"></textarea>
+                                    wire:model.defer="text_arabic"
+                                    style="height:200px; resize:none;">{{ $text_arabic }}</textarea>
                             </div>
                             @error('text_arabic')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -410,60 +410,187 @@
         @endscript
 
         <!-- ✅ Load CKEditor -->
-        <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/classic/ckeditor.js"></script>
+        <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/super-build/ckeditor.js"></script>
 
         <script>
-            
-            window.ckeditors = {};
-            
-            document.addEventListener('livewire:init', () => {
-                Livewire.on('activateCkeditor', () => { 
-                    destroyEditors();
-                    setTimeout(() => { 
-                        initEditors();
-                    },50);
-                    
+            document.addEventListener('livewire:load', () => {
+                initEditors();
+
+                Livewire.hook('message.processed', () => {
+                    initEditors();
+                    syncEditorData();
                 });
             });
 
+            document.addEventListener('livewire:navigated', () => {
+                initEditors();
+                syncEditorData();
+            });
+
+            function getEditorValue(el) {
+                return el.value || '';
+            }
+
             function initEditors() {
                 document.querySelectorAll('.txtEditor').forEach((el) => {
-                    const id = el.getAttribute('id');
-                    if (!id) return; // CKEditor must have a unique id
+                    if (el.dataset.editorInitialized === 'true') return;
 
-                    // Prevent double init
-                    if (window.ckeditors[id]) return;
+                    const model =
+                        el.getAttribute('wire:model') ||
+                        el.getAttribute('wire:model.live') ||
+                        el.getAttribute('wire:model.blur') ||
+                        el.getAttribute('wire:model.defer');
 
-                    ClassicEditor.create(el)
-                        .then(editor => {
-                            window.ckeditors[id] = editor;
+                    if (!model) return;
 
-                            const model = el.getAttribute('wire:model') || el.getAttribute('wire:model.defer');
+                    CKEDITOR.ClassicEditor.create(el, {
+                        toolbar: {
+                            items: [
+                                'heading',
+                                '|',
+                                'bold', 'italic', 'underline', 'strikethrough',
+                                '|',
+                                'alignment',
+                                '|',
+                                'bulletedList', 'numberedList', 'outdent', 'indent',
+                                '|',
+                                'link', 'blockQuote', 'insertTable',
+                                '|',
+                                'undo', 'redo',
+                                '|',
+                                'sourceEditing'
+                            ],
+                            shouldNotGroupWhenFull: true
+                        },
+                        heading: {
+                            options: [
+                                {
+                                    model: 'paragraph',
+                                    title: 'Paragraph',
+                                    class: 'ck-heading_paragraph'
+                                },
+                                {
+                                    model: 'heading1',
+                                    view: 'h1',
+                                    title: 'Heading 1',
+                                    class: 'ck-heading_heading1'
+                                },
+                                {
+                                    model: 'heading2',
+                                    view: 'h2',
+                                    title: 'Heading 2',
+                                    class: 'ck-heading_heading2'
+                                },
+                                {
+                                    model: 'heading3',
+                                    view: 'h3',
+                                    title: 'Heading 3',
+                                    class: 'ck-heading_heading3'
+                                }
+                            ]
+                        },
+                        link: {
+                            decorators: {
+                                openInNewTab: {
+                                    mode: 'manual',
+                                    label: 'Open in a new tab',
+                                    attributes: {
+                                        target: '_blank',
+                                        rel: 'noopener noreferrer'
+                                    }
+                                }
+                            }
+                        },
+                        htmlSupport: {
+                            allow: [
+                                { name: /.*/, attributes: true, classes: true, styles: true }
+                            ]
+                        },
+                        removePlugins: [
+                            'PasteFromOfficeEnhanced',
+                            'TableOfContents',
+                            'CloudServices',
+                            'CKBox',
+                            'CKFinder',
+                            'EasyImage',
+                            'ExportPdf',
+                            'ExportWord',
+                            'DocumentOutline',
+                            'AIAssistant',
+                            'PresenceList',
+                            'Comments',
+                            'TrackChanges',
+                            'TrackChangesData',
+                            'RevisionHistory',
+                            'Pagination',
+                            'WProofreader',
+                            'RealTimeCollaborativeComments',
+                            'RealTimeCollaborativeTrackChanges',
+                            'RealTimeCollaborativeRevisionHistory',
+                            'MathType',
+                            'SlashCommand',
+                            'Template',
+                            'FormatPainter'
+                        ]
+                    })
+                    .then((editor) => {
+                        el.dataset.editorInitialized = 'true';
+                        el.editorInstance = editor;
 
-                            // Sync editor → Livewire
-                            editor.model.document.on('change:data', () => {
-                                const component = el.closest('[wire\\:id]');
-                                if (!component) return;
+                        editor.setData(getEditorValue(el));
 
-                                Livewire.find(component.getAttribute('wire:id'))
-                                    .set(model.replace('.defer', ''), editor.getData());
-                            });
-                        })
-                        .catch(error => console.error('CKEditor init error:', error));
+                        editor.model.document.on('change:data', () => {
+                            const componentEl = el.closest('[wire\\:id]');
+                            if (!componentEl) return;
+
+                            const component = Livewire.find(componentEl.getAttribute('wire:id'));
+                            if (!component) return;
+
+                            component.set(model, editor.getData());
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('CKEditor init error:', error);
+                    });
                 });
             }
 
-            function destroyEditors() {
-                for (const id in window.ckeditors) {
-                    if (window.ckeditors[id]) {
-                        window.ckeditors[id].destroy();
-                        delete window.ckeditors[id];
-                    }
-                }
-            }
+            function syncEditorData() {
+                document.querySelectorAll('.txtEditor').forEach((el) => {
+                    if (!el.editorInstance) return;
 
+                    const newValue = getEditorValue(el);
+                    if (el.editorInstance.getData() !== newValue) {
+                        el.editorInstance.setData(newValue);
+                    }
+                });
+            }
         </script>
 
+        <script>
+            window.addEventListener('open-general-input-modal', () => {
+                const modalEl = document.getElementById('generalInputsModal');
+                const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+                modal.show();
+            });
+
+            window.addEventListener('fill-editors', (event) => {
+                const data = event.detail[0] || event.detail;
+
+                setTimeout(() => {
+                    const textEl = document.getElementById('text');
+                    const textArabicEl = document.getElementById('text_arabic');
+
+                    if (textEl?.editorInstance) {
+                        textEl.editorInstance.setData(data.text || '');
+                    }
+
+                    if (textArabicEl?.editorInstance) {
+                        textArabicEl.editorInstance.setData(data.text_arabic || '');
+                    }
+                }, 300);
+            });
+        </script>
 
         <style>
             .ck-editor__editable_inline {
