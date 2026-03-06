@@ -52,13 +52,13 @@
     .bigger{
         font-size:6vw !important;
     }
-    .big , h2{
+    .big , h1{
         font-size:5vw !important;
     }
-    .medium , h3{
+    .medium , h2{
         font-size:4vw !important;
     }
-    .small , h4{
+    .small , h3{
         font-size:3.5vw !important;
     }
     .tiny , p{
@@ -76,17 +76,17 @@
         line-height: 100% !important;
         letter-spacing: -4% !important;
     }
-    .big , h2{
+    .big , h1{
         font-size:2.5vw !important;
         line-height: 100% !important;
         letter-spacing: -3% !important;
     }
-    .medium , h3{
+    .medium , h2{
         font-size:1.85vw !important;
         line-height: 100% !important;
         letter-spacing: -3% !important;
     }
-    .small , h4{
+    .small , h3{
         font-size:1.2vw !important;
         line-height: 120% !important;
         letter-spacing: -1% !important;
@@ -107,14 +107,18 @@
 /**********************************************************************************/
 /**********************************************************************************/
 /**********************************************************************************/
-
-a{
-    color:#000;
-    /* text-decoration: underline !important; */
+p strong{
+    line-height: 120% !important;
 }
-a:hover{
+
+p a{
+    color:#000;
+    text-decoration: underline !important;
+    line-height: 120% !important;
+}
+p a:hover{
     color:#ccc !important;
-    /* text-decoration: underline !important; */
+    text-decoration: underline !important;
 }
 
 /**********************************************************************************/
