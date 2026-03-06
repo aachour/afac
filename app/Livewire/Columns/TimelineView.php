@@ -82,10 +82,18 @@ class TimelineView extends Component
         $this->entries=[];
     }
 
+    public function createTimeline(){
+        $this->entries=[];
+        $this->modalId='';
+        $this->entries[] = ['id'=>'','text' => '','text_arabic'=>'','shape_id'=>'','percentage'=>'','percentage_color_id'=>''];
+        $this->dispatch('open-timeline-modal');
+        $this->dispatch('refresh-editors');
+    }
 
     public function addEntry(){
         $this->entries[] = ['id'=>'','text' => '','text_arabic'=>'','shape_id'=>'','percentage'=>'','percentage_color_id'=>''];
-        $this->dispatch('activateCkeditor');
+        $this->dispatch('open-timeline-modal');
+        $this->dispatch('refresh-editors');
     }
 
 
@@ -96,15 +104,17 @@ class TimelineView extends Component
 
 
     public function editEntry($id){
+        $this->entries=[];
         $columnTimeline=ColumnTimeline::with('percentages')->find($id);
         $this->date=$columnTimeline->date;
 
         foreach($columnTimeline->percentages as $percentage){
             $this->entries[] = ['id'=>$percentage->id , 'text' => $percentage->text , 'text_arabic'=>$percentage->text_arabic , 'shape_id'=>$percentage->shape_id , 'percentage'=>$percentage->percentage , 'percentage_color_id'=>$percentage->percentage_color_id];
-
-            $this->dispatch('activateCkeditor');
         }
-            
+
+        $this->dispatch('open-timeline-modal');
+        $this->dispatch('refresh-editors');
+        
         $this->modalId=$id;
     }
 
