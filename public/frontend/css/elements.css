@@ -270,19 +270,82 @@
 }
 .gallery .gallery-swiper-button-prev, .gallery .gallery-swiper-button-next {
     position: absolute;
-    top: calc(100% - 32px) !important;      
-    right:0.5% !important;
-    width: 14px !important;
+    top: calc(100% - 32px) !important;
+    right: 3.5% !important;
+    width: 20px !important;
     height: 28px !important;
     z-index: 10 !important;
-    background:url("../images/arrow-right.png") center no-repeat !important;
+    background: url("../images/arrow-right.png") right center no-repeat !important;
     background-size: 14px 28px !important;
+    overflow: visible !important;
+    cursor: pointer;
+}
+.gallery .gallery-swiper-button-next {
+    z-index: 11 !important;
+}
+/* Triple-arrow hover: two extra arrows animate out from the main arrow; reverse on hover out */
+.gallery .gallery-swiper-button-next::before,
+.gallery .gallery-swiper-button-next::after {
+    content: "" !important;
+    display: block !important;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -14px;
+    width: 14px;
+    height: 28px;
+    background: url("../images/arrow-right.png") right center no-repeat;
+    background-size: 14px 28px;
+    opacity: 0;
+    transform: translateX(0);
+    transition: transform 0.35s ease-out, opacity 0.01s linear 0.35s;
+    pointer-events: none;
+}
+.gallery .gallery-swiper-button-next:hover::before,
+.gallery .gallery-swiper-button-next:hover::after {
+    opacity: 1;
+    transition: transform 0.35s ease-out, opacity 0s;
+}
+.gallery .gallery-swiper-button-next:hover::before {
+    transform: translateX(15px);
+}
+.gallery .gallery-swiper-button-next:hover::after {
+    transform: translateX(32px);
 }
 /* Position prev button to the left of next button */
 .gallery .gallery-swiper-button-prev {
-    left: calc( 99.5% - 40px) !important;
-    background:url("../images/arrow-left.png") center no-repeat !important;
+    left: calc(96.5% - 40px) !important;
+    right: auto !important;
+    background: url("../images/arrow-left.png") left center no-repeat !important;
     background-size: 14px 28px !important;
+}
+.gallery .gallery-swiper-button-prev::before,
+.gallery .gallery-swiper-button-prev::after {
+    content: "" !important;
+    display: block !important;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -14px;
+    width: 14px;
+    height: 28px;
+    background: url("../images/arrow-left.png") left center no-repeat;
+    background-size: 14px 28px;
+    opacity: 0;
+    transform: translateX(0);
+    transition: transform 0.35s ease-out, opacity 0.01s linear 0.35s;
+    pointer-events: none;
+}
+.gallery .gallery-swiper-button-prev:hover::before,
+.gallery .gallery-swiper-button-prev:hover::after {
+    opacity: 1;
+    transition: transform 0.35s ease-out, opacity 0s;
+}
+.gallery .gallery-swiper-button-prev:hover::before {
+    transform: translateX(-15px);
+}
+.gallery .gallery-swiper-button-prev:hover::after {
+    transform: translateX(-32px);
 }
 
 /**********************************************************************************************************************/
