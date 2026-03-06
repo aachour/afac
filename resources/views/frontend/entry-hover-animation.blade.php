@@ -39,38 +39,7 @@
 <!-- GSAP Library -->
 <script src="{{ asset('frontend/js/gsap.js') }}"></script>
 
-<style>
-    .popupText {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        width: 225%;
-        height:auto;
-        /* height: 100%; */
-        /* overflow-y: scroll; */
-        padding: 25px 25px;
-        border: 2px solid #000;
-        background:#FFF;
-        opacity: 1;
-        z-index: 9999;
-        cursor: default !important;
-    }
-
-    .popupText .closeBtn {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        background: url("{{ asset('frontend/images/close.png') }}") center no-repeat;
-        background-size: 20px 20px;
-        z-index: 99999;
-    }
-
-    @media(max-width:900px) {
-        .popupText {}
-    }
+<style>    
 
     .card-hover-animation-wrapper {
         position: relative;
@@ -106,7 +75,7 @@
     grantee_categories="{{ @$grantee_categories }}" grantee_country="{{ @$grantee_country }}"
     jury_country_id="{{ @$jury_country_id }}" resource_category_name="{{ @$resource_category_name }}"
     resource_date="{{ @$resource_date }}" news_date="{{ @$news_date }}" featured="{{ @$featured }}"
-    data-hover-animation>
+    data-hover-animation entry_title="{{@$entry_title}}" entry_position="{{@$entry_position}}" entry_text="{{@$entry_text}}">
 
     @if ($featured == 1)
         <img src="{{ $image_path }}" width="100%" />
@@ -183,13 +152,6 @@
         @endif
     </svg>
 
-    @if ($collection_type_id == 9 || $collection_type_id == 10)
-        <div class="popupText d-none">
-            <div class="closeBtn"></div>
-            <div class="mt-2 medium black ABCDiatypeMedium">{{ $entry_title }}</div>
-            <div class="topSpacer small black">{!! $entry_text !!}</div>
-        </div>
-    @endif
 
 </div>
 
@@ -245,30 +207,20 @@
 
     $(document).on("click", ".card-hover-animation-wrapper", function () {
 
-        $(".popupText").addClass("d-none");
+        var entry_title=$(this).attr("entry_title");
+        var entry_position=$(this).attr("entry_position");
+        var entry_text=$(this).attr("entry_text");
 
-        var $mainContainer = $(this).parent().parent();
-        var $popupText = $(this).find(".popupText");
-
-        $popupText.removeClass("d-none");
-
-        var containerLeft = $mainContainer.offset().left;
-        var containerWidth = $mainContainer.outerWidth();
-
-        var popupParentLeft = $popupText.offsetParent().offset().left;
-        var popupWidth = $popupText.outerWidth();
-
-        var left = (containerLeft - popupParentLeft) + (containerWidth / 2) - (popupWidth / 2);
-
-        $popupText.css({
-            position: "absolute",
-            left: left + "px"
-        });
+        $(".popupEntry").find("#title").text(entry_title);
+        $(".popupEntry").find("#position").html(entry_position);
+        $(".popupEntry").find("#text").html(entry_text);
+        $(".popupEntry").removeClass("d-none");
+        
     });
 
     $(document).on("click", ".closeBtn", function(e) {
         e.preventDefault();
         e.stopPropagation();
-        $(this).closest(".popupText").addClass("d-none");
+        $(".popupEntry").addClass("d-none");
     });
 </script>
