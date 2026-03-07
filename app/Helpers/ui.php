@@ -884,8 +884,8 @@ function ViewExpandingText($section_column_id, $language = 'EN')
 
         foreach ($column->expandingTexts as $expandingText) {
 
-            $htmlColumn .= '<div class="expandingText clickable mb-3 big black ABCDiatypeMedium ' . ($expandingText->visible == '1' ? '' : 'hiddenText d-none') . '" data-expanding-block>';
-            $htmlColumn .= '<span class="expandingText-inner">' . $expandingText->text . '</span>';
+            $htmlColumn .= '<div class="expandingText clickable mb-3 big black ABCDiatype ' . ($expandingText->visible == '1' ? '' : 'hiddenText d-none') . '" data-expanding-block>';
+            $htmlColumn .= '<span class="expandingText-inner big black ABCDiatype">' . $expandingText->text . '</span>';
             $htmlColumn .= '</div>';
         }
 
