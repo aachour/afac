@@ -884,7 +884,9 @@ function ViewExpandingText($section_column_id, $language = 'EN')
 
         foreach ($column->expandingTexts as $expandingText) {
 
-            $htmlColumn .= '<div class="expandingText clickable mb-3 big black ABCDiatypeMedium ' . ($expandingText->visible == '1' ? '' : 'hiddenText d-none') . '">' . $expandingText->text . '</div>';
+            $htmlColumn .= '<div class="expandingText clickable mb-3 big black ABCDiatypeMedium ' . ($expandingText->visible == '1' ? '' : 'hiddenText d-none') . '" data-expanding-block>';
+            $htmlColumn .= '<span class="expandingText-inner">' . $expandingText->text . '</span>';
+            $htmlColumn .= '</div>';
         }
 
         $htmlColumn .= '</div>
@@ -894,21 +896,50 @@ function ViewExpandingText($section_column_id, $language = 'EN')
             <div class="topSpacerHuge">&nbsp;</div>';
     }
 
-    //add script
+    //add script + expand-from-center styles
+    $htmlColumn .= '<style>
+            .expandingText[data-expanding-block] { overflow: hidden; transition: max-height 0.5s ease-out; }
+            .expandingText[data-expanding-block].expand-from-center { max-height: 0; }
+            .expandingText[data-expanding-block].expand-from-center .expandingText-inner { display: block; transform: scaleY(0); transform-origin: center; transition: transform 0.5s ease-out; }
+            .expandingText[data-expanding-block].expanded .expandingText-inner { transform: scaleY(1); }
+        </style>';
     $htmlColumn .= '<script>
 
             $(document).on("click", "#expandingTextContainer", function () {
 
-                const nextHidden = $(this)
-                    .find(".expandingText.hiddenText:first");
+                const container = $(this);
+                const all = container.find(".expandingText").toArray();
+                const hidden = container.find(".expandingText.hiddenText").toArray();
+                if (hidden.length === 0) return;
 
-                if (nextHidden.length) {
-                    nextHidden
-                        .removeClass("hiddenText d-none")
-                        .hide()
-                        .slideDown(300);
+                const centerIndex = (all.length - 1) / 2;
+                let best = hidden[0];
+                let bestDist = Math.abs(all.indexOf(best) - centerIndex);
+                for (let i = 1; i < hidden.length; i++) {
+                    const idx = all.indexOf(hidden[i]);
+                    const dist = Math.abs(idx - centerIndex);
+                    if (dist < bestDist) { bestDist = dist; best = hidden[i]; }
                 }
+                const nextHidden = $(best);
 
+                nextHidden.removeClass("hiddenText d-none").addClass("expand-from-center");
+                nextHidden[0].style.maxHeight = "0";
+
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () {
+                        const fullHeight = nextHidden[0].scrollHeight;
+                        nextHidden[0].style.maxHeight = fullHeight + "px";
+                        nextHidden.addClass("expanded");
+
+                        const el = nextHidden[0];
+                        el.addEventListener("transitionend", function te(e) {
+                            if (e.propertyName === "max-height") {
+                                el.removeEventListener("transitionend", te);
+                                nextHidden.removeClass("expand-from-center expanded").css("max-height", "");
+                            }
+                        });
+                    });
+                });
             });
         </script>';
 
