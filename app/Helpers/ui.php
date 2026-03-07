@@ -379,12 +379,12 @@ function ViewColumnGeneral($section_column_id, $language = 'EN')
 
         foreach ($column->generalInputs as $generalInput) {
 
-            $input_type_id = $generalInput->input_type_id; 
+            $input_type_id = $generalInput->input_type_id;
 
             if ($input_type_id == 1) {   //title
                 $htmlColumn .= '<div class="topSpacerSmall big black ABCDiatypeMedium">' . $generalInput->title . '</div>';
             } else if ($input_type_id == 2) {   //text
-                $htmlColumn .= '<div class="topSpacer small black ABCDiatype">' .htmlspecialchars($generalInput->text, ENT_QUOTES, 'UTF-8') . '</div>';
+                $htmlColumn .= '<div class="topSpacer small black ABCDiatype">' . $generalInput->text . '</div>';
             } else if ($input_type_id == 3) {   //gallery
                 $galleryImages = $generalInput->gallery->images;
                 if (count($galleryImages) == 1) { //single image
@@ -503,7 +503,7 @@ function ViewTimeline($section_column_id, $language = 'EN')
                                     data-percentage-color="' . $percentageColor . '"
                                     data-timeline-id="' . $timeline->id . '">
 
-                                <div class="percentage-text big black mb-5">' . htmlspecialchars($percentage->text, ENT_QUOTES, 'UTF-8') . '</div>';
+                                <div class="percentage-text big black mb-5">' . $percentage->text . '</div>';
 
                 if ($percentage->percentage != 0) {
                     $diamondCount = 0;
@@ -769,7 +769,7 @@ function ViewAccordion($section_column_id, $language = 'EN')
                         </div>
                         <div class="accordion-collapse">
                             <div class="accordion-inner">
-                                <div class="accordion-text small black">' . htmlspecialchars($accordion->text, ENT_QUOTES, 'UTF-8') . '</div>
+                                <div class="accordion-text small black">' . $accordion->text . '</div>
                             </div>
                         </div>
                     </div>';
