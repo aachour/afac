@@ -171,9 +171,8 @@ class GeneralInputsView extends Component
                 'text' => $this->text ?? '',
                 'text_arabic' => $this->text_arabic ?? '',
             ]);
-
-            $this->dispatch('open-general-input-modal');
         }
+        $this->dispatch('open-general-input-modal');
 
     }
 

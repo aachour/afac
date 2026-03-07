@@ -82,6 +82,10 @@ class ProjectsController extends Controller
                 ];
             }
         }
+        
+        usort($project_program_years, function ($a, $b) {
+            return (int) $b['name'] <=> (int) $a['name'];
+        });
 
         return view('frontend.projects', [
             'project_categories' => $project_categories,
@@ -99,7 +103,6 @@ class ProjectsController extends Controller
         //$page = $request->page;
 
         $page=1;
-        
 
         $entries=buildEntriesQuery("",$filters,[]);
 
@@ -126,7 +129,6 @@ class ProjectsController extends Controller
                 $title_position='top:15px;';
                 $labels_position='bottom:15px;';
 
-                
                 //Fetch all entries
                 
                 $entries_count=0;
