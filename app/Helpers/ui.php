@@ -907,20 +907,8 @@ function ViewExpandingText($section_column_id, $language = 'EN')
 
             $(document).on("click", "#expandingTextContainer", function () {
 
-                const container = $(this);
-                const all = container.find(".expandingText").toArray();
-                const hidden = container.find(".expandingText.hiddenText").toArray();
-                if (hidden.length === 0) return;
-
-                const centerIndex = (all.length - 1) / 2;
-                let best = hidden[0];
-                let bestDist = Math.abs(all.indexOf(best) - centerIndex);
-                for (let i = 1; i < hidden.length; i++) {
-                    const idx = all.indexOf(hidden[i]);
-                    const dist = Math.abs(idx - centerIndex);
-                    if (dist < bestDist) { bestDist = dist; best = hidden[i]; }
-                }
-                const nextHidden = $(best);
+                const nextHidden = $(this).find(".expandingText.hiddenText:first");
+                if (!nextHidden.length) return;
 
                 nextHidden.removeClass("hiddenText d-none").addClass("expand-from-center");
                 nextHidden[0].style.maxHeight = "0";
