@@ -564,7 +564,7 @@ function ViewTimeline($section_column_id, $language = 'EN')
                         timelineWrappers.forEach(function(wrapper) {
                             const percentageColumns = wrapper.querySelectorAll(".percentage-column");
                             
-                            if (percentageColumns.length <= 1) return; 
+                            if (percentageColumns.length === 0) return;
                             
                             let currentIndex = 0;
                             
@@ -709,8 +709,9 @@ function ViewTimeline($section_column_id, $language = 'EN')
                                 }
                             }
                             
-                          
-                            setInterval(showNextColumn, 5000);
+                            if (percentageColumns.length > 1) {
+                                setInterval(showNextColumn, 5000);
+                            }
                         });
                     });
                 })();
