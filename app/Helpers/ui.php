@@ -1127,8 +1127,10 @@ function showEntryLabels($collection_type_id, $labels)
         }
     } else {
         foreach ($labels as $key => $label) {
-            $roundedClass = $key != 0 ? ' rounded' : '';
-            $html .= '<div class="label micro black ABCDiatypeMedium' . $roundedClass . '">' . htmlspecialchars($label) . '</div>';
+            if(!empty($label)){
+                $roundedClass = $key != 0 ? ' rounded' : '';
+                $html .= '<div class="label micro black ABCDiatypeMedium' . $roundedClass . '">' . htmlspecialchars($label) . '</div>';
+            }
         }
     }
 
