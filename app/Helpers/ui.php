@@ -883,7 +883,7 @@ function ViewExpandingText($section_column_id, $language = 'EN')
 
         foreach ($column->expandingTexts as $expandingText) {
 
-            $htmlColumn .= '<div class="expandingText clickable mb-3 big black ABCDiatypeMedium ' . ($expandingText->visible == '1' ? '' : 'hiddenText d-none') . '">' . $expandingText->text . '</div>';
+            $htmlColumn .= '<div class="expandingText clickable mb-3 bigger black ABCDiatypeMedium ' . ($expandingText->visible == '1' ? '' : 'hiddenText d-none') . '">' . $expandingText->text . '</div>';
         }
 
         $htmlColumn .= '</div>
