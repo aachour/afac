@@ -23,8 +23,8 @@
     <link rel="stylesheet" href="{{asset('frontend/css/jquery-ui.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/css/swiper.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/css/general.css')}}" />
-    <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}?v=3">
-    <link rel="stylesheet" href="{{ asset('frontend/css/elements.css') }}?v=3">
+    <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}?v=4">
+    <link rel="stylesheet" href="{{ asset('frontend/css/elements.css') }}?v=4">
     
     <!-- JS -->
     <script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
