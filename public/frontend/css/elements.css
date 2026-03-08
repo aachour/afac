@@ -271,7 +271,7 @@
 .gallery .gallery-swiper-button-prev, .gallery .gallery-swiper-button-next {
     position: absolute;
     top: calc(100% - 32px) !important;
-    right: 3.5% !important;
+    right: 4% !important;
     width: 20px !important;
     height: 28px !important;
     z-index: 10 !important;
@@ -279,6 +279,11 @@
     background-size: 14px 28px !important;
     overflow: visible !important;
     cursor: pointer;
+}
+@media(max-width:900px){
+    .gallery .gallery-swiper-button-next{
+        right: 9.5% !important;
+    }
 }
 .gallery .gallery-swiper-button-next {
     z-index: 11 !important;
@@ -318,6 +323,12 @@
     right: auto !important;
     background: url("../images/arrow-left.png") left center no-repeat !important;
     background-size: 14px 28px !important;
+}
+
+@media(max-width:900px){
+    .gallery .gallery-swiper-button-prev {
+        left: calc(91.5% - 40px) !important;
+    }
 }
 .gallery .gallery-swiper-button-prev::before,
 .gallery .gallery-swiper-button-prev::after {

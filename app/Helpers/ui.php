@@ -564,7 +564,7 @@ function ViewTimeline($section_column_id, $language = 'EN')
                         timelineWrappers.forEach(function(wrapper) {
                             const percentageColumns = wrapper.querySelectorAll(".percentage-column");
                             
-                            if (percentageColumns.length <= 1) return; 
+                            if (percentageColumns.length === 0) return;
                             
                             let currentIndex = 0;
                             
@@ -709,8 +709,9 @@ function ViewTimeline($section_column_id, $language = 'EN')
                                 }
                             }
                             
-                          
-                            setInterval(showNextColumn, 5000);
+                            if (percentageColumns.length > 1) {
+                                setInterval(showNextColumn, 5000);
+                            }
                         });
                     });
                 })();
@@ -883,7 +884,9 @@ function ViewExpandingText($section_column_id, $language = 'EN')
 
         foreach ($column->expandingTexts as $expandingText) {
 
-            $htmlColumn .= '<div class="expandingText clickable mb-3 bigger black ABCDiatypeMedium ' . ($expandingText->visible == '1' ? '' : 'hiddenText d-none') . '">' . $expandingText->text . '</div>';
+            $htmlColumn .= '<div class="expandingText clickable mb-3 bigger black ABCDiatype ' . ($expandingText->visible == '1' ? '' : 'hiddenText d-none') . '" data-expanding-block>';
+            $htmlColumn .= '<span class="expandingText-inner bigger black ABCDiatype">' . $expandingText->text . '</span>';
+            $htmlColumn .= '</div>';
         }
 
         $htmlColumn .= '</div>
@@ -893,21 +896,38 @@ function ViewExpandingText($section_column_id, $language = 'EN')
             <div class="topSpacerHuge">&nbsp;</div>';
     }
 
-    //add script
+    //add script + expand-from-center styles
+    $htmlColumn .= '<style>
+            .expandingText[data-expanding-block] { overflow: hidden; transition: max-height 0.5s ease-out; }
+            .expandingText[data-expanding-block].expand-from-center { max-height: 0; }
+            .expandingText[data-expanding-block].expand-from-center .expandingText-inner { display: block; transform: scaleY(0); transform-origin: center; transition: transform 0.5s ease-out; }
+            .expandingText[data-expanding-block].expanded .expandingText-inner { transform: scaleY(1); }
+        </style>';
     $htmlColumn .= '<script>
 
             $(document).on("click", "#expandingTextContainer", function () {
 
-                const nextHidden = $(this)
-                    .find(".expandingText.hiddenText:first");
+                const nextHidden = $(this).find(".expandingText.hiddenText:first");
+                if (!nextHidden.length) return;
 
-                if (nextHidden.length) {
-                    nextHidden
-                        .removeClass("hiddenText d-none")
-                        .hide()
-                        .slideDown(300);
-                }
+                nextHidden.removeClass("hiddenText d-none").addClass("expand-from-center");
+                nextHidden[0].style.maxHeight = "0";
 
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () {
+                        const fullHeight = nextHidden[0].scrollHeight;
+                        nextHidden[0].style.maxHeight = fullHeight + "px";
+                        nextHidden.addClass("expanded");
+
+                        const el = nextHidden[0];
+                        el.addEventListener("transitionend", function te(e) {
+                            if (e.propertyName === "max-height") {
+                                el.removeEventListener("transitionend", te);
+                                nextHidden.removeClass("expand-from-center expanded").css("max-height", "");
+                            }
+                        });
+                    });
+                });
             });
         </script>';
 
