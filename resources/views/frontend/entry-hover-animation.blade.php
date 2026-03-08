@@ -96,29 +96,7 @@
 
             @if ($with_label == 1)
                 <div class="title_or_labels" style="{{ $labels_position }}">
-                    <!-- <div class="label micro black ABCDiatypeMedium">{{ $entry_type_name }}</div> -->
-                    @if ($collection_type_id == 1)
-                        @if (@$labels[0] != '')
-                        <div class="label micro black ABCDiatypeMedium">{{ @$labels[0] }}</div>
-                        @endif
-                        @if (@$labels[1] != '')
-                        <div class="label micro black rounded ABCDiatypeMedium">{{ @$labels[1] }}</div>
-                        @endif
-                        @if (@$labels[2] != '')
-                            <div class="label micro black rounded ABCDiatypeMedium">
-                                {{ $labels[2] ?? '' }}
-                            </div>
-                        @endif
-                        @if (@$labels[3] != '')
-                            <div class="label micro black rounded ABCDiatypeMedium">
-                                {{ $labels[3] ?? '' }}{{ isset($labels[4]) ? ' - ' . $labels[4] : '' }}
-                            </div>
-                        @endif
-                    @else
-                        @foreach ($labels as $key=>$label)
-                            <div class="label micro black ABCDiatypeMedium {{ $key != 0 ? 'rounded' : '' }}">{{ $label }}</div>
-                        @endforeach
-                    @endif
+                    {!! showEntryLabels($collection_type_id,$labels) !!}
                     <div class="clear">&nbsp;</div>
                 </div>
             @endif

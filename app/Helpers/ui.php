@@ -1080,6 +1080,44 @@ function getEntryLabels($entry)
 }
 
 
+function showEntryLabels($collection_type_id, $labels)
+{
+    $html = '';
+
+    if ($collection_type_id == 1) {
+        if (!empty($labels[0])) {
+            $html .= '<div class="label micro black ABCDiatypeMedium">' . htmlspecialchars($labels[0]) . '</div>';
+        }
+
+        if (!empty($labels[1])) {
+            $html .= '<div class="label micro black rounded ABCDiatypeMedium">' . htmlspecialchars($labels[1]) . '</div>';
+        }
+
+        if (!empty($labels[2])) {
+            $html .= '<div class="label micro black rounded ABCDiatypeMedium">' . htmlspecialchars($labels[2]) . '</div>';
+        }
+
+        if (!empty($labels[3])) {
+            $text = $labels[3];
+            if (isset($labels[4]) && $labels[4] !== '') {
+                $text .= ' - ' . $labels[4];
+            }
+
+            $html .= '<div class="label micro black rounded ABCDiatypeMedium">' . htmlspecialchars($text) . '</div>';
+        }
+    } else {
+        foreach ($labels as $key => $label) {
+            $roundedClass = $key != 0 ? ' rounded' : '';
+            $html .= '<div class="label micro black ABCDiatypeMedium' . $roundedClass . '">' . htmlspecialchars($label) . '</div>';
+        }
+    }
+
+    $html.='<div class="clear">&nbsp;</div>';
+
+    return $html;
+}
+
+
 function setCollectionFilters($collection_id, $collection_type_id, $entries_selection, $entries)
 {
 

@@ -389,11 +389,9 @@ class HomeController extends Controller
                                         if($with_label==1)
                                         {
                                             $labels=getEntryLabels($entry);
-                                            $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">
-                                                <div class="label micro ABCDiatypeMedium">'.@$labels[0].'</div>
-                                                <div class="label micro rounded ABCDiatypeMedium">'.@$labels[1].'</div>
-                                                <div class="label micro rounded ABCDiatypeMedium">'.@$labels[2].'</div>
-                                                <div class="clear">&nbsp;</div>
+                                            $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">';
+                                                $html.=showEntryLabels($collection_type_id,$labels); 
+                                                $html.='<div class="clear">&nbsp;</div>
                                             </div>';
                                         }
                                     $html.='</div>
@@ -436,11 +434,9 @@ class HomeController extends Controller
                                             $html.='<div class="title_or_labels" style="'.$labels_position.'">
                                                 <div class="label micro black ABCDiatypeMedium">'.$entries[0]->type->name.'</div>';
                                                 $labels=getEntryLabels($entry);
-                                                $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">
-                                                    <div class="label micro ABCDiatypeMedium">'.@$labels[0].'</div>
-                                                    <div class="label micro rounded ABCDiatypeMedium">'.@$labels[1].'</div>
-                                                    <div class="label micro rounded ABCDiatypeMedium">'.@$labels[2].'</div>
-                                                    <div class="clear">&nbsp;</div>
+                                                $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">';
+                                                    $html.=showEntryLabels($collection_type_id,$labels); 
+                                                    $html.='<div class="clear">&nbsp;</div>
                                                 </div>
                                             </div>';
                                         }
