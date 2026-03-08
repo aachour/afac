@@ -81,7 +81,7 @@
     }
     .big , h1{
         font-size:2.5vw !important;
-        line-height: 100% !important;
+        line-height: 110% !important;
         letter-spacing: -3% !important;
     }
     .medium , h2{
@@ -111,8 +111,12 @@
 /**********************************************************************************/
 /**********************************************************************************/
 
-h1 strong , h1 u , h1 i , h1 s , h2 strong , h2 u , h1 i , h2 s{
-    line-height: 100% !important;
+h1 strong , h1 u , h1 i , h1 s{
+    line-height: 110% !important;
+}
+
+h2 strong , h2 u , h1 i , h2 s{
+    line-height: 110% !important;
 }
 
 p strong , p u , p i , p s , h3 strong , h3 u , h3 i , h3 s{
