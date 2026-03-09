@@ -2564,21 +2564,45 @@ class ProjectGranteeSeeder extends Seeder
         echo count($granteeIds)."<br />";*/
         
 
-        foreach($projectIds as $key=>$projectId){
-            if(!empty($granteeIds[$key])){
-                $granteesId=explode(",",$granteeIds[$key]);
-                if(count($granteesId)>0){
-                    foreach($granteesId as $granteeId){
-                        if(!empty($granteeId)){
-                            ProjectGrantees::create([
-                                'project_id'  => $projectId,
-                                'grantee_id'  => $granteeId,
-                                'list_order'   => 1,
-                            ]);
-                        }
-                    }
+        foreach ($projectIds as $key => $projectId) {
+            if (empty($granteeIds[$key])) {
+                continue;
+            }
+
+            $granteesId = explode(',', $granteeIds[$key]);
+
+            foreach ($granteesId as $granteeId) {
+                $granteeId = trim($granteeId);
+
+                if (empty($granteeId)) {
+                    continue;
                 }
-                
+
+                $projectExists = Entries::where('id', $projectId)->exists();
+                $granteeExists = Entries::where('id', $granteeId)->exists();
+
+                if (!$projectExists) {
+                    \Log::warning('Project entry not found', [
+                        'project_id' => $projectId,
+                        'key' => $key,
+                    ]);
+                    continue;
+                }
+
+                if (!$granteeExists) {
+                    \Log::warning('Grantee entry not found', [
+                        'grantee_id' => $granteeId,
+                        'project_id' => $projectId,
+                        'key' => $key,
+                    ]);
+                    continue;
+                }
+
+                ProjectGrantees::create([
+                    'project_id' => $projectId,
+                    'grantee_id' => $granteeId,
+                    'list_order' => 1,
+                ]);
             }
         }
 
