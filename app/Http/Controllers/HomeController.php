@@ -485,7 +485,7 @@ class HomeController extends Controller
                                 }
                             </style>';
 
-                            $html.='<div class="swiper" id="swiper'.$collection_id.'" style="width:102.5%; padding-bottom:15px;">
+                            $html.='<div class="swiper gallery" id="swiper'.$collection_id.'" style="width:102.5%; padding-bottom:15px;">
                                 <div class="swiper-wrapper">';
                         }
 
@@ -562,13 +562,10 @@ class HomeController extends Controller
                         //Close Slider
                         if($entries_layout==2) 
                         {
-                                $html.='</div>                             
-                            </div>
-
-                            <!-- Navigation buttons --> 
-                            <div class="mt-4">
-                                <div class="swiper-button-prev"></div>
-                                <div class="swiper-button-next"></div>
+                                $html.='</div>
+                                <!-- Navigation buttons -->
+                                <div class="gallery-swiper-button-next" id="gallery-swiper-button-next-'.$collection_id.'"></div>
+                                <div class="gallery-swiper-button-prev" id="gallery-swiper-button-prev-'.$collection_id.'"></div>
                             </div>';
                         }
 
@@ -589,8 +586,8 @@ class HomeController extends Controller
                             rows: 1           
                         },
                         navigation: {
-                            nextEl: ".swiper-button-next",
-                            prevEl: ".swiper-button-prev",
+                            nextEl: "#gallery-swiper-button-next-'.$collection_id.'",
+                            prevEl: "#gallery-swiper-button-prev-'.$collection_id.'",
                         },
                         /*autoplay: {
                             delay: 2500,
