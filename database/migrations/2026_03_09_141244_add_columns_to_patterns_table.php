@@ -15,7 +15,7 @@ return new class extends Migration
             //
             $table->text('text')->after('section_column_id')->nullable();
             $table->text('text_arabic')->after('text')->nullable();
-            $table->integer('animation_style')->after('with_animation')->nullable();
+            $table->integer('animation_style')->after('text_arabic')->nullable();
         });
             
     }
