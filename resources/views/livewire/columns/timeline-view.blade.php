@@ -59,7 +59,7 @@
             </div>
         </div>
 
-        <div wire:ignore.self class="modal fade" id="timelineModal" tabindex="-1" aria-hidden="true">
+        <div wire:ignore.self class="modal fade" id="timelineModal" tabindex="-1" aria-hidden="true" data-bs-focus="false">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -398,6 +398,18 @@
         <style>
             .ck-editor__editable_inline {
                 min-height: 250px;
+            }
+            .ck.ck-balloon-panel {
+                z-index: 999999 !important;
+            }
+
+            .ck-link-form {
+                z-index: 999999 !important;
+            }
+
+            .ck-input-text {
+                position: relative;
+                z-index: 999999 !important;
             }
         </style>
     </div>
