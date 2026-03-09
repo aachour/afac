@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\ProjectGrantees;
+use App\Models\Entries;
 
 class ProjectGranteeSeeder extends Seeder
 {
