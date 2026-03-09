@@ -29,7 +29,7 @@ class ProjectProgramYearSeeder extends Seeder
         // dd(count($projectIds),count($programIds),count($years));
 
 
-        foreach($projectIds as $key=>$projectId){
+        /*foreach($projectIds as $key=>$projectId){
             $programId=$programIds[$key];
             $year=$years[$key];
             
@@ -53,6 +53,45 @@ class ProjectProgramYearSeeder extends Seeder
                         ->update(['project_program_year_id' => $programYearProjectId]);
                 }
             }
+        }*/
+
+        foreach ($projectIds as $key => $projectId) {
+            $programId = $programIds[$key] ?? null;
+            $year = $years[$key] ?? null;
+
+            if (empty($programId) || empty($year) || empty($projectId)) {
+                continue;
+            }
+
+            $programYearId = ProgramYears::where([
+                'program_id' => $programId,
+                'year' => $year
+            ])->value('id');
+
+            if (!$programYearId) {
+                continue;
+            }
+
+            $entryExists = Entries::where('id', $projectId)->exists();
+
+            if (!$entryExists) {
+                \Log::warning('Entry not found for project_id', [
+                    'project_id' => $projectId,
+                    'program_id' => $programId,
+                    'year' => $year,
+                ]);
+                continue;
+            }
+
+            $programYearProject = ProgramYearProjects::create([
+                'program_year_id' => $programYearId,
+                'project_id' => $projectId,
+                'list_order' => 1,
+            ]);
+
+            Entries::where('id', $projectId)->update([
+                'project_program_year_id' => $programYearProject->id
+            ]);
         }
         
     }
