@@ -28,8 +28,6 @@
                     <tr>
                         <th>Order</th>
                         <th>Text</th>
-                        <th>Shape</th>
-                        <th>Shape Hover</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -37,9 +35,7 @@
                     @foreach($patterns as $pattern)
                         <tr data-id="{{ $pattern->id }}" style="cursor: move;">
                             <td>{{$pattern->list_order}}</td>
-                            <td>{{$pattern->button_text}}</td>
-                            <td>{{$pattern->shape?->name}}</td>
-                            <td>{{$pattern->shapeHover?->name}}</td>
+                            <td>{!! $pattern->text !!}</td>
                             <td>
                                 @can('section-edit')
                                     <i  class="ti ti-edit ti-sm cursor-pointer"
@@ -59,7 +55,7 @@
             </div>
         </div>
 
-        <div wire:ignore.self class="modal fade" id="patternModal" tabindex="-1">
+        <div wire:ignore.self class="modal fade" id="patternModal" tabindex="-1" data-bs-focus="false">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -70,142 +66,43 @@
                         
                         <div class="row">
 
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label for="button_text" class="form-label">Title</label>
-                                <input type="text"
-                                    class="form-control @error('button_text') is-invalid @enderror"
-                                    id="button_text"
-                                    wire:model="button_text"
-                                    placeholder="Text" />
-                                @error('button_text')
+                            <div class="mb-3" wire:ignore>
+                                <label for="text" class="form-label">Text</label>
+                                <textarea
+                                    class="form-control txtEditor @error('text') is-invalid @enderror"
+                                    id="text"
+                                    wire:model.defer="text"
+                                    placeholder="Text" style="height:200px; resize:none;">{{$text}}</textarea>
+                                @error('text')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label for="button_text_arabic" class="form-label">نص الزر</label>
-                                <input type="text"
-                                    class="form-control @error('button_text_arabic') is-invalid @enderror"
-                                    id="title"
-                                    wire:model="button_text_arabic"
-                                    placeholder="نص الزر" />
-                                @error('button_text_arabic')
+                            <div class="mb-3" wire:ignore>
+                                <label for="text_arabic" class="form-label">النص</label>
+                                <textarea
+                                    class="form-control txtEditor @error('text_arabic') is-invalid @enderror"
+                                    id="text_arabic"
+                                    wire:model.defer="text_arabic"
+                                    style="height:200px; resize:none;">{{$text_arabic}}</textarea>
+                                @error('النص')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <!--Shape-->
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label for="button_shape_id" class="form-label">Button shape</label>
+                            <div class="mb-3">
+                                <label for="animation_style" class="form-label">Animation Style</label>
                                 <select
-                                    wire:model="button_shape_id"
-                                    id="button_shape_id"
+                                    wire:model="animation_style"
+                                    id="animation_style "
                                     class="form-control">
-                                    <option value=''>Select Shape</option>
-                                    @foreach($shapes as $shape)
-                                        <option value='{{$shape->id}}'>{{$shape->name}}</option>
-                                    @endforeach
+                                    <option value=''>No animation </option>
+                                    <option value='1'>Animation Style 1</option>
+                                    <option value='2'>Animation 2</option>
                                 </select>
-                                @error('button_shape_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                @error('animation_style') <div class="text-danger">{{ $message }}</div> @enderror
                             </div>
 
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label for="button_hover_shape_id" class="form-label">Button hover shape</label>
-                                <select
-                                    wire:model="button_hover_shape_id"
-                                    id="button_hover_shape_id"
-                                    class="form-control">
-                                    <option value=''>Select Shape</option>
-                                    @foreach($shapes as $shape)
-                                        <option value='{{$shape->id}}'>{{$shape->name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('button_hover_shape_id') <div class="text-danger">{{ $message }}</div> @enderror
-                            </div>
-
-                            <!--Text Color-->
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label for="button_color_id" class="form-label">Button Text Color</label>
-                                <select
-                                    wire:model="button_color_id"
-                                    id="button_color_id"
-                                    class="form-control">
-                                    <option value=''>Select Color</option>
-                                    @foreach($colors as $color)
-                                        <option value='{{$color->id}}'>{{$color->name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('button_color_id') <div class="text-danger">{{ $message }}</div> @enderror
-                            </div>
-
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label for="button_hover_color_id" class="form-label">Button Hover Text Color</label>
-                                <select
-                                    wire:model="button_hover_color_id"
-                                    id="button_hover_color_id"
-                                    class="form-control">
-                                    <option value=''>Select Color</option>
-                                    @foreach($colors as $color)
-                                        <option value='{{$color->id}}'>{{$color->name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('button_hover_color_id') <div class="text-danger">{{ $message }}</div> @enderror
-                            </div>
-                            
-                            <!--BG-->
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label for="button_bg_color_id" class="form-label">Button Background Color</label>
-                                <select
-                                    wire:model="button_bg_color_id"
-                                    id="button_bg_color_id"
-                                    class="form-control">
-                                    <option value=''>Select Color</option>
-                                    @foreach($colors as $color)
-                                        <option value='{{$color->id}}'>{{$color->name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('button_bg_color_id') <div class="text-danger">{{ $message }}</div> @enderror
-                            </div>
-
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label for="button_hover_bg_color_id" class="form-label">Button hover Background Color</label>
-                                <select
-                                    wire:model="button_hover_bg_color_id"
-                                    id="button_hover_bg_color_id"
-                                    class="form-control">
-                                    <option value=''>Select Color</option>
-                                    @foreach($colors as $color)
-                                        <option value='{{$color->id}}'>{{$color->name}}</option>
-                                    @endforeach
-                                </select>
-                                @error('button_hover_bg_color_id') <div class="text-danger">{{ $message }}</div> @enderror
-                            </div>
-
-                            <!--links-->
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label for="button_link" class="form-label">Button Link</label>
-                                <input type="text"
-                                    class="form-control @error('button_link') is-invalid @enderror"
-                                    id="button_link"
-                                    wire:model="button_link"
-                                    placeholder="Button Link" />
-                                @error('button_link')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="col-12 col-lg-6 mb-3">
-                                <label for="button_link_arabic" class="form-label">رابط الزر</label>
-                                <input type="text"
-                                    class="form-control @error('button_link_arabic') is-invalid @enderror"
-                                    id="button_link_arabic"
-                                    wire:model="button_link_arabic"
-                                    placeholder="Button Link" />
-                                @error('button_link_arabic')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        
                         </div>
 
                     </div>
@@ -267,6 +164,207 @@
 
 
         </script>
+
+        <!-- ✅ Load CKEditor -->
+        <script src="https://cdn.ckeditor.com/ckeditor5/39.0.2/super-build/ckeditor.js"></script>
+
+        <script>
+            document.addEventListener('livewire:load', () => {
+                initEditors();
+
+                Livewire.hook('message.processed', () => {
+                    initEditors();
+                    syncEditorData();
+                });
+            });
+
+            document.addEventListener('livewire:navigated', () => {
+                initEditors();
+                syncEditorData();
+            });
+
+            function getEditorValue(el) {
+                return el.value || '';
+            }
+
+            function initEditors() {
+                document.querySelectorAll('.txtEditor').forEach((el) => {
+                    if (el.dataset.editorInitialized === 'true') return;
+
+                    const model =
+                        el.getAttribute('wire:model') ||
+                        el.getAttribute('wire:model.live') ||
+                        el.getAttribute('wire:model.blur') ||
+                        el.getAttribute('wire:model.defer');
+
+                    if (!model) return;
+
+                    CKEDITOR.ClassicEditor.create(el, {
+                        toolbar: {
+                            items: [
+                                'heading',
+                                '|',
+                                'bold', 'italic', 'underline', 'strikethrough',
+                                '|',
+                                'alignment',
+                                '|',
+                                'bulletedList', 'numberedList', 'outdent', 'indent',
+                                '|',
+                                'link', 'blockQuote', 'insertTable',
+                                '|',
+                                'undo', 'redo',
+                                '|',
+                                'sourceEditing'
+                            ],
+                            shouldNotGroupWhenFull: true
+                        },
+                        heading: {
+                            options: [
+                                {
+                                    model: 'paragraph',
+                                    title: 'Paragraph',
+                                    class: 'ck-heading_paragraph'
+                                },
+                                {
+                                    model: 'heading1',
+                                    view: 'h1',
+                                    title: 'Heading 1',
+                                    class: 'ck-heading_heading1'
+                                },
+                                {
+                                    model: 'heading2',
+                                    view: 'h2',
+                                    title: 'Heading 2',
+                                    class: 'ck-heading_heading2'
+                                },
+                                {
+                                    model: 'heading3',
+                                    view: 'h3',
+                                    title: 'Heading 3',
+                                    class: 'ck-heading_heading3'
+                                }
+                            ]
+                        },
+                        link: {
+                            decorators: {
+                                openInNewTab: {
+                                    mode: 'manual',
+                                    label: 'Open in a new tab',
+                                    attributes: {
+                                        target: '_blank',
+                                        rel: 'noopener noreferrer'
+                                    }
+                                }
+                            }
+                        },
+                        htmlSupport: {
+                            allow: [
+                                { name: /.*/, attributes: true, classes: true, styles: true }
+                            ]
+                        },
+                        removePlugins: [
+                            'PasteFromOfficeEnhanced',
+                            'TableOfContents',
+                            'CloudServices',
+                            'CKBox',
+                            'CKFinder',
+                            'EasyImage',
+                            'ExportPdf',
+                            'ExportWord',
+                            'DocumentOutline',
+                            'AIAssistant',
+                            'PresenceList',
+                            'Comments',
+                            'TrackChanges',
+                            'TrackChangesData',
+                            'RevisionHistory',
+                            'Pagination',
+                            'WProofreader',
+                            'RealTimeCollaborativeComments',
+                            'RealTimeCollaborativeTrackChanges',
+                            'RealTimeCollaborativeRevisionHistory',
+                            'MathType',
+                            'SlashCommand',
+                            'Template',
+                            'FormatPainter'
+                        ]
+                    })
+                    .then((editor) => {
+                        el.dataset.editorInitialized = 'true';
+                        el.editorInstance = editor;
+
+                        editor.setData(getEditorValue(el));
+
+                        editor.model.document.on('change:data', () => {
+                            const componentEl = el.closest('[wire\\:id]');
+                            if (!componentEl) return;
+
+                            const component = Livewire.find(componentEl.getAttribute('wire:id'));
+                            if (!component) return;
+
+                            component.set(model, editor.getData());
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('CKEditor init error:', error);
+                    });
+                });
+            }
+
+            function syncEditorData() {
+                document.querySelectorAll('.txtEditor').forEach((el) => {
+                    if (!el.editorInstance) return;
+
+                    const newValue = getEditorValue(el);
+                    if (el.editorInstance.getData() !== newValue) {
+                        el.editorInstance.setData(newValue);
+                    }
+                });
+            }
+        </script>
+
+        <script>
+            window.addEventListener('open-general-input-modal', () => {
+                const modalEl = document.getElementById('accordionModal');
+                const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+                modal.show();
+            });
+
+            window.addEventListener('fill-editors', (event) => {
+                const data = event.detail[0] || event.detail;
+
+                setTimeout(() => {
+                    const textEl = document.getElementById('text');
+                    const textArabicEl = document.getElementById('text_arabic');
+
+                    if (textEl?.editorInstance) {
+                        textEl.editorInstance.setData(data.text || '');
+                    }
+
+                    if (textArabicEl?.editorInstance) {
+                        textArabicEl.editorInstance.setData(data.text_arabic || '');
+                    }
+                }, 300);
+            });
+        </script>
+
+        <style>
+            .ck-editor__editable_inline {
+                min-height: 250px;
+            }
+            .ck.ck-balloon-panel {
+                z-index: 999999 !important;
+            }
+
+            .ck-link-form {
+                z-index: 999999 !important;
+            }
+
+            .ck-input-text {
+                position: relative;
+                z-index: 999999 !important;
+            }
+        </style>
 
     </div>
 

@@ -25,19 +25,9 @@ class PatternView extends Component
     public $section_id;
     public $section_column_id;
 
-    public $button_shape_id;
-    public $button_hover_shape_id;
-    public $button_color_id;
-    public $button_hover_color_id;
-    public $button_bg_color_id;
-    public $button_hover_bg_color_id;
-    public $button_text;
-    public $button_text_arabic;
-    public $button_link;
-    public $button_link_arabic;
-    
-    public $shapes;
-    public $colors;
+    public $text;
+    public $text_arabic;
+    public $animation_style;
     public $patterns;
     
     public function mount($sectionId,$id)
@@ -65,9 +55,6 @@ class PatternView extends Component
         $this->section_id=$sectionId;
         $this->section_column_id=$id;
 
-        $this->shapes=Shapes::ORDERBY('name','ASC')->get();
-        $this->colors=Colors::ORDERBY('name','ASC')->get();
-
         $this->loadEntries();
 
     }
@@ -77,16 +64,9 @@ class PatternView extends Component
     {
         $this->reset([
             'modalId',
-            'button_shape_id',
-            'button_hover_shape_id',
-            'button_color_id',
-            'button_hover_color_id',
-            'button_bg_color_id',
-            'button_hover_bg_color_id',
-            'button_text',
-            'button_text_arabic',
-            'button_link',
-            'button_link_arabic',
+            'text',
+            'text_arabic',
+            'animation_style',
         ]);
     }
 
@@ -102,17 +82,19 @@ class PatternView extends Component
 
         $columnPattern=ColumnPattern::find($id);
         $this->modalId=$id;
-        $this->button_shape_id=$columnPattern->button_shape_id;
-        $this->button_hover_shape_id=$columnPattern->button_hover_shape_id;
-        $this->button_color_id=$columnPattern->button_color_id;
-        $this->button_hover_color_id=$columnPattern->button_hover_color_id;
-        $this->button_bg_color_id=$columnPattern->button_bg_color_id;
-        $this->button_hover_bg_color_id=$columnPattern->button_hover_bg_color_id;
-        $this->button_text=$columnPattern->button_text;
-        $this->button_text_arabic=$columnPattern->button_text_arabic;
-        $this->button_link=$columnPattern->button_link;
-        $this->button_link_arabic=$columnPattern->button_link_arabic;
-        
+        $this->text=$columnPattern->text;
+        $this->text_arabic=$columnPattern->text_arabic;
+        $this->animation_style=$columnPattern->animation_style;
+
+        $this->dispatch('fill-editors', [
+                'text' => $this->text ?? '',
+                'text_arabic' => $this->text_arabic ?? '',
+                'animation_style' => $this->animation_style ?? '',
+                
+            ]);
+
+        $this->dispatch('open-general-input-modal');
+
     }
 
 
@@ -125,16 +107,9 @@ class PatternView extends Component
 
             $pattern=ColumnPattern::create([
                 'section_column_id'=>$this->section_column_id,
-                'button_shape_id'=>$this->button_shape_id,
-                'button_hover_shape_id'=>$this->button_hover_shape_id,
-                'button_color_id'=>$this->button_color_id,
-                'button_hover_color_id'=>$this->button_hover_color_id,
-                'button_bg_color_id'=>$this->button_bg_color_id,
-                'button_hover_bg_color_id'=>$this->button_hover_bg_color_id,
-                'button_text'=>$this->button_text,
-                'button_text_arabic'=>$this->button_text_arabic,
-                'button_link'=>$this->button_link,
-                'button_link_arabic'=>$this->button_link_arabic,
+                'text'=>$this->text,
+                'text_arabic'=>$this->text_arabic,
+                'animation_style'=>$this->animation_style,
                 'list_order'=> $highestOrder+1
             ]);
 
@@ -144,16 +119,9 @@ class PatternView extends Component
 
             //Update Date
             $columnPattern=ColumnPattern::find($this->modalId);
-            $columnPattern->button_shape_id=$this->button_shape_id;
-            $columnPattern->button_shape_id=$this->button_shape_id;
-            $columnPattern->button_color_id=$this->button_color_id;
-            $columnPattern->button_hover_color_id=$this->button_hover_color_id;
-            $columnPattern->button_bg_color_id=$this->button_bg_color_id;
-            $columnPattern->button_hover_bg_color_id=$this->button_hover_bg_color_id;
-            $columnPattern->button_text=$this->button_text;
-            $columnPattern->button_text_arabic=$this->button_text_arabic;
-            $columnPattern->button_link=$this->button_link;
-            $columnPattern->button_link_arabic=$this->button_link_arabic;
+            $columnPattern->text=$this->text;
+            $columnPattern->text_arabic=$this->text_arabic;
+            $columnPattern->animation_style=$this->animation_style;
             $columnPattern->save();
             
             return to_route($this->return_route, ['sectionId' => $this->section_id , 'id' => $this->section_column_id])->with('success', 'Entry edited successfully!');
