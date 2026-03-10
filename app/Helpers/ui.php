@@ -957,17 +957,9 @@ function ViewPattern($section_column_id, $language = 'EN')
 
         $htmlColumn .= '<div class="row">';
         foreach ($column->patterns as $pattern) {
-
-            $value = $pattern->button_text;
-            $value_arabic = $pattern->button_text_arabic;
-            $shape = $pattern->shape?->name;
-            $shape_hover = $pattern->shapeHover?->name;
-            $text_color = $pattern->buttonColor?->code;
-            $hover_text_color = $pattern->buttonHoverColor?->code;
-            $bg_color = $pattern->buttonBgColor?->code;
-            $hover_bg_color = $pattern->buttonHoverBgColor?->code;
-
-            $htmlColumn .= '<div class="col-lg-2">' . getEntryBtnShape($value, $value_arabic, $shape, $shape_hover, $text_color, $hover_text_color, $bg_color, $hover_bg_color, "tiny") . '</div>';
+            $htmlColumn .= '<div class="col-lg-4" text="'.$pattern->text.'" text_arabic="'.$pattern->text_arabic.'" animation_style="'.$pattern->animation_style.'">
+                '.file_get_contents(public_path('frontend/images/pattern.svg')).'
+            </div>';
         }
 
         $htmlColumn .= '</div>
