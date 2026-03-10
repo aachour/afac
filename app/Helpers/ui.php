@@ -957,7 +957,12 @@ function ViewPattern($section_column_id, $language = 'EN')
 
         $htmlColumn .= '<div class="row">';
         foreach ($column->patterns as $pattern) {
-            $htmlColumn .= '<div class="col-lg-4" text="'.$pattern->text.'" text_arabic="'.$pattern->text_arabic.'" animation_style="'.$pattern->animation_style.'">
+
+            $text = $pattern->text;
+            $text_arabic = $pattern->text_arabic;
+            $animation_style = $pattern->animation_style;
+            
+            $htmlColumn .= '<div class="col-lg-4">
                 '.file_get_contents(public_path('frontend/images/pattern.svg')).'
             </div>';
         }
