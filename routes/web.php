@@ -306,8 +306,8 @@ Route::middleware(['auth'])->group(function () {
     // |Logo
     // |--------------------------------------------------------------------------
     
-    Route::group(['prefix' => 'logoSections'], function () {
-        Route::get('/', LogoView::class)->name('logo.sections');
+    Route::group(['prefix' => 'logoElements'], function () {
+        Route::get('/', LogoView::class)->name('logo.elements');
     });
 
     

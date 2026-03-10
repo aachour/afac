@@ -59,9 +59,9 @@
 					@endcan
 
 					@can('logo-list')
-					<li class="menu-item {{ request()->is('logoSections*') ? "active" : "" }}">
-						<a href="{{ route('logo.sections') }}" class="menu-link">
-							<div data-i18n="Logo Sections">Logo Sections</div>
+					<li class="menu-item {{ request()->is('logoElements*') ? "active" : "" }}">
+						<a href="{{ route('logo.elements') }}" class="menu-link">
+							<div data-i18n="Logo Elements">Logo Elements</div>
 						</a>
 					</li>
 					@endcan
