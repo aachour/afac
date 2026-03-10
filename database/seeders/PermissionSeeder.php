@@ -200,6 +200,9 @@ class PermissionSeeder extends Seeder
             'logo-list',
             'logo-edit',
 
+            // Logo
+            'logoAnimation-list',
+
         ];
         
         $permissionsIds = [];

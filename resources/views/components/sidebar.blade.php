@@ -25,7 +25,7 @@
 			</li>
 
 			@canany(['role-list', 'permission-list', 'user-list', 'country-list', 'color-list', 'logo-list' , 'file-list'])
-			<li class="menu-item {{ request()->is('roles') || request()->is('permissions') || request()->is('users*') || request()->is('countries*') || request()->is('types*') || request()->is('colors*') || request()->is('files*') || request()->is('logo*') ? "active open" : "" }}">
+			<li class="menu-item {{ request()->is('roles') || request()->is('permissions') || request()->is('users*') || request()->is('countries*') || request()->is('types*') || request()->is('colors*') || request()->is('files*') || request()->is('logo*') || request()->is('logoAnimation*') ? "active open" : "" }}">
 
 				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-settings"></i>
@@ -50,10 +50,18 @@
 					</li>
 					@endcan
 
+					@can('logoAnimation-list')
+					<li class="menu-item {{ request()->is('logoAnimation*') ? "active" : "" }}">
+						<a href="{{ route('logo.animation') }}" class="menu-link">
+							<div data-i18n="Logo Animation">Logo Animation</div>
+						</a>
+					</li>
+					@endcan
+
 					@can('logo-list')
-					<li class="menu-item {{ request()->is('logo*') ? "active" : "" }}">
-						<a href="{{ route('logo') }}" class="menu-link">
-							<div data-i18n="Logo">Logo</div>
+					<li class="menu-item {{ request()->is('logoSections*') ? "active" : "" }}">
+						<a href="{{ route('logo.sections') }}" class="menu-link">
+							<div data-i18n="Logo Sections">Logo Sections</div>
 						</a>
 					</li>
 					@endcan

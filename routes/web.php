@@ -57,6 +57,8 @@ use App\Livewire\Library\FileView;
 
 use App\Livewire\Logo\LogoView;
 
+use App\Livewire\LogoAnimation\LogoAnimationView;
+
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\FormStackController;
@@ -293,11 +295,21 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // |--------------------------------------------------------------------------
+    // |Logo Animation
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'logoAnimation'], function () {
+        Route::get('/', LogoAnimationView::class)->name('logo.animation');
+    });
+
+    // |--------------------------------------------------------------------------
     // |Logo
     // |--------------------------------------------------------------------------
     
-    Route::group(['prefix' => 'logo'], function () {
-        Route::get('/', LogoView::class)->name('logo');
+    Route::group(['prefix' => 'logoSections'], function () {
+        Route::get('/', LogoView::class)->name('logo.sections');
     });
+
+    
 
 });
