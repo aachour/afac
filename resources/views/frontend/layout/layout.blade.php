@@ -40,7 +40,9 @@
     <div class="header" style="background:{{@$headerBgCode}};">
         <div class="centerContainer">
             <div class="logo">
-                <img src="{{asset('frontend/images/logo.svg')}}" width="100px" />
+                <a href="{{url('/')}}">
+                    <img src="{{asset('frontend/images/logo.svg')}}" width="100px" />
+                </a>
             </div>
             <div class="topSpacerSmall menu tiny ABCDiatypeMedium">Menu</div>
             <div class="topSpacerSmall lang rightSpacerBig tiny ABCDiatypeMedium">EN/AR</div>
