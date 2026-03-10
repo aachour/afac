@@ -98,7 +98,7 @@
                                     class="form-control">
                                     <option value=''>No animation </option>
                                     <option value='1'>Animation Style 1</option>
-                                    <option value='2'>Animation 2</option>
+                                    <option value='2'>Animation Style 2</option>
                                 </select>
                                 @error('animation_style') <div class="text-danger">{{ $message }}</div> @enderror
                             </div>
