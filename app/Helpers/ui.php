@@ -934,6 +934,7 @@ function ViewExpandingText($section_column_id, $language = 'EN')
     return $htmlColumn;
 }
 
+
 function ViewPattern($section_column_id, $language = 'EN')
 {
 
