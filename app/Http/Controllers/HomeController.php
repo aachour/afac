@@ -34,7 +34,33 @@ class HomeController extends Controller
     
     public function home()
     {
-        return view('frontend.home');
+        $page=Pages::WHERE('name','Home')->first();
+
+        if($page)
+        {
+
+            $headerBgCode=$page->headerBgColor->code;
+            $footerBgCode=$page->footerBgColor->code;
+            
+            $pageSections=PageSections::WHERE('page_id',$page->id)->ORDERBY('list_order','ASC')->get();
+
+            $pageHTML='';
+
+            foreach($pageSections as $pageSection){
+                if($pageSection->section_id){
+                    $pageHTML.= ViewSection($pageSection->section_id,'EN');  
+                }
+                else if($pageSection->collection_id){
+                    $pageHTML.= ViewCollection($pageSection->collection_id,'EN');
+                }
+            }
+        
+            return view('frontend.page', [
+                'pageHTML' => $pageHTML,
+                'headerBgCode'=>$headerBgCode,
+                'footerBgCode'=>$footerBgCode,
+            ]);
+        }
     }
 
 
@@ -135,24 +161,7 @@ class HomeController extends Controller
 
     }
 
-
-    public function animation()
-    {
-        return view('frontend.animation');
-    }
-
-
-    public function viewLogo(){
-
-        $logoElements=getLogoActiveElements();
- 
-        return view('frontend.logo', [
-            'logoElements' => $logoElements
-        ]);
-        
-    }
-
-
+    
     public function getFilteredEntries(Request $request){
         
         $collection_id = $request->collection_id;
@@ -709,6 +718,23 @@ class HomeController extends Controller
         }*/
     
         return $html;
+        
+    }
+
+
+    public function animation()
+    {
+        return view('frontend.animation');
+    }
+
+
+    public function viewLogo(){
+
+        $logoElements=getLogoActiveElements();
+ 
+        return view('frontend.logo', [
+            'logoElements' => $logoElements
+        ]);
         
     }
 

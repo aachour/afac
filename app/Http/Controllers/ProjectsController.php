@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Pages;
 use App\Models\Entries;
 use App\Models\ProgramYears;
 use App\Models\ProjectCategories;
@@ -13,7 +14,16 @@ class ProjectsController extends Controller
     
     public function projects()
     {
-            
+
+        $page=Pages::where('name','Projects')->first();
+        
+        $headerBgCode=$footerBgCode='#FFF';
+        if($page)
+        {
+            $headerBgCode=$page->headerBgColor->code;
+            $footerBgCode=$page->footerBgColor->code;
+        }
+
         //get all filters
         $projects = Entries::where([
             'type_id'   => 3,
@@ -88,6 +98,8 @@ class ProjectsController extends Controller
         });
 
         return view('frontend.projects', [
+            'headerBgCode'=>$headerBgCode,
+            'footerBgCode'=>$footerBgCode,
             'project_categories' => $project_categories,
             'project_countries' => $project_countries,
             'project_programs' => $project_programs,
@@ -100,19 +112,18 @@ class ProjectsController extends Controller
 
         $filters = $request->filters;
 
-        //$page = $request->page;
+        $page= $filters["page"] ?? 1;
 
-        $page=1;
+        $data=buildEntriesQuery("",$filters,[]);
 
-        $entries=buildEntriesQuery("",$filters,[]);
+        $totalEntries = $data['totalEntries'] ?? '0';
+        $entries = $data['entries'] ?? collect();
 
-        $totalEntries = count($entries);
         $limitEntries = 80;
         $totalPages = ceil($totalEntries / $limitEntries);
         
         $html='';
-        
-        
+                
         if(count($entries)>0)
         {
 
@@ -201,10 +212,9 @@ class ProjectsController extends Controller
         $html .= "<div class='pagination mt-4'>";
         for($i = 1; $i <= $totalPages; $i++){
             $active = ($i == $page) ? "active" : "";
-            $html .= "<a class='$active' data-page='$i'>$i</a>";
+            $html .= "<a class='pagination-box $active' data-page='$i'>$i</a>";
         }
         $html .= "</div>";
-
 
         return $html;
     }
