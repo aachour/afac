@@ -2163,7 +2163,7 @@ function buildEntriesQuery($collection_id="",$filters="", $entries_id=[]){
 
     }
     else{ //Projects page 
-        $query = Entries::where(['type_id' => '3' , 'published' => '1']);
+        $query = Entries::where(['type_id' => '3' , 'published' => '1'])->WHERENULL('deleted_at');
         $entries_selection=2;
         $collection_type_id=3;
         $show_all_entries=1;
@@ -2722,18 +2722,32 @@ function buildEntriesQuery($collection_id="",$filters="", $entries_id=[]){
             if($collection_type_id == 8){$query->orderBy('external_date', 'desc');}
         }
     }
-
     
-
     // Limit & get results
     if($entries_selection == 2 && $show_all_entries==0){
         $entries = $query->limit($entries_number)->get();
-    }else{
+        return $entries;
+    }
+    else if(!empty($filters) && !empty($filters['page'])){ // case of projects with pagination
+
+        // total before pagination
+        $totalEntries = (clone $query)->count();
+
+        $page = max((int)($filters['page'] ?? 1), 1);
+        $perPage = 80;
+        $offset = ($page - 1) * $perPage;
+        $entries = $query->offset($offset)->limit($perPage)->get();
+
+
+        return [
+            'totalEntries'=>$totalEntries,
+            'entries'=>$entries,
+        ];
+
+    }
+    else{
         $entries = $query->get();
+        return $entries;
     }
 
-    return $entries;
-
 }
-
-

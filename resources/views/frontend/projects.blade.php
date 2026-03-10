@@ -93,15 +93,25 @@
 
         $(document).ready(function(){ 
 
-            getFilteredEntries();
-                    
             //initiate variables
             var project_country='';
             var project_category='';
             var project_program_year='';
             var project_program='';
             var sort='';
+            var page='1';
 
+            var filters = {
+                project_country: project_country,
+                project_category: project_category,
+                project_program_year: project_program_year,
+                project_program: project_program,
+                sort: sort,
+                page: page,
+            };
+
+            getFilteredEntries(filters);
+                    
             $('#filterBtn').click(function () {
                 var parent=$(this).parent().parent();                        
                 project_country=$(parent).find('.filter_project_country').val();
@@ -115,6 +125,7 @@
                     project_program_year: project_program_year,
                     project_program: project_program,
                     sort: sort,
+                    page: page,
                 };
 
                 getFilteredEntries(filters);
@@ -129,9 +140,25 @@
                     project_program_year: project_program_year,
                     project_program: project_program,
                     sort: sort,
+                    page: page,
                 };
                 getFilteredEntries(filters);
             });
+
+            $('#entries').on('click', '.pagination-box', function () {
+                var page=$(this).attr("data-page");
+                var filters = {
+                    project_country: project_country,
+                    project_category: project_category,
+                    project_program_year: project_program_year,
+                    project_program: project_program,
+                    sort: sort,
+                    page: page,
+                };
+                getFilteredEntries(filters);
+                
+            });
+
 
         });
 
