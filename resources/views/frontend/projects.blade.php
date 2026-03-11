@@ -145,7 +145,7 @@
                 getFilteredEntries(filters);
             });
 
-            $('#entries').on('click', '.pagination-box', function () {
+            $('#entries').on('click', '.page-link', function () {
                 var page=$(this).attr("data-page");
                 var filters = {
                     project_country: project_country,
