@@ -209,8 +209,6 @@ class ProjectsController extends Controller
         }
 
         // Pagination links
-        $page = (int) $page;
-
         $html .= '<div class="mt-5 pagination-wrapper">
             <div class="pagination">
                 <span class="nav-btn prev disabled">&larr;</span>
