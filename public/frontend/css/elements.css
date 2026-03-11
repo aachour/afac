@@ -557,9 +557,6 @@
 }
 
 
-.toggleContainer{
-    margin:0px 2.5%;
-}
 .pill-toggle {
     display: inline-block;
     cursor: pointer;
@@ -575,13 +572,11 @@
     position: relative;
     display: flex;
     align-items: center;
-    padding: 6px 16px 6px 36px;
+    padding: 3px 20px 3px 40px;
     background: #fff;
     color: #000;
     border: 2px solid #000;
     border-radius: 999px;
-    font-size: 14px;
-    font-weight: 600;
     transition: 0.25s ease;
 }
 
