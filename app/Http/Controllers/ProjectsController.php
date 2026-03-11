@@ -122,7 +122,7 @@ class ProjectsController extends Controller
         $limitEntries = 8;
         $totalPages = ceil($totalEntries / $limitEntries);
         
-        $html='';
+        $html='<div class="small black mt-5">You are viewing <u class="small">8</u> or the <u class="small">'.$totalEntries.'</u> initiatives that Afac has supported.</div>';
                 
         if(count($entries)>0)
         {
