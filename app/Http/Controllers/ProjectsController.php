@@ -8,6 +8,7 @@ use App\Models\Entries;
 use App\Models\ProgramYears;
 use App\Models\ProjectCategories;
 use App\Models\Countries;
+use App\Models\ProjectGrantees;
 
 class ProjectsController extends Controller
 {
@@ -122,105 +123,119 @@ class ProjectsController extends Controller
         $limitEntries = 8;
         $totalPages = ceil($totalEntries / $limitEntries);
         
-        $html='<div class="small black mt-5">You are viewing <u class="small">8</u> or the <u class="small">'.$totalEntries.'</u> initiatives that Afac has supported.</div>';
-                
-        if(count($entries)>0)
-        {
+        $html='<div class="small black mt-4">You are viewing <u class="small">8</u> or the <u class="small">'.$totalEntries.'</u> initiatives that Afac has supported.</div>';
 
-            $html.='<div class="entries">
+        $html.='<div class="mt-3 toggleContainer" >
+            <label class="pill-toggle">
+                <input type="checkbox" id="granteesToggle">
+                <span class="pill micro">
+                    <span class="knob"></span>
+                    <span class="text">Grantees View</span>
+                </span>
+            </label>
+        </div>';
+        
+        $html.='<div id="projects">';
+            $projectIds=[];
+            if(count($entries)>0)
+            {
 
-                <style>
-                    @media(min-width:900px){
-                        .collection .entries > .entry:nth-child(4n of .entry){
-                            margin-right:0 !important;
+                $html.='<div class="entries">
+
+                    <style>
+                        @media(min-width:900px){
+                            .collection .entries > .entry:nth-child(4n of .entry){
+                                margin-right:0 !important;
+                            }
                         }
+                    </style>';
+
+                    $title_position='top:15px;';
+                    $labels_position='bottom:15px;';
+
+                    //Fetch all entries
+                    
+                    $entries_count=0;
+                    
+                    foreach($entries as $key=>$entry)
+                    {
+
+                        $projectIds[]=$entry->id;
+
+                        $image_path = asset('frontend/images/default-image.png');
+                        if (!empty($entry->image)) {
+                            $image_path = asset('storage/' . $entry->image);
+                        }
+
+                        //get entry details
+                        $entryDetails=getEntryDetails('3',$entry);
+                        $entry_title=$entryDetails["entry_title"];
+                        $entry_text=$entryDetails["entry_text"];
+                        $entry_href=$entryDetails["entry_href"];
+                        $entry_target=$entryDetails["entry_target"];
+
+                        $html.='<div class="entry">';
+
+                            $labels=getEntryLabels($entry);
+
+                            $html .= view('frontend.entry-hover-animation', [
+                                'collection_type_id'=>'3',
+                                'entry_href'=>$entry_href,
+                                'entry_target'=>$entry_target,
+                                'image_path'=>$image_path,
+                                'entry_title' => $entry_title,
+                                'entry_text' => $entry_text,
+                                'title_position'=>$title_position,
+                                'with_label' => '1',
+                                'labels_position'=>$labels_position,
+                                'entry_type_name' => $entry->type->name,
+                                'labels' => $labels,
+                                'button_text'=>'Press',
+                                'button_bg_color'=>'#F1F1F1',
+                                'featured'=>'0',
+                                'event_category_name'=>$entry->eventCategory?->name,
+                                'event_start_date'=>$entry->event_start_date,
+                                'event_end_date'=>$entry->event_end_date,
+                                'program_start_date'=>$entry->program_start_date,
+                                'program_end_date'=>$entry->program_end_date,
+                                'project_categories'=>$entry->projectCategoriesName(json_decode($entry->project_categories_id ?? '[]', true) ?? []),
+                                'project_countries'=>$entry->projectCountries(json_decode($entry->project_countries_id ?? '[]', true) ?? []),
+                                'grantee_categories'=>$entry->granteeCategories(json_decode($entry->grantee_categories_id ?? '[]', true) ?? []),
+                                'grantee_country'=>$entry->granteeCountry?->name,
+                                'jury_country_id'=>$entry->jury_country_id,
+                                'resource_category_name'=>$entry->resourceCategory?->name,
+                                'resource_date'=>$entry->resource_date,
+                                'news_date'=>$entry->news_date,
+                            ])->render();
+                                                                
+                        $html .='</div>';
+
+                        $entries_count++;
+    
+                        if($entries_count==$limitEntries){break;}
+
                     }
-                </style>';
 
-                $title_position='top:15px;';
-                $labels_position='bottom:15px;';
+                    $html.='<div class="clear"></div>';
+                    
+                    
+                $html.='</div>';
 
-                //Fetch all entries
-                
-                $entries_count=0;
-                
-                foreach($entries as $key=>$entry)
-                {
+            }
 
-                    $image_path = asset('frontend/images/default-image.png');
-                    if (!empty($entry->image)) {
-                        $image_path = asset('storage/' . $entry->image);
-                    }
-
-                    //get entry details
-                    $entryDetails=getEntryDetails('3',$entry);
-                    $entry_title=$entryDetails["entry_title"];
-                    $entry_text=$entryDetails["entry_text"];
-                    $entry_href=$entryDetails["entry_href"];
-                    $entry_target=$entryDetails["entry_target"];
-
-                    $html.='<div class="entry">';
-
-                        $labels=getEntryLabels($entry);
-
-                        $html .= view('frontend.entry-hover-animation', [
-                            'collection_type_id'=>'3',
-                            'entry_href'=>$entry_href,
-                            'entry_target'=>$entry_target,
-                            'image_path'=>$image_path,
-                            'entry_title' => $entry_title,
-                            'entry_text' => $entry_text,
-                            'title_position'=>$title_position,
-                            'with_label' => '1',
-                            'labels_position'=>$labels_position,
-                            'entry_type_name' => $entry->type->name,
-                            'labels' => $labels,
-                            'button_text'=>'Press',
-                            'button_bg_color'=>'#F1F1F1',
-                            'featured'=>'0',
-                            'event_category_name'=>$entry->eventCategory?->name,
-                            'event_start_date'=>$entry->event_start_date,
-                            'event_end_date'=>$entry->event_end_date,
-                            'program_start_date'=>$entry->program_start_date,
-                            'program_end_date'=>$entry->program_end_date,
-                            'project_categories'=>$entry->projectCategoriesName(json_decode($entry->project_categories_id ?? '[]', true) ?? []),
-                            'project_countries'=>$entry->projectCountries(json_decode($entry->project_countries_id ?? '[]', true) ?? []),
-                            'grantee_categories'=>$entry->granteeCategories(json_decode($entry->grantee_categories_id ?? '[]', true) ?? []),
-                            'grantee_country'=>$entry->granteeCountry?->name,
-                            'jury_country_id'=>$entry->jury_country_id,
-                            'resource_category_name'=>$entry->resourceCategory?->name,
-                            'resource_date'=>$entry->resource_date,
-                            'news_date'=>$entry->news_date,
-                        ])->render();
-                                                            
-                    $html .='</div>';
-
-                    $entries_count++;
- 
-                    if($entries_count==$limitEntries){break;}
-
-                }
-
-                $html.='<div class="clear"></div>';
-                
-                
-            $html.='</div>';
-
-        }
-
-        // Pagination links
-        $page = (int) $page;
-
-        $html .= '<div class="mt-5 pagination-wrapper">
-            <div class="pagination">
-                <span class="nav-btn prev disabled">&larr;</span>
-                <div class="pages" style="display:flex; gap:8px;">';
-                    for ($i = 1; $i <= $totalPages; $i++) {
-                        $html .= '<a href="javascript:void(0)" class="page-link page-item' . ($i == $page ? ' active' : '') . '" data-page="' . $i . '">' . $i . '</a>';
-                    }
-                $html .= '</div>
-                <span class="nav-btn next">&rarr;</span>
+            // Pagination links
+            $html .= '<div class="mt-5 pagination-wrapper">
+                <div class="pagination">
+                    <span class="nav-btn prev disabled">&larr;</span>
+                    <div class="pages" style="display:flex; gap:8px;">';
+                        for ($i = 1; $i <= $totalPages; $i++) {
+                            $html .= '<a href="javascript:void(0)" class="page-link page-item' . ($i == $page ? ' active' : '') . '" data-page="' . $i . '">' . $i . '</a>';
+                        }
+                    $html .= '</div>
+                    <span class="nav-btn next">&rarr;</span>
+                </div>
             </div>
+
         </div>';
 
         $html .= "<script>
@@ -294,6 +309,101 @@ class ProjectsController extends Controller
                 });
             });
         </script>";
+            
+
+        //get all grantees related to collection of type projects.
+
+        $granteeIds=ProjectGrantees::WHEREIN('project_id',$projectIds)->pluck('grantee_id')->toArray();
+        $grantees=Entries::WHERE('published',1)->WHEREIN('id',$granteeIds)->get();
+        if($grantees){
+            $html.='<div class="collection d-none" id="projectsGrantees" style="padding:0px;">
+                <div class="entries">';
+                            
+                    $entries_count=0;
+
+                    //Fetch all entries
+                    foreach($grantees as $key=>$entry)
+                    {
+
+                        $image_path = asset('frontend/images/default-image.png');
+                        if (!empty($entry->image)) {
+                            $image_path = asset('storage/' . $entry->image);
+                        }
+
+                        //get entry details
+                        $entryDetails=getEntryDetails($entry->type_id,$entry);
+                        $entry_title=$entryDetails["entry_title"];
+                        $entry_position=@$entryDetails["entry_position"];
+                        $entry_text=$entryDetails["entry_text"];
+                        $entry_href=$entryDetails["entry_href"];
+                        $entry_target=$entryDetails["entry_target"];
+
+                        $html.='<div class="entry">';
+
+                            $labels=getEntryLabels($entry);
+
+                            $html .= view('frontend.entry-hover-animation', [
+                                'collection_type_id'=>$entry->type_id,
+                                'entry_href'=>$entry_href,
+                                'entry_target'=>$entry_target,
+                                'image_path'=>$image_path,
+                                'entry_title' => $entry_title,
+                                'entry_position' => $entry_position,
+                                'entry_text' => $entry_text,
+                                'title_position'=>$title_position,
+                                'with_label' => '1',
+                                'labels_position'=>$labels_position,
+                                'entry_type_name' => $entry->type->name,
+                                'collection_type_id' => '4',
+                                'labels' => $labels,
+                                'button_text'=>@$button_text,
+                                'button_bg_color'=>@$button_bg_color,
+                                'featured'=>'0',
+                                'event_category_name'=>$entry->eventCategory?->name,
+                                'event_start_date'=>$entry->event_start_date,
+                                'event_end_date'=>$entry->event_end_date,
+                                'program_start_date'=>$entry->program_start_date,
+                                'program_end_date'=>$entry->program_end_date,
+                                'project_categories'=>$entry->projectCategoriesName(json_decode($entry->project_categories_id ?? '[]', true) ?? []),
+                                'project_countries'=>$entry->projectCountries(json_decode($entry->project_countries_id ?? '[]', true) ?? []),
+                                'grantee_categories'=>$entry->granteeCategories(json_decode($entry->grantee_categories_id ?? '[]', true) ?? []),
+                                'grantee_country'=>$entry->granteeCountry?->name,
+                                'jury_country_id'=>$entry->jury_country_id,
+                                'resource_date'=>$entry->resource_date,
+                                'news_date'=>$entry->news_date,
+                            ])->render();
+                                                                
+                        $html .='</div>';
+
+                        //check entries per row
+                        $entries_count++;
+
+                        if($entries_count % 4==0){
+                            $html.='<div class="clear">&nbsp;</div>';
+                        }
+
+                    }
+
+                    $html.='<div class="clear"></div>
+                    
+                </div>
+            </div>';
+        }
+            
+        $html.='<script>
+            $(document).ready(function(){
+                $("#granteesToggle").on("change", function () { 
+                    if ($(this).is(":checked")){
+                        $("#projectsGrantees").removeClass("d-none");
+                        $("#projects").addClass("d-none");
+                    } 
+                    else{
+                        $("#projectsGrantees").addClass("d-none");
+                        $("#projects").removeClass("d-none");
+                    }
+                });
+            });
+        </script>';
 
         return $html;
 

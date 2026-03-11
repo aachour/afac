@@ -228,20 +228,6 @@ class HomeController extends Controller
 
         $html="";
 
-        //Set toggle show project grantees
-        if($collection_type_id==3 && $show_projects_grantees==1){
-            $html.='<div class="toggleContainer" >
-                <label class="pill-toggle">
-                    <input type="checkbox" id="granteesToggle">
-
-                    <span class="pill">
-                        <span class="knob"></span>
-                        <span class="text">Grantees View</span>
-                    </span>
-                </label>
-            </div>';
-        }
-
         //Show Calendar View
         if($collection_type_id==1 && $calendar_view==1)
         {
@@ -616,106 +602,6 @@ class HomeController extends Controller
                 }
             </script>';
         }
-
-        //get all grantees related to collection of type projects.
-        /*if($collection_type_id==3 && $show_projects_grantees==1){
-
-            $projectIds=CollectionEntries::WHERE('collection_id',$collection_id)->pluck('entry_id')->toArray();
-            $granteeIds=ProjectGrantees::WHEREIN('project_id',$projectIds)->pluck('grantee_id')->toArray();
-            $grantees=Entries::WHERE('published',1)->WHEREIN('id',$granteeIds)->get();
-            if($grantees){
-                $html.='<div class="collection d-none" id="projectGrantees" style="padding-top:0px; background-color:'.$bgColor.';">
-                    <div class="entries">';
-                                
-                        $entries_count=0;
-
-                        //Fetch all entries
-                        foreach($grantees as $key=>$entry)
-                        {
-
-                            if ($with_featured==1 && $key ==0) {
-                                continue; // skip first
-                            }
-
-                            $image_path = asset('frontend/images/default-image.png');
-                            if (!empty($entry->image)) {
-                                $image_path = asset('storage/' . $entry->image);
-                            }
-
-                            //get entry details
-                            $entryDetails=getEntryDetails($entry->type_id,$entry);
-                            $entry_title=$entryDetails["entry_title"];
-                            $entry_position=@$entryDetails["entry_position"];
-                            $entry_text=$entryDetails["entry_text"];
-                            $entry_href=$entryDetails["entry_href"];
-                            $entry_target=$entryDetails["entry_target"];
-
-                            $html.='<div class="swiper-slide entry">';
-
-                                $labels=getEntryLabels($entry);
-
-                                $html .= view('frontend.entry-hover-animation', [
-                                    'collection_type_id'=>$entry->type_id,
-                                    'entry_href'=>$entry_href,
-                                    'entry_target'=>$entry_target,
-                                    'image_path'=>$image_path,
-                                    'entry_title' => $entry_title,
-                                    'entry_position' => $entry_position,
-                                    'entry_text' => $entry_text,
-                                    'title_position'=>$title_position,
-                                    'with_label' => $with_label,
-                                    'labels_position'=>$labels_position,
-                                    'entry_type_name' => $entry->type->name,
-                                    'collection_type_id' => $collection_type_id,
-                                    'labels' => $labels,
-                                    'button_text'=>$button_text,
-                                    'button_bg_color'=>$button_bg_color,
-                                    'featured'=>'0',
-                                    'event_category_name'=>$entry->eventCategory?->name,
-                                    'event_start_date'=>$entry->event_start_date,
-                                    'event_end_date'=>$entry->event_end_date,
-                                    'program_start_date'=>$entry->program_start_date,
-                                    'program_end_date'=>$entry->program_end_date,
-                                    'project_categories'=>$entry->projectCategoriesName(json_decode($entry->project_categories_id ?? '[]', true) ?? []),
-                                    'project_countries'=>$entry->projectCountries(json_decode($entry->project_countries_id ?? '[]', true) ?? []),
-                                    'grantee_categories'=>$entry->granteeCategories(json_decode($entry->grantee_categories_id ?? '[]', true) ?? []),
-                                    'grantee_country'=>$entry->granteeCountry?->name,
-                                    'jury_country_id'=>$entry->jury_country_id,
-                                    'resource_date'=>$entry->resource_date,
-                                    'news_date'=>$entry->news_date,
-                                ])->render();
-                                                                    
-                            $html .='</div>';
-
-                            //check entries per row
-                            $entries_count++;
-
-                            if($entries_layout==1 && $entries_count % $entries_per_row==0){
-                                $html.='<div class="clear">&nbsp;</div>';
-                            }
-
-                        }
-
-                        $html.='<div class="clear"></div>
-                        
-                    </div>
-                </div>';
-            }
-
-            $html.='<script>
-                $(document).ready(function(){
-                    $("#granteesToggle").on("change", function () { 
-                        if ($(this).is(":checked")){
-                            $("#projectGrantees").removeClass("d-none");
-                        } 
-                        else{
-                            $("#projectGrantees").addClass("d-none");
-                        }
-                    });
-                });
-            </script>';
-            
-        }*/
     
         return $html;
         
