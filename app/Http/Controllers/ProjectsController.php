@@ -119,7 +119,7 @@ class ProjectsController extends Controller
         $totalEntries = $data['totalEntries'] ?? '0';
         $entries = $data['entries'] ?? collect();
 
-        $limitEntries = 80;
+        $limitEntries = 8;
         $totalPages = ceil($totalEntries / $limitEntries);
         
         $html='';
@@ -209,14 +209,94 @@ class ProjectsController extends Controller
         }
 
         // Pagination links
-        $html .= "<div class='pagination mt-4'>";
-        for($i = 1; $i <= $totalPages; $i++){
-            $active = ($i == $page) ? "active" : "";
-            $html .= "<a class='pagination-box $active' data-page='$i'>$i</a>";
-        }
-        $html .= "</div>";
+        $page = (int) $page;
+
+        $html .= '<div class="mt-5 pagination-wrapper">
+            <div class="pagination">
+                <span class="nav-btn prev disabled">&larr;</span>
+                <div class="pages" style="display:flex; gap:8px;">';
+                    for ($i = 1; $i <= $totalPages; $i++) {
+                        $html .= '<a href="javascript:void(0)" class="page-link page-item' . ($i == $page ? ' active' : '') . '" data-page="' . $i . '">' . $i . '</a>';
+                    }
+                $html .= '</div>
+                <span class="nav-btn next">&rarr;</span>
+            </div>
+        </div>';
+
+        $html .= "<script>
+            $(document).ready(function () {
+                var \$wrapper = $('.collection .pagination-wrapper');
+                var \$links = \$wrapper.find('.page-link');
+                var totalPages = \$links.length;
+
+                function getActivePage() {
+                    return parseInt(\$wrapper.find('.page-link.active').data('page')) || 1;
+                }
+
+                function setActivePage(page) {
+                    \$links.removeClass('active');
+                    \$wrapper.find('.page-link[data-page=\"' + page + '\"]').addClass('active');
+                }
+
+                function showPagesFrom(page) {
+                    \$links.hide();
+
+                    for (var i = page; i <= page + 2; i++) {
+                        \$wrapper.find('.page-link[data-page=\"' + i + '\"]').show();
+                    }
+
+                    if (page <= 1) {
+                        \$wrapper.find('.prev').addClass('disabled');
+                    } else {
+                        \$wrapper.find('.prev').removeClass('disabled');
+                    }
+
+                    if (page + 2 >= totalPages) {
+                        \$wrapper.find('.next').addClass('disabled');
+                    } else {
+                        \$wrapper.find('.next').removeClass('disabled');
+                    }
+                }
+
+                var visibleStartPage = getActivePage();
+                showPagesFrom(visibleStartPage);
+
+                \$wrapper.find('.next').on('click', function () {
+                    if ($(this).hasClass('disabled')) return;
+
+                    visibleStartPage += 3;
+
+                    if (visibleStartPage > totalPages) {
+                        visibleStartPage = totalPages;
+                    }
+
+                    showPagesFrom(visibleStartPage);
+                });
+
+                \$wrapper.find('.prev').on('click', function () {
+                    if ($(this).hasClass('disabled')) return;
+
+                    visibleStartPage -= 3;
+
+                    if (visibleStartPage < 1) {
+                        visibleStartPage = 1;
+                    }
+
+                    showPagesFrom(visibleStartPage);
+                });
+
+                \$wrapper.find('.page-link').on('click', function () {
+                    var page = parseInt($(this).data('page'));
+
+                    setActivePage(page);
+                    visibleStartPage = page;
+                    showPagesFrom(visibleStartPage);
+                });
+            });
+        </script>";
 
         return $html;
+
     }
 
 }

@@ -2837,7 +2837,7 @@ function buildEntriesQuery($collection_id="",$filters="", $entries_id=[]){
         $totalEntries = (clone $query)->count();
 
         $page = max((int)($filters['page'] ?? 1), 1);
-        $perPage = 80;
+        $perPage = 8;
         $offset = ($page - 1) * $perPage;
         $entries = $query->offset($offset)->limit($perPage)->get();
 
