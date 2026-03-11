@@ -123,7 +123,7 @@ class ProjectsController extends Controller
         $limitEntries = 12;
         $totalPages = ceil($totalEntries / $limitEntries);
         
-        $html='<div class="medium black mt-4">You are viewing <u class="medium">'.(12*$page).'</u> out of the <u class="medium">'.$totalEntries.'</u> initiatives that Afac has supported.</div>';
+        $html='<div class="medium black mt-4">You are viewing <u class="medium">'.(12*$page).'</u> of the <u class="medium">'.$totalEntries.'</u> initiatives that Afac has supported.</div>';
 
         $html.='<div class="mt-3 toggleContainer" >
             <label class="pill-toggle">
