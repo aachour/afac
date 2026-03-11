@@ -15,6 +15,7 @@ class ProjectsController extends Controller
     
     public function projects()
     {
+        
 
         $page=Pages::where('name','Projects')->first();
         
@@ -123,7 +124,10 @@ class ProjectsController extends Controller
         $limitEntries = 12;
         $totalPages = ceil($totalEntries / $limitEntries);
         
-        $html='<div class="medium black mt-4">You are viewing <u class="medium">'.(12*$page).'</u> of the <u class="medium">'.$totalEntries.'</u> initiatives that Afac has supported.</div>';
+        //Get all projects numbers
+        $totalProjects=Entries::WHERE('type_id','3')->WHERE('published','1')->WHERENULL('deleted_at')->count();
+        
+        $html='<div class="medium black mt-4">You are viewing <u class="medium">'.$totalEntries.'</u> of the <u class="medium">'.$totalProjects.'</u> initiatives that Afac has supported.</div>';
 
         $html.='<div class="mt-3 toggleContainer" >
             <label class="pill-toggle">
