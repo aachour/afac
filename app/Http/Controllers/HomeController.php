@@ -26,7 +26,7 @@ use App\Models\ProgramYearProjects;
 use App\Models\ProgramYearJurors;
 use App\Models\ProgramYears;
 use App\Models\LogoAnimation;
-use App\Models\logo;
+use App\Models\Logo;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
