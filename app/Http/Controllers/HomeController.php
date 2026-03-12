@@ -25,6 +25,8 @@ use App\Models\ProjectGrantees;
 use App\Models\ProgramYearProjects;
 use App\Models\ProgramYearJurors;
 use App\Models\ProgramYears;
+use App\Models\LogoAnimation;
+use App\Models\logo;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -38,7 +40,8 @@ class HomeController extends Controller
 
         if($page)
         {
-
+            $logoAnimation = LogoAnimation::where('id', 1)->value('active');
+            $logoElements=Logo::ORDERBY('id','ASC')->get();
             $headerBgCode=$page->headerBgColor->code;
             $footerBgCode=$page->footerBgColor->code;
             
@@ -59,6 +62,9 @@ class HomeController extends Controller
                 'pageHTML' => $pageHTML,
                 'headerBgCode'=>$headerBgCode,
                 'footerBgCode'=>$footerBgCode,
+                'logoAnimation'=>$logoAnimation,
+                'logoElements' => $logoElements,
+                
             ]);
         }
     }

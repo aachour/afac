@@ -16,12 +16,17 @@
 
     <div class="fullContainer">
         
-        {{-- <div class="centerContainer"> --}}
-    
-            {!! $pageHTML !!}
-    
-        {{-- </div> --}}
+        @if(@$logoAnimation==1)
+            @foreach($logoElements as $logoElement)
+                <input type="hidden" value="{{$logoElement->name}}" text="{{$logoElement->text}}" text_arabic="{{$logoElement->text_arabic}}" status="{{$logoElement->status}}" />
+            @endforeach
+            <div class="">
+                @include('components.animated-logo')
+            </div>
+        @endif
 
+        {!! $pageHTML !!}
+    
     </div>
     
 @endsection
