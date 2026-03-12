@@ -1028,15 +1028,15 @@ function ViewPattern($section_column_id, $language = 'EN')
                         gsap.set(textEl, { opacity: 0 });
                         wrapper.addEventListener("mouseenter", function() {
                             gsap.killTweensOf([shape, textEl, patternSvg]);
-                            gsap.to(patternSvg, { opacity: 0, duration: 0.35, ease: "power2.out" });
-                            gsap.to(shape, { scale: 1, opacity: 1, duration: 0.5, ease: "power2.out" });
-                            gsap.to(textEl, { opacity: 1, duration: 0.35, delay: 0.2, ease: "power2.out" });
+                            gsap.to(patternSvg, { opacity: 0, duration: 0.45, ease: "power2.out" });
+                            gsap.to(shape, { scale: 1, opacity: 1, duration: 0.65, ease: "power2.out" });
+                            gsap.to(textEl, { opacity: 1, duration: 0.4, delay: 0.28, ease: "power2.out" });
                         });
                         wrapper.addEventListener("mouseleave", function() {
                             gsap.killTweensOf([shape, textEl, patternSvg]);
-                            gsap.to(textEl, { opacity: 0, duration: 0.2 });
-                            gsap.to(shape, { scale: 0, opacity: 0.8, duration: 0.4, ease: "power2.in" });
-                            gsap.to(patternSvg, { opacity: 1, duration: 0.4, ease: "power2.out" });
+                            gsap.to(textEl, { opacity: 0, duration: 0.28 });
+                            gsap.to(shape, { scale: 0, opacity: 0.8, duration: 0.5, ease: "power2.in" });
+                            gsap.to(patternSvg, { opacity: 1, duration: 0.5, ease: "power2.out" });
                         });
                     });
                     document.querySelectorAll(".pattern-box-wrapper[data-animation-style=\"2\"]").forEach(function(wrapper) {
@@ -1049,15 +1049,15 @@ function ViewPattern($section_column_id, $language = 'EN')
                         gsap.set(textEl, { opacity: 0 });
                         wrapper.addEventListener("mouseenter", function() {
                             gsap.killTweensOf([shape, textEl, patternSvg]);
-                            gsap.to(patternSvg, { opacity: 0, duration: 0.35, ease: "power2.out" });
-                            gsap.to(shape, { scale: 1, opacity: 1, duration: 0.5, ease: "power2.out" });
-                            gsap.to(textEl, { opacity: 1, duration: 0.35, delay: 0.2, ease: "power2.out" });
+                            gsap.to(patternSvg, { opacity: 0, duration: 0.45, ease: "power2.out" });
+                            gsap.to(shape, { scale: 1, opacity: 1, duration: 0.65, ease: "power2.out" });
+                            gsap.to(textEl, { opacity: 1, duration: 0.4, delay: 0.28, ease: "power2.out" });
                         });
                         wrapper.addEventListener("mouseleave", function() {
                             gsap.killTweensOf([shape, textEl, patternSvg]);
-                            gsap.to(textEl, { opacity: 0, duration: 0.2 });
-                            gsap.to(shape, { scale: 0, opacity: 0.8, duration: 0.4, ease: "power2.in" });
-                            gsap.to(patternSvg, { opacity: 1, duration: 0.4, ease: "power2.out" });
+                            gsap.to(textEl, { opacity: 0, duration: 0.28 });
+                            gsap.to(shape, { scale: 0, opacity: 0.8, duration: 0.5, ease: "power2.in" });
+                            gsap.to(patternSvg, { opacity: 1, duration: 0.5, ease: "power2.out" });
                         });
                     });
                 }
