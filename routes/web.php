@@ -72,6 +72,8 @@ Route::get('/projects', [ProjectsController::class, 'projects'])->name('projects
 
 Route::post('/get/projects', [ProjectsController::class, 'getProjects'])->name('get.projects'); 
 
+Route::post('/get/grantees', [ProjectsController::class, 'getGrantees'])->name('get.grantees'); 
+
 Route::get('/animation', [HomeController::class, 'animation'])->name('animation'); 
 
 Route::get('/page/{id}/{name}', [HomeController::class, 'ViewPage'])->name('page.view'); 
