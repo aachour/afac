@@ -56,6 +56,8 @@
                     <option value="">Select sort</option>
                     <option value="1">Name ASC</option>
                     <option value="2">Name DESC</option>
+                    <option value="3">Date ASC</option>
+                    <option value="4">Date DESC</option>
                 </select>
             </div>
             <div class="clear"></div>

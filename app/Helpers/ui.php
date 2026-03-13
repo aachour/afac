@@ -106,50 +106,101 @@ function ViewEntryData($entry_id, $language = 'EN')
         $html .= '</div>';
 
         //show at a glance for Supported Project & Grantee. 
-        if ($entry->type_id == 3 || $entry->type_id == 4 || $entry->type_id == 5) {
+        if ($entry->type_id == 3 || $entry->type_id == 4 ) {
             $html .= '<div class="fullContainer mt-5">
-                    <div class="centerContainer">
-                        <div class="row">
+                <div class="centerContainer">
+                    <div class="row">
 
-                            <div class="col-lg-6 col-12">
-                                <div class="big black ABCDiatypeMedium">At-A-Glance</div>
-                            </div>
-
-                            <div class="col-lg-6 col-12">';
-            if ($entry->type_id == 3) { //Supported Project
-                $html .= '<div class="mt-1 tiny black ABCDiatypeBlack">Program</div>';
-                $html .= '<div class="mt-1"><a href="' . route('entry.view', ['entryType' => 'program', 'id' => $entry->programYears?->programYear?->program?->id]) . '" class="medium black ABCDiatypeMedium">' . $entry->programYears?->programYear?->program?->program_title . '</a></div>';
-
-                $html .= '<div class="mt-5 tiny black ABCDiatypeBlack">Theme</div>';
-                $categories = $entry->projectCategories(json_decode($entry->project_categories_id, true) ?? []);
-                foreach ($categories as $category) {
-                    $html .= '<div class="mt-1 medium black ABCDiatypeMedium">' . $category . '</div>';
-                }
-            } else if ($entry->type_id == 4) { //Grantee
-
-                $html .= '<div class="mt-1 tiny black ABCDiatypeBlack">Projects</div>';
-                $projectGrantees = ProjectGrantees::WHERE('grantee_id', $entry->id)->get();
-                foreach ($projectGrantees as $projectGrantee) {
-                    $html .= '<div class="mt-1"><a href="' . route('entry.view', ['entryType' => 'project', 'id' => $projectGrantee->project->id]) . '" class="medium black ABCDiatypeMedium">' . $projectGrantee->project?->project_title . '</a></div>';
-                }
-
-                $html .= '<div class="mt-5 tiny black ABCDiatypeBlack">Theme</div>';
-                $categories = $entry->granteeCategories(json_decode($entry->grantee_categories_id, true) ?? []);
-                foreach ($categories as $category) {
-                    $html .= '<div class="mt-1 medium black ABCDiatypeMedium">' . $category . '</div>';
-                }
-
-                $html .= '<div class="mt-5 tiny black ABCDiatypeBlack">Biography</div>';
-                $html .= '<div class="mt-1 smnall black">' . nl2br($entry->grantee_text, false) . '</div>';
-            } else if ($entry->type_id == 5) { //Juror
-                $html .= '<div class="mt-1 tiny black ABCDiatypeBlack">Biography</div>';
-                $html .= '<div class="mt-1 smnall black">' . nl2br($entry->jury_text, false) . '</div>';
-            }
-
-            $html .= '</div>
+                        <div class="col-lg-6 col-12">
+                            <div class="big black ABCDiatypeMedium">At-A-Glance</div>
                         </div>
+
+                        <div class="col-lg-6 col-12">';
+                            if ($entry->type_id == 3) { //Supported Project
+                                $html .= '<div class="mt-1 tiny black ABCDiatypeBlack">Program</div>';
+                                $html .= '<div class="mt-1"><a href="' . route('entry.view', ['entryType' => 'program', 'id' => $entry->programYears?->programYear?->program?->id]) . '" class="medium black ABCDiatypeMedium">' . $entry->programYears?->programYear?->program?->program_title . '</a></div>';
+
+                                if(!empty($entry->project_categories_id)){
+                                    $html .= '<div class="mt-5 tiny black ABCDiatypeBlack">Theme</div>';
+                                    $categories = $entry->projectCategories(json_decode($entry->project_categories_id, true) ?? []);
+                                    foreach ($categories as $category) {
+                                        $html .= '<div class="mt-1 medium black ABCDiatypeMedium">' . $category . '</div>';
+                                    }
+                                }
+                            } else if ($entry->type_id == 4) { //Grantee
+
+                                $html .= '<div class="mt-1 tiny black ABCDiatypeBlack">Projects</div>';
+                                $projectGrantees = ProjectGrantees::WHERE('grantee_id', $entry->id)->get();
+                                foreach ($projectGrantees as $projectGrantee) {
+                                    $html .= '<div class="mt-1"><a href="' . route('entry.view', ['entryType' => 'project', 'id' => $projectGrantee->project->id]) . '" class="medium black ABCDiatypeMedium">' . $projectGrantee->project?->project_title . '</a></div>';
+                                }
+
+                                if(!empty($entry->grantee_categories_id)){
+                                    $html .= '<div class="mt-5 tiny black ABCDiatypeBlack">Theme</div>';
+                                    $categories = $entry->granteeCategories(json_decode($entry->grantee_categories_id, true) ?? []);
+                                    foreach ($categories as $category) {
+                                        $html .= '<div class="mt-1 medium black ABCDiatypeMedium">' . $category . '</div>';
+                                    }
+                                }
+
+                            } 
+                        $html .= '</div>
+
                     </div>
-                </div>';
+                </div>
+            </div>';
+        }
+
+        if ($entry->type_id == 3) {
+            $html .= '<div class="fullContainer mt-5">
+                <div class="centerContainer">
+                    <div class="row">
+
+                        <div class="col-lg-6 col-12">
+                            <div class="big black ABCDiatypeMedium">About the project</div>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <div class="mt-1 smnall black">' . nl2br($entry->project_text, false) . '</div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>';
+        }
+        else if ($entry->type_id == 4) {
+            $html .= '<div class="fullContainer mt-5">
+                <div class="centerContainer">
+                    <div class="row">
+
+                        <div class="col-lg-6 col-12">
+                            <div class="big black ABCDiatypeMedium">About the Grantee </div>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <div class="mt-1 smnall black">' . nl2br($entry->grantee_text, false) . '</div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>';
+        }
+        else if ($entry->type_id == 5) {
+            $html .= '<div class="fullContainer mt-5">
+                <div class="centerContainer">
+                    <div class="row">
+
+                        <div class="col-lg-6 col-12">
+                            <div class="big black ABCDiatypeMedium">Biography</div>
+                        </div>
+
+                        <div class="col-lg-6 col-12">
+                            <div class="mt-1 smnall black">' . nl2br($entry->jury_text, false) . '</div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>';
         }
 
 
@@ -1501,6 +1552,8 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                             <option value="">Select sort</option>
                             <option value="1">Name ASC</option>
                             <option value="2">Name DESC</option>
+                            <option value="3">Date ASC</option>
+                            <option value="4">Date DESC</option>
                         </select>
                     </div>';
         }
@@ -2269,7 +2322,7 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
         $collection_type_id = 3;
         $show_all_entries = 1;
         $entries_expired = '';
-        $entries_order = 1;
+        $entries_order = 4;
     }
 
     if ($entries_selection == 1 && @count($custom_entries_id) > 0) {
@@ -2670,6 +2723,14 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
         {
             $query->orderBy('project_title', 'desc');
         }
+        else if ($collection_type_id == 3 && $sort == 3)  //event name desc
+        {
+            $query->orderBy('id', 'asc');
+        }
+        else if ($collection_type_id == 3 && $sort == 4)  //event name desc
+        {
+            $query->orderBy('id', 'desc');
+        }
 
         //Grantees Sort
         if ($collection_type_id == 4 && $sort == 1) //event name asc
@@ -2733,7 +2794,8 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
         {
             $query->orderBy('external_date', 'desc');
         }
-    } else {
+    } 
+    else {
         if ($entries_order == 1) //event name asc
         {
             if ($collection_type_id == 1) {
@@ -2806,6 +2868,9 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
             if ($collection_type_id == 2) {
                 $query->orderBy('program_start_date', 'asc');
             }
+            if ($collection_type_id == 3) {
+                $query->orderBy('id', 'asc');
+            }
             if ($collection_type_id == 6) {
                 $query->orderBy('resource_date', 'asc');
             }
@@ -2822,6 +2887,9 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
             }
             if ($collection_type_id == 2) {
                 $query->orderBy('program_start_date', 'desc');
+            }
+            if ($collection_type_id == 3) {
+                $query->orderBy('id', 'desc');
             }
             if ($collection_type_id == 6) {
                 $query->orderBy('resource_date', 'desc');
