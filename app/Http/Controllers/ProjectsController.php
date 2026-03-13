@@ -241,6 +241,7 @@ class ProjectsController extends Controller
         
         //get all grantees related to filtered projects.
         $granteesIds = ProjectGrantees::whereIn('project_id', $totalEntriesIds)
+            ->orderByDesc('id')
             ->pluck('grantee_id')
             ->unique()
             ->values()

@@ -1501,6 +1501,8 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                             <option value="">Select sort</option>
                             <option value="1">Name ASC</option>
                             <option value="2">Name DESC</option>
+                            <option value="3">Date ASC</option>
+                            <option value="4">Date DESC</option>
                         </select>
                     </div>';
         }
@@ -2269,7 +2271,7 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
         $collection_type_id = 3;
         $show_all_entries = 1;
         $entries_expired = '';
-        $entries_order = 1;
+        $entries_order = 4;
     }
 
     if ($entries_selection == 1 && @count($custom_entries_id) > 0) {
@@ -2670,6 +2672,14 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
         {
             $query->orderBy('project_title', 'desc');
         }
+        else if ($collection_type_id == 3 && $sort == 3)  //event name desc
+        {
+            $query->orderBy('id', 'asc');
+        }
+        else if ($collection_type_id == 3 && $sort == 4)  //event name desc
+        {
+            $query->orderBy('id', 'desc');
+        }
 
         //Grantees Sort
         if ($collection_type_id == 4 && $sort == 1) //event name asc
@@ -2733,7 +2743,8 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
         {
             $query->orderBy('external_date', 'desc');
         }
-    } else {
+    } 
+    else {
         if ($entries_order == 1) //event name asc
         {
             if ($collection_type_id == 1) {
@@ -2806,6 +2817,9 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
             if ($collection_type_id == 2) {
                 $query->orderBy('program_start_date', 'asc');
             }
+            if ($collection_type_id == 3) {
+                $query->orderBy('id', 'asc');
+            }
             if ($collection_type_id == 6) {
                 $query->orderBy('resource_date', 'asc');
             }
@@ -2822,6 +2836,9 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
             }
             if ($collection_type_id == 2) {
                 $query->orderBy('program_start_date', 'desc');
+            }
+            if ($collection_type_id == 3) {
+                $query->orderBy('id', 'desc');
             }
             if ($collection_type_id == 6) {
                 $query->orderBy('resource_date', 'desc');
