@@ -2844,14 +2844,17 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
         // total before pagination
         $totalEntries = (clone $query)->count();
 
+        // all ids before pagination
+        $totalEntriesIds = (clone $query)->pluck('id');
+
         $page = max((int)($filters['page'] ?? 1), 1);
         $perPage = 12;
         $offset = ($page - 1) * $perPage;
         $entries = $query->offset($offset)->limit($perPage)->get();
 
-
         return [
-            'totalEntries' => $totalEntries,
+            'totalEntriesIds'=>$totalEntriesIds,
+            'totalEntries'=>$totalEntries,
             'entries' => $entries,
         ];
     } else {

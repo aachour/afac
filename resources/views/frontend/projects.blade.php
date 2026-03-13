@@ -13,6 +13,7 @@
 @section('content')
 
     <div class="collection">
+
         <!--Filter-->
         <div class="filters" style="">
             <div class="filter">
@@ -60,19 +61,17 @@
             <div class="clear"></div>
         </div>
 
-        <div id="entries"></div>
-        <div class="mt-5 text-center d-none" id="loader"><div class="loader"></div></div>
+        <div id="entries_projects"></div>
+        <div class="mt-5 text-center d-none" id="loader_projects"><div class="loader"></div></div>
 
     </div>
-
-    
 
     <script>
 
         function getFilteredEntries(filters=""){
             console.log(filters);
-            $("#entries").empty();
-            $("#loader").removeClass("d-none");
+            $("#entries_projects").empty();
+            $("#loader_projects").removeClass("d-none");
             $.ajax({
                 url: "{{ route('get.projects')}}",
                 method: "POST",
@@ -80,8 +79,8 @@
                     filters: filters,
                 },
                 success: function(response) {
-                    $("#loader").addClass("d-none");
-                    $("#entries").html(response);
+                    $("#loader_projects").addClass("d-none");
+                    $("#entries_projects").html(response);
                 },
                 error: function(xhr) {
                     if(xhr.responseJSON && xhr.responseJSON.errors){
@@ -145,7 +144,7 @@
                 getFilteredEntries(filters);
             });
 
-            $('#entries').on('click', '.page-link', function () {
+            $('#entries_projects').on('click', '.page-link-1', function () {
                 var page=$(this).attr("data-page");
                 var filters = {
                     project_country: project_country,
@@ -158,7 +157,6 @@
                 getFilteredEntries(filters);
                 
             });
-
 
         });
 

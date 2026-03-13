@@ -116,7 +116,8 @@ class ProjectsController extends Controller
         $page= $filters["page"] ?? 1;
 
         $data=buildEntriesQuery("",$filters,[]);
-
+        
+        $totalEntriesIds = $data['totalEntriesIds'] ?? collect();
         $totalEntries = $data['totalEntries'] ?? '0';
         $entries = $data['entries'] ?? collect();
 
@@ -126,7 +127,7 @@ class ProjectsController extends Controller
         //Get all projects numbers
         $totalProjects=Entries::WHERE('type_id','3')->WHERE('published','1')->WHERENULL('deleted_at')->count();
         
-        $html='<div class="medium black mt-4">You are viewing <u class="medium">'.$totalEntries.'</u> of the <u class="medium">'.$totalProjects.'</u> initiatives that Afac has supported.</div>';
+        $html='<div id="projects_title" class="big black mt-4">You are viewing <u class="big">'.$totalEntries.'</u> of the <u class="big">'.$totalProjects.'</u> initiatives that Afac has supported.</div>';        
 
         $html.='<div class="mt-3 toggleContainer" >
             <label class="pill-toggle">
@@ -139,7 +140,6 @@ class ProjectsController extends Controller
         </div>';
         
         $html.='<div id="projects">';
-            $projectIds=[];
             if(count($entries)>0)
             {
 
@@ -162,8 +162,6 @@ class ProjectsController extends Controller
                     
                     foreach($entries as $key=>$entry)
                     {
-
-                        $projectIds[]=$entry->id;
 
                         $image_path = asset('frontend/images/default-image.png');
                         if (!empty($entry->image)) {
@@ -227,99 +225,208 @@ class ProjectsController extends Controller
             }
 
             // Pagination links
-            $html .= '<div class="mt-5 pagination-wrapper">
+            $html .= '<div class="mt-5 pagination-wrapper pagination-wrapper-1">
                 <div class="pagination">
-                    <span class="nav-btn prev disabled">&larr;</span>
+                    <span class="nav-btn prev prev-1 disabled">&larr;</span>
                     <div class="pages" style="display:flex; gap:8px;">';
                         for ($i = 1; $i <= $totalPages; $i++) {
-                            $html .= '<a href="javascript:void(0)" class="page-link page-item' . ($i == $page ? ' active' : '') . '" data-page="' . $i . '">' . $i . '</a>';
+                            $html .= '<a href="javascript:void(0)" class="page-link page-link-1 page-item' . ($i == $page ? ' active' : '') . '" data-page="' . $i . '">' . $i . '</a>';
                         }
                     $html .= '</div>
-                    <span class="nav-btn next">&rarr;</span>
+                    <span class="nav-btn next next-1">&rarr;</span>
+                </div>
+            </div>
+
+        </div>';
+        
+        //get all grantees related to filtered projects.
+        $granteesIds = ProjectGrantees::whereIn('project_id', $totalEntriesIds)
+            ->pluck('grantee_id')
+            ->unique()
+            ->values()
+            ->toArray();
+
+        $html.='<div class="d-none" id="grantees">
+            
+            <div id="entries_grantees"></div>
+            <div class="mt-5 text-center d-none" id="loader_grantees"><div class="loader"></div></div>';
+
+            // Pagination links
+            $limitEntries = 12;
+            $totalGrantees=count($granteesIds);
+            $totalPages = ceil($totalGrantees / $limitEntries);
+
+            $html .= '<div class="mt-5 pagination-wrapper pagination-wrapper-2" id="pagination_grantees">
+                <div class="pagination">
+                    <span class="nav-btn prev prev-2 disabled">&larr;</span>
+                    <div class="pages" style="display:flex; gap:8px;">';
+                        for ($i = 1; $i <= $totalPages; $i++) { 
+                            $html .= '<a href="javascript:void(0)" class="page-link page-link-2 page-item ' . ($i == 1 ? ' active' : '') . '" data-page="' . $i . '">' . $i . '</a>';
+                        }
+                    $html .= '</div>
+                    <span class="nav-btn next next-2">&rarr;</span>
                 </div>
             </div>
 
         </div>';
 
-        $html .= "<script>
-            $(document).ready(function () {
-                var \$wrapper = $('.collection .pagination-wrapper');
-                var \$links = \$wrapper.find('.page-link');
-                var totalPages = \$links.length;
-
-                function getActivePage() {
-                    return parseInt(\$wrapper.find('.page-link.active').data('page')) || 1;
-                }
-
-                function setActivePage(page) {
-                    \$links.removeClass('active');
-                    \$wrapper.find('.page-link[data-page=\"' + page + '\"]').addClass('active');
-                }
-
-                function showPagesFrom(page) {
-                    \$links.hide();
-
-                    for (var i = page; i <= page + 2; i++) {
-                        \$wrapper.find('.page-link[data-page=\"' + i + '\"]').show();
+        //get grantees
+        $html.='<script>
+            function getGrantees(page){
+                $("#entries_grantees").empty();
+                $("#loader_grantees").removeClass("d-none");
+                $("#pagination_grantees").addClass("d-none");
+                $.ajax({
+                    url: "'.route('get.grantees').'",
+                    method: "POST",
+                    data: {
+                        page: page,
+                        granteesIds: '.json_encode($granteesIds).',
+                    },
+                    success: function(response) {
+                        $("#loader_grantees").addClass("d-none");
+                        $("#pagination_grantees").removeClass("d-none");
+                        $("#entries_grantees").html(response);
+                    },
+                    error: function(xhr) {
+                        if(xhr.responseJSON && xhr.responseJSON.errors){
+                            alert(JSON.stringify(xhr.responseJSON.errors));
+                        }
                     }
-
-                    if (page <= 1) {
-                        \$wrapper.find('.prev').addClass('disabled');
-                    } else {
-                        \$wrapper.find('.prev').removeClass('disabled');
-                    }
-
-                    if (page + 2 >= totalPages) {
-                        \$wrapper.find('.next').addClass('disabled');
-                    } else {
-                        \$wrapper.find('.next').removeClass('disabled');
-                    }
-                }
-
-                var visibleStartPage = getActivePage();
-                showPagesFrom(visibleStartPage);
-
-                \$wrapper.find('.next').on('click', function () {
-                    if ($(this).hasClass('disabled')) return;
-
-                    visibleStartPage += 3;
-
-                    if (visibleStartPage > totalPages) {
-                        visibleStartPage = totalPages;
-                    }
-
-                    showPagesFrom(visibleStartPage);
                 });
+            }
 
-                \$wrapper.find('.prev').on('click', function () {
-                    if ($(this).hasClass('disabled')) return;
+            $(document).ready(function(){
+                getGrantees(1);
 
-                    visibleStartPage -= 3;
-
-                    if (visibleStartPage < 1) {
-                        visibleStartPage = 1;
-                    }
-
-                    showPagesFrom(visibleStartPage);
+                $("#grantees").on("click", ".page-link-2", function () {
+                    var page=$(this).attr("data-page"); 
+                    getGrantees(page);
                 });
+                
+            });
+        </script>';
 
-                \$wrapper.find('.page-link').on('click', function () {
-                    var page = parseInt($(this).data('page'));
-
-                    setActivePage(page);
-                    visibleStartPage = page;
-                    showPagesFrom(visibleStartPage);
+        
+        //Hide show grantees
+        $html.='<script>
+            $(document).ready(function(){
+                $("#granteesToggle").on("change", function () { 
+                    if ($(this).is(":checked")){
+                        $("#grantees").removeClass("d-none");
+                        $("#projects").addClass("d-none");
+                    } 
+                    else{
+                        $("#grantees").addClass("d-none");
+                        $("#projects").removeClass("d-none");
+                    }
                 });
             });
+        </script>';
+
+
+        //Pagination for both projects and grantees
+        $html .= "<script>
+            $(document).ready(function () {
+
+                function initPagination(wrapperSelector, linkSelector, prevSelector, nextSelector) {
+                    var \$wrapper = $(wrapperSelector);
+                    var \$links = \$wrapper.find(linkSelector);
+                    var totalPages = \$links.length;
+
+                    function getActivePage() {
+                        return parseInt(\$wrapper.find(linkSelector + '.active').data('page')) || 1;
+                    }
+
+                    function setActivePage(page) {
+                        \$links.removeClass('active');
+                        \$wrapper.find(linkSelector + '[data-page=\"' + page + '\"]').addClass('active');
+                    }
+
+                    function showPagesFrom(page) {
+                        \$links.hide();
+
+                        for (var i = page; i <= page + 2; i++) {
+                            \$wrapper.find(linkSelector + '[data-page=\"' + i + '\"]').show();
+                        }
+
+                        if (page <= 1) {
+                            \$wrapper.find(prevSelector).addClass('disabled');
+                        } else {
+                            \$wrapper.find(prevSelector).removeClass('disabled');
+                        }
+
+                        if (page + 2 >= totalPages) {
+                            \$wrapper.find(nextSelector).addClass('disabled');
+                        } else {
+                            \$wrapper.find(nextSelector).removeClass('disabled');
+                        }
+                    }
+
+                    var visibleStartPage = getActivePage();
+                    showPagesFrom(visibleStartPage);
+
+                    \$wrapper.find(nextSelector).on('click', function () {
+                        if ($(this).hasClass('disabled')) return;
+
+                        visibleStartPage += 3;
+
+                        if (visibleStartPage > totalPages) {
+                            visibleStartPage = totalPages;
+                        }
+
+                        showPagesFrom(visibleStartPage);
+                    });
+
+                    \$wrapper.find(prevSelector).on('click', function () {
+                        if ($(this).hasClass('disabled')) return;
+
+                        visibleStartPage -= 3;
+
+                        if (visibleStartPage < 1) {
+                            visibleStartPage = 1;
+                        }
+
+                        showPagesFrom(visibleStartPage);
+                    });
+
+                    \$wrapper.find(linkSelector).on('click', function () {
+                        var page = parseInt($(this).data('page'));
+                        setActivePage(page);
+                        visibleStartPage = page;
+                        showPagesFrom(visibleStartPage);
+                    });
+                }
+
+                initPagination('.pagination-wrapper-1', '.page-link-1', '.prev-1', '.next-1');
+                initPagination('.pagination-wrapper-2', '.page-link-2', '.prev-2', '.next-2');
+
+            });
         </script>";
-            
 
-        //get all grantees related to collection of type projects.
+        return $html;
 
-        $granteeIds=ProjectGrantees::WHEREIN('project_id',$projectIds)->pluck('grantee_id')->toArray();
-        $grantees=Entries::WHERE('published',1)->WHEREIN('id',$granteeIds)->get();
+    }
+
+    public function getGrantees(Request $request){
+
+        $page = $request->page;
+        
+        $granteesIds = $request->input('granteesIds', []);
+
+        $perPage = 12;
+        $offset = ($page - 1) * $perPage;
+
+        $tmpGranteesIds = array_slice($granteesIds, $offset, $perPage);
+
+        $grantees=Entries::WHEREIN('id',$tmpGranteesIds)->WHERE('published','1')->WHERENULL('deleted_at')->get();
+
+        $title_position='top:15px;';
+        $labels_position='bottom:15px;';
+
+        $html="";
         if($grantees){
-            $html.='<div class="collection d-none" id="projectsGrantees" style="padding:0px;">
+            $html.='<div class="collection" style="padding:0px;">
                 <div class="entries">';
                             
                     $entries_count=0;
@@ -392,24 +499,12 @@ class ProjectsController extends Controller
                 </div>
             </div>';
         }
-            
-        $html.='<script>
-            $(document).ready(function(){
-                $("#granteesToggle").on("change", function () { 
-                    if ($(this).is(":checked")){
-                        $("#projectsGrantees").removeClass("d-none");
-                        $("#projects").addClass("d-none");
-                    } 
-                    else{
-                        $("#projectsGrantees").addClass("d-none");
-                        $("#projects").removeClass("d-none");
-                    }
-                });
-            });
-        </script>';
 
         return $html;
 
+        // print_r($granteesIds);
+
     }
+
 
 }
