@@ -49,9 +49,7 @@
                                     <a href="{{ route('pages.edit', $page->id) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
                                 @endcan
                                 @can('section-list')
-                                    @if($page->name!='Projects')
                                     <a href="{{ route('sections', $page->id) }}" class="text-body edit-user-button"><i class="ti ti-news ti-sm"></i></a>
-                                    @endif
                                 @endcan
                                 @can('page-delete')
                                     @if($page->name!='Home' && $page->name!='Projects')

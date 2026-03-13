@@ -12,6 +12,8 @@
 
 @section('content')
 
+    {!! $pageHTML !!}
+
     <div class="collection">
 
         <!--Filter-->

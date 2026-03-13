@@ -105,7 +105,7 @@ function ViewEntryData($entry_id, $language = 'EN')
 
         $html .= '</div>';
 
-        //show at a glance for Supported Project & Grantee. 
+        //show at a glance for Project & Grantee
         if ($entry->type_id == 3 || $entry->type_id == 4 ) {
             $html .= '<div class="fullContainer mt-5">
                 <div class="centerContainer">
@@ -151,6 +151,7 @@ function ViewEntryData($entry_id, $language = 'EN')
             </div>';
         }
 
+        //show text for Project, Grantee & Juror
         if ($entry->type_id == 3) {
             $html .= '<div class="fullContainer mt-5">
                 <div class="centerContainer">
