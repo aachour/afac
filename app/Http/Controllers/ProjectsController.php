@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Pages;
+use App\Models\PageSections;
 use App\Models\Entries;
 use App\Models\ProgramYears;
 use App\Models\ProjectCategories;
 use App\Models\Countries;
 use App\Models\ProjectGrantees;
+
 
 class ProjectsController extends Controller
 {
@@ -23,6 +25,20 @@ class ProjectsController extends Controller
         {
             $headerBgCode=$page->headerBgColor->code;
             $footerBgCode=$page->footerBgColor->code;
+        }
+
+        //get all sections 
+        $pageSections=PageSections::WHERE('page_id',$page->id)->ORDERBY('list_order','ASC')->get();
+
+        $pageHTML='';
+
+        foreach($pageSections as $pageSection){
+            if($pageSection->section_id){
+                $pageHTML.= ViewSection($pageSection->section_id,'EN');  
+            }
+            else if($pageSection->collection_id){
+                $pageHTML.= ViewCollection($pageSection->collection_id,'EN');
+            }
         }
 
         //get all filters
@@ -101,6 +117,7 @@ class ProjectsController extends Controller
         return view('frontend.projects', [
             'headerBgCode'=>$headerBgCode,
             'footerBgCode'=>$footerBgCode,
+            'pageHTML'=>$pageHTML,
             'project_categories' => $project_categories,
             'project_countries' => $project_countries,
             'project_programs' => $project_programs,
