@@ -58,7 +58,14 @@
     height:100%;
     padding:15px 2.5%;
     background:#D2F8FE;
-    z-index:999;
+    z-index:99999999;
+}
+@media(max-width:900px){
+    .menu{
+        right:-100%;
+        width:100%;
+        height:100%;
+    }
 }
 .menu .closeBtn{
     float:right;
