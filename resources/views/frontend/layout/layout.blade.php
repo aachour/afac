@@ -44,10 +44,37 @@
                     <img src="{{asset('frontend/images/logo.svg')}}" width="100px" />
                 </a>
             </div>
-            <div class="topSpacerSmall menu tiny ABCDiatypeMedium">Menu</div>
-            <div class="topSpacerSmall lang rightSpacerBig tiny ABCDiatypeMedium">EN/AR</div>
+            <div class="topSpacerSmall menuBtn tiny ABCDiatypeMedium clickable" id="menuBtn">Menu</div>
+            <div class="topSpacerSmall langBtn rightSpacerBig tiny ABCDiatypeMedium">EN/AR</div>
             <div class="clear"></div>
         </div>
+    </div>
+
+    <!--Menu-->
+    <div class="menu" id="menu">
+        <div class="topSpacerSmall closeBtn tiny ABCDiatypeMedium clickable" id="closeBtn">Close</div>
+        
+        <div class="mt-5">
+            <img src="{{asset('frontend/images/circle-shape.svg')}}" width="40px" class="mt-3" />
+            <a href="{{url('/')}}" class="bigger leftSpacer">Home</a>
+        </div>
+        <div class="mt-3">
+            <img src="{{asset('frontend/images/diamond-shape.svg')}}" width="40px" class="mt-3" />
+            <a href="{{url('/projects')}}" class="bigger leftSpacer">Supported Projects</a>
+        </div>
+        
+        @php 
+            $pages=getMenuPages(); 
+            $shapes=['square-shape','circle-shape','diamond-shape'];
+        @endphp
+        
+        @foreach($pages as $key=>$page)
+            <div class="mt-3">
+                <img src="{{asset('frontend/images/'.$shapes[$key % count($shapes)].'.svg')}}" width="40px" class="mt-3" />
+                <a href="{{url('page',['id'=>$page->id,'name'=>$page->name])}}" class="bigger leftSpacer">{{$page->name}}</a>
+            </div>
+        @endforeach
+        
     </div>
     
     <!--Page Content-->
@@ -136,6 +163,18 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         }); 
+
+        $(document).ready(function(){
+            
+            $("#menuBtn").click(function(){
+                $('#menu').animate({ right: '0px' }, 600); 
+            });
+
+            $("#closeBtn").click(function(){
+                $('#menu').animate({ right: '-50%' }, 600);
+            });
+
+        });
 
     </script>
 
