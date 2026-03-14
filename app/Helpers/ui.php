@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Pages;
 use App\Models\Collections;
 use App\Models\CollectionEntries;
 use App\Models\Entries;
@@ -2930,4 +2931,12 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
         $entries = $query->get();
         return $entries;
     }
+}
+
+
+function getMenuPages(){
+
+    $pages=Pages::WHERE(['in_menu'=>'1','published'=>'1'])->whereNotIn('name', ['Home', 'Projects'])->get();
+    return $pages;
+
 }
