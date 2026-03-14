@@ -58,7 +58,7 @@
     height:100%;
     padding:15px 2.5%;
     background:#D2F8FE;
-    z-index:999;
+    z-index:99999999;
 }
 .menu .closeBtn{
     float:right;
