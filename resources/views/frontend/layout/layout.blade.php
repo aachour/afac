@@ -44,15 +44,15 @@
                     <img src="{{asset('frontend/images/logo.svg')}}" width="100px" />
                 </a>
             </div>
-            <div class="topSpacerSmall menuBtn tiny ABCDiatypeMedium clickable" id="menuBtn">Menu</div>
-            <div class="topSpacerSmall langBtn rightSpacerBig tiny ABCDiatypeMedium">EN/AR</div>
+            <div class="topSpacer menuBtn tiny ABCDiatypeMedium clickable" id="menuBtn">Menu</div>
+            <div class="topSpacer langBtn rightSpacerBig tiny ABCDiatypeMedium">EN/AR</div>
             <div class="clear"></div>
         </div>
     </div>
 
     <!--Menu-->
     <div class="menu" id="menu">
-        <div class="topSpacerSmall closeBtn tiny ABCDiatypeMedium clickable" id="closeBtn">Close</div>
+        <div class="topSpacer closeBtn tiny ABCDiatypeMedium clickable" id="closeBtn">Close</div>
         
         <div class="mt-5">
             <img src="{{asset('frontend/images/circle-shape.svg')}}" width="40px" class="mt-3" />
