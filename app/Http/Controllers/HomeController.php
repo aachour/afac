@@ -413,32 +413,30 @@ class HomeController extends Controller
                         </div>';
                         
                         //mobile view
-                        $html.='<div class="entries mobileOnly">';
+                        $html.='<div class="mobileOnly">';
                             if( ($show_name==1 || $show_view_all==1) && $featured_width=='74.3%' && $key==0){
                                 if($show_name==1){
-                                    $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
+                                    $html.='<div class="black big ABCDiatypeMedium titleDescription">'.$collection->name.'</div>';
                                 }
                                 if($show_view_all==1){
-                                    $html.='<div class="topSpacerSmaller">
+                                    $html.='<div class="viewAll topSpacerSmaller">
                                         <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:8px;"></a>
                                     </div>';
                                 }
+                                $html.='<div class="clear"></div>';
                             }
                             $html.='
                             <a href="'.$entry_href.'" target="'.$entry_target.'">
-                                <div class="featured_entry_mobile" style="background:'.$featured_image_bgColor.';">
+                                <div class="featured_entry_mobile mb-4" style="background:'.$featured_image_bgColor.';">
                                     <img src="'.$image_path.'" width="100%" />
                                     <div class="description">
-                                        <div class="title_or_labels medium white ABCDiatypeMedium" style="'.$title_position.'">'.$entry_title.'</div>';
+                                        <div class="medium white ABCDiatypeMedium">'.$entry_title.'</div>';
                                         if($with_label==1)
                                         {
-                                            $html.='<div class="title_or_labels" style="'.$labels_position.'">
-                                                <div class="label micro black ABCDiatypeMedium">'.$entries[0]->type->name.'</div>';
-                                                $labels=getEntryLabels($entry);
-                                                $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">';
-                                                    $html.=showEntryLabels($collection_type_id,$labels); 
-                                                    $html.='<div class="clear">&nbsp;</div>
-                                                </div>
+                                            $labels=getEntryLabels($entry);
+                                            $html.='<div class="title_or_labels threeQuartersText">';
+                                                $html.=showEntryLabels($collection_type_id,$labels); 
+                                                $html.='<div class="clear">&nbsp;</div>
                                             </div>';
                                         }
                                     $html.='</div>
@@ -477,8 +475,10 @@ class HomeController extends Controller
                         {
 
                             $html.='<style>
-                                .sliderCollection .entries .entry:nth-child(4n){
-                                    margin-right:1.2% !important;
+                                @media(min-width:900px){
+                                    .sliderCollection .entries .entry:nth-child(4n){
+                                        margin-right:1.2% !important;
+                                    }
                                 }
                             </style>';
 
@@ -507,7 +507,7 @@ class HomeController extends Controller
                             $entry_href=$entryDetails["entry_href"];
                             $entry_target=$entryDetails["entry_target"];
 
-                            $html.='<div class="swiper-slide entry">';
+                            $html.='<div class="swiper-slide entry ' . ($entries_layout == 2 ? ' slideEntry' : '') . '">';
 
                                 $labels=getEntryLabels($entry);
 
@@ -594,9 +594,9 @@ class HomeController extends Controller
                         speed: 800,
                         breakpoints: {
                             // when window width is >= 320px
-                            576: {
-                                slidesPerView: 0.85,
-                                spaceBetween: 0
+                            320: {
+                                slidesPerView: 1.1,
+                                spaceBetween: 10
                             },
                             // when window width is >= 992px
                             900: {

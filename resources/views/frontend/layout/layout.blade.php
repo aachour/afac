@@ -78,7 +78,7 @@
     </div>
     
     <!--Page Content-->
-    <div class="pageContent mt-5">
+    <div class="pageContent mt-2 mt-lg-3">
         @yield('content')
     </div>
 
@@ -171,7 +171,7 @@
             });
 
             $("#closeBtn").click(function(){
-                $('#menu').animate({ right: '-50%' }, 600);
+                $('#menu').animate({ right: '-100%' }, 600);
             });
 
         });
