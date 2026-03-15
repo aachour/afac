@@ -11,6 +11,9 @@
     .topSpacerSmall{
         margin-top:10px;
     }
+    .topSpacerSmaller{
+        margin-top:5px;
+    }
     .leftSpacer{
         margin-left:20px;
     }
@@ -54,22 +57,22 @@
 
 @media(max-width:900px){
     .bigger{
-        font-size:5.5vw !important;
+        font-size:7vw !important;
     }
     .big , h1{
-        font-size:5vw !important;
+        font-size:6vw !important;
     }
     .medium , h2{
-        font-size:4vw !important;
+        font-size:5vw !important;
     }
     .small , h3{
-        font-size:3.5vw !important;
+        font-size:4vw !important;
     }
     .tiny , p , li{
         font-size:3.5vw !important;
     }
     .micro , ol{
-        font-size:2vw !important;
+        font-size:2.7vw !important;
     }
 }
 @media(min-width:900px){
