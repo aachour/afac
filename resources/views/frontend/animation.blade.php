@@ -67,6 +67,6 @@
     </div>
 
     <div class="w-100 text-center mb-5">
-        @include('components.animated-logo')
+        @include('components.animated-logo', ['logoElements' => $logoElements ?? \App\Models\Logo::orderBy('id')->get()])
     </div>
 @endsection
