@@ -97,13 +97,13 @@
         <div class="centerContainer">
             <div class="row">
 
-                <div class="col-lg-3 col-12">
+                <div class="col-lg-3 col-12 mb-4 mb-md-0">
                     <img src="{{asset('frontend/images/logo.svg')}}" width="60%" />
                 </div>
 
-                <div class="col-lg-3 col-12">
+                <div class="col-lg-3 col-12 mb-4 mb-md-0">
                     <div class="small black ABCDiatypeMedium">About</div>
-                    <div class="topSpacerSmaller">
+                    <div class="mt-2">
                         <a href="#" class="tiny black">Mission & Vision</a>
                     </div>
                     <div class="">
@@ -114,9 +114,9 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-12">
+                <div class="col-lg-3 col-12 mb-4 mb-md-0">
                     <div class="small black ABCDiatypeMedium">Get in Touch</div>
-                    <div class="topSpacerSmaller">
+                    <div class="mt-2">
                         <a href="#" class="tiny black">Contact</a>
                     </div>
                     <div class="">
@@ -136,9 +136,9 @@
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-12">
+                <div class="col-lg-3 col-12 mb-4 mb-md-0">
                     <div class="small black ABCDiatypeMedium">Get Involved</div>
-                    <div class="topSpacerSmaller">
+                    <div class="mt-2">
                         <a href="#" class="tiny black">Support Us</a>
                     </div>
                     <div class="">
