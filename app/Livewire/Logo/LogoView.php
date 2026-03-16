@@ -64,7 +64,7 @@ class LogoView extends Component
 
         $this->closeModal();
         $this->loadLogo();
-        return to_route('logo')->with('success', $message);
+        return to_route('logo.elements')->with('success', $message);
     }
 
     public function closeModal()
@@ -83,7 +83,7 @@ class LogoView extends Component
 
         $logo->save();
 
-        return to_route('logo')->with('success', 'Element '.$text_action.' successfully!');
+        return to_route('logo.elements')->with('success', 'Element '.$text_action.' successfully!');
     }
 
     public function render()
