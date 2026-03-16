@@ -96,6 +96,29 @@
     float:right;
 }
 
+@media(max-width:900px){
+    .filters{
+        padding:20px 0px;
+        overflow:hidden;
+    }
+
+    .filters .filter{
+        width:100%;
+        margin-bottom:10px;
+    }
+    .filters .filter select , .filters .filter input{
+        width:100% !important;
+    }
+
+    .filters .sort{
+        width:100%;
+        margin-bottom:10px;
+    }
+    .filters .sort select {
+        width:100% !important;
+    }
+}
+
 .collection{
     padding:30px 2.5%;
     overflow:hidden;
