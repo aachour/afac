@@ -10,9 +10,7 @@ use App\Models\PageSections;
 use App\Models\SectionColumns;
 use App\Models\ColumnGeneral;
 
-
-
-class ProjectsTextSeeder extends Seeder
+class GranteesTextSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -21,22 +19,22 @@ class ProjectsTextSeeder extends Seeder
     {
         //
 
-        $projects=Entries::WHERE('type_id','3')->ORDERBY('id','ASC')->get();
-        foreach($projects as $project){
-            $projectId=$project->id;
-            $text=$project->project_text;
-            $text_arabic=$project->project_text_arabic;
+        $grantees=Entries::WHERE('type_id','4')->ORDERBY('id','ASC')->get();
+        foreach($grantees as $grantee){
+            $granteeId=$grantee->id;
+            $text=$grantee->grantee_text;
+            $text_arabic=$grantee->grantee_text_arabic;
 
             //create new section and page section
             $section = Sections::create([
-                'entry_id' => $projectId,
-                'name' => 'About the project',
+                'entry_id' => $granteeId,
+                'name' => 'About the Grantee',
             ]);
 
             $sectionId = $section->id;
 
             $pageSection=PageSections::create([
-                'entry_id' => $projectId,
+                'entry_id' => $granteeId,
                 'section_id' => $sectionId,
                 'list_order' => '1',
             ]);
@@ -57,8 +55,8 @@ class ProjectsTextSeeder extends Seeder
             ColumnGeneral::create([
                 'section_column_id' => $column1Id,
                 'input_type_id' => '1',
-                'title' => 'About the project',
-                'title_arabic' => 'عن المشروع',
+                'title' => 'About the Grantee',
+                'title_arabic' => 'عن الحاصل على المنحة',
             ]);
 
             //Create second column of type general inputs & add text
@@ -79,5 +77,6 @@ class ProjectsTextSeeder extends Seeder
             ]);
             
         }
+
     }
 }
