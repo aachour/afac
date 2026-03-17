@@ -43,7 +43,13 @@
                             </td>
                             <td>
                                 @can('page-view')
-                                    <a href="{{ route('page.view', ['id'=>$page->id , 'name'=>$page->name]) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    @if($page->name!='Home') 
+                                        <a href="{{ route('/') }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    @elseif($page->name!='Projects')
+                                        <a href="{{ route('/projects', ['id'=>$page->id , 'name'=>$page->name]) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    @else
+                                        <a href="{{ route('page.view', ['id'=>$page->id , 'name'=>$page->name]) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    @endif
                                 @endcan
                                 @can('page-edit')
                                     <a href="{{ route('pages.edit', $page->id) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
