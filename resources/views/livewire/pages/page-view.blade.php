@@ -44,9 +44,9 @@
                             <td>
                                 @can('page-view')
                                     @if($page->name!='Home') 
-                                        <a href="{{ route('/') }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                        <a href="{{ url('/') }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
                                     @elseif($page->name!='Projects')
-                                        <a href="{{ route('/projects', ['id'=>$page->id , 'name'=>$page->name]) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                        <a href="{{ url('/projects') }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
                                     @else
                                         <a href="{{ route('page.view', ['id'=>$page->id , 'name'=>$page->name]) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
                                     @endif
