@@ -153,7 +153,7 @@ function ViewEntryData($entry_id, $language = 'EN')
         }
 
         //show text for Project, Grantee & Juror
-        if ($entry->type_id == 3) {
+        /*if ($entry->type_id == 3) {
             $html .= '<div class="fullContainer mt-5">
                 <div class="centerContainer">
                     <div class="row">
@@ -203,7 +203,7 @@ function ViewEntryData($entry_id, $language = 'EN')
                     </div>
                 </div>
             </div>';
-        }
+        }*/
 
 
         return $html;
@@ -440,7 +440,7 @@ function ViewColumnGeneral($section_column_id, $language = 'EN')
             } else if ($input_type_id == 3) {   //gallery
                 $galleryImages = $generalInput->gallery->images;
                 if (count($galleryImages) == 1) { //single image
-                    $htmlColumn .= '<div class="topSpacer"><img src=' . asset("storage/" . $galleryImages[0]->image_path) . ' /></div>';
+                    $htmlColumn .= '<div class="topSpacer"><img src=' . asset("storage/" . $galleryImages[0]->image_path) . ' width="100%" /></div>';
                     $htmlColumn .= '<div class="topSpacerSmaller tiny black">' . $galleryImages[0]->caption . '</div>';
                 } else { //gallery images
                     $htmlColumn .= '<div class="topSpacer swiper gallery" id="swiper-gallery-' . $section_column_id . '">
