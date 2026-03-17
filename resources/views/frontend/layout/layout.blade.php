@@ -78,7 +78,7 @@
     </div>
     
     <!--Page Content-->
-    <div class="pageContent mt-2 mt-lg-3">
+    <div class="pageContent">
         @yield('content')
     </div>
 
