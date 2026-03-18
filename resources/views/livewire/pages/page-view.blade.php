@@ -13,7 +13,7 @@
                 <table class="table dataTable border-top" id="table">
                     <thead>
                     <tr>
-                        <th>Id</th>
+                        <!-- <th>Id</th> -->
                         <th>Name</th>
                         <th>In Menu</th>
                         <th>Published</th>
@@ -23,7 +23,7 @@
                     <tbody>
                     @foreach($pages as $page)
                         <tr>
-                            <td>{{ $page->id }}</td>
+                            <!-- <td>{{ $page->id }}</td> -->
                             <td>{{ $page->name }}</td>
                             <td>
                                 <button 
@@ -43,7 +43,13 @@
                             </td>
                             <td>
                                 @can('page-view')
-                                    <a href="{{ route('page.view', ['id'=>$page->id , 'name'=>$page->name]) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    @if($page->name=='Home') 
+                                        <a href="{{ url('/') }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    @elseif($page->name=='Projects')
+                                        <a href="{{ url('/projects') }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    @else
+                                        <a href="{{ route('page.view', ['id'=>$page->id , 'name'=>$page->name]) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                    @endif
                                 @endcan
                                 @can('page-edit')
                                     <a href="{{ route('pages.edit', $page->id) }}" class="text-body edit-user-button"><i class="ti ti-edit ti-sm"></i></a>
@@ -68,6 +74,19 @@
         @script
             @include('livewire.deleteConfirm')
         @endscript
+
+        <script>
+
+            document.addEventListener('livewire:navigated', function () {
+                setTimeout(() => {
+                    if ($.fn.DataTable.isDataTable('.dataTable')) {
+                        $('.dataTable').DataTable().destroy();
+                    }
+                    
+                }, 100);
+            });
+
+        </script>
 
     </div>
 

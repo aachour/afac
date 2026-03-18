@@ -152,60 +152,6 @@ function ViewEntryData($entry_id, $language = 'EN')
             </div>';
         }
 
-        //show text for Project, Grantee & Juror
-        if ($entry->type_id == 3) {
-            $html .= '<div class="fullContainer mt-5">
-                <div class="centerContainer">
-                    <div class="row">
-
-                        <div class="col-lg-6 col-12">
-                            <div class="big black ABCDiatypeMedium">About the project</div>
-                        </div>
-
-                        <div class="col-lg-6 col-12">
-                            <div class="mt-1 smnall black">' . nl2br($entry->project_text, false) . '</div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>';
-        }
-        else if ($entry->type_id == 4) {
-            $html .= '<div class="fullContainer mt-5">
-                <div class="centerContainer">
-                    <div class="row">
-
-                        <div class="col-lg-6 col-12">
-                            <div class="big black ABCDiatypeMedium">About the Grantee </div>
-                        </div>
-
-                        <div class="col-lg-6 col-12">
-                            <div class="mt-1 smnall black">' . nl2br($entry->grantee_text, false) . '</div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>';
-        }
-        else if ($entry->type_id == 5) {
-            $html .= '<div class="fullContainer mt-5">
-                <div class="centerContainer">
-                    <div class="row">
-
-                        <div class="col-lg-6 col-12">
-                            <div class="big black ABCDiatypeMedium">Biography</div>
-                        </div>
-
-                        <div class="col-lg-6 col-12">
-                            <div class="mt-1 smnall black">' . nl2br($entry->jury_text, false) . '</div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>';
-        }
-
-
         return $html;
     }
 }
@@ -421,86 +367,85 @@ function ViewColumnGeneral($section_column_id, $language = 'EN')
 
         $htmlColumn .= '<div class="row ' . $textAlign . '">';
 
-        if ($column->width == 1) {
-            $htmlColumn .= '<div class="col-lg-12 col-12">';
-        } elseif ($column->width == 2) {
-            $htmlColumn .= '<div class="col-lg-9 col-12">';
-        } elseif ($column->width == 3) {
-            $htmlColumn .= '<div class="col-lg-3"></div><div class="col-lg-6 col-12">';
-        }
-
-        foreach ($column->generalInputs as $generalInput) {
-
-            $input_type_id = $generalInput->input_type_id;
-
-            if ($input_type_id == 1) {   //title
-                $htmlColumn .= '<div class="topSpacerSmall big black ABCDiatypeMedium">' . $generalInput->title . '</div>';
-            } else if ($input_type_id == 2) {   //text
-                $htmlColumn .= '<div class="topSpacer small black ABCDiatype">' . $generalInput->text . '</div>';
-            } else if ($input_type_id == 3) {   //gallery
-                $galleryImages = $generalInput->gallery->images;
-                if (count($galleryImages) == 1) { //single image
-                    $htmlColumn .= '<div class="topSpacer"><img src=' . asset("storage/" . $galleryImages[0]->image_path) . ' /></div>';
-                    $htmlColumn .= '<div class="topSpacerSmaller tiny black">' . $galleryImages[0]->caption . '</div>';
-                } else { //gallery images
-                    $htmlColumn .= '<div class="topSpacer swiper gallery" id="swiper-gallery-' . $section_column_id . '">
-                                <div class="swiper-wrapper">';
-                    foreach ($galleryImages as $galleryImage) {
-                        $htmlColumn .= '<div class="swiper-slide">
-                                            <img src=' . asset("storage/" . $galleryImage->image_path) . ' width="100%" />
-                                            <div class="topSpacerSmaller tiny black">' . $galleryImage->caption . '</div>
-                                        </div>';
-                    }
-                    $htmlColumn .= '</div>
-                                <!-- Navigation Buttons -->
-                                <div class="gallery-swiper-button-next" id="gallery-swiper-button-next-' . $section_column_id . '"></div>
-                                <div class="gallery-swiper-button-prev" id="gallery-swiper-button-prev-' . $section_column_id . '"></div>
-                            </div>';
-
-                    //add swiper JS 
-                    $htmlColumn .= '<script> 
-                                const swiper' . $section_column_id . ' = new Swiper("#swiper-gallery-' . $section_column_id . '", {
-                                    //loop: true,
-                                    grid: {
-                                        rows: 1           
-                                    },
-                                    navigation: {
-                                        nextEl: "#gallery-swiper-button-next-' . $section_column_id . '",
-                                        prevEl: "#gallery-swiper-button-prev-' . $section_column_id . '",
-                                    },
-                                    effect: "slide",
-                                    speed: 800,
-                                    breakpoints: {
-                                        // when window width is >= 320px
-                                        576: {
-                                            slidesPerView: 0.85,
-                                            spaceBetween: 0
-                                        },
-                                        // when window width is >= 992px
-                                        900: {
-                                            slidesPerView: 1,
-                                            spaceBetween: 20
-                                        },
-                                    }
-                                });
-                            </script>';
-                }
-            } else if ($input_type_id == 4) {   //video
-                $htmlColumn .= '<div class="topSpacer"><iframe src="' . $generalInput->video . '" width="100%" height="400px"></iframe></div>';
-            } else if ($input_type_id == 5) {   //button
-
-                $textAlign = $generalInput->button_link == null ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
-
-                $htmlColumn .= '<div class="topSpacerBig">
-                        
-                            <a href="' . ($generalInput->button_link ?? '#') . '">' . getEntryBtnShape($generalInput->button_value, $generalInput->button_value_arabic, $generalInput->shape?->name, $generalInput->shapeHover->name, $generalInput->buttonColor->code, $generalInput->buttonHoverColor->code, $generalInput->buttonBgColor->code, $generalInput->buttonHoverBgColor->code) . '</a>
-                        </div>';
+            if ($column->width == 1) {
+                $htmlColumn .= '<div class="col-lg-12 col-12">';
+            } elseif ($column->width == 2) {
+                $htmlColumn .= '<div class="col-lg-9 col-12">';
+            } elseif ($column->width == 3) {
+                $htmlColumn .= '<div class="col-lg-3"></div><div class="col-lg-6 col-12">';
             }
-        }
 
-        $htmlColumn .= '</div>
+            foreach ($column->generalInputs as $generalInput) {
 
-            </div>';
+                $input_type_id = $generalInput->input_type_id;
+
+                if ($input_type_id == 1) {   //title
+                    $htmlColumn .= '<div class="topSpacerSmall big black ABCDiatypeMedium">' . $generalInput->title . '</div>';
+                } else if ($input_type_id == 2) {   //text
+                    $htmlColumn .= '<div class="topSpacer small black ABCDiatype">' . $generalInput->text . '</div>';
+                } else if ($input_type_id == 3) {   //gallery
+                    $galleryImages = $generalInput->gallery->images;
+                    if (count($galleryImages) == 1) { //single image
+                        $htmlColumn .= '<div class="topSpacer"><img src=' . asset("storage/" . $galleryImages[0]->image_path) . ' width="100%" /></div>';
+                        $htmlColumn .= '<div class="topSpacerSmaller tiny black">' . $galleryImages[0]->caption . '</div>';
+                    } else { //gallery images
+                        $htmlColumn .= '<div class="topSpacer swiper gallery" id="swiper-gallery-' . $section_column_id . '">
+                                    <div class="swiper-wrapper">';
+                            foreach ($galleryImages as $galleryImage) {
+                                $htmlColumn .= '<div class="swiper-slide">
+                                    <img src=' . asset("storage/" . $galleryImage->image_path) . ' width="100%" />
+                                    <div class="topSpacerSmaller tiny black">' . $galleryImage->caption . '</div>
+                                </div>';
+                            }
+                        $htmlColumn .= '</div>
+                                    <!-- Navigation Buttons -->
+                                    <div class="gallery-swiper-button-next" id="gallery-swiper-button-next-' . $section_column_id . '"></div>
+                                    <div class="gallery-swiper-button-prev" id="gallery-swiper-button-prev-' . $section_column_id . '"></div>
+                                </div>';
+
+                        //add swiper JS 
+                        $htmlColumn .= '<script> 
+                                    const swiper' . $section_column_id . ' = new Swiper("#swiper-gallery-' . $section_column_id . '", {
+                                        //loop: true,
+                                        grid: {
+                                            rows: 1           
+                                        },
+                                        navigation: {
+                                            nextEl: "#gallery-swiper-button-next-' . $section_column_id . '",
+                                            prevEl: "#gallery-swiper-button-prev-' . $section_column_id . '",
+                                        },
+                                        effect: "slide",
+                                        speed: 800,
+                                        breakpoints: {
+                                            // when window width is >= 320px
+                                            576: {
+                                                slidesPerView: 0.85,
+                                                spaceBetween: 0
+                                            },
+                                            // when window width is >= 992px
+                                            900: {
+                                                slidesPerView: 1,
+                                                spaceBetween: 20
+                                            },
+                                        }
+                                    });
+                                </script>';
+                    }
+                } else if ($input_type_id == 4) {   //video
+                    $htmlColumn .= '<div class="topSpacer"><iframe src="' . $generalInput->video . '" width="100%" height="400px"></iframe></div>';
+                } else if ($input_type_id == 5) {   //button
+
+                    $textAlign = $generalInput->button_link == null ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
+
+                    $htmlColumn .= '<div class="topSpacerBig">
+                        <a href="' . ($generalInput->button_link ?? '#') . '">' . getEntryBtnShape($generalInput->button_value, $generalInput->button_value_arabic, $generalInput->shape?->name, $generalInput->shapeHover->name, $generalInput->buttonColor->code, $generalInput->buttonHoverColor->code, $generalInput->buttonBgColor->code, $generalInput->buttonHoverBgColor->code) . '</a>
+                    </div>';
+                }
+            }
+
+            $htmlColumn .= '</div>
+
+        </div>';
     }
 
     return $htmlColumn;
