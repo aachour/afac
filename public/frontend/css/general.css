@@ -70,7 +70,26 @@ time, mark, audio, video , textarea {
     line-height: 120% !important;
     letter-spacing: -1% !important;
 	font-family: 'ABC Diatype Arabic' !important;
-	
+}
+@media(max-width:900px){
+    html, body, div, span, applet, object, iframe,
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+    a, abbr, acronym, address, big, cite, code,
+    del, dfn, em, img, ins, kbd, q, s, samp,
+    small, strike, strong, sub, sup, tt, var,
+    b, u, i, center,
+    dl, dt, dd, ol, ul, li,
+    fieldset, form, label, legend,
+    table, caption, tbody, tfoot, thead, tr, th, td,
+    article, aside, canvas, details, embed,
+    figure, figcaption, footer, header, hgroup,
+    menu, nav, output, ruby, section, summary,
+    time, mark, audio, video , textarea {
+        font-size:3.6vw !important;
+        line-height: 120% !important;
+        letter-spacing: -1% !important;
+    }
+
 }
 
 /* HTML5 display-role reset for older browsers */
