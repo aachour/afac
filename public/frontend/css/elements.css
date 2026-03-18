@@ -125,7 +125,7 @@
 }
 @media(max-width:900px){
     .collection{
-        padding:2px 2.5%;
+        padding:20px 2.5%;
         overflow:hidden;
     }
 }
@@ -139,12 +139,12 @@
 @media(max-width:900px){
     .collection .titleDescription{
         float:left;
-        width:70%;
+        width:60%;
     }  
     .collection .viewAll{
         float:right;
         text-align:right;
-        width:30%;
+        width:40%;
     }   
 }
 @media(min-width:900px){
@@ -200,6 +200,9 @@
 }
 
 @media(max-width:900px){
+    .collection .entries{
+        margin-top:20px;
+    }
     .collection .entries .entry{
         width:100% !important;
         margin-bottom:20px;
@@ -330,6 +333,14 @@
 .section{
     padding:40px 2.5%;
     overflow:hidden;
+}
+
+@media(max-width:900px){
+    .section{
+        padding:20px 2.5%;
+        overflow:hidden;
+    }
+
 }
 
 .sectionWithBorder{

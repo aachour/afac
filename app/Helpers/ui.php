@@ -58,7 +58,7 @@ function ViewEntryData($entry_id, $language = 'EN')
                     //only show when program already started
                     if ($current >= $start_timestamp && $daysLeft > 0) {
                         $arrowSvg = '<span class="entry-hero-cta-arrow-wrap"><svg class="entry-hero-cta-arrow" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.2128 23.5743L11.9388 21.3256L19.8348 13.4295H0V10.1448H19.8348L11.9388 2.26142L14.2128 0L26 11.7872L14.2128 23.5743Z" fill="currentColor"/></svg></span>';
-                        $heroContent .= '<a href="' . $entry->button_link . '" target="_blank" class="entry-hero-diamond-trigger"><span class="entry-hero-cta mt-3 black small"><span class="entry-hero-cta-text">' . $entry->button_value . '</span>' . $arrowSvg . '</span></a>';
+                        $heroContent .= '<a href="' . $entry->button_link . '" target="_blank" class="entry-hero-diamond-trigger"><span class="entry-hero-cta mt-3 black"><span class="entry-hero-cta-text small">' . $entry->button_value . '</span>' . $arrowSvg . '</span></a>';
                     }
                 }
             }
@@ -380,16 +380,16 @@ function ViewColumnGeneral($section_column_id, $language = 'EN')
                 $input_type_id = $generalInput->input_type_id;
 
                 if ($input_type_id == 1) {   //title
-                    $htmlColumn .= '<div class="topSpacerSmall big black ABCDiatypeMedium">' . $generalInput->title . '</div>';
+                    $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0 big black ABCDiatypeMedium">' . $generalInput->title . '</div>';
                 } else if ($input_type_id == 2) {   //text
-                    $htmlColumn .= '<div class="topSpacer small black ABCDiatype">' . $generalInput->text . '</div>';
+                    $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0 small black ABCDiatype">' . $generalInput->text . '</div>';
                 } else if ($input_type_id == 3) {   //gallery
                     $galleryImages = $generalInput->gallery->images;
                     if (count($galleryImages) == 1) { //single image
-                        $htmlColumn .= '<div class="topSpacer"><img src=' . asset("storage/" . $galleryImages[0]->image_path) . ' width="100%" /></div>';
-                        $htmlColumn .= '<div class="topSpacerSmaller tiny black">' . $galleryImages[0]->caption . '</div>';
+                        $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0"><img src=' . asset("storage/" . $galleryImages[0]->image_path) . ' width="100%" /></div>';
+                        $htmlColumn .= '<div class="mt-1 tiny black">' . $galleryImages[0]->caption . '</div>';
                     } else { //gallery images
-                        $htmlColumn .= '<div class="topSpacer swiper gallery" id="swiper-gallery-' . $section_column_id . '">
+                        $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0 swiper gallery" id="swiper-gallery-' . $section_column_id . '">
                                     <div class="swiper-wrapper">';
                             foreach ($galleryImages as $galleryImage) {
                                 $htmlColumn .= '<div class="swiper-slide">
@@ -432,12 +432,12 @@ function ViewColumnGeneral($section_column_id, $language = 'EN')
                                 </script>';
                     }
                 } else if ($input_type_id == 4) {   //video
-                    $htmlColumn .= '<div class="topSpacer"><iframe src="' . $generalInput->video . '" width="100%" height="400px"></iframe></div>';
+                    $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0"><iframe src="' . $generalInput->video . '" width="100%" height="400px"></iframe></div>';
                 } else if ($input_type_id == 5) {   //button
 
                     $textAlign = $generalInput->button_link == null ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
-                    $htmlColumn .= '<div class="topSpacerBig">
+                    $htmlColumn .= '<div class="mt-3 mb-3 md:mb-0">
                         <a href="' . ($generalInput->button_link ?? '#') . '">' . getEntryBtnShape($generalInput->button_value, $generalInput->button_value_arabic, $generalInput->shape?->name, $generalInput->shapeHover->name, $generalInput->buttonColor->code, $generalInput->buttonHoverColor->code, $generalInput->buttonBgColor->code, $generalInput->buttonHoverBgColor->code) . '</a>
                     </div>';
                 }
@@ -830,23 +830,23 @@ function ViewCountdown($section_column_id, $language = 'EN')
 
             $htmlColumn .= '<div class="coutdown">
                     
-                        <div class="big black ABCDiatypeMedium text-center">' . $countdown->title . '</div>
+                <div class="big black ABCDiatypeMedium text-center">' . $countdown->title . '</div>
 
-                        <div class="row mt-5 align-items-center">
-                            <div class="mt-4 col-12 col-lg-4 text-end">
-                                <div class="huge black ABCDiatypeMedium">' . $days . '</div>
-                                <div class="big black ABCDiatypeMedium">Day(s)</div>
-                            </div>
-                            <div class="mt-4 col-12 col-lg-4 text-center">
-                                <a href="' . ($countdown->button_link ?? '#') . '">' . getEntryBtnShape($countdown->button_value, $countdown->button_value_arabic, $countdown->shape?->name, $countdown->shapeHover?->name, $countdown->buttonColor->code, $countdown->buttonHoverColor->code, $countdown->buttonBgColor->code, $countdown->buttonHoverBgColor->code) . '</a>
-                            </div>
-                            <div class="mt-4 col-12 col-lg-4 text-start">
-                                <div class="huge black ABCDiatypeMedium">' . @$hours . '</div>
-                                <div class="big black ABCDiatypeMedium">Hour(s)</div>
-                            </div>
-                        </div>
-                        
-                    </div>';
+                <div class="row mt-5 align-items-center">
+                    <div class="md:mt-4 col-12 col-lg-4 text-center md:text-end">
+                        <div class="huge black ABCDiatypeMedium">' . $days . '</div>
+                        <div class="big black ABCDiatypeMedium">Day(s)</div>
+                    </div>
+                    <div class="md:mt-4 col-12 col-lg-4 text-center">
+                        <a href="' . ($countdown->button_link ?? '#') . '">' . getEntryBtnShape($countdown->button_value, $countdown->button_value_arabic, $countdown->shape?->name, $countdown->shapeHover?->name, $countdown->buttonColor->code, $countdown->buttonHoverColor->code, $countdown->buttonBgColor->code, $countdown->buttonHoverBgColor->code) . '</a>
+                    </div>
+                    <div class="md:mt-4 col-12 col-lg-4 text-center md:text-start">
+                        <div class="huge black ABCDiatypeMedium">' . @$hours . '</div>
+                        <div class="big black ABCDiatypeMedium">Hour(s)</div>
+                    </div>
+                </div>
+                
+            </div>';
         }
 
         $htmlColumn .= '</div>
