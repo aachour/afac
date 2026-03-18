@@ -13,7 +13,7 @@
                 <table class="table dataTable border-top" id="table">
                     <thead>
                     <tr>
-                        <th>Id</th>
+                        <!-- <th>Id</th> -->
                         <th>Name</th>
                         <th>In Menu</th>
                         <th>Published</th>
@@ -23,7 +23,7 @@
                     <tbody>
                     @foreach($pages as $page)
                         <tr>
-                            <td>{{ $page->id }}</td>
+                            <!-- <td>{{ $page->id }}</td> -->
                             <td>{{ $page->name }}</td>
                             <td>
                                 <button 
@@ -74,6 +74,19 @@
         @script
             @include('livewire.deleteConfirm')
         @endscript
+
+        <script>
+
+            document.addEventListener('livewire:navigated', function () {
+                setTimeout(() => {
+                    if ($.fn.DataTable.isDataTable('.dataTable')) {
+                        $('.dataTable').DataTable().destroy();
+                    }
+                    
+                }, 100);
+            });
+
+        </script>
 
     </div>
 
