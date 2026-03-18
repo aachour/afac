@@ -616,7 +616,9 @@ class HomeController extends Controller
 
     public function animation()
     {
-        return view('frontend.animation');
+        return view('frontend.animation', [
+            'logoElements' => Logo::orderBy('id')->get(),
+        ]);
     }
 
 

@@ -17,11 +17,8 @@
     <div class="fullContainer">
         
         @if(@$logoAnimation==1)
-            @foreach($logoElements as $logoElement)
-                <input type="hidden" value="{{$logoElement->name}}" text="{{$logoElement->text}}" text_arabic="{{$logoElement->text_arabic}}" status="{{$logoElement->status}}" />
-            @endforeach
             <div class="section">
-                @include('components.animated-logo')
+                @include('components.animated-logo', ['logoElements' => $logoElements])
             </div>
         @endif
 
