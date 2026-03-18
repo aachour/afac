@@ -152,60 +152,6 @@ function ViewEntryData($entry_id, $language = 'EN')
             </div>';
         }
 
-        //show text for Project, Grantee & Juror
-        /*if ($entry->type_id == 3) {
-            $html .= '<div class="fullContainer mt-5">
-                <div class="centerContainer">
-                    <div class="row">
-
-                        <div class="col-lg-6 col-12">
-                            <div class="big black ABCDiatypeMedium">About the project</div>
-                        </div>
-
-                        <div class="col-lg-6 col-12">
-                            <div class="mt-1 smnall black">' . nl2br($entry->project_text, false) . '</div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>';
-        }
-        else if ($entry->type_id == 4) {
-            $html .= '<div class="fullContainer mt-5">
-                <div class="centerContainer">
-                    <div class="row">
-
-                        <div class="col-lg-6 col-12">
-                            <div class="big black ABCDiatypeMedium">About the Grantee </div>
-                        </div>
-
-                        <div class="col-lg-6 col-12">
-                            <div class="mt-1 smnall black">' . nl2br($entry->grantee_text, false) . '</div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>';
-        }
-        else if ($entry->type_id == 5) {
-            $html .= '<div class="fullContainer mt-5">
-                <div class="centerContainer">
-                    <div class="row">
-
-                        <div class="col-lg-6 col-12">
-                            <div class="big black ABCDiatypeMedium">Biography</div>
-                        </div>
-
-                        <div class="col-lg-6 col-12">
-                            <div class="mt-1 smnall black">' . nl2br($entry->jury_text, false) . '</div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>';
-        }*/
-
-
         return $html;
     }
 }
