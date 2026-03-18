@@ -208,11 +208,11 @@
             var origin = c.cx + ' ' + c.cy;
             hover.addEventListener('mouseenter', function() {
                 gsap.killTweensOf(content);
-                gsap.to(content, { opacity: 1, scale: 1, duration: 0.2, ease: 'power2.out', svgOrigin: origin });
+                gsap.to(content, { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out', svgOrigin: origin });
             });
             hover.addEventListener('mouseleave', function() {
                 gsap.killTweensOf(content);
-                gsap.to(content, { opacity: 0, scale: 0, duration: 0.3, ease: 'power2.in', svgOrigin: origin });
+                gsap.to(content, { opacity: 0, scale: 0, duration: 0.5, ease: 'power2.in', svgOrigin: origin });
             });
         });
 
