@@ -220,8 +220,11 @@ function ViewCollection($collection_id, $language = 'EN')
     }
 
     if ($with_featured == 0 && $show_view_all == 1 && $featured_width != '74.3%') {
-        $html .= '<div class="viewAll">
-            <a href="' . $view_all_link . '" class="black tiny ABCDiatypeBlack">' . $view_all_title . ' &nbsp;<img src="' . asset('frontend/images/view-all-btn-en.png') . '" width="9px" style="margin-top:10px;"></a>
+        $html .= '<div class="viewAll mt-3">
+            <a href="' . $view_all_link . '" class="view-all-link">
+                <span class="black tiny ABCDiatypeBlack">' . $view_all_title . '</span> &nbsp;
+                <img src="' . asset('frontend/images/view-all-btn-en.png') . '" width="9px">
+            </a>
         </div>';
     }
 
