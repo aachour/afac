@@ -33,76 +33,76 @@ function ViewEntryData($entry_id, $language = 'EN')
 
         $html = '<div class="fullContainer">';
 
-        $html .= '<div class="centerContainer">
-                    <div class="row align-items-stretch g-0 no-gutters">';
-        if ($entry->type_id <= 5) {
-            $bgCode = $entry->ImageBgColor?->code ?? 'transparent';
-            $heroContent = '<div class="labels">';
-            $heroContent .= '<div class="label micro black ABCDiatypeMedium">' . $entry->type->name . '</div>';
-            foreach ($labels as $label) {
-                $heroContent .= '<div class="label micro rounded">' . $label . '</div>';
-            }
-            $heroContent .= '</div><div class="mt-3 huge black ABCDiatypeMedium" style="padding:0px 70px;">' . getEntryTitle($entry) . '</div>';
-            if ($entry->type_id == 2) //check program status
-            {
+            $html .= '<div class="centerContainer">
+                <div class="row align-items-stretch g-0 no-gutters">';
+                    if ($entry->type_id <= 5) {
+                        $bgCode = $entry->ImageBgColor?->code ?? 'transparent';
+                        $heroContent = '<div class="labels">';
+                        //$heroContent .= '<div class="label micro black ABCDiatypeMedium">' . $entry->type->name . '</div>';
+                        foreach ($labels as $label) {
+                            $heroContent .= '<div class="label micro rounded">' . $label . '</div>';
+                        }
+                        $heroContent .= '</div><div class="mt-3 huge black ABCDiatypeMedium" style="padding:0px 70px;">' . getEntryTitle($entry) . '</div>';
+                        if ($entry->type_id == 2) //check program status
+                        {
 
-                $current = time();
+                            $current = time();
 
-                $start_timestamp = strtotime($entry->program_start_date);
-                $end_timestamp   = strtotime($entry->program_end_date);
+                            $start_timestamp = strtotime($entry->program_start_date);
+                            $end_timestamp   = strtotime($entry->program_end_date);
 
-                if ($end_timestamp >= $current) {
+                            if ($end_timestamp >= $current) {
 
-                    $daysLeft = floor(($end_timestamp - $current) / 86400);
+                                $daysLeft = floor(($end_timestamp - $current) / 86400);
 
-                    //only show when program already started
-                    if ($current >= $start_timestamp && $daysLeft > 0) {
-                        $arrowSvg = '<span class="entry-hero-cta-arrow-wrap"><svg class="entry-hero-cta-arrow" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.2128 23.5743L11.9388 21.3256L19.8348 13.4295H0V10.1448H19.8348L11.9388 2.26142L14.2128 0L26 11.7872L14.2128 23.5743Z" fill="currentColor"/></svg></span>';
-                        $heroContent .= '<a href="' . $entry->button_link . '" target="_blank" class="entry-hero-diamond-trigger"><span class="entry-hero-cta mt-3 black"><span class="entry-hero-cta-text small">' . $entry->button_value . '</span>' . $arrowSvg . '</span></a>';
+                                //only show when program already started
+                                if ($current >= $start_timestamp && $daysLeft > 0) {
+                                    $arrowSvg = '<span class="entry-hero-cta-arrow-wrap"><svg class="entry-hero-cta-arrow" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.2128 23.5743L11.9388 21.3256L19.8348 13.4295H0V10.1448H19.8348L11.9388 2.26142L14.2128 0L26 11.7872L14.2128 23.5743Z" fill="currentColor"/></svg></span>';
+                                    $heroContent .= '<a href="' . $entry->button_link . '" target="_blank" class="entry-hero-diamond-trigger"><span class="entry-hero-cta mt-3 black"><span class="entry-hero-cta-text small">' . $entry->button_value . '</span>' . $arrowSvg . '</span></a>';
+                                }
+                            }
+                        }
+                        if ($entry->type_id == 3) //get grantees
+                        {
+                            $granteeArrowSvg = '<span class="entry-hero-grantee-arrow-wrap"><svg class="entry-hero-grantee-arrow" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.2128 23.5743L11.9388 21.3256L19.8348 13.4295H0V10.1448H19.8348L11.9388 2.26142L14.2128 0L26 11.7872L14.2128 23.5743Z" fill="currentColor"/></svg></span>';
+                            foreach ($entry->projectGrantees($entry->id) as $grantee) {
+                                $heroContent .= '<div class="mt-3 entry-hero-grantee-link-wrap"><a href="' . route('entry.view', ['entryType' => 'grantee', 'id' => $grantee["id"]]) . '" class="small black ABCDiatypeMedium square-diamond-grantee-trigger entry-hero-grantee-link"><span class="entry-hero-grantee-name">' . $grantee["name"] . '</span>' . $granteeArrowSvg . '</a></div>';
+                            }
+                        }
+                        $grantee_trigger = ($entry->type_id == 3 && count($entry->projectGrantees($entry->id)) > 0) ? '.square-diamond-grantee-trigger' : null;
+                        $html .= '<div class="col-lg-6 col-12 text-center d-flex h-100">';
+                        $html .= view('frontend.btn-animation.entry-hero-square-diamond', ['bg_color' => $bgCode, 'content' => $heroContent, 'trigger_selector' => $grantee_trigger])->render();
+                        $html .= '</div>
+                                        <div class="col-lg-6 col-12 d-flex">';
+                        if ($entry->image_featured) {
+                            $html .= '<img src="' . asset('storage/' . $entry->image_featured) . '" width="100%" />';
+                        } else {
+                            $html .= '<img src="' . asset('frontend/images/default-image-featured.png') . '" width="100%" />';
+                        }
+                        $html .= '</div>';
+                    } else { // Resourses/News/Externals
+                        $html .= '<div class="col-12 text-center">';
+
+                        $html .= '<div class="big black ABCDiatypeMedium text-start">' . getEntryTitle($entry) . '</div>';
+
+                        $html .= '<div class="mt-2 mb-3 medium black ABCDiatypeMedium text-start">';
+                        if ($entry->type_id == 6) {
+                            $html .= date('d M Y', strtotime($entry->resource_date));
+                        } else if ($entry->type_id == 7) {
+                            $html .= date('d M Y', strtotime($entry->news_date));
+                        }
+                        $html .= '</div>';
+
+                        if ($entry->image_featured) {
+                            $html .= '<img src="' . asset('storage/' . $entry->image_full) . '" width="100%" />';
+                        } else {
+                            $html .= '<img src="' . asset('frontend/images/default-image-full.png') . '" width="100%" />';
+                        }
+                        $html .= '<div class="mt-2 micro black text-start">' . $entry->image_caption . '</div>
+                                        </div>';
                     }
-                }
-            }
-            if ($entry->type_id == 3) //get grantees
-            {
-                $granteeArrowSvg = '<span class="entry-hero-grantee-arrow-wrap"><svg class="entry-hero-grantee-arrow" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.2128 23.5743L11.9388 21.3256L19.8348 13.4295H0V10.1448H19.8348L11.9388 2.26142L14.2128 0L26 11.7872L14.2128 23.5743Z" fill="currentColor"/></svg></span>';
-                foreach ($entry->projectGrantees($entry->id) as $grantee) {
-                    $heroContent .= '<div class="mt-3 entry-hero-grantee-link-wrap"><a href="' . route('entry.view', ['entryType' => 'grantee', 'id' => $grantee["id"]]) . '" class="small black ABCDiatypeMedium square-diamond-grantee-trigger entry-hero-grantee-link"><span class="entry-hero-grantee-name">' . $grantee["name"] . '</span>' . $granteeArrowSvg . '</a></div>';
-                }
-            }
-            $grantee_trigger = ($entry->type_id == 3 && count($entry->projectGrantees($entry->id)) > 0) ? '.square-diamond-grantee-trigger' : null;
-            $html .= '<div class="col-lg-6 col-12 text-center d-flex h-100">';
-            $html .= view('frontend.btn-animation.entry-hero-square-diamond', ['bg_color' => $bgCode, 'content' => $heroContent, 'trigger_selector' => $grantee_trigger])->render();
-            $html .= '</div>
-                            <div class="col-lg-6 col-12 d-flex">';
-            if ($entry->image_featured) {
-                $html .= '<img src="' . asset('storage/' . $entry->image_featured) . '" width="100%" />';
-            } else {
-                $html .= '<img src="' . asset('frontend/images/default-image-featured.png') . '" width="100%" />';
-            }
-            $html .= '</div>';
-        } else { // Resourses/News/Externals
-            $html .= '<div class="col-12 text-center">';
-
-            $html .= '<div class="big black ABCDiatypeMedium text-start">' . getEntryTitle($entry) . '</div>';
-
-            $html .= '<div class="mt-2 mb-3 medium black ABCDiatypeMedium text-start">';
-            if ($entry->type_id == 6) {
-                $html .= date('d M Y', strtotime($entry->resource_date));
-            } else if ($entry->type_id == 7) {
-                $html .= date('d M Y', strtotime($entry->news_date));
-            }
-            $html .= '</div>';
-
-            if ($entry->image_featured) {
-                $html .= '<img src="' . asset('storage/' . $entry->image_full) . '" width="100%" />';
-            } else {
-                $html .= '<img src="' . asset('frontend/images/default-image-full.png') . '" width="100%" />';
-            }
-            $html .= '<div class="mt-2 micro black text-start">' . $entry->image_caption . '</div>
-                            </div>';
-        }
-        $html .= '</div>
-                </div>';
+                $html .= '</div>
+            </div>';
 
         $html .= '</div>';
 
