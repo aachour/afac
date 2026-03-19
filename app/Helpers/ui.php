@@ -732,8 +732,6 @@ function ViewAccordion($section_column_id, $language = 'EN')
         $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
         $htmlColumn .= '<style>
-            .accordion-smooth .accordion-item { border-bottom: 1px solid rgba(0,0,0,0.1); }
-            .accordion-smooth .accordion-item:last-child { border-bottom: none; }
             .accordion-smooth .accordion-header { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 0.5rem 0; gap: 0.75rem; }
             .accordion-smooth .accordion-title { flex: 1; }
             .accordion-smooth .accordion-arrow { flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
