@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="{{asset('frontend/css/jquery-ui.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/css/swiper.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/css/general.css')}}?v=4" />
-    <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}?v=8">
+    <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}?v=9">
     <link rel="stylesheet" href="{{ asset('frontend/css/elements.css') }}?v=8">
     
     <!-- JS -->
@@ -55,11 +55,13 @@
         <div class="topSpacer closeBtn tiny ABCDiatypeMedium clickable" id="closeBtn">Close</div>
         
         <div class="mt-5">
-            <img src="{{asset('frontend/images/circle-shape.svg')}}" width="40px" class="mt-3" />
+            <img src="{{asset('frontend/images/circle-shape.svg')}}" width="40px" class="mt-3 desktopOnly" />
+            <img src="{{asset('frontend/images/circle-shape.svg')}}" width="30px" class="mt-1 mobileOnly" />
             <a href="{{url('/')}}" class="bigger leftSpacer">Home</a>
         </div>
         <div class="mt-3">
-            <img src="{{asset('frontend/images/diamond-shape.svg')}}" width="40px" class="mt-3" />
+            <img src="{{asset('frontend/images/diamond-shape.svg')}}" width="40px" class="mt-3 desktopOnly" />
+            <img src="{{asset('frontend/images/diamond-shape.svg')}}" width="40px" class="mt-0 mobileOnly" />
             <a href="{{url('/projects')}}" class="bigger leftSpacer">Supported Projects</a>
         </div>
         
@@ -70,7 +72,8 @@
         
         @foreach($pages as $key=>$page)
             <div class="mt-3">
-                <img src="{{asset('frontend/images/'.$shapes[$key % count($shapes)].'.svg')}}" width="40px" class="mt-3" />
+                <img src="{{asset('frontend/images/'.$shapes[$key % count($shapes)].'.svg')}}" width="40px" class="mt-3 desktopOnly" />
+                <img src="{{asset('frontend/images/'.$shapes[$key % count($shapes)].'.svg')}}" width="40px" class="mt-0 mobileOnly" />
                 <a href="{{url('page',['id'=>$page->id,'name'=>$page->name])}}" class="bigger leftSpacer">{{$page->name}}</a>
             </div>
         @endforeach
