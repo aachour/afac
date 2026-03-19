@@ -158,6 +158,16 @@
         width:48.5%;
     }   
 }
+.collection .view-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.collection .view-all-link img {
+    display: block;
+    margin-top: 0 !important;
+}
 
 .collection .featured_entry_mobile{
     position:relative;

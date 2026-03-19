@@ -374,9 +374,14 @@ class HomeController extends Controller
                                         $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
                                     }
                                     if($show_view_all==1){
-                                        $html.='<a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">
-                                            <div class="topSpacerSmaller">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:10px;"></div></a>';
+                                        $html.='<div class="mt-3">
+                                            <a href="'.$view_all_link.'" class="view-all-link">
+                                                <span class="black tiny ABCDiatypeBlack">'.$view_all_title.'</span>
+                                                &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px">
+                                            </a>
+                                        </div>';
                                     }
+                                  
                                 $html.='</div>';
                             }
                             $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
@@ -419,8 +424,11 @@ class HomeController extends Controller
                                     $html.='<div class="black big ABCDiatypeMedium titleDescription">'.$collection->name.'</div>';
                                 }
                                 if($show_view_all==1){
-                                    $html.='<div class="viewAll topSpacerSmaller">
-                                        <a href="'.$view_all_link.'" class="black tiny ABCDiatypeBlack">'.$view_all_title.' &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px" style="margin-top:8px;"></a>
+                                    $html.='<div class="mt-1">
+                                        <a href="'.$view_all_link.'" class="view-all-link">
+                                            <span class="black tiny ABCDiatypeBlack">'.$view_all_title.' </span>
+                                            &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px">
+                                        </a>
                                     </div>';
                                 }
                                 $html.='<div class="clear"></div>';
