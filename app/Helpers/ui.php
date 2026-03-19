@@ -478,67 +478,68 @@ function ViewTimeline($section_column_id, $language = 'EN')
         foreach ($column->timelines as $timeline) {
 
             $htmlColumn .= '<div class="timeline mb-5">
-                                <div class="row">
-                                    <div class="col-lg-3 col-12">
-                                        <div class="black big ABCDiatypeMedium mb-2">
-                                            <img src="' . asset('frontend/images/diamond.png') . '" width="40px" />&nbsp;&nbsp;
-                                            ' . $timeline->date . '
-                                        </div>
-                                    </div>
+                <div class="row">
 
-                                    <div class="col-lg-9 col-12">
-                                        <div class="timeline-percentages-wrapper">';
-            $percentageIndex = 0;
-            foreach ($timeline->percentages as $key => $percentage) {
-                $uniqueId = 'timeline-' . $timeline->id . '-percentage-' . $percentageIndex;
-                $percentageColor = $percentage->color->code ?? '#010101';
-                $percentageValue = $percentage->percentage ?? 0;
+                    <div class="col-lg-3 col-12 ">
+                        <div class="black big ABCDiatypeMedium mb-2">
+                            <img src="' . asset('frontend/images/diamond.png') . '" width="40px" />&nbsp;&nbsp;
+                            ' . $timeline->date . '
+                        </div>
+                    </div>
 
-                $htmlColumn .= '<div class="percentage-column ' . ($percentageIndex == 0 ? 'active' : 'd-none') . '" 
-                                    data-percentage-id="' . $uniqueId . '" 
-                                    data-percentage-value="' . $percentageValue . '" 
-                                    data-percentage-color="' . $percentageColor . '"
-                                    data-timeline-id="' . $timeline->id . '">
+                    <div class="col-lg-9 col-12">
+                        <div class="timeline-percentages-wrapper">';
+                            $percentageIndex = 0;
+                            foreach ($timeline->percentages as $key => $percentage) {
+                                $uniqueId = 'timeline-' . $timeline->id . '-percentage-' . $percentageIndex;
+                                $percentageColor = $percentage->color->code ?? '#010101';
+                                $percentageValue = $percentage->percentage ?? 0;
 
-                                <div class="percentage-text big black mb-5">' . $percentage->text . '</div>';
+                                $htmlColumn .= '<div class="percentage-column ' . ($percentageIndex == 0 ? 'active' : 'd-none') . '" 
+                                                    data-percentage-id="' . $uniqueId . '" 
+                                                    data-percentage-value="' . $percentageValue . '" 
+                                                    data-percentage-color="' . $percentageColor . '"
+                                                    data-timeline-id="' . $timeline->id . '">
 
-                if ($percentage->percentage != 0) {
-                    $diamondCount = 0;
-                    $totalDiamonds = 100;
-                    $coloredDiamonds = min($percentageValue, $totalDiamonds);
+                                                <div class="percentage-text big black mb-5">' . $percentage->text . '</div>';
 
-                    $htmlColumn .= '<div class="diamonds-grid" data-percentage-color="' . $percentageColor . '">';
-                    for ($i = 1; $i <= 10; $i++) {
-                        for ($j = 1; $j <= 10; $j++) {
-                            $diamondCount++;
-                            $isColored = $diamondCount <= $coloredDiamonds;
-                            $diamondClass = $isColored ? 'diamond-colored' : 'diamond-default';
-                            $diamondFillColor = $isColored ? $percentageColor : '#010101';
+                                if ($percentage->percentage != 0) {
+                                    $diamondCount = 0;
+                                    $totalDiamonds = 100;
+                                    $coloredDiamonds = min($percentageValue, $totalDiamonds);
 
-                            $htmlColumn .= '<span class="diamond-wrapper">
-                                                <svg width="100%" height="100%" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" 
-                                                    class="diamond-percentage ' . $diamondClass . '" 
-                                                    data-diamond-index="' . $diamondCount . '"
-                                                    data-is-colored="' . ($isColored ? '1' : '0') . '"
-                                                    data-diamond-color="' . $diamondFillColor . '">
-                                                    <rect y="153.999" width="217.787" height="217.787" transform="rotate(-45 0 153.999)" fill="' . $diamondFillColor . '"/>
-                                                </svg>
-                                            </span>';
-                        }
-                        $htmlColumn .= '<br />';
-                    }
-                    $htmlColumn .= '</div>';
-                }
+                                    $htmlColumn .= '<div class="diamonds-grid" data-percentage-color="' . $percentageColor . '">';
+                                    for ($i = 1; $i <= 10; $i++) {
+                                        for ($j = 1; $j <= 10; $j++) {
+                                            $diamondCount++;
+                                            $isColored = $diamondCount <= $coloredDiamonds;
+                                            $diamondClass = $isColored ? 'diamond-colored' : 'diamond-default';
+                                            $diamondFillColor = $isColored ? $percentageColor : '#010101';
 
-                $htmlColumn .= '</div>';
-                $percentageIndex++;
-            }
+                                            $htmlColumn .= '<span class="diamond-wrapper">
+                                                                <svg width="100%" height="100%" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" 
+                                                                    class="diamond-percentage ' . $diamondClass . '" 
+                                                                    data-diamond-index="' . $diamondCount . '"
+                                                                    data-is-colored="' . ($isColored ? '1' : '0') . '"
+                                                                    data-diamond-color="' . $diamondFillColor . '">
+                                                                    <rect y="153.999" width="217.787" height="217.787" transform="rotate(-45 0 153.999)" fill="' . $diamondFillColor . '"/>
+                                                                </svg>
+                                                            </span>';
+                                        }
+                                        $htmlColumn .= '<br />';
+                                    }
+                                    $htmlColumn .= '</div>';
+                                }
 
-            $htmlColumn .= '</div>';
+                                $htmlColumn .= '</div>';
+                                $percentageIndex++;
+                            }
 
-            $htmlColumn .= '</div>
-                                </div>
-                            </div>';
+                        $htmlColumn .= '</div>
+
+                    </div>
+                </div>
+            </div>';
         }
 
         $htmlColumn .= '<div class="verticalLine"></div>

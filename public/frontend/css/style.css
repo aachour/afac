@@ -77,12 +77,12 @@
         letter-spacing: -3% !important;
     }
     .small , h3{
-        font-size:4vw !important;
+        font-size:4.5vw !important;
         line-height: 120% !important;
         letter-spacing: -1% !important;
     }
     .tiny , p , li{
-        font-size:3.6vw !important;
+        font-size:4vw !important;
         line-height: 120% !important;
         letter-spacing: -1% !important;
     }
@@ -269,14 +269,14 @@ input[type="button"].greenBtn{
     .desktopOnly{
         display:none !important;
     }
-    .mobileOnly{
+    /* .mobileOnly{
         display:block !important;
-    }
+    } */
 }
 @media(min-width:900px){
-    .desktopOnly{
-        display:vi !important;
-    }
+    /* .desktopOnly{
+        display:block !important;
+    } */
     .mobileOnly{
         display:none !important;
     }
