@@ -384,35 +384,37 @@ class HomeController extends Controller
                                   
                                 $html.='</div>';
                             }
-                            $html.='<a href="'.$entry_href.'" target="'.$entry_target.'">
-                                <div class="topSpacer featured_entry" style="background:'.$featured_image_bgColor.'; width:'.$featured_width.'; margin-left:'.$featured_margin.';">';
-                                    $html.='<div class="featured_info">
+                            $html .= '<a href="' . $entry_href . '" target="' . $entry_target . '">
+                                <div class="topSpacer featured_entry" style="background:' . $featured_image_bgColor . '; width:' . $featured_width . '; margin-left:' . $featured_margin . ';">';
+                                    $html .= '<div class="featured_info">
                                         <div class="title_or_labels" style="'.$title_position.'">
-                                            <div class="medium white ABCDiatypeMedium">'.$entry_title.'</div>
-                                            <div class="topSpacerSmall tiny white threeQuartersText">'.mb_substr($entry_text,0,350).'</div>';
-                                        $html.='</div>';
+                                            <div class="medium white ABCDiatypeMedium">'.$entry_title .'</div>
+                                            <div class="topSpacerSmall tiny white threeQuartersText">' . mb_substr(strip_tags($entry_text), 0, 350) . '</div>
+                                        </div>';
 
-                                        if($with_label==1)
-                                        {
-                                            $labels=getEntryLabels($entry);
-                                            $html.='<div class="title_or_labels threeQuartersText" style="'.$labels_position.'">';
-                                                $html.=showEntryLabels($collection_type_id,$labels); 
-                                                $html.='<div class="clear">&nbsp;</div>
-                                            </div>';
+                                        if ($with_label == 1) {
+                                            $labels = getEntryLabels($entry);
+                                            $html .= '<div class="title_or_labels threeQuartersText" style="' . $labels_position . '">';
+                                                $html .= showEntryLabels($collection_type_id, $labels);
+                                                $html .= '<div class="clear"></div>';
+                                            $html .= '</div>';
                                         }
-                                    $html.='</div>
-                                    <div class="featured_image">';
+
+                                    $html .= '</div>';
+
+                                    $html .= '<div class="featured_image">';
                                         $html .= view('frontend.entry-hover-animation', [
-                                            'collection_type_id'=>$collection_type_id,
-                                            'entry_text'=>$entry_text,
-                                            'image_path'=>$image_path,
-                                            'entry_href'=>$entry_href,
-                                            'entry_target'=>$entry_target,
-                                            'button_text'=>$button_text,
-                                            'button_bg_color'=>$button_bg_color,
-                                            'featured'=>'1',
-                                            ])->render();
-                                    $html.='</div>
+                                            'collection_type_id' => $collection_type_id,
+                                            'entry_text' => $entry_text,
+                                            'image_path' => $image_path,
+                                            'entry_href' => $entry_href,
+                                            'entry_target' => $entry_target,
+                                            'button_text' => $button_text,
+                                            'button_bg_color' => $button_bg_color,
+                                            'featured' => '1',
+                                        ])->render();
+                                    $html .= '</div>
+                                    
                                 </div>
                             </a>
                         </div>';
@@ -421,10 +423,10 @@ class HomeController extends Controller
                         $html.='<div class="mobileOnly">';
                             if( ($show_name==1 || $show_view_all==1) && $featured_width=='74.3%' && $key==0){
                                 if($show_name==1){
-                                    $html.='<div class="black big ABCDiatypeMedium titleDescription">'.$collection->name.'</div>';
+                                    $html.='<div class="mb-2 black big ABCDiatypeMedium titleDescription">'.$collection->name.'</div>';
                                 }
                                 if($show_view_all==1){
-                                    $html.='<div class="mt-1">
+                                    $html.='<div class="mt-1 viewAll">
                                         <a href="'.$view_all_link.'" class="view-all-link">
                                             <span class="black tiny ABCDiatypeBlack">'.$view_all_title.' </span>
                                             &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px">

@@ -139,12 +139,12 @@
 @media(max-width:900px){
     .collection .titleDescription{
         float:left;
-        width:60%;
+        width:70%;
     }  
     .collection .viewAll{
         float:right;
         text-align:right;
-        width:40%;
+        width:30%;
     }   
 }
 @media(min-width:900px){
@@ -190,6 +190,7 @@
     align-items: stretch; /* ensures equal height */
 }
 .collection .featured_entry .featured_info{
+    position:relative;
     width:50%;
     padding:15px;
 }
