@@ -2244,7 +2244,8 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
     $custom_entries_id = [];
     $entries = [];
 
-    if (!empty($collection_id)) {
+    if (!empty($collection_id)) 
+    {
         $collection = Collections::find($collection_id);
 
         $collection_type_id = $collection->type_id;
@@ -2265,7 +2266,8 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
         $entries_order    = $collection->entries_order;
 
         $query = Entries::where(['type_id' => $collection_type_id, 'published' => '1']);
-    } else { //Projects page 
+    } else //Projects page 
+    { 
         $query = Entries::where(['type_id' => '3', 'published' => '1'])->WHERENULL('deleted_at');
         $entries_selection = 2;
         $collection_type_id = 3;
@@ -2634,6 +2636,7 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
     }
 
     if (!empty($sort)) {
+
         //Events Sort
         if ($collection_type_id == 1 && $sort == 1) //event name asc
         {
@@ -2672,13 +2675,26 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
         {
             $query->orderBy('project_title', 'desc');
         }
-        else if ($collection_type_id == 3 && $sort == 3)  //event name desc
+        else if ($collection_type_id == 3 && $sort == 3)  //progray year asc
         {
-            $query->orderBy('id', 'asc');
+            //$query->orderBy('id', 'asc');
+            $query->orderBy(
+            \App\Models\ProgramYearProjects::select('program_years.year')
+                ->join('program_years', 'program_years.id', '=', 'program_year_projects.program_year_id')
+                ->whereColumn('program_year_projects.id', 'entries.project_program_year_id')
+                ->limit(1),
+            'asc');
+            
         }
-        else if ($collection_type_id == 3 && $sort == 4)  //event name desc
+        else if ($collection_type_id == 3 && $sort == 4)  //program year desc
         {
-            $query->orderBy('id', 'desc');
+            // $query->orderBy('id', 'desc');
+            $query->orderBy(
+            \App\Models\ProgramYearProjects::select('program_years.year')
+                ->join('program_years', 'program_years.id', '=', 'program_year_projects.program_year_id')
+                ->whereColumn('program_year_projects.id', 'entries.project_program_year_id')
+                ->limit(1),
+            'desc');
         }
 
         //Grantees Sort
@@ -2818,7 +2834,13 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
                 $query->orderBy('program_start_date', 'asc');
             }
             if ($collection_type_id == 3) {
-                $query->orderBy('id', 'asc');
+                // $query->orderBy('id', 'asc');
+                $query->orderBy(
+                    \App\Models\ProgramYearProjects::select('program_years.year')
+                        ->join('program_years', 'program_years.id', '=', 'program_year_projects.program_year_id')
+                        ->whereColumn('program_year_projects.id', 'entries.project_program_year_id')
+                        ->limit(1),
+                    'asc');
             }
             if ($collection_type_id == 6) {
                 $query->orderBy('resource_date', 'asc');
@@ -2838,7 +2860,13 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
                 $query->orderBy('program_start_date', 'desc');
             }
             if ($collection_type_id == 3) {
-                $query->orderBy('id', 'desc');
+                // $query->orderBy('id', 'desc');
+                $query->orderBy(
+                    \App\Models\ProgramYearProjects::select('program_years.year')
+                        ->join('program_years', 'program_years.id', '=', 'program_year_projects.program_year_id')
+                        ->whereColumn('program_year_projects.id', 'entries.project_program_year_id')
+                        ->limit(1),
+                    'desc');
             }
             if ($collection_type_id == 6) {
                 $query->orderBy('resource_date', 'desc');
@@ -2853,11 +2881,12 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
     }
 
     // Limit & get results
-    if ($entries_selection == 2 && $show_all_entries == 0) {
+    if ($entries_selection == 2 && $show_all_entries == 0) 
+    {
         $entries = $query->limit($entries_number)->get();
         return $entries;
-    } else if (!empty($filters) && !empty($filters['page'])) { // case of projects with pagination
-
+    }else if (!empty($filters) && !empty($filters['page']))  // case of projects with pagination
+    { 
         // total before pagination
         $totalEntries = (clone $query)->count();
 
@@ -2874,7 +2903,8 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
             'totalEntries'=>$totalEntries,
             'entries' => $entries,
         ];
-    } else {
+    }else 
+    {
         $entries = $query->get();
         return $entries;
     }
