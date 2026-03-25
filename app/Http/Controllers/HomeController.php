@@ -377,7 +377,7 @@ class HomeController extends Controller
                                         $html.='<div class="mt-3">
                                             <a href="'.$view_all_link.'" class="view-all-link">
                                                 <span class="black tiny ABCDiatypeBlack">'.$view_all_title.'</span>
-                                                &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px">
+                                                <img src="'.asset('frontend/images/view-all-btn-en.png').'" width="12px">
                                             </a>
                                         </div>';
                                     }
@@ -429,7 +429,7 @@ class HomeController extends Controller
                                     $html.='<div class="mt-1 viewAll">
                                         <a href="'.$view_all_link.'" class="view-all-link">
                                             <span class="black tiny ABCDiatypeBlack">'.$view_all_title.' </span>
-                                            &nbsp;<img src="'.asset('frontend/images/view-all-btn-en.png').'" width="9px">
+                                            <img src="'.asset('frontend/images/view-all-btn-en.png').'" width="12px">
                                         </a>
                                     </div>';
                                 }
