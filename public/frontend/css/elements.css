@@ -138,13 +138,10 @@
 
 @media(max-width:900px){
     .collection .titleDescription{
-        float:left;
-        width:70%;
+        width:100%;
     }  
     .collection .viewAll{
-        float:right;
-        text-align:right;
-        width:30%;
+        width:100%;
     }   
 }
 @media(min-width:900px){
@@ -215,12 +212,13 @@
         margin-top:20px;
     }
     .collection .entries .entry{
-        width:100% !important;
-        margin-bottom:20px;
+        float:left;
+        width:48% !important;
+        margin:0px 1% 2% 1%;
     }
     .collection .entries .slideEntry{
-        width:95% !important;
-        margin-bottom:20px;
+        width:47.5% !important;
+        margin:0px 2% 15px 0%;
     }
 }
 @media (min-width:900px){

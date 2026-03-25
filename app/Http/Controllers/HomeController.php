@@ -426,7 +426,7 @@ class HomeController extends Controller
                                     $html.='<div class="mb-2 black big ABCDiatypeMedium titleDescription">'.$collection->name.'</div>';
                                 }
                                 if($show_view_all==1){
-                                    $html.='<div class="mt-1 viewAll">
+                                    $html.='<div class="mt-1 mb-2 viewAll">
                                         <a href="'.$view_all_link.'" class="view-all-link">
                                             <span class="black tiny ABCDiatypeBlack">'.$view_all_title.' </span>
                                             <img src="'.asset('frontend/images/view-all-btn-en.png').'" width="12px">
@@ -605,8 +605,8 @@ class HomeController extends Controller
                         breakpoints: {
                             // when window width is >= 320px
                             320: {
-                                slidesPerView: 1.1,
-                                spaceBetween: 10
+                                slidesPerView: 1,
+                                spaceBetween: 0
                             },
                             // when window width is >= 992px
                             900: {
