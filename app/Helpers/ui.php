@@ -311,42 +311,47 @@ function ViewSection($section_id, $language = 'EN')
             $sectionBg = "background:" . $bgColor . ";";
         }
 
-        $html = '<div class="section" style="' . $sectionBg . '">
-
-                <div class="row">';
-
+        $checkPattern=false;
         foreach ($sectionColumns as $sectionColumn) {
-
-            $html .= '<div class="col-lg-' . ($colsNum == 1 ? '12' : '6') . ' col-12">';
-
-            $colType = $sectionColumn->type_id;
-
-            if ($colType == 1) //Get general inputs
-            {
-                $html .= ViewColumnGeneral($sectionColumn->id, "En");
-            } else if ($colType == 2) //Get timeline
-            {
-                $html .= ViewTimeline($sectionColumn->id, "En");
-            } else if ($colType == 3) //Get accordion
-            {
-                $html .= ViewAccordion($sectionColumn->id, "En");
-            } else if ($colType == 4) //Get countdown
-            {
-                $html .= ViewCountdown($sectionColumn->id, "En");
-            } else if ($colType == 5) //Get expanding text
-            {
-                $html .= ViewExpandingText($sectionColumn->id, "En");
-            } else if ($colType == 6) //Get Pattern
-            {
-                $html .= ViewPattern($sectionColumn->id, "En");
-            }
-
-            $html .= '</div>';
+            if ($sectionColumn->type_id == 6){$checkPattern=true;}
         }
 
-        $html .= '</div>
+        $html = '<div class="section ' . ($checkPattern == true ? 'desktopOnly' : '') . '" style="' . $sectionBg . '">
 
-            </div>';
+            <div class="row">';
+
+                foreach ($sectionColumns as $sectionColumn) {
+
+                    $html .= '<div class="col-lg-' . ($colsNum == 1 ? '12' : '6') . ' col-12">';
+
+                        $colType = $sectionColumn->type_id;
+
+                        if ($colType == 1) //Get general inputs
+                        {
+                            $html .= ViewColumnGeneral($sectionColumn->id, "En");
+                        } else if ($colType == 2) //Get timeline
+                        {
+                            $html .= ViewTimeline($sectionColumn->id, "En");
+                        } else if ($colType == 3) //Get accordion
+                        {
+                            $html .= ViewAccordion($sectionColumn->id, "En");
+                        } else if ($colType == 4) //Get countdown
+                        {
+                            $html .= ViewCountdown($sectionColumn->id, "En");
+                        } else if ($colType == 5) //Get expanding text
+                        {
+                            $html .= ViewExpandingText($sectionColumn->id, "En");
+                        } else if ($colType == 6) //Get Pattern
+                        {
+                            $html .= ViewPattern($sectionColumn->id, "En");
+                        }
+
+                    $html .= '</div>';
+                }
+
+            $html .= '</div>
+
+        </div>';
 
         if ($section->with_border_bottom == 1) {
             $html .= '<div class="sectionWithBorder"></div>';
@@ -748,21 +753,24 @@ function ViewAccordion($section_column_id, $language = 'EN')
 
         $htmlColumn .= '<div class="row ' . $textAlign . '">';
 
-        if ($column->width == 1) {
-            $htmlColumn .= '<div class="col-lg-12 col-12 accordion-smooth">';
-        } elseif ($column->width == 2) {
-            $htmlColumn .= '<div class="col-lg-9 col-12 accordion-smooth">';
-        } elseif ($column->width == 3) {
-            $htmlColumn .= '<div class="col-lg-3"></div><div class="col-lg-6 col-12 accordion-smooth">';
-        }
+            if ($column->width == 1) {
+                $htmlColumn .= '<div class="col-lg-12 col-12 accordion-smooth">';
+            } elseif ($column->width == 2) {
+                $htmlColumn .= '<div class="col-lg-9 col-12 accordion-smooth">';
+            } elseif ($column->width == 3) {
+                $htmlColumn .= '<div class="col-lg-3"></div><div class="col-lg-6 col-12 accordion-smooth">';
+            }
 
-        foreach ($column->accordions as $key => $accordion) {
-            $isFirst = ($key === 0);
-            $openClass = $isFirst ? ' open' : '';
-            $htmlColumn .= '<div class="accordion-item mb-2' . $openClass . '">
-                        <div class="accordion-header">
+                foreach ($column->accordions as $key => $accordion) {
+                    $isFirst = ($key === 0);
+                    $openClass = $isFirst ? ' open' : '';
+                    $accordionHeader = $isFirst ? '' : ' accordion-header';
+                    $hiddenArrow = $isFirst ? ' d-none' : '';
+                    
+                    $htmlColumn .= '<div class="accordion-item mb-2' . $openClass . '">
+                        <div class="'.$accordionHeader.'">
                             <div class="accordion-title medium black ABCDiatypeMedium">' . $accordion->title . '</div>
-                            <div class="accordion-arrow">
+                            <div class="accordion-arrow ' . $hiddenArrow . '">
                                 <img src="' . asset('frontend/images/arrow-down.png') . '" alt="" width="30" height="30" />
                             </div>
                         </div>
@@ -772,11 +780,11 @@ function ViewAccordion($section_column_id, $language = 'EN')
                             </div>
                         </div>
                     </div>';
-        }
+                }
 
-        $htmlColumn .= '</div>
+            $htmlColumn .= '</div>
 
-            </div>';
+        </div>';
     }
 
     $htmlColumn .= '<script>
@@ -948,133 +956,131 @@ function ViewPattern($section_column_id, $language = 'EN')
 
         $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
-        $htmlColumn .= '<div class="row ' . $textAlign . '">';
+        $htmlColumn .= '<div class="row ' . $textAlign . ' desktopOnly">';
 
-        if ($column->width == 1) {
-            $htmlColumn .= '<div class="col-lg-12 col-12">';
-        } elseif ($column->width == 2) {
-            $htmlColumn .= '<div class="col-lg-9 col-12">';
-        } elseif ($column->width == 3) {
-            $htmlColumn .= '<div class="col-lg-3"></div><div class="col-lg-6 col-12">';
-        }
-
-        $htmlColumn .= '<div class="row">';
-        $hasAnimatedPatterns = false;
-        foreach ($column->patterns as $pattern) {
-
-            $text = $pattern->text;
-            $text_arabic = $pattern->text_arabic;
-            $animation_style = $pattern->animation_style;
-            $style = isset($animation_style) && $animation_style !== '' ? (int) $animation_style : 0;
-            if ($style === 1 || $style === 2) {
-                $hasAnimatedPatterns = true;
+            if ($column->width == 1) {
+                $htmlColumn .= '<div class="col-lg-12 col-12">';
+            } elseif ($column->width == 2) {
+                $htmlColumn .= '<div class="col-lg-9 col-12">';
+            } elseif ($column->width == 3) {
+                $htmlColumn .= '<div class="col-lg-3"></div><div class="col-lg-6 col-12">';
             }
-            $displayText = (strtoupper($language) === 'AR' && !empty($text_arabic)) ? $text_arabic : $text;
-            $displayText = $displayText ?? '';
-            $displayText = strip_tags($displayText, '<p><br><strong><em><b><i><a><ul><ol><li><span>');
 
-            $htmlColumn .= '<div class="col-lg-4 pattern-box-col"><div class="pattern-box-wrapper" data-animation-style="' . $style . '">';
-            $htmlColumn .= '<div class="pattern-box-inner">';
-            $htmlColumn .= '<div class="pattern-box-svg">' . file_get_contents(public_path('frontend/images/pattern.svg')) . '</div>';
-            if ($style === 1) {
-                $htmlColumn .= '<div class="pattern-box-overlay pattern-box-overlay-diamond" aria-hidden="true">';
-                $htmlColumn .= '<svg class="pattern-box-diamond" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M50 2 L98 50 L50 98 L2 50 Z" fill="#000" stroke="#000" stroke-width="3"/></svg>';
-                $htmlColumn .= '<div class="pattern-box-text pattern-box-text-diamond medium white ABCDiatype">' . $displayText . '</div>';
-                $htmlColumn .= '</div>';
-            } elseif ($style === 2) {
-                $htmlColumn .= '<div class="pattern-box-overlay pattern-box-overlay-circle" aria-hidden="true">';
-                $htmlColumn .= '<div class="pattern-box-circle-wrap"><svg class="pattern-box-circle" viewBox="0 0 100 100"><circle cx="50" cy="50" r="47" fill="' . htmlspecialchars($overlayFill, ENT_QUOTES, 'UTF-8') . '" stroke="#000" stroke-width="6"/></svg></div>';
-                $htmlColumn .= '<div class="pattern-box-text medium black ABCDiatype">' . $displayText . '</div>';
-                $htmlColumn .= '</div>';
-            }
-            $htmlColumn .= '</div></div></div>';
-        }
+                $htmlColumn .= '<div class="row">';
+                    $hasAnimatedPatterns = false;
+                    foreach ($column->patterns as $pattern) {
 
-        $htmlColumn .= '</div>';
+                        $text = $pattern->text;
+                        $text_arabic = $pattern->text_arabic;
+                        $animation_style = $pattern->animation_style;
+                        $style = isset($animation_style) && $animation_style !== '' ? (int) $animation_style : 0;
+                        if ($style === 1 || $style === 2) {
+                            $hasAnimatedPatterns = true;
+                        }
+                        $displayText = (strtoupper($language) === 'AR' && !empty($text_arabic)) ? $text_arabic : $text;
+                        $displayText = $displayText ?? '';
+                        $displayText = strip_tags($displayText, '<p><br><strong><em><b><i><a><ul><ol><li><span>');
 
-        if ($hasAnimatedPatterns) {
-            $htmlColumn .= '<style>
-                /* Animation overlay size: override --pattern-overlay-size (default 100%) for both width and height, or set on .pattern-box-wrapper */
-                .pattern-box-wrapper { position: relative; overflow: hidden; cursor: pointer; --pattern-overlay-size: 100%; font-family: "ABC Diatype Arabic" !important;}
-                .pattern-box-inner { position: relative; width: 100%; overflow: hidden; }
-                .pattern-box-svg { display: block; width: 100%; height: auto; vertical-align: top; }
-                .pattern-box-svg svg { display: block; width: 100%; height: auto; }
-                .pattern-box-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 1;font-family: "ABC Diatype Arabic" !important; }
-                .pattern-box-diamond { position: absolute; left: 0; bottom: 0; width: var(--pattern-overlay-size, 100%); height: var(--pattern-overlay-size, 100%); transform-origin: 0 100%; }
-                .pattern-box-overlay-circle .pattern-box-circle-wrap { position: absolute; right: 0; bottom: 0; width: var(--pattern-overlay-size, 200%); height: 0; padding-bottom: var(--pattern-overlay-size, 200%); transform-origin: 100% 100%; box-sizing: content-box; }
-                .pattern-box-circle-wrap svg.pattern-box-circle { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; }
-                .pattern-box-text { position: relative; z-index: 2; padding: 1rem; color: #000; font-size: 1rem; line-height: 1.3; text-align: center; opacity: 0; max-width: 90%;font-family: "ABC Diatype Arabic" !important; }
-                .pattern-box-text-diamond { color: #fff; }
-                .pattern-box-text p { margin: 0 0 0.5em; }
-                .pattern-box-text p:last-child { margin-bottom: 0; }
-            </style>';
-            $htmlColumn .= '<script>
-            (function() {
-                function initPatternBoxAnimations() {
-                    if (typeof gsap === "undefined") {
-                        var s = document.createElement("script");
-                        s.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js";
-                        s.onload = initPatternBoxAnimations;
-                        document.head.appendChild(s);
-                        return;
+                        $htmlColumn .= '<div class="col-lg-4 pattern-box-col"><div class="pattern-box-wrapper" data-animation-style="' . $style . '">';
+                        $htmlColumn .= '<div class="pattern-box-inner">';
+                        $htmlColumn .= '<div class="pattern-box-svg">' . file_get_contents(public_path('frontend/images/pattern.svg')) . '</div>';
+                        if ($style === 1) {
+                            $htmlColumn .= '<div class="pattern-box-overlay pattern-box-overlay-diamond" aria-hidden="true">';
+                            $htmlColumn .= '<svg class="pattern-box-diamond" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M50 2 L98 50 L50 98 L2 50 Z" fill="#000" stroke="#000" stroke-width="3"/></svg>';
+                            $htmlColumn .= '<div class="pattern-box-text pattern-box-text-diamond medium white ABCDiatype">' . $displayText . '</div>';
+                            $htmlColumn .= '</div>';
+                        } elseif ($style === 2) {
+                            $htmlColumn .= '<div class="pattern-box-overlay pattern-box-overlay-circle" aria-hidden="true">';
+                            $htmlColumn .= '<div class="pattern-box-circle-wrap"><svg class="pattern-box-circle" viewBox="0 0 100 100"><circle cx="50" cy="50" r="47" fill="' . htmlspecialchars($overlayFill, ENT_QUOTES, 'UTF-8') . '" stroke="#000" stroke-width="6"/></svg></div>';
+                            $htmlColumn .= '<div class="pattern-box-text medium black ABCDiatype">' . $displayText . '</div>';
+                            $htmlColumn .= '</div>';
+                        }
+                        $htmlColumn .= '</div></div></div>';
                     }
-                    document.querySelectorAll(".pattern-box-wrapper[data-animation-style=\"1\"]").forEach(function(wrapper) {
-                        var overlay = wrapper.querySelector(".pattern-box-overlay-diamond");
-                        var shape = wrapper.querySelector(".pattern-box-diamond");
-                        var textEl = wrapper.querySelector(".pattern-box-text");
-                        var patternSvg = wrapper.querySelector(".pattern-box-svg");
-                        if (!overlay || !shape) return;
-                        gsap.set(shape, { scale: 0, opacity: 0.8, transformOrigin: "0% 100%" });
-                        gsap.set(textEl, { opacity: 0 });
-                        wrapper.addEventListener("mouseenter", function() {
-                            gsap.killTweensOf([shape, textEl, patternSvg]);
-                            gsap.to(patternSvg, { opacity: 0, duration: 0.45, ease: "power2.out" });
-                            gsap.to(shape, { scale: 1, opacity: 1, duration: 0.65, ease: "power2.out" });
-                            gsap.to(textEl, { opacity: 1, duration: 0.4, delay: 0.28, ease: "power2.out" });
-                        });
-                        wrapper.addEventListener("mouseleave", function() {
-                            gsap.killTweensOf([shape, textEl, patternSvg]);
-                            gsap.to(textEl, { opacity: 0, duration: 0.28 });
-                            gsap.to(shape, { scale: 0, opacity: 0.8, duration: 0.5, ease: "power2.in" });
-                            gsap.to(patternSvg, { opacity: 1, duration: 0.5, ease: "power2.out" });
-                        });
-                    });
-                    document.querySelectorAll(".pattern-box-wrapper[data-animation-style=\"2\"]").forEach(function(wrapper) {
-                        var overlay = wrapper.querySelector(".pattern-box-overlay-circle");
-                        var shape = wrapper.querySelector(".pattern-box-circle-wrap");
-                        var textEl = wrapper.querySelector(".pattern-box-text");
-                        var patternSvg = wrapper.querySelector(".pattern-box-svg");
-                        if (!overlay || !shape) return;
-                        gsap.set(shape, { scale: 0, opacity: 0.8, transformOrigin: "100% 100%" });
-                        gsap.set(textEl, { opacity: 0 });
-                        wrapper.addEventListener("mouseenter", function() {
-                            gsap.killTweensOf([shape, textEl, patternSvg]);
-                            gsap.to(patternSvg, { opacity: 0, duration: 0.45, ease: "power2.out" });
-                            gsap.to(shape, { scale: 1, opacity: 1, duration: 0.65, ease: "power2.out" });
-                            gsap.to(textEl, { opacity: 1, duration: 0.4, delay: 0.28, ease: "power2.out" });
-                        });
-                        wrapper.addEventListener("mouseleave", function() {
-                            gsap.killTweensOf([shape, textEl, patternSvg]);
-                            gsap.to(textEl, { opacity: 0, duration: 0.28 });
-                            gsap.to(shape, { scale: 0, opacity: 0.8, duration: 0.5, ease: "power2.in" });
-                            gsap.to(patternSvg, { opacity: 1, duration: 0.5, ease: "power2.out" });
-                        });
-                    });
+
+                $htmlColumn .= '</div>';
+
+                if ($hasAnimatedPatterns) {
+                    $htmlColumn .= '<style>
+                        /* Animation overlay size: override --pattern-overlay-size (default 100%) for both width and height, or set on .pattern-box-wrapper */
+                        .pattern-box-wrapper { position: relative; overflow: hidden; cursor: pointer; --pattern-overlay-size: 100%; font-family: "ABC Diatype Arabic" !important;}
+                        .pattern-box-inner { position: relative; width: 100%; overflow: hidden; }
+                        .pattern-box-svg { display: block; width: 100%; height: auto; vertical-align: top; }
+                        .pattern-box-svg svg { display: block; width: 100%; height: auto; }
+                        .pattern-box-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 1;font-family: "ABC Diatype Arabic" !important; }
+                        .pattern-box-diamond { position: absolute; left: 0; bottom: 0; width: var(--pattern-overlay-size, 100%); height: var(--pattern-overlay-size, 100%); transform-origin: 0 100%; }
+                        .pattern-box-overlay-circle .pattern-box-circle-wrap { position: absolute; right: 0; bottom: 0; width: var(--pattern-overlay-size, 200%); height: 0; padding-bottom: var(--pattern-overlay-size, 200%); transform-origin: 100% 100%; box-sizing: content-box; }
+                        .pattern-box-circle-wrap svg.pattern-box-circle { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; }
+                        .pattern-box-text { position: relative; z-index: 2; padding: 1rem; color: #000; font-size: 1rem; line-height: 1.3; text-align: center; opacity: 0; max-width: 90%;font-family: "ABC Diatype Arabic" !important; }
+                        .pattern-box-text-diamond { color: #fff; }
+                        .pattern-box-text p { margin: 0 0 0.5em; }
+                        .pattern-box-text p:last-child { margin-bottom: 0; }
+                    </style>';
+                    $htmlColumn .= '<script>
+                    (function() {
+                        function initPatternBoxAnimations() {
+                            if (typeof gsap === "undefined") {
+                                var s = document.createElement("script");
+                                s.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js";
+                                s.onload = initPatternBoxAnimations;
+                                document.head.appendChild(s);
+                                return;
+                            }
+                            document.querySelectorAll(".pattern-box-wrapper[data-animation-style=\"1\"]").forEach(function(wrapper) {
+                                var overlay = wrapper.querySelector(".pattern-box-overlay-diamond");
+                                var shape = wrapper.querySelector(".pattern-box-diamond");
+                                var textEl = wrapper.querySelector(".pattern-box-text");
+                                var patternSvg = wrapper.querySelector(".pattern-box-svg");
+                                if (!overlay || !shape) return;
+                                gsap.set(shape, { scale: 0, opacity: 0.8, transformOrigin: "0% 100%" });
+                                gsap.set(textEl, { opacity: 0 });
+                                wrapper.addEventListener("mouseenter", function() {
+                                    gsap.killTweensOf([shape, textEl, patternSvg]);
+                                    gsap.to(patternSvg, { opacity: 0, duration: 0.45, ease: "power2.out" });
+                                    gsap.to(shape, { scale: 1, opacity: 1, duration: 0.65, ease: "power2.out" });
+                                    gsap.to(textEl, { opacity: 1, duration: 0.4, delay: 0.28, ease: "power2.out" });
+                                });
+                                wrapper.addEventListener("mouseleave", function() {
+                                    gsap.killTweensOf([shape, textEl, patternSvg]);
+                                    gsap.to(textEl, { opacity: 0, duration: 0.28 });
+                                    gsap.to(shape, { scale: 0, opacity: 0.8, duration: 0.5, ease: "power2.in" });
+                                    gsap.to(patternSvg, { opacity: 1, duration: 0.5, ease: "power2.out" });
+                                });
+                            });
+                            document.querySelectorAll(".pattern-box-wrapper[data-animation-style=\"2\"]").forEach(function(wrapper) {
+                                var overlay = wrapper.querySelector(".pattern-box-overlay-circle");
+                                var shape = wrapper.querySelector(".pattern-box-circle-wrap");
+                                var textEl = wrapper.querySelector(".pattern-box-text");
+                                var patternSvg = wrapper.querySelector(".pattern-box-svg");
+                                if (!overlay || !shape) return;
+                                gsap.set(shape, { scale: 0, opacity: 0.8, transformOrigin: "100% 100%" });
+                                gsap.set(textEl, { opacity: 0 });
+                                wrapper.addEventListener("mouseenter", function() {
+                                    gsap.killTweensOf([shape, textEl, patternSvg]);
+                                    gsap.to(patternSvg, { opacity: 0, duration: 0.45, ease: "power2.out" });
+                                    gsap.to(shape, { scale: 1, opacity: 1, duration: 0.65, ease: "power2.out" });
+                                    gsap.to(textEl, { opacity: 1, duration: 0.4, delay: 0.28, ease: "power2.out" });
+                                });
+                                wrapper.addEventListener("mouseleave", function() {
+                                    gsap.killTweensOf([shape, textEl, patternSvg]);
+                                    gsap.to(textEl, { opacity: 0, duration: 0.28 });
+                                    gsap.to(shape, { scale: 0, opacity: 0.8, duration: 0.5, ease: "power2.in" });
+                                    gsap.to(patternSvg, { opacity: 1, duration: 0.5, ease: "power2.out" });
+                                });
+                            });
+                        }
+                        if (document.readyState === "loading") {
+                            document.addEventListener("DOMContentLoaded", initPatternBoxAnimations);
+                        } else {
+                            initPatternBoxAnimations();
+                        }
+                    })();
+                    </script>';
                 }
-                if (document.readyState === "loading") {
-                    document.addEventListener("DOMContentLoaded", initPatternBoxAnimations);
-                } else {
-                    initPatternBoxAnimations();
-                }
-            })();
-            </script>';
-        }
 
-        $htmlColumn .= '</div>
+            $htmlColumn .= '</div>
 
-                </div>
-
-            </div>';
+        </div>';
     }
 
     return $htmlColumn;
