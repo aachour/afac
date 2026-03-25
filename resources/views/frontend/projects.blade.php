@@ -101,7 +101,7 @@
             var project_category='';
             var project_program_year='';
             var project_program='';
-            var sort='';
+            var sort='4';
             var page='1';
 
             var filters = {
