@@ -263,8 +263,8 @@
             hover.addEventListener('mouseleave', function() {
                 if (content) gsap.killTweensOf(content);
                 gsap.killTweensOf(cover);
-                gsap.to(cover, { y: 0, duration: 1.1, ease: 'power2.in' });
-                if (content) gsap.set(content, { opacity: 0, delay: 1.1 });
+                gsap.to(cover, { y: 0, duration: 0.85, ease: 'power2.in' });
+                if (content) gsap.set(content, { opacity: 0, delay: 0.9 });
             });
         });
 
