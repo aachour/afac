@@ -601,6 +601,12 @@ class HomeController extends Controller
                             disableOnInteraction: false,
                         },*/
                         effect: "slide",
+                        allowTouchMove: true,
+                        simulateTouch: true,
+                        followFinger: false,
+                        freeMode: false,
+                        slidesPerGroup: 1,
+                        threshold: 10,
                         speed: 800,
                         breakpoints: {
                             // when window width is >= 320px
