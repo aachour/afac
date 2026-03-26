@@ -60,15 +60,23 @@
     <div class="menu" id="menu">
         <div class="topSpacer closeBtn tiny ABCDiatypeMedium clickable" id="closeBtn">Close</div>
         
-        <div class="mt-5">
-            <img src="{{asset('frontend/images/circle-shape.svg')}}" width="40px" class="mt-3 desktopOnly" />
-            <img src="{{asset('frontend/images/circle-shape.svg')}}" width="30px" class="mt-1 mobileOnly" />
-            <a href="{{url('/')}}" class="bigger leftSpacer">Home</a>
+        <div class="mt-5 menu-item-row">
+            <a href="{{url('/')}}" class="menu-item-link">
+                <span class="menu-item-shape">
+                    <img src="{{asset('frontend/images/circle-shape.svg')}}" width="40" class="desktopOnly" />
+                    <img src="{{asset('frontend/images/circle-shape.svg')}}" width="30" class="mobileOnly" />
+                </span>
+                <span class="menu-item-text bigger leftSpacer">Home</span>
+            </a>
         </div>
-        <div class="mt-3">
-            <img src="{{asset('frontend/images/diamond-shape.svg')}}" width="40px" class="mt-3 desktopOnly" />
-            <img src="{{asset('frontend/images/diamond-shape.svg')}}" width="40px" class="mt-0 mobileOnly" />
-            <a href="{{url('/projects')}}" class="bigger leftSpacer">Supported Projects</a>
+        <div class="mt-3 menu-item-row">
+            <a href="{{url('/projects')}}" class="menu-item-link">
+                <span class="menu-item-shape">
+                    <img src="{{asset('frontend/images/diamond-shape.svg')}}" width="40" class="desktopOnly" />
+                    <img src="{{asset('frontend/images/diamond-shape.svg')}}" width="30" class="mobileOnly" />
+                </span>
+                <span class="menu-item-text bigger leftSpacer">Supported Projects</span>
+            </a>
         </div>
         
         @php 
@@ -77,14 +85,77 @@
         @endphp
         
         @foreach($pages as $key=>$page)
-            <div class="mt-3">
-                <img src="{{asset('frontend/images/'.$shapes[$key % count($shapes)].'.svg')}}" width="40px" class="mt-3 desktopOnly" />
-                <img src="{{asset('frontend/images/'.$shapes[$key % count($shapes)].'.svg')}}" width="40px" class="mt-0 mobileOnly" />
-                <a href="{{url('page',['id'=>$page->id,'name'=>$page->name])}}" class="bigger leftSpacer">{{$page->name}}</a>
+            <div class="mt-3 menu-item-row">
+                <a href="{{url('page',['id'=>$page->id,'name'=>$page->name])}}" class="menu-item-link">
+                    <span class="menu-item-shape">
+                        <img src="{{asset('frontend/images/'.$shapes[$key % count($shapes)].'.svg')}}" width="40" class="desktopOnly" />
+                        <img src="{{asset('frontend/images/'.$shapes[$key % count($shapes)].'.svg')}}" width="30" class="mobileOnly" />
+                    </span>
+                    <span class="menu-item-text bigger leftSpacer">{{$page->name}}</span>
+                </a>
             </div>
         @endforeach
         
     </div>
+    <style>
+        .menu-item-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: #000;
+            overflow: visible;
+        }
+
+        .menu-item-shape {
+            width: 44px;
+            opacity: 1;
+            margin-right: -44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: margin-right 0.55s ease;
+        }
+
+        .menu-item-shape img {
+            display: block;
+            transform: translateX(calc(-100% - 3px));
+            transition: transform 0.55s ease;
+        }
+
+        .menu-item-text {
+            display: inline-block;
+            transform: translateX(0);
+            transition: transform 0.55s ease;
+        }
+
+        .menu-item-link:hover .menu-item-shape,
+        .menu-item-link:focus-visible .menu-item-shape {
+            margin-right: 18px;
+        }
+
+        .menu-item-link:hover .menu-item-shape img,
+        .menu-item-link:focus-visible .menu-item-shape img {
+            transform: translateX(0);
+        }
+
+        .menu-item-link:hover .menu-item-text,
+        .menu-item-link:focus-visible .menu-item-text {
+            transform: translateX(6px);
+        }
+
+        @media (max-width: 900px) {
+            .menu-item-shape {
+                width: 34px;
+                margin-right: -34px;
+            }
+
+            .menu-item-link:hover .menu-item-shape,
+            .menu-item-link:focus-visible .menu-item-shape {
+                margin-right: 14px;
+            }
+        }
+    </style>
     
     <!--Page Content-->
     <div class="pageContent">
