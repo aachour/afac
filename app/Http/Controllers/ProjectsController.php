@@ -163,7 +163,7 @@ class ProjectsController extends Controller
                 $html.='<div class="entries">
 
                     <style>
-                        @media(min-width:900px){
+                        @media(min-width:1000px){
                             .collection .entries > .entry:nth-child(4n of .entry){
                                 margin-right:0 !important;
                             }

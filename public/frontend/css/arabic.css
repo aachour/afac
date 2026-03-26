@@ -17,3 +17,79 @@ time, mark, audio, video , textarea {
 	direction: rtl;
     text-align: right;
 }
+
+
+.header .logo{
+    float:right !important;
+}
+.header .menuBtn{
+    float:left !important;
+}
+.header .langBtn{
+    float:left !important;
+}
+
+
+.filters .filter{
+    float:right !important;
+    margin-left:30px !important;
+}
+.filters .sort{
+    float:left !important;
+}
+
+
+@media(min-width:1000px){
+    .collection .titleDescription{
+        float:right !important;
+        width:48.5% !important;
+    }  
+    .collection .viewAll{
+        float:left !important;
+        text-align:left !important;
+        width:48.5% !important;
+    }   
+}
+
+.collection .featured_entry_mobile .description .title_or_labels .label{
+    float:right !important;
+    margin-left:10px !important;
+    padding:2px 10px !important;
+}
+
+
+@media(max-width:1000px){
+    .collection .entries .entry{
+        float:right !important;
+        width:48% !important;
+        margin:0px 1% 2% 1% !important;
+    }
+    .collection .entries .slideEntry{
+        width:48% !important;
+        margin:0px 0% 15px 2% !important;
+    }
+}
+@media (min-width:1000px){
+    .collection .entries .entry{
+        float:right !important;
+        width:23.5% !important;
+        height:auto !important;
+        margin-left:2% !important;
+        margin-top:2% !important;
+    }
+}
+
+.collection .entries .entry .description .title_or_labels .label , .collection .featured_entry .featured_info .title_or_labels .label{
+    float:right !important;
+    margin-left:10px !important;
+}
+
+
+.section .accordionTitle{
+    float:right !important;
+    width:calc(100% - 60px) !important;
+}
+.section .accordionArrow{
+    float:left !important;
+    width:30px !important;
+}

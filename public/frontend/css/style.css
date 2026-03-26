@@ -55,7 +55,7 @@
     }
 }
 
-@media(max-width:900px){
+@media(max-width:1000px){
     .huge{
         font-size:9vw !important;
         line-height: 130% !important;
@@ -108,7 +108,7 @@
         letter-spacing: -1% !important;
     }
 }
-@media(min-width:900px){
+@media(min-width:1000px){
     .huge{
         font-size:6vw !important;
         line-height: 100% !important;
@@ -265,7 +265,7 @@ input[type="button"].greenBtn{
     width:75%;
 }
 
-@media(max-width:900px){
+@media(max-width:1000px){
     .desktopOnly{
         display:none !important;
     }
@@ -273,7 +273,7 @@ input[type="button"].greenBtn{
         display:block !important;
     } */
 }
-@media(min-width:900px){
+@media(min-width:1000px){
     /* .desktopOnly{
         display:block !important;
     } */
