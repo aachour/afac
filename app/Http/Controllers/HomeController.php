@@ -593,7 +593,10 @@ class HomeController extends Controller
             $html.='<script> 
                 if($("#swiper'.$collection_id.'").length>0){
                     const swiper'.$collection_id.' = new Swiper("#swiper'.$collection_id.'", {
-                        //loop: true,
+                        loop: false,
+                        watchOverflow: true,
+                        resistance: false,
+                        roundLengths: true,
                         grid: {
                             rows: 1           
                         },
@@ -601,14 +604,10 @@ class HomeController extends Controller
                             nextEl: "#gallery-swiper-button-next-'.$collection_id.'",
                             prevEl: "#gallery-swiper-button-prev-'.$collection_id.'",
                         },
-                        /*autoplay: {
-                            delay: 2500,
-                            disableOnInteraction: false,
-                        },*/
                         effect: "slide",
                         allowTouchMove: true,
                         simulateTouch: true,
-                        followFinger: false,
+                        followFinger: true,
                         freeMode: false,
                         slidesPerGroup: 1,
                         threshold: 10,
@@ -616,7 +615,7 @@ class HomeController extends Controller
                         breakpoints: {
                             // when window width is >= 320px
                             320: {
-                                slidesPerView: 1,
+                                slidesPerView: 2,
                                 spaceBetween: 0
                             },
                             // when window width is >= 992px
@@ -624,6 +623,14 @@ class HomeController extends Controller
                                 slidesPerView: 4.1,
                                 spaceBetween: 20
                             },
+                        },
+                        on: {
+                            init(swiper) {
+                                swiper.update();
+                            },
+                            resize(swiper) {
+                                swiper.update();
+                            }
                         }
                     });
                 }
