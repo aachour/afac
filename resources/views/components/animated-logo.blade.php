@@ -50,7 +50,7 @@
             <g class="logo-part" data-part="vertical1">
                 <rect fill="#010101" x="1.62" y="98.02" width="54.12" height="134.53"/>
                 <rect fill="#010101" x="55.74" y="221.7" width="69.58" height="10.79"/>
-                <g class="anim-vertical1-content" style="pointer-events:none">
+                <g class="anim-vertical1-content" style="opacity:0;pointer-events:none">
                     <rect x="1" y="85" width="55" height="55" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" rx="2"/>
                 </g>
                 <rect class="cover-vertical1" x="1.5" y="95" width="54.2" height="60" fill="#010101"/>
@@ -70,10 +70,10 @@
             {{-- Vertical 2 (middle) - Animation 3 --}}
             <g class="logo-part" data-part="vertical2">
                 <rect fill="#010101" x="191.81" y="98.25" width="54.12" height="134.53"/>
-                <g class="anim-vertical2-content" style="pointer-events:none">
+                <g class="anim-vertical2-content" style="opacity:0;pointer-events:none">
                     <rect x="192" y="96.5" width="54" height="55" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" rx="2"/>
                 </g>
-                <rect class="cover-vertical2" x="192" y="95" width="54.2" height="60" fill="#010101"/>
+                <rect class="cover-vertical2" x="192" y="98" width="53.9" height="60" fill="#010101"/>
                 <rect class="hover-vertical2" x="185" y="80" width="68" height="145" fill="transparent" style="cursor:pointer"/>
             </g>
 
@@ -92,7 +92,7 @@
             {{-- Vertical 3 (right) - Animation 3 --}}
             <g class="logo-part" data-part="vertical3">
                 <rect fill="#010101" x="381.99" y="96.56" width="54.12" height="134.53"/>
-                <g class="anim-vertical3-content" style="pointer-events:none">
+                <g class="anim-vertical3-content" style="opacity:0;pointer-events:none">
                     <rect x="381" y="85" width="55" height="55" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" rx="2"/>
                 </g>
                 <rect class="cover-vertical3" x="382" y="95" width="54.2" height="60" fill="#010101"/>
@@ -103,9 +103,9 @@
 </div>
 
 <style>
-    .animated-logo-wrapper { display: inline-block; cursor: pointer; position: relative; will-change: transform; }
-    .animated-logo-wrapper.logo-minimized { position: fixed; z-index: 9999; }
-    .animated-logo-svg { display: block; max-width: 100%; height: auto; }
+    .animated-logo-wrapper { display: block; width: 80%; margin: 0 auto; cursor: pointer; position: relative; }
+    .animated-logo-svg { display: block; width: 100%; max-width: none; height: auto; }
+    .animated-logo-wrapper.logo-in-navbar { width: 100px; margin: 0; }
     .logo-part[data-inactive="1"] [class^="hover-"] { pointer-events: none !important; cursor: default !important; }
 </style>
 
@@ -148,15 +148,20 @@
             if (textG) {
                 textG.innerHTML = '';
                 var cx = key === 'diamon1' ? 121.9 : key === 'diamon2' ? 218.26 : 314.17;
+                var cy = 48.21;
+                var gap = 17;
+                var total = Math.min(lines.length, 2);
+                var firstY = cy - ((total - 1) * gap) / 2;
                 lines.slice(0, 2).forEach(function(line, i) {
                     var t = document.createElementNS(ns, 'text');
                     t.setAttribute('x', cx);
-                    t.setAttribute('y', 40 + i * 17);
+                    t.setAttribute('y', firstY + i * gap);
                     t.setAttribute('fill', '#FFFFFF');
                     t.setAttribute('font-family', 'Arial,sans-serif');
                     t.setAttribute('font-size', '11');
                     t.setAttribute('font-weight', 'bold');
                     t.setAttribute('text-anchor', 'middle');
+                    t.setAttribute('dominant-baseline', 'middle');
                     t.textContent = line;
                     textG.appendChild(t);
                 });
@@ -190,16 +195,19 @@
             if (content) {
                 var existing = content.querySelectorAll('text');
                 for (var i = 0; i < existing.length; i++) existing[i].remove();
-                var startY = c.cy - 20;
+                var gap = 12;
+                var total = lines.length;
+                var startY = c.cy - ((total - 1) * gap) / 2;
                 lines.forEach(function(line, i) {
                     var t = document.createElementNS(ns, 'text');
                     t.setAttribute('x', c.cx);
-                    t.setAttribute('y', startY + i * 12);
+                    t.setAttribute('y', startY + i * gap);
                     t.setAttribute('fill', '#010101');
                     t.setAttribute('font-family', 'Arial,sans-serif');
                     t.setAttribute('font-size', '9');
                     t.setAttribute('font-weight', 'bold');
                     t.setAttribute('text-anchor', 'middle');
+                    t.setAttribute('dominant-baseline', 'middle');
                     t.textContent = line;
                     content.appendChild(t);
                 });
@@ -247,16 +255,20 @@
             }
             if (!hover || !cover) return;
             hover.addEventListener('mouseenter', function() {
+                if (content) gsap.killTweensOf(content);
                 gsap.killTweensOf(cover);
+                if (content) gsap.to(content, { opacity: 1, duration: 0.2, ease: 'power2.out' });
                 gsap.to(cover, { y: 60, duration: 0.7, ease: 'power2.out' });
             });
             hover.addEventListener('mouseleave', function() {
+                if (content) gsap.killTweensOf(content);
                 gsap.killTweensOf(cover);
+                if (content) gsap.to(content, { opacity: 0, duration: 0.2, ease: 'power2.in' });
                 gsap.to(cover, { y: 0, duration: 0.7, ease: 'power2.in' });
             });
         });
 
-        // ---- Click: minimize to top-left (unchanged) ----
+        // ---- Click: animate into navbar logo slot ----
         var logoWrapper = root;
         var logoSvg = root.querySelector('.animated-logo-svg');
         var isMinimized = false;
@@ -265,25 +277,63 @@
                 e.stopPropagation();
                 if (isMinimized) return;
                 isMinimized = true;
-                var rect = logoWrapper.getBoundingClientRect();
-                var currentX = rect.left + rect.width / 2;
-                var currentY = rect.top + rect.height / 2;
-                var targetWidth = 150;
-                var scale = targetWidth / rect.width;
-                var targetX = 20 + targetWidth / 2;
-                var targetY = 20 + (rect.height * scale) / 2;
-                logoWrapper.classList.add('logo-minimized');
-                gsap.set(logoWrapper, { left: rect.left, top: rect.top, x: 0, y: 0, scale: 1 });
-                gsap.timeline().to(logoWrapper, {
-                    scale: scale,
-                    x: targetX - currentX,
-                    y: targetY - currentY,
-                    duration: 0.8,
+                var headerLogoAnchor = document.querySelector('.header .logo a') || document.querySelector('.header .logo');
+                var targetLogo = document.querySelector('.header .logo img');
+                if (!headerLogoAnchor) {
+                    isMinimized = false;
+                    return;
+                }
+
+                var sourceRect = logoWrapper.getBoundingClientRect();
+                var targetRect = targetLogo ? targetLogo.getBoundingClientRect() : headerLogoAnchor.getBoundingClientRect();
+
+                // Prevent white overlays flashing while morphing to navbar size.
+                gsap.set([
+                    '.anim-diamon1-text', '.anim-diamon2-text', '.anim-diamon3-text',
+                    '.anim-circle1-content', '.anim-circle2-content'
+                ], { opacity: 0, scale: 0 });
+                gsap.set(['.cover-vertical1', '.cover-vertical2', '.cover-vertical3'], { y: 0 });
+                gsap.set(['.diamon1-path', '.diamon2-path', '.diamon3-path'], { rotation: 0 });
+
+                // Keep layout stable while the logo is temporarily fixed.
+                var placeholder = document.createElement('div');
+                placeholder.style.width = sourceRect.width + 'px';
+                placeholder.style.height = sourceRect.height + 'px';
+                logoWrapper.parentNode.insertBefore(placeholder, logoWrapper);
+
+                logoWrapper.style.pointerEvents = 'none';
+                logoWrapper.style.position = 'fixed';
+                logoWrapper.style.left = sourceRect.left + 'px';
+                logoWrapper.style.top = sourceRect.top + 'px';
+                logoWrapper.style.width = sourceRect.width + 'px';
+                logoWrapper.style.height = sourceRect.height + 'px';
+                logoWrapper.style.margin = '0';
+                logoWrapper.style.zIndex = '10000';
+
+                gsap.to(logoWrapper, {
+                    left: targetRect.left,
+                    top: targetRect.top,
+                    width: targetRect.width,
+                    height: targetRect.height,
+                    duration: 0.9,
                     ease: 'power2.inOut',
-                    transformOrigin: 'center center',
                     onComplete: function() {
-                        gsap.set(logoWrapper, { left: 20, top: 20, clearProps: 'x,y,scale' });
-                        gsap.set(logoSvg, { width: targetWidth, height: 'auto' });
+                        if (targetLogo) {
+                            targetLogo.style.display = 'none';
+                        }
+                        headerLogoAnchor.appendChild(logoWrapper);
+                        logoWrapper.classList.add('logo-in-navbar');
+                        logoWrapper.style.position = 'relative';
+                        logoWrapper.style.left = '';
+                        logoWrapper.style.top = '';
+                        logoWrapper.style.width = (targetRect.width || 100) + 'px';
+                        logoWrapper.style.height = 'auto';
+                        logoWrapper.style.margin = '0';
+                        logoWrapper.style.zIndex = '';
+                        logoWrapper.style.pointerEvents = 'auto';
+                        if (placeholder && placeholder.parentNode) {
+                            placeholder.parentNode.removeChild(placeholder);
+                        }
                     }
                 });
             });
