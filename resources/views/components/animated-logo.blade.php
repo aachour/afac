@@ -257,14 +257,14 @@
             hover.addEventListener('mouseenter', function() {
                 if (content) gsap.killTweensOf(content);
                 gsap.killTweensOf(cover);
-                if (content) gsap.to(content, { opacity: 1, duration: 0.2, ease: 'power2.out' });
-                gsap.to(cover, { y: 60, duration: 0.7, ease: 'power2.out' });
+                if (content) gsap.set(content, { opacity: 1 });
+                gsap.to(cover, { y: 60, duration: 1.1, ease: 'power2.out' });
             });
             hover.addEventListener('mouseleave', function() {
                 if (content) gsap.killTweensOf(content);
                 gsap.killTweensOf(cover);
-                if (content) gsap.to(content, { opacity: 0, duration: 0.2, ease: 'power2.in' });
-                gsap.to(cover, { y: 0, duration: 0.7, ease: 'power2.in' });
+                gsap.to(cover, { y: 0, duration: 1.1, ease: 'power2.in' });
+                if (content) gsap.set(content, { opacity: 0, delay: 1.1 });
             });
         });
 
