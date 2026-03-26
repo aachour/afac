@@ -63,6 +63,11 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\FormStackController;
 
+Route::post('/set-language', function () {
+    session(['locale' => request('locale')]);
+
+    return response()->json(['ok' => true]);
+});
 
 Route::get('/', [HomeController::class, 'home'])->name('home'); 
 

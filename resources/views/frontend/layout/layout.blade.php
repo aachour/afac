@@ -26,6 +26,10 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}?v=11">
     <link rel="stylesheet" href="{{ asset('frontend/css/elements.css') }}?v=12">
     
+    @if(app()->getLocale()=='ar')
+    <link rel="stylesheet" href="{{asset('frontend/css/arabic.css')}}?v=1" />
+    @endif
+
     <!-- JS -->
     <script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('frontend/js/jquery.js')}}"></script>
@@ -45,7 +49,9 @@
                 </a>
             </div>
             <div class="topSpacer menuBtn tiny ABCDiatypeMedium clickable" id="menuBtn">Menu</div>
-            <div class="topSpacer langBtn rightSpacerBig tiny ABCDiatypeMedium">EN/AR</div>
+            <div class="topSpacer langBtn rightSpacerBig tiny ABCDiatypeMedium">
+                <span class="clickable" onclick="setLang('en')">EN</span>/<span class="clickable" onclick="setLang('ar')">AR</span>
+            </div>
             <div class="clear"></div>
         </div>
     </div>
@@ -166,6 +172,18 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         }); 
+
+        function setLang(locale) { 
+            fetch('/set-language', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ locale: locale })
+            }).then(() => location.reload());
+        }
 
         $(document).ready(function(){
             
