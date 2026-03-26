@@ -7,7 +7,7 @@
     position:relative;
     width:100%;
 }
-@media (max-width:900px){
+@media (max-width:1000px){
     .centerContainer{
         position:relative;
         margin:0px auto;
@@ -18,7 +18,7 @@
         min-height: calc(100vh - 650px);
     }
 }
-@media (min-width:900px){
+@media (min-width:1000px){
     .centerContainer{
         position:relative;
         margin:0px auto;
@@ -60,7 +60,7 @@
     background:#D2F8FE;
     z-index:99999999;
 }
-@media(max-width:900px){
+@media(max-width:1000px){
     .menu{
         right:-100%;
         width:100%;
@@ -96,7 +96,7 @@
     float:right;
 }
 
-@media(max-width:900px){
+@media(max-width:1000px){
     .filters{
         padding:20px 0px;
         overflow:hidden;
@@ -123,7 +123,7 @@
     padding:30px 2.5%;
     overflow:hidden;
 }
-@media(max-width:900px){
+@media(max-width:1000px){
     .collection{
         padding:20px 2.5%;
         overflow:hidden;
@@ -136,7 +136,7 @@
     box-shadow: 0px 0px 1px 2px rgba(128, 128, 128, 0.3);
 }
 
-@media(max-width:900px){
+@media(max-width:1000px){
     .collection .titleDescription{
         width:100%;
     }  
@@ -144,7 +144,7 @@
         width:100%;
     }   
 }
-@media(min-width:900px){
+@media(min-width:1000px){
     .collection .titleDescription{
         float:left;
         width:48.5%;
@@ -207,7 +207,7 @@
     width:25%;
 }
 
-@media(max-width:900px){
+@media(max-width:1000px){
     .collection .entries{
         margin-top:20px;
     }
@@ -221,7 +221,7 @@
         margin:0px 2% 15px 0%;
     }
 }
-@media (min-width:900px){
+@media (min-width:1000px){
     .collection .entries .entry{
         float:left;
         width:23.5%;
@@ -344,7 +344,7 @@
     overflow:hidden;
 }
 
-@media(max-width:900px){
+@media(max-width:1000px){
     .section{
         padding:20px 2.5%;
         overflow:hidden;
@@ -367,7 +367,7 @@
     background:#000;
     z-index:999;
 }
-@media(max-width:900px){
+@media(max-width:1000px){
     .section .verticalLine{
         display: none !important;
     }
@@ -408,7 +408,7 @@
     overflow: visible !important;
     cursor: pointer;
 }
-@media(max-width:900px){
+@media(max-width:1000px){
     .gallery .gallery-swiper-button-next{
         right: 9.5% !important;
     }
@@ -453,7 +453,7 @@
     background-size: 14px 28px !important;
 }
 
-@media(max-width:900px){
+@media(max-width:1000px){
     .gallery .gallery-swiper-button-prev {
         left: calc(91.5% - 40px) !important;
     }
@@ -588,7 +588,7 @@
     z-index: 9999999;
 }
 
-@media(max-width:900px) {
+@media(max-width:1000px) {
     .popupText {}
 }
 

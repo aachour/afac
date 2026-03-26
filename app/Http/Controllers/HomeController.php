@@ -266,13 +266,16 @@ class HomeController extends Controller
 
             $sliderCollection = $entries_layout == 2 ? 'sliderCollection' : '';
 
+            
             $html.='<style>
-                @media(min-width:900px){
-                    .collection .entries > .entry:nth-child(4n of .entry){
-                        margin-right:0 !important;
-                    }
+                @media(min-width:1000px){
+                    .collection .entries > .entry:nth-child(4n of .entry){';
+                        if(app()->getLocale()=='en'){$html.='margin-right:0 !important;';}
+                        else if(app()->getLocale()=='ar'){$html.='margin-left:0 !important;';}
+                    $html.='}
                 }
             </style>';
+            
 
             //$html.='<div class="collection '.$sliderCollection.' '.($bgColor ? 'mt-3' : '').'" style="background-color:'.$bgColor.';">';
                 
@@ -472,10 +475,11 @@ class HomeController extends Controller
                         if($entries_layout==1 && $entries_per_row==4){
                             $html.='
                             <style>
-                                @media(min-width:900px){
-                                    .collection .entries > .entry:nth-child(4n of .entry){
-                                        margin-right:0 !important;
-                                    }
+                                @media(min-width:1000px){
+                                    .collection .entries > .entry:nth-child(4n of .entry){ ';
+                                        if(app()->getLocale()=='en'){$html.='margin-right:0 !important;';}
+                                        else if(app()->getLocale()=='ar'){$html.='margin-left:0 !important;';}
+                                    $html.='}
                                 }
                             </style>';
                         }
@@ -485,10 +489,11 @@ class HomeController extends Controller
                         {
 
                             $html.='<style>
-                                @media(min-width:900px){
-                                    .sliderCollection .entries .entry:nth-child(4n){
-                                        margin-right:1.2% !important;
-                                    }
+                                @media(min-width:1000px){
+                                    .sliderCollection .entries .entry:nth-child(4n){';
+                                        if(app()->getLocale()=='en'){$html.='margin-right:1.2% !important;';}
+                                        else if(app()->getLocale()=='ar'){$html.='margin-left:1.2% !important;';}
+                                    $html.='}
                                 }
                             </style>';
 

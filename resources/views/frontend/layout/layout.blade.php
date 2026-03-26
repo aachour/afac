@@ -22,12 +22,12 @@
     <link rel="stylesheet" href="{{asset('frontend/css/bootstrap.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/css/jquery-ui.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/css/swiper.css')}}" />
-    <link rel="stylesheet" href="{{asset('frontend/css/general.css')}}?v=5" />
-    <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}?v=11">
-    <link rel="stylesheet" href="{{ asset('frontend/css/elements.css') }}?v=12">
+    <link rel="stylesheet" href="{{asset('frontend/css/general.css')}}?v=6" />
+    <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}?v=12">
+    <link rel="stylesheet" href="{{ asset('frontend/css/elements.css') }}?v=13">
     
     @if(app()->getLocale()=='ar')
-    <link rel="stylesheet" href="{{asset('frontend/css/arabic.css')}}?v=1" />
+    <link rel="stylesheet" href="{{asset('frontend/css/arabic.css')}}?v=2" />
     @endif
 
     <!-- JS -->

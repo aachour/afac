@@ -558,9 +558,7 @@ function ViewTimeline($section_column_id, $language = 'EN')
 
             </div>';
 
-        $htmlColumn .= '<style>
-                
-            </style>
+        $htmlColumn .= '
             <script>
                 (function() {
                     document.addEventListener("DOMContentLoaded", function() {
