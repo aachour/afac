@@ -440,7 +440,7 @@ function ViewColumnGeneral($section_column_id, $language = 'EN')
                                 </script>';
                     }
                 } else if ($input_type_id == 4) {   //video
-                    $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0"><iframe src="' . $generalInput->video . '" width="100%" height="400px"></iframe></div>';
+                    $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0"><div class="video-wrap"><iframe src="' . $generalInput->video . '" ></iframe></div></div>';
                 } else if ($input_type_id == 5) {   //button
 
                     $textAlign = $generalInput->button_link == null ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
