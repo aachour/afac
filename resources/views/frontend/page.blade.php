@@ -15,7 +15,7 @@
 @section('content')
 
     <div class="fullContainer">
-        
+
         @if(@$logoAnimation==1)
             <div class="section">
                 @include('components.animated-logo', ['logoElements' => $logoElements])
