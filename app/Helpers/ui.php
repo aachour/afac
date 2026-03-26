@@ -33,76 +33,76 @@ function ViewEntryData($entry_id, $language = 'EN')
 
         $html = '<div class="fullContainer">';
 
-        $html .= '<div class="centerContainer">
-                    <div class="row align-items-stretch g-0 no-gutters">';
-        if ($entry->type_id <= 5) {
-            $bgCode = $entry->ImageBgColor?->code ?? 'transparent';
-            $heroContent = '<div class="labels">';
-            $heroContent .= '<div class="label micro black ABCDiatypeMedium">' . $entry->type->name . '</div>';
-            foreach ($labels as $label) {
-                $heroContent .= '<div class="label micro rounded">' . $label . '</div>';
-            }
-            $heroContent .= '</div><div class="mt-3 huge black ABCDiatypeMedium" style="padding:0px 70px;">' . getEntryTitle($entry) . '</div>';
-            if ($entry->type_id == 2) //check program status
-            {
+            $html .= '<div class="centerContainer">
+                <div class="row align-items-stretch g-0 no-gutters">';
+                    if ($entry->type_id <= 5) {
+                        $bgCode = $entry->ImageBgColor?->code ?? 'transparent';
+                        $heroContent = '<div class="labels">';
+                        //$heroContent .= '<div class="label micro black ABCDiatypeMedium">' . $entry->type->name . '</div>';
+                        foreach ($labels as $label) {
+                            $heroContent .= '<div class="label micro rounded">' . $label . '</div>';
+                        }
+                        $heroContent .= '</div><div class="mt-3 huge black ABCDiatypeMedium" style="padding:0px 70px;">' . getEntryTitle($entry) . '</div>';
+                        if ($entry->type_id == 2) //check program status
+                        {
 
-                $current = time();
+                            $current = time();
 
-                $start_timestamp = strtotime($entry->program_start_date);
-                $end_timestamp   = strtotime($entry->program_end_date);
+                            $start_timestamp = strtotime($entry->program_start_date);
+                            $end_timestamp   = strtotime($entry->program_end_date);
 
-                if ($end_timestamp >= $current) {
+                            if ($end_timestamp >= $current) {
 
-                    $daysLeft = floor(($end_timestamp - $current) / 86400);
+                                $daysLeft = floor(($end_timestamp - $current) / 86400);
 
-                    //only show when program already started
-                    if ($current >= $start_timestamp && $daysLeft > 0) {
-                        $arrowSvg = '<span class="entry-hero-cta-arrow-wrap"><svg class="entry-hero-cta-arrow" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.2128 23.5743L11.9388 21.3256L19.8348 13.4295H0V10.1448H19.8348L11.9388 2.26142L14.2128 0L26 11.7872L14.2128 23.5743Z" fill="currentColor"/></svg></span>';
-                        $heroContent .= '<a href="' . $entry->button_link . '" target="_blank" class="entry-hero-diamond-trigger"><span class="entry-hero-cta mt-3 black small"><span class="entry-hero-cta-text">' . $entry->button_value . '</span>' . $arrowSvg . '</span></a>';
+                                //only show when program already started
+                                if ($current >= $start_timestamp && $daysLeft > 0) {
+                                    $arrowSvg = '<span class="entry-hero-cta-arrow-wrap"><svg class="entry-hero-cta-arrow" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.2128 23.5743L11.9388 21.3256L19.8348 13.4295H0V10.1448H19.8348L11.9388 2.26142L14.2128 0L26 11.7872L14.2128 23.5743Z" fill="currentColor"/></svg></span>';
+                                    $heroContent .= '<a href="' . $entry->button_link . '" target="_blank" class="entry-hero-diamond-trigger"><span class="entry-hero-cta mt-3 black"><span class="entry-hero-cta-text small">' . $entry->button_value . '</span>' . $arrowSvg . '</span></a>';
+                                }
+                            }
+                        }
+                        if ($entry->type_id == 3) //get grantees
+                        {
+                            $granteeArrowSvg = '<span class="entry-hero-grantee-arrow-wrap"><svg class="entry-hero-grantee-arrow" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.2128 23.5743L11.9388 21.3256L19.8348 13.4295H0V10.1448H19.8348L11.9388 2.26142L14.2128 0L26 11.7872L14.2128 23.5743Z" fill="currentColor"/></svg></span>';
+                            foreach ($entry->projectGrantees($entry->id) as $grantee) {
+                                $heroContent .= '<div class="mt-3 entry-hero-grantee-link-wrap"><a href="' . route('entry.view', ['entryType' => 'grantee', 'id' => $grantee["id"]]) . '" class="small black ABCDiatypeMedium square-diamond-grantee-trigger entry-hero-grantee-link"><span class="entry-hero-grantee-name">' . $grantee["name"] . '</span>' . $granteeArrowSvg . '</a></div>';
+                            }
+                        }
+                        $grantee_trigger = ($entry->type_id == 3 && count($entry->projectGrantees($entry->id)) > 0) ? '.square-diamond-grantee-trigger' : null;
+                        $html .= '<div class="col-lg-6 col-12 text-center d-flex h-100">';
+                        $html .= view('frontend.btn-animation.entry-hero-square-diamond', ['bg_color' => $bgCode, 'content' => $heroContent, 'trigger_selector' => $grantee_trigger])->render();
+                        $html .= '</div>
+                                        <div class="col-lg-6 col-12 d-flex">';
+                        if ($entry->image_featured) {
+                            $html .= '<img src="' . asset('storage/' . $entry->image_featured) . '" width="100%" />';
+                        } else {
+                            $html .= '<img src="' . asset('frontend/images/default-image-featured.png') . '" width="100%" />';
+                        }
+                        $html .= '</div>';
+                    } else { // Resourses/News/Externals
+                        $html .= '<div class="col-12 text-center">';
+
+                        $html .= '<div class="big black ABCDiatypeMedium text-start">' . getEntryTitle($entry) . '</div>';
+
+                        $html .= '<div class="mt-2 mb-3 medium black ABCDiatypeMedium text-start">';
+                        if ($entry->type_id == 6) {
+                            $html .= date('d M Y', strtotime($entry->resource_date));
+                        } else if ($entry->type_id == 7) {
+                            $html .= date('d M Y', strtotime($entry->news_date));
+                        }
+                        $html .= '</div>';
+
+                        if ($entry->image_featured) {
+                            $html .= '<img src="' . asset('storage/' . $entry->image_full) . '" width="100%" />';
+                        } else {
+                            $html .= '<img src="' . asset('frontend/images/default-image-full.png') . '" width="100%" />';
+                        }
+                        $html .= '<div class="mt-2 micro black text-start">' . $entry->image_caption . '</div>
+                                        </div>';
                     }
-                }
-            }
-            if ($entry->type_id == 3) //get grantees
-            {
-                $granteeArrowSvg = '<span class="entry-hero-grantee-arrow-wrap"><svg class="entry-hero-grantee-arrow" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.2128 23.5743L11.9388 21.3256L19.8348 13.4295H0V10.1448H19.8348L11.9388 2.26142L14.2128 0L26 11.7872L14.2128 23.5743Z" fill="currentColor"/></svg></span>';
-                foreach ($entry->projectGrantees($entry->id) as $grantee) {
-                    $heroContent .= '<div class="mt-3 entry-hero-grantee-link-wrap"><a href="' . route('entry.view', ['entryType' => 'grantee', 'id' => $grantee["id"]]) . '" class="small black ABCDiatypeMedium square-diamond-grantee-trigger entry-hero-grantee-link"><span class="entry-hero-grantee-name">' . $grantee["name"] . '</span>' . $granteeArrowSvg . '</a></div>';
-                }
-            }
-            $grantee_trigger = ($entry->type_id == 3 && count($entry->projectGrantees($entry->id)) > 0) ? '.square-diamond-grantee-trigger' : null;
-            $html .= '<div class="col-lg-6 col-12 text-center d-flex h-100">';
-            $html .= view('frontend.btn-animation.entry-hero-square-diamond', ['bg_color' => $bgCode, 'content' => $heroContent, 'trigger_selector' => $grantee_trigger])->render();
-            $html .= '</div>
-                            <div class="col-lg-6 col-12 d-flex">';
-            if ($entry->image_featured) {
-                $html .= '<img src="' . asset('storage/' . $entry->image_featured) . '" width="100%" />';
-            } else {
-                $html .= '<img src="' . asset('frontend/images/default-image-featured.png') . '" width="100%" />';
-            }
-            $html .= '</div>';
-        } else { // Resourses/News/Externals
-            $html .= '<div class="col-12 text-center">';
-
-            $html .= '<div class="big black ABCDiatypeMedium text-start">' . getEntryTitle($entry) . '</div>';
-
-            $html .= '<div class="mt-2 mb-3 medium black ABCDiatypeMedium text-start">';
-            if ($entry->type_id == 6) {
-                $html .= date('d M Y', strtotime($entry->resource_date));
-            } else if ($entry->type_id == 7) {
-                $html .= date('d M Y', strtotime($entry->news_date));
-            }
-            $html .= '</div>';
-
-            if ($entry->image_featured) {
-                $html .= '<img src="' . asset('storage/' . $entry->image_full) . '" width="100%" />';
-            } else {
-                $html .= '<img src="' . asset('frontend/images/default-image-full.png') . '" width="100%" />';
-            }
-            $html .= '<div class="mt-2 micro black text-start">' . $entry->image_caption . '</div>
-                            </div>';
-        }
-        $html .= '</div>
-                </div>';
+                $html .= '</div>
+            </div>';
 
         $html .= '</div>';
 
@@ -220,8 +220,11 @@ function ViewCollection($collection_id, $language = 'EN')
     }
 
     if ($with_featured == 0 && $show_view_all == 1 && $featured_width != '74.3%') {
-        $html .= '<div class="viewAll">
-            <a href="' . $view_all_link . '" class="black tiny ABCDiatypeBlack">' . $view_all_title . ' &nbsp;<img src="' . asset('frontend/images/view-all-btn-en.png') . '" width="9px" style="margin-top:8px;"></a>
+        $html .= '<div class="viewAll mt-3">
+            <a href="' . $view_all_link . '" class="view-all-link">
+                <span class="black tiny ABCDiatypeBlack">' . $view_all_title . '</span>
+                <img src="' . asset('frontend/images/view-all-btn-en.png') . '" width="12px">
+            </a>
         </div>';
     }
 
@@ -308,42 +311,47 @@ function ViewSection($section_id, $language = 'EN')
             $sectionBg = "background:" . $bgColor . ";";
         }
 
-        $html = '<div class="section" style="' . $sectionBg . '">
-
-                <div class="row">';
-
+        $checkPattern=false;
         foreach ($sectionColumns as $sectionColumn) {
-
-            $html .= '<div class="col-lg-' . ($colsNum == 1 ? '12' : '6') . ' col-12">';
-
-            $colType = $sectionColumn->type_id;
-
-            if ($colType == 1) //Get general inputs
-            {
-                $html .= ViewColumnGeneral($sectionColumn->id, "En");
-            } else if ($colType == 2) //Get timeline
-            {
-                $html .= ViewTimeline($sectionColumn->id, "En");
-            } else if ($colType == 3) //Get accordion
-            {
-                $html .= ViewAccordion($sectionColumn->id, "En");
-            } else if ($colType == 4) //Get countdown
-            {
-                $html .= ViewCountdown($sectionColumn->id, "En");
-            } else if ($colType == 5) //Get expanding text
-            {
-                $html .= ViewExpandingText($sectionColumn->id, "En");
-            } else if ($colType == 6) //Get Pattern
-            {
-                $html .= ViewPattern($sectionColumn->id, "En");
-            }
-
-            $html .= '</div>';
+            if ($sectionColumn->type_id == 6){$checkPattern=true;}
         }
 
-        $html .= '</div>
+        $html = '<div class="section ' . ($checkPattern == true ? 'desktopOnly' : '') . '" style="' . $sectionBg . '">
 
-            </div>';
+            <div class="row">';
+
+                foreach ($sectionColumns as $sectionColumn) {
+
+                    $html .= '<div class="col-lg-' . ($colsNum == 1 ? '12' : '6') . ' col-12">';
+
+                        $colType = $sectionColumn->type_id;
+
+                        if ($colType == 1) //Get general inputs
+                        {
+                            $html .= ViewColumnGeneral($sectionColumn->id, "En");
+                        } else if ($colType == 2) //Get timeline
+                        {
+                            $html .= ViewTimeline($sectionColumn->id, "En");
+                        } else if ($colType == 3) //Get accordion
+                        {
+                            $html .= ViewAccordion($sectionColumn->id, "En");
+                        } else if ($colType == 4) //Get countdown
+                        {
+                            $html .= ViewCountdown($sectionColumn->id, "En");
+                        } else if ($colType == 5) //Get expanding text
+                        {
+                            $html .= ViewExpandingText($sectionColumn->id, "En");
+                        } else if ($colType == 6) //Get Pattern
+                        {
+                            $html .= ViewPattern($sectionColumn->id, "En");
+                        }
+
+                    $html .= '</div>';
+                }
+
+            $html .= '</div>
+
+        </div>';
 
         if ($section->with_border_bottom == 1) {
             $html .= '<div class="sectionWithBorder"></div>';
@@ -380,16 +388,16 @@ function ViewColumnGeneral($section_column_id, $language = 'EN')
                 $input_type_id = $generalInput->input_type_id;
 
                 if ($input_type_id == 1) {   //title
-                    $htmlColumn .= '<div class="topSpacerSmall big black ABCDiatypeMedium">' . $generalInput->title . '</div>';
+                    $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0 big black ABCDiatypeMedium">' . $generalInput->title . '</div>';
                 } else if ($input_type_id == 2) {   //text
-                    $htmlColumn .= '<div class="topSpacer small black ABCDiatype">' . $generalInput->text . '</div>';
+                    $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0 small black ABCDiatype">' . $generalInput->text . '</div>';
                 } else if ($input_type_id == 3) {   //gallery
                     $galleryImages = $generalInput->gallery->images;
                     if (count($galleryImages) == 1) { //single image
-                        $htmlColumn .= '<div class="topSpacer"><img src=' . asset("storage/" . $galleryImages[0]->image_path) . ' width="100%" /></div>';
-                        $htmlColumn .= '<div class="topSpacerSmaller tiny black">' . $galleryImages[0]->caption . '</div>';
+                        $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0"><img src=' . asset("storage/" . $galleryImages[0]->image_path) . ' width="100%" /></div>';
+                        $htmlColumn .= '<div class="mt-1 tiny black">' . $galleryImages[0]->caption . '</div>';
                     } else { //gallery images
-                        $htmlColumn .= '<div class="topSpacer swiper gallery" id="swiper-gallery-' . $section_column_id . '">
+                        $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0 swiper gallery" id="swiper-gallery-' . $section_column_id . '">
                                     <div class="swiper-wrapper">';
                             foreach ($galleryImages as $galleryImage) {
                                 $htmlColumn .= '<div class="swiper-slide">
@@ -432,12 +440,12 @@ function ViewColumnGeneral($section_column_id, $language = 'EN')
                                 </script>';
                     }
                 } else if ($input_type_id == 4) {   //video
-                    $htmlColumn .= '<div class="topSpacer"><iframe src="' . $generalInput->video . '" width="100%" height="400px"></iframe></div>';
+                    $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0"><iframe src="' . $generalInput->video . '" width="100%" height="400px"></iframe></div>';
                 } else if ($input_type_id == 5) {   //button
 
                     $textAlign = $generalInput->button_link == null ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
-                    $htmlColumn .= '<div class="topSpacerBig">
+                    $htmlColumn .= '<div class="mt-3 mb-3 md:mb-0">
                         <a href="' . ($generalInput->button_link ?? '#') . '">' . getEntryBtnShape($generalInput->button_value, $generalInput->button_value_arabic, $generalInput->shape?->name, $generalInput->shapeHover->name, $generalInput->buttonColor->code, $generalInput->buttonHoverColor->code, $generalInput->buttonBgColor->code, $generalInput->buttonHoverBgColor->code) . '</a>
                     </div>';
                 }
@@ -478,67 +486,68 @@ function ViewTimeline($section_column_id, $language = 'EN')
         foreach ($column->timelines as $timeline) {
 
             $htmlColumn .= '<div class="timeline mb-5">
-                                <div class="row">
-                                    <div class="col-lg-3 col-12">
-                                        <div class="black big ABCDiatypeMedium mb-2">
-                                            <img src="' . asset('frontend/images/diamond.png') . '" width="40px" />&nbsp;&nbsp;
-                                            ' . $timeline->date . '
-                                        </div>
-                                    </div>
+                <div class="row">
 
-                                    <div class="col-lg-9 col-12">
-                                        <div class="timeline-percentages-wrapper">';
-            $percentageIndex = 0;
-            foreach ($timeline->percentages as $key => $percentage) {
-                $uniqueId = 'timeline-' . $timeline->id . '-percentage-' . $percentageIndex;
-                $percentageColor = $percentage->color->code ?? '#010101';
-                $percentageValue = $percentage->percentage ?? 0;
+                    <div class="col-lg-3 col-12 ">
+                        <div class="black big ABCDiatypeMedium mb-2">
+                            <img src="' . asset('frontend/images/diamond.png') . '" width="40px" />&nbsp;&nbsp;
+                            ' . $timeline->date . '
+                        </div>
+                    </div>
 
-                $htmlColumn .= '<div class="percentage-column ' . ($percentageIndex == 0 ? 'active' : 'd-none') . '" 
-                                    data-percentage-id="' . $uniqueId . '" 
-                                    data-percentage-value="' . $percentageValue . '" 
-                                    data-percentage-color="' . $percentageColor . '"
-                                    data-timeline-id="' . $timeline->id . '">
+                    <div class="col-lg-9 col-12">
+                        <div class="timeline-percentages-wrapper">';
+                            $percentageIndex = 0;
+                            foreach ($timeline->percentages as $key => $percentage) {
+                                $uniqueId = 'timeline-' . $timeline->id . '-percentage-' . $percentageIndex;
+                                $percentageColor = $percentage->color->code ?? '#010101';
+                                $percentageValue = $percentage->percentage ?? 0;
 
-                                <div class="percentage-text big black mb-5">' . $percentage->text . '</div>';
+                                $htmlColumn .= '<div class="percentage-column ' . ($percentageIndex == 0 ? 'active' : 'd-none') . '" 
+                                                    data-percentage-id="' . $uniqueId . '" 
+                                                    data-percentage-value="' . $percentageValue . '" 
+                                                    data-percentage-color="' . $percentageColor . '"
+                                                    data-timeline-id="' . $timeline->id . '">
 
-                if ($percentage->percentage != 0) {
-                    $diamondCount = 0;
-                    $totalDiamonds = 100;
-                    $coloredDiamonds = min($percentageValue, $totalDiamonds);
+                                                <div class="percentage-text big black mb-5">' . $percentage->text . '</div>';
 
-                    $htmlColumn .= '<div class="diamonds-grid" data-percentage-color="' . $percentageColor . '">';
-                    for ($i = 1; $i <= 10; $i++) {
-                        for ($j = 1; $j <= 10; $j++) {
-                            $diamondCount++;
-                            $isColored = $diamondCount <= $coloredDiamonds;
-                            $diamondClass = $isColored ? 'diamond-colored' : 'diamond-default';
-                            $diamondFillColor = $isColored ? $percentageColor : '#010101';
+                                if ($percentage->percentage != 0) {
+                                    $diamondCount = 0;
+                                    $totalDiamonds = 100;
+                                    $coloredDiamonds = min($percentageValue, $totalDiamonds);
 
-                            $htmlColumn .= '<span class="diamond-wrapper">
-                                                <svg width="100%" height="100%" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" 
-                                                    class="diamond-percentage ' . $diamondClass . '" 
-                                                    data-diamond-index="' . $diamondCount . '"
-                                                    data-is-colored="' . ($isColored ? '1' : '0') . '"
-                                                    data-diamond-color="' . $diamondFillColor . '">
-                                                    <rect y="153.999" width="217.787" height="217.787" transform="rotate(-45 0 153.999)" fill="' . $diamondFillColor . '"/>
-                                                </svg>
-                                            </span>';
-                        }
-                        $htmlColumn .= '<br />';
-                    }
-                    $htmlColumn .= '</div>';
-                }
+                                    $htmlColumn .= '<div class="diamonds-grid" data-percentage-color="' . $percentageColor . '">';
+                                    for ($i = 1; $i <= 10; $i++) {
+                                        for ($j = 1; $j <= 10; $j++) {
+                                            $diamondCount++;
+                                            $isColored = $diamondCount <= $coloredDiamonds;
+                                            $diamondClass = $isColored ? 'diamond-colored' : 'diamond-default';
+                                            $diamondFillColor = $isColored ? $percentageColor : '#010101';
 
-                $htmlColumn .= '</div>';
-                $percentageIndex++;
-            }
+                                            $htmlColumn .= '<span class="diamond-wrapper">
+                                                                <svg width="100%" height="100%" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" 
+                                                                    class="diamond-percentage ' . $diamondClass . '" 
+                                                                    data-diamond-index="' . $diamondCount . '"
+                                                                    data-is-colored="' . ($isColored ? '1' : '0') . '"
+                                                                    data-diamond-color="' . $diamondFillColor . '">
+                                                                    <rect y="153.999" width="217.787" height="217.787" transform="rotate(-45 0 153.999)" fill="' . $diamondFillColor . '"/>
+                                                                </svg>
+                                                            </span>';
+                                        }
+                                        $htmlColumn .= '<br />';
+                                    }
+                                    $htmlColumn .= '</div>';
+                                }
 
-            $htmlColumn .= '</div>';
+                                $htmlColumn .= '</div>';
+                                $percentageIndex++;
+                            }
 
-            $htmlColumn .= '</div>
-                                </div>
-                            </div>';
+                        $htmlColumn .= '</div>
+
+                    </div>
+                </div>
+            </div>';
         }
 
         $htmlColumn .= '<div class="verticalLine"></div>
@@ -731,8 +740,6 @@ function ViewAccordion($section_column_id, $language = 'EN')
         $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
         $htmlColumn .= '<style>
-            .accordion-smooth .accordion-item { border-bottom: 1px solid rgba(0,0,0,0.1); }
-            .accordion-smooth .accordion-item:last-child { border-bottom: none; }
             .accordion-smooth .accordion-header { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 0.5rem 0; gap: 0.75rem; }
             .accordion-smooth .accordion-title { flex: 1; }
             .accordion-smooth .accordion-arrow { flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
@@ -746,21 +753,24 @@ function ViewAccordion($section_column_id, $language = 'EN')
 
         $htmlColumn .= '<div class="row ' . $textAlign . '">';
 
-        if ($column->width == 1) {
-            $htmlColumn .= '<div class="col-lg-12 col-12 accordion-smooth">';
-        } elseif ($column->width == 2) {
-            $htmlColumn .= '<div class="col-lg-9 col-12 accordion-smooth">';
-        } elseif ($column->width == 3) {
-            $htmlColumn .= '<div class="col-lg-3"></div><div class="col-lg-6 col-12 accordion-smooth">';
-        }
+            if ($column->width == 1) {
+                $htmlColumn .= '<div class="col-lg-12 col-12 accordion-smooth">';
+            } elseif ($column->width == 2) {
+                $htmlColumn .= '<div class="col-lg-9 col-12 accordion-smooth">';
+            } elseif ($column->width == 3) {
+                $htmlColumn .= '<div class="col-lg-3"></div><div class="col-lg-6 col-12 accordion-smooth">';
+            }
 
-        foreach ($column->accordions as $key => $accordion) {
-            $isFirst = ($key === 0);
-            $openClass = $isFirst ? ' open' : '';
-            $htmlColumn .= '<div class="accordion-item mb-2' . $openClass . '">
-                        <div class="accordion-header">
+                foreach ($column->accordions as $key => $accordion) {
+                    $isFirst = ($key === 0);
+                    $openClass = $isFirst ? ' open' : '';
+                    $accordionHeader = $isFirst ? '' : ' accordion-header';
+                    $hiddenArrow = $isFirst ? ' d-none' : '';
+                    
+                    $htmlColumn .= '<div class="accordion-item mb-2' . $openClass . '">
+                        <div class="'.$accordionHeader.'">
                             <div class="accordion-title medium black ABCDiatypeMedium">' . $accordion->title . '</div>
-                            <div class="accordion-arrow">
+                            <div class="accordion-arrow ' . $hiddenArrow . '">
                                 <img src="' . asset('frontend/images/arrow-down.png') . '" alt="" width="30" height="30" />
                             </div>
                         </div>
@@ -770,11 +780,11 @@ function ViewAccordion($section_column_id, $language = 'EN')
                             </div>
                         </div>
                     </div>';
-        }
+                }
 
-        $htmlColumn .= '</div>
+            $htmlColumn .= '</div>
 
-            </div>';
+        </div>';
     }
 
     $htmlColumn .= '<script>
@@ -830,23 +840,23 @@ function ViewCountdown($section_column_id, $language = 'EN')
 
             $htmlColumn .= '<div class="coutdown">
                     
-                        <div class="big black ABCDiatypeMedium text-center">' . $countdown->title . '</div>
+                <div class="big black ABCDiatypeMedium text-center">' . $countdown->title . '</div>
 
-                        <div class="row mt-5 align-items-center">
-                            <div class="mt-4 col-12 col-lg-4 text-end">
-                                <div class="huge black ABCDiatypeMedium">' . $days . '</div>
-                                <div class="big black ABCDiatypeMedium">Day(s)</div>
-                            </div>
-                            <div class="mt-4 col-12 col-lg-4 text-center">
-                                <a href="' . ($countdown->button_link ?? '#') . '">' . getEntryBtnShape($countdown->button_value, $countdown->button_value_arabic, $countdown->shape?->name, $countdown->shapeHover?->name, $countdown->buttonColor->code, $countdown->buttonHoverColor->code, $countdown->buttonBgColor->code, $countdown->buttonHoverBgColor->code) . '</a>
-                            </div>
-                            <div class="mt-4 col-12 col-lg-4 text-start">
-                                <div class="huge black ABCDiatypeMedium">' . @$hours . '</div>
-                                <div class="big black ABCDiatypeMedium">Hour(s)</div>
-                            </div>
-                        </div>
-                        
-                    </div>';
+                <div class="row mt-5 align-items-center">
+                    <div class="md:mt-4 col-12 col-lg-4 text-center md:text-end">
+                        <div class="huge black ABCDiatypeMedium">' . $days . '</div>
+                        <div class="big black ABCDiatypeMedium">Day(s)</div>
+                    </div>
+                    <div class="md:mt-4 col-12 col-lg-4 text-center">
+                        <a href="' . ($countdown->button_link ?? '#') . '">' . getEntryBtnShape($countdown->button_value, $countdown->button_value_arabic, $countdown->shape?->name, $countdown->shapeHover?->name, $countdown->buttonColor->code, $countdown->buttonHoverColor->code, $countdown->buttonBgColor->code, $countdown->buttonHoverBgColor->code) . '</a>
+                    </div>
+                    <div class="md:mt-4 col-12 col-lg-4 text-center md:text-start">
+                        <div class="huge black ABCDiatypeMedium">' . @$hours . '</div>
+                        <div class="big black ABCDiatypeMedium">Hour(s)</div>
+                    </div>
+                </div>
+                
+            </div>';
         }
 
         $htmlColumn .= '</div>
@@ -946,133 +956,131 @@ function ViewPattern($section_column_id, $language = 'EN')
 
         $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
-        $htmlColumn .= '<div class="row ' . $textAlign . '">';
+        $htmlColumn .= '<div class="row ' . $textAlign . ' desktopOnly">';
 
-        if ($column->width == 1) {
-            $htmlColumn .= '<div class="col-lg-12 col-12">';
-        } elseif ($column->width == 2) {
-            $htmlColumn .= '<div class="col-lg-9 col-12">';
-        } elseif ($column->width == 3) {
-            $htmlColumn .= '<div class="col-lg-3"></div><div class="col-lg-6 col-12">';
-        }
-
-        $htmlColumn .= '<div class="row">';
-        $hasAnimatedPatterns = false;
-        foreach ($column->patterns as $pattern) {
-
-            $text = $pattern->text;
-            $text_arabic = $pattern->text_arabic;
-            $animation_style = $pattern->animation_style;
-            $style = isset($animation_style) && $animation_style !== '' ? (int) $animation_style : 0;
-            if ($style === 1 || $style === 2) {
-                $hasAnimatedPatterns = true;
+            if ($column->width == 1) {
+                $htmlColumn .= '<div class="col-lg-12 col-12">';
+            } elseif ($column->width == 2) {
+                $htmlColumn .= '<div class="col-lg-9 col-12">';
+            } elseif ($column->width == 3) {
+                $htmlColumn .= '<div class="col-lg-3"></div><div class="col-lg-6 col-12">';
             }
-            $displayText = (strtoupper($language) === 'AR' && !empty($text_arabic)) ? $text_arabic : $text;
-            $displayText = $displayText ?? '';
-            $displayText = strip_tags($displayText, '<p><br><strong><em><b><i><a><ul><ol><li><span>');
 
-            $htmlColumn .= '<div class="col-lg-4 pattern-box-col"><div class="pattern-box-wrapper" data-animation-style="' . $style . '">';
-            $htmlColumn .= '<div class="pattern-box-inner">';
-            $htmlColumn .= '<div class="pattern-box-svg">' . file_get_contents(public_path('frontend/images/pattern.svg')) . '</div>';
-            if ($style === 1) {
-                $htmlColumn .= '<div class="pattern-box-overlay pattern-box-overlay-diamond" aria-hidden="true">';
-                $htmlColumn .= '<svg class="pattern-box-diamond" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M50 2 L98 50 L50 98 L2 50 Z" fill="#000" stroke="#000" stroke-width="3"/></svg>';
-                $htmlColumn .= '<div class="pattern-box-text pattern-box-text-diamond medium white ABCDiatype">' . $displayText . '</div>';
-                $htmlColumn .= '</div>';
-            } elseif ($style === 2) {
-                $htmlColumn .= '<div class="pattern-box-overlay pattern-box-overlay-circle" aria-hidden="true">';
-                $htmlColumn .= '<div class="pattern-box-circle-wrap"><svg class="pattern-box-circle" viewBox="0 0 100 100"><circle cx="50" cy="50" r="47" fill="' . htmlspecialchars($overlayFill, ENT_QUOTES, 'UTF-8') . '" stroke="#000" stroke-width="6"/></svg></div>';
-                $htmlColumn .= '<div class="pattern-box-text medium black ABCDiatype">' . $displayText . '</div>';
-                $htmlColumn .= '</div>';
-            }
-            $htmlColumn .= '</div></div></div>';
-        }
+                $htmlColumn .= '<div class="row">';
+                    $hasAnimatedPatterns = false;
+                    foreach ($column->patterns as $pattern) {
 
-        $htmlColumn .= '</div>';
+                        $text = $pattern->text;
+                        $text_arabic = $pattern->text_arabic;
+                        $animation_style = $pattern->animation_style;
+                        $style = isset($animation_style) && $animation_style !== '' ? (int) $animation_style : 0;
+                        if ($style === 1 || $style === 2) {
+                            $hasAnimatedPatterns = true;
+                        }
+                        $displayText = (strtoupper($language) === 'AR' && !empty($text_arabic)) ? $text_arabic : $text;
+                        $displayText = $displayText ?? '';
+                        $displayText = strip_tags($displayText, '<p><br><strong><em><b><i><a><ul><ol><li><span>');
 
-        if ($hasAnimatedPatterns) {
-            $htmlColumn .= '<style>
-                /* Animation overlay size: override --pattern-overlay-size (default 100%) for both width and height, or set on .pattern-box-wrapper */
-                .pattern-box-wrapper { position: relative; overflow: hidden; cursor: pointer; --pattern-overlay-size: 100%; font-family: "ABC Diatype Arabic" !important;}
-                .pattern-box-inner { position: relative; width: 100%; overflow: hidden; }
-                .pattern-box-svg { display: block; width: 100%; height: auto; vertical-align: top; }
-                .pattern-box-svg svg { display: block; width: 100%; height: auto; }
-                .pattern-box-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 1;font-family: "ABC Diatype Arabic" !important; }
-                .pattern-box-diamond { position: absolute; left: 0; bottom: 0; width: var(--pattern-overlay-size, 100%); height: var(--pattern-overlay-size, 100%); transform-origin: 0 100%; }
-                .pattern-box-overlay-circle .pattern-box-circle-wrap { position: absolute; right: 0; bottom: 0; width: var(--pattern-overlay-size, 200%); height: 0; padding-bottom: var(--pattern-overlay-size, 200%); transform-origin: 100% 100%; box-sizing: content-box; }
-                .pattern-box-circle-wrap svg.pattern-box-circle { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; }
-                .pattern-box-text { position: relative; z-index: 2; padding: 1rem; color: #000; font-size: 1rem; line-height: 1.3; text-align: center; opacity: 0; max-width: 90%;font-family: "ABC Diatype Arabic" !important; }
-                .pattern-box-text-diamond { color: #fff; }
-                .pattern-box-text p { margin: 0 0 0.5em; }
-                .pattern-box-text p:last-child { margin-bottom: 0; }
-            </style>';
-            $htmlColumn .= '<script>
-            (function() {
-                function initPatternBoxAnimations() {
-                    if (typeof gsap === "undefined") {
-                        var s = document.createElement("script");
-                        s.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js";
-                        s.onload = initPatternBoxAnimations;
-                        document.head.appendChild(s);
-                        return;
+                        $htmlColumn .= '<div class="col-lg-4 pattern-box-col"><div class="pattern-box-wrapper" data-animation-style="' . $style . '">';
+                        $htmlColumn .= '<div class="pattern-box-inner">';
+                        $htmlColumn .= '<div class="pattern-box-svg">' . file_get_contents(public_path('frontend/images/pattern.svg')) . '</div>';
+                        if ($style === 1) {
+                            $htmlColumn .= '<div class="pattern-box-overlay pattern-box-overlay-diamond" aria-hidden="true">';
+                            $htmlColumn .= '<svg class="pattern-box-diamond" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M50 2 L98 50 L50 98 L2 50 Z" fill="#000" stroke="#000" stroke-width="3"/></svg>';
+                            $htmlColumn .= '<div class="pattern-box-text pattern-box-text-diamond medium white ABCDiatype">' . $displayText . '</div>';
+                            $htmlColumn .= '</div>';
+                        } elseif ($style === 2) {
+                            $htmlColumn .= '<div class="pattern-box-overlay pattern-box-overlay-circle" aria-hidden="true">';
+                            $htmlColumn .= '<div class="pattern-box-circle-wrap"><svg class="pattern-box-circle" viewBox="0 0 100 100"><circle cx="50" cy="50" r="47" fill="' . htmlspecialchars($overlayFill, ENT_QUOTES, 'UTF-8') . '" stroke="#000" stroke-width="6"/></svg></div>';
+                            $htmlColumn .= '<div class="pattern-box-text medium black ABCDiatype">' . $displayText . '</div>';
+                            $htmlColumn .= '</div>';
+                        }
+                        $htmlColumn .= '</div></div></div>';
                     }
-                    document.querySelectorAll(".pattern-box-wrapper[data-animation-style=\"1\"]").forEach(function(wrapper) {
-                        var overlay = wrapper.querySelector(".pattern-box-overlay-diamond");
-                        var shape = wrapper.querySelector(".pattern-box-diamond");
-                        var textEl = wrapper.querySelector(".pattern-box-text");
-                        var patternSvg = wrapper.querySelector(".pattern-box-svg");
-                        if (!overlay || !shape) return;
-                        gsap.set(shape, { scale: 0, opacity: 0.8, transformOrigin: "0% 100%" });
-                        gsap.set(textEl, { opacity: 0 });
-                        wrapper.addEventListener("mouseenter", function() {
-                            gsap.killTweensOf([shape, textEl, patternSvg]);
-                            gsap.to(patternSvg, { opacity: 0, duration: 0.45, ease: "power2.out" });
-                            gsap.to(shape, { scale: 1, opacity: 1, duration: 0.65, ease: "power2.out" });
-                            gsap.to(textEl, { opacity: 1, duration: 0.4, delay: 0.28, ease: "power2.out" });
-                        });
-                        wrapper.addEventListener("mouseleave", function() {
-                            gsap.killTweensOf([shape, textEl, patternSvg]);
-                            gsap.to(textEl, { opacity: 0, duration: 0.28 });
-                            gsap.to(shape, { scale: 0, opacity: 0.8, duration: 0.5, ease: "power2.in" });
-                            gsap.to(patternSvg, { opacity: 1, duration: 0.5, ease: "power2.out" });
-                        });
-                    });
-                    document.querySelectorAll(".pattern-box-wrapper[data-animation-style=\"2\"]").forEach(function(wrapper) {
-                        var overlay = wrapper.querySelector(".pattern-box-overlay-circle");
-                        var shape = wrapper.querySelector(".pattern-box-circle-wrap");
-                        var textEl = wrapper.querySelector(".pattern-box-text");
-                        var patternSvg = wrapper.querySelector(".pattern-box-svg");
-                        if (!overlay || !shape) return;
-                        gsap.set(shape, { scale: 0, opacity: 0.8, transformOrigin: "100% 100%" });
-                        gsap.set(textEl, { opacity: 0 });
-                        wrapper.addEventListener("mouseenter", function() {
-                            gsap.killTweensOf([shape, textEl, patternSvg]);
-                            gsap.to(patternSvg, { opacity: 0, duration: 0.45, ease: "power2.out" });
-                            gsap.to(shape, { scale: 1, opacity: 1, duration: 0.65, ease: "power2.out" });
-                            gsap.to(textEl, { opacity: 1, duration: 0.4, delay: 0.28, ease: "power2.out" });
-                        });
-                        wrapper.addEventListener("mouseleave", function() {
-                            gsap.killTweensOf([shape, textEl, patternSvg]);
-                            gsap.to(textEl, { opacity: 0, duration: 0.28 });
-                            gsap.to(shape, { scale: 0, opacity: 0.8, duration: 0.5, ease: "power2.in" });
-                            gsap.to(patternSvg, { opacity: 1, duration: 0.5, ease: "power2.out" });
-                        });
-                    });
+
+                $htmlColumn .= '</div>';
+
+                if ($hasAnimatedPatterns) {
+                    $htmlColumn .= '<style>
+                        /* Animation overlay size: override --pattern-overlay-size (default 100%) for both width and height, or set on .pattern-box-wrapper */
+                        .pattern-box-wrapper { position: relative; overflow: hidden; cursor: pointer; --pattern-overlay-size: 100%; font-family: "ABC Diatype Arabic" !important;}
+                        .pattern-box-inner { position: relative; width: 100%; overflow: hidden; }
+                        .pattern-box-svg { display: block; width: 100%; height: auto; vertical-align: top; }
+                        .pattern-box-svg svg { display: block; width: 100%; height: auto; }
+                        .pattern-box-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; z-index: 1;font-family: "ABC Diatype Arabic" !important; }
+                        .pattern-box-diamond { position: absolute; left: 0; bottom: 0; width: var(--pattern-overlay-size, 100%); height: var(--pattern-overlay-size, 100%); transform-origin: 0 100%; }
+                        .pattern-box-overlay-circle .pattern-box-circle-wrap { position: absolute; right: 0; bottom: 0; width: var(--pattern-overlay-size, 200%); height: 0; padding-bottom: var(--pattern-overlay-size, 200%); transform-origin: 100% 100%; box-sizing: content-box; }
+                        .pattern-box-circle-wrap svg.pattern-box-circle { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: block; }
+                        .pattern-box-text { position: relative; z-index: 2; padding: 1rem; color: #000; font-size: 1rem; line-height: 1.3; text-align: center; opacity: 0; max-width: 90%;font-family: "ABC Diatype Arabic" !important; }
+                        .pattern-box-text-diamond { color: #fff; }
+                        .pattern-box-text p { margin: 0 0 0.5em; }
+                        .pattern-box-text p:last-child { margin-bottom: 0; }
+                    </style>';
+                    $htmlColumn .= '<script>
+                    (function() {
+                        function initPatternBoxAnimations() {
+                            if (typeof gsap === "undefined") {
+                                var s = document.createElement("script");
+                                s.src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js";
+                                s.onload = initPatternBoxAnimations;
+                                document.head.appendChild(s);
+                                return;
+                            }
+                            document.querySelectorAll(".pattern-box-wrapper[data-animation-style=\"1\"]").forEach(function(wrapper) {
+                                var overlay = wrapper.querySelector(".pattern-box-overlay-diamond");
+                                var shape = wrapper.querySelector(".pattern-box-diamond");
+                                var textEl = wrapper.querySelector(".pattern-box-text");
+                                var patternSvg = wrapper.querySelector(".pattern-box-svg");
+                                if (!overlay || !shape) return;
+                                gsap.set(shape, { scale: 0, opacity: 0.8, transformOrigin: "0% 100%" });
+                                gsap.set(textEl, { opacity: 0 });
+                                wrapper.addEventListener("mouseenter", function() {
+                                    gsap.killTweensOf([shape, textEl, patternSvg]);
+                                    gsap.to(patternSvg, { opacity: 0, duration: 0.45, ease: "power2.out" });
+                                    gsap.to(shape, { scale: 1, opacity: 1, duration: 0.65, ease: "power2.out" });
+                                    gsap.to(textEl, { opacity: 1, duration: 0.4, delay: 0.28, ease: "power2.out" });
+                                });
+                                wrapper.addEventListener("mouseleave", function() {
+                                    gsap.killTweensOf([shape, textEl, patternSvg]);
+                                    gsap.to(textEl, { opacity: 0, duration: 0.28 });
+                                    gsap.to(shape, { scale: 0, opacity: 0.8, duration: 0.5, ease: "power2.in" });
+                                    gsap.to(patternSvg, { opacity: 1, duration: 0.5, ease: "power2.out" });
+                                });
+                            });
+                            document.querySelectorAll(".pattern-box-wrapper[data-animation-style=\"2\"]").forEach(function(wrapper) {
+                                var overlay = wrapper.querySelector(".pattern-box-overlay-circle");
+                                var shape = wrapper.querySelector(".pattern-box-circle-wrap");
+                                var textEl = wrapper.querySelector(".pattern-box-text");
+                                var patternSvg = wrapper.querySelector(".pattern-box-svg");
+                                if (!overlay || !shape) return;
+                                gsap.set(shape, { scale: 0, opacity: 0.8, transformOrigin: "100% 100%" });
+                                gsap.set(textEl, { opacity: 0 });
+                                wrapper.addEventListener("mouseenter", function() {
+                                    gsap.killTweensOf([shape, textEl, patternSvg]);
+                                    gsap.to(patternSvg, { opacity: 0, duration: 0.45, ease: "power2.out" });
+                                    gsap.to(shape, { scale: 1, opacity: 1, duration: 0.65, ease: "power2.out" });
+                                    gsap.to(textEl, { opacity: 1, duration: 0.4, delay: 0.28, ease: "power2.out" });
+                                });
+                                wrapper.addEventListener("mouseleave", function() {
+                                    gsap.killTweensOf([shape, textEl, patternSvg]);
+                                    gsap.to(textEl, { opacity: 0, duration: 0.28 });
+                                    gsap.to(shape, { scale: 0, opacity: 0.8, duration: 0.5, ease: "power2.in" });
+                                    gsap.to(patternSvg, { opacity: 1, duration: 0.5, ease: "power2.out" });
+                                });
+                            });
+                        }
+                        if (document.readyState === "loading") {
+                            document.addEventListener("DOMContentLoaded", initPatternBoxAnimations);
+                        } else {
+                            initPatternBoxAnimations();
+                        }
+                    })();
+                    </script>';
                 }
-                if (document.readyState === "loading") {
-                    document.addEventListener("DOMContentLoaded", initPatternBoxAnimations);
-                } else {
-                    initPatternBoxAnimations();
-                }
-            })();
-            </script>';
-        }
 
-        $htmlColumn .= '</div>
+            $htmlColumn .= '</div>
 
-                </div>
-
-            </div>';
+        </div>';
     }
 
     return $htmlColumn;
@@ -2242,7 +2250,8 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
     $custom_entries_id = [];
     $entries = [];
 
-    if (!empty($collection_id)) {
+    if (!empty($collection_id)) 
+    {
         $collection = Collections::find($collection_id);
 
         $collection_type_id = $collection->type_id;
@@ -2263,7 +2272,8 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
         $entries_order    = $collection->entries_order;
 
         $query = Entries::where(['type_id' => $collection_type_id, 'published' => '1']);
-    } else { //Projects page 
+    } else //Projects page 
+    { 
         $query = Entries::where(['type_id' => '3', 'published' => '1'])->WHERENULL('deleted_at');
         $entries_selection = 2;
         $collection_type_id = 3;
@@ -2632,6 +2642,7 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
     }
 
     if (!empty($sort)) {
+
         //Events Sort
         if ($collection_type_id == 1 && $sort == 1) //event name asc
         {
@@ -2670,13 +2681,26 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
         {
             $query->orderBy('project_title', 'desc');
         }
-        else if ($collection_type_id == 3 && $sort == 3)  //event name desc
+        else if ($collection_type_id == 3 && $sort == 3)  //progray year asc
         {
-            $query->orderBy('id', 'asc');
+            //$query->orderBy('id', 'asc');
+            $query->orderBy(
+            \App\Models\ProgramYearProjects::select('program_years.year')
+                ->join('program_years', 'program_years.id', '=', 'program_year_projects.program_year_id')
+                ->whereColumn('program_year_projects.id', 'entries.project_program_year_id')
+                ->limit(1),
+            'asc');
+            
         }
-        else if ($collection_type_id == 3 && $sort == 4)  //event name desc
+        else if ($collection_type_id == 3 && $sort == 4)  //program year desc
         {
-            $query->orderBy('id', 'desc');
+            // $query->orderBy('id', 'desc');
+            $query->orderBy(
+            \App\Models\ProgramYearProjects::select('program_years.year')
+                ->join('program_years', 'program_years.id', '=', 'program_year_projects.program_year_id')
+                ->whereColumn('program_year_projects.id', 'entries.project_program_year_id')
+                ->limit(1),
+            'desc');
         }
 
         //Grantees Sort
@@ -2816,7 +2840,13 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
                 $query->orderBy('program_start_date', 'asc');
             }
             if ($collection_type_id == 3) {
-                $query->orderBy('id', 'asc');
+                // $query->orderBy('id', 'asc');
+                $query->orderBy(
+                    \App\Models\ProgramYearProjects::select('program_years.year')
+                        ->join('program_years', 'program_years.id', '=', 'program_year_projects.program_year_id')
+                        ->whereColumn('program_year_projects.id', 'entries.project_program_year_id')
+                        ->limit(1),
+                    'asc');
             }
             if ($collection_type_id == 6) {
                 $query->orderBy('resource_date', 'asc');
@@ -2836,7 +2866,13 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
                 $query->orderBy('program_start_date', 'desc');
             }
             if ($collection_type_id == 3) {
-                $query->orderBy('id', 'desc');
+                // $query->orderBy('id', 'desc');
+                $query->orderBy(
+                    \App\Models\ProgramYearProjects::select('program_years.year')
+                        ->join('program_years', 'program_years.id', '=', 'program_year_projects.program_year_id')
+                        ->whereColumn('program_year_projects.id', 'entries.project_program_year_id')
+                        ->limit(1),
+                    'desc');
             }
             if ($collection_type_id == 6) {
                 $query->orderBy('resource_date', 'desc');
@@ -2851,11 +2887,12 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
     }
 
     // Limit & get results
-    if ($entries_selection == 2 && $show_all_entries == 0) {
+    if ($entries_selection == 2 && $show_all_entries == 0) 
+    {
         $entries = $query->limit($entries_number)->get();
         return $entries;
-    } else if (!empty($filters) && !empty($filters['page'])) { // case of projects with pagination
-
+    }else if (!empty($filters) && !empty($filters['page']))  // case of projects with pagination
+    { 
         // total before pagination
         $totalEntries = (clone $query)->count();
 
@@ -2872,7 +2909,8 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
             'totalEntries'=>$totalEntries,
             'entries' => $entries,
         ];
-    } else {
+    }else 
+    {
         $entries = $query->get();
         return $entries;
     }
