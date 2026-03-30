@@ -203,6 +203,12 @@ class PermissionSeeder extends Seeder
             // Logo
             'logoAnimation-list',
 
+
+            // Formstack
+            'formstack-forms',
+            'formstack-submissions',
+            
+
         ];
         
         $permissionsIds = [];

@@ -98,8 +98,39 @@
 					</li>
 					@endcan
 
+				</ul>
+
+			</li>
+			@endcanany
+
+			@canany(['formstack-forms', 'formstack-submissions'])
+			<li class="menu-item {{ request()->is('formstackForms') || request()->is('formstackSubmissions') ? "active open" : "" }}">
+
+				<a href="javascript:void(0);" class="menu-link menu-toggle">
+					<i class="menu-icon tf-icons ti ti-api"></i>
+					<div data-i18n="Formstack">Formstack</div>
+				</a>
+
+				<ul class="menu-sub">
+
+					@can('formstack-forms')
+					<li class="menu-item {{ request()->is('formstackForms') ? "active" : "" }}">
+						<a href="{{ route('formstack.forms') }}" class="menu-link">
+							<div data-i18n="Forms">Forms</div>
+						</a>
+					</li>
+					@endcan
+
+					@can('formstack-submissions')
+					<li class="menu-item {{ request()->is('formstackSubmissions') ? "active" : "" }}">
+						<a href="{{ route('formstack.submissions') }}" class="menu-link">
+							<div data-i18n="Submissions">Submissions</div>
+						</a>
+					</li>
+					@endcan
 
 				</ul>
+				
 			</li>
 			@endcanany
 
