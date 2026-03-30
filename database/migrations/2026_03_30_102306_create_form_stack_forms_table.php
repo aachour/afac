@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->text('form_id')->nullable();
             $table->text('form_name')->nullable();
+            $table->text('form_lang')->nullable();
+            $table->text('form_submissions')->nullable();
+            $table->text('form_is_workflow_form')->nullable();
+            $table->text('form_is_workflow_published')->nullable();
             $table->dateTime('form_created_at')->nullable();
             $table->dateTime('form_updated_at')->nullable();
             $table->timestamps();

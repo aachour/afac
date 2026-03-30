@@ -25,14 +25,18 @@ class FormStackController extends Controller
 
 
         $data = $response->json();
-
+        
         // Normalize the result
         $forms = collect($data['forms'] ?? [])
             ->map(fn ($form) => [
-                'id'         => $form['id'],
-                'name'       => $form['name'],
-                'created_at' => $form['created'] ?? null,
-                'updated_at' => $form['updated'] ?? null,
+                'id'                    => $form['id'],
+                'name'                  => $form['name'],
+                'language'              => $form['language'],
+                'submissions'           => $form['submissions'],
+                'is_workflow_form'      => $form['is_workflow_form'],
+                'is_workflow_published' => $form['is_workflow_published'],
+                'created_at'  => $form['created'] ?? null,
+                'updated_at'  => $form['updated'] ?? null,
             ])
             ->values();
 
