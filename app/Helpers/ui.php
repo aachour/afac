@@ -86,7 +86,7 @@ function ViewEntryData($entry_id, $language = 'EN')
 
                         $html .= '<div class="mt-4 huge black ABCDiatypeMedium text-start">' . getEntryTitle($entry) . '</div>';
 
-                        $html .= '<div class="mt-2 mb-3 medium black ABCDiatypeMedium text-start">';
+                        $html .= '<div class="mt-4 mb-3 big black ABCDiatypeMedium text-start">';
                             if ($entry->type_id == 6) {
                                 $html .= date('d M Y', strtotime($entry->resource_date));
                             } else if ($entry->type_id == 7) {
