@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('formstack_forms', function (Blueprint $table) {
+        Schema::create('form_stack_forms', function (Blueprint $table) {
             $table->id();
             $table->text('form_id')->nullable();
             $table->text('form_name')->nullable();
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('formstack_forms');
+        Schema::dropIfExists('form_stack_forms');
     }
 };
