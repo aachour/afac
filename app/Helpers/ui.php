@@ -29,14 +29,15 @@ function ViewEntryData($entry_id, $language = 'EN')
     if ($entry) {
 
         //Get entry labels
-        $labels = getEntryLabels($entry);
+        $labels = getEntryLabels($entry); 
 
-        $html = '<div class="fullContainer">';
+        $bgCode = $entry->ImageBgColor?->code ?? 'transparent';
+
+        $html = '<div class="fullContainer" style="' . ($entry->type_id >= 6 ? 'background:' . $bgCode . ';' : '') . '">';
 
             $html .= '<div class="centerContainer">
                 <div class="row align-items-stretch g-0 no-gutters">';
                     if ($entry->type_id <= 5) {
-                        $bgCode = $entry->ImageBgColor?->code ?? 'transparent';
                         $heroContent = '<div class="labels">';
                         //$heroContent .= '<div class="label micro black ABCDiatypeMedium">' . $entry->type->name . '</div>';
                         foreach ($labels as $label) {
@@ -83,14 +84,14 @@ function ViewEntryData($entry_id, $language = 'EN')
                     } else { // Resourses/News/Externals
                         $html .= '<div class="col-12 text-center">';
 
-                        $html .= '<div class="big black ABCDiatypeMedium text-start">' . getEntryTitle($entry) . '</div>';
+                        $html .= '<div class="mt-4 huge black ABCDiatypeMedium text-start">' . getEntryTitle($entry) . '</div>';
 
                         $html .= '<div class="mt-2 mb-3 medium black ABCDiatypeMedium text-start">';
-                        if ($entry->type_id == 6) {
-                            $html .= date('d M Y', strtotime($entry->resource_date));
-                        } else if ($entry->type_id == 7) {
-                            $html .= date('d M Y', strtotime($entry->news_date));
-                        }
+                            if ($entry->type_id == 6) {
+                                $html .= date('d M Y', strtotime($entry->resource_date));
+                            } else if ($entry->type_id == 7) {
+                                $html .= date('d M Y', strtotime($entry->news_date));
+                            }
                         $html .= '</div>';
 
                         if ($entry->image_featured) {
