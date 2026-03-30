@@ -101,7 +101,7 @@ Route::get('/formstack/fetchForms/', [FormStackController::class, 'fetchForms'])
 
 Route::get('/formstack/fetchFormSubmissions/{formId}', [FormStackController::class, 'fetchFormSubmissions'])->name('formstack.submissions'); 
 
-Route::get('/extract/submission/{id}', [FormStackController::class, 'extractSubmission'])->name('extract.submission'); 
+Route::get('/formstack/fetchSubmission/{id}', [FormStackController::class, 'fetchSubmission'])->name('formstack.submission'); 
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////

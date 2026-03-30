@@ -133,7 +133,7 @@ class FormStackController extends Controller
 
     }
 
-    public function extractSubmission($id){
+    public function fetchSubmission($id){
 
         /*$submissionId = $id;
 
