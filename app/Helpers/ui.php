@@ -99,7 +99,7 @@ function ViewEntryData($entry_id, $language = 'EN')
                         } else {
                             $html .= '<img src="' . asset('frontend/images/default-image-full.png') . '" width="100%" />';
                         }
-                        $html .= '<div class="mt-2 mb-2 micro black text-start">' . $entry->image_caption . '</div>
+                        $html .= '<div class="mt-2 mb-3 micro black text-start">' . $entry->image_caption . '</div>
                                         </div>';
                     }
                 $html .= '</div>
