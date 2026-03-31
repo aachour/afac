@@ -35,9 +35,11 @@
                             <td>{{ date('d-M-Y',strtotime($form->form_created_at))}}</td>
                             <td>{{ date('d-M-Y',strtotime($form->form_updated_at))}}</td>
                             <td>
+                                @can('formstack-submissions')
                                 <a href="{{ route('formstack.submissions', ['formId' => $form->form_id]) }}" class="text-body view-user-button">
                                     <i class="ti ti-list-details ti-sm"></i>
                                 </a>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach

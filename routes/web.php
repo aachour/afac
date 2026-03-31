@@ -61,6 +61,7 @@ use App\Livewire\LogoAnimation\LogoAnimationView;
 
 use App\Livewire\Formstack\FormsView;
 use App\Livewire\Formstack\SubmissionsView;
+use App\Livewire\Formstack\SubmissionView;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectsController;
@@ -335,6 +336,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::group(['prefix' => 'formstackSubmissions'], function () {
         Route::get('/{formId?}', SubmissionsView::class)->name('formstack.submissions');
+        
+    });
+
+    Route::group(['prefix' => 'formstackSubmissionView'], function () {
+        Route::get('/{formId}/{submissionId}', SubmissionView::class)->name('formstack.submission');
         
     });
     
