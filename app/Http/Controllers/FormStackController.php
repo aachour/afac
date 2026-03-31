@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Http;
+use PDO;
 
 class FormStackController extends Controller
 {
@@ -51,89 +52,48 @@ class FormStackController extends Controller
             echo "Form Name: ".$formName."<br />";
             echo "Form Date: ".$formDate."<br /><br /><br />";
             
-
-            /*if($formId=="5665395"){
-                            
-                echo "Form ID: ".$formId."<br />";
-                echo "Form Name: ".$formName."<br />";
-                echo "Form Date: ".$formDate."<br />";
-                
-
-                $submissionsResponse = Http::withToken(config('services.formstack.token'))
-                    ->acceptJson()
-                    ->get("https://www.formstack.com/api/v2/form/{$formId}/submission.json", 
-                        [
-                            'data' => 1
-                        ]
-                    );
-                
-                $submissions = collect(
-                    $submissionsResponse->json()['submissions'] ?? []
-                )->map(function ($submission) {
-
-                    $data = $submission['data'] ?? [];
-
-                    $candidate = collect($data)->mapWithKeys(
-                        fn ($value, $key) => ['field_' . $key => $value]
-                    );
-
-                    echo "Submission Id: " . $submission['id'] . "<br /><br />";
-
-                    // echo "Candidate Info<br />";
-                    // foreach ($candidate as $field => $value) {
-                    //     echo ucfirst(str_replace('_', ' ', $field)) . ": ";
-                    //     echo is_array($value) ? implode(', ', $value) : $value;
-                    //     echo "<br /><br />";
-                    // }
-
-                    echo "###################################################################<br />";
-                    echo "###################################################################<br />";
-                    echo "###################################################################<br />";
-                    echo "###################################################################<br /><br /><br />";
-
-                });
-            }*/
-
-            
         }
         
     }   
 
     public function fetchFormSubmissions($formId){
 
-        $submissionsResponse = Http::withToken(config('services.formstack.token'))
-            ->acceptJson()
-            ->get("https://www.formstack.com/api/v2/form/{$formId}/submission.json", 
-                [
-                    'data' => 1
-                ]
-            );
-        
-        $submissions = collect(
-            $submissionsResponse->json()['submissions'] ?? []
-        )->map(function ($submission) {
+        $page = 1;
+        $allSubmissions = [];
 
-            $data = $submission['data'] ?? [];
+        do {
+            $response = Http::withToken(config('services.formstack.token'))
+                ->acceptJson()
+                ->get("https://www.formstack.com/api/v2/form/{$formId}/submission.json", [
+                    'data' => 1,
+                    'page' => $page,
+                ]);
 
-            $candidate = collect($data)->mapWithKeys(
-                fn ($value, $key) => ['field_' . $key => $value]
-            );
+            if (! $response->successful()) {
+                dd($response->status(), $response->body());
+            }
 
-            echo "Submission Id: " . $submission['id'] . "<br /><br />";
+            $json = $response->json();
 
-            // echo "Candidate Info<br />";
-            // foreach ($candidate as $field => $value) {
-            //     echo ucfirst(str_replace('_', ' ', $field)) . ": ";
-            //     echo is_array($value) ? implode(', ', $value) : $value;
-            //     echo "<br /><br />";
-            // }
+            // adjust this key if needed after one dd($json)
+            $submissions = $json['submissions'] ?? [];
 
-            echo "###################################################################<br />";
-            echo "###################################################################<br />";
-            echo "###################################################################<br />";
-            echo "###################################################################<br /><br /><br />";
+            $allSubmissions = array_merge($allSubmissions, $submissions);
 
-        });
+            $page++;
+        } while (! empty($submissions));
+
+        foreach($allSubmissions as $submission){
+            $submissionId=$submission["id"];
+            echo $submissionId."<br />";
+            $data=$submission["data"];
+
+            $secondItem = array_values($data)[1];
+            $email = $secondItem['value'] ?? null;
+
+            echo $email."<br />";
+        }
+
 
     }
 

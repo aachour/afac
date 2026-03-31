@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class FormStackForms extends Model
@@ -22,5 +21,10 @@ class FormStackForms extends Model
         'form_created_at',
         'form_updated_at',
     ];
+
+    public function submissions()
+    {
+        return $this->hasMany(FormStackSubmissions::class, 'form_id', 'form_id');
+    }
 
 }
