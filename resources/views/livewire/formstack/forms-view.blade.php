@@ -13,7 +13,8 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Lang</th>
-                        <th>Submissions</th>
+                        <th>System Submissions</th>
+                        <th>Current Submissions</th>
                         <th>In workflow</th>
                         <th>Published</th>
                         <th>Created At</th>
@@ -28,11 +29,16 @@
                             <td>{{ $form->form_name }}</td>
                             <td>{{ $form->form_lang }}</td>
                             <td>{{ $form->form_submissions }}</td>
+                            <td>{{$form->submissions->count()}}</td>
                             <td>{{ $form->form_is_workflow_form == 1 ? 'Yes': 'No' }}</td>
                             <td>{{ $form->form_is_workflow_published == 1 ? 'Yes': 'No' }}</td>
                             <td>{{ date('d-M-Y',strtotime($form->form_created_at))}}</td>
                             <td>{{ date('d-M-Y',strtotime($form->form_updated_at))}}</td>
-                            <td></td>
+                            <td>
+                                <a href="{{ route('formstack.submissions', ['formId' => $form->form_id]) }}" class="text-body view-user-button">
+                                    <i class="ti ti-list-details ti-sm"></i>
+                                </a>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

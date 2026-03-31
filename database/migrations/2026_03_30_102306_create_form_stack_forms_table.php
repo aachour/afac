@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('form_stack_forms', function (Blueprint $table) {
             $table->id();
-            $table->text('form_id')->nullable();
+            $table->char('form_id', 36)->unique();
             $table->text('form_name')->nullable();
             $table->text('form_lang')->nullable();
             $table->text('form_submissions')->nullable();
