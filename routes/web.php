@@ -61,6 +61,7 @@ use App\Livewire\LogoAnimation\LogoAnimationView;
 
 use App\Livewire\Formstack\FormsView;
 use App\Livewire\Formstack\SubmissionsView;
+use App\Livewire\Formstack\SubmissionView;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectsController;
@@ -97,11 +98,11 @@ Route::get('/view/logo', [HomeController::class, 'viewLogo'])->name('view.logo')
 
 Route::post('/get/entries/', [HomeController::class, 'getFilteredEntries'])->name('get.entries');
 
-Route::get('/formstack/fetchForms/', [FormStackController::class, 'fetchForms'])->name('formstack.forms'); 
+// Route::get('/formstack/fetchForms/', [FormStackController::class, 'fetchForms'])->name('formstack.forms'); 
 
-Route::get('/formstack/fetchFormSubmissions/{formId}', [FormStackController::class, 'fetchFormSubmissions'])->name('formstack.submissions'); 
+// Route::get('/formstack/fetchFormSubmissions/{formId}', [FormStackController::class, 'fetchFormSubmissions'])->name('formstack.submissions'); 
 
-Route::get('/formstack/fetchSubmission/{id}', [FormStackController::class, 'fetchSubmission'])->name('formstack.submission'); 
+// Route::get('/formstack/fetchSubmission/{id}', [FormStackController::class, 'fetchSubmission'])->name('formstack.submission'); 
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -335,6 +336,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::group(['prefix' => 'formstackSubmissions'], function () {
         Route::get('/{formId?}', SubmissionsView::class)->name('formstack.submissions');
+        
+    });
+
+    Route::group(['prefix' => 'formstackSubmissionView'], function () {
+        Route::get('/{formId}/{submissionId}', SubmissionView::class)->name('formstack.submission');
         
     });
     

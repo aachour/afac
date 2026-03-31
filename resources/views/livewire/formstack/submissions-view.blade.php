@@ -32,7 +32,13 @@
                             <td>{{ $submission->form_id }}</td>
                             <td>{{ $submission->submission_id }}</td>
                             <td>{{ $submission->email }}</td>
-                            <td></td>
+                            <td>
+                                @can('formstack-submissionView')
+                                <a href="{{ route('formstack.submission', ['formId' => $submission->form_id,'submissionId' => $submission->submission_id]) }}" target="_blank" class="text-body view-user-button">
+                                    <i class="ti ti-eye ti-sm"></i>
+                                </a>
+                                @endcan
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

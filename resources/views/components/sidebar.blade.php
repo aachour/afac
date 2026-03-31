@@ -121,6 +121,7 @@
 					</li>
 					@endcan
 
+					{{--
 					@can('formstack-submissions')
 					<li class="menu-item {{ request()->is('formstackSubmissions') ? "active" : "" }}">
 						<a href="{{ route('formstack.submissions') }}" class="menu-link">
@@ -128,6 +129,7 @@
 						</a>
 					</li>
 					@endcan
+					--}}
 
 				</ul>
 				

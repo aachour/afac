@@ -207,7 +207,7 @@ class PermissionSeeder extends Seeder
             // Formstack
             'formstack-forms',
             'formstack-submissions',
-            
+            'formstack-submissionView',
 
         ];
         
