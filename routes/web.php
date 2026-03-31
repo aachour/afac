@@ -98,11 +98,11 @@ Route::get('/view/logo', [HomeController::class, 'viewLogo'])->name('view.logo')
 
 Route::post('/get/entries/', [HomeController::class, 'getFilteredEntries'])->name('get.entries');
 
-Route::get('/formstack/fetchForms/', [FormStackController::class, 'fetchForms'])->name('formstack.forms'); 
+// Route::get('/formstack/fetchForms/', [FormStackController::class, 'fetchForms'])->name('formstack.forms'); 
 
-Route::get('/formstack/fetchFormSubmissions/{formId}', [FormStackController::class, 'fetchFormSubmissions'])->name('formstack.submissions'); 
+// Route::get('/formstack/fetchFormSubmissions/{formId}', [FormStackController::class, 'fetchFormSubmissions'])->name('formstack.submissions'); 
 
-Route::get('/formstack/fetchSubmission/{id}', [FormStackController::class, 'fetchSubmission'])->name('formstack.submission'); 
+// Route::get('/formstack/fetchSubmission/{id}', [FormStackController::class, 'fetchSubmission'])->name('formstack.submission'); 
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
