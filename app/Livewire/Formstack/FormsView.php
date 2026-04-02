@@ -6,7 +6,12 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Models\User;
 use App\Models\FormStackForms;
+use App\Models\FormStackSubmissions;
+use App\Models\FormStackAssigns;
+use Spatie\Permission\Models\Role;
+
 
 class FormsView extends Component
 {
@@ -14,6 +19,13 @@ class FormsView extends Component
     use AuthorizesRequests; 
 
     public $forms = [];
+    public $modalId;
+
+    public $form_id = '';
+    public $role_id = '';
+    public $users_id = '';
+    public $users = [];
+    public $roles = [];
 
     public function mount()
     {
@@ -45,7 +57,7 @@ class FormsView extends Component
                 'created_at'  => $form['created'] ?? null,
                 'updated_at'  => $form['updated'] ?? null,
             ])
-            ->values();
+        ->values();
 
         foreach($forms as $form){
 
@@ -76,6 +88,61 @@ class FormsView extends Component
 
         $this->forms=FormStackForms::all();
 
+        //get used roles 
+        $this->roles = Role::whereIn('name', ['Juror', 'Viewer'])->get();
+
+        // dd($this->roles);
+
+    }
+
+    public function setFormId($formId){
+        $this->form_id=$formId;
+    }
+
+    public function updatedRoleId($value)
+    {
+        $this->users_id = [];
+
+        if (!$value) {
+            $this->users = [];
+        } else {
+            $role = Role::findById($value);
+
+            $this->users = User::role($role->name)
+                ->orderBy('first_name', 'asc')
+                ->orderBy('last_name', 'asc')
+                ->get();
+        }
+
+        $this->dispatch('users-loaded'); 
+        
+    }
+
+    // public function setEntryId($entryId): void
+    // {
+    //     $this->entry_id = $entryId ?: null;
+    // }
+
+    public function saveAssign(){
+        
+        //get all submissions for this form
+        $submissions=FormStackSubmissions::WHERE('form_id',$this->form_id)->get();
+        
+        foreach ($this->users_id as $user_id) {
+            foreach ($submissions as $submission) {
+                FormStackAssigns::updateOrCreate(
+                    [
+                        'user_id' => $user_id,
+                        'form_id' => $this->form_id,
+                        'submission_id' => $submission->submission_id,
+                    ],
+                    []
+                );
+            }
+        }
+
+        return to_route('formstack.forms')->with('success', 'Assigning done successfully!');
+        
     }
     
 

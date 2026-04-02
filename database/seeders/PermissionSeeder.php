@@ -203,9 +203,13 @@ class PermissionSeeder extends Seeder
             // Logo
             'logoAnimation-list',
 
-
             // Formstack
             'formstack-forms',
+            'formstack-formAssign',
+            'formstack-viewAssignedJurors',
+            'formstack-viewAssignedViewers',
+            'formstack-deleteAssignedJuror',
+            'formstack-deleteAssignedViewer',
             'formstack-submissions',
             'formstack-submissionView',
 
