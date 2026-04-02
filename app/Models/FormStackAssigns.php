@@ -18,4 +18,19 @@ class FormStackAssigns extends Model
         'notes',
     ];
 
+    public function form()
+    {
+        return $this->belongsTo(FormStackForms::class, 'form_id', 'id');
+    }
+
+    public function submission()
+    {
+        return $this->belongsTo(FormStackSubmissions::class, 'submission_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
 }
