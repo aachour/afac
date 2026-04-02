@@ -41,10 +41,10 @@
                                 @can('formstack-formAssign')
                                     <button wire:click="setFormId({{ $form->form_id }})" type="button" data-bs-target="#assignModal" data-bs-toggle="modal" class="text-body view-user-button border-0 bg-transparent p-0" ><i class="ti ti-user-plus ti-sm"></i></button>
                                 @endcan
-                                @can('formstack-ViewAssignedJurors')
+                                @can('formstack-viewAssignedJurors')
                                     <a href="{{ route('formstack.submissions', ['formId' => $form->form_id]) }}" class="text-body view-user-button"><i class="ti ti-scale ti-sm"></i></a>
                                 @endcan
-                                @can('formstack-ViewAssignedViewers')
+                                @can('formstack-viewAssignedViewers')
                                     <a href="{{ route('formstack.submissions', ['formId' => $form->form_id]) }}" class="text-body view-user-button"><i class="ti ti-users-group ti-sm"></i></a>
                                 @endcan
                             </td>
