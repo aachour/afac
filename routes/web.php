@@ -62,6 +62,8 @@ use App\Livewire\LogoAnimation\LogoAnimationView;
 use App\Livewire\Formstack\FormsView;
 use App\Livewire\Formstack\SubmissionsView;
 use App\Livewire\Formstack\SubmissionView;
+use App\Livewire\Formstack\JurorsView;
+use App\Livewire\Formstack\ViewersView;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectsController;
@@ -331,12 +333,18 @@ Route::middleware(['auth'])->group(function () {
     
     Route::group(['prefix' => 'formstackForms'], function () {
         Route::get('/', FormsView::class)->name('formstack.forms');
-        
     });
 
+    Route::group(['prefix' => 'formstackJurors'], function () {
+        Route::get('/{formId}/{submissionId?}', JurorsView::class)->name('formstack.jurors');
+    });
+
+    Route::group(['prefix' => 'formstackViewers'], function () {
+        Route::get('/{formId}/{submissionId?}', ViewersView::class)->name('formstack.viewers');
+    });
+    
     Route::group(['prefix' => 'formstackSubmissions'], function () {
         Route::get('/{formId?}', SubmissionsView::class)->name('formstack.submissions');
-        
     });
 
     Route::group(['prefix' => 'formstackSubmissionView'], function () {

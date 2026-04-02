@@ -19,7 +19,6 @@ class FormsView extends Component
     use AuthorizesRequests; 
 
     public $forms = [];
-    public $modalId;
 
     public $form_id = '';
     public $role_id = '';
