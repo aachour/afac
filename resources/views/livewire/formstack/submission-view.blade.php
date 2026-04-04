@@ -9,7 +9,6 @@
 
             <div class="fs-fields">
                 @forelse($fieldData as $field)
-                    @if($field['value']!=null)
                     <div class="fs-field-row">
                         <div class="fs-field-label">
                             {{ $field['label'] }}
@@ -33,7 +32,6 @@
                             @endif
                         </div>
                     </div>
-                    @endif
                 @empty
                     <div class="fs-empty-state">
                         No submission data found.
