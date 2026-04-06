@@ -36,16 +36,32 @@
                             <td>{{ date('d-M-Y',strtotime($form->form_updated_at))}}</td>
                             <td>
                                 @can('formstack-submissions')
-                                    <a href="{{ route('formstack.submissions', ['formId' => $form->form_id]) }}" class="text-body view-user-button"><i class="ti ti-list-details ti-sm"></i></a>
+                                    <a href="{{ route('formstack.submissions', ['formId' => $form->form_id]) }}" 
+                                        class="text-body view-user-button"
+                                        data-bs-title="View Submissions"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top">
+                                        <i class="ti ti-list-details ti-sm"></i>
+                                    </a>
                                 @endcan
                                 @can('formstack-formAssign')
-                                    <button wire:click="setFormId({{ $form->form_id }})" type="button" data-bs-target="#assignModal" data-bs-toggle="modal" class="text-body view-user-button border-0 bg-transparent p-0" ><i class="ti ti-user-plus ti-sm"></i></button>
+                                    <button wire:click="setFormId({{ $form->form_id }})" type="button" 
+                                    data-bs-target="#assignModal" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-title="Assign PMs"
+                                    data-bs-placement="top"
+                                    class="text-body view-user-button border-0 bg-transparent p-0">
+                                        <i class="ti ti-user-plus ti-sm"></i>
+                                    </button>
                                 @endcan
-                                @can('formstack-viewAssignedJurors')
-                                    <a href="{{ route('formstack.jurors', ['formId' => $form->form_id]) }}" class="text-body view-user-button"><i class="ti ti-scale ti-sm"></i></a>
-                                @endcan
-                                @can('formstack-viewAssignedViewers')
-                                    <a href="{{ route('formstack.viewers', ['formId' => $form->form_id]) }}" class="text-body view-user-button"><i class="ti ti-users-group ti-sm"></i></a>
+                                @can('formstack-viewAssignedPM')
+                                    <a href="{{ route('formstack.pm', ['formId' => $form->form_id]) }}" 
+                                        class="text-body view-user-button"
+                                        data-bs-title="View Assigned PMs"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top">
+                                        <i class="ti ti-users-group ti-sm"></i>
+                                    </a>
                                 @endcan
                             </td>
                         </tr>
@@ -63,26 +79,15 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">{{ @$modalId ? 'Edit' : 'Add' }} Entries</h5>
+                    <h5 class="modal-title">Assign Program Manager(s)</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="role_id" class="form-label">Role</label>
-                        <select wire:model.live="role_id" id="role_id" class="form-control">
-                            <option value="">Select Role</option>
-                            @foreach($roles as $role)
-                                <option value="{{ $role->id }}">{{ $role->name }}</option>
-                            @endforeach
-                        </select>
-                        @error('role_id') <small class="text-danger">{{ $message }}</small> @enderror
-                    </div>
 
-                    @if($role_id)
-                    <div class="mb-3" wire:key="users-select-wrapper-{{ $role_id }}-{{ count($users) }}">
+                    <div class="mb-3" wire:ignore>
                         <label for="users_id" class="form-label">Users</label>
-                        <select id="users_id" class="form-control" multiple wire:ignore> 
+                        <select id="users_id" class="form-control" multiple> 
                             @foreach($users as $user)
                                 <option value="{{ $user->id }}">
                                     {{ $user->first_name }} {{ $user->last_name }}
@@ -90,7 +95,6 @@
                             @endforeach
                         </select>
                     </div>
-                    @endif
                     
                 </div>
 

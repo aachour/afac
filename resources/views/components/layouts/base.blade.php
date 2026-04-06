@@ -389,6 +389,23 @@
 
   </script>
 
+  <script>
+      function initTooltips() {
+          document.querySelectorAll('[data-bs-title]').forEach(el => {
+              const existing = bootstrap.Tooltip.getInstance(el);
+              if (existing) {
+                  existing.dispose();
+              }
+
+              new bootstrap.Tooltip(el);
+          });
+      }
+
+      document.addEventListener('livewire:load', initTooltips);
+      document.addEventListener('livewire:navigated', initTooltips);
+      document.addEventListener('DOMContentLoaded', initTooltips);
+  </script>
+
   </body>
 
 </html>
