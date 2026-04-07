@@ -13,6 +13,14 @@
                     <button type="button" wire:click="fetchSubmissions" class="btn btn-primary d-flex align-items-center">
                         Fetch Submissions
                     </button>
+                    @can('formstack-formAssign')
+                        <button type="button" 
+                        data-bs-target="#assignModal" 
+                        data-bs-toggle="modal" 
+                        class="btn btn-primary d-flex align-items-center">
+                            Assign Program Manager(s)
+                        </button>
+                    @endcan
                 </div>
                 
             </div>
@@ -20,6 +28,7 @@
                 <table class="table dataTable border-top" id="table">
                     <thead>
                     <tr>
+                        <th></th>
                         <th>Form ID</th>
                         <th>Submission ID</th>
                         <th>Email</th>
@@ -29,6 +38,7 @@
                     <tbody>
                     @foreach($submissions as $submission)
                         <tr>
+                            <td><input type="checkbox" wire:model="selected_submissions" value="{{ $submission->submission_id }}" /></td>
                             <td>{{ $submission->form_id }}</td>
                             <td>{{ $submission->submission_id }}</td>
                             <td>{{ $submission->email }}</td>
@@ -47,5 +57,81 @@
         </div>
 
     </div>
+
+    <div wire:ignore.self class="modal fade" id="assignModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Assign Program Manager(s)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3" wire:ignore>
+                        <label for="users_id" class="form-label">Users</label>
+                        <select id="users_id" class="form-control" multiple> 
+                            @foreach($users as $user)
+                                <option value="{{ $user->id }}">
+                                    {{ $user->first_name }} {{ $user->last_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <button
+                        type="button"
+                        wire:click="saveAssign"
+                        wire:loading.attr="disabled"
+                        wire:target="saveAssign"
+                        class="btn btn-primary"
+                    >
+                        <span wire:loading.remove wire:target="saveAssign">
+                            {{ @$modalId ? 'Update' : 'Save' }}
+                        </span>
+
+                        <span wire:loading wire:target="saveAssign">
+                            Saving...
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @script
+    <script>
+        $wire.on('users-loaded', () => {
+            setTimeout(() => {
+                let $el = $('#users_id');
+
+                if (!$el.length) return;
+
+                if ($el.hasClass('select2-hidden-accessible')) {
+                    $el.off('change');
+                    $el.select2('destroy');
+                }
+
+                $el.select2({
+                    placeholder: 'Select Users',
+                    width: '100%',
+                    dropdownParent: $('#assignModal'),
+                    closeOnSelect: false
+                });
+
+                $el.on('change', function () {
+                    $wire.set('users_id', $(this).val() || [], false);
+                });
+            }, 100);
+        });
+    </script>
+    @endscript
 
 </div>

@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\User;
 use App\Models\FormStackForms;
 use App\Models\FormStackSubmissions;
-use App\Models\FormStackAssigns;
+use App\Models\FormStackGroups;
 use Spatie\Permission\Models\Role;
 
 
@@ -21,7 +21,6 @@ class FormsView extends Component
     public $forms = [];
 
     public $form_id = '';
-    public $role_id = '';
     public $users_id = '';
     public $users = [];
     public $roles = [];
@@ -86,60 +85,83 @@ class FormsView extends Component
         }
 
         $this->forms=FormStackForms::all();
+        
+        $this->users = User::role('Program Manager')
+            ->orderBy('first_name', 'asc')
+            ->orderBy('last_name', 'asc')
+            ->get();
 
-        //get used roles 
-        $this->roles = Role::whereIn('name', ['Juror', 'Viewer'])->get();
-
-        // dd($this->roles);
-
+        
     }
 
-    public function setFormId($formId){
-        $this->form_id=$formId;
-    }
-
-    public function updatedRoleId($value)
+    
+    public function setFormId($formId)
     {
-        $this->users_id = [];
+        $this->form_id=$formId;
 
-        if (!$value) {
-            $this->users = [];
-        } else {
-            $role = Role::findById($value);
+        //get all form submission as json
+        $submissionIds = FormStackSubmissions::where('form_id', $this->form_id)
+            ->pluck('submission_id')
+            ->map(fn ($id) => (string) $id)
+            ->sort()
+            ->values()
+            ->all();
 
-            $this->users = User::role($role->name)
-                ->orderBy('first_name', 'asc')
-                ->orderBy('last_name', 'asc')
-                ->get();
-        }
+        $this->users_id = FormStackGroups::where('form_id', $this->form_id)
+            ->get()
+            ->filter(function ($group) use ($submissionIds) {
+                $stored = collect(json_decode($group->submissions_id, true) ?? [])
+                    ->map(fn ($id) => (string) $id)
+                    ->sort()
+                    ->values()
+                    ->all();
+
+                return $stored === $submissionIds;
+            })
+            ->pluck('user_id')
+            ->values()
+            ->toArray();
+
 
         $this->dispatch('users-loaded'); 
-        
     }
 
-    // public function setEntryId($entryId): void
-    // {
-    //     $this->entry_id = $entryId ?: null;
-    // }
 
-    public function saveAssign(){
-        
+    public function saveAssign()
+    {
         //get all submissions for this form
-        $submissions=FormStackSubmissions::WHERE('form_id',$this->form_id)->get();
-        
-        foreach ($this->users_id as $user_id) {
-            foreach ($submissions as $submission) {
-                FormStackAssigns::updateOrCreate(
-                    [
-                        'user_id' => $user_id,
-                        'form_id' => $this->form_id,
-                        'submission_id' => $submission->submission_id,
-                    ],
-                    []
-                );
-            }
-        }
+        $submissionIdsJson = FormStackSubmissions::where('form_id', $this->form_id)
+            ->pluck('submission_id')
+            ->values()
+            ->toJson();
 
+        $newUserIds = collect($this->users_id)->unique()->values();
+
+        // existing user_ids for this form
+        $existingUserIds = FormStackGroups::where('form_id', $this->form_id)
+            ->pluck('user_id');
+
+        // users removed from selection
+        $userIdsToDelete = $existingUserIds->diff($newUserIds);
+
+        // delete removed users
+        FormStackGroups::where('form_id', $this->form_id)
+            ->whereIn('user_id', $userIdsToDelete)
+            ->delete();
+
+        // create/update current users
+        foreach ($newUserIds as $user_id) {
+            FormStackGroups::updateOrCreate(
+                [
+                    'user_id' => $user_id,
+                    'form_id' => $this->form_id,
+                ],
+                [
+                    'submissions_id' => $submissionIdsJson,
+                ]
+            );
+        }
+        
         return to_route('formstack.forms')->with('success', 'Assigning done successfully!');
         
     }
