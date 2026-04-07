@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('form_id');
             $table->string('submission_id')->unique();
             $table->text('email')->nullable();
+            $table->text('admin_status')->nullable();
+            $table->text('admin_notes')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('form_id')

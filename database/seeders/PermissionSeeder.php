@@ -214,6 +214,8 @@ class PermissionSeeder extends Seeder
             'formstack-deleteAssignedReader',
             'formstack-submissions',
             'formstack-submissionView',
+            'formstack-submissionRate',
+            
 
         ];
         
