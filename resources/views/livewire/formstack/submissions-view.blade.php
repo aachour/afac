@@ -40,15 +40,17 @@
                     <tbody>
                     @foreach($submissions as $submission)
                         <tr>
-                            <td><input type="checkbox" wire:model="selected_submissions" value="{{ $submission->submission_id }}" /></td>
+                            <td>
+                                <input type="checkbox" wire:model="selected_submissions" value="{{ $submission->submission_id }}" />
+                            </td>
                             <td>{{ $submission->form_id }}</td>
                             <td>{{ $submission->submission_id }}</td>
                             <td>{{ $submission->email }}</td>
-                            <td></td>
-                            <td></td>
+                            <td>{{ $submission->admin_status }}</td>
+                            <td>{{ $submission->admin_notes }}</td>
                             <td>
                                 @can('formstack-submissionRate')
-                                    <button wire:click="setSumbissionId({{ $submission->submission_id }})" type="button" 
+                                    <button wire:click="setSubmission({{ $submission->id }})" type="button" 
                                     data-bs-target="#rateModal" 
                                     data-bs-toggle="modal" 
                                     data-bs-title="Rate Submission"
@@ -117,6 +119,78 @@
                         </span>
 
                         <span wire:loading wire:target="saveAssign">
+                            Saving...
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div wire:ignore.self class="modal fade" id="rateModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Admin Notes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3"></label>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" wire:model="admin_status" name="status" id="status_pending" value="pending">
+                            <label class="form-check-label" for="status_pending">
+                                Pending
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" wire:model="admin_status" name="status" id="status_approved" value="approved">
+                            <label class="form-check-label" for="status_approved">
+                                Approved
+                            </label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" wire:model="admin_status" name="status" id="status_rejected" value="rejected">
+                            <label class="form-check-label" for="status_rejected">
+                                Rejected
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">Notes</label>
+                        <textarea
+                            id="notes"
+                            class="form-control"
+                            wire:model="admin_notes"
+                            rows="4"
+                            placeholder="Enter notes here..."
+                        ></textarea>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <button
+                        type="button"
+                        wire:click="saveRate"
+                        wire:loading.attr="disabled"
+                        wire:target="saveRate"
+                        class="btn btn-primary"
+                    >
+                        <span wire:loading.remove wire:target="saveRate">
+                            {{ @$modalId ? 'Update' : 'Save' }}
+                        </span>
+
+                        <span wire:loading wire:target="saveRate">
                             Saving...
                         </span>
                     </button>

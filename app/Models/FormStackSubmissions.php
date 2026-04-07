@@ -15,6 +15,9 @@ class FormStackSubmissions extends Model
         'form_id',
         'submission_id',
         'email',
+        'admin_status',
+        'admin_notes',
+        
     ];
 
 }
