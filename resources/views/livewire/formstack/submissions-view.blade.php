@@ -32,6 +32,8 @@
                         <th>Form ID</th>
                         <th>Submission ID</th>
                         <th>Email</th>
+                        <th>Status</th>
+                        <th>Notes</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -42,11 +44,28 @@
                             <td>{{ $submission->form_id }}</td>
                             <td>{{ $submission->submission_id }}</td>
                             <td>{{ $submission->email }}</td>
+                            <td></td>
+                            <td></td>
                             <td>
+                                @can('formstack-submissionRate')
+                                    <button wire:click="setSumbissionId({{ $submission->submission_id }})" type="button" 
+                                    data-bs-target="#rateModal" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-title="Rate Submission"
+                                    data-bs-placement="top"
+                                    class="text-body view-user-button border-0 bg-transparent p-0">
+                                        <i class="ti ti-star ti-sm"></i>
+                                    </button>
+                                @endcan
                                 @can('formstack-submissionView')
-                                <a href="{{ route('formstack.submission', ['formId' => $submission->form_id,'submissionId' => $submission->submission_id]) }}" target="_blank" class="text-body view-user-button">
-                                    <i class="ti ti-eye ti-sm"></i>
-                                </a>
+                                    <a href="{{ route('formstack.submission', ['formId' => $submission->form_id,'submissionId' => $submission->submission_id]) }}" 
+                                        target="_blank" 
+                                        class="text-body view-user-button"
+                                        data-bs-title="View Submission"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top">
+                                        <i class="ti ti-eye ti-sm"></i>
+                                    </a>
                                 @endcan
                             </td>
                         </tr>

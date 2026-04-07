@@ -12,9 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('form_stack_assigns', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('group_id')->constrained('form_stack_groups')->onDelete('cascade');
             $table->string('form_id');
             $table->string('submission_id');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('juror_id')->nullable()->constrained('users')->onDelete('cascade');
+            $table->foreignId('reader_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->float('grade')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
@@ -30,7 +33,9 @@ return new class extends Migration
                 ->on('form_stack_submissions')
                 ->onDelete('cascade');
 
-            $table->unique(['user_id', 'form_id', 'submission_id']);
+            $table->unique(['juror_id', 'form_id', 'submission_id']);
+            $table->unique(['reader_id', 'form_id', 'submission_id']);
+            
         });
     }
 
