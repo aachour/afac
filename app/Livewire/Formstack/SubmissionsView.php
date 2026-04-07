@@ -25,6 +25,11 @@ use AuthorizesRequests;
     public $users;
     public $users_id;
 
+    public $id;
+    public $admin_notes;
+    public $admin_status;
+    
+
     public function mount($formId)
     {
         $this->authorize('formstack-submissions');
@@ -41,11 +46,6 @@ use AuthorizesRequests;
         $this->dispatch('users-loaded'); 
 
     }
-
-    public function setSumbissionId($submissionId){
-        
-    }
-
 
     public function fetchSubmissions(){ 
 
@@ -118,6 +118,24 @@ use AuthorizesRequests;
         
         return to_route('formstack.forms')->with('success', 'Assigning done successfully!');
 
+    }
+
+    public function setSubmission($id){
+        $this->id=$id;
+        $submission=FormStackSubmissions::find($this->id);
+        $this->admin_notes=$submission->admin_notes;
+        $this->admin_status=$submission->admin_status;
+
+    }
+
+    public function saveRate(){
+
+        FormStackSubmissions::where('id', $this->id)->update([
+            'admin_status' => $this->admin_status,
+            'admin_notes'  => $this->admin_notes,
+        ]);
+
+        return to_route('formstack.submissions',['formId'=>$this->form_id])->with('success', 'Action done successfully!');
     }
 
 
