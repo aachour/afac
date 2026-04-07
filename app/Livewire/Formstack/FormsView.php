@@ -91,13 +91,21 @@ class FormsView extends Component
             ->orderBy('last_name', 'asc')
             ->get();
 
-        $this->dispatch('users-loaded'); 
+        
     }
 
     
     public function setFormId($formId)
     {
         $this->form_id=$formId;
+
+        $this->users_id = FormStackGroups::where('form_id', $this->form_id)
+            ->pluck('user_id')
+            ->toJson();
+        
+        $this->users_id=json_decode($this->users_id);
+
+        $this->dispatch('users-loaded'); 
     }
 
 
@@ -108,19 +116,35 @@ class FormsView extends Component
             ->pluck('submission_id')
             ->values()
             ->toJson();
-        
-        foreach ($this->users_id as $user_id) {
+
+
+        $newUserIds = collect($this->users_id)->unique()->values();
+
+        // existing user_ids for this form
+        $existingUserIds = FormStackGroups::where('form_id', $this->form_id)
+            ->pluck('user_id');
+
+        // users removed from selection
+        $userIdsToDelete = $existingUserIds->diff($newUserIds);
+
+        // delete removed users
+        FormStackGroups::where('form_id', $this->form_id)
+            ->whereIn('user_id', $userIdsToDelete)
+            ->delete();
+
+        // create/update current users
+        foreach ($newUserIds as $user_id) {
             FormStackGroups::updateOrCreate(
                 [
                     'user_id' => $user_id,
                     'form_id' => $this->form_id,
-                    'submissions_id' => $submissionIdsJson,
                 ],
-                []
+                [
+                    'submissions_id' => $submissionIdsJson,
+                ]
             );
-            
         }
-
+        
         return to_route('formstack.forms')->with('success', 'Assigning done successfully!');
         
     }

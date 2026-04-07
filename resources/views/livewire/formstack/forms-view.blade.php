@@ -143,6 +143,14 @@
                     closeOnSelect: false
                 });
 
+                // load selected values from Livewire
+                let selectedValues = $wire.users_id || [];
+
+                // select2 expects string values
+                selectedValues = selectedValues.map(String);
+
+                $el.val(selectedValues).trigger('change.select2');
+
                 $el.on('change', function () {
                     $wire.set('users_id', $(this).val() || [], false);
                 });
