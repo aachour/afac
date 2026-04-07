@@ -19,6 +19,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
+                        <th>Assigned Submissions</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -29,6 +30,15 @@
                             <td>{{ $pm->user->first_name.' '.$pm->user->last_name }}</td>
                             <td>{{ $pm->user->email }}</td>
                             <td>{{ $pm->user->phone }}</td>
+                            <td>
+                                @php
+                                    $submissionIds = json_decode($pm->submissions_id, true) ?? [];
+                                @endphp
+
+                                @foreach($submissionIds as $submissionId)
+                                    <div>-{{ $submissionId }}</div>
+                                @endforeach
+                            </td>
                             <td>
                                 @can('formstack-viewAssignedJurors')
                                     <button wire:click="setGroupId({{ $pm->id }},'Jurors')" type="button" 

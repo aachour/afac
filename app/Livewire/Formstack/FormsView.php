@@ -99,11 +99,29 @@ class FormsView extends Component
     {
         $this->form_id=$formId;
 
+        //get all form submission as json
+        $submissionIds = FormStackSubmissions::where('form_id', $this->form_id)
+            ->pluck('submission_id')
+            ->map(fn ($id) => (string) $id)
+            ->sort()
+            ->values()
+            ->all();
+
         $this->users_id = FormStackGroups::where('form_id', $this->form_id)
+            ->get()
+            ->filter(function ($group) use ($submissionIds) {
+                $stored = collect(json_decode($group->submissions_id, true) ?? [])
+                    ->map(fn ($id) => (string) $id)
+                    ->sort()
+                    ->values()
+                    ->all();
+
+                return $stored === $submissionIds;
+            })
             ->pluck('user_id')
-            ->toJson();
-        
-        $this->users_id=json_decode($this->users_id);
+            ->values()
+            ->toArray();
+
 
         $this->dispatch('users-loaded'); 
     }
@@ -116,7 +134,6 @@ class FormsView extends Component
             ->pluck('submission_id')
             ->values()
             ->toJson();
-
 
         $newUserIds = collect($this->users_id)->unique()->values();
 
