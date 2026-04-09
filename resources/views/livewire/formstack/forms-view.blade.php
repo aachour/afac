@@ -15,7 +15,9 @@
                         <th>Lang</th>
                         <th>System Submissions</th>
                         <th>Current Submissions</th>
-                        <th>Assigned PMs</th>
+                        @can('formstack-viewAssignedPM')
+                            <th>Assigned PMs</th>
+                        @endcan
                         <!-- <th>In workflow</th>
                         <th>Published</th> -->
                         <th>Created At <br /> Updated At</th>
@@ -30,9 +32,11 @@
                             <td>{{ $form->form_lang }}</td>
                             <td>{{ $form->form_submissions }}</td>
                             <td>{{$form->submissions->count()}}</td>
-                            <td>{{$form->groups->count()}}</td>
-                            {{--<td>{{ $form->form_is_workflow_form == 1 ? 'Yes': 'No' }}</td>
-                            <td>{{ $form->form_is_workflow_published == 1 ? 'Yes': 'No' }}</td>--}}
+                            @can('formstack-viewAssignedPM')
+                                <td>{{$form->groups->count()}}</td>
+                            @endcan
+                            {{--<td>{{ $form->form_is_workflow_form == 1 ? 'Yes': 'No' }}</td>--}}
+                            {{--<td>{{ $form->form_is_workflow_published == 1 ? 'Yes': 'No' }}</td>--}}
                             <td>{{ date('d-M-Y',strtotime($form->form_created_at))}} <br /> {{ date('d-M-Y',strtotime($form->form_updated_at))}}</td>
                             <td>
                                 @can('formstack-submissions')
