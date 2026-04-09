@@ -497,26 +497,43 @@
 
         $wire.on('view-assignments-loaded', ({ rows }) => {
             setTimeout(() => {
+                if (assignmentsDataTable) {
+                    assignmentsDataTable.destroy();
+                    assignmentsDataTable = null;
+                }
+
                 let $tbody = $('#assignmentsTableBody');
                 $tbody.empty();
 
                 rows.forEach(function (row) {
-                    let jurorsList  = row.jurors.length  ? row.jurors.map(j  => '<span class="badge bg-label-primary me-1">'  + j + '</span>').join('') : '<span class="text-muted">—</span>';
-                    let readersList = row.readers.length ? row.readers.map(r => '<span class="badge bg-label-success me-1">' + r + '</span>').join('') : '<span class="text-muted">—</span>';
+                    let sid = row.submission_id;
+
+                    let jurorsList = row.jurors.length
+                        ? row.jurors.map(j =>
+                            '<span class="badge bg-label-primary me-1">' + j.name +
+                            '<button type="button" class="delete-assignment-btn btn-close btn-close-sm ms-1" style="font-size:.1rem;vertical-align:middle;"' +
+                            ' data-submission-id="' + sid + '" data-type="juror" data-person-id="' + j.id + '"></button>' +
+                            '</span>'
+                        ).join('')
+                        : '<span class="text-muted">—</span>';
+
+                    let readersList = row.readers.length
+                        ? row.readers.map(r =>
+                            '<span class="badge bg-label-success me-1">' + r.name +
+                            '<button type="button" class="delete-assignment-btn btn-close btn-close-sm ms-1" style="font-size:.1rem;vertical-align:middle;"' +
+                            ' data-submission-id="' + sid + '" data-type="reader" data-person-id="' + r.id + '"></button>' +
+                            '</span>'
+                        ).join('')
+                        : '<span class="text-muted">—</span>';
 
                     $tbody.append(
                         '<tr>' +
-                        '<td>#' + row.submission_id + '</td>' +
+                        '<td>#' + sid + '</td>' +
                         '<td>' + jurorsList + '</td>' +
                         '<td>' + readersList + '</td>' +
                         '</tr>'
                     );
                 });
-
-                if (assignmentsDataTable) {
-                    assignmentsDataTable.destroy();
-                    assignmentsDataTable = null;
-                }
 
                 assignmentsDataTable = $('#assignmentsTable').DataTable({
                     pageLength: 10,
@@ -524,6 +541,13 @@
                     columnDefs: [{ targets: '_all', searchable: true }],
                 });
             }, 100);
+        });
+
+        $('#assignmentsTable').on('click', '.delete-assignment-btn', function () {
+            let submissionId = $(this).data('submission-id');
+            let type         = $(this).data('type');
+            let personId     = $(this).data('person-id');
+            $wire.deleteAssignment(submissionId, type, personId);
         });
     </script>
     @endscript
