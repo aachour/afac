@@ -57,7 +57,7 @@
                                 @can('formstack-viewAssignedSubmissions')
                                     <a href="{{ route('formstack.pm', ['formId' => $form->form_id]) }}" 
                                         class="text-body view-user-button"
-                                        data-bs-title="View Assigned PMs"
+                                        data-bs-title="View Assigned Submissions"
                                         data-bs-toggle="tooltip"
                                         data-bs-placement="top">
                                         <i class="ti ti-users-group ti-sm"></i>

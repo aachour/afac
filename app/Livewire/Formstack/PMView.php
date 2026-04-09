@@ -38,7 +38,7 @@ class PMView extends Component
 
     public function mount($formId)
     {
-        $this->authorize('formstack-viewAssignedPM');
+        $this->authorize('formstack-viewAssignedSubmissions');
         
         $this->form_id=$formId;
 
