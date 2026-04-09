@@ -76,12 +76,18 @@ use AuthorizesRequests;
 
         foreach($allSubmissions as $submission){
             $submissionId=$submission["id"];
+
             //get data
             $data=$submission["data"];
-        
+
+    
             //extract email
             $email = collect($data)
-            ->firstWhere('type', 'email')['value'] ?? null;
+            ->firstWhere('label', 'Contact email')['value'] ?? null;
+
+            //extract email
+            $admin_id = collect($data)
+            ->firstWhere('label', 'ID')['value'] ?? null;
 
             FormStackSubmissions::updateOrCreate(
                 [
@@ -90,6 +96,7 @@ use AuthorizesRequests;
                 [
                     'form_id' => $this->form_id,
                     'email' => $email,
+                    'admin_id' => $admin_id,
                 ]
             );
 
