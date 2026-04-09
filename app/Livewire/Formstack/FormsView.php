@@ -84,7 +84,15 @@ class FormsView extends Component
 
         }
 
-        $this->forms=FormStackForms::all();
+        if (auth()->user()->can('formstack-viewAssignedPM')) {
+            $this->forms = FormStackForms::all();
+        } else {
+            $assignedFormIds = FormStackGroups::where('user_id', auth()->id())
+                ->pluck('form_id')
+                ->unique();
+
+            $this->forms = FormStackForms::whereIn('form_id', $assignedFormIds)->get();
+        }
         
         $this->users = User::role('Program Manager')
             ->orderBy('first_name', 'asc')
