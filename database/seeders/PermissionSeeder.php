@@ -214,6 +214,8 @@ class PermissionSeeder extends Seeder
             'formstack-submissionRate',
             'formstack-submissionAssignJurors',
             'formstack-submissionAssignReaders',
+            'formstack-submissionAssignView',
+            
         ];
         
         $permissionsIds = [];
