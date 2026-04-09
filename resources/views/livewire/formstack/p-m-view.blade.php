@@ -44,17 +44,38 @@
                                     <button wire:click="setGroupId({{ $pm->id }},'Jurors')" type="button" 
                                     data-bs-target="#assignJurorsModal" 
                                     data-bs-toggle="modal" 
-                                    data-bs-title="Assign Jurors"
+                                    data-bs-title="Assign Jurors to PM"
                                     data-bs-placement="top"
                                     class="text-body view-user-button border-0 bg-transparent p-0">
-                                        <i class="ti ti-gavel ti-sm"></i>
+                                        <i class="ti ti-users-plus ti-sm"></i>
                                     </button>
                                 @endcan
                                 @can('formstack-viewAssignedReaders')
                                     <button wire:click="setGroupId({{ $pm->id }},'Readers')" type="button" 
                                     data-bs-target="#assignReadersModal" 
                                     data-bs-toggle="modal" 
-                                    data-bs-title="Assign Readers"
+                                    data-bs-title="Assign Readers to PM"
+                                    data-bs-placement="top"
+                                    class="text-body view-user-button border-0 bg-transparent p-0">
+                                    <i class="ti ti-user-check ti-sm"></i>
+                                    </button>
+                                @endcan
+                                @can('formstack-submissionAssignJurors')
+                                    <button wire:click="assignJurors({{ $pm->id }}, json_decode('{{ $pm->jurors_id }}', true))" type="button" 
+                                    data-bs-target="#assignSubmissionsJurorsModal" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-title="Assign Jurors to Submissions"
+                                    data-bs-placement="top"
+                                    class="text-body view-user-button border-0 bg-transparent p-0">
+                                        <i class="ti ti-gavel ti-sm"></i>
+
+                                    </button>
+                                @endcan
+                                @can('formstack-submissionAssignReaders')
+                                    <button wire:click="assignReaders({{ $pm->id }}, json_decode('{{ $pm->readers_id }}', true))" type="button" 
+                                    data-bs-target="#assignSubmissionsReadersModal" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-title="Assign Readers to Submissions"
                                     data-bs-placement="top"
                                     class="text-body view-user-button border-0 bg-transparent p-0">
                                         <i class="ti ti-eyeglass ti-sm"></i>

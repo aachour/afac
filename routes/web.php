@@ -339,14 +339,6 @@ Route::middleware(['auth'])->group(function () {
     Route::group(['prefix' => 'formstackPM'], function () {
         Route::get('/{formId}/', PMView::class)->name('formstack.pm');
     });
-
-    Route::group(['prefix' => 'formstackJurors'], function () {
-        Route::get('/{formId}/{submissionId?}', JurorsView::class)->name('formstack.jurors');
-    });
-
-    Route::group(['prefix' => 'formstackViewers'], function () {
-        Route::get('/{formId}/{submissionId?}', ViewersView::class)->name('formstack.viewers');
-    });
     
     Route::group(['prefix' => 'formstackSubmissions'], function () {
         Route::get('/{formId?}', SubmissionsView::class)->name('formstack.submissions');
@@ -356,6 +348,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/{formId}/{submissionId}', SubmissionView::class)->name('formstack.submission');
         
     });
+
+    Route::group(['prefix' => 'formstackJurors'], function () {
+        Route::get('/{formId}/{submissionId?}', JurorsView::class)->name('formstack.jurors');
+    });
+
+    Route::group(['prefix' => 'formstackViewers'], function () {
+        Route::get('/{formId}/{submissionId?}', ViewersView::class)->name('formstack.viewers');
+    });
+
     
 
 });

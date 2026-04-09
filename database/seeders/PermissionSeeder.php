@@ -209,14 +209,11 @@ class PermissionSeeder extends Seeder
             'formstack-viewAssignedPM',
             'formstack-viewAssignedJurors',
             'formstack-viewAssignedReaders',
-            'formstack-deleteAssignedPM',
-            'formstack-deleteAssignedJuror',
-            'formstack-deleteAssignedReader',
             'formstack-submissions',
             'formstack-submissionView',
             'formstack-submissionRate',
-            
-
+            'formstack-submissionAssignJurors',
+            'formstack-submissionAssignReaders',
         ];
         
         $permissionsIds = [];

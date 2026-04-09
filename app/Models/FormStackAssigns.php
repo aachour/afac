@@ -11,9 +11,11 @@ class FormStackAssigns extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'group_id',
         'form_id',
         'submission_id',
-        'user_id',
+        'juror_id',
+        'reader_id',
         'grade',
         'notes',
     ];

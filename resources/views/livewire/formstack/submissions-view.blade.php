@@ -138,25 +138,25 @@
                 <div class="modal-body">
 
                     <div class="mb-3"></label>
-
+                        <label for="notes" class="form-label">Status</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" wire:model="admin_status" name="status" id="status_pending" value="pending">
-                            <label class="form-check-label" for="status_pending">
-                                Pending
+                            <input class="form-check-input" type="radio" wire:model="admin_status" name="status" id="status_later" value="later">
+                            <label class="form-check-label" for="status_later">
+                                Later
                             </label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" wire:model="admin_status" name="status" id="status_approved" value="approved">
-                            <label class="form-check-label" for="status_approved">
-                                Approved
+                            <input class="form-check-input" type="radio" wire:model="admin_status" name="status" id="status_yes" value="yes">
+                            <label class="form-check-label" for="status_yes">
+                                Yes
                             </label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" wire:model="admin_status" name="status" id="status_rejected" value="rejected">
-                            <label class="form-check-label" for="status_rejected">
-                                Rejected
+                            <input class="form-check-input" type="radio" wire:model="admin_status" name="status" id="status_no" value="no">
+                            <label class="form-check-label" for="status_no">
+                                No
                             </label>
                         </div>
                     </div>
