@@ -209,12 +209,22 @@ class PMView extends Component
 
         $rows = $grouped->map(function ($items, $submissionId) {
             $jurors = $items->filter(fn($a) => $a->juror_id)
-                ->map(fn($a) => optional(User::find($a->juror_id))->first_name . ' ' . optional(User::find($a->juror_id))->last_name)
-                ->unique()->values();
+                ->map(function ($a) {
+                    $user = User::find($a->juror_id);
+                    return $user ? ['id' => $a->juror_id, 'name' => $user->first_name . ' ' . $user->last_name] : null;
+                })
+                ->filter()
+                ->unique('id')
+                ->values();
 
             $readers = $items->filter(fn($a) => $a->reader_id)
-                ->map(fn($a) => optional(User::find($a->reader_id))->first_name . ' ' . optional(User::find($a->reader_id))->last_name)
-                ->unique()->values();
+                ->map(function ($a) {
+                    $user = User::find($a->reader_id);
+                    return $user ? ['id' => $a->reader_id, 'name' => $user->first_name . ' ' . $user->last_name] : null;
+                })
+                ->filter()
+                ->unique('id')
+                ->values();
 
             return [
                 'submission_id' => $submissionId,
@@ -226,6 +236,23 @@ class PMView extends Component
         $this->view_assignments = $rows;
 
         $this->dispatch('view-assignments-loaded', rows: $rows);
+    }
+
+    public function deleteAssignment($submissionId, $type, $personId)
+    {
+        $query = FormStackAssigns::where('group_id', $this->group_id)
+            ->where('form_id', $this->form_id)
+            ->where('submission_id', $submissionId);
+
+        if ($type === 'juror') {
+            $query->where('juror_id', $personId);
+        } else {
+            $query->where('reader_id', $personId);
+        }
+
+        $query->delete();
+
+        $this->viewAssignments($this->group_id);
     }
 
     public function render()
