@@ -224,6 +224,9 @@ class PermissionSeeder extends Seeder
             $permissionsIds[] = $createdPermission->id;
         }
 
+        // Remove any permissions no longer in the list
+        Permission::whereNotIn('name', $permissions)->delete();
+
         $adminRole = Role::find(1);
         if($adminRole!=null){
             $adminRole->syncPermissions($permissionsIds);
