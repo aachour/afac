@@ -44,20 +44,51 @@
                                     <button wire:click="setGroupId({{ $pm->id }},'Jurors')" type="button" 
                                     data-bs-target="#assignJurorsModal" 
                                     data-bs-toggle="modal" 
-                                    data-bs-title="Assign Jurors"
+                                    data-bs-title="Assign Jurors to PM"
                                     data-bs-placement="top"
                                     class="text-body view-user-button border-0 bg-transparent p-0">
-                                        <i class="ti ti-gavel ti-sm"></i>
+                                        <i class="ti ti-users-plus ti-sm"></i>
                                     </button>
                                 @endcan
                                 @can('formstack-viewAssignedReaders')
                                     <button wire:click="setGroupId({{ $pm->id }},'Readers')" type="button" 
                                     data-bs-target="#assignReadersModal" 
                                     data-bs-toggle="modal" 
-                                    data-bs-title="Assign Readers"
+                                    data-bs-title="Assign Readers to PM"
+                                    data-bs-placement="top"
+                                    class="text-body view-user-button border-0 bg-transparent p-0">
+                                    <i class="ti ti-user-check ti-sm"></i>
+                                    </button>
+                                @endcan
+                                @can('formstack-submissionAssignJurors')
+                                    <button wire:click="assignJurors({{ $pm->id }})" type="button" 
+                                    data-bs-target="#assignSubmissionsJurorsModal" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-title="Assign Jurors to Submissions"
+                                    data-bs-placement="top"
+                                    class="text-body view-user-button border-0 bg-transparent p-0">
+                                        <i class="ti ti-gavel ti-sm"></i>
+
+                                    </button>
+                                @endcan
+                                @can('formstack-submissionAssignReaders')
+                                    <button wire:click="assignReaders({{ $pm->id }})" type="button" 
+                                    data-bs-target="#assignSubmissionsReadersModal" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-title="Assign Readers to Submissions"
                                     data-bs-placement="top"
                                     class="text-body view-user-button border-0 bg-transparent p-0">
                                         <i class="ti ti-eyeglass ti-sm"></i>
+                                    </button>
+                                @endcan
+                                @can('formstack-submissionAssignView')
+                                    <button wire:click="viewAssignments({{ $pm->id }})" type="button" 
+                                    data-bs-target="#viewAssignmentsModal" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-title="View Assignments"
+                                    data-bs-placement="top"
+                                    class="text-body view-user-button border-0 bg-transparent p-0">
+                                        <i class="ti ti-list-details ti-sm"></i>
                                     </button>
                                 @endcan
                             </td>
@@ -166,6 +197,128 @@
         </div>
     </div>
 
+    <div wire:ignore.self class="modal fade" id="assignSubmissionsJurorsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Assign Juror(s) to Submission(s)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3" wire:ignore>
+                        <label for="assign_submission_ids" class="form-label">Submissions</label>
+                        <select id="assign_submission_ids" class="form-control" multiple></select>
+                    </div>
+
+                    <div class="mb-3" wire:ignore>
+                        <label for="assign_juror_ids" class="form-label">Jurors</label>
+                        <select id="assign_juror_ids" class="form-control" multiple></select>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <button
+                        type="button"
+                        wire:click="saveSubmissionJurors"
+                        wire:loading.attr="disabled"
+                        wire:target="saveSubmissionJurors"
+                        class="btn btn-primary"
+                    >
+                        <span wire:loading.remove wire:target="saveSubmissionJurors">
+                            Save
+                        </span>
+                        <span wire:loading wire:target="saveSubmissionJurors">
+                            Saving...
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div wire:ignore.self class="modal fade" id="assignSubmissionsReadersModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Assign Reader(s) to Submission(s)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3" wire:ignore>
+                        <label for="assign_reader_submission_ids" class="form-label">Submissions</label>
+                        <select id="assign_reader_submission_ids" class="form-control" multiple></select>
+                    </div>
+
+                    <div class="mb-3" wire:ignore>
+                        <label for="assign_reader_ids" class="form-label">Readers</label>
+                        <select id="assign_reader_ids" class="form-control" multiple></select>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <button
+                        type="button"
+                        wire:click="saveSubmissionReaders"
+                        wire:loading.attr="disabled"
+                        wire:target="saveSubmissionReaders"
+                        class="btn btn-primary"
+                    >
+                        <span wire:loading.remove wire:target="saveSubmissionReaders">
+                            Save
+                        </span>
+                        <span wire:loading wire:target="saveSubmissionReaders">
+                            Saving...
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div wire:ignore.self class="modal fade" id="viewAssignmentsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Submission Assignments</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div wire:ignore>
+                        <table id="assignmentsTable" class="table border-top" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Submission ID</th>
+                                    <th>Jurors</th>
+                                    <th>Readers</th>
+                                </tr>
+                            </thead>
+                            <tbody id="assignmentsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @script
     <script>
         $wire.on('jurors-loaded', () => {
@@ -228,6 +381,147 @@
 
                 $el.on('change', function () {
                     $wire.set('readers_id', $(this).val() || [], false);
+                });
+            }, 100);
+        });
+
+        $wire.on('submission-jurors-loaded', ({ submissions, jurors }) => {
+            setTimeout(() => {
+                let $subs = $('#assign_submission_ids');
+                let $jurors = $('#assign_juror_ids');
+
+                [$subs, $jurors].forEach(function ($el) {
+                    if (!$el.length) return;
+                    if ($el.hasClass('select2-hidden-accessible')) {
+                        $el.off('change');
+                        $el.select2('destroy');
+                    }
+                    $el.empty();
+                });
+
+                submissions.forEach(function (s) {
+                    $subs.append(new Option(s.label, s.id, false, false));
+                });
+
+                jurors.forEach(function (j) {
+                    $jurors.append(new Option(j.label, j.id, false, false));
+                });
+
+                $subs.select2({
+                    placeholder: 'Select Submissions',
+                    width: '100%',
+                    dropdownParent: $('#assignSubmissionsJurorsModal'),
+                    closeOnSelect: false
+                });
+
+                $jurors.select2({
+                    placeholder: 'Select Jurors',
+                    width: '100%',
+                    dropdownParent: $('#assignSubmissionsJurorsModal'),
+                    closeOnSelect: false
+                });
+
+                $subs.val([]).trigger('change.select2');
+                $jurors.val([]).trigger('change.select2');
+
+                $subs.on('change', function () {
+                    $wire.set('assign_submission_ids', $(this).val() || [], false);
+                });
+
+                $jurors.on('change', function () {
+                    $wire.set('assign_juror_ids', $(this).val() || [], false);
+                });
+            }, 100);
+        });
+
+        $wire.on('close-submission-jurors-modal', () => {
+            let modal = bootstrap.Modal.getInstance(document.getElementById('assignSubmissionsJurorsModal'));
+            if (modal) modal.hide();
+        });
+
+        $wire.on('submission-readers-loaded', ({ submissions, readers }) => {
+            setTimeout(() => {
+                let $subs = $('#assign_reader_submission_ids');
+                let $readers = $('#assign_reader_ids');
+
+                [$subs, $readers].forEach(function ($el) {
+                    if (!$el.length) return;
+                    if ($el.hasClass('select2-hidden-accessible')) {
+                        $el.off('change');
+                        $el.select2('destroy');
+                    }
+                    $el.empty();
+                });
+
+                submissions.forEach(function (s) {
+                    $subs.append(new Option(s.label, s.id, false, false));
+                });
+
+                readers.forEach(function (r) {
+                    $readers.append(new Option(r.label, r.id, false, false));
+                });
+
+                $subs.select2({
+                    placeholder: 'Select Submissions',
+                    width: '100%',
+                    dropdownParent: $('#assignSubmissionsReadersModal'),
+                    closeOnSelect: false
+                });
+
+                $readers.select2({
+                    placeholder: 'Select Readers',
+                    width: '100%',
+                    dropdownParent: $('#assignSubmissionsReadersModal'),
+                    closeOnSelect: false
+                });
+
+                $subs.val([]).trigger('change.select2');
+                $readers.val([]).trigger('change.select2');
+
+                $subs.on('change', function () {
+                    $wire.set('assign_reader_submission_ids', $(this).val() || [], false);
+                });
+
+                $readers.on('change', function () {
+                    $wire.set('assign_reader_ids', $(this).val() || [], false);
+                });
+            }, 100);
+        });
+
+        $wire.on('close-submission-readers-modal', () => {
+            let modal = bootstrap.Modal.getInstance(document.getElementById('assignSubmissionsReadersModal'));
+            if (modal) modal.hide();
+        });
+
+        let assignmentsDataTable = null;
+
+        $wire.on('view-assignments-loaded', ({ rows }) => {
+            setTimeout(() => {
+                let $tbody = $('#assignmentsTableBody');
+                $tbody.empty();
+
+                rows.forEach(function (row) {
+                    let jurorsList  = row.jurors.length  ? row.jurors.map(j  => '<span class="badge bg-label-primary me-1">'  + j + '</span>').join('') : '<span class="text-muted">—</span>';
+                    let readersList = row.readers.length ? row.readers.map(r => '<span class="badge bg-label-success me-1">' + r + '</span>').join('') : '<span class="text-muted">—</span>';
+
+                    $tbody.append(
+                        '<tr>' +
+                        '<td>#' + row.submission_id + '</td>' +
+                        '<td>' + jurorsList + '</td>' +
+                        '<td>' + readersList + '</td>' +
+                        '</tr>'
+                    );
+                });
+
+                if (assignmentsDataTable) {
+                    assignmentsDataTable.destroy();
+                    assignmentsDataTable = null;
+                }
+
+                assignmentsDataTable = $('#assignmentsTable').DataTable({
+                    pageLength: 10,
+                    order: [[0, 'asc']],
+                    columnDefs: [{ targets: '_all', searchable: true }],
                 });
             }, 100);
         });
