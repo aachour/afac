@@ -42,7 +42,11 @@ class PMView extends Component
         
         $this->form_id=$formId;
 
-        $this->pms = FormStackGroups::where('form_id', $formId)->get();
+        $query = FormStackGroups::where('form_id', $formId);
+        if (!auth()->user()->can('formstack-viewAssignedPM')) {
+            $query->where('user_id', auth()->id());
+        }
+        $this->pms = $query->get();
 
         $this->jurors = User::role('Juror')
             ->orderBy('first_name', 'asc')
