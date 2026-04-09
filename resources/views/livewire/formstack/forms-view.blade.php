@@ -13,9 +13,9 @@
                         <th>ID</th>
                         <th>Name</th>
                         <th>Lang</th>
-                        <th>System Submissions</th>
-                        <th>Current Submissions</th>
                         @can('formstack-viewAssignedPM')
+                            <th>System Submissions</th>
+                            <th>Current Submissions</th>
                             <th>Assigned PMs</th>
                         @endcan
                         <!-- <th>In workflow</th>
@@ -30,9 +30,9 @@
                             <td>{{ $form->form_id }}</td>
                             <td>{{ $form->form_name }}</td>
                             <td>{{ $form->form_lang }}</td>
-                            <td>{{ $form->form_submissions }}</td>
-                            <td>{{$form->submissions->count()}}</td>
                             @can('formstack-viewAssignedPM')
+                                <td>{{ $form->form_submissions }}</td>
+                                <td>{{$form->submissions->count()}}</td>
                                 <td>{{$form->groups->count()}}</td>
                             @endcan
                             {{--<td>{{ $form->form_is_workflow_form == 1 ? 'Yes': 'No' }}</td>--}}
