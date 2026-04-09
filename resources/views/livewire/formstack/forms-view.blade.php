@@ -54,7 +54,7 @@
                                         <i class="ti ti-user-plus ti-sm"></i>
                                     </button>
                                 @endcan
-                                @can('formstack-viewAssignedPM')
+                                @can('formstack-viewAssignedSubmissions')
                                     <a href="{{ route('formstack.pm', ['formId' => $form->form_id]) }}" 
                                         class="text-body view-user-button"
                                         data-bs-title="View Assigned PMs"
