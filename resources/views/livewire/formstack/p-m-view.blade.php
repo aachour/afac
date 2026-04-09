@@ -91,6 +91,15 @@
                                         <i class="ti ti-list-details ti-sm"></i>
                                     </button>
                                 @endcan
+                                @can('formstack-deleteAssignedPM')
+                                    <button type="button"
+                                    data-bs-title="Delete PM"
+                                    data-bs-placement="top"
+                                    onclick="confirmDeletePM({{ $pm->id }})"
+                                    class="text-danger view-user-button border-0 bg-transparent p-0">
+                                        <i class="ti ti-trash ti-sm"></i>
+                                    </button>
+                                @endcan
                             </td>
                         </tr>
                     @endforeach
@@ -549,6 +558,23 @@
             let personId     = $(this).data('person-id');
             $wire.deleteAssignment(submissionId, type, personId);
         });
+
+        window.confirmDeletePM = function (groupId) {
+            Swal.fire({
+                title: 'Delete Program Manager?',
+                text: 'This will remove the PM and all their assigned submissions from this form.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, delete',
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $wire.deletePM(groupId);
+                }
+            });
+        };
     </script>
     @endscript
 

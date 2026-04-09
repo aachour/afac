@@ -242,6 +242,18 @@ class PMView extends Component
         $this->dispatch('view-assignments-loaded', rows: $rows);
     }
 
+    public function deletePM($groupId)
+    {
+        $this->authorize('formstack-deleteAssignedPM');
+
+        FormStackGroups::where('id', $groupId)
+            ->where('form_id', $this->form_id)
+            ->delete();
+
+        return to_route('formstack.pm',['formId'=>$this->form_id])->with('success', 'Program Manager deleted successfully!');
+
+    }
+
     public function deleteAssignment($submissionId, $type, $personId)
     {
         $query = FormStackAssigns::where('group_id', $this->group_id)
