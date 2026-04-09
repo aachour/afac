@@ -207,6 +207,7 @@ class PermissionSeeder extends Seeder
             'formstack-forms',
             'formstack-formAssign',
             'formstack-viewAssignedPM',
+            'formstack-deleteAssignedPM',
             'formstack-viewAssignedSubmissions',
             'formstack-viewAssignedJurors',
             'formstack-viewAssignedReaders',
