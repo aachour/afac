@@ -27,4 +27,9 @@ class FormStackForms extends Model
         return $this->hasMany(FormStackSubmissions::class, 'form_id', 'form_id');
     }
 
+    public function groups()
+    {
+        return $this->hasMany(FormStackGroups::class, 'form_id', 'form_id');
+    }
+
 }

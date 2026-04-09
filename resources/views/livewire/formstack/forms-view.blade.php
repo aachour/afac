@@ -15,10 +15,10 @@
                         <th>Lang</th>
                         <th>System Submissions</th>
                         <th>Current Submissions</th>
+                        <th>Assigned PMs</th>
                         <!-- <th>In workflow</th>
                         <th>Published</th> -->
-                        <th>Created At</th>
-                        <th>Updated At</th>
+                        <th>Created At <br /> Updated At</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -30,10 +30,10 @@
                             <td>{{ $form->form_lang }}</td>
                             <td>{{ $form->form_submissions }}</td>
                             <td>{{$form->submissions->count()}}</td>
+                            <td>{{$form->groups->count()}}</td>
                             {{--<td>{{ $form->form_is_workflow_form == 1 ? 'Yes': 'No' }}</td>
                             <td>{{ $form->form_is_workflow_published == 1 ? 'Yes': 'No' }}</td>--}}
-                            <td>{{ date('d-M-Y',strtotime($form->form_created_at))}}</td>
-                            <td>{{ date('d-M-Y',strtotime($form->form_updated_at))}}</td>
+                            <td>{{ date('d-M-Y',strtotime($form->form_created_at))}} <br /> {{ date('d-M-Y',strtotime($form->form_updated_at))}}</td>
                             <td>
                                 @can('formstack-submissions')
                                     <a href="{{ route('formstack.submissions', ['formId' => $form->form_id]) }}" 
