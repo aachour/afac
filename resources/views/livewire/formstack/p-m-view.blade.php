@@ -36,7 +36,7 @@
                                 @endphp
 
                                 @foreach($submissionIds as $submissionId)
-                                    <div>-{{ $submissionId }}</div>
+                                    <div>-{{ $submissionId }}&nbsp;<a href="{{ route('formstack.submission', ['formId' => $pm->id , 'submissionId' => $submissionId]) }}" target="_blank"><i class="ti ti-eye ti-sm text-body"></i></a></div>
                                 @endforeach
                             </td>
                             <td>
