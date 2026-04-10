@@ -36,7 +36,10 @@
                                 @endphp
 
                                 @foreach($submissionIds as $submissionId)
-                                    <div>-{{ $submissionId }}&nbsp;<a href="{{ route('formstack.submission', ['formId' => $pm->id , 'submissionId' => $submissionId]) }}" target="_blank"><i class="ti ti-eye ti-sm text-body"></i></a></div>
+                                    @php
+                                        $submission = \App\Models\FormStackSubmissions::where('submission_id', $submissionId)->first();
+                                    @endphp
+                                    <div>-{{ $submission?->admin_id ?? '—' }}/{{$submission?->email ?? '—' }}&nbsp;<a href="{{ route('formstack.submission', ['formId' => $pm->id , 'submissionId' => $submissionId]) }}" target="_blank"><i class="ti ti-eye ti-sm text-body"></i></a></div>
                                 @endforeach
                             </td>
                             <td>
@@ -226,6 +229,16 @@
                         <select id="assign_juror_ids" class="form-control" multiple></select>
                     </div>
 
+                    <div class="mb-3">
+                        <label for="assign_form_type" class="form-label">Form Type</label>
+                        <select id="assign_form_type" class="form-control" wire:model="assign_form_type">
+                            <option value="">Form Type</option>
+                            <option value="1">Type 1</option>
+                            <option value="2">Type 2</option>
+                            <option value="3">Type 3</option>
+                        </select>
+                    </div>
+
                 </div>
 
                 <div class="modal-footer">
@@ -270,6 +283,16 @@
                     <div class="mb-3" wire:ignore>
                         <label for="assign_reader_ids" class="form-label">Readers</label>
                         <select id="assign_reader_ids" class="form-control" multiple></select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="assign_reader_form_type" class="form-label">Form Type</label>
+                        <select id="assign_reader_form_type" class="form-control" wire:model="assign_reader_form_type">
+                            <option value="">Form Type</option>
+                            <option value="1">Type 1</option>
+                            <option value="2">Type 2</option>
+                            <option value="3">Type 3</option>
+                        </select>
                     </div>
 
                 </div>
@@ -520,6 +543,7 @@
                     let jurorsList = row.jurors.length
                         ? row.jurors.map(j =>
                             '<span class="badge bg-label-primary me-1">' + j.name +
+                            (j.form_type ? ' <small>(Form Type ' + j.form_type + ')</small>' : '') +
                             '<button type="button" class="delete-assignment-btn btn-close btn-close-sm ms-1" style="font-size:.1rem;vertical-align:middle;"' +
                             ' data-submission-id="' + sid + '" data-type="juror" data-person-id="' + j.id + '"></button>' +
                             '</span>'
@@ -529,6 +553,7 @@
                     let readersList = row.readers.length
                         ? row.readers.map(r =>
                             '<span class="badge bg-label-success me-1">' + r.name +
+                            (r.form_type ? ' <small>(Type ' + r.form_type + ')</small>' : '') +
                             '<button type="button" class="delete-assignment-btn btn-close btn-close-sm ms-1" style="font-size:.1rem;vertical-align:middle;"' +
                             ' data-submission-id="' + sid + '" data-type="reader" data-person-id="' + r.id + '"></button>' +
                             '</span>'

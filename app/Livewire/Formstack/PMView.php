@@ -28,11 +28,13 @@ class PMView extends Component
     public $assign_jurors = [];
     public $assign_submission_ids = [];
     public $assign_juror_ids = [];
+    public $assign_form_type = null;
 
     public $assign_readers_submissions = [];
     public $assign_readers = [];
     public $assign_reader_submission_ids = [];
     public $assign_reader_ids = [];
+    public $assign_reader_form_type = null;
 
     public $view_assignments = [];
 
@@ -118,6 +120,7 @@ class PMView extends Component
 
         $this->assign_submission_ids = [];
         $this->assign_juror_ids = [];
+        $this->assign_form_type = null;
 
         $submissionsData = $this->assign_submissions->map(fn($s) => [
             'id'    => $s->submission_id,
@@ -136,12 +139,15 @@ class PMView extends Component
     {
         foreach ($this->assign_submission_ids as $submissionId) {
             foreach ($this->assign_juror_ids as $jurorId) {
-                FormStackAssigns::firstOrCreate(
+                FormStackAssigns::updateOrCreate(
                     [
                         'group_id'      => $this->group_id,
                         'form_id'       => $this->form_id,
                         'submission_id' => $submissionId,
                         'juror_id'      => $jurorId,
+                    ],
+                    [
+                        'form_type' => $this->assign_form_type,
                     ]
                 );
             }
@@ -168,6 +174,7 @@ class PMView extends Component
 
         $this->assign_reader_submission_ids = [];
         $this->assign_reader_ids = [];
+        $this->assign_reader_form_type = null;
 
         $submissionsData = $this->assign_readers_submissions->map(fn($s) => [
             'id'    => $s->submission_id,
@@ -186,12 +193,15 @@ class PMView extends Component
     {
         foreach ($this->assign_reader_submission_ids as $submissionId) {
             foreach ($this->assign_reader_ids as $readerId) {
-                FormStackAssigns::firstOrCreate(
+                FormStackAssigns::updateOrCreate(
                     [
                         'group_id'      => $this->group_id,
                         'form_id'       => $this->form_id,
                         'submission_id' => $submissionId,
                         'reader_id'     => $readerId,
+                    ],
+                    [
+                        'form_type' => $this->assign_reader_form_type,
                     ]
                 );
             }
@@ -215,7 +225,7 @@ class PMView extends Component
             $jurors = $items->filter(fn($a) => $a->juror_id)
                 ->map(function ($a) {
                     $user = User::find($a->juror_id);
-                    return $user ? ['id' => $a->juror_id, 'name' => $user->first_name . ' ' . $user->last_name] : null;
+                    return $user ? ['id' => $a->juror_id, 'name' => $user->first_name . ' ' . $user->last_name, 'form_type' => $a->form_type] : null;
                 })
                 ->filter()
                 ->unique('id')
@@ -224,7 +234,7 @@ class PMView extends Component
             $readers = $items->filter(fn($a) => $a->reader_id)
                 ->map(function ($a) {
                     $user = User::find($a->reader_id);
-                    return $user ? ['id' => $a->reader_id, 'name' => $user->first_name . ' ' . $user->last_name] : null;
+                    return $user ? ['id' => $a->reader_id, 'name' => $user->first_name . ' ' . $user->last_name, 'form_type' => $a->form_type] : null;
                 })
                 ->filter()
                 ->unique('id')

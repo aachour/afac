@@ -52,6 +52,10 @@ use AuthorizesRequests;
         $page = 1;
         $allSubmissions = [];
 
+        // Load the form language to pick the correct name label
+        $form = FormStackForms::where('form_id', $this->form_id)->first();
+        $formLang = strtolower($form->form_lang ?? 'english');
+        
         do {
             $response = Http::withToken(config('services.formstack.token'))
                 ->acceptJson()
@@ -78,14 +82,17 @@ use AuthorizesRequests;
             $submissionId=$submission["id"];
 
             //get data
-            $data=$submission["data"];
+            $data=$submission["data"]; 
 
-    
             //extract email
             $email = collect($data)
             ->firstWhere('label', 'Contact email')['value'] ?? null;
 
-            //extract email
+             //extract email
+            $name = collect($data)
+            ->firstWhere('label', 'Full name')['value'] ?? null;
+
+            //extract admin id
             $admin_id = collect($data)
             ->firstWhere('label', 'ID')['value'] ?? null;
 
@@ -96,6 +103,7 @@ use AuthorizesRequests;
                 [
                     'form_id' => $this->form_id,
                     'email' => $email,
+                    'name' => $name,
                     'admin_id' => $admin_id,
                 ]
             );

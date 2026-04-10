@@ -31,7 +31,9 @@
                         <th></th>
                         <th>Form ID</th>
                         <th>Submission ID</th>
+                        <th>Admin ID</th>
                         <th>Email</th>
+                        <!-- <th>Name</th> -->
                         <th>Admin ID</th>
                         <th>Admin Status</th>
                         <th>Admin Notes</th>
@@ -46,7 +48,9 @@
                             </td>
                             <td>{{ $submission->form_id }}</td>
                             <td>{{ $submission->submission_id }}</td>
+                            <td>{{ $submission->admin_id }}</td>
                             <td>{{ $submission->email }}</td>
+                            <!-- <td>{{ $submission->name }}</td> -->
                             <td>{{ $submission->admin_id }}</td>
                             <td>{{ $submission->admin_status }}</td>
                             <td>{{ $submission->admin_notes }}</td>
