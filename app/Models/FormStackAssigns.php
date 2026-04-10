@@ -16,8 +16,13 @@ class FormStackAssigns extends Model
         'submission_id',
         'juror_id',
         'reader_id',
-        'grade',
-        'notes',
+        'form_type',
+        'form_status',
+        'form_rate1',
+        'form_rate2',
+        'form_rate3',
+        'form_rate4',
+        'form_notes',
     ];
 
     public function form()

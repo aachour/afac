@@ -18,8 +18,13 @@ return new class extends Migration
             $table->string('submission_id');
             $table->foreignId('juror_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->foreignId('reader_id')->nullable()->constrained('users')->onDelete('cascade');
-            $table->float('grade')->nullable();
-            $table->text('notes')->nullable();
+            $table->integer('form_type')->nullable();
+            $table->string('form_status')->nullable();
+            $table->integer('form_rate1')->nullable();
+            $table->integer('form_rate2')->nullable();
+            $table->integer('form_rate3')->nullable();
+            $table->integer('form_rate4')->nullable();
+            $table->text('form_notes')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
@@ -33,8 +38,15 @@ return new class extends Migration
                 ->on('form_stack_submissions')
                 ->onDelete('cascade');
 
-            $table->unique(['juror_id', 'form_id', 'submission_id']);
-            $table->unique(['reader_id', 'form_id', 'submission_id']);
+            $table->unique(
+                ['group_id', 'juror_id', 'form_id', 'submission_id'],
+                'uq_fsa_juror'
+            );
+
+            $table->unique(
+                ['group_id', 'reader_id', 'form_id', 'submission_id'],
+                'uq_fsa_reader'
+            );
             
         });
     }
