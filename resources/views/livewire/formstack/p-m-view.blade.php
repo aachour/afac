@@ -539,6 +539,7 @@
 
                 rows.forEach(function (row) {
                     let sid = row.submission_id;
+                    let displayId = row.admin_id || sid;
 
                     let jurorsList = row.jurors.length
                         ? row.jurors.map(j =>
@@ -562,7 +563,7 @@
 
                     $tbody.append(
                         '<tr>' +
-                        '<td>#' + sid + '</td>' +
+                        '<td>' + displayId + '</td>' +
                         '<td>' + jurorsList + '</td>' +
                         '<td>' + readersList + '</td>' +
                         '</tr>'

@@ -242,6 +242,7 @@ class PMView extends Component
 
             return [
                 'submission_id' => $submissionId,
+                'admin_id'      => \App\Models\FormStackSubmissions::where('submission_id', $submissionId)->value('admin_id') ?? $submissionId,
                 'jurors'        => $jurors->all(),
                 'readers'       => $readers->all(),
             ];
