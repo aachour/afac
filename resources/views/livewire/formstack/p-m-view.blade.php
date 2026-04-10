@@ -553,7 +553,7 @@
                     let readersList = row.readers.length
                         ? row.readers.map(r =>
                             '<span class="badge bg-label-success me-1">' + r.name +
-                            (r.form_type ? ' <small>(Type ' + r.form_type + ')</small>' : '') +
+                            (r.form_type ? ' <small>(Form Type ' + r.form_type + ')</small>' : '') +
                             '<button type="button" class="delete-assignment-btn btn-close btn-close-sm ms-1" style="font-size:.1rem;vertical-align:middle;"' +
                             ' data-submission-id="' + sid + '" data-type="reader" data-person-id="' + r.id + '"></button>' +
                             '</span>'
