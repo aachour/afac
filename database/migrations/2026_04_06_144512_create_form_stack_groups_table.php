@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('form_id');
-            $table->json('submissions_id');
+            $table->json('submissions_id')->nullable();
+            $table->json('submissions_status')->nullable();
             $table->json('jurors_id')->nullable();
             $table->json('readers_id')->nullable();
             $table->timestamps();

@@ -16,6 +16,7 @@ class FormStackGroups extends Model
         'user_id',
         'form_id',
         'submissions_id',
+        'submissions_status',
         'jurors_id',
         'readers_id',
     ];

@@ -39,7 +39,11 @@
                                     @php
                                         $submission = \App\Models\FormStackSubmissions::where('submission_id', $submissionId)->first();
                                     @endphp
-                                    <div>-{{ $submission?->admin_id ?? '—' }}/{{$submission?->email ?? '—' }}&nbsp;<a href="{{ route('formstack.submission', ['formId' => $pm->id , 'submissionId' => $submissionId]) }}" target="_blank"><i class="ti ti-eye ti-sm text-body"></i></a></div>
+                                    @php
+                                        $submissionsStatus = json_decode($pm->submissions_status, true) ?? [];
+                                        $currentStatus = $submissionsStatus[$submissionId] ?? null;
+                                    @endphp
+                                    <div class="d-flex align-items-center gap-1">-{{ $submission?->admin_id ?? '—' }}/{{$submission?->email ?? '—' }}&nbsp;<a href="{{ route('formstack.submission', ['formId' => $pm->id , 'submissionId' => $submissionId]) }}" target="_blank"><i class="ti ti-eye ti-sm text-body"></i></a>&nbsp;<button wire:click="setRateSubmission({{ $pm->id }}, '{{ $submissionId }}')" type="button" data-bs-target="#rateSubmissionModal" data-bs-toggle="modal" data-bs-title="Rate Submission" data-bs-placement="top" class="border-0 bg-transparent p-0 {{ $currentStatus === 'yes' ? 'text-success' : ($currentStatus === 'no' ? 'text-danger' : ($currentStatus === 'maybe' ? 'text-warning' : 'text-body')) }}"><i class="ti ti-star ti-sm"></i></button></div>
                                 @endforeach
                             </td>
                             <td>
@@ -351,6 +355,49 @@
         </div>
     </div>
 
+    <div wire:ignore.self class="modal fade" id="rateSubmissionModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">PM Status</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <!-- <label class="form-label d-block fw-semibold">PM Status</label> -->
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="rateYes" wire:model="submission_pm_status" value="yes">
+                            <label class="form-check-label" for="rateYes">Yes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="rateNo" wire:model="submission_pm_status" value="no">
+                            <label class="form-check-label" for="rateNo">No</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="rateMaybe" wire:model="submission_pm_status" value="maybe">
+                            <label class="form-check-label" for="rateMaybe">Maybe</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button
+                        type="button"
+                        wire:click="saveSubmissionPMStatus"
+                        wire:loading.attr="disabled"
+                        wire:target="saveSubmissionPMStatus"
+                        class="btn btn-primary"
+                    >
+                        <span wire:loading.remove wire:target="saveSubmissionPMStatus">Save</span>
+                        <span wire:loading wire:target="saveSubmissionPMStatus">Saving...</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @script
     <script>
         $wire.on('jurors-loaded', () => {
@@ -522,6 +569,11 @@
 
         $wire.on('close-submission-readers-modal', () => {
             let modal = bootstrap.Modal.getInstance(document.getElementById('assignSubmissionsReadersModal'));
+            if (modal) modal.hide();
+        });
+
+        $wire.on('close-rate-submission-modal', () => {
+            let modal = bootstrap.Modal.getInstance(document.getElementById('rateSubmissionModal'));
             if (modal) modal.hide();
         });
 
