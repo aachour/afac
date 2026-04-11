@@ -38,6 +38,10 @@ class PMView extends Component
 
     public $view_assignments = [];
 
+    public $rate_group_id = null;
+    public $rate_submission_id = null;
+    public $submission_pm_status = null;
+
     public function mount($formId)
     {
         $this->authorize('formstack-viewAssignedSubmissions');
@@ -251,6 +255,31 @@ class PMView extends Component
         $this->view_assignments = $rows;
 
         $this->dispatch('view-assignments-loaded', rows: $rows);
+    }
+
+    public function setRateSubmission($groupId, $submissionId)
+    {
+        $this->rate_group_id = $groupId;
+        $this->rate_submission_id = $submissionId;
+
+        $group = FormStackGroups::find($groupId);
+        $statuses = json_decode($group->submissions_status ?? '{}', true) ?? [];
+        $this->submission_pm_status = $statuses[$submissionId] ?? null;
+    }
+
+    public function saveSubmissionPMStatus()
+    {
+        $group = FormStackGroups::find($this->rate_group_id);
+        $statuses = json_decode($group->submissions_status ?? '{}', true) ?? [];
+        $statuses[$this->rate_submission_id] = $this->submission_pm_status;
+
+        $group->update(['submissions_status' => json_encode($statuses)]);
+
+        $this->pms = FormStackGroups::where('form_id', $this->form_id)
+            ->when(!auth()->user()->can('formstack-viewAssignedPM'), fn($q) => $q->where('user_id', auth()->id()))
+            ->get();
+
+        $this->dispatch('close-rate-submission-modal');
     }
 
     public function deletePM($groupId)
