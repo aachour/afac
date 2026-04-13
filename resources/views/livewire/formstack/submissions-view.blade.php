@@ -32,7 +32,9 @@
                 <table class="table dataTable border-top" id="table">
                     <thead>
                     <tr>
+                        @can('formstack-formAssignPM')
                         <th></th>
+                        @endcan
                         <th>Form ID</th>
                         <th>Submission ID</th>
                         <th>Admin ID</th>
@@ -42,15 +44,20 @@
                         <th>Admin Status</th>
                         <th>Admin Notes</th>
                         @endcan
+                        @can('formstack-submissionFormRate')
+                        <th>Assigned By PM</th>
+                        @endcan
                         <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($submissions as $submission)
                         <tr>
+                            @can('formstack-formAssignPM')
                             <td>
                                 <input type="checkbox" wire:model="selected_submissions" value="{{ $submission->submission_id }}" />
                             </td>
+                            @endcan
                             <td>{{ $submission->form_id }}</td>
                             <td>{{ $submission->submission_id }}</td>
                             <td>{{ $submission->admin_id }}</td>
@@ -60,6 +67,10 @@
                             <td>{{ $submission->admin_status }}</td>
                             <td>{{ $submission->admin_notes }}</td>
                             @endcan
+                            @can('formstack-submissionFormRate')
+                            <td>{{ $pmNames[(string) $submission->submission_id] ?? '' }}</td>
+                            @endcan
+
                             <td>
                                 @can('formstack-submissionRate')
                                     <button wire:click="setSubmission({{ $submission->id }})" type="button" 

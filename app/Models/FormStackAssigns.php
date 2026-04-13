@@ -25,6 +25,11 @@ class FormStackAssigns extends Model
         'form_notes',
     ];
 
+    public function group()
+    {
+        return $this->belongsTo(FormStackGroups::class, 'group_id', 'id');
+    }
+
     public function form()
     {
         return $this->belongsTo(FormStackForms::class, 'form_id', 'id');
