@@ -21,7 +21,6 @@ class SubmissionsView extends Component
 use AuthorizesRequests; 
 
     public $submissions = [];
-    public $pmNames = [];
     public $assigns = [];
     public $selected_submissions = [];
     public $form_id;
@@ -54,34 +53,11 @@ use AuthorizesRequests;
             $this->assigns = FormStackAssigns::with(['submission', 'group.user'])
                 ->where('juror_id', Auth::id())
                 ->get();
-
-            foreach($this->assigns as $assign){
-                $submission = $assign->submission;
-                if($submission){
-                    $pmName = $assign->group?->user
-                        ? trim($assign->group->user->first_name . ' ' . $assign->group->user->last_name)
-                        : null;
-                    $this->pmNames[(string) $submission->submission_id] = $pmName;
-                    $this->submissions[] = $submission;
-                }
-            }
         }
         else if(Auth::user()->hasRole('Reader')){
             $this->assigns = FormStackAssigns::with(['submission', 'group.user'])
                 ->where('reader_id', Auth::id())
                 ->get();
-
-            foreach($this->assigns as $assign){
-                $submission = $assign->submission;
-                if($submission){
-                    $pmName = $assign->group?->user
-                        ? trim($assign->group->user->first_name . ' ' . $assign->group->user->last_name)
-                        : null;
-                    $this->pmNames[(string) $submission->submission_id] = $pmName;
-                    $this->submissions[] = $submission;
-                }
-            }
-
         }
         else
         {

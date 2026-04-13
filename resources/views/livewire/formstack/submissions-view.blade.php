@@ -31,6 +31,17 @@
             <div class="card-datatable table-responsive" wire:ignore>
                 <table class="table dataTable border-top" id="table">
                     <thead>
+                    @if(Auth::user()->hasRole('Juror') || Auth::user()->hasRole('Reader'))
+                    <tr>
+                        <th>Form ID</th>
+                        <th>Submission ID</th>
+                        <th>Admin ID</th>
+                        <th>Email</th>
+                        <!-- <th>Name</th> -->
+                        <th>Assigned By PM</th>
+                        <th>Action</th>
+                    </tr>
+                    @else
                     <tr>
                         @can('formstack-formAssignPM')
                         <th></th>
@@ -44,45 +55,60 @@
                         <th>Admin Status</th>
                         <th>Admin Notes</th>
                         @endcan
-                        @can('formstack-submissionFormRate')
-                        <th>Assigned By PM</th>
-                        @endcan
                         <th>Action</th>
                     </tr>
+                    @endif
                     </thead>
                     <tbody>
-                    @foreach($submissions as $submission)
-                        <tr>
-                            @can('formstack-formAssignPM')
-                            <td>
-                                <input type="checkbox" wire:model="selected_submissions" value="{{ $submission->submission_id }}" />
-                            </td>
-                            @endcan
-                            <td>{{ $submission->form_id }}</td>
-                            <td>{{ $submission->submission_id }}</td>
-                            <td>{{ $submission->admin_id }}</td>
-                            <td>{{ $submission->email }}</td>
-                            <!-- <td>{{ $submission->name }}</td> -->
-                            @can('formstack-formAssignPM')
-                            <td>{{ $submission->admin_status }}</td>
-                            <td>{{ $submission->admin_notes }}</td>
-                            @endcan
-                            @can('formstack-submissionFormRate')
-                            <td>{{ $pmNames[(string) $submission->submission_id] ?? '' }}</td>
-                            @endcan
-
-                            <td>
-                                @can('formstack-submissionRate')
-                                    <button wire:click="setSubmission({{ $submission->id }})" type="button" 
-                                    data-bs-target="#rateModal" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-title="Rate Submission"
-                                    data-bs-placement="top"
-                                    class="text-body view-user-button border-0 bg-transparent p-0">
-                                        <i class="ti ti-star ti-sm"></i>
-                                    </button>
+                    @if(Auth::user()->hasRole('Juror') || Auth::user()->hasRole('Reader'))
+                        @foreach($assigns as $assign)
+                            <tr>
+                                <td>{{ $assign->submission->form_id }}</td>
+                                <td>{{ $assign->submission->submission_id }}</td>
+                                <td>{{ $assign->submission->admin_id }}</td>
+                                <td>{{ $assign->submission->email }}</td>
+                                <!-- <td>{{ $assign->submission->name }}</td> -->
+                                <td>{{ $assign->group?->user ? trim($assign->group->user->first_name . ' ' .$assign->group->user->last_name): null; }}</td>
+                                <td>
+                                    <a href="{{ route('formstack.submission', ['formId' => $assign->submission->form_id,'submissionId' => $assign->submission->submission_id]) }}" 
+                                        target="_blank" 
+                                        class="text-body view-user-button"
+                                        data-bs-title="View Submission"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top">
+                                        <i class="ti ti-eye ti-sm"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        @foreach($submissions as $submission)
+                            <tr>
+                                @can('formstack-formAssignPM')
+                                <td>
+                                    <input type="checkbox" wire:model="selected_submissions" value="{{ $submission->submission_id }}" />
+                                </td>
                                 @endcan
-                                @can('formstack-submissionView')
+                                <td>{{ $submission->form_id }}</td>
+                                <td>{{ $submission->submission_id }}</td>
+                                <td>{{ $submission->admin_id }}</td>
+                                <td>{{ $submission->email }}</td>
+                                <!-- <td>{{ $submission->name }}</td> -->
+                                @can('formstack-formAssignPM')
+                                <td>{{ $submission->admin_status }}</td>
+                                <td>{{ $submission->admin_notes }}</td>
+                                @endcan
+                                <td>
+                                    @can('formstack-submissionRate')
+                                        <button wire:click="setSubmission({{ $submission->id }})" type="button" 
+                                        data-bs-target="#rateModal" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-title="Rate Submission"
+                                        data-bs-placement="top"
+                                        class="text-body view-user-button border-0 bg-transparent p-0">
+                                            <i class="ti ti-star ti-sm"></i>
+                                        </button>
+                                    @endcan
                                     <a href="{{ route('formstack.submission', ['formId' => $submission->form_id,'submissionId' => $submission->submission_id]) }}" 
                                         target="_blank" 
                                         class="text-body view-user-button"
@@ -91,10 +117,10 @@
                                         data-bs-placement="top">
                                         <i class="ti ti-eye ti-sm"></i>
                                     </a>
-                                @endcan
-                            </td>
-                        </tr>
-                    @endforeach
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                     </tbody>
                 </table>
             </div>
