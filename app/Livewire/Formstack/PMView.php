@@ -141,6 +141,21 @@ class PMView extends Component
 
     public function saveSubmissionJurors()
     {
+        $this->validate(
+            [
+                'assign_submission_ids'   => 'required|array|min:1',
+                'assign_juror_ids'        => 'required|array|min:1',
+                'assign_form_type'        => 'required',
+            ],
+            [
+                'assign_submission_ids.required' => 'Please select at least one submission.',
+                'assign_submission_ids.min'      => 'Please select at least one submission.',
+                'assign_juror_ids.required'      => 'Please select at least one juror.',
+                'assign_juror_ids.min'           => 'Please select at least one juror.',
+                'assign_form_type.required'      => 'Please select a form type.',
+            ]
+        );
+
         foreach ($this->assign_submission_ids as $submissionId) {
             foreach ($this->assign_juror_ids as $jurorId) {
                 FormStackAssigns::updateOrCreate(
@@ -195,6 +210,21 @@ class PMView extends Component
 
     public function saveSubmissionReaders()
     {
+        $this->validate(
+            [
+                'assign_reader_submission_ids' => 'required|array|min:1',
+                'assign_reader_ids'            => 'required|array|min:1',
+                'assign_reader_form_type'      => 'required',
+            ],
+            [
+                'assign_reader_submission_ids.required' => 'Please select at least one submission.',
+                'assign_reader_submission_ids.min'      => 'Please select at least one submission.',
+                'assign_reader_ids.required'            => 'Please select at least one reader.',
+                'assign_reader_ids.min'                 => 'Please select at least one reader.',
+                'assign_reader_form_type.required'      => 'Please select a form type.',
+            ]
+        );
+
         foreach ($this->assign_reader_submission_ids as $submissionId) {
             foreach ($this->assign_reader_ids as $readerId) {
                 FormStackAssigns::updateOrCreate(
