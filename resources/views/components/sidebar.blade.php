@@ -104,7 +104,7 @@
 			@endcanany
 
 			@canany(['formstack-forms', 'formstack-submissions'])
-			<li class="menu-item {{ request()->is('formstackForms') || request()->is('formstackSubmissions') ? "active open" : "" }}">
+			<li class="menu-item {{ request()->is('formstackForms') || request()->is('formstackSubmissions/*') || request()->is('formstackSubmissions') || request()->is('formstackPM/*') || request()->is('formstackSubmissionView/*') ? "active open" : "" }}">
 
 				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-api"></i>
@@ -121,15 +121,13 @@
 					</li>
 					@endcan
 
-					{{--
-					@can('formstack-submissions')
+					@if(Auth::user()->hasRole('Juror')|| Auth::user()->hasRole('Reader'))
 					<li class="menu-item {{ request()->is('formstackSubmissions') ? "active" : "" }}">
 						<a href="{{ route('formstack.submissions') }}" class="menu-link">
 							<div data-i18n="Submissions">Submissions</div>
 						</a>
 					</li>
-					@endcan
-					--}}
+					@endif
 
 				</ul>
 				

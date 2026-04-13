@@ -5,14 +5,15 @@ namespace App\Livewire\Formstack;
 
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\User;
 use App\Models\FormStackForms;
 use App\Models\FormStackSubmissions;
 use App\Models\FormStackGroups;
+use App\Models\FormStackAssigns;
 use Spatie\Permission\Models\Role;
-
 
 class SubmissionsView extends Component
 {
@@ -20,6 +21,7 @@ class SubmissionsView extends Component
 use AuthorizesRequests; 
 
     public $submissions = [];
+    public $assigns = [];
     public $selected_submissions = [];
     public $form_id;
     public $users;
@@ -30,13 +32,52 @@ use AuthorizesRequests;
     public $admin_status;
     
 
-    public function mount($formId)
+    public function mount($formId='')
     {
         $this->authorize('formstack-submissions');
 
         $this->form_id=$formId;
         
-        $this->submissions=FormStackSubmissions::WHERE('form_id',$this->form_id)->get();
+        if(Auth::user()->hasRole('Program Manager'))
+        {
+            $group = FormStackGroups::where('form_id', $this->form_id)
+                ->where('user_id', Auth::id())
+                ->first();
+
+            $submissionIds = $group ? json_decode($group->submissions_id, true) : []; 
+
+            $this->submissions = FormStackSubmissions::whereIn('submission_id', $submissionIds)->get();
+        }
+        else if(Auth::user()->hasRole('Juror'))
+        {
+            $this->assigns = FormStackAssigns::with('submission')
+                ->where('juror_id', Auth::id())
+                ->get();
+
+            foreach($this->assigns as $assign){
+                $submission=FormStackSubmissions::where('submission_id', $assign->submission_id)->first(); 
+                if($submission){
+                    $this->submissions[]=$submission;
+                }
+            }
+        }
+        else if(Auth::user()->hasRole('Reader')){
+            $this->assigns = FormStackAssigns::with('submission')
+                ->where('reader_id', Auth::id())
+                ->get();
+
+            foreach($this->assigns as $assign){
+                $submission=FormStackSubmissions::where('submission_id', $assign->submission_id)->first(); 
+                if($submission){
+                    $this->submissions[]=$submission;
+                }
+            }
+
+        }
+        else
+        {
+            $this->submissions=FormStackSubmissions::WHERE('form_id',$this->form_id)->get();
+        }
 
         $this->users = User::role('Program Manager')
             ->orderBy('first_name', 'asc')
