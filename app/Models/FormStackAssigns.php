@@ -32,7 +32,7 @@ class FormStackAssigns extends Model
 
     public function submission()
     {
-        return $this->belongsTo(FormStackSubmissions::class, 'submission_id', 'id');
+        return $this->belongsTo(FormStackSubmissions::class, 'submission_id', 'submission_id');
     }
 
     public function user()

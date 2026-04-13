@@ -48,7 +48,7 @@
                                         <i class="ti ti-list-details ti-sm"></i>
                                     </a>
                                 @endcan
-                                @can('formstack-formAssign')
+                                @can('formstack-formAssignPM')
                                     <button wire:click="setFormId({{ $form->form_id }})" type="button" 
                                     data-bs-target="#assignModal" 
                                     data-bs-toggle="modal" 

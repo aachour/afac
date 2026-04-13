@@ -7,13 +7,17 @@
                 <h4 class="card-title mb-3">Submissions List</h4>
 
                 <div class="d-flex gap-2">
+                    @if(!Auth::user()->hasRole('Juror') && !Auth::user()->hasRole('Reader'))
                     <a href="{{ route('formstack.forms') }}" class="btn btn-primary d-flex align-items-center">
                         <i class="ti ti-arrow-left me-1"></i> Back
                     </a>
+                    @endif
+                    @can('formstack-formFetchSubmissions')
                     <button type="button" wire:click="fetchSubmissions" class="btn btn-primary d-flex align-items-center">
                         Fetch Submissions
                     </button>
-                    @can('formstack-formAssign')
+                    @endcan
+                    @can('formstack-formAssignPM')
                         <button type="button" 
                         data-bs-target="#assignModal" 
                         data-bs-toggle="modal" 
@@ -34,9 +38,10 @@
                         <th>Admin ID</th>
                         <th>Email</th>
                         <!-- <th>Name</th> -->
-                        <th>Admin ID</th>
+                        @can('formstack-formAssignPM')
                         <th>Admin Status</th>
                         <th>Admin Notes</th>
+                        @endcan
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -51,9 +56,10 @@
                             <td>{{ $submission->admin_id }}</td>
                             <td>{{ $submission->email }}</td>
                             <!-- <td>{{ $submission->name }}</td> -->
-                            <td>{{ $submission->admin_id }}</td>
+                            @can('formstack-formAssignPM')
                             <td>{{ $submission->admin_status }}</td>
                             <td>{{ $submission->admin_notes }}</td>
+                            @endcan
                             <td>
                                 @can('formstack-submissionRate')
                                     <button wire:click="setSubmission({{ $submission->id }})" type="button" 
