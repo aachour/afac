@@ -345,7 +345,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::group(['prefix' => 'formstackSubmissionView'], function () {
-        Route::get('/{formId}/{submissionId}', SubmissionView::class)->name('formstack.submission');
+        Route::get('/{formId}/{submissionId}/{assignId?}', SubmissionView::class)->name('formstack.submission');
         
     });
     

@@ -8,15 +8,32 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\FormStackForms;
 use App\Models\FormStackSubmissions;
+use App\Models\FormStackAssigns;
+
 
 class SubmissionView extends Component
 {
 
     public array $fieldData = [];
 
-    public function mount($formId,$submissionId){
+    public $form_id;
+    public $submission_id;
+    public $assign_id;
+    public $formStackAssign;
+    public $form_type;
+
+    public function mount($formId,$submissionId,$assignId = null){
 
         $this->authorize('formstack-submissionView');
+
+        $this->form_id = $formId;
+        $this->submission_id = $submissionId;
+        $this->assign_id = $assignId;
+
+        if ($assignId) {
+            $this->formStackAssign = FormStackAssigns::find($assignId);
+            $this->form_type = $this->formStackAssign->form_type ?? null;
+        }
 
         $submission = Http::withToken(config('services.formstack.token'))
             ->get("https://www.formstack.com/api/v2/submission/{$submissionId}.json")
