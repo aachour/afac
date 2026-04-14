@@ -115,7 +115,7 @@ class PMView extends Component
         $jurorIds = json_decode($group->jurors_id, true) ?? [];
 
         $this->assign_submissions = FormStackSubmissions::whereIn('submission_id', $submissionIds)
-            ->get(['id', 'submission_id', 'email']);
+            ->get(['id', 'submission_id', 'email', 'admin_id']);
 
         $this->assign_jurors = User::whereIn('id', $jurorIds)
             ->orderBy('first_name')
@@ -128,7 +128,7 @@ class PMView extends Component
 
         $submissionsData = $this->assign_submissions->map(fn($s) => [
             'id'    => $s->submission_id,
-            'label' => '#' . $s->submission_id . ' — ' . $s->email,
+            'label' => '#' . $s->admin_id . ' — ' . $s->email,
         ])->values();
 
         $jurorsData = $this->assign_jurors->map(fn($j) => [
@@ -141,9 +141,24 @@ class PMView extends Component
 
     public function saveSubmissionJurors()
     {
+        $this->validate(
+            [
+                'assign_submission_ids'   => 'required|array|min:1',
+                'assign_juror_ids'        => 'required|array|min:1',
+                'assign_form_type'        => 'required',
+            ],
+            [
+                'assign_submission_ids.required' => 'Please select at least one submission.',
+                'assign_submission_ids.min'      => 'Please select at least one submission.',
+                'assign_juror_ids.required'      => 'Please select at least one juror.',
+                'assign_juror_ids.min'           => 'Please select at least one juror.',
+                'assign_form_type.required'      => 'Please select a form type.',
+            ]
+        );
+
         foreach ($this->assign_submission_ids as $submissionId) {
             foreach ($this->assign_juror_ids as $jurorId) {
-                FormStackAssigns::updateOrCreate(
+                $assign = FormStackAssigns::withTrashed()->updateOrCreate(
                     [
                         'group_id'      => $this->group_id,
                         'form_id'       => $this->form_id,
@@ -154,6 +169,10 @@ class PMView extends Component
                         'form_type' => $this->assign_form_type,
                     ]
                 );
+
+                if ($assign->trashed()) {
+                    $assign->restore();
+                }
             }
         }
 
@@ -169,7 +188,7 @@ class PMView extends Component
         $readerIds = json_decode($group->readers_id, true) ?? [];
 
         $this->assign_readers_submissions = FormStackSubmissions::whereIn('submission_id', $submissionIds)
-            ->get(['id', 'submission_id', 'email']);
+            ->get(['id', 'submission_id', 'email' , 'admin_id']);
 
         $this->assign_readers = User::whereIn('id', $readerIds)
             ->orderBy('first_name')
@@ -182,7 +201,7 @@ class PMView extends Component
 
         $submissionsData = $this->assign_readers_submissions->map(fn($s) => [
             'id'    => $s->submission_id,
-            'label' => '#' . $s->submission_id . ' — ' . $s->email,
+            'label' => '#' . $s->admin_id . ' — ' . $s->email,
         ])->values();
 
         $readersData = $this->assign_readers->map(fn($r) => [
@@ -195,9 +214,24 @@ class PMView extends Component
 
     public function saveSubmissionReaders()
     {
+        $this->validate(
+            [
+                'assign_reader_submission_ids' => 'required|array|min:1',
+                'assign_reader_ids'            => 'required|array|min:1',
+                'assign_reader_form_type'      => 'required',
+            ],
+            [
+                'assign_reader_submission_ids.required' => 'Please select at least one submission.',
+                'assign_reader_submission_ids.min'      => 'Please select at least one submission.',
+                'assign_reader_ids.required'            => 'Please select at least one reader.',
+                'assign_reader_ids.min'                 => 'Please select at least one reader.',
+                'assign_reader_form_type.required'      => 'Please select a form type.',
+            ]
+        );
+
         foreach ($this->assign_reader_submission_ids as $submissionId) {
             foreach ($this->assign_reader_ids as $readerId) {
-                FormStackAssigns::updateOrCreate(
+                $assign = FormStackAssigns::withTrashed()->updateOrCreate(
                     [
                         'group_id'      => $this->group_id,
                         'form_id'       => $this->form_id,
@@ -208,6 +242,10 @@ class PMView extends Component
                         'form_type' => $this->assign_reader_form_type,
                     ]
                 );
+
+                if ($assign->trashed()) {
+                    $assign->restore();
+                }
             }
         }
 
