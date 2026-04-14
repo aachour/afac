@@ -70,7 +70,7 @@
                                 <!-- <td>{{ $assign->submission->name }}</td> -->
                                 <td>{{ $assign->group?->user ? trim($assign->group->user->first_name . ' ' .$assign->group->user->last_name): null; }}</td>
                                 <td>
-                                    <a href="{{ route('formstack.submission', ['formId' => $assign->submission->form_id,'submissionId' => $assign->submission->submission_id]) }}" 
+                                    <a href="{{ route('formstack.submission', ['formId' => $assign->submission->form_id,'submissionId' => $assign->submission->submission_id , 'assignId' => $assign->id]) }}" 
                                         target="_blank" 
                                         class="text-body view-user-button"
                                         data-bs-title="View Submission"
