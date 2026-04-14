@@ -21,6 +21,8 @@ class SubmissionView extends Component
     public $assign_id;
     public $formStackAssign;
     public $form_type;
+    public $form_status = null;
+    public $form_notes = null;
 
     public function mount($formId,$submissionId,$assignId = null){
 
@@ -33,6 +35,8 @@ class SubmissionView extends Component
         if ($assignId) {
             $this->formStackAssign = FormStackAssigns::find($assignId);
             $this->form_type = $this->formStackAssign->form_type ?? null;
+            $this->form_status = $this->formStackAssign->form_status ?? null;
+            $this->form_notes = $this->formStackAssign->form_notes ?? null;
         }
 
         $submission = Http::withToken(config('services.formstack.token'))
@@ -75,6 +79,23 @@ class SubmissionView extends Component
 
         $this->fieldData = $fieldData;
 
+    }
+
+    public function saveRating()
+    {
+        if (!$this->assign_id) return;
+
+        $this->validate(
+            ['form_status' => 'required'],
+            ['form_status.required' => 'Please select a status.']
+        );
+
+        FormStackAssigns::where('id', $this->assign_id)->update([
+            'form_status' => $this->form_status,
+            'form_notes'  => $this->form_notes,
+        ]);
+
+        $this->dispatch('rating-saved');
     }
 
     public function render()
