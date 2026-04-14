@@ -41,9 +41,14 @@
                                     @endphp
                                     @php
                                         $submissionsStatus = json_decode($pm->submissions_status, true) ?? [];
-                                        $currentStatus = $submissionsStatus[$submissionId] ?? null;
+                                        $statusEntry = $submissionsStatus[$submissionId] ?? null;
+                                        $currentStatus = is_array($statusEntry) ? ($statusEntry['status'] ?? null) : $statusEntry;
                                     @endphp
-                                    <div class="d-flex align-items-center gap-1">-{{ $submission?->admin_id ?? '—' }}/{{$submission?->email ?? '—' }}&nbsp;<a href="{{ route('formstack.submission', ['formId' => $pm->form_id , 'submissionId' => $submissionId]) }}" target="_blank"><i class="ti ti-eye ti-sm text-body"></i></a>&nbsp;<button wire:click="setRateSubmission({{ $pm->id }}, '{{ $submissionId }}')" type="button" data-bs-target="#rateSubmissionModal" data-bs-toggle="modal" data-bs-title="Rate Submission" data-bs-placement="top" class="border-0 bg-transparent p-0 {{ $currentStatus === 'yes' ? 'text-success' : ($currentStatus === 'no' ? 'text-danger' : ($currentStatus === 'maybe' ? 'text-warning' : 'text-body')) }}"><i class="ti ti-star ti-sm"></i></button></div>
+                                    <div class="d-flex align-items-center gap-1">-{{ $submission?->admin_id ?? '—' }}/{{$submission?->email ?? '—' }}&nbsp;<a href="{{ route('formstack.submission', ['formId' => $pm->form_id , 'submissionId' => $submissionId]) }}" target="_blank"><i class="ti ti-eye ti-sm text-body"></i></a>&nbsp;<button wire:click="setRateSubmission({{ $pm->id }}, '{{ $submissionId }}')" type="button" data-bs-target="#rateSubmissionModal" data-bs-toggle="modal" data-bs-title="Rate Submission" data-bs-placement="top" class="border-0 bg-transparent p-0 {{ $currentStatus === 'yes' ? 'text-success' : ($currentStatus === 'no' ? 'text-danger' : ($currentStatus === 'maybe' ? 'text-warning' : 'text-body')) }}"><i class="ti ti-star ti-sm"></i></button>
+                                    @can('formstack-formAssignPM')
+                                        &nbsp;<button type="button" onclick="confirmRemoveSubmission({{ $pm->id }}, '{{ $submissionId }}')" class="border-0 bg-transparent p-0 text-danger"><i class="ti ti-x ti-sm"></i></button>
+                                    @endcan
+                                    </div>
                                 @endforeach
                             </td>
                             <td>
@@ -379,6 +384,10 @@
                             <label class="form-check-label" for="rateMaybe">Maybe</label>
                         </div>
                     </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold" for="rateNotes">Notes</label>
+                        <textarea class="form-control" id="rateNotes" wire:model="submission_pm_notes" rows="4" placeholder="Add notes..."></textarea>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
@@ -636,6 +645,23 @@
             let personId     = $(this).data('person-id');
             $wire.deleteAssignment(submissionId, type, personId);
         });
+
+        window.confirmRemoveSubmission = function (groupId, submissionId) {
+            Swal.fire({
+                title: 'Remove Submission?',
+                text: 'This will remove the submission from this group along with any juror/reader assignments.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Yes, remove',
+                cancelButtonText: 'Cancel',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $wire.removeSubmissionFromGroup(groupId, submissionId);
+                }
+            });
+        };
 
         window.confirmDeletePM = function (groupId) {
             Swal.fire({

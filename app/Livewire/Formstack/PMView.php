@@ -41,6 +41,7 @@ class PMView extends Component
     public $rate_group_id = null;
     public $rate_submission_id = null;
     public $submission_pm_status = null;
+    public $submission_pm_notes = null;
 
     public function mount($formId)
     {
@@ -302,14 +303,19 @@ class PMView extends Component
 
         $group = FormStackGroups::find($groupId);
         $statuses = json_decode($group->submissions_status ?? '{}', true) ?? [];
-        $this->submission_pm_status = $statuses[$submissionId] ?? null;
+        $entry = $statuses[$submissionId] ?? null;
+        $this->submission_pm_status = is_array($entry) ? ($entry['status'] ?? null) : $entry;
+        $this->submission_pm_notes = is_array($entry) ? ($entry['notes'] ?? null) : null;
     }
 
     public function saveSubmissionPMStatus()
     {
         $group = FormStackGroups::find($this->rate_group_id);
         $statuses = json_decode($group->submissions_status ?? '{}', true) ?? [];
-        $statuses[$this->rate_submission_id] = $this->submission_pm_status;
+        $statuses[$this->rate_submission_id] = [
+            'status' => $this->submission_pm_status,
+            'notes'  => $this->submission_pm_notes,
+        ];
 
         $group->update(['submissions_status' => json_encode($statuses)]);
 
@@ -318,6 +324,36 @@ class PMView extends Component
             ->get();
 
         $this->dispatch('close-rate-submission-modal');
+    }
+
+    public function removeSubmissionFromGroup($groupId, $submissionId)
+    {
+        $group = FormStackGroups::find($groupId);
+        if (!$group) return;
+
+        $ids = array_values(array_filter(
+            json_decode($group->submissions_id ?? '[]', true) ?? [],
+            fn($id) => $id !== $submissionId
+        ));
+        $group->submissions_id = json_encode($ids);
+
+        $statuses = json_decode($group->submissions_status ?? '{}', true) ?? [];
+        unset($statuses[$submissionId]);
+        $group->submissions_status = json_encode($statuses);
+
+        $group->save();
+
+        // Also remove any juror/reader assignments for this submission in this group
+        FormStackAssigns::where('group_id', $groupId)
+            ->where('form_id', $this->form_id)
+            ->where('submission_id', $submissionId)
+            ->delete();
+
+        $this->pms = FormStackGroups::where('form_id', $this->form_id)
+            ->when(!auth()->user()->can('formstack-viewAssignedPM'), fn($q) => $q->where('user_id', auth()->id()))
+            ->get();
+
+        return to_route('formstack.pm',['formId'=>$this->form_id])->with('success', 'Submission deleted successfully!');
     }
 
     public function deletePM($groupId)

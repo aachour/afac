@@ -142,19 +142,18 @@ use AuthorizesRequests;
 
 
     public function saveAssign(){
-        $this->selected_submissions=json_encode($this->selected_submissions);
-        
         // create/update current users
         foreach ($this->users_id as $user_id) {
-            FormStackGroups::updateOrCreate(
-                [
-                    'user_id' => $user_id,
-                    'form_id' => $this->form_id,
-                ],
-                [
-                    'submissions_id' => $this->selected_submissions,
-                ]
-            );
+            $group = FormStackGroups::firstOrNew([
+                'user_id' => $user_id,
+                'form_id' => $this->form_id,
+            ]);
+
+            $existing = json_decode($group->submissions_id ?? '[]', true) ?? [];
+            $merged   = array_values(array_unique(array_merge($existing, $this->selected_submissions)));
+
+            $group->submissions_id = json_encode($merged);
+            $group->save();
         }
         
         return to_route('formstack.forms')->with('success', 'Assigning done successfully!');
