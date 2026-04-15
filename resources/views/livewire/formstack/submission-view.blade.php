@@ -72,8 +72,92 @@
 
             <div class="mb-3">
                 <label class="fs-eval-label" for="jurorNotes">Notes</label>
-                <textarea id="jurorNotes" wire:model="juror_notes" class="fs-eval-textarea" rows="5" placeholder="Add your notes..."></textarea>
+                <textarea id="jurorNotes" wire:model="form_notes" class="fs-eval-textarea" rows="5" placeholder="Add your notes..."></textarea>
             </div>
+
+            <button
+                type="button"
+                wire:click="saveRating"
+                wire:loading.attr="disabled"
+                wire:target="saveRating"
+                class="fs-eval-btn"
+            >
+                <span wire:loading.remove wire:target="saveRating">Save</span>
+                <span wire:loading wire:target="saveRating">Saving...</span>
+            </button>
+        </div>
+    </div>
+    @endif
+
+    {{-- Form type 2: 4 scored questions --}}
+    @if($assign_id && ( $form_type == 2 || $form_type == 3 ))
+    <div class="fs-eval-panel">
+        <div class="fs-eval-panel-inner">
+            <h6 class="fs-eval-title">Evaluation</h6>
+
+            {{-- Question 1 (4 options) --}}
+            <div class="mb-4">
+                <label class="fs-eval-label">RELEVANCE AND CONNECTIVITY | الصلة والتواصل</label>
+                <p class="fs-eval-question-text"><!-- Fill question 1 title/text here --></p>
+                <div class="fs-eval-radios fs-eval-radios-row">
+                    @foreach([1,2,3,4] as $val)
+                    <label class="fs-eval-radio-option {{ (int)$form_rate1 === $val ? 'active selected' : '' }}">
+                        <input type="radio" wire:model="form_rate1" value="{{ $val }}"> {{ $val }}
+                    </label>
+                    @endforeach
+                </div>
+                @error('form_rate1') <div class="fs-eval-error">{{ $message }}</div> @enderror
+            </div>
+
+            {{-- Question 2 (4 options) --}}
+            <div class="mb-4">
+                <label class="fs-eval-label">QUALITY AND INNOVATION | النوعية والإبتكار</label>
+                <p class="fs-eval-question-text"><!-- Fill question 2 title/text here --></p>
+                <div class="fs-eval-radios fs-eval-radios-row">
+                    @foreach([1,2,3,4] as $val)
+                    <label class="fs-eval-radio-option {{ (int)$form_rate2 === $val ? 'active selected' : '' }}">
+                        <input type="radio" wire:model="form_rate2" value="{{ $val }}"> {{ $val }}
+                    </label>
+                    @endforeach
+                </div>
+                @error('form_rate2') <div class="fs-eval-error">{{ $message }}</div> @enderror
+            </div>
+
+            {{-- Question 3 (2 options) --}}
+            <div class="mb-4">
+                <label class="fs-eval-label">ADMINISTRATIVE/TECHNICAL QUESTIONS | الأسئلة التقنية والإدارية </label>
+                <p class="fs-eval-question-text"><!-- Fill question 3 title/text here --></p>
+                <div class="fs-eval-radios fs-eval-radios-row">
+                    @foreach([1,2] as $val)
+                    <label class="fs-eval-radio-option {{ (int)$form_rate3 === $val ? 'active selected' : '' }}">
+                        <input type="radio" wire:model="form_rate3" value="{{ $val }}"> {{ $val }}
+                    </label>
+                    @endforeach
+                </div>
+                @error('form_rate3') <div class="fs-eval-error">{{ $message }}</div> @enderror
+            </div>
+
+            {{-- Question 4 (2 options) --}}
+            <div class="mb-4">
+                <label class="fs-eval-label">ADDITIONAL POINTS | علامة إضافية</label>
+                <p class="fs-eval-question-text"><!-- Fill question 4 title/text here --></p>
+                <div class="fs-eval-radios fs-eval-radios-row">
+                    @foreach([1,2] as $val)
+                    <label class="fs-eval-radio-option {{ (int)$form_rate4 === $val ? 'active selected' : '' }}">
+                        <input type="radio" wire:model="form_rate4" value="{{ $val }}"> {{ $val }}
+                    </label>
+                    @endforeach
+                </div>
+                @error('form_rate4') <div class="fs-eval-error">{{ $message }}</div> @enderror
+            </div>
+
+            {{-- Notes --}}
+            @if($form_type == 3)
+            <div class="mb-3">
+                <label class="fs-eval-label" for="rateNotes2">Notes</label>
+                <textarea id="rateNotes2" wire:model="form_notes" class="fs-eval-textarea" rows="4" placeholder="Add your notes..."></textarea>
+            </div>
+            @endif
 
             <button
                 type="button"
@@ -162,6 +246,24 @@
         .fs-eval-radio-option.active.success { border-color: #22c55e; background: #f0fdf4; color: #15803d; }
         .fs-eval-radio-option.active.danger  { border-color: #ef4444; background: #fef2f2; color: #b91c1c; }
         .fs-eval-radio-option.active.warning { border-color: #f59e0b; background: #fffbeb; color: #b45309; }
+        .fs-eval-radio-option.active.selected { border-color: #6366f1; background: #eef2ff; color: #4338ca; }
+
+        .fs-eval-radios-row {
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+
+        .fs-eval-radios-row .fs-eval-radio-option {
+            flex: 1;
+            justify-content: center;
+            min-width: 48px;
+        }
+
+        .fs-eval-question-text {
+            font-size: 13px;
+            color: #6b7280;
+            margin: 0 0 8px;
+        }
 
         .fs-eval-error {
             font-size: 12px;
