@@ -179,6 +179,7 @@
             </div>
 
             {{-- Question 4 (2 options) --}}
+            @if($form_type == 3)
             <div class="mb-4">
                 <div class="fs-eval-header-row">
                     <label class="fs-eval-label">ADDITIONAL POINTS | علامة إضافية</label>
@@ -201,14 +202,14 @@
                 </div>
                 @error('form_rate4') <div class="fs-eval-error">{{ $message }}</div> @enderror
             </div>
+            @endif
 
             {{-- Notes --}}
-            @if($form_type == 3)
             <div class="mb-3">
                 <label class="fs-eval-label" for="rateNotes2">Notes</label>
                 <textarea id="rateNotes2" wire:model="form_notes" class="fs-eval-textarea" rows="4" placeholder="Add your notes..." {{ !$canEdit ? 'disabled' : '' }}></textarea>
             </div>
-            @endif
+            
 
             <button
                 type="button"

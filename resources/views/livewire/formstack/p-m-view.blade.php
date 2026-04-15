@@ -608,7 +608,7 @@
                         ? row.jurors.map(j =>
                             '<span class="badge bg-label-primary me-1 assignment-badge" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;" data-submission-id="' + sid + '" data-assign-id="' + (j.assign_id || '') + '" title="Click to view submission">' + j.name +
                             (j.form_type ? ' <small>(Form Type ' + j.form_type + ')</small>' : '') +
-                            '<button type="button" class="delete-assignment-btn btn-close btn-close-sm" style="font-size:.1rem;" data-submission-id="' + sid + '" data-type="juror" data-person-id="' + j.id + '" onclick="event.stopPropagation();"></button>' +
+                            '<button type="button" class="delete-assignment-btn btn-close btn-close-sm" style="font-size:.1rem;" data-submission-id="' + sid + '" data-type="juror" data-person-id="' + j.id + '"></button>' +
                             '</span>'
                         ).join('')
                         : '<span class="text-muted">—</span>';
@@ -617,7 +617,7 @@
                         ? row.readers.map(r =>
                             '<span class="badge bg-label-success me-1 assignment-badge" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;" data-submission-id="' + sid + '" data-assign-id="' + (r.assign_id || '') + '" title="Click to view submission">' + r.name +
                             (r.form_type ? ' <small>(Form Type ' + r.form_type + ')</small>' : '') +
-                            '<button type="button" class="delete-assignment-btn btn-close btn-close-sm" style="font-size:.1rem;" data-submission-id="' + sid + '" data-type="reader" data-person-id="' + r.id + '" onclick="event.stopPropagation();"></button>' +
+                            '<button type="button" class="delete-assignment-btn btn-close btn-close-sm" style="font-size:.1rem;" data-submission-id="' + sid + '" data-type="reader" data-person-id="' + r.id + '"></button>' +
                             '</span>'
                         ).join('')
                         : '<span class="text-muted">—</span>';
@@ -639,7 +639,11 @@
             }, 100);
         });
 
-        $('#assignmentsTable').on('click', '.assignment-badge', function () {
+        $('#assignmentsTable').on('click', '.assignment-badge', function (e) {
+            // Don't navigate if clicking the delete button
+            if ($(e.target).closest('.delete-assignment-btn').length) {
+                return;
+            }
             let submissionId = $(this).data('submission-id');
             let assignId = $(this).data('assign-id');
             if (currentFormId && submissionId) {
@@ -650,8 +654,9 @@
             }
         });
 
-        $('#assignmentsTable').on('click', '.delete-assignment-btn', function () {
-            let submissionId = $(this).data('submission-id');
+        $('#assignmentsTable').on('click', '.delete-assignment-btn', function (e) {
+            e.stopPropagation();
+            let submissionId = $(this).closest('.assignment-badge').data('submission-id');
             let type         = $(this).data('type');
             let personId     = $(this).data('person-id');
             $wire.deleteAssignment(submissionId, type, personId);
