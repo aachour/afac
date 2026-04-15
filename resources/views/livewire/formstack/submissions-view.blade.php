@@ -74,7 +74,7 @@
                                 <td>
                                     <a href="{{ route('formstack.submission', ['formId' => $assign->submission->form_id,'submissionId' => $assign->submission->submission_id , 'assignId' => $assign->id]) }}" 
                                         target="_blank" 
-                                        class="text-body view-user-button"
+                                        class="view-user-button {{ ($assign->form_status || $assign->form_rate1 || $assign->form_rate2 || $assign->form_rate3 || $assign->form_rate4) ? 'text-success' : 'text-body' }}"
                                         data-bs-title="View Submission"
                                         data-bs-toggle="tooltip"
                                         data-bs-placement="top">
