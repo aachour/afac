@@ -56,13 +56,13 @@
                 <label class="fs-eval-label">Status</label>
                 <div class="fs-eval-radios">
                     <label class="fs-eval-radio-option {{ $form_status === 'yes' ? 'active success' : '' }}">
-                        <input type="radio" wire:model="form_status" value="yes"> Yes
+                        <input type="radio" wire:model="form_status" value="yes" {{ !$canEdit ? 'disabled' : '' }}> Yes
                     </label>
                     <label class="fs-eval-radio-option {{ $form_status === 'no' ? 'active danger' : '' }}">
-                        <input type="radio" wire:model="form_status" value="no"> No
+                        <input type="radio" wire:model="form_status" value="no" {{ !$canEdit ? 'disabled' : '' }}> No
                     </label>
                     <label class="fs-eval-radio-option {{ $form_status === 'maybe' ? 'active warning' : '' }}">
-                        <input type="radio" wire:model="form_status" value="maybe"> Maybe
+                        <input type="radio" wire:model="form_status" value="maybe" {{ !$canEdit ? 'disabled' : '' }}> Maybe
                     </label>
                 </div>
                 @error('form_status')
@@ -72,7 +72,7 @@
 
             <div class="mb-3">
                 <label class="fs-eval-label" for="jurorNotes">Notes</label>
-                <textarea id="jurorNotes" wire:model="form_notes" class="fs-eval-textarea" rows="5" placeholder="Add your notes..."></textarea>
+                <textarea id="jurorNotes" wire:model="form_notes" class="fs-eval-textarea" rows="5" placeholder="Add your notes..." {{ !$canEdit ? 'disabled' : '' }}></textarea>
             </div>
 
             <button
@@ -81,6 +81,7 @@
                 wire:loading.attr="disabled"
                 wire:target="saveRating"
                 class="fs-eval-btn"
+                {{ !$canEdit ? 'disabled' : '' }}
             >
                 <span wire:loading.remove wire:target="saveRating">Save</span>
                 <span wire:loading wire:target="saveRating">Saving...</span>
@@ -116,7 +117,7 @@
                 <div class="fs-eval-radios fs-eval-radios-row">
                     @foreach([1,2,3,4] as $val)
                     <label class="fs-eval-radio-option {{ (int)$form_rate1 === $val ? 'active selected' : '' }}">
-                        <input type="radio" wire:model="form_rate1" value="{{ $val }}"> {{ $val }}
+                        <input type="radio" wire:model="form_rate1" value="{{ $val }}" {{ !$canEdit ? 'disabled' : '' }}> {{ $val }}
                     </label>
                     @endforeach
                 </div>
@@ -144,7 +145,7 @@
                 <div class="fs-eval-radios fs-eval-radios-row">
                     @foreach([1,2,3,4] as $val)
                     <label class="fs-eval-radio-option {{ (int)$form_rate2 === $val ? 'active selected' : '' }}">
-                        <input type="radio" wire:model="form_rate2" value="{{ $val }}"> {{ $val }}
+                        <input type="radio" wire:model="form_rate2" value="{{ $val }}" {{ !$canEdit ? 'disabled' : '' }}> {{ $val }}
                     </label>
                     @endforeach
                 </div>
@@ -170,7 +171,7 @@
                 <div class="fs-eval-radios fs-eval-radios-row">
                     @foreach([1,2] as $val)
                     <label class="fs-eval-radio-option {{ (int)$form_rate3 === $val ? 'active selected' : '' }}">
-                        <input type="radio" wire:model="form_rate3" value="{{ $val }}"> {{ $val }}
+                        <input type="radio" wire:model="form_rate3" value="{{ $val }}" {{ !$canEdit ? 'disabled' : '' }}> {{ $val }}
                     </label>
                     @endforeach
                 </div>
@@ -194,7 +195,7 @@
                 <div class="fs-eval-radios fs-eval-radios-row">
                     @foreach([1,2] as $val)
                     <label class="fs-eval-radio-option {{ (int)$form_rate4 === $val ? 'active selected' : '' }}">
-                        <input type="radio" wire:model="form_rate4" value="{{ $val }}"> {{ $val }}
+                        <input type="radio" wire:model="form_rate4" value="{{ $val }}" {{ !$canEdit ? 'disabled' : '' }}> {{ $val }}
                     </label>
                     @endforeach
                 </div>
@@ -205,7 +206,7 @@
             @if($form_type == 3)
             <div class="mb-3">
                 <label class="fs-eval-label" for="rateNotes2">Notes</label>
-                <textarea id="rateNotes2" wire:model="form_notes" class="fs-eval-textarea" rows="4" placeholder="Add your notes..."></textarea>
+                <textarea id="rateNotes2" wire:model="form_notes" class="fs-eval-textarea" rows="4" placeholder="Add your notes..." {{ !$canEdit ? 'disabled' : '' }}></textarea>
             </div>
             @endif
 
@@ -215,6 +216,7 @@
                 wire:loading.attr="disabled"
                 wire:target="saveRating"
                 class="fs-eval-btn"
+                {{ !$canEdit ? 'disabled' : '' }}
             >
                 <span wire:loading.remove wire:target="saveRating">Save</span>
                 <span wire:loading wire:target="saveRating">Saving...</span>
@@ -237,7 +239,7 @@
 
         /* Eval panel */
         .fs-eval-panel {
-            width: 280px;
+            width: 35%;
             flex-shrink: 0;
             position: sticky;
             top: 80px;
@@ -291,6 +293,15 @@
 
         .fs-eval-radio-option input[type="radio"] {
             margin: 0;
+        }
+
+        .fs-eval-radio-option input[type="radio"]:disabled {
+            cursor: not-allowed;
+        }
+
+        label:has(input[type="radio"]:disabled) {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
 
         .fs-eval-radio-option.active.success { border-color: #22c55e; background: #f0fdf4; color: #15803d; }
@@ -378,6 +389,12 @@
             border-color: #6366f1;
         }
 
+        .fs-eval-textarea:disabled {
+            background-color: #f3f4f6;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
         .fs-eval-btn {
             width: 100%;
             padding: 10px;
@@ -392,7 +409,11 @@
         }
 
         .fs-eval-btn:hover:not(:disabled) { background: #4f46e5; }
-        .fs-eval-btn:disabled { opacity: .6; cursor: not-allowed; }
+        .fs-eval-btn:disabled { 
+            opacity: .6; 
+            cursor: not-allowed;
+            background: #9ca3af;
+        }
 
         .fs-eval-alert { padding: 8px 12px; border-radius: 8px; font-size: 13px; margin-bottom: 14px; }
         .fs-eval-alert-success { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }

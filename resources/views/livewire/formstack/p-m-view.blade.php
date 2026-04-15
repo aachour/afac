@@ -587,8 +587,10 @@
         });
 
         let assignmentsDataTable = null;
+        let currentFormId = null;
 
-        $wire.on('view-assignments-loaded', ({ rows }) => {
+        $wire.on('view-assignments-loaded', ({ rows, formId }) => {
+            currentFormId = formId;
             setTimeout(() => {
                 if (assignmentsDataTable) {
                     assignmentsDataTable.destroy();
@@ -604,20 +606,18 @@
 
                     let jurorsList = row.jurors.length
                         ? row.jurors.map(j =>
-                            '<span class="badge bg-label-primary me-1">' + j.name +
+                            '<span class="badge bg-label-primary me-1 assignment-badge" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;" data-submission-id="' + sid + '" data-assign-id="' + (j.assign_id || '') + '" title="Click to view submission">' + j.name +
                             (j.form_type ? ' <small>(Form Type ' + j.form_type + ')</small>' : '') +
-                            '<button type="button" class="delete-assignment-btn btn-close btn-close-sm ms-1" style="font-size:.1rem;vertical-align:middle;"' +
-                            ' data-submission-id="' + sid + '" data-type="juror" data-person-id="' + j.id + '"></button>' +
+                            '<button type="button" class="delete-assignment-btn btn-close btn-close-sm" style="font-size:.1rem;" data-submission-id="' + sid + '" data-type="juror" data-person-id="' + j.id + '" onclick="event.stopPropagation();"></button>' +
                             '</span>'
                         ).join('')
                         : '<span class="text-muted">—</span>';
 
                     let readersList = row.readers.length
                         ? row.readers.map(r =>
-                            '<span class="badge bg-label-success me-1">' + r.name +
+                            '<span class="badge bg-label-success me-1 assignment-badge" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;" data-submission-id="' + sid + '" data-assign-id="' + (r.assign_id || '') + '" title="Click to view submission">' + r.name +
                             (r.form_type ? ' <small>(Form Type ' + r.form_type + ')</small>' : '') +
-                            '<button type="button" class="delete-assignment-btn btn-close btn-close-sm ms-1" style="font-size:.1rem;vertical-align:middle;"' +
-                            ' data-submission-id="' + sid + '" data-type="reader" data-person-id="' + r.id + '"></button>' +
+                            '<button type="button" class="delete-assignment-btn btn-close btn-close-sm" style="font-size:.1rem;" data-submission-id="' + sid + '" data-type="reader" data-person-id="' + r.id + '" onclick="event.stopPropagation();"></button>' +
                             '</span>'
                         ).join('')
                         : '<span class="text-muted">—</span>';
@@ -637,6 +637,17 @@
                     columnDefs: [{ targets: '_all', searchable: true }],
                 });
             }, 100);
+        });
+
+        $('#assignmentsTable').on('click', '.assignment-badge', function () {
+            let submissionId = $(this).data('submission-id');
+            let assignId = $(this).data('assign-id');
+            if (currentFormId && submissionId) {
+                let url = `/formstackSubmissionView/${currentFormId}/${submissionId}/${assignId}`;
+                window.open(url, '_blank');
+            } else {
+                console.error('Missing formId or submissionId', { formId: currentFormId, submissionId: submissionId });
+            }
         });
 
         $('#assignmentsTable').on('click', '.delete-assignment-btn', function () {

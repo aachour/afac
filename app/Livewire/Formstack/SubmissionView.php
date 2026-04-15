@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\FormStackForms;
 use App\Models\FormStackSubmissions;
 use App\Models\FormStackAssigns;
+use Illuminate\Support\Facades\Auth;
 
 
 class SubmissionView extends Component
@@ -27,6 +28,7 @@ class SubmissionView extends Component
     public $form_rate2 = null;
     public $form_rate3 = null;
     public $form_rate4 = null;
+    public $canEdit = false;
 
     public function mount($formId,$submissionId,$assignId = null){
 
@@ -35,6 +37,33 @@ class SubmissionView extends Component
         $this->form_id = $formId;
         $this->submission_id = $submissionId;
         $this->assign_id = $assignId;
+
+        //make sure the user has access to view this submission based on the assignId
+
+        if(Auth::user()->hasrole('Juror')){ //check submission assigned to juror
+            $checkAssign=FormStackAssigns::WHERE('id',$this->assign_id)->WHERE('juror_id',Auth::id())->first();
+            if(!$checkAssign){
+                abort(403,'Unauthorized'); 
+            }
+        } 
+        else if(Auth::user()->hasrole('Reader')){ //check submission assigned to reader
+            $checkAssign=FormStackAssigns::WHERE('id',$this->assign_id)->WHERE('reader_id',Auth::id())->first();
+            if(!$checkAssign){
+                abort(403,'Unauthorized'); 
+            }
+        } 
+        else if(Auth::user()->hasrole('Program Manager')){ //check submission assigned to pm
+            $checkAssign = FormStackAssigns::where('id', $this->assign_id)
+                ->whereHas('group', function ($query) {
+                    $query->where('user_id', Auth::id());
+                })
+                ->first();
+
+            if (!$checkAssign) {
+                abort(403, 'Unauthorized');
+            }
+        } 
+
 
         if ($assignId) {
             $this->formStackAssign = FormStackAssigns::find($assignId);
@@ -45,6 +74,10 @@ class SubmissionView extends Component
             $this->form_rate2 = $this->formStackAssign->form_rate2 ?? null;
             $this->form_rate3 = $this->formStackAssign->form_rate3 ?? null;
             $this->form_rate4 = $this->formStackAssign->form_rate4 ?? null;
+
+            // Check if current user is the assigned Juror or Reader
+            $currentUserId = Auth::id();
+            $this->canEdit = ($this->formStackAssign->juror_id == $currentUserId || $this->formStackAssign->reader_id == $currentUserId);
         }
 
         $submission = Http::withToken(config('services.formstack.token'))
