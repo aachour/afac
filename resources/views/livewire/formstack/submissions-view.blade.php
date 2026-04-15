@@ -33,6 +33,7 @@
                     <thead>
                     @if(Auth::user()->hasRole('Juror') || Auth::user()->hasRole('Reader'))
                     <tr>
+                        <th>ID</th>
                         <th>Form ID</th>
                         <th>Submission ID</th>
                         <th>Admin ID</th>
@@ -63,6 +64,7 @@
                     @if(Auth::user()->hasRole('Juror') || Auth::user()->hasRole('Reader'))
                         @foreach($assigns as $assign)
                             <tr>
+                                <td>{{ $assign->id }}</td>
                                 <td>{{ $assign->submission->form_id }}</td>
                                 <td>{{ $assign->submission->submission_id }}</td>
                                 <td>{{ $assign->submission->admin_id }}</td>
