@@ -268,7 +268,7 @@ class PMView extends Component
             $jurors = $items->filter(fn($a) => $a->juror_id)
                 ->map(function ($a) {
                     $user = User::find($a->juror_id);
-                    return $user ? ['id' => $a->juror_id, 'name' => $user->first_name . ' ' . $user->last_name, 'form_type' => $a->form_type] : null;
+                    return $user ? ['id' => $a->juror_id, 'name' => $user->first_name . ' ' . $user->last_name, 'form_type' => $a->form_type, 'assign_id' => $a->id] : null;
                 })
                 ->filter()
                 ->unique('id')
@@ -277,7 +277,7 @@ class PMView extends Component
             $readers = $items->filter(fn($a) => $a->reader_id)
                 ->map(function ($a) {
                     $user = User::find($a->reader_id);
-                    return $user ? ['id' => $a->reader_id, 'name' => $user->first_name . ' ' . $user->last_name, 'form_type' => $a->form_type] : null;
+                    return $user ? ['id' => $a->reader_id, 'name' => $user->first_name . ' ' . $user->last_name, 'form_type' => $a->form_type, 'assign_id' => $a->id] : null;
                 })
                 ->filter()
                 ->unique('id')
@@ -293,7 +293,7 @@ class PMView extends Component
 
         $this->view_assignments = $rows;
 
-        $this->dispatch('view-assignments-loaded', rows: $rows);
+        $this->dispatch('view-assignments-loaded', rows: $rows, formId: $this->form_id);
     }
 
     public function setRateSubmission($groupId, $submissionId)
