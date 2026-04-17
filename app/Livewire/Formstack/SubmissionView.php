@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Models\FormStackForms;
 use App\Models\FormStackSubmissions;
 use App\Models\FormStackAssigns;
+use App\Models\FormStackGroups;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -53,10 +54,7 @@ class SubmissionView extends Component
             }
         } 
         else if(Auth::user()->hasrole('Program Manager')){ //check submission assigned to pm
-            $checkAssign = FormStackAssigns::where('id', $this->assign_id)
-                ->whereHas('group', function ($query) {
-                    $query->where('user_id', Auth::id());
-                })
+            $checkAssign = FormStackGroups::where('user_id', Auth::id())->whereJsonContains('submissions_id', $this->submission_id)
                 ->first();
 
             if (!$checkAssign) {
@@ -107,13 +105,20 @@ class SubmissionView extends Component
         foreach (($form['fields'] ?? []) as $field) {
             $fieldId = (string) ($field['id'] ?? '');
 
+            $value = $submittedValues[$fieldId] ?? null;
+
+            // For non-admins, only show fields with non-null values
+            if (!Auth::user()->hasrole('Admin') && is_null($value)) {
+                continue;
+            }
+
             $fieldData[] = [
                 'field_id' => $fieldId,
                 'label' => $field['label']
                     ?? $field['name']
                     ?? $field['title']
                     ?? "Field #{$fieldId}",
-                'value' => $submittedValues[$fieldId] ?? null,
+                'value' => $value,
                 'type'  => $field['type'] ?? null,
             ];
         }
