@@ -122,9 +122,10 @@ function ViewEntryData($entry_id, $language = 'EN')
                                 $html .= '<div class="mt-1 tiny black ABCDiatypeBlack">Program</div>';
                                 $html .= '<div class="mt-1"><a href="' . route('entry.view', ['entryType' => 'program', 'id' => $entry->programYears?->programYear?->program?->id]) . '" class="medium black ABCDiatypeMedium">' . $entry->programYears?->programYear?->program?->program_title . '</a></div>';
 
-                                if(!empty($entry->project_categories_id)){
+                                $categories_id = json_decode($entry->project_categories_id, true) ?? [];
+                                if(!empty($categories_id)){
                                     $html .= '<div class="mt-5 tiny black ABCDiatypeBlack">Theme</div>';
-                                    $categories = $entry->projectCategories(json_decode($entry->project_categories_id, true) ?? []);
+                                    $categories = $entry->projectCategories($categories_id);
                                     foreach ($categories as $category) {
                                         $html .= '<div class="mt-1 medium black ABCDiatypeMedium">' . $category . '</div>';
                                     }
@@ -137,9 +138,10 @@ function ViewEntryData($entry_id, $language = 'EN')
                                     $html .= '<div class="mt-1"><a href="' . route('entry.view', ['entryType' => 'project', 'id' => $projectGrantee->project->id]) . '" class="medium black ABCDiatypeMedium">' . $projectGrantee->project?->project_title . '</a></div>';
                                 }
 
-                                if(!empty($entry->grantee_categories_id)){
+                                $categories_id = json_decode($entry->grantee_categories_id, true) ?? [];
+                                if(!empty($categories_id)){
                                     $html .= '<div class="mt-5 tiny black ABCDiatypeBlack">Theme</div>';
-                                    $categories = $entry->granteeCategories(json_decode($entry->grantee_categories_id, true) ?? []);
+                                    $categories = $entry->granteeCategories($categories_id);
                                     foreach ($categories as $category) {
                                         $html .= '<div class="mt-1 medium black ABCDiatypeMedium">' . $category . '</div>';
                                     }
