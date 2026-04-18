@@ -25,11 +25,14 @@ class SubmissionView extends Component
     public $form_type;
     public $form_status = null;
     public $form_notes = null;
+    public $pm_form_status = null;
+    public $pm_form_notes = null;
     public $form_rate1 = null;
     public $form_rate2 = null;
     public $form_rate3 = null;
     public $form_rate4 = null;
-    public $canEdit = false;
+    public $canEdit1 = false;
+    public $canEdit2 = false;
 
     public function mount($formId,$submissionId,$assignId = null){
 
@@ -57,6 +60,10 @@ class SubmissionView extends Component
             $checkAssign = FormStackGroups::where('user_id', Auth::id())->whereJsonContains('submissions_id', $this->submission_id)
                 ->first();
 
+            // Check if current user is the assigned Juror or Reader
+            $currentUserId = Auth::id();
+            $this->canEdit1 = ($checkAssign->user_id == $currentUserId);
+
             if (!$checkAssign) {
                 abort(403, 'Unauthorized');
             }
@@ -72,10 +79,12 @@ class SubmissionView extends Component
             $this->form_rate2 = $this->formStackAssign->form_rate2 ?? null;
             $this->form_rate3 = $this->formStackAssign->form_rate3 ?? null;
             $this->form_rate4 = $this->formStackAssign->form_rate4 ?? null;
+            $this->pm_form_status = $this->formStackAssign->form_status ?? null;
+            $this->pm_form_notes = $this->formStackAssign->form_notes ?? null;
 
             // Check if current user is the assigned Juror or Reader
             $currentUserId = Auth::id();
-            $this->canEdit = ($this->formStackAssign->juror_id == $currentUserId || $this->formStackAssign->reader_id == $currentUserId);
+            $this->canEdit2 = ($this->formStackAssign->juror_id == $currentUserId || $this->formStackAssign->reader_id == $currentUserId);
         }
 
         $submission = Http::withToken(config('services.formstack.token'))
@@ -165,6 +174,23 @@ class SubmissionView extends Component
                 'form_notes' => $this->form_notes,
             ]);
         }
+
+        $this->dispatch('rating-saved');
+    }
+
+    public function savePmRating()
+    {
+        if (!$this->assign_id) return;
+
+        $this->validate(
+            ['pm_form_status' => 'required'],
+            ['pm_form_status.required' => 'Please select a status.']
+        );
+
+        FormStackAssigns::where('id', $this->assign_id)->update([
+            'form_status' => $this->pm_form_status,
+            'form_notes'  => $this->pm_form_notes,
+        ]);
 
         $this->dispatch('rating-saved');
     }

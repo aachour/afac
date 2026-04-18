@@ -308,23 +308,6 @@ class PMView extends Component
         $this->submission_pm_notes = is_array($entry) ? ($entry['notes'] ?? null) : null;
     }
 
-    public function saveSubmissionPMStatus()
-    {
-        $group = FormStackGroups::find($this->rate_group_id);
-        $statuses = json_decode($group->submissions_status ?? '{}', true) ?? [];
-        $statuses[$this->rate_submission_id] = [
-            'status' => $this->submission_pm_status,
-            'notes'  => $this->submission_pm_notes,
-        ];
-
-        $group->update(['submissions_status' => json_encode($statuses)]);
-
-        $this->pms = FormStackGroups::where('form_id', $this->form_id)
-            ->when(!auth()->user()->can('formstack-viewAssignedPM'), fn($q) => $q->where('user_id', auth()->id()))
-            ->get();
-
-        $this->dispatch('close-rate-submission-modal');
-    }
 
     public function removeSubmissionFromGroup($groupId, $submissionId)
     {
