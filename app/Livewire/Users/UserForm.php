@@ -28,6 +28,8 @@ class UserForm extends Component
     public string $password = "";
     public string $password_confirmation = "";
 
+    public ?bool $can_rate = null;
+
     public bool $editing = false;
     public int $status;
 
@@ -54,6 +56,7 @@ class UserForm extends Component
             $this->email = $this->user->email;
 
             $this->phone = $this->user->phone;
+            $this->can_rate = $this->user->can_rate;
 
             $this->role_name = $this->user->roles[0]->name ?? "";
 
@@ -90,6 +93,7 @@ class UserForm extends Component
             'email' => $this->email,
             'phone' => $this->phone,
             'password' => Hash::make($this->password),
+            'can_rate' => $this->can_rate,
 
         ]);
 
@@ -122,6 +126,7 @@ class UserForm extends Component
         $this->user->email = $this->email;
 
         $this->user->phone = $this->phone;
+        $this->user->can_rate = $this->can_rate;
         if ($this->password) {
             $this->user->password = Hash::make($this->password);
         }

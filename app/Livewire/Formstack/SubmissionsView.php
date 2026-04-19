@@ -178,6 +178,23 @@ use AuthorizesRequests;
         return to_route('formstack.submissions',['formId'=>$this->form_id])->with('success', 'Action done successfully!');
     }
 
+    public function clearSubmissions(){
+        $this->authorize('formstack-formClearSubmissions');
+
+        // get all submission ids for the form
+        $submissionIds = FormStackSubmissions::where('form_id', $this->form_id)->pluck('id');
+
+        FormStackSubmissions::whereIn('id', $submissionIds)->delete();
+        FormStackGroups::where('form_id', $this->form_id)->delete();
+        FormStackAssigns::whereIn('submission_id', $submissionIds)->delete();
+        
+        $this->dispatch('swal:success', [
+            'title' => 'Success!',
+            'text'  => 'All submissions for this form have been deleted successfully!',
+        ]);
+
+        return to_route('formstack.submissions',['formId'=>$this->form_id]);
+    }
 
     public function render()
     {

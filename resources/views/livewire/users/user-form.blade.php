@@ -89,6 +89,7 @@
                             </div>
                             @error('phone') <div class="text-danger">{{ $message }}</div> @enderror
                         </div>
+                        
                         <div class="col-12 col-md-6">
                             <div class="form-password-toggle">
                                 <label class="form-label" for="UserPassword">Password</label>
@@ -120,7 +121,21 @@
                                 </div>
                             </div>
                             @error('password_confirmation') <div class="text-danger">{{ $message }}</div> @enderror
-                        </div>                         
+                        </div>     
+                        <div class="col-12 col-md-6">
+                            <div class="form-check">
+                                <input 
+                                    wire:model.defer="can_rate"
+                                    class="form-check-input" 
+                                    type="checkbox" 
+                                    id="UserCanRate" 
+                                    name="UserCanRate" />
+                                <label class="form-check-label" for="UserCanRate">
+                                    Can Rate
+                                </label>
+                            </div>
+                            @error('can_rate') <div class="text-danger">{{ $message }}</div> @enderror
+                        </div>                    
 
                     </form>
                 </div>

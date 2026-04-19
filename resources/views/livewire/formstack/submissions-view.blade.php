@@ -17,6 +17,11 @@
                         Fetch Submissions
                     </button>
                     @endcan
+                    @can('formstack-formClearSubmissions')
+                    <button type="button" onclick="showClearConfirm()" class="btn btn-primary d-flex align-items-center">
+                        Clear Submissions
+                    </button>
+                    @endcan
                     @can('formstack-formAssignPM')
                         <button type="button" 
                         data-bs-target="#assignModal" 
@@ -252,6 +257,27 @@
 
     @script
     <script>
+        window.showClearConfirm = function() {
+            Swal.fire({
+                title: 'Clear Submissions',
+                text: 'Are you sure you want to delete all submissions related to this form? This action cannot be undone.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete all!',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    confirmButton: 'btn btn-danger me-3',
+                    cancelButton: 'btn btn-label-secondary'
+                },
+                buttonsStyling: false
+            })
+            .then((result) => {
+                if (result.isConfirmed) {
+                    $wire.clearSubmissions();
+                }
+            });
+        }
+
         $wire.on('users-loaded', () => {
             setTimeout(() => {
                 let $el = $('#users_id');

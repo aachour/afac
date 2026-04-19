@@ -62,7 +62,9 @@ class SubmissionView extends Component
 
             // Check if current user is the assigned Juror or Reader
             $currentUserId = Auth::id();
-            $this->canEdit1 = ($checkAssign->user_id == $currentUserId);
+            $currentUserCanRate = Auth::user()->can_rate;
+            
+            $this->canEdit1 = ($checkAssign->user_id == $currentUserId && $currentUserCanRate);
 
             if (!$checkAssign) {
                 abort(403, 'Unauthorized');
@@ -84,7 +86,8 @@ class SubmissionView extends Component
 
             // Check if current user is the assigned Juror or Reader
             $currentUserId = Auth::id();
-            $this->canEdit2 = ($this->formStackAssign->juror_id == $currentUserId || $this->formStackAssign->reader_id == $currentUserId);
+            $currentUserCanRate = Auth::user()->can_rate;
+            $this->canEdit2 = ( ($this->formStackAssign->juror_id == $currentUserId || $this->formStackAssign->reader_id == $currentUserId) && $currentUserCanRate );
         }
 
         $submission = Http::withToken(config('services.formstack.token'))
