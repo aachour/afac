@@ -46,7 +46,9 @@ use AuthorizesRequests;
 
             $submissionIds = $group ? json_decode($group->submissions_id, true) : []; 
 
-            $this->submissions = FormStackSubmissions::whereIn('submission_id', $submissionIds)->get();
+            $this->submissions = FormStackSubmissions::whereIn('submission_id', $submissionIds)
+                ->whereNull('deleted_at')
+                ->get();
         }
         else if(Auth::user()->hasRole('Juror'))
         {
@@ -61,7 +63,9 @@ use AuthorizesRequests;
         }
         else
         {
-            $this->submissions=FormStackSubmissions::WHERE('form_id',$this->form_id)->get();
+            $this->submissions=FormStackSubmissions::where('form_id',$this->form_id)
+                ->whereNull('deleted_at')
+                ->get();
         }
 
         $this->users = User::role('Program Manager')
@@ -122,17 +126,29 @@ use AuthorizesRequests;
             $admin_id = collect($data)
             ->firstWhere('label', 'ID')['value'] ?? null;
 
-            FormStackSubmissions::updateOrCreate(
-                [
-                    'submission_id' => $submissionId,
-                ],
-                [
+            // Check if a non-deleted submission exists
+            $submission = FormStackSubmissions::where('submission_id', $submissionId)
+                ->whereNull('deleted_at')
+                ->first();
+
+            if ($submission) {
+                // Update existing non-deleted submission
+                $submission->update([
                     'form_id' => $this->form_id,
                     'email' => $email,
                     'name' => $name,
                     'admin_id' => $admin_id,
-                ]
-            );
+                ]);
+            } else {
+                // Create new submission (even if a deleted one exists with same submission_id)
+                FormStackSubmissions::create([
+                    'submission_id' => $submissionId,
+                    'form_id' => $this->form_id,
+                    'email' => $email,
+                    'name' => $name,
+                    'admin_id' => $admin_id,
+                ]);
+            }
 
         }
 
@@ -182,9 +198,9 @@ use AuthorizesRequests;
         $this->authorize('formstack-formClearSubmissions');
 
         // get all submission ids for the form
-        $submissionIds = FormStackSubmissions::where('form_id', $this->form_id)->pluck('id');
+        $submissionIds = FormStackSubmissions::where('form_id', $this->form_id)->pluck('submission_id');
 
-        FormStackSubmissions::whereIn('id', $submissionIds)->delete();
+        FormStackSubmissions::where('form_id', $this->form_id)->delete();
         FormStackGroups::where('form_id', $this->form_id)->delete();
         FormStackAssigns::whereIn('submission_id', $submissionIds)->delete();
         

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('form_stack_submissions', function (Blueprint $table) {
             $table->id();
             $table->string('form_id');
-            $table->string('submission_id')->unique();
+            $table->string('submission_id');
             $table->text('email')->nullable();
             $table->text('name')->nullable();
             $table->text('admin_id')->nullable();
@@ -22,6 +22,8 @@ return new class extends Migration
             $table->text('admin_notes')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->unique(['submission_id', 'deleted_at'])
+                ->where('deleted_at', null);
             $table->foreign('form_id')
                 ->references('form_id')
                 ->on('form_stack_forms')
