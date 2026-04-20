@@ -47,7 +47,7 @@
         <div class="fs-eval-panel" style="position: relative;">
 
             {{-- PM evaluation panel --}}
-            @if( (Auth::user()->hasrole('Admin') || Auth::user()->hasrole('Program Manager') ) && $assign_id)
+            @if( (Auth::user()->hasrole('Admin') || Auth::user()->hasrole('Program Manager') ) && $canView1)
             <div class="fs-eval-panel-inner mb-4">
                 <h6 class="fs-eval-title">PM Evaluation</h6>
 

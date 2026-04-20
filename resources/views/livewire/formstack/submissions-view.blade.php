@@ -77,7 +77,7 @@
                                 <!-- <td>{{ $assign->submission->name }}</td> -->
                                 <td>{{ $assign->group?->user ? trim($assign->group->user->first_name . ' ' .$assign->group->user->last_name): null; }}</td>
                                 <td>
-                                    <a href="{{ route('formstack.submission', ['formId' => $assign->submission->form_id,'submissionId' => $assign->submission->submission_id , 'assignId' => $assign->id]) }}" 
+                                    <a href="{{ route('formstack.submission', ['formId' => $assign->submission->form_id,'submissionId' => $assign->submission->submission_id , 'pmId' => $assign->group->user_id , 'assignId' => $assign->id]) }}" 
                                         target="_blank" 
                                         class="view-user-button {{ ($assign->form_status || $assign->form_rate1 || $assign->form_rate2 || $assign->form_rate3 || $assign->form_rate4) ? 'text-success' : 'text-body' }}"
                                         data-bs-title="View Submission"
