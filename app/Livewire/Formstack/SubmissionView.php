@@ -6,6 +6,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Models\User;
 use App\Models\FormStackForms;
 use App\Models\FormStackSubmissions;
 use App\Models\FormStackAssigns;
@@ -20,6 +21,7 @@ class SubmissionView extends Component
 
     public $form_id;
     public $submission_id;
+    public $pm_id;
     public $assign_id;
     public $formStackAssign;
     public $form_type;
@@ -31,16 +33,37 @@ class SubmissionView extends Component
     public $form_rate2 = null;
     public $form_rate3 = null;
     public $form_rate4 = null;
+    public $canView1 = false;
     public $canEdit1 = false;
     public $canEdit2 = false;
 
-    public function mount($formId,$submissionId,$assignId = null){
+    public function mount($formId,$submissionId,$pmId = null,$assignId = null){
 
         $this->authorize('formstack-submissionView');
 
         $this->form_id = $formId;
         $this->submission_id = $submissionId;
+        $this->pm_id = $pmId; 
         $this->assign_id = $assignId;
+
+        if($this->pm_id){
+        
+            $formstackGroup = FormStackGroups::where('user_id', $this->pm_id)
+                ->whereJsonContains('submissions_id', $this->submission_id)
+                ->first();
+
+            //get PM evaluation if exists
+            if ($formstackGroup && $formstackGroup->submissions_status) {
+                $submissionsStatus = is_string($formstackGroup->submissions_status) 
+                    ? json_decode($formstackGroup->submissions_status, true) 
+                    : $formstackGroup->submissions_status;
+                
+                if (is_array($submissionsStatus) && isset($submissionsStatus[$this->submission_id])) {
+                    $this->pm_form_status = $submissionsStatus[$this->submission_id]['status'] ?? null;
+                    $this->pm_form_notes = $submissionsStatus[$this->submission_id]['notes'] ?? null;
+                }
+            }
+        }
 
         //make sure the user has access to view this submission based on the assignId
 
@@ -56,16 +79,16 @@ class SubmissionView extends Component
                 abort(403,'Unauthorized'); 
             }
         } 
-        else if(Auth::user()->hasrole('Program Manager')){ //check submission assigned to pm
-            $checkAssign = FormStackGroups::where('user_id', Auth::id())->whereJsonContains('submissions_id', $this->submission_id)
+        else if(Auth::user()->hasrole('Admin') || Auth::user()->hasrole('Program Manager')){ //check submission assigned to pm
+            $checkAssign = FormStackGroups::where('user_id', $this->pm_id)->whereJsonContains('submissions_id', $this->submission_id)
                 ->first();
 
             // Check if current user is the assigned Juror or Reader
-            $currentUserId = Auth::id();
-            $currentUserCanRate = Auth::user()->can_rate;
-            
-            $this->canEdit1 = ($checkAssign->user_id == $currentUserId && $currentUserCanRate);
-
+            $currentUser = User::find($this->pm_id);
+            $currentUserCanRate = $currentUser->can_rate;
+            $this->canView1 = ($checkAssign->user_id == $currentUser->id && $this->pm_id != null);
+            $this->canEdit1 = ($checkAssign->user_id == $currentUser->id && $currentUserCanRate && Auth::user()->hasrole('Program Manager'));
+            // dd($currentUserCanRate,$this->canView1, $this->canEdit1);
             if (!$checkAssign) {
                 abort(403, 'Unauthorized');
             }
@@ -81,8 +104,6 @@ class SubmissionView extends Component
             $this->form_rate2 = $this->formStackAssign->form_rate2 ?? null;
             $this->form_rate3 = $this->formStackAssign->form_rate3 ?? null;
             $this->form_rate4 = $this->formStackAssign->form_rate4 ?? null;
-            $this->pm_form_status = $this->formStackAssign->form_status ?? null;
-            $this->pm_form_notes = $this->formStackAssign->form_notes ?? null;
 
             // Check if current user is the assigned Juror or Reader
             $currentUserId = Auth::id();
@@ -183,17 +204,23 @@ class SubmissionView extends Component
 
     public function savePmRating()
     {
-        if (!$this->assign_id) return;
-
         $this->validate(
             ['pm_form_status' => 'required'],
             ['pm_form_status.required' => 'Please select a status.']
         );
 
-        FormStackAssigns::where('id', $this->assign_id)->update([
-            'form_status' => $this->pm_form_status,
-            'form_notes'  => $this->pm_form_notes,
-        ]);
+        $group = FormStackGroups::where('user_id', Auth::id())
+            ->whereJsonContains('submissions_id', $this->submission_id)
+            ->first();
+
+        if ($group) {
+            $status = $group->submissions_status ?? [];
+            $status[$this->submission_id] = [
+                'status' => $this->pm_form_status,
+                'notes' => $this->pm_form_notes,
+            ];
+            $group->update(['submissions_status' => $status]);
+        }
 
         $this->dispatch('rating-saved');
     }

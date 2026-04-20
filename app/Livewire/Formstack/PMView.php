@@ -258,6 +258,9 @@ class PMView extends Component
     {
         $this->group_id = $groupId;
 
+        $group = FormStackGroups::find($groupId);
+        $pmUserId = $group->user_id;
+
         $assignments = FormStackAssigns::where('group_id', $groupId)
             ->where('form_id', $this->form_id)
             ->get();
@@ -293,7 +296,7 @@ class PMView extends Component
 
         $this->view_assignments = $rows;
 
-        $this->dispatch('view-assignments-loaded', rows: $rows, formId: $this->form_id);
+        $this->dispatch('view-assignments-loaded', rows: $rows, formId: $this->form_id, pmId: $pmUserId);
     }
 
     public function setRateSubmission($groupId, $submissionId)

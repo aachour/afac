@@ -44,7 +44,7 @@
                                         $statusEntry = $submissionsStatus[$submissionId] ?? null;
                                         $currentStatus = is_array($statusEntry) ? ($statusEntry['status'] ?? null) : $statusEntry;
                                     @endphp
-                                    <div class="d-flex align-items-center gap-1">-{{ $submission?->admin_id ?? '—' }}/{{$submission?->email ?? '—' }}&nbsp;<a href="{{ route('formstack.submission', ['formId' => $pm->form_id , 'submissionId' => $submissionId]) }}" target="_blank"><i class="ti ti-eye ti-sm text-body"></i></a>
+                                    <div class="d-flex align-items-center gap-1">-{{ $submission?->admin_id ?? '—' }}/{{$submission?->email ?? '—' }}&nbsp;<a href="{{ route('formstack.submission', ['formId' => $pm->form_id , 'submissionId' => $submissionId , 'pmId' => $pm->user->id ]) }}" target="_blank"><i class="ti ti-eye ti-sm text-body"></i></a>
                                     @can('formstack-formAssignPM')
                                         &nbsp;<button type="button" onclick="confirmRemoveSubmission({{ $pm->id }}, '{{ $submissionId }}')" class="border-0 bg-transparent p-0 text-danger"><i class="ti ti-x ti-sm"></i></button>
                                     @endcan
@@ -536,9 +536,11 @@
 
         let assignmentsDataTable = null;
         let currentFormId = null;
+        let currentPmId = null;
 
-        $wire.on('view-assignments-loaded', ({ rows, formId }) => {
+        $wire.on('view-assignments-loaded', ({ rows, formId, pmId }) => {
             currentFormId = formId;
+            currentPmId = pmId;
             setTimeout(() => {
                 if (assignmentsDataTable) {
                     assignmentsDataTable.destroy();
@@ -594,11 +596,11 @@
             }
             let submissionId = $(this).data('submission-id');
             let assignId = $(this).data('assign-id');
-            if (currentFormId && submissionId) {
-                let url = `/formstackSubmissionView/${currentFormId}/${submissionId}/${assignId}`;
+            if (currentFormId && submissionId && currentPmId) {
+                let url = `/formstackSubmissionView/${currentFormId}/${submissionId}/${currentPmId}/${assignId}`;
                 window.open(url, '_blank');
             } else {
-                console.error('Missing formId or submissionId', { formId: currentFormId, submissionId: submissionId });
+                console.error('Missing required parameters', { formId: currentFormId, submissionId: submissionId, pmId: currentPmId, assignId: assignId });
             }
         });
 
