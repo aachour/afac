@@ -98,12 +98,9 @@ class SubmissionView extends Component
                     abort(403, 'Unauthorized');
                 }
             }
-            else{
-                $this->canView1 = true;
-            }
 
         } 
-        else if(Auth::user()->hasrole('Admin')){
+        else if(Auth::user()->hasrole('Admin') && $this->pm_id!=null){
             $this->canView1 = true;
         }
 
