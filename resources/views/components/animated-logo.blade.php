@@ -130,6 +130,39 @@
         var root = document.getElementById('animated-logo-root');
         if (!root) return;
         var ns = 'http://www.w3.org/2000/svg';
+        var logoContainer = root.querySelector('.logo-container');
+        var measureTextNode = document.createElementNS(ns, 'text');
+        measureTextNode.setAttribute('font-family', 'Arial,sans-serif');
+        measureTextNode.setAttribute('font-weight', 'bold');
+        measureTextNode.setAttribute('visibility', 'hidden');
+        if (logoContainer) logoContainer.appendChild(measureTextNode);
+        function measureWidth(text, fontSize) {
+            if (!measureTextNode) return String(text || '').length * fontSize * 0.6;
+            measureTextNode.setAttribute('font-size', String(fontSize));
+            measureTextNode.textContent = text;
+            return measureTextNode.getComputedTextLength();
+        }
+        function wrapTextLines(s, maxWidth, fontSize) {
+            var raw = splitLines(s);
+            var out = [];
+            for (var i = 0; i < raw.length; i++) {
+                var words = String(raw[i] || '').split(/\s+/).filter(Boolean);
+                if (!words.length) continue;
+                var current = '';
+                for (var j = 0; j < words.length; j++) {
+                    var word = words[j];
+                    var candidate = current ? (current + ' ' + word) : word;
+                    if (current && measureWidth(candidate, fontSize) > maxWidth) {
+                        out.push(current);
+                        current = word;
+                    } else {
+                        current = candidate;
+                    }
+                }
+                if (current) out.push(current);
+            }
+            return out;
+        }
 
         function setInactive(part, inactive) {
             var g = root.querySelector('[data-part="' + part + '"]');
@@ -144,21 +177,21 @@
             var path = root.querySelector('.' + key + '-path');
             var hover = root.querySelector('.hover-' + key);
             var textG = root.querySelector('.anim-' + key + '-text');
-            var lines = splitLines((cfg[key] || {}).text || 'Established\nin 2007');
+            var lines = wrapTextLines((cfg[key] || {}).text || 'Established in 2007', 54, 9);
             if (textG) {
                 textG.innerHTML = '';
                 var cx = key === 'diamon1' ? 121.9 : key === 'diamon2' ? 218.26 : 314.17;
                 var cy = 48.21;
-                var gap = 17;
-                var total = Math.min(lines.length, 2);
+                var gap = 11;
+                var total = lines.length;
                 var firstY = cy - ((total - 1) * gap) / 2;
-                lines.slice(0, 2).forEach(function(line, i) {
+                lines.forEach(function(line, i) {
                     var t = document.createElementNS(ns, 'text');
                     t.setAttribute('x', cx);
                     t.setAttribute('y', firstY + i * gap);
                     t.setAttribute('fill', '#FFFFFF');
                     t.setAttribute('font-family', 'Arial,sans-serif');
-                    t.setAttribute('font-size', '11');
+                    t.setAttribute('font-size', '9');
                     t.setAttribute('font-weight', 'bold');
                     t.setAttribute('text-anchor', 'middle');
                     t.setAttribute('dominant-baseline', 'middle');
@@ -191,11 +224,11 @@
             var content = root.querySelector(c.content);
             var hover = root.querySelector(c.hover);
             if (content) gsap.set(content, { scale: 0, svgOrigin: c.cx + ' ' + c.cy });
-            var lines = splitLines((cfg[c.key] || {}).text || 'Supporting\n2,000 initiatives\nand counting');
+            var lines = wrapTextLines((cfg[c.key] || {}).text || 'Supporting 2,000 initiatives and counting', 86, 8);
             if (content) {
                 var existing = content.querySelectorAll('text');
                 for (var i = 0; i < existing.length; i++) existing[i].remove();
-                var gap = 12;
+                var gap = 10;
                 var total = lines.length;
                 var startY = c.cy - ((total - 1) * gap) / 2;
                 lines.forEach(function(line, i) {
@@ -204,7 +237,7 @@
                     t.setAttribute('y', startY + i * gap);
                     t.setAttribute('fill', '#010101');
                     t.setAttribute('font-family', 'Arial,sans-serif');
-                    t.setAttribute('font-size', '9');
+                    t.setAttribute('font-size', '8');
                     t.setAttribute('font-weight', 'bold');
                     t.setAttribute('text-anchor', 'middle');
                     t.setAttribute('dominant-baseline', 'middle');
@@ -226,9 +259,9 @@
 
         // ---- Animation 3: Verticals (cover slides down to reveal text) ----
         var verticalData = [
-            { key: 'vertical1', cover: '.cover-vertical1', hover: '.hover-vertical1', content: '.anim-vertical1-content', tx: 28, ty: 104 },
-            { key: 'vertical2', cover: '.cover-vertical2', hover: '.hover-vertical2', content: '.anim-vertical2-content', tx: 218, ty: 104 },
-            { key: 'vertical3', cover: '.cover-vertical3', hover: '.hover-vertical3', content: '.anim-vertical3-content', tx: 408, ty: 104 }
+            { key: 'vertical1', cover: '.cover-vertical1', hover: '.hover-vertical1', content: '.anim-vertical1-content', tx: 28, ty: 112 },
+            { key: 'vertical2', cover: '.cover-vertical2', hover: '.hover-vertical2', content: '.anim-vertical2-content', tx: 218, ty: 112 },
+            { key: 'vertical3', cover: '.cover-vertical3', hover: '.hover-vertical3', content: '.anim-vertical3-content', tx: 408, ty: 112 }
         ];
         verticalData.forEach(function(v) {
             if (!active(cfg, v.key)) { setInactive(v.key, true); return; }
@@ -236,19 +269,22 @@
             var cover = root.querySelector(v.cover);
             var hover = root.querySelector(v.hover);
             var content = root.querySelector(v.content);
-            var lines = splitLines((cfg[v.key] || {}).text || 'Based\nin Beirut');
+            var lines = wrapTextLines((cfg[v.key] || {}).text || 'Based in Beirut', 44, 8);
             if (content) {
                 var existing = content.querySelectorAll('text');
                 for (var i = 0; i < existing.length; i++) existing[i].remove();
+                var gap = 10;
+                var startY = v.ty - ((lines.length - 1) * gap) / 2;
                 lines.forEach(function(line, i) {
                     var t = document.createElementNS(ns, 'text');
                     t.setAttribute('x', v.tx);
-                    t.setAttribute('y', v.ty + i * 14);
+                    t.setAttribute('y', startY + i * gap);
                     t.setAttribute('fill', '#010101');
                     t.setAttribute('font-family', 'Arial,sans-serif');
-                    t.setAttribute('font-size', '11');
+                    t.setAttribute('font-size', '8');
                     t.setAttribute('font-weight', 'bold');
                     t.setAttribute('text-anchor', 'middle');
+                    t.setAttribute('dominant-baseline', 'middle');
                     t.textContent = line;
                     content.appendChild(t);
                 });
