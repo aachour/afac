@@ -114,6 +114,7 @@ class PMView extends Component
 
         $submissionIds = json_decode($group->submissions_id, true) ?? [];
         $jurorIds = json_decode($group->jurors_id, true) ?? [];
+        $submissionsStatus = json_decode($group->submissions_status, true) ?? [];
 
         $this->assign_submissions = FormStackSubmissions::whereIn('submission_id', $submissionIds)
             ->get(['id', 'submission_id', 'email', 'admin_id']);
@@ -129,7 +130,7 @@ class PMView extends Component
 
         $submissionsData = $this->assign_submissions->map(fn($s) => [
             'id'    => $s->submission_id,
-            'label' => '#' . $s->admin_id . ' — ' . $s->email,
+            'label' => '#' . $s->admin_id . ' — ' . $s->email . ' / ' . $this->getSubmissionStatus($submissionsStatus, $s->submission_id),
         ])->values();
 
         $jurorsData = $this->assign_jurors->map(fn($j) => [
@@ -138,6 +139,13 @@ class PMView extends Component
         ])->values();
 
         $this->dispatch('submission-jurors-loaded', submissions: $submissionsData, jurors: $jurorsData);
+    }
+
+    private function getSubmissionStatus($submissionsStatus, $submissionId)
+    {
+        $statusEntry = $submissionsStatus[$submissionId] ?? null;
+        $currentStatus = is_array($statusEntry) ? ($statusEntry['status'] ?? null) : $statusEntry;
+        return $currentStatus ?? '—';
     }
 
     public function saveSubmissionJurors()
@@ -187,6 +195,7 @@ class PMView extends Component
 
         $submissionIds = json_decode($group->submissions_id, true) ?? [];
         $readerIds = json_decode($group->readers_id, true) ?? [];
+        $submissionsStatus = json_decode($group->submissions_status, true) ?? [];
 
         $this->assign_readers_submissions = FormStackSubmissions::whereIn('submission_id', $submissionIds)
             ->get(['id', 'submission_id', 'email' , 'admin_id']);
@@ -202,7 +211,7 @@ class PMView extends Component
 
         $submissionsData = $this->assign_readers_submissions->map(fn($s) => [
             'id'    => $s->submission_id,
-            'label' => '#' . $s->admin_id . ' — ' . $s->email,
+            'label' => '#' . $s->admin_id . ' — ' . $s->email . ' / ' . $this->getSubmissionStatus($submissionsStatus, $s->submission_id),
         ])->values();
 
         $readersData = $this->assign_readers->map(fn($r) => [

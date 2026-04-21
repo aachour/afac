@@ -95,7 +95,7 @@
             {{-- Fixed evaluation panel --}}
             @if($assign_id && $form_type == 1)
             <div class="fs-eval-panel-inner">
-                <h6 class="fs-eval-title">Evaluation</h6>
+                <h6 class="fs-eval-title">{{ $assigned_to }} Evaluation</h6>
 
                 @if(session('rating-saved'))
                     <div class="fs-eval-alert fs-eval-alert-success">Saved successfully.</div>
@@ -141,7 +141,7 @@
             {{-- Form type 2: 4 scored questions --}}
             @if($assign_id && ( $form_type == 2 || $form_type == 3 ))
             <div class="fs-eval-panel-inner">
-                <h6 class="fs-eval-title">Evaluation</h6>
+                <h6 class="fs-eval-title">{{ $assigned_to }} Evaluation</h6>
 
                 {{-- Question 1 (4 options) --}}
                 <div class="mb-4">

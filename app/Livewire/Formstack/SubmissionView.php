@@ -23,6 +23,7 @@ class SubmissionView extends Component
     public $submission_id;
     public $pm_id;
     public $assign_id;
+    public $assigned_to;
     public $formStackAssign;
     public $form_type;
     public $form_status = null;
@@ -107,8 +108,8 @@ class SubmissionView extends Component
         }
 
 
-        if ($assignId) {
-            $this->formStackAssign = FormStackAssigns::find($assignId);
+        if ($this->assign_id) {
+            $this->formStackAssign = FormStackAssigns::find($this->assign_id);
             $this->form_type = $this->formStackAssign->form_type ?? null;
             $this->form_status = $this->formStackAssign->form_status ?? null;
             $this->form_notes = $this->formStackAssign->form_notes ?? null;
@@ -116,6 +117,9 @@ class SubmissionView extends Component
             $this->form_rate2 = $this->formStackAssign->form_rate2 ?? null;
             $this->form_rate3 = $this->formStackAssign->form_rate3 ?? null;
             $this->form_rate4 = $this->formStackAssign->form_rate4 ?? null;
+
+            if($this->formStackAssign->juror_id!=null){$this->assigned_to="Juror";}
+            else if($this->formStackAssign->reader_id!=null){$this->assigned_to="Reader";}
 
             // Check if current user is the assigned Juror or Reader
             $currentUserId = Auth::id();
