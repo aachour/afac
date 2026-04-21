@@ -130,9 +130,10 @@
         var root = document.getElementById('animated-logo-root');
         if (!root) return;
         var ns = 'http://www.w3.org/2000/svg';
+        var labelFontFamily = "'ABC Diatype Arabic', Arial, sans-serif";
         var logoContainer = root.querySelector('.logo-container');
         var measureTextNode = document.createElementNS(ns, 'text');
-        measureTextNode.setAttribute('font-family', 'Arial,sans-serif');
+        measureTextNode.setAttribute('font-family', labelFontFamily);
         measureTextNode.setAttribute('font-weight', 'bold');
         measureTextNode.setAttribute('visibility', 'hidden');
         if (logoContainer) logoContainer.appendChild(measureTextNode);
@@ -190,7 +191,7 @@
                     t.setAttribute('x', cx);
                     t.setAttribute('y', firstY + i * gap);
                     t.setAttribute('fill', '#FFFFFF');
-                    t.setAttribute('font-family', 'Arial,sans-serif');
+                    t.setAttribute('font-family', labelFontFamily);
                     t.setAttribute('font-size', '9');
                     t.setAttribute('font-weight', 'bold');
                     t.setAttribute('text-anchor', 'middle');
@@ -236,7 +237,7 @@
                     t.setAttribute('x', c.cx);
                     t.setAttribute('y', startY + i * gap);
                     t.setAttribute('fill', '#010101');
-                    t.setAttribute('font-family', 'Arial,sans-serif');
+                    t.setAttribute('font-family', labelFontFamily);
                     t.setAttribute('font-size', '8');
                     t.setAttribute('font-weight', 'bold');
                     t.setAttribute('text-anchor', 'middle');
@@ -280,7 +281,7 @@
                     t.setAttribute('x', v.tx);
                     t.setAttribute('y', startY + i * gap);
                     t.setAttribute('fill', '#010101');
-                    t.setAttribute('font-family', 'Arial,sans-serif');
+                    t.setAttribute('font-family', labelFontFamily);
                     t.setAttribute('font-size', '8');
                     t.setAttribute('font-weight', 'bold');
                     t.setAttribute('text-anchor', 'middle');
