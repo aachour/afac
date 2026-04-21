@@ -79,7 +79,7 @@ class SubmissionView extends Component
                 abort(403,'Unauthorized'); 
             }
         } 
-        else if(Auth::user()->hasrole('Admin') || Auth::user()->hasrole('Program Manager')){ //check submission assigned to pm
+        else if(Auth::user()->hasrole('Program Manager')){ //check submission assigned to pm
             $checkAssign = FormStackGroups::where('user_id', $this->pm_id)->whereJsonContains('submissions_id', $this->submission_id)
                 ->first();
 
@@ -87,12 +87,15 @@ class SubmissionView extends Component
             $currentUser = User::find($this->pm_id);
             $currentUserCanRate = $currentUser->can_rate;
             $this->canView1 = ($checkAssign->user_id == $currentUser->id && $this->pm_id != null);
-            $this->canEdit1 = ($checkAssign->user_id == $currentUser->id && $currentUserCanRate && Auth::user()->hasrole('Program Manager'));
-            // dd($currentUserCanRate,$this->canView1, $this->canEdit1);
+            $this->canEdit1 = ($checkAssign->user_id == $currentUser->id && $currentUserCanRate);
+
             if (!$checkAssign) {
                 abort(403, 'Unauthorized');
             }
         } 
+        else if(Auth::user()->hasrole('Admin')){
+            $this->canView1 = true;
+        }
 
 
         if ($assignId) {
