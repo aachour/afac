@@ -33,6 +33,8 @@
                             <td>
                                 @php
                                     $submissionIds = json_decode($pm->submissions_id, true) ?? [];
+                                    $submissionStatus = json_decode($pm->submissions_status, true) ?? [];
+                                    
                                 @endphp
 
                                 @foreach($submissionIds as $submissionId)
@@ -44,7 +46,7 @@
                                         $statusEntry = $submissionsStatus[$submissionId] ?? null;
                                         $currentStatus = is_array($statusEntry) ? ($statusEntry['status'] ?? null) : $statusEntry;
                                     @endphp
-                                    <div class="d-flex align-items-center gap-1">-{{ $submission?->admin_id ?? '—' }}/{{$submission?->email ?? '—' }}&nbsp;<a href="{{ route('formstack.submission', ['formId' => $pm->form_id , 'submissionId' => $submissionId , 'pmId' => $pm->user->id ]) }}" target="_blank"><i class="ti ti-eye ti-sm text-body"></i></a>
+                                    <div class="d-flex align-items-center gap-1">-{{ $submission?->admin_id ?? '—' }}/{{$submission?->email ?? '—' }} / {{$currentStatus ?? '—'}}&nbsp;<a href="{{ route('formstack.submission', ['formId' => $pm->form_id , 'submissionId' => $submissionId , 'pmId' => $pm->user->id ]) }}" target="_blank"><i class="ti ti-eye ti-sm text-body"></i></a>
                                     @can('formstack-formAssignPM')
                                         &nbsp;<button type="button" onclick="confirmRemoveSubmission({{ $pm->id }}, '{{ $submissionId }}')" class="border-0 bg-transparent p-0 text-danger"><i class="ti ti-x ti-sm"></i></button>
                                     @endcan
