@@ -230,8 +230,13 @@ class SubmissionView extends Component
             ['pm_form_status.required' => 'Please select a status.']
         );
 
+        $submissionKey = $this->normalizeSubmissionKey($this->submission_id);
+        if ($submissionKey === null) {
+            return;
+        }
+
         $group = FormStackGroups::where('user_id', Auth::id())
-            ->whereJsonContains('submissions_id', $this->submission_id)
+            ->whereJsonContains('submissions_id', $submissionKey)
             ->first();
 
         if ($group) {
@@ -239,14 +244,6 @@ class SubmissionView extends Component
             $status = is_string($rawStatus)
                 ? (json_decode($rawStatus, true) ?: [])
                 : (is_array($rawStatus) ? $rawStatus : []);
-
-            $submissionKey = is_array($this->submission_id)
-                ? (string) (reset($this->submission_id) ?: '')
-                : (string) $this->submission_id;
-
-            if ($submissionKey === '') {
-                return;
-            }
 
             $status[$submissionKey] = [
                 'status' => $this->pm_form_status,
@@ -261,5 +258,24 @@ class SubmissionView extends Component
     public function render()
     {
         return view('livewire.formstack.submission-view');
+    }
+
+    private function normalizeSubmissionKey($value): ?string
+    {
+        while (is_array($value)) {
+            if (empty($value)) {
+                return null;
+            }
+
+            $value = reset($value);
+        }
+
+        if (is_object($value) && !method_exists($value, '__toString')) {
+            return null;
+        }
+
+        $key = trim((string) $value);
+
+        return $key !== '' ? $key : null;
     }
 }
