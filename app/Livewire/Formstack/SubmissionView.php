@@ -81,20 +81,26 @@ class SubmissionView extends Component
         } 
         else if(Auth::user()->hasrole('Program Manager')){ //check submission assigned to pm
 
-            $checkAssign = FormStackGroups::where('user_id', $this->pm_id)->whereJsonContains('submissions_id', $this->submission_id)
-                ->first();
-
-            // Check if current user is the assigned Juror or Reader
             if($this->pm_id){
+
+                $checkAssign = FormStackGroups::where('user_id', $this->pm_id)->whereJsonContains('submissions_id', $this->submission_id)
+                    ->first();
+
+                // Check if current user is the assigned Juror or Reader
+                
                 $currentUser = User::find($this->pm_id);
                 $currentUserCanRate = $currentUser->can_rate;
                 $this->canView1 = ($checkAssign->user_id == $currentUser->id && $this->pm_id != null);
                 $this->canEdit1 = ($checkAssign->user_id == $currentUser->id && $currentUserCanRate);
+
+                if (!$checkAssign) {
+                    abort(403, 'Unauthorized');
+                }
+            }
+            else{
+                $this->canView1 = true;
             }
 
-            if (!$checkAssign) {
-                abort(403, 'Unauthorized');
-            }
         } 
         else if(Auth::user()->hasrole('Admin')){
             $this->canView1 = true;
