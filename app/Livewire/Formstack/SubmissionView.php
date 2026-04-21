@@ -235,8 +235,20 @@ class SubmissionView extends Component
             ->first();
 
         if ($group) {
-            $status = $group->submissions_status ?? [];
-            $status[$this->submission_id] = [
+            $rawStatus = $group->submissions_status ?? [];
+            $status = is_string($rawStatus)
+                ? (json_decode($rawStatus, true) ?: [])
+                : (is_array($rawStatus) ? $rawStatus : []);
+
+            $submissionKey = is_array($this->submission_id)
+                ? (string) (reset($this->submission_id) ?: '')
+                : (string) $this->submission_id;
+
+            if ($submissionKey === '') {
+                return;
+            }
+
+            $status[$submissionKey] = [
                 'status' => $this->pm_form_status,
                 'notes' => $this->pm_form_notes,
             ];
