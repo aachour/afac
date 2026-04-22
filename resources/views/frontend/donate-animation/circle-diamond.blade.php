@@ -34,41 +34,50 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const wrapper = document.querySelector('.circle-diamond-donate-button-wrapper');
-    if (!wrapper) return;
-    
-    const donateButton = wrapper.querySelector('.circle-diamond-donate-button-svg');
-    const donateShape = wrapper.querySelector('.circle-diamond-donate-shape');
-    
-    if (donateButton && donateShape) {
-        // Center of the SVG (308 / 2 = 154)
-        const centerX = 154;
-        const centerY = 154;
-        
-        donateButton.addEventListener('mouseenter', function() {
-            // Transform from circle to diamond
-            // Circle: rx="108.8935", rotation: 0
-            // Diamond: rx="0", rotation: -45
-            gsap.to(donateShape, {
-                attr: { rx: 0 },
-                rotation: -45,
-                duration: 0.5,
-                ease: "power2.inOut",
-                transformOrigin: "50% 50%"
+(function () {
+    function initCircleDiamondButtons() {
+        const wrappers = document.querySelectorAll('.circle-diamond-donate-button-wrapper');
+        if (!wrappers.length) return;
+
+        wrappers.forEach(function (wrapper) {
+            if (wrapper.dataset.circleDiamondInitialized === 'true') return;
+
+            const donateButton = wrapper.querySelector('.circle-diamond-donate-button-svg');
+            const donateShape = wrapper.querySelector('.circle-diamond-donate-shape');
+            if (!donateButton || !donateShape) return;
+
+            wrapper.dataset.circleDiamondInitialized = 'true';
+
+            donateButton.addEventListener('mouseenter', function() {
+                // Transform from circle to diamond
+                // Circle: rx="108.8935", rotation: 0
+                // Diamond: rx="0", rotation: -45
+                gsap.to(donateShape, {
+                    attr: { rx: 0 },
+                    rotation: -45,
+                    duration: 0.5,
+                    ease: "power2.inOut",
+                    transformOrigin: "50% 50%"
+                });
             });
-        });
-        
-        donateButton.addEventListener('mouseleave', function() {
-            // Transform back from diamond to circle
-            gsap.to(donateShape, {
-                attr: { rx: 108.8935 },
-                rotation: 0,
-                duration: 0.5,
-                ease: "power2.inOut",
-                transformOrigin: "50% 50%"
+
+            donateButton.addEventListener('mouseleave', function() {
+                // Transform back from diamond to circle
+                gsap.to(donateShape, {
+                    attr: { rx: 108.8935 },
+                    rotation: 0,
+                    duration: 0.5,
+                    ease: "power2.inOut",
+                    transformOrigin: "50% 50%"
+                });
             });
         });
     }
-});
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCircleDiamondButtons);
+    } else {
+        initCircleDiamondButtons();
+    }
+})();
 </script>
