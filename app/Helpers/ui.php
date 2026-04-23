@@ -225,7 +225,7 @@ function ViewCollection($collection_id, $language = 'EN')
     if ($with_featured == 0 && $show_view_all == 1 && $featured_width != '74.3%') {
         $html .= '<div class="viewAll mt-3">
             <a href="' . $view_all_link . '" class="view-all-link">
-                <span class="black tiny ABCDiatypeBlack">' . $view_all_title . '</span>
+                <span class="black tiny ABCDiatypeMedium">' . $view_all_title . '</span>
                 <img src="' . asset('frontend/images/view-all-btn-en.png') . '" width="12px">
             </a>
         </div>';
