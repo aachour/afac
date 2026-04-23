@@ -788,13 +788,17 @@ function ViewAccordion($section_column_id, $language = 'EN')
         </div>';
     }
 
-    $htmlColumn .= '<script>
+    static $accordionScriptOutput = false;
+    if (!$accordionScriptOutput) {
+        $htmlColumn .= '<script>
             $(document).ready(function(){
                 $(document).on("click", ".accordion-smooth .accordion-header", function(){
                     $(this).closest(".accordion-item").toggleClass("open");
                 });
             });
         </script>';
+        $accordionScriptOutput = true;
+    }
 
     return $htmlColumn;
 }
