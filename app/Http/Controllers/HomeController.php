@@ -59,13 +59,18 @@ class HomeController extends Controller
             }
         
             return view('frontend.page', [
+                'metaTitle' => $page->meta_title,
+                'metaTitleArabic' => $page->meta_title_arabic,
+                'metaDescription' => $page->meta_description,
+                'metaDescriptionArabic' => $page->meta_description_arabic,
+                'metaKeywords' => $page->meta_keywords,    
                 'pageHTML' => $pageHTML,
                 'headerBgCode'=>$headerBgCode,
                 'footerBgCode'=>$footerBgCode,
                 'logoAnimation'=>$logoAnimation,
                 'logoElements' => $logoElements,
-                
             ]);
+
         }
     }
 
@@ -94,6 +99,11 @@ class HomeController extends Controller
             }
 
             return view('frontend.page', [
+                'metaTitle' => $page->meta_title,
+                'metaTitleArabic' => $page->meta_title_arabic,
+                'metaDescription' => $page->meta_description,
+                'metaDescriptionArabic' => $page->meta_description_arabic,
+                'metaKeywords' => $page->meta_keywords,    
                 'pageHTML' => $pageHTML,
                 'headerBgCode'=>$headerBgCode,
                 'footerBgCode'=>$footerBgCode,
@@ -133,6 +143,11 @@ class HomeController extends Controller
             }
 
             return view('frontend.page', [
+                'metaTitle' => $entry->meta_title,
+                'metaTitleArabic' => $entry->meta_title_arabic,
+                'metaDescription' => $entry->meta_description,
+                'metaDescriptionArabic' => $entry->meta_description_arabic,
+                'metaKeywords' => $entry->meta_keywords,    
                 'pageHTML' => $pageHTML,
                 'headerBgCode'=>$headerBgCode,
                 'footerBgCode'=>$footerBgCode,
