@@ -141,13 +141,12 @@ class HomeController extends Controller
                     $pageHTML.= ViewCollection($pageSection->collection_id,'EN');
                 }
             }
-
+            
             return view('frontend.page', [
-                'metaTitle' => $entry->meta_title,
-                'metaTitleArabic' => $entry->meta_title_arabic,
-                'metaDescription' => $entry->meta_description,
-                'metaDescriptionArabic' => $entry->meta_description_arabic,
-                'metaKeywords' => $entry->meta_keywords,    
+                'metaTitle' => getEntryTitle($entry),
+                'metaTitleArabic' => getEntryTitle($entry),
+                'metaDescription' => substr(getEntryText($entry), 0, 150) . "....",
+                'metaDescriptionArabic' => substr(getEntryText($entry), 0, 150) . "....",
                 'pageHTML' => $pageHTML,
                 'headerBgCode'=>$headerBgCode,
                 'footerBgCode'=>$footerBgCode,
