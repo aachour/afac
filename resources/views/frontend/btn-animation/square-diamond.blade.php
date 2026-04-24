@@ -72,7 +72,7 @@
             <rect class="square-diamond-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="0"
                 fill="{{$bg_color}}" />
             <!-- Text inside -->
-            <text class="square-diamond-donate-text medium ABCDiatypeMedium" x="154" y="168" text-anchor="middle">{{ $value }}</text>
+            <text class="square-diamond-donate-text medium ABCDiatypeMedium" x="154" y="168" text-anchor="middle">{{ app()->getLocale() == 'en' ? $value : $value_arabic }}
         </svg>
         @if($use_trigger)
         <div class="square-diamond-donate-arrow" aria-hidden="true">
