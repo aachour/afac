@@ -201,6 +201,7 @@ class HomeController extends Controller
         $show_view_all=$collection->show_view_all;
         $show_projects_grantees=$collection->show_projects_grantees;
         $view_all_title=$collection->view_all_title;
+        $view_all_title_arabic=$collection->view_all_title_arabic;
         $view_all_link=$collection->view_all_link;
         $button_text=$collection->button_text;
         $button_bg_color=$collection->buttonBgColor?->code;
@@ -388,13 +389,13 @@ class HomeController extends Controller
                             if( ($show_name==1 || $show_view_all==1) && $featured_width=='74.3%' && $key==0){
                                 $html.='<div class="featured_title_view_all">';
                                     if($show_name==1){
-                                        $html.='<div class="black big ABCDiatypeMedium">'.$collection->name.'</div>';
+                                        $html.='<div class="black big ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $entry->{$collection->name} : $entry->{$collection->name . '_arabic'}) . '</div>';
                                     }
                                     if($show_view_all==1){
                                         $html.='<div class="mt-3">
                                             <a href="'.$view_all_link.'" class="view-all-link">
-                                                <span class="black tiny ABCDiatypeBlack">'.$view_all_title.'</span>
-                                                <img src="'.asset('frontend/images/view-all-btn-en.png').'" width="12px">
+                                                <span class="black tiny ABCDiatypeBlack">' . (app()->getLocale() == 'en' ? $entry->$view_all_title : $entry->{$view_all_title . '_arabic'}) . '</span>
+                                                <img src="'.asset('frontend/images/view-all-btn-' . (app()->getLocale() == 'en' ? 'en' : 'ar') . '.png').'" width="12px">
                                             </a>
                                         </div>';
                                     }
@@ -402,10 +403,10 @@ class HomeController extends Controller
                                 $html.='</div>';
                             }
                             $html .= '<a href="' . $entry_href . '" target="' . $entry_target . '">
-                                <div class="topSpacer featured_entry" style="background:' . $featured_image_bgColor . '; width:' . $featured_width . '; margin-left:' . $featured_margin . ';">';
+                                <div class="topSpacer featured_entry" style="background:' . $featured_image_bgColor . '; width:' . $featured_width . '; ' . (app()->getLocale() == 'en' ? 'margin-left:' . $featured_margin : 'margin-right:' . $featured_margin) . ';">';
                                     $html .= '<div class="featured_info">
                                         <div class="title_or_labels" style="'.$title_position.'">
-                                            <div class="medium white ABCDiatypeMedium">'.$entry_title .'</div>
+                                            <div class="medium white ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $entry->$entry_title : $entry->{$entry_title . '_arabic'}) . '</div>
                                             <div class="topSpacerSmall tiny white threeQuartersText">' . mb_substr(strip_tags($entry_text), 0, 350) . '</div>
                                         </div>';
 
@@ -445,8 +446,8 @@ class HomeController extends Controller
                                 if($show_view_all==1){
                                     $html.='<div class="mt-1 mb-2 viewAll">
                                         <a href="'.$view_all_link.'" class="view-all-link">
-                                            <span class="black tiny ABCDiatypeBlack">'.$view_all_title.' </span>
-                                            <img src="'.asset('frontend/images/view-all-btn-en.png').'" width="12px">
+                                            <span class="black tiny ABCDiatypeBlack">' . (app()->getLocale() == 'en' ? $entry->$view_all_title : $entry->{$view_all_title . '_arabic'}) . '</span>
+                                            <img src="'.asset('frontend/images/view-all-btn-' . (app()->getLocale() == 'en' ? 'en' : 'ar') . '.png').'" width="12px">
                                         </a>
                                     </div>';
                                 }
@@ -457,7 +458,7 @@ class HomeController extends Controller
                                 <div class="featured_entry_mobile mb-4" style="background:'.$featured_image_bgColor.';">
                                     <img src="'.$image_path.'" width="100%" />
                                     <div class="description">
-                                        <div class="medium white ABCDiatypeMedium">'.$entry_title.'</div>';
+                                        <div class="medium white ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $entry->$entry_title : $entry->{$entry_title . '_arabic'}) . '</div>';
                                         if($with_label==1)
                                         {
                                             $labels=getEntryLabels($entry);
@@ -507,9 +508,15 @@ class HomeController extends Controller
                                     .sliderCollection .entries .entry:nth-child(4n){';
                                         if(app()->getLocale()=='en'){$html.='margin-right:1.2% !important;';}
                                         else if(app()->getLocale()=='ar'){$html.='margin-left:1.2% !important;';}
-                                    $html.='}
-                                }
-                            </style>';
+                                    $html.='}';
+                                    if(app()->getLocale()=='ar'){
+                                        $html.='@media (min-width:1000px){
+                                            .collection .entries .entry{
+                                                margin-left:1.2% !important;
+                                            }
+                                        }';
+                                    }
+                            $html.='</style>';
 
                             $html.='<div class="swiper gallery" id="swiper'.$collection_id.'" style="width:102.5%; padding-bottom:15px;">
                                 <div class="swiper-wrapper">';
@@ -614,11 +621,20 @@ class HomeController extends Controller
                         grid: {
                             rows: 1           
                         },
-                        navigation: {
-                            nextEl: "#gallery-swiper-button-next-'.$collection_id.'",
-                            prevEl: "#gallery-swiper-button-prev-'.$collection_id.'",
-                        },
-                        effect: "slide",
+                        ';
+                        if(app()->getLocale() == 'en'){
+                            $html .= 'navigation: {
+                                nextEl: "#gallery-swiper-button-next-' . $collection_id . '",
+                                prevEl: "#gallery-swiper-button-prev-' . $collection_id . '",
+                            },';
+                        }
+                        else{
+                            $html .= 'navigation: {
+                                nextEl: "#gallery-swiper-button-prev-' . $collection_id . '",
+                                prevEl: "#gallery-swiper-button-next-' . $collection_id . '",
+                            },';
+                        }
+                        $html .= 'effect: "slide",
                         allowTouchMove: true,
                         simulateTouch: true,
                         followFinger: true,

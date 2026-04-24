@@ -21,7 +21,7 @@ use App\Models\ProgramYearJurors;
 use App\Models\Logo;
 use Carbon\Carbon;
 
-function ViewEntryData($entry_id, $language = 'EN')
+function ViewEntryData($entry_id)
 {
 
     $entry = Entries::find($entry_id);
@@ -160,7 +160,7 @@ function ViewEntryData($entry_id, $language = 'EN')
 }
 
 
-function ViewCollection($collection_id, $language = 'EN')
+function ViewCollection($collection_id)
 {
 
     $collection = Collections::find($collection_id);
@@ -174,7 +174,9 @@ function ViewCollection($collection_id, $language = 'EN')
     $show_description = $collection->show_description;
     $show_view_all = $collection->show_view_all;
     $view_all_title = $collection->view_all_title;
+    $view_all_title_arabic = $collection->view_all_title_arabic;
     $view_all_link = $collection->view_all_link;
+    $view_all_link_arabic = $collection->view_all_link_arabic;
     $entries_selection = $collection->entries_selection;
     $entries_layout = $collection->entries_layout;
     $with_filters = $collection->with_filters;
@@ -214,19 +216,19 @@ function ViewCollection($collection_id, $language = 'EN')
     if (($show_name == 1 || $show_description == 1) && $featured_width != '74.3%') {
         $html .= '<div class="titleDescription">';
         if ($show_name == 1) {
-            $html .= '<div class="black big ABCDiatypeMedium">' . $collection->name . '</div>';
+            $html .= '<div class="black big ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $collection->name : $collection->name_arabic) . '</div>';
         }
         if ($show_description == 1) {
-            $html .= '<div class="topSpacerSmall black tiny ABCDiatypeMedium">' . $collection->description . '</div>';
+            $html .= '<div class="topSpacerSmall black tiny ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $collection->description : $collection->description_arabic) . '</div>';
         }
         $html .= '</div>';
     }
 
     if ($with_featured == 0 && $show_view_all == 1 && $featured_width != '74.3%') {
         $html .= '<div class="viewAll mt-3">
-            <a href="' . $view_all_link . '" class="view-all-link">
-                <span class="black tiny ABCDiatypeMedium">' . $view_all_title . '</span>
-                <img src="' . asset('frontend/images/view-all-btn-en.png') . '" width="12px">
+            <a href="' . (app()->getLocale() == 'en' ? $view_all_link : $view_all_link_arabic) . '" class="view-all-link">
+                <span class="black tiny ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $view_all_title : $view_all_title_arabic) . '</span>
+                <img src="'.asset('frontend/images/view-all-btn-' . (app()->getLocale() == 'en' ? 'en' : 'ar') . '.png').'" width="12px">
             </a>
         </div>';
     }
@@ -293,7 +295,7 @@ function ViewCollection($collection_id, $language = 'EN')
 }
 
 
-function ViewSection($section_id, $language = 'EN')
+function ViewSection($section_id)
 {
 
     $section = Sections::with('columns')->find($section_id);
@@ -365,7 +367,7 @@ function ViewSection($section_id, $language = 'EN')
 }
 
 
-function ViewColumnGeneral($section_column_id, $language = 'EN')
+function ViewColumnGeneral($section_column_id)
 {
 
     $htmlColumn = '';
@@ -373,7 +375,7 @@ function ViewColumnGeneral($section_column_id, $language = 'EN')
     $column = SectionColumns::with('generalInputs')->find($section_column_id);
 
     if ($column) {
-
+        
         $textAlign = $column->alignment_id == 1 ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
         $htmlColumn .= '<div class="row ' . $textAlign . '">';
@@ -391,21 +393,25 @@ function ViewColumnGeneral($section_column_id, $language = 'EN')
                 $input_type_id = $generalInput->input_type_id;
 
                 if ($input_type_id == 1) {   //title
-                    $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0 big black ABCDiatypeMedium">' . $generalInput->title . '</div>';
-                } else if ($input_type_id == 2) {   //text
-                    $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0 small black ABCDiatype">' . $generalInput->text . '</div>';
-                } else if ($input_type_id == 3) {   //gallery
+
+                    $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0 big black ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $generalInput->title : $generalInput->title_arabic)  . '</div>';
+
+                } 
+                else if ($input_type_id == 2) {   //text
+                    $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0 small black ABCDiatype">' . (app()->getLocale() == 'en' ? $generalInput->text : $generalInput->text_arabic)  . '</div>';
+                } 
+                else if ($input_type_id == 3) {   //gallery
                     $galleryImages = $generalInput->gallery->images;
                     if (count($galleryImages) == 1) { //single image
                         $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0"><img src=' . asset("storage/" . $galleryImages[0]->image_path) . ' width="100%" /></div>';
-                        $htmlColumn .= '<div class="mt-1 tiny black">' . $galleryImages[0]->caption . '</div>';
+                        $htmlColumn .= '<div class="mt-1 tiny black">' . (app()->getLocale() == 'en' ? $galleryImages[0]->caption : $galleryImages[0]->caption_arabic) . '</div>';
                     } else { //gallery images
                         $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0 swiper gallery" id="swiper-gallery-' . $section_column_id . '">
                                     <div class="swiper-wrapper">';
                             foreach ($galleryImages as $galleryImage) {
                                 $htmlColumn .= '<div class="swiper-slide">
                                     <img src=' . asset("storage/" . $galleryImage->image_path) . ' width="100%" />
-                                    <div class="topSpacerSmaller tiny black">' . $galleryImage->caption . '</div>
+                                    <div class="topSpacerSmaller tiny black">' . (app()->getLocale() == 'en' ? $galleryImage->caption : $galleryImage->caption_arabic) . '</div>
                                 </div>';
                             }
                         $htmlColumn .= '</div>
@@ -416,35 +422,46 @@ function ViewColumnGeneral($section_column_id, $language = 'EN')
 
                         //add swiper JS 
                         $htmlColumn .= '<script> 
-                                    const swiper' . $section_column_id . ' = new Swiper("#swiper-gallery-' . $section_column_id . '", {
-                                        //loop: true,
-                                        grid: {
-                                            rows: 1           
-                                        },
-                                        navigation: {
-                                            nextEl: "#gallery-swiper-button-next-' . $section_column_id . '",
-                                            prevEl: "#gallery-swiper-button-prev-' . $section_column_id . '",
-                                        },
-                                        effect: "slide",
-                                        speed: 800,
-                                        breakpoints: {
-                                            // when window width is >= 320px
-                                            576: {
-                                                slidesPerView: 0.85,
-                                                spaceBetween: 0
-                                            },
-                                            // when window width is >= 992px
-                                            900: {
-                                                slidesPerView: 1,
-                                                spaceBetween: 20
-                                            },
-                                        }
-                                    });
-                                </script>';
+                            const swiper' . $section_column_id . ' = new Swiper("#swiper-gallery-' . $section_column_id . '", {
+                                //loop: true,
+                                grid: {
+                                    rows: 1           
+                                },
+                                ';
+                                if(app()->getLocale() == 'en'){
+                                    $htmlColumn .= 'navigation: {
+                                        nextEl: "#gallery-swiper-button-next-' . $section_column_id . '",
+                                        prevEl: "#gallery-swiper-button-prev-' . $section_column_id . '",
+                                    },';
+                                }
+                                else{
+                                    $htmlColumn .= 'navigation: {
+                                        nextEl: "#gallery-swiper-button-prev-' . $section_column_id . '",
+                                        prevEl: "#gallery-swiper-button-next-' . $section_column_id . '",
+                                    },';
+                                }
+                                $htmlColumn .= 'effect: "slide",
+                                speed: 800,
+                                breakpoints: {
+                                    // when window width is >= 320px
+                                    576: {
+                                        slidesPerView: 0.85,
+                                        spaceBetween: 0
+                                    },
+                                    // when window width is >= 992px
+                                    900: {
+                                        slidesPerView: 1,
+                                        spaceBetween: 20
+                                    },
+                                }
+                            });
+                        </script>';
                     }
-                } else if ($input_type_id == 4) {   //video
+                } 
+                else if ($input_type_id == 4) {   //video
                     $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0"><div class="video-wrap"><iframe src="' . $generalInput->video . '" ></iframe></div></div>';
-                } else if ($input_type_id == 5) {   //button
+                } 
+                else if ($input_type_id == 5) {   //button
 
                     $textAlign = $generalInput->button_link == null ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
@@ -463,7 +480,7 @@ function ViewColumnGeneral($section_column_id, $language = 'EN')
 }
 
 
-function ViewTimeline($section_column_id, $language = 'EN')
+function ViewTimeline($section_column_id)
 {
 
     $htmlColumn = '';
@@ -476,260 +493,259 @@ function ViewTimeline($section_column_id, $language = 'EN')
 
         $htmlColumn .= '<div class="timelines ' . $textAlign . '">
 
-                <div class="row">';
+            <div class="row">';
 
-        if ($column->width == 1) {
-            $htmlColumn .= '<div class="col-lg-12 col-12">';
-        } elseif ($column->width == 2) {
-            $htmlColumn .= '<div class="col-lg-9 col-12">';
-        } elseif ($column->width == 3) {
-            $htmlColumn .= '<div class="col-lg-3"></div><div class="col-lg-6 col-12">';
-        }
+                if ($column->width == 1) {
+                    $htmlColumn .= '<div class="col-lg-12 col-12">';
+                } elseif ($column->width == 2) {
+                    $htmlColumn .= '<div class="col-lg-9 col-12">';
+                } elseif ($column->width == 3) {
+                    $htmlColumn .= '<div class="col-lg-3"></div><div class="col-lg-6 col-12">';
+                }
 
-        foreach ($column->timelines as $timeline) {
+                foreach ($column->timelines as $timeline) {
 
-            $htmlColumn .= '<div class="timeline mb-5">
-                <div class="row">
+                    $htmlColumn .= '<div class="timeline mb-5">
+                        <div class="row">
 
-                    <div class="col-lg-3 col-12 ">
-                        <div class="black big ABCDiatypeMedium mb-2">
-                            <img src="' . asset('frontend/images/diamond.png') . '" width="40px" />&nbsp;&nbsp;
-                            ' . $timeline->date . '
-                        </div>
-                    </div>
+                            <div class="col-lg-3 col-12 ">
+                                <div class="black big ABCDiatypeMedium mb-2">
+                                    <img src="' . asset('frontend/images/diamond.png') . '" width="40px" />&nbsp;&nbsp;
+                                    ' . $timeline->date . '
+                                </div>
+                            </div>
 
-                    <div class="col-lg-9 col-12">
-                        <div class="timeline-percentages-wrapper">';
-                            $percentageIndex = 0;
-                            foreach ($timeline->percentages as $key => $percentage) {
-                                $uniqueId = 'timeline-' . $timeline->id . '-percentage-' . $percentageIndex;
-                                $percentageColor = $percentage->color->code ?? '#010101';
-                                $percentageValue = $percentage->percentage ?? 0;
+                            <div class="col-lg-9 col-12">
+                                <div class="timeline-percentages-wrapper">';
+                                    $percentageIndex = 0;
+                                    foreach ($timeline->percentages as $key => $percentage) {
+                                        $uniqueId = 'timeline-' . $timeline->id . '-percentage-' . $percentageIndex;
+                                        $percentageColor = $percentage->color->code ?? '#010101';
+                                        $percentageValue = $percentage->percentage ?? 0;
 
-                                $htmlColumn .= '<div class="percentage-column ' . ($percentageIndex == 0 ? 'active' : 'd-none') . '" 
-                                                    data-percentage-id="' . $uniqueId . '" 
-                                                    data-percentage-value="' . $percentageValue . '" 
-                                                    data-percentage-color="' . $percentageColor . '"
-                                                    data-timeline-id="' . $timeline->id . '">
+                                        $htmlColumn .= '<div class="percentage-column ' . ($percentageIndex == 0 ? 'active' : 'd-none') . '" 
+                                                            data-percentage-id="' . $uniqueId . '" 
+                                                            data-percentage-value="' . $percentageValue . '" 
+                                                            data-percentage-color="' . $percentageColor . '"
+                                                            data-timeline-id="' . $timeline->id . '">
 
-                                                <div class="percentage-text big black mb-5">' . $percentage->text . '</div>';
+                                                        <div class="percentage-text big black mb-5">' . (app()->getLocale() == 'en' ? $percentage->text : $percentage->text_arabic) . '</div>';
 
-                                if ($percentage->percentage != 0) {
-                                    $diamondCount = 0;
-                                    $totalDiamonds = 100;
-                                    $coloredDiamonds = min($percentageValue, $totalDiamonds);
+                                        if ($percentage->percentage != 0) {
+                                            $diamondCount = 0;
+                                            $totalDiamonds = 100;
+                                            $coloredDiamonds = min($percentageValue, $totalDiamonds);
 
-                                    $htmlColumn .= '<div class="diamonds-grid" data-percentage-color="' . $percentageColor . '">';
-                                    for ($i = 1; $i <= 10; $i++) {
-                                        for ($j = 1; $j <= 10; $j++) {
-                                            $diamondCount++;
-                                            $isColored = $diamondCount <= $coloredDiamonds;
-                                            $diamondClass = $isColored ? 'diamond-colored' : 'diamond-default';
-                                            $diamondFillColor = $isColored ? $percentageColor : '#010101';
+                                            $htmlColumn .= '<div class="diamonds-grid" data-percentage-color="' . $percentageColor . '">';
+                                            for ($i = 1; $i <= 10; $i++) {
+                                                for ($j = 1; $j <= 10; $j++) {
+                                                    $diamondCount++;
+                                                    $isColored = $diamondCount <= $coloredDiamonds;
+                                                    $diamondClass = $isColored ? 'diamond-colored' : 'diamond-default';
+                                                    $diamondFillColor = $isColored ? $percentageColor : '#010101';
 
-                                            $htmlColumn .= '<span class="diamond-wrapper">
-                                                                <svg width="100%" height="100%" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" 
-                                                                    class="diamond-percentage ' . $diamondClass . '" 
-                                                                    data-diamond-index="' . $diamondCount . '"
-                                                                    data-is-colored="' . ($isColored ? '1' : '0') . '"
-                                                                    data-diamond-color="' . $diamondFillColor . '">
-                                                                    <rect y="153.999" width="217.787" height="217.787" transform="rotate(-45 0 153.999)" fill="' . $diamondFillColor . '"/>
-                                                                </svg>
-                                                            </span>';
+                                                    $htmlColumn .= '<span class="diamond-wrapper">
+                                                                        <svg width="100%" height="100%" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" 
+                                                                            class="diamond-percentage ' . $diamondClass . '" 
+                                                                            data-diamond-index="' . $diamondCount . '"
+                                                                            data-is-colored="' . ($isColored ? '1' : '0') . '"
+                                                                            data-diamond-color="' . $diamondFillColor . '">
+                                                                            <rect y="153.999" width="217.787" height="217.787" transform="rotate(-45 0 153.999)" fill="' . $diamondFillColor . '"/>
+                                                                        </svg>
+                                                                    </span>';
+                                                }
+                                                $htmlColumn .= '<br />';
+                                            }
+                                            $htmlColumn .= '</div>';
                                         }
-                                        $htmlColumn .= '<br />';
+
+                                        $htmlColumn .= '</div>';
+                                        $percentageIndex++;
                                     }
-                                    $htmlColumn .= '</div>';
+
+                                $htmlColumn .= '</div>
+
+                            </div>
+                        </div>
+                    </div>';
+                }
+
+                $htmlColumn .= '<div class="verticalLine"></div>
+
+                </div>
+
+            </div>
+
+        </div>';
+
+        $htmlColumn .= '<script>
+            (function() {
+                document.addEventListener("DOMContentLoaded", function() {
+                    
+                    const timelineWrappers = document.querySelectorAll(".timeline-percentages-wrapper");
+                    
+                    timelineWrappers.forEach(function(wrapper) {
+                        const percentageColumns = wrapper.querySelectorAll(".percentage-column");
+                        
+                        if (percentageColumns.length === 0) return;
+                        
+                        let currentIndex = 0;
+                        
+                        function resetDiamondsToBlack(column) {
+                            const allDiamonds = column.querySelectorAll(".diamond-percentage rect");
+                            allDiamonds.forEach(function(rect) {
+                                rect.setAttribute("fill", "#010101");
+                            });
+                        }
+                        
+                        function lightUpDiamondsSequentially(column) {
+                            const diamondsGrid = column.querySelector(".diamonds-grid");
+                            if (!diamondsGrid) return;
+                            
+                            const color = diamondsGrid.getAttribute("data-percentage-color") || "#010101";
+                            const coloredDiamonds = column.querySelectorAll(".diamond-percentage[data-is-colored=\"1\"]");
+                            const defaultDiamonds = column.querySelectorAll(".diamond-percentage[data-is-colored=\"0\"]");
+                            
+                            const lightGrey = "#EEEEEE";
+                            
+                            resetDiamondsToBlack(column);
+                            
+                            
+                            coloredDiamonds.forEach(function(diamond, index) {
+                                const rect = diamond.querySelector("rect");
+                                if (rect) {
+                                    setTimeout(function() {
+                                        rect.setAttribute("fill", color);
+                                    }, index * 10); 
                                 }
-
-                                $htmlColumn .= '</div>';
-                                $percentageIndex++;
-                            }
-
-                        $htmlColumn .= '</div>
-
-                    </div>
-                </div>
-            </div>';
-        }
-
-        $htmlColumn .= '<div class="verticalLine"></div>
-
-                    </div>
-
-                </div>
-
-            </div>';
-
-        $htmlColumn .= '
-            <script>
-                (function() {
-                    document.addEventListener("DOMContentLoaded", function() {
+                            });
+                            
+                            
+                            const delayAfterColored = coloredDiamonds.length * 10;
+                            defaultDiamonds.forEach(function(diamond, index) {
+                                const rect = diamond.querySelector("rect");
+                                if (rect) {
+                                    setTimeout(function() {
+                                        rect.setAttribute("fill", lightGrey);
+                                    }, delayAfterColored + (index * 5)); 
+                                }
+                            });
+                        }
                         
-                        const timelineWrappers = document.querySelectorAll(".timeline-percentages-wrapper");
                         
-                        timelineWrappers.forEach(function(wrapper) {
-                            const percentageColumns = wrapper.querySelectorAll(".percentage-column");
+                        function showNextColumn() {
+                            const currentColumn = percentageColumns[currentIndex];
                             
-                            if (percentageColumns.length === 0) return;
                             
-                            let currentIndex = 0;
+                            currentColumn.classList.add("exiting");
                             
-                            function resetDiamondsToBlack(column) {
-                                const allDiamonds = column.querySelectorAll(".diamond-percentage rect");
-                                allDiamonds.forEach(function(rect) {
-                                    rect.setAttribute("fill", "#010101");
-                                });
-                            }
                             
-                            function lightUpDiamondsSequentially(column) {
-                                const diamondsGrid = column.querySelector(".diamonds-grid");
-                                if (!diamondsGrid) return;
+                            setTimeout(function() {
                                 
+                                currentColumn.classList.add("d-none");
+                                currentColumn.classList.remove("active", "exiting");
+                                
+                                
+                                currentIndex = (currentIndex + 1) % percentageColumns.length;
+                                
+                                const nextColumn = percentageColumns[currentIndex];
+                                
+                                
+                                const textElement = nextColumn.querySelector(".percentage-text");
+                                
+                                
+                                if (textElement) {
+                                    textElement.classList.remove("slide-up-end");
+                                    textElement.classList.add("slide-up-start");
+                                    
+                                    textElement.style.transform = "translateY(120px)";
+                                    textElement.style.opacity = "0";
+                                }
+                                
+                                
+                                nextColumn.classList.remove("d-none");
+                                nextColumn.classList.add("active", "entering");
+                                
+                            
+                                resetDiamondsToBlack(nextColumn);
+                                
+                                
+                                if (textElement) {
+                                    
+                                    void textElement.offsetHeight;
+                                    
+                                    
+                                    textElement.style.transform = "";
+                                    textElement.style.opacity = "";
+                                    
+                                    
+                                    setTimeout(function() {
+                                        textElement.classList.remove("slide-up-start");
+                                        textElement.classList.add("slide-up-end");
+                                    }, 50);
+                                }
+                                
+                                
+                                setTimeout(function() {
+                                    nextColumn.classList.remove("entering");
+                                    
+                                    
+                                    lightUpDiamondsSequentially(nextColumn);
+                                }, 100);
+                            }, 300); 
+                        }
+                        
+                        
+                        if (percentageColumns.length > 0) {
+                            const firstColumn = percentageColumns[0];
+                            firstColumn.classList.add("active");
+                            
+                            const firstText = firstColumn.querySelector(".percentage-text");
+                            if (firstText) {
+                                firstText.classList.remove("slide-up-start");
+                                firstText.classList.add("slide-up-end");
+                                
+                                firstText.style.transform = "translateY(0)";
+                                firstText.style.opacity = "1";
+                            }
+                            
+                            const diamondsGrid = firstColumn.querySelector(".diamonds-grid");
+                            if (diamondsGrid) {
                                 const color = diamondsGrid.getAttribute("data-percentage-color") || "#010101";
-                                const coloredDiamonds = column.querySelectorAll(".diamond-percentage[data-is-colored=\"1\"]");
-                                const defaultDiamonds = column.querySelectorAll(".diamond-percentage[data-is-colored=\"0\"]");
-                                
+                                const coloredDiamonds = firstColumn.querySelectorAll(".diamond-percentage[data-is-colored=\"1\"]");
+                                const defaultDiamonds = firstColumn.querySelectorAll(".diamond-percentage[data-is-colored=\"0\"]");
                                 const lightGrey = "#EEEEEE";
                                 
-                                resetDiamondsToBlack(column);
-                                
-                               
-                                coloredDiamonds.forEach(function(diamond, index) {
+                                coloredDiamonds.forEach(function(diamond) {
                                     const rect = diamond.querySelector("rect");
                                     if (rect) {
-                                        setTimeout(function() {
-                                            rect.setAttribute("fill", color);
-                                        }, index * 10); 
+                                        rect.setAttribute("fill", color);
                                     }
                                 });
                                 
-                               
-                                const delayAfterColored = coloredDiamonds.length * 10;
-                                defaultDiamonds.forEach(function(diamond, index) {
+                                defaultDiamonds.forEach(function(diamond) {
                                     const rect = diamond.querySelector("rect");
                                     if (rect) {
-                                        setTimeout(function() {
-                                            rect.setAttribute("fill", lightGrey);
-                                        }, delayAfterColored + (index * 5)); 
+                                        rect.setAttribute("fill", lightGrey);
                                     }
                                 });
                             }
-                            
-                            
-                            function showNextColumn() {
-                                const currentColumn = percentageColumns[currentIndex];
-                                
-                                
-                                currentColumn.classList.add("exiting");
-                                
-                               
-                                setTimeout(function() {
-                                    
-                                    currentColumn.classList.add("d-none");
-                                    currentColumn.classList.remove("active", "exiting");
-                                    
-                                  
-                                    currentIndex = (currentIndex + 1) % percentageColumns.length;
-                                    
-                                    const nextColumn = percentageColumns[currentIndex];
-                                    
-                                  
-                                    const textElement = nextColumn.querySelector(".percentage-text");
-                                    
-                                    
-                                    if (textElement) {
-                                        textElement.classList.remove("slide-up-end");
-                                        textElement.classList.add("slide-up-start");
-                                       
-                                        textElement.style.transform = "translateY(120px)";
-                                        textElement.style.opacity = "0";
-                                    }
-                                    
-                                   
-                                    nextColumn.classList.remove("d-none");
-                                    nextColumn.classList.add("active", "entering");
-                                    
-                               
-                                    resetDiamondsToBlack(nextColumn);
-                                    
-                                    
-                                    if (textElement) {
-                                        
-                                        void textElement.offsetHeight;
-                                        
-                                       
-                                        textElement.style.transform = "";
-                                        textElement.style.opacity = "";
-                                        
-                                       
-                                        setTimeout(function() {
-                                            textElement.classList.remove("slide-up-start");
-                                            textElement.classList.add("slide-up-end");
-                                        }, 50);
-                                    }
-                                    
-                                  
-                                    setTimeout(function() {
-                                        nextColumn.classList.remove("entering");
-                                        
-                                        
-                                        lightUpDiamondsSequentially(nextColumn);
-                                    }, 100);
-                                }, 300); 
-                            }
-                            
-                            
-                            if (percentageColumns.length > 0) {
-                                const firstColumn = percentageColumns[0];
-                                firstColumn.classList.add("active");
-                               
-                                const firstText = firstColumn.querySelector(".percentage-text");
-                                if (firstText) {
-                                    firstText.classList.remove("slide-up-start");
-                                    firstText.classList.add("slide-up-end");
-                                    
-                                    firstText.style.transform = "translateY(0)";
-                                    firstText.style.opacity = "1";
-                                }
-                               
-                                const diamondsGrid = firstColumn.querySelector(".diamonds-grid");
-                                if (diamondsGrid) {
-                                    const color = diamondsGrid.getAttribute("data-percentage-color") || "#010101";
-                                    const coloredDiamonds = firstColumn.querySelectorAll(".diamond-percentage[data-is-colored=\"1\"]");
-                                    const defaultDiamonds = firstColumn.querySelectorAll(".diamond-percentage[data-is-colored=\"0\"]");
-                                    const lightGrey = "#EEEEEE";
-                                    
-                                    coloredDiamonds.forEach(function(diamond) {
-                                        const rect = diamond.querySelector("rect");
-                                        if (rect) {
-                                            rect.setAttribute("fill", color);
-                                        }
-                                    });
-                                    
-                                    defaultDiamonds.forEach(function(diamond) {
-                                        const rect = diamond.querySelector("rect");
-                                        if (rect) {
-                                            rect.setAttribute("fill", lightGrey);
-                                        }
-                                    });
-                                }
-                            }
-                            
-                            if (percentageColumns.length > 1) {
-                                setInterval(showNextColumn, 5000);
-                            }
-                        });
+                        }
+                        
+                        if (percentageColumns.length > 1) {
+                            setInterval(showNextColumn, 5000);
+                        }
                     });
-                })();
-            </script>';
+                });
+            })();
+        </script>';
     }
 
     return $htmlColumn;
 }
 
 
-function ViewAccordion($section_column_id, $language = 'EN')
+function ViewAccordion($section_column_id)
 {
 
     $htmlColumn = '';
@@ -770,14 +786,14 @@ function ViewAccordion($section_column_id, $language = 'EN')
                     
                     $htmlColumn .= '<div class="accordion-item mb-2' . $openClass . '">
                         <div class="'.$accordionHeader.'">
-                            <div class="accordion-title medium black ABCDiatypeMedium">' . $accordion->title . '</div>
+                            <div class="accordion-title medium black ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $accordion->title : $accordion->title_arabic) . '</div>
                             <div class="accordion-arrow ' . $hiddenArrow . '">
                                 <img src="' . asset('frontend/images/arrow-down.png') . '" alt="" width="30" height="30" />
                             </div>
                         </div>
                         <div class="accordion-collapse">
                             <div class="accordion-inner">
-                                <div class="accordion-text small black">' . $accordion->text . '</div>
+                                <div class="accordion-text small black">' . (app()->getLocale() == 'en' ? $accordion->text : $accordion->text_arabic) . '</div>
                             </div>
                         </div>
                     </div>';
@@ -804,7 +820,7 @@ function ViewAccordion($section_column_id, $language = 'EN')
 }
 
 
-function ViewCountdown($section_column_id, $language = 'EN')
+function ViewCountdown($section_column_id)
 {
 
     $htmlColumn = '';
@@ -845,19 +861,19 @@ function ViewCountdown($section_column_id, $language = 'EN')
 
             $htmlColumn .= '<div class="coutdown">
                     
-                <div class="big black ABCDiatypeMedium text-center">' . $countdown->title . '</div>
+                <div class="big black ABCDiatypeMedium text-center">' . (app()->getLocale() == 'en' ? $countdown->title : $countdown->title_arabic) . '</div>
 
                 <div class="row mt-5 align-items-center">
                     <div class="md:mt-4 col-12 col-lg-4 text-center md:text-end">
                         <div class="huge black ABCDiatypeMedium">' . $days . '</div>
-                        <div class="big black ABCDiatypeMedium">Day(s)</div>
+                        <div class="big black ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? 'Day(s)' : 'يوم') . '</div>
                     </div>
                     <div class="md:mt-4 col-12 col-lg-4 text-center">
-                        <a href="' . ($countdown->button_link ?? '#') . '">' . getEntryBtnShape($countdown->button_value, $countdown->button_value_arabic, $countdown->shape?->name, $countdown->shapeHover?->name, $countdown->buttonColor->code, $countdown->buttonHoverColor->code, $countdown->buttonBgColor->code, $countdown->buttonHoverBgColor->code) . '</a>
+                        <a href="  ' . (app()->getLocale() == 'en' ?  ($countdown->button_link ?? '#') :  ($countdown->button_link_arabic ?? '#')) . '">' . getEntryBtnShape($countdown->button_value, $countdown->button_value_arabic, $countdown->shape?->name, $countdown->shapeHover?->name, $countdown->buttonColor->code, $countdown->buttonHoverColor->code, $countdown->buttonBgColor->code, $countdown->buttonHoverBgColor->code) . '</a>
                     </div>
                     <div class="md:mt-4 col-12 col-lg-4 text-center md:text-start">
                         <div class="huge black ABCDiatypeMedium">' . @$hours . '</div>
-                        <div class="big black ABCDiatypeMedium">Hour(s)</div>
+                        <div class="big black ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? 'Hour(s)' : 'ساعة') . '</div>
                     </div>
                 </div>
                 
@@ -873,7 +889,7 @@ function ViewCountdown($section_column_id, $language = 'EN')
 }
 
 
-function ViewExpandingText($section_column_id, $language = 'EN')
+function ViewExpandingText($section_column_id)
 {
 
     $htmlColumn = '';
@@ -897,7 +913,7 @@ function ViewExpandingText($section_column_id, $language = 'EN')
         foreach ($column->expandingTexts as $expandingText) {
 
             $htmlColumn .= '<div class="expandingText clickable mb-3 bigger black ABCDiatypeMedium ' . ($expandingText->visible == '1' ? '' : 'hiddenText d-none') . '" data-expanding-block>';
-            $htmlColumn .= '<span class="expandingText-inner bigger black ABCDiatypeMedium">' . $expandingText->text . '</span>';
+            $htmlColumn .= '<span class="expandingText-inner bigger black ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $expandingText->text : $expandingText->text_arabic) . '</span>';
             $htmlColumn .= '</div>';
         }
 
@@ -947,7 +963,7 @@ function ViewExpandingText($section_column_id, $language = 'EN')
 }
 
 
-function ViewPattern($section_column_id, $language = 'EN')
+function ViewPattern($section_column_id)
 {
 
     $htmlColumn = '';
@@ -982,7 +998,9 @@ function ViewPattern($section_column_id, $language = 'EN')
                         if ($style === 1 || $style === 2) {
                             $hasAnimatedPatterns = true;
                         }
-                        $displayText = (strtoupper($language) === 'AR' && !empty($text_arabic)) ? $text_arabic : $text;
+
+                        $displayText = app()->getLocale() == 'en' ?  $text :$text_arabic;                        
+
                         $displayText = $displayText ?? '';
                         $displayText = strip_tags($displayText, '<p><br><strong><em><b><i><a><ul><ol><li><span>');
 
@@ -1102,43 +1120,47 @@ function ViewPattern($section_column_id, $language = 'EN')
 
 function getEntryTitle($entry)
 {
+    $isArabic = app()->getLocale() != 'en';
+    
     if ($entry->type_id == 1) {
-        return $entry->event_title;
+        return $isArabic && !empty($entry->event_title_arabic) ? $entry->event_title_arabic : $entry->event_title;
     } else if ($entry->type_id == 2) {
-        return $entry->program_title;
+        return $isArabic && !empty($entry->program_title_arabic) ? $entry->program_title_arabic : $entry->program_title;
     } else if ($entry->type_id == 3) {
-        return $entry->project_title;
+        return $isArabic && !empty($entry->project_title_arabic) ? $entry->project_title_arabic : $entry->project_title;
     } else if ($entry->type_id == 4) {
-        return $entry->grantee_name;
+        return $isArabic && !empty($entry->grantee_name_arabic) ? $entry->grantee_name_arabic : $entry->grantee_name;
     } else if ($entry->type_id == 5) {
-        return $entry->jury_name;
+        return $isArabic && !empty($entry->jury_name_arabic) ? $entry->jury_name_arabic : $entry->jury_name;
     } else if ($entry->type_id == 6) {
-        return $entry->resource_title;
+        return $isArabic && !empty($entry->resource_title_arabic) ? $entry->resource_title_arabic : $entry->resource_title;
     } else if ($entry->type_id == 7) {
-        return $entry->news_title;
+        return $isArabic && !empty($entry->news_title_arabic) ? $entry->news_title_arabic : $entry->news_title;
     } else if ($entry->type_id == 8) {
-        return $entry->external_title;
+        return $isArabic && !empty($entry->external_title_arabic) ? $entry->external_title_arabic : $entry->external_title;
     }
 }
 
 function getEntryText($entry)
 {
+    $isArabic = app()->getLocale() != 'en';
+    
     if ($entry->type_id == 1) {
-        return $entry->event_text;
+        return $isArabic && !empty($entry->event_text_arabic) ? $entry->event_text_arabic : $entry->event_text;
     } else if ($entry->type_id == 2) {
-        return $entry->program_text;
+        return $isArabic && !empty($entry->program_text_arabic) ? $entry->program_text_arabic : $entry->program_text;
     } else if ($entry->type_id == 3) {
-        return $entry->project_text;
+        return $isArabic && !empty($entry->project_text_arabic) ? $entry->project_text_arabic : $entry->project_text;
     } else if ($entry->type_id == 4) {
-        return $entry->grantee_text;
+        return $isArabic && !empty($entry->grantee_text_arabic) ? $entry->grantee_text_arabic : $entry->grantee_text;
     } else if ($entry->type_id == 5) {
-        return $entry->jury_text;
+        return $isArabic && !empty($entry->jury_text_arabic) ? $entry->jury_text_arabic : $entry->jury_text;
     } else if ($entry->type_id == 6) {
-        return $entry->resource_text;
+        return $isArabic && !empty($entry->resource_text_arabic) ? $entry->resource_text_arabic : $entry->resource_text;
     } else if ($entry->type_id == 7) {
-        return $entry->news_text;
+        return $isArabic && !empty($entry->news_text_arabic) ? $entry->news_text_arabic : $entry->news_text;
     } else if ($entry->type_id == 8) {
-        return $entry->external_text;
+        return $isArabic && !empty($entry->external_text_arabic) ? $entry->external_text_arabic : $entry->external_text;
     }
 }
 
@@ -1148,7 +1170,7 @@ function getEntryLabels($entry)
     $labels = [];
     if ($entry->type_id == 1) {
 
-        $labels[] = $entry->eventCategory?->name;
+        $labels[] = app()->getLocale() == 'en' ? $entry->eventCategory?->name : $entry->eventCategory?->name_arabic;
 
         if ($entry->event_start_date != null) {
             $from_to_date = date('d M Y', strtotime($entry->event_start_date));
@@ -1208,13 +1230,16 @@ function getEntryLabels($entry)
         foreach ($categories as $category) {
             $labels[] = $category;
         }
-        $labels[] = $entry->granteeCountry?->name;
+        $labels[] = app()->getLocale() == 'en' ? $entry->granteeCountry?->name : $entry->granteeCountry?->name_arabic;
     } else if ($entry->type_id == 5) {
-        $labels[] = $entry->juryCountry?->name;
+        $labels[] = app()->getLocale() == 'en' ? $entry->juryCountry?->name : $entry->juryCountry?->name_arabic;
     } else if ($entry->type_id == 6) {
-        $labels[] = $entry->resourceCategory?->name;
+        $labels[] = app()->getLocale() == 'en' ? $entry->resourceCategory?->name : $entry->resourceCategory?->name_arabic;
         $labels[] = date('d M Y', strtotime($entry->resource_date));
-        $tags = explode(",", $entry->resource_tags);
+
+        $tags =  app()->getLocale() == 'en' ? $entry->resource_tags : $entry->resource_tags_arabic;
+        $tags = explode(",", $tags); 
+        
         foreach ($tags as $tag) {
             if ($tag) {
                 $labels[] = $tag;
@@ -1223,7 +1248,7 @@ function getEntryLabels($entry)
     } else if ($entry->type_id == 7) {
         $labels[] = date('d M Y', strtotime($entry->news_date));
     } else if ($entry->type_id == 8) {
-        $labels[] = $entry->externalCategory?->name;
+        $labels[] = app()->getLocale() == 'en' ? $entry->externalCategory?->name : $entry->externalCategory?->name_arabic;
         $labels[] = date('d M Y', strtotime($entry->external_date));
     }
 
@@ -2129,57 +2154,58 @@ function getEntryDetails($collection_type_id, $entry)
 {
 
     $entryDetails = [];
+    $isArabic = app()->getLocale() != 'en';
 
     if ($collection_type_id == 1) {
-        $entry_title = $entry->event_title ?? '';
-        $entry_text = $entry->event_text;
+        $entry_title = getEntryTitle($entry);
+        $entry_text = getEntryText($entry);
         $entry_href = route('entry.view', ['entryType' => 'event', 'id' => $entry->id]);
         $entry_target = '';
     } else if ($collection_type_id == 2) {
-        $entry_title = $entry->program_title;
-        $entry_text = $entry->program_text;
+        $entry_title = getEntryTitle($entry);
+        $entry_text = getEntryText($entry);
         $entry_href = route('entry.view', ['entryType' => 'program', 'id' => $entry->id]);
         $entry_target = '';
     } else if ($collection_type_id == 3) {
-        $entry_title = $entry->project_title;
-        $entry_text = $entry->project_text;
+        $entry_title = getEntryTitle($entry);
+        $entry_text = getEntryText($entry);
         $entry_href = route('entry.view', ['entryType' => 'project', 'id' => $entry->id]);
         $entry_target = '';
     } else if ($collection_type_id == 4) {
-        $entry_title = $entry->grantee_name;
-        $entry_text = $entry->grantee_text;
+        $entry_title = getEntryTitle($entry);
+        $entry_text = getEntryText($entry);
         $entry_href = route('entry.view', ['entryType' => 'grantee', 'id' => $entry->id]);
         $entry_target = '';
     } else if ($collection_type_id == 5) {
-        $entry_title = $entry->jury_name;
-        $entry_text = $entry->jury_text;
+        $entry_title = getEntryTitle($entry);
+        $entry_text = getEntryText($entry);
         $entry_href = route('entry.view', ['entryType' => 'juror', 'id' => $entry->id]);
         $entry_target = '';
     } else if ($collection_type_id == 6) {
-        $entry_title = $entry->resource_title;
-        $entry_text = $entry->resource_text;
+        $entry_title = getEntryTitle($entry);
+        $entry_text = getEntryText($entry);
         $entry_href = route('entry.view', ['entryType' => 'resource', 'id' => $entry->id]);
         $entry_target = '';
     } else if ($collection_type_id == 7) {
-        $entry_title = $entry->news_title;
-        $entry_text = $entry->news_text;
+        $entry_title = getEntryTitle($entry);
+        $entry_text = getEntryText($entry);
         $entry_href = route('entry.view', ['entryType' => 'news', 'id' => $entry->id]);
         $entry_target = '';
     } else if ($collection_type_id == 8) {
-        $entry_title = $entry->external_title;
-        $entry_text = $entry->external_text;
+        $entry_title = getEntryTitle($entry);
+        $entry_text = getEntryText($entry);
         $entry_href = $entry->external_link;
         $entry_target = '_blank';
     } else if ($collection_type_id == 9) {
-        $entry_title = $entry->team_name;
-        $entry_position = $entry->team_position;
-        $entry_text = $entry->team_text;
+        $entry_title = $isArabic && !empty($entry->team_name_arabic) ? $entry->team_name_arabic : $entry->team_name;
+        $entry_position = $isArabic && !empty($entry->team_position_arabic) ? $entry->team_position_arabic : $entry->team_position;
+        $entry_text = $isArabic && !empty($entry->team_text_arabic) ? $entry->team_text_arabic : $entry->team_text;
         $entry_href = '';
         $entry_target = '';
     } else if ($collection_type_id == 10) {
-        $entry_title = $entry->board_name;
-        $entry_position = $entry->board_position;
-        $entry_text = $entry->board_text;
+        $entry_title = $isArabic && !empty($entry->board_name_arabic) ? $entry->board_name_arabic : $entry->board_name;
+        $entry_position = $isArabic && !empty($entry->board_position_arabic) ? $entry->board_position_arabic : $entry->board_position;
+        $entry_text = $isArabic && !empty($entry->board_text_arabic) ? $entry->board_text_arabic : $entry->board_text;
         $entry_href = '';
         $entry_target = '';
     }
