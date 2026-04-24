@@ -389,7 +389,7 @@ class HomeController extends Controller
                             if( ($show_name==1 || $show_view_all==1) && $featured_width=='74.3%' && $key==0){
                                 $html.='<div class="featured_title_view_all">';
                                     if($show_name==1){
-                                        $html.='<div class="black big ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $entry->$collection->name : $entry->{$collection->name . '_arabic'}) . '</div>';
+                                        $html.='<div class="black big ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $entry->{$collection->name} : $entry->{$collection->name . '_arabic'}) . '</div>';
                                     }
                                     if($show_view_all==1){
                                         $html.='<div class="mt-3">
@@ -508,9 +508,15 @@ class HomeController extends Controller
                                     .sliderCollection .entries .entry:nth-child(4n){';
                                         if(app()->getLocale()=='en'){$html.='margin-right:1.2% !important;';}
                                         else if(app()->getLocale()=='ar'){$html.='margin-left:1.2% !important;';}
-                                    $html.='}
-                                }
-                            </style>';
+                                    $html.='}';
+                                    if(app()->getLocale()=='ar'){
+                                        $html.='@media (min-width:1000px){
+                                            .collection .entries .entry{
+                                                margin-left:1.2% !important;
+                                            }
+                                        }';
+                                    }
+                            $html.='</style>';
 
                             $html.='<div class="swiper gallery" id="swiper'.$collection_id.'" style="width:102.5%; padding-bottom:15px;">
                                 <div class="swiper-wrapper">';
