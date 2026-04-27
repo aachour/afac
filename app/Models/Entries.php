@@ -45,18 +45,36 @@ class Entries extends Model
 
     public function projectCategories(array $ids)
     {
-        return ProjectCategories::whereIn(
-            'id',
-            $ids ?? []
-        )->pluck('name');
+        if (app()->getLocale() == 'en') 
+        {
+            return ProjectCategories::whereIn(
+                'id',
+                $ids ?? []
+            )->pluck('name');
+        }else
+        {
+            return ProjectCategories::whereIn(
+                'id',
+                $ids ?? []
+            )->pluck('name_arabic');
+        }
     }
 
     public function projectCategoriesName(array $ids)
     {
-        return ProjectCategories::whereIn(
-            'id',
-            $ids ?? []
-        )->pluck('name');
+        if (app()->getLocale() == 'en') 
+        {
+            return ProjectCategories::whereIn(
+                'id',
+                $ids ?? []
+            )->pluck('name');
+        } else 
+        {
+            return ProjectCategories::whereIn(
+                'id',
+                $ids ?? []
+            )->pluck('name_arabic');
+        }
     }
 
     public function projectCountries(array|string|null $ids)
@@ -70,10 +88,19 @@ class Entries extends Model
             $ids = explode(',', $ids);
         }
         
-        return Countries::whereIn(
-        'id',
-            $ids ?? []
-        )->pluck('name');
+        if (app()->getLocale() == 'en') 
+        {
+            return Countries::whereIn(
+                'id',
+                    $ids ?? []
+                )->pluck('name');
+        } else 
+        {
+            return Countries::whereIn(
+            'id',
+                $ids ?? []
+            )->pluck('name_arabic');
+        }
     }
 
 
@@ -114,10 +141,19 @@ class Entries extends Model
 
     public function granteeCategories(array $ids)
     {
-        return GranteeCategories::whereIn(
-        'id',
-            $ids ?? []
-        )->pluck('name');
+        if (app()->getLocale() == 'en') 
+        {
+            return GranteeCategories::whereIn(
+                'id',
+                    $ids ?? []
+                )->pluck('name');
+        } else 
+        {
+            return GranteeCategories::whereIn(
+            'id',
+                $ids ?? []
+            )->pluck('name_arabic');
+        }
     }
 
     public function granteeCountry()
