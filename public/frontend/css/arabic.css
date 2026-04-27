@@ -64,19 +64,19 @@ html[dir="rtl"] body {
 }
 @media(min-width:1000px){
     .huge{
-        line-height: 110% !important;
+        line-height: 120% !important;
         letter-spacing: -4% !important;
     }
     .bigger{
-        line-height: 130% !important;
+        line-height: 135% !important;
         letter-spacing: -4% !important;
     }
     .big , h1{
-        line-height: 120% !important;
+        line-height: 130% !important;
         letter-spacing: -3% !important;
     }
     .medium , h2{
-        line-height: 110% !important;
+        line-height: 120% !important;
         letter-spacing: -3% !important;
     }
     .small , h3 , .tiny , p , li , .micro , ol{
