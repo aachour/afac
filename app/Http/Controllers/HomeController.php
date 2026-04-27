@@ -430,6 +430,7 @@ class HomeController extends Controller
                                             'entry_href' => $entry_href,
                                             'entry_target' => $entry_target,
                                             'button_text' => $button_text,
+                                            'button_text_arabic' => $button_text_arabic,
                                             'button_bg_color' => $button_bg_color,
                                             'featured' => '1',
                                         ])->render();
