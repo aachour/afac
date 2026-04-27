@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/elements.css') }}?v=15">
     
     @if(app()->getLocale()=='ar')
-    <link rel="stylesheet" href="{{asset('frontend/css/arabic.css')}}?v=3" />
+    <link rel="stylesheet" href="{{asset('frontend/css/arabic.css')}}?v=4" />
     @endif
 
     <!-- JS -->
