@@ -10,9 +10,13 @@
         $key = strtolower(preg_replace('/\s+/', '', trim((string) ($le->name ?? ''))));
         if ($key === '') continue;
         $key = str_replace('diamond', 'diamon', $key);
+        $text= (string) ($le->text ?? '');
+        if(app()->getLocale()=='ar')        {
+            $text= (string) ($le->text_arabic ?? '');
+        }
+            
         $logoConfig[$key] = [
-            'text' => (string) ($le->text ?? ''),
-            'text_arabic' => (string) ($le->text_arabic ?? ''),
+            'text' => $text,
             'status' => (int) ($le->status ?? 0),
         ];
     }

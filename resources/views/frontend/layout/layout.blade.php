@@ -50,7 +50,7 @@
             </div>
             <div class="topSpacer menuBtn tiny ABCDiatypeMedium clickable" id="menuBtn">Menu</div>
             <div class="topSpacer langBtn tiny ABCDiatypeMedium">
-                <span class="clickable" onclick="setLang('en')">EN</span>/<span class="clickable" onclick="setLang('ar')">AR</span>
+                <span class="tiny clickable" onclick="setLang('en')">EN</span>/<span class="tiny clickable" onclick="setLang('ar')">AR</span>
             </div>
             <div class="clear"></div>
         </div>
