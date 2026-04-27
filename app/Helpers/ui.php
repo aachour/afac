@@ -256,40 +256,40 @@ function ViewCollection($collection_id)
 
     $html .= '<script>
 
-            function getFilteredEntries(collection_id,filters=""){
+        function getFilteredEntries(collection_id,filters=""){
 
-                $("#collectionEntries-"+collection_id).empty();
-                var entries_id=$("#collection_"+collection_id).attr("entries_id");
-                entries_id.split(",");
-                
-                $("#loader-"+collection_id).removeClass("d-none");
-                $.ajax({
-                    url: "' . route('get.entries') . '",
-                    method: "POST",
-                    data: {
-                        collection_id: collection_id,
-                        entries_id: entries_id,
-                        filters: filters,
-                    },
-                    success: function(response) {
-                        $("#loader-"+collection_id).addClass("d-none");
-                        $("#collectionEntries-"+collection_id).html(response);
-                    },
-                    error: function(xhr) {
-                        if(xhr.responseJSON && xhr.responseJSON.errors){
-                            alert(JSON.stringify(xhr.responseJSON.errors));
-                        }
+            $("#collectionEntries-"+collection_id).empty();
+            var entries_id=$("#collection_"+collection_id).attr("entries_id");
+            entries_id.split(",");
+            
+            $("#loader-"+collection_id).removeClass("d-none");
+            $.ajax({
+                url: "' . route('get.entries') . '",
+                method: "POST",
+                data: {
+                    collection_id: collection_id,
+                    entries_id: entries_id,
+                    filters: filters,
+                },
+                success: function(response) {
+                    $("#loader-"+collection_id).addClass("d-none");
+                    $("#collectionEntries-"+collection_id).html(response);
+                },
+                error: function(xhr) {
+                    if(xhr.responseJSON && xhr.responseJSON.errors){
+                        alert(JSON.stringify(xhr.responseJSON.errors));
                     }
-                });
-            }
-
-            $(document).ready(function(){ 
-                let collection_id= ' . $collection_id . '; 
-                getFilteredEntries(collection_id);
-                
+                }
             });
+        }
 
-        </script>';
+        $(document).ready(function(){ 
+            let collection_id= ' . $collection_id . '; 
+            getFilteredEntries(collection_id);
+            
+        });
+
+    </script>';
 
     return $html;
 }

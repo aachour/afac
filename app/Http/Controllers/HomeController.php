@@ -204,6 +204,7 @@ class HomeController extends Controller
         $view_all_title_arabic=$collection->view_all_title_arabic;
         $view_all_link=$collection->view_all_link;
         $button_text=$collection->button_text;
+        $button_text_arabic=$collection->button_text_arabic;
         $button_bg_color=$collection->buttonBgColor?->code;
         $entries_selection=$collection->entries_selection;
         $entries_per_row=$collection->entries_per_row;
@@ -343,6 +344,7 @@ class HomeController extends Controller
                                     'collection_type_id' => $collection_type_id,
                                     'labels' => $labels,
                                     'button_text'=>$button_text,
+                                    'button_text_arabic'=>$button_text_arabic,
                                     'button_bg_color'=>$button_bg_color,
                                     'featured'=>'0',
                                 ])->render();
@@ -562,6 +564,7 @@ class HomeController extends Controller
                                     'collection_type_id' => $collection_type_id,
                                     'labels' => $labels,
                                     'button_text'=>$button_text,
+                                    'button_text_arabic'=>$button_text_arabic,
                                     'button_bg_color'=>$button_bg_color,
                                     'featured'=>'0',
                                     'event_category_name'=>$entry->eventCategory?->name,
