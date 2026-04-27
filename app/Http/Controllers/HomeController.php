@@ -512,7 +512,7 @@ class HomeController extends Controller
                                     if(app()->getLocale()=='ar'){
                                         $html.='@media (min-width:1000px){
                                             .collection .entries .entry{
-                                                margin-left:1.2% !important;
+                                                margin-left:2% !important;
                                             }
                                         }';
                                     }
