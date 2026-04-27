@@ -39,7 +39,7 @@
             <!-- Shape that morphs from diamond to circle -->
             <rect class="diamond-circle-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="0" fill="{{$bg_color}}"/>
             <!-- Text inside -->
-            <text class="diamond-circle-donate-text medium ABCDiatypeMedium" x="154" y="168" text-anchor="middle">{{ $value }}</text>
+            <text class="diamond-circle-donate-text medium ABCDiatypeMedium" x="154" y="168" text-anchor="middle">{{ app()->getLocale() == 'en' ? $value : $value_arabic }}
         </svg>
     </div>
 </div>

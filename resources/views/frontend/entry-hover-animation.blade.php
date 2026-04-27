@@ -118,16 +118,16 @@
         </g>
 
         <!-- Text inside diamond - not rotated, centered -->
-        <text class="card-hover-animation-text" x="{{ $center }}"
+        <text class="card-hover-animation-text ABCDiatypeMedium" x="{{ $center }}"
             y="{{ $center - $config['lineHeight'] * 0.4 }}" fill="{{ $textColor }}"
-            font-family="Arial, sans-serif" font-size="{{ $config['fontSize'] }}" font-weight="bold"
+            font-size="{{ $config['fontSize'] }}"
             text-anchor="middle" dominant-baseline="central">
             {{ $line1 }}
         </text>
         @if ($line2)
-            <text class="card-hover-animation-text" x="{{ $center }}"
+            <text class="card-hover-animation-text ABCDiatypeMedium" x="{{ $center }}"
                 y="{{ $center + $config['lineHeight'] * 0.6 }}" fill="{{ $textColor }}"
-                font-family="Arial, sans-serif" font-size="{{ $config['fontSize'] }}" font-weight="bold"
+                font-size="{{ $config['fontSize'] }}" 
                 text-anchor="middle" dominant-baseline="central">
                 {{ $line2 }}
             </text>

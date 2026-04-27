@@ -39,7 +39,7 @@
             <!-- Shape that morphs from circle to square -->
             <rect class="circle-square-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="108.8935" fill="{{$bg_color}}"/>
             <!-- Text inside -->
-            <text class="circle-square-donate-text medium ABCDiatypeMedium" x="154" y="168"  text-anchor="middle">{{ $value }}</text>
+            <text class="circle-square-donate-text medium ABCDiatypeMedium" x="154" y="168"  text-anchor="middle">{{ app()->getLocale() == 'en' ? $value : $value_arabic }}</text>
         </svg>
     </div>
 </div>
