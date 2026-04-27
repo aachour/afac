@@ -371,6 +371,7 @@
                         if (placeholder && placeholder.parentNode) {
                             placeholder.parentNode.removeChild(placeholder);
                         }
+                        document.dispatchEvent(new CustomEvent('animatedLogo:minimized'));
                     }
                 });
             });
