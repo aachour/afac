@@ -1,5 +1,10 @@
 @php
-    $text = $button_text ?? 'Press Here';
+    $text = $button_text ?: 'Press Here';
+    if(app()->isLocale('ar')) 
+    {
+        $text = $button_text_arabic ?: 'اضغط هنا';
+    } 
+
     $size = $size ?? 'medium';
     $button_bg_color = $button_bg_color ?? '#E3F2FD';
     $textColor = $textColor ?? '#010101';
