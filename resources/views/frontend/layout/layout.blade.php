@@ -66,7 +66,7 @@
                     <img src="{{asset('frontend/images/circle-shape.svg')}}" width="40" class="desktopOnly" />
                     <img src="{{asset('frontend/images/circle-shape.svg')}}" width="30" class="mobileOnly" />
                 </span>
-                <span class="menu-item-text bigger leftSpacer">Home</span>
+                <span class="menu-item-text bigger leftSpacer">@if(app()->getLocale() == 'ar') الرئيسية @else Home @endif</span>
             </a>
         </div>
         <div class="mt-3 menu-item-row">
@@ -75,7 +75,7 @@
                     <img src="{{asset('frontend/images/diamond-shape.svg')}}" width="40" class="desktopOnly" />
                     <img src="{{asset('frontend/images/diamond-shape.svg')}}" width="30" class="mobileOnly" />
                 </span>
-                <span class="menu-item-text bigger leftSpacer">Supported Projects</span>
+                <span class="menu-item-text bigger leftSpacer">@if(app()->getLocale() == 'ar') المشاريع المدعومة @else Supported Projects @endif</span>
             </a>
         </div>
         
@@ -91,7 +91,7 @@
                         <img src="{{asset('frontend/images/'.$shapes[$key % count($shapes)].'.svg')}}" width="40" class="desktopOnly" />
                         <img src="{{asset('frontend/images/'.$shapes[$key % count($shapes)].'.svg')}}" width="30" class="mobileOnly" />
                     </span>
-                    <span class="menu-item-text bigger leftSpacer">{{$page->name}}</span>
+                    <span class="menu-item-text bigger leftSpacer">@if(app()->getLocale() == 'ar') {{$page->name_arabic}} @else {{$page->name}} @endif</span>
                 </a>
             </div>
         @endforeach
