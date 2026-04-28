@@ -82,25 +82,26 @@ function ViewEntryData($entry_id)
                         }
                         $html .= '</div>';
                     } else { // Resourses/News/Externals
-                        $html .= '<div class="col-12 text-center">';
+                        $html .= '<div class="col-12">';
 
-                        $html .= '<div class="mt-4 huge black ABCDiatypeMedium text-start">' . getEntryTitle($entry) . '</div>';
+                            $html .= '<div class="mt-4 huge black ABCDiatypeMedium">' . getEntryTitle($entry) . '</div>';
 
-                        $html .= '<div class="mt-4 mb-3 big black ABCDiatypeMedium text-start">';
-                            if ($entry->type_id == 6) {
-                                $html .= date('d M Y', strtotime($entry->resource_date));
-                            } else if ($entry->type_id == 7) {
-                                $html .= date('d M Y', strtotime($entry->news_date));
+                            $html .= '<div class="mt-4 mb-3 big black ABCDiatypeMedium">';
+                                if ($entry->type_id == 6) {
+                                    $html .= date('d M Y', strtotime($entry->resource_date));
+                                } else if ($entry->type_id == 7) {
+                                    $html .= date('d M Y', strtotime($entry->news_date));
+                                }
+                            $html .= '</div>';
+
+                            if ($entry->image_featured) {
+                                $html .= '<img src="' . asset('storage/' . $entry->image_full) . '" width="100%" />';
+                            } else {
+                                $html .= '<img src="' . asset('frontend/images/default-image-full.png') . '" width="100%" />';
                             }
-                        $html .= '</div>';
+                            $html .= '<div class="mt-2 mb-3 micro black">' .$entry->image_caption . '</div>
 
-                        if ($entry->image_featured) {
-                            $html .= '<img src="' . asset('storage/' . $entry->image_full) . '" width="100%" />';
-                        } else {
-                            $html .= '<img src="' . asset('frontend/images/default-image-full.png') . '" width="100%" />';
-                        }
-                        $html .= '<div class="mt-2 mb-3 micro black text-start">' . $entry->image_caption . '</div>
-                                        </div>';
+                        </div>';
                     }
                 $html .= '</div>
             </div>';
