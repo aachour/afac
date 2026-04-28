@@ -1202,11 +1202,11 @@ function getEntryLabels($entry)
 
             //only show when program already started
             if ($current >= $start_timestamp && $daysLeft > 0) {
-                $labels[] = "Open";
-                $labels[] = "Days left: " . $daysLeft;
+                $labels[] = app()->getLocale() == 'en' ? "Open" : "مفتوح";
+                $labels[] = app()->getLocale() == 'en' ? "Days left: " . $daysLeft : "الأيام المتبقية: " . $daysLeft;
             } else {
-                $labels[] = "Opens " . date('d M', $start_timestamp);
-                $labels[] = "Closes " . date('d M', $end_timestamp);
+                $labels[] = app()->getLocale() == 'en' ? "Opens " . date('d M', $start_timestamp) : "يفتح " . date('d M', $start_timestamp);
+                $labels[] = app()->getLocale() == 'en' ? "Closes " . date('d M', $end_timestamp) : "يغلق " . date('d M', $end_timestamp);
             }
         }
     } else if ($entry->type_id == 3) {
