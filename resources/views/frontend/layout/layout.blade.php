@@ -257,13 +257,22 @@
         }
 
         $(document).ready(function(){
-            
-            $("#menuBtn").click(function(){
-                $('#menu').animate({ right: '0px' }, 600); 
-            });
+            $(document).ready(function () {
+                const menuDirection = "{{ app()->getLocale() == 'en' ? 'right' : 'left' }}";
 
-            $("#closeBtn").click(function(){
-                $('#menu').animate({ right: '-100%' }, 600);
+                $("#menuBtn").on("click", function () {
+                    let animation = {};
+                    animation[menuDirection] = "0px";
+
+                    $("#menu").animate(animation, 600);
+                });
+
+                $("#closeBtn").on("click", function () {
+                    let animation = {};
+                    animation[menuDirection] = "-100%";
+
+                    $("#menu").animate(animation, 600);
+                });
             });
 
         });

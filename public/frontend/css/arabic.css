@@ -112,6 +112,20 @@ html[dir="rtl"] body {
     margin-left:30px;
 }
 
+.menu{
+    right: auto !important;
+    left: -100%;
+}
+@media(max-width:1000px){
+    .menu{
+        right: auto !important;
+        left: -100%;
+    }
+}
+.menu .closeBtn{
+    float:left !important;
+}
+
 
 .filters .filter{
     float:right !important;
