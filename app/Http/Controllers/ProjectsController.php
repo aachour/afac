@@ -251,13 +251,13 @@ class ProjectsController extends Controller
             // Pagination links
             $html .= '<div class="mt-5 pagination-wrapper pagination-wrapper-1">
                 <div class="pagination">
-                    <span class="nav-btn prev prev-1 disabled">&larr;</span>
+                    <span class="nav-btn prev prev-1 disabled">' . (app()->getLocale() == 'ar' ? '&rarr;' : '&larr;') . '</span>
                     <div class="pages" style="display:flex; gap:8px;">';
                         for ($i = 1; $i <= $totalPages; $i++) {
                             $html .= '<a href="javascript:void(0)" class="page-link page-link-1 page-item' . ($i == $page ? ' active' : '') . '" data-page="' . $i . '">' . $i . '</a>';
                         }
                     $html .= '</div>
-                    <span class="nav-btn next next-1">&rarr;</span>
+                    <span class="nav-btn next next-1">' . (app()->getLocale() == 'ar' ? '&larr;' : '&rarr;') . '</span>
                 </div>
             </div>
 
@@ -283,13 +283,13 @@ class ProjectsController extends Controller
 
             $html .= '<div class="mt-5 pagination-wrapper pagination-wrapper-2" id="pagination_grantees">
                 <div class="pagination">
-                    <span class="nav-btn prev prev-2 disabled">&larr;</span>
+                    <span class="nav-btn prev prev-2 disabled">' . (app()->getLocale() == 'ar' ? '&rarr;' : '&larr;') . '</span>
                     <div class="pages" style="display:flex; gap:8px;">';
                         for ($i = 1; $i <= $totalPages; $i++) { 
                             $html .= '<a href="javascript:void(0)" class="page-link page-link-2 page-item ' . ($i == 1 ? ' active' : '') . '" data-page="' . $i . '">' . $i . '</a>';
                         }
                     $html .= '</div>
-                    <span class="nav-btn next next-2">&rarr;</span>
+                    <span class="nav-btn next next-2">' . (app()->getLocale() == 'ar' ? '&larr;' : '&rarr;') . '</span>
                 </div>
             </div>
 
