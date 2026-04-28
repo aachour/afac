@@ -62,8 +62,7 @@ class ProjectsController extends Controller
             ->values()   // Reset keys
         ->toArray();
         
-        $project_categories = ProjectCategories::whereIn('id', $categoryIds)
-            ->pluck('name', 'id');
+        app()->getLocale() == 'en' ? $project_categories = ProjectCategories::whereIn('id', $categoryIds)->pluck('name', 'id')->toArray() : $project_categories = ProjectCategories::whereIn('id', $categoryIds)->pluck('name_arabic', 'id')->toArray();
 
         //Countries
         $countryIds = $projects
@@ -76,9 +75,7 @@ class ProjectsController extends Controller
             ->values()   // Reset keys
         ->toArray();
        
-        $project_countries = Countries::whereIn('id', $countryIds)
-            ->pluck('name', 'id')
-        ->toArray();
+        app()->getLocale() == 'en' ? $project_countries = Countries::whereIn('id', $countryIds)->pluck('name', 'id')->toArray() : $project_countries = Countries::whereIn('id', $countryIds)->pluck('name_arabic', 'id')->toArray();
 
         //Programs and Years
         $project_programs=[];
@@ -97,6 +94,8 @@ class ProjectsController extends Controller
                 $project_programs[]=[
                     'id'   => $program?->id,
                     'name' => $program?->program_title,
+                    'name_arabic' => $program?->program_title_arabic,
+                    
                 ];
             }
 
@@ -106,6 +105,7 @@ class ProjectsController extends Controller
                     //'id'   => $programYearId,
                     'id'   => $programYear->id,
                     'name' => $programYear->year,
+                    'name_arabic' => $programYear->year,
                 ];
             }
         }
@@ -144,14 +144,20 @@ class ProjectsController extends Controller
         //Get all projects numbers
         $totalProjects=Entries::WHERE('type_id','3')->WHERE('published','1')->WHERENULL('deleted_at')->count();
         
-        $html='<div id="projects_title" class="big black mt-4">You are viewing <u class="big">'.$totalEntries.'</u> of the <u class="big">'.$totalProjects.'</u> initiatives that Afac has supported.</div>';        
+        $html='<div id="projects_title" class="big black mt-4">';
+        if(app()->getLocale() == 'en'){
+            $html .= 'You are viewing <u class="big">'.$totalEntries.'</u> of the <u class="big">'.$totalProjects.'</u> initiatives that Afac has supported.';
+        } else {
+            $html .= ' تشاهد الآن <u class="big">'.$totalEntries.'</u> مبادرة من أصل <u class="big">'.$totalProjects.'</u> مبادرة دعمتها آفاق.';
+        }
+        $html .= '</div>';        
 
         $html.='<div class="mt-3 toggleContainer" >
             <label class="pill-toggle">
                 <input type="checkbox" id="granteesToggle">
                 <span class="pill micro">
                     <span class="knob"></span>
-                    <span class="text">Grantees View</span>
+                    <span class="text">';if(app()->getLocale() == "en") $html .= 'Grantees View'; else $html .= 'عرض المستفيدين'; $html .= '</span>
                 </span>
             </label>
         </div>';
@@ -209,6 +215,7 @@ class ProjectsController extends Controller
                                 'entry_type_name' => $entry->type->name,
                                 'labels' => $labels,
                                 'button_text'=>'Press',
+                                'button_text_arabic'=>'اضغط',
                                 'button_bg_color'=>'#F1F1F1',
                                 'featured'=>'0',
                                 'event_category_name'=>$entry->eventCategory?->name,
@@ -485,6 +492,7 @@ class ProjectsController extends Controller
                                 'collection_type_id' => '4',
                                 'labels' => $labels,
                                 'button_text'=>@$button_text,
+                                'button_text_arabic'=>@$button_text_arabic,
                                 'button_bg_color'=>@$button_bg_color,
                                 'featured'=>'0',
                                 'event_category_name'=>$entry->eventCategory?->name,

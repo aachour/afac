@@ -128,7 +128,7 @@ class Entries extends Model
     {
         $projectProgram=ProgramYearProjects::find($id);
 
-        return $projectProgram?->programYear?->program->program_title;
+        return app()->getLocale() == 'en' ? $projectProgram?->programYear?->program->program_title : $projectProgram?->programYear?->program->program_title_arabic;
     }
 
     public function projectProgramYear($id)
