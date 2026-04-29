@@ -386,6 +386,21 @@
     padding:20px 0px;
 }
 
+.section table,
+.section thead,
+.section tbody,
+.section tr,
+.section th,
+.section td {
+    --bs-table-bg: transparent;
+    --bs-table-accent-bg: transparent;
+    --bs-table-striped-bg: transparent;
+    --bs-table-hover-bg: transparent;
+    --bs-table-active-bg: transparent;
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
 /**********************************************************************************************************************/
 /**********************************************************************************************************************/
 /**********************************************************************************************************************/

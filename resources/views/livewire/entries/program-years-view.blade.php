@@ -144,16 +144,15 @@
 
                         <div class="modal-body">
                             <div class="mb-3" wire:ignore>
-                                <label for="juror_id" class="form-label">Juror</label>
-                                <select id="juror_id" class="form-control" style="width: 100%;">
-                                    <option value="">Select Juror</option>
+                                <label for="juror_id" class="form-label">Jurors</label>
+                                <select id="juror_id" class="form-control" style="width: 100%;" multiple>
                                     @foreach($jurors as $juror)
                                         <option value="{{ $juror->id }}">{{ $juror->jury_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
 
-                            @error('juror_id')
+                            @error('juror_ids')
                                 <div class="text-danger mt-1">{{ $message }}</div>
                             @enderror
                         </div>
@@ -356,22 +355,22 @@
                 }
 
                 $select.select2({
-                    placeholder: 'Select Juror',
+                    placeholder: 'Select Jurors',
                     allowClear: true,
                     width: '100%',
                     dropdownParent: $select.closest('.modal')
                 });
 
                 // Set current Livewire value if needed
-                const currentValue = @js($juror_id);
-                if (currentValue !== null && currentValue !== '') {
-                    $select.val(String(currentValue)).trigger('change.select2');
+                const currentValues = @js($juror_ids);
+                if (Array.isArray(currentValues) && currentValues.length > 0) {
+                    $select.val(currentValues.map(String)).trigger('change.select2');
                 }
 
                 // Sync Select2 -> Livewire
-                $select.off('select2:select select2:clear').on('select2:select select2:clear', function () {
-                    const value = $(this).val();
-                    @this.set('juror_id', value);
+                $select.off('select2:select select2:clear select2:unselect').on('select2:select select2:clear select2:unselect', function () {
+                    const values = $(this).val() || [];
+                    @this.set('juror_ids', values);
                 });
 
                 jurorSelect2Initialized = true;
