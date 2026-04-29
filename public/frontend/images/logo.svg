@@ -36,25 +36,25 @@
 <g id="animation-1" class="animated-box">
   <rect x="200" y="40" width="140" height="60" fill="#FFEB3B" stroke="#FFEB3B" stroke-width="2" rx="2"/>
   <rect x="202" y="42" width="136" height="56" fill="#010101"/>
-  <text x="270" y="65" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">Established</text>
-  <text x="270" y="82" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle">in 2007</text>
+  <text x="270" y="65" fill="#FFFFFF" class="ABCDiatypeMedium" font-size="12" font-weight="bold" text-anchor="middle">Established</text>
+  <text x="270" y="82" fill="#FFFFFF" class="ABCDiatypeMedium" font-size="12" font-weight="bold" text-anchor="middle">in 2007</text>
 </g>
 
 <!-- Animation 2: Supporting 2,000 initiatives (rightmost circle area) -->
 <g id="animation-2" class="animated-box">
   <rect x="320" y="140" width="110" height="70" fill="#FFEB3B" stroke="#FFEB3B" stroke-width="2" rx="2"/>
   <rect x="322" y="142" width="106" height="66" fill="#FFFFFF"/>
-  <text x="375" y="160" fill="#010101" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">Supporting</text>
-  <text x="375" y="175" fill="#010101" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">2,000 initiatives</text>
-  <text x="375" y="190" fill="#010101" font-family="Arial, sans-serif" font-size="10" font-weight="bold" text-anchor="middle">and counting</text>
+  <text x="375" y="160" fill="#010101" class="ABCDiatypeMedium" font-size="10" font-weight="bold" text-anchor="middle">Supporting</text>
+  <text x="375" y="175" fill="#010101" class="ABCDiatypeMedium" font-size="10" font-weight="bold" text-anchor="middle">2,000 initiatives</text>
+  <text x="375" y="190" fill="#010101" class="ABCDiatypeMedium" font-size="10" font-weight="bold" text-anchor="middle">and counting</text>
 </g>
 
 <!-- Animation 3: Based in Beirut (bottom-left) -->
 <g id="animation-3" class="animated-box">
   <rect x="5" y="180" width="100" height="45" fill="#FFEB3B" stroke="#FFEB3B" stroke-width="2" rx="2"/>
   <rect x="7" y="182" width="96" height="41" fill="#FFFFFF"/>
-  <text x="10" y="200" fill="#010101" font-family="Arial, sans-serif" font-size="11" font-weight="bold">Based</text>
-  <text x="10" y="215" fill="#010101" font-family="Arial, sans-serif" font-size="11" font-weight="bold">in Beirut</text>
+  <text x="10" y="200" fill="#010101" class="ABCDiatypeMedium" font-size="11" font-weight="bold">Based</text>
+  <text x="10" y="215" fill="#010101" class="ABCDiatypeMedium" font-size="11" font-weight="bold">in Beirut</text>
 </g>
 </g>
 </svg>
