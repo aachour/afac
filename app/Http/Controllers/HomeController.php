@@ -396,7 +396,7 @@ class HomeController extends Controller
                                     if($show_view_all==1){
                                         $html.='<div class="mt-3">
                                             <a href="'.$view_all_link.'" class="view-all-link">
-                                                <span class="black tiny ABCDiatypeBlack">' . (app()->getLocale() == 'en' ? $entry->$view_all_title : $entry->{$view_all_title . '_arabic'}) . '</span>
+                                                <span class="black tiny ABCDiatypeBlack">' . (app()->getLocale() == 'en' ? $view_all_title : $view_all_title_arabic) . '</span>
                                                 <img src="'.asset('frontend/images/view-all-btn-' . (app()->getLocale() == 'en' ? 'en' : 'ar') . '.png').'" width="12px">
                                             </a>
                                         </div>';
@@ -404,8 +404,8 @@ class HomeController extends Controller
                                   
                                 $html.='</div>';
                             }
-                            $html .= '<a href="' . $entry_href . '" target="' . $entry_target . '">
-                                <div class="topSpacer featured_entry" style="background:' . $featured_image_bgColor . '; width:' . $featured_width . '; ' . (app()->getLocale() == 'en' ? 'margin-left:' . $featured_margin : 'margin-right:' . $featured_margin) . ';">';
+                            $html .= '<a href="' . $entry_href . '" target="' . $entry_target . '" style="pointer-events:none;">
+                                <div class="topSpacer featured_entry" style="pointer-events:auto; background:' . $featured_image_bgColor . '; width:' . $featured_width . '; ' . (app()->getLocale() == 'en' ? 'margin-left:' . $featured_margin : 'margin-right:' . $featured_margin) . ';">';
                                     $html .= '<div class="featured_info">
                                         <div class="title_or_labels" style="'.$title_position.'">
                                             <div class="medium white ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $entry->$entry_title : $entry->{$entry_title . '_arabic'}) . '</div>
