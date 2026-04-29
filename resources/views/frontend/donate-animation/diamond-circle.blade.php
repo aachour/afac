@@ -28,7 +28,7 @@
             <!-- Shape that morphs from diamond to circle -->
             <rect class="diamond-circle-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="0" fill="black"/>
             <!-- Text inside -->
-            <text class="diamond-circle-donate-text" x="154" y="168" fill="white" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle">Donate</text>
+            <text class="diamond-circle-donate-text ABCDiatypeMedium -mt-2" x="154" y="168" fill="white" font-size="24" font-weight="bold" text-anchor="middle">Donate</text>
         </svg>
     </div>
 </div>
