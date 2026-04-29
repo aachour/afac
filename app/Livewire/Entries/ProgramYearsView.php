@@ -28,10 +28,10 @@ class ProgramYearsView extends Component
     public $editingId = null;
 
     public $showModalJuror = false;
-    public $modalJurorTitle = 'Add Juror';
+    public $modalJurorTitle = 'Add Jurors';
     public $jurors;
     public $program_year_id;
-    public $juror_id;
+    public $juror_ids = [];
 
     public $showModalProject = false;
     public $modalProjectTitle = 'Add Project';
@@ -130,7 +130,7 @@ class ProgramYearsView extends Component
     public function openJurorModal($yearId = null)
     {
         $this->program_year_id = $yearId;
-        $this->juror_id = '';
+        $this->juror_ids = [];
         $this->showModalJuror = true;
 
         $this->jurors = Entries::where('type_id', 5)
@@ -144,24 +144,46 @@ class ProgramYearsView extends Component
     {
         $this->showModalJuror = false;
         $this->dispatch('juror-modal-closed');
-        $this->reset(['program_year_id', 'juror_id']); 
+        $this->reset(['program_year_id', 'juror_ids']); 
     }
 
     public function saveJuror(){
 
         $rules = [
             'program_year_id' => 'required',
-            'juror_id' => 'required',
+            'juror_ids' => 'required|array|min:1',
+            'juror_ids.*' => 'required|integer',
         ];
 
         $this->validate($rules);
         
         $this->authorize('section-create');
 
-        $highestOrder = ProgramYearJurors::WHERE('program_year_id',$this->program_year_id)->max('list_order');
+        // Get existing jurors for this program year
+        $existingJurors = ProgramYearJurors::where('program_year_id', $this->program_year_id)
+            ->pluck('juror_id')
+            ->toArray();
 
-        ProgramYearJurors::create(['program_year_id' => $this->program_year_id , 'juror_id' => $this->juror_id , 'list_order' =>$highestOrder+1]);
-        $message = 'Juror added successfully!';
+        // Filter out jurors that already exist
+        $newJurors = array_diff($this->juror_ids, $existingJurors);
+
+        if (empty($newJurors)) {
+            $this->addError('juror_ids', 'All selected jurors have already been added to this program year.');
+            return;
+        }
+
+        $highestOrder = ProgramYearJurors::WHERE('program_year_id',$this->program_year_id)->max('list_order');
+        $nextOrder = $highestOrder ? $highestOrder + 1 : 1;
+
+        foreach ($newJurors as $juror_id) {
+            ProgramYearJurors::create([
+                'program_year_id' => $this->program_year_id,
+                'juror_id' => $juror_id,
+                'list_order' => $nextOrder++
+            ]);
+        }
+
+        $message = count($newJurors) . ' Juror(s) added successfully!';
 
         $this->closeJurorModal();
         return to_route('entry.program.years',['programId'=>$this->program_id])->with('success', $message);
