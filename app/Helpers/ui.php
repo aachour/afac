@@ -1320,36 +1320,36 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
         }
 
         $html .= '<div class="filters" style="">
-                <div class="filter">
-                    <select class="filterDpd filter_event_category">
-                        <option value="">Select type</option>';
-                        foreach ($event_categories as $event_category) {
-                            $html .= '<option value="' . $event_category["id"] . '">' . $event_category["name"] . '</option>';
-                        }
-                    $html .= '</select>
-                </div>
-                <div class="filter">
-                    <input type="date" name="from_date" class="filter_event_from_date"  placeholder="From Date" />
-                </div>
-                <div class="filter">
-                    <input type="date" name="to_date" class="filter_event_to_date"  placeholder="To Date" />
-                </div>
-                <div class="filter">
-                    <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="Filter" />
-                </div>';
-        if ($entries_selection == 2) {
-            $html .= '<div class="sort">
-                        <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                            <option value="">Select sort</option>
-                            <option value="1">Name ASC</option>
-                            <option value="2">Name DESC</option>
-                            <option value="3">Date ASC</option>
-                            <option value="4">Date DESC</option>
-                        </select>
-                    </div>';
-        }
-        $html .= '<div class="clear"></div>
+            <div class="filter">
+                <select class="filterDpd filter_event_category">
+                    <option value="">Select type</option>';
+                    foreach ($event_categories as $event_category) {
+                        $html .= '<option value="' . $event_category["id"] . '">' . $event_category["name"] . '</option>';
+                    }
+                $html .= '</select>
+            </div>
+            <div class="filter">
+                <input type="date" name="from_date" class="filter_event_from_date"  placeholder="From Date" />
+            </div>
+            <div class="filter">
+                <input type="date" name="to_date" class="filter_event_to_date"  placeholder="To Date" />
+            </div>
+            <div class="filter">
+                <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="Filter" />
             </div>';
+            if ($entries_selection == 2) {
+                $html .= '<div class="sort">
+                    <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
+                        <option value="">Select sort</option>
+                        <option value="1">Name ASC</option>
+                        <option value="2">Name DESC</option>
+                        <option value="3">Date ASC</option>
+                        <option value="4">Date DESC</option>
+                    </select>
+                </div>';
+            }
+            $html .= '<div class="clear"></div>
+        </div>';
 
         $html .= "<script>
 
@@ -1393,28 +1393,28 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
     else if ($collection_type_id == 2) // Programs
     {
         $html .= '<div class="filters" style="">
-                <div class="filter">
-                    <input type="date" name="start_date" class="filter_program_start_date"  placeholder="Start Date" />
-                </div>
-                <div class="filter">
-                    <input type="date" name="end_date" class="filter_program_end_date"  placeholder="End Date" />
-                </div>
-                <div class="filter">
-                    <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="Filter" />
-                </div>';
-        if ($entries_selection == 2) {
-            $html .= '<div class="sort">
-                        <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                            <option value="">Select sort</option>
-                            <option value="1">Name ASC</option>
-                            <option value="2">Name DESC</option>
-                            <option value="3">Date ASC</option>
-                            <option value="4">Date DESC</option>
-                        </select>
-                    </div>';
-        }
-        $html .= '<div class="clear"></div>
+            <div class="filter">
+                <input type="date" name="start_date" class="filter_program_start_date"  placeholder="Start Date" />
+            </div>
+            <div class="filter">
+                <input type="date" name="end_date" class="filter_program_end_date"  placeholder="End Date" />
+            </div>
+            <div class="filter">
+                <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="Filter" />
             </div>';
+            if ($entries_selection == 2) {
+                $html .= '<div class="sort">
+                    <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
+                        <option value="">Select sort</option>
+                        <option value="1">Name ASC</option>
+                        <option value="2">Name DESC</option>
+                        <option value="3">Date ASC</option>
+                        <option value="4">Date DESC</option>
+                    </select>
+                </div>';
+            }
+            $html .= '<div class="clear"></div>
+        </div>';
 
         $html .= "<script>
                 $(document).ready(function(){
@@ -1681,52 +1681,52 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
         });
 
         $html .= '<div class="filters" style="">
-                <div class="filter">
-                    <select class="filterDpd filter_grantee_country">    
-                        <option value="">Select country</option>';
-        foreach ($grantee_countries as $country) {
-            $html .= '<option value="' . $country["id"] . '">' . $country["name"] . '</option>';
-        }
-        $html .= '</select>
-                </div>    
-                <div class="filter">
-                    <select class="filterDpd filter_grantee_category">
-                        <option value="">Select theme</option>';
-        foreach ($grantee_categories as $category) {
-            $html .= '<option value="' . $category["id"] . '">' . $category["name"] . '</option>';
-        }
-        $html .= '</select>
-                </div>
-                <div class="filter">
-                    <select class="filterDpd filter_grantee_program_year">
-                        <option value="">Select year</option>';
-        foreach ($grantee_program_years as $grantee_program_year) {
-            $html .= '<option value="' . $grantee_program_year["name"] . '">' . $grantee_program_year["name"] . '</option>';
-        }
-        $html .= '</select>
-                </div>
-                <div class="filter">
-                    <select class="filterDpd filter_grantee_program">
-                        <option value="">Select program</option>';
-        foreach ($grantee_programs as $grantee_program) {
-            $html .= '<option value="' . $grantee_program["id"] . '">' . $grantee_program["name"] . '</option>';
-        }
-        $html .= '</select>
-                </div>
-                <div class="filter">
-                    <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="Filter" />
-                </div>';
-        if ($entries_selection == 2) {
-            $html .= '<div class="sort">
-                        <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                            <option value="">Select sort</option>
-                            <option value="1">Name ASC</option>
-                            <option value="2">Name DESC</option>
-                        </select>
-                    </div>';
-        }
-        $html .= '<div class="clear"></div>
+            <div class="filter">
+                <select class="filterDpd filter_grantee_country">    
+                    <option value="">Select country</option>';
+                    foreach ($grantee_countries as $country) {
+                        $html .= '<option value="' . $country["id"] . '">' . $country["name"] . '</option>';
+                    }
+                    $html .= '</select>
+            </div>    
+            <div class="filter">
+                <select class="filterDpd filter_grantee_category">
+                    <option value="">Select theme</option>';
+                    foreach ($grantee_categories as $category) {
+                        $html .= '<option value="' . $category["id"] . '">' . $category["name"] . '</option>';
+                    }
+                $html .= '</select>
+            </div>
+            <div class="filter">
+                <select class="filterDpd filter_grantee_program_year">
+                    <option value="">Select year</option>';
+                    foreach ($grantee_program_years as $grantee_program_year) {
+                        $html .= '<option value="' . $grantee_program_year["name"] . '">' . $grantee_program_year["name"] . '</option>';
+                    }
+                $html .= '</select>
+            </div>
+            <div class="filter">
+                <select class="filterDpd filter_grantee_program">
+                    <option value="">Select program</option>';
+                    foreach ($grantee_programs as $grantee_program) {
+                        $html .= '<option value="' . $grantee_program["id"] . '">' . $grantee_program["name"] . '</option>';
+                    }
+                $html .= '</select>
+            </div>
+            <div class="filter">
+                <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="Filter" />
             </div>';
+            if ($entries_selection == 2) {
+                $html .= '<div class="sort">
+                    <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
+                        <option value="">Select sort</option>
+                        <option value="1">Name ASC</option>
+                        <option value="2">Name DESC</option>
+                    </select>
+                </div>';
+            }
+            $html .= '<div class="clear"></div>
+        </div>';
 
         $html .= "<script>
                 $(document).ready(function(){
@@ -1828,44 +1828,44 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
         });
 
         $html .= '<div class="filters" style="">
-                <div class="filter">
-                    <select class="filterDpd filter_juror_country">    
-                        <option value="">Select country</option>';
-        foreach ($juror_countries as $country) {
-            $html .= '<option value="' . $country["id"] . '">' . $country["name"] . '</option>';
-        }
-        $html .= '</select>
-                </div>
-                <div class="filter">
-                    <select class="filterDpd filter_juror_program_year">    
-                        <option value="">Select year</option>';
-        foreach ($juror_program_years as $juror_program_year) {
-            $html .= '<option value="' . $juror_program_year["name"] . '">' . $juror_program_year["name"] . '</option>';
-        }
-        $html .= '</select>
-                </div>
-                <div class="filter">
-                    <select class="filterDpd filter_juror_program">    
-                        <option value="">Select program</option>';
-        foreach ($juror_programs as $juror_program) {
-            $html .= '<option value="' . $juror_program["id"] . '">' . $juror_program["name"] . '</option>';
-        }
-        $html .= '</select>
-                </div>
-                <div class="filter">
-                    <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="Filter" />
-                </div>';
-        if ($entries_selection == 2) {
-            $html .= '<div class="sort">
-                        <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                            <option value="">Select sort</option>
-                            <option value="1">Name ASC</option>
-                            <option value="2">Name DESC</option>
-                        </select>
-                    </div>';
-        }
-        $html .= '<div class="clear"></div>
+            <div class="filter">
+                <select class="filterDpd filter_juror_country">    
+                    <option value="">Select country</option>';
+                    foreach ($juror_countries as $country) {
+                        $html .= '<option value="' . $country["id"] . '">' . $country["name"] . '</option>';
+                    }
+                $html .= '</select>
+            </div>
+            <div class="filter">
+                <select class="filterDpd filter_juror_program_year">    
+                    <option value="">Select year</option>';
+                    foreach ($juror_program_years as $juror_program_year) {
+                        $html .= '<option value="' . $juror_program_year["name"] . '">' . $juror_program_year["name"] . '</option>';
+                    }
+                $html .= '</select>
+            </div>
+            <div class="filter">
+                <select class="filterDpd filter_juror_program">    
+                    <option value="">Select program</option>';
+                    foreach ($juror_programs as $juror_program) {
+                        $html .= '<option value="' . $juror_program["id"] . '">' . $juror_program["name"] . '</option>';
+                    }
+                $html .= '</select>
+            </div>
+            <div class="filter">
+                <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="Filter" />
             </div>';
+            if ($entries_selection == 2) {
+                $html .= '<div class="sort">
+                    <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
+                        <option value="">Select sort</option>
+                        <option value="1">Name ASC</option>
+                        <option value="2">Name DESC</option>
+                    </select>
+                </div>';
+            }
+            $html .= '<div class="clear"></div>
+        </div>';
 
         $html .= "<script>
                 $(document).ready(function(){
@@ -1924,36 +1924,36 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
         }
 
         $html .= '<div class="filters" style="">
-                <div class="filter">
-                    <select class="filterDpd filter_resource_category">
-                        <option value="">Select category</option>';
-        foreach ($resource_categories as $category) {
-            $html .= '<option value="' . $category["id"] . '">' . $category["name"] . '</option>';
-        }
-        $html .= '</select>
-                </div>
-                <div class="filter">
-                    <input type="date" name="from_date" class="filter_resource_from_date"  placeholder="From Date" />
-                </div>
-                <div class="filter">
-                    <input type="date" name="to_date" class="filter_resource_to_date"  placeholder="To Date" />
-                </div>
-                <div class="filter">
-                    <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="Filter" />
-                </div>';
-        if ($entries_selection == 2) {
-            $html .= '<div class="sort">
-                        <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                            <option value="">Select sort</option>
-                            <option value="1">Name ASC</option>
-                            <option value="2">Name DESC</option>
-                            <option value="3">Date ASC</option>
-                            <option value="4">Date DESC</option>
-                        </select>
-                    </div>';
-        }
-        $html .= '<div class="clear"></div>
+            <div class="filter">
+                <select class="filterDpd filter_resource_category">
+                    <option value="">Select category</option>';
+                foreach ($resource_categories as $category) {
+                    $html .= '<option value="' . $category["id"] . '">' . $category["name"] . '</option>';
+                }
+                $html .= '</select>
+            </div>
+            <div class="filter">
+                <input type="date" name="from_date" class="filter_resource_from_date"  placeholder="From Date" />
+            </div>
+            <div class="filter">
+                <input type="date" name="to_date" class="filter_resource_to_date"  placeholder="To Date" />
+            </div>
+            <div class="filter">
+                <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="Filter" />
             </div>';
+            if ($entries_selection == 2) {
+                $html .= '<div class="sort">
+                    <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
+                        <option value="">Select sort</option>
+                        <option value="1">Name ASC</option>
+                        <option value="2">Name DESC</option>
+                        <option value="3">Date ASC</option>
+                        <option value="4">Date DESC</option>
+                    </select>
+                </div>';
+            }
+            $html .= '<div class="clear"></div>
+        </div>';
 
         $html .= "<script>
                 $(document).ready(function(){
@@ -1997,31 +1997,31 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
     {
 
         $html .= '<div class="filters" style="">
-                <div class="filter">
-                    <input type="text" name="tags" class="filter_news_tags"  placeholder="Tags" />
-                </div>
-                <div class="filter">
-                    <input type="date" name="from_date" class="filter_news_from_date"  placeholder="From Date" />
-                </div>
-                <div class="filter">
-                    <input type="date" name="to_date" class="filter_news_to_date"  placeholder="To Date" />
-                </div>
-                <div class="filter">
-                    <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="Filter" />
-                </div>';
-        if ($entries_selection == 2) {
-            $html .= '<div class="sort">
-                        <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                            <option value="">Select sort</option>
-                            <option value="1">Name ASC</option>
-                            <option value="2">Name DESC</option>
-                            <option value="3">Date ASC</option>
-                            <option value="4">Date DESC</option>
-                        </select>
-                    </div>';
-        }
-        $html .= '<div class="clear"></div>
+            <div class="filter">
+                <input type="text" name="tags" class="filter_news_tags"  placeholder="Tags" />
+            </div>
+            <div class="filter">
+                <input type="date" name="from_date" class="filter_news_from_date"  placeholder="From Date" />
+            </div>
+            <div class="filter">
+                <input type="date" name="to_date" class="filter_news_to_date"  placeholder="To Date" />
+            </div>
+            <div class="filter">
+                <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="Filter" />
             </div>';
+            if ($entries_selection == 2) {
+                $html .= '<div class="sort">
+                    <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
+                        <option value="">Select sort</option>
+                        <option value="1">Name ASC</option>
+                        <option value="2">Name DESC</option>
+                        <option value="3">Date ASC</option>
+                        <option value="4">Date DESC</option>
+                    </select>
+                </div>';
+            }
+            $html .= '<div class="clear"></div>
+        </div>';
 
         $html .= "<script>
                 $(document).ready(function(){
@@ -2081,36 +2081,36 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
         }
 
         $html .= '<div class="filters" style="">
-                <div class="filter">
-                    <select class="filterDpd filter_external_category">
-                        <option value="">Select category</option>';
-        foreach ($external_categories as $category) {
-            $html .= '<option value="' . $category["id"] . '">' . $category["name"] . '</option>';
-        }
-        $html .= '</select>
-                </div>
-                <div class="filter">
-                    <input type="date" name="from_date" class="filter_external_from_date"  placeholder="From Date" />
-                </div>
-                <div class="filter">
-                    <input type="date" name="to_date" class="filter_external_to_date"  placeholder="To Date" />
-                </div>
-                <div class="filter">
-                    <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="Filter" />
-                </div>';
-        if ($entries_selection == 2) {
-            $html .= '<div class="sort">
-                        <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                            <option value="">Select sort</option>
-                            <option value="1">Name ASC</option>
-                            <option value="2">Name DESC</option>
-                            <option value="3">Date ASC</option>
-                            <option value="4">Date DESC</option>
-                        </select>
-                    </div>';
-        }
-        $html .= '<div class="clear"></div>
+            <div class="filter">
+                <select class="filterDpd filter_external_category">
+                    <option value="">Select category</option>';
+                foreach ($external_categories as $category) {
+                    $html .= '<option value="' . $category["id"] . '">' . $category["name"] . '</option>';
+                }
+                $html .= '</select>
+            </div>
+            <div class="filter">
+                <input type="date" name="from_date" class="filter_external_from_date"  placeholder="From Date" />
+            </div>
+            <div class="filter">
+                <input type="date" name="to_date" class="filter_external_to_date"  placeholder="To Date" />
+            </div>
+            <div class="filter">
+                <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="Filter" />
             </div>';
+            if ($entries_selection == 2) {
+                $html .= '<div class="sort">
+                    <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
+                        <option value="">Select sort</option>
+                        <option value="1">Name ASC</option>
+                        <option value="2">Name DESC</option>
+                        <option value="3">Date ASC</option>
+                        <option value="4">Date DESC</option>
+                    </select>
+                </div>';
+            }
+            $html .= '<div class="clear"></div>
+        </div>';
 
         $html .= "<script>
                 $(document).ready(function(){
