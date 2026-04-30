@@ -449,7 +449,7 @@ class HomeController extends Controller
                                 if($show_view_all==1){
                                     $html.='<div class="mt-1 mb-2 viewAll">
                                         <a href="'.$view_all_link.'" class="view-all-link">
-                                            <span class="black tiny ABCDiatypeBlack">' . (app()->getLocale() == 'en' ? $entry->$view_all_title : $entry->{$view_all_title . '_arabic'}) . '</span>
+                                            <span class="black tiny ABCDiatypeBlack">' . (app()->getLocale() == 'en' ? $view_all_title : $view_all_title_arabic) . '</span>
                                             <img src="'.asset('frontend/images/view-all-btn-' . (app()->getLocale() == 'en' ? 'en' : 'ar') . '.png').'" width="12px">
                                         </a>
                                     </div>';
