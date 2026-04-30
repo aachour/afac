@@ -30,18 +30,18 @@
 }
 
 @font-face {
-    font-family: 'ABC Diatype Arabic Black';
-    src: url('../fonts/ABCDiatypeArabic-Black.eot');
-    src: url('../fonts/ABCDiatypeArabic-Black.eot?#iefix') format('embedded-opentype'),
-        url('../fonts/ABCDiatypeArabic-Black.woff2') format('woff2'),
-        url('../fonts/ABCDiatypeArabic-Black.woff') format('woff'),
-        url('../fonts/ABCDiatypeArabic-Black.ttf') format('truetype');
+    font-family: 'ABC Diatype Arabic Bold';
+    src: url('../fonts/ABCDiatypeArabic-Bold.eot');
+    src: url('../fonts/ABCDiatypeArabic-Bold.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/ABCDiatypeArabic-Bold.woff2') format('woff2'),
+        url('../fonts/ABCDiatypeArabic-Bold.woff') format('woff'),
+        url('../fonts/ABCDiatypeArabic-Bold.ttf') format('truetype');
     font-weight: 900;
     font-style: normal;
     font-display: swap;
 }
 .ABCDiatypeBlack{
-	font-family: 'ABC Diatype Arabic Black' !important;
+	font-family: 'ABC Diatype Arabic Bold' !important;
 }
 
 /* CSS Document */
