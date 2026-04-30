@@ -115,7 +115,7 @@ function ViewEntryData($entry_id)
                     <div class="row">
 
                         <div class="col-lg-6 col-12">
-                            <div class="big black ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? 'At-A-Glance' : 'لمحة سريعة')  . '</div>
+                            <div class="big black ABCDiatypeMedium mb-3 mb-md-0">' . (app()->getLocale() == 'en' ? 'At-A-Glance' : 'لمحة سريعة')  . '</div>
                         </div>
 
                         <div class="col-lg-6 col-12">';
