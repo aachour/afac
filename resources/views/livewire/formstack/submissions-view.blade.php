@@ -50,7 +50,9 @@
                     @else
                     <tr>
                         @can('formstack-formAssignPM')
-                        <th></th>
+                        <th>
+                            <input type="checkbox" id="select-all-submissions" title="Select all on this page" />
+                        </th>
                         @endcan
                         <th>Form ID</th>
                         <th>Submission ID</th>
@@ -93,7 +95,7 @@
                             <tr>
                                 @can('formstack-formAssignPM')
                                 <td>
-                                    <input type="checkbox" wire:model="selected_submissions" value="{{ $submission->submission_id }}" />
+                                    <input type="checkbox" class="submission-checkbox" value="{{ $submission->submission_id }}" />
                                 </td>
                                 @endcan
                                 <td>{{ $submission->form_id }}</td>
@@ -276,6 +278,54 @@
                     $wire.clearSubmissions();
                 }
             });
+        }
+
+        // ── Persist checkbox state across DataTables pagination / sort / filter ──
+        let _selectedSubmissions = new Set((@json($selected_submissions ?? [])).map(String));
+
+        // Track individual row checkbox changes and sync to Livewire
+        document.addEventListener('change', function (e) {
+            if (!e.target.matches('#table tbody input[type="checkbox"]')) return;
+            const cb = e.target;
+            if (cb.checked) _selectedSubmissions.add(cb.value);
+            else _selectedSubmissions.delete(cb.value);
+            $wire.set('selected_submissions', [..._selectedSubmissions], false);
+            syncSelectAll();
+        });
+
+        // Re-apply selections after every DataTables draw (pagination, sort, filter)
+        $('#table').on('draw.dt', function () {
+            $(this).find('tbody input.submission-checkbox').each(function () {
+                this.checked = _selectedSubmissions.has(this.value);
+            });
+            syncSelectAll();
+        });
+
+        // Select-all header checkbox — use delegation so DataTables re-renders don't break it
+        document.addEventListener('click', function (e) {
+            if (e.target.id === 'select-all-submissions') e.stopPropagation();
+        }, true);
+
+        document.addEventListener('change', function (e) {
+            if (e.target.id !== 'select-all-submissions') return;
+            const checked = e.target.checked;
+            const dt = $.fn.DataTable.isDataTable('#table') ? $('#table').DataTable() : null;
+            const $rows = dt ? $(dt.rows({ page: 'current' }).nodes()) : $('#table tbody tr');
+            $rows.find('input.submission-checkbox').each(function () {
+                this.checked = checked;
+                if (checked) _selectedSubmissions.add(this.value);
+                else _selectedSubmissions.delete(this.value);
+            });
+            $wire.set('selected_submissions', [..._selectedSubmissions], false);
+        });
+
+        function syncSelectAll() {
+            const selectAll = document.getElementById('select-all-submissions');
+            if (!selectAll) return;
+            const cbs = [...document.querySelectorAll('#table tbody input[type="checkbox"]')];
+            if (cbs.length === 0) return;
+            selectAll.checked = cbs.every(cb => cb.checked);
+            selectAll.indeterminate = !selectAll.checked && cbs.some(cb => cb.checked);
         }
 
         $wire.on('users-loaded', () => {
