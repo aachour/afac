@@ -39,6 +39,8 @@ use AuthorizesRequests;
     public $pm_readers = [];
     public $assign_reader_ids = [];
     public $assign_reader_form_type = null;
+
+    public $submissionPMs = [];
     
 
     public function mount($formId='')
@@ -87,6 +89,19 @@ use AuthorizesRequests;
             $this->submissions=FormStackSubmissions::where('form_id',$this->form_id)
                 ->whereNull('deleted_at')
                 ->get();
+
+            $groups = FormStackGroups::where('form_id', $this->form_id)->get();
+            $map = [];
+            foreach ($groups as $group) {
+                $ids = json_decode($group->submissions_id, true) ?? [];
+                $pmUser = User::find($group->user_id);
+                if (!$pmUser) continue;
+                $pmName = trim($pmUser->first_name . ' ' . $pmUser->last_name);
+                foreach ($ids as $sid) {
+                    $map[$sid][] = ['name' => $pmName, 'group_id' => $group->id];
+                }
+            }
+            $this->submissionPMs = $map;
         }
 
         $this->users = User::role('Program Manager')
@@ -178,6 +193,29 @@ use AuthorizesRequests;
     }
 
 
+    public function removePMSubmission($groupId, $submissionId)
+    {
+        $group = FormStackGroups::find($groupId);
+        if (!$group) return;
+
+        $ids = array_values(array_filter(
+            json_decode($group->submissions_id ?? '[]', true) ?? [],
+            fn($id) => $id !== $submissionId
+        ));
+        $group->submissions_id = json_encode($ids);
+
+        $statuses = json_decode($group->submissions_status ?? '{}', true) ?? [];
+        unset($statuses[$submissionId]);
+        $group->submissions_status = json_encode($statuses);
+        $group->save();
+
+        FormStackAssigns::where('group_id', $groupId)
+            ->where('submission_id', $submissionId)
+            ->delete();
+
+       return to_route('formstack.submissions', ['formId' => $this->form_id])->with('success', 'Submission removed successfully!');
+    }
+
     public function saveAssign(){
         // create/update current users
         foreach ($this->users_id as $user_id) {
@@ -193,9 +231,10 @@ use AuthorizesRequests;
             $group->save();
         }
         
-        return to_route('formstack.forms')->with('success', 'Assigning done successfully!');
+        return to_route('formstack.submissions', ['formId' => $this->form_id])->with('success', 'Submission(s) assigned successfully!');
 
     }
+
 
     public function saveSubmissionJurors()
     {
@@ -240,6 +279,7 @@ use AuthorizesRequests;
         return to_route('formstack.submissions', ['formId' => $this->form_id])->with('success', 'Jurors assigned to submissions successfully!');
     }
 
+
     public function saveSubmissionReaders()
     {
         $this->validate(
@@ -283,6 +323,7 @@ use AuthorizesRequests;
         return to_route('formstack.submissions', ['formId' => $this->form_id])->with('success', 'Readers assigned to submissions successfully!');
     }
 
+
     public function setSubmission($id){
         $this->id=$id;
         $submission=FormStackSubmissions::find($this->id);
@@ -290,6 +331,7 @@ use AuthorizesRequests;
         $this->admin_status=$submission->admin_status;
 
     }
+
 
     public function saveRate(){
 
@@ -300,6 +342,7 @@ use AuthorizesRequests;
 
         return to_route('formstack.submissions',['formId'=>$this->form_id])->with('success', 'Action done successfully!');
     }
+
 
     public function clearSubmissions(){
         $this->authorize('formstack-formClearSubmissions');
@@ -318,6 +361,7 @@ use AuthorizesRequests;
 
         return to_route('formstack.submissions',['formId'=>$this->form_id]);
     }
+
 
     public function render()
     {

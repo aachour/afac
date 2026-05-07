@@ -72,8 +72,7 @@
                         <th>Admin ID</th>
                         <th>Email</th>
                         @if(Auth::user()->hasRole('Admin'))
-                        <th>Admin Status</th>
-                        <th>Admin Notes</th>
+                        <th>Admin Status / Notes</th>
                         <th>Assigned To PM</th>
                         @elseif(Auth::user()->hasRole('Program Manager'))
                         <th>Assigned To Jurors</th>
@@ -118,9 +117,25 @@
                                 <td>{{ $submission->email }}</td>
                                 <!-- <td>{{ $submission->name }}</td> -->
                                 @if(Auth::user()->hasRole('Admin'))
-                                <td>{{ $submission->admin_status }}</td>
-                                <td>{{ $submission->admin_notes }}</td>
-                                <td></td>
+                                <td>
+                                    @if($submission->admin_status || $submission->admin_notes)
+                                        Status: {{ $submission->admin_status }}<br />
+                                        Notes: {{ $submission->admin_notes }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @foreach($submissionPMs[$submission->submission_id] ?? [] as $pm)
+                                        <div class="d-flex align-items-center gap-1 mb-1">
+                                            <span>{{ $pm['name'] }}</span>
+                                            <button type="button"
+                                                onclick="confirmRemovePM({{ $pm['group_id'] }}, '{{ $submission->submission_id }}')"
+                                                class="btn btn-sm btn-icon btn-label-danger border-0 p-0 ms-1"
+                                                title="Remove from PM">
+                                                <i class="ti ti-x ti-xs"></i>
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                </td>
                                 @elseif(Auth::user()->hasRole('Program Manager'))
                                 <td></td>
                                 <td></td>
@@ -389,6 +404,26 @@
 
     @script
     <script>
+        window.confirmRemovePM = function(groupId, submissionId) {
+            Swal.fire({
+                title: 'Remove Submission',
+                text: 'Are you sure you want to remove this submission from the Program Manager?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, remove it!',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    confirmButton: 'btn btn-danger me-3',
+                    cancelButton: 'btn btn-label-secondary'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $wire.removePMSubmission(groupId, submissionId);
+                }
+            });
+        }
+
         window.showClearConfirm = function() {
             Swal.fire({
                 title: 'Clear Submissions',
