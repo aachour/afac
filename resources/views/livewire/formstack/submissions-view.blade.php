@@ -175,14 +175,26 @@
                                             <i class="ti ti-star ti-sm"></i>
                                         </button>
                                     @endcan
-                                    <a href="{{ route('formstack.submission', ['formId' => $submission->form_id,'submissionId' => $submission->submission_id]) }}" 
-                                        target="_blank" 
-                                        class="text-body view-user-button"
-                                        data-bs-title="View Submission"
-                                        data-bs-toggle="tooltip"
-                                        data-bs-placement="top">
-                                        <i class="ti ti-eye ti-sm"></i>
-                                    </a>
+                                    @if(Auth::user()->hasRole('Admin'))
+                                        <a href="{{ route('formstack.submission', ['formId' => $submission->form_id,'submissionId' => $submission->submission_id]) }}" 
+                                            target="_blank" 
+                                            class="text-body view-user-button"
+                                            data-bs-title="View Submission"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-placement="top">
+                                            <i class="ti ti-eye ti-sm"></i>
+                                        </a>
+                                    @elseif(Auth::user()->hasRole('Program Manager'))
+                                        <a href="{{ route('formstack.submission', ['formId' => $submission->form_id,'submissionId' => $submission->submission_id , 'pmId'=> $pm_group_id]) }}" 
+                                            target="_blank" 
+                                            class="text-body view-user-button"
+                                            data-bs-title="View Submission"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-placement="top">
+                                            <i class="ti ti-eye ti-sm"></i>
+                                        </a>
+                                    @endif
+                                    
                                 </td>
                             </tr>
                         @endforeach
