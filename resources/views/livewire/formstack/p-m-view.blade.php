@@ -330,23 +330,6 @@
             }
         });
 
-        window.confirmRemoveSubmission = function (groupId, submissionId) {
-            Swal.fire({
-                title: 'Remove Submission?',
-                text: 'This will remove the submission from this group along with any juror/reader assignments.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Yes, remove',
-                cancelButtonText: 'Cancel',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $wire.removeSubmissionFromGroup(groupId, submissionId);
-                }
-            });
-        };
-
 
     </script>
     @endscript

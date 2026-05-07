@@ -140,66 +140,6 @@ class PMView extends Component
         $this->dispatch('view-assignments-loaded', rows: $rows, formId: $this->form_id, pmId: $pmUserId);
     }
 
-    public function setRateSubmission($groupId, $submissionId)
-    {
-        $this->rate_group_id = $groupId;
-        $this->rate_submission_id = $submissionId;
-
-        $group = FormStackGroups::find($groupId);
-        $statuses = json_decode($group->submissions_status ?? '{}', true) ?? [];
-        $entry = $statuses[$submissionId] ?? null;
-        $this->submission_pm_status = is_array($entry) ? ($entry['status'] ?? null) : $entry;
-        $this->submission_pm_notes = is_array($entry) ? ($entry['notes'] ?? null) : null;
-    }
-
-
-    public function removeSubmissionFromGroup($groupId, $submissionId)
-    {
-        $group = FormStackGroups::find($groupId);
-        if (!$group) return;
-
-        $ids = array_values(array_filter(
-            json_decode($group->submissions_id ?? '[]', true) ?? [],
-            fn($id) => $id !== $submissionId
-        ));
-        $group->submissions_id = json_encode($ids);
-
-        $statuses = json_decode($group->submissions_status ?? '{}', true) ?? [];
-        unset($statuses[$submissionId]);
-        $group->submissions_status = json_encode($statuses);
-
-        $group->save();
-
-        // Also remove any juror/reader assignments for this submission in this group
-        FormStackAssigns::where('group_id', $groupId)
-            ->where('form_id', $this->form_id)
-            ->where('submission_id', $submissionId)
-            ->delete();
-
-        $this->pms = FormStackGroups::where('form_id', $this->form_id)
-            ->when(!auth()->user()->can('formstack-viewAssignedPM'), fn($q) => $q->where('user_id', auth()->id()))
-            ->get();
-
-        return to_route('formstack.pm',['formId'=>$this->form_id])->with('success', 'Submission deleted successfully!');
-    }
-
-    public function deleteAssignment($submissionId, $type, $personId)
-    {
-        $query = FormStackAssigns::where('group_id', $this->group_id)
-            ->where('form_id', $this->form_id)
-            ->where('submission_id', $submissionId);
-
-        if ($type === 'juror') {
-            $query->where('juror_id', $personId);
-        } else {
-            $query->where('reader_id', $personId);
-        }
-
-        $query->delete();
-
-        $this->viewAssignments($this->group_id);
-    }
-
     public function render()
     {
         return view('livewire.formstack.p-m-view');
