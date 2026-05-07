@@ -58,7 +58,7 @@
                                         <i class="ti ti-user-plus ti-sm"></i>
                                     </button>
                                 @endcan
-                                @can('formstack-viewAssignedSubmissions')
+                                @if(Auth::user()->hasRole('Admin'))
                                     <a href="{{ route('formstack.pm', ['formId' => $form->form_id]) }}" 
                                         class="text-body view-user-button"
                                         data-bs-title="View Assigned Submissions"
@@ -66,7 +66,7 @@
                                         data-bs-placement="top">
                                         <i class="ti ti-users-group ti-sm"></i>
                                     </a>
-                                @endcan
+                                @endif
                             </td>
                         </tr>
                     @endforeach

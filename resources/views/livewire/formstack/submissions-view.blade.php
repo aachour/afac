@@ -7,7 +7,7 @@
                 <h4 class="card-title mb-3">Submissions List</h4>
 
                 <div class="d-flex gap-2">
-                    @if(!Auth::user()->hasRole('Juror') && !Auth::user()->hasRole('Reader'))
+                    @if(Auth::user()->hasRole('Admin') || Auth::user()->hasRole('Program Manager'))
                     <a href="{{ route('formstack.forms') }}" class="btn btn-primary d-flex align-items-center">
                         <i class="ti ti-arrow-left me-1"></i> Back
                     </a>
@@ -24,12 +24,27 @@
                     @endcan
                     @can('formstack-formAssignPM')
                         <button type="button" 
-                        data-bs-target="#assignModal" 
+                        data-bs-target="#assignPMModal" 
                         data-bs-toggle="modal" 
                         class="btn btn-primary d-flex align-items-center">
                             Assign Program Manager(s)
                         </button>
                     @endcan
+                    @if(Auth::user()->hasRole('Program Manager'))
+                    <button type="button"
+                        data-bs-target="#assignJurorsModal"
+                        data-bs-toggle="modal"
+                        class="btn btn-primary d-flex align-items-center">
+                        Assign Juror(s)
+                    </button>
+                    <button type="button"
+                        data-bs-target="#assignReadersModal"
+                        data-bs-toggle="modal"
+                        class="btn btn-primary d-flex align-items-center">
+                        Assign Reader(s)
+                    </button>
+                    @endif
+
                 </div>
                 
             </div>
@@ -49,20 +64,20 @@
                     </tr>
                     @else
                     <tr>
-                        @can('formstack-formAssignPM')
                         <th>
                             <input type="checkbox" id="select-all-submissions" title="Select all on this page" />
                         </th>
-                        @endcan
                         <th>Form ID</th>
                         <th>Submission ID</th>
                         <th>Admin ID</th>
                         <th>Email</th>
-                        <!-- <th>Name</th> -->
-                        @can('formstack-formAssignPM')
-                        <th>Admin Status</th>
-                        <th>Admin Notes</th>
-                        @endcan
+                        @if(Auth::user()->hasRole('Admin'))
+                        <th>Admin Status / Notes</th>
+                        <th>Assigned To PM</th>
+                        @elseif(Auth::user()->hasRole('Program Manager'))
+                        <th>Assigned To Jurors</th>
+                        <th>Assigned To Readers</th>
+                        @endif
                         <th>Action</th>
                     </tr>
                     @endif
@@ -93,24 +108,66 @@
                     @else
                         @foreach($submissions as $submission)
                             <tr>
-                                @can('formstack-formAssignPM')
                                 <td>
                                     <input type="checkbox" class="submission-checkbox" value="{{ $submission->submission_id }}" />
                                 </td>
-                                @endcan
                                 <td>{{ $submission->form_id }}</td>
                                 <td>{{ $submission->submission_id }}</td>
                                 <td>{{ $submission->admin_id }}</td>
                                 <td>{{ $submission->email }}</td>
                                 <!-- <td>{{ $submission->name }}</td> -->
-                                @can('formstack-formAssignPM')
-                                <td>{{ $submission->admin_status }}</td>
-                                <td>{{ $submission->admin_notes }}</td>
-                                @endcan
+                                @if(Auth::user()->hasRole('Admin'))
+                                <td>
+                                    @if($submission->admin_status || $submission->admin_notes)
+                                        Status: {{ $submission->admin_status }}<br />
+                                        Notes: {{ $submission->admin_notes }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @foreach($submissionPMs[$submission->submission_id] ?? [] as $pm)
+                                        <div class="d-flex align-items-center gap-1 mb-1">
+                                            <span>{{ $pm['name'] }}</span>
+                                            <button type="button"
+                                                onclick="confirmRemovePM({{ $pm['group_id'] }}, '{{ $submission->submission_id }}')"
+                                                class="btn btn-sm btn-icon btn-label-danger border-0 p-0 ms-1"
+                                                title="Remove from PM">
+                                                <i class="ti ti-x ti-xs"></i>
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                </td>
+                                @elseif(Auth::user()->hasRole('Program Manager'))
+                                <td>
+                                    @foreach($submissionJurors[$submission->submission_id] ?? [] as $juror)
+                                        <div class="d-flex align-items-center gap-1 mb-1">
+                                            <span>{{ $juror['name'] }}@if($juror['form_type']) <small class="text-muted">(Type {{ $juror['form_type'] }})</small>@endif</span>
+                                            <button type="button"
+                                                onclick="confirmDeleteJuror({{ $juror['assign_id'] }})"
+                                                class="btn btn-sm btn-icon btn-label-danger border-0 p-0 ms-1"
+                                                title="Remove Juror">
+                                                <i class="ti ti-x ti-xs"></i>
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    @foreach($submissionReaders[$submission->submission_id] ?? [] as $reader)
+                                        <div class="d-flex align-items-center gap-1 mb-1">
+                                            <span>{{ $reader['name'] }}@if($reader['form_type']) <small class="text-muted">(Type {{ $reader['form_type'] }})</small>@endif</span>
+                                            <button type="button"
+                                                onclick="confirmDeleteReader({{ $reader['assign_id'] }})"
+                                                class="btn btn-sm btn-icon btn-label-danger border-0 p-0 ms-1"
+                                                title="Remove Reader">
+                                                <i class="ti ti-x ti-xs"></i>
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                </td>
+                                @endif
                                 <td>
                                     @can('formstack-submissionRate')
-                                        <button wire:click="setSubmission({{ $submission->id }})" type="button" 
-                                        data-bs-target="#rateModal" 
+                                        <button wire:click="setAdminRate({{ $submission->id }})" type="button" 
+                                        data-bs-target="#rateAdminModal" 
                                         data-bs-toggle="modal" 
                                         data-bs-title="Rate Submission"
                                         data-bs-placement="top"
@@ -118,14 +175,26 @@
                                             <i class="ti ti-star ti-sm"></i>
                                         </button>
                                     @endcan
-                                    <a href="{{ route('formstack.submission', ['formId' => $submission->form_id,'submissionId' => $submission->submission_id]) }}" 
-                                        target="_blank" 
-                                        class="text-body view-user-button"
-                                        data-bs-title="View Submission"
-                                        data-bs-toggle="tooltip"
-                                        data-bs-placement="top">
-                                        <i class="ti ti-eye ti-sm"></i>
-                                    </a>
+                                    @if(Auth::user()->hasRole('Admin'))
+                                        <a href="{{ route('formstack.submission', ['formId' => $submission->form_id,'submissionId' => $submission->submission_id]) }}" 
+                                            target="_blank" 
+                                            class="text-body view-user-button"
+                                            data-bs-title="View Submission"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-placement="top">
+                                            <i class="ti ti-eye ti-sm"></i>
+                                        </a>
+                                    @elseif(Auth::user()->hasRole('Program Manager'))
+                                        <a href="{{ route('formstack.submission', ['formId' => $submission->form_id,'submissionId' => $submission->submission_id , 'pmId'=> $pm_group_id]) }}" 
+                                            target="_blank" 
+                                            class="text-body view-user-button"
+                                            data-bs-title="View Submission"
+                                            data-bs-toggle="tooltip"
+                                            data-bs-placement="top">
+                                            <i class="ti ti-eye ti-sm"></i>
+                                        </a>
+                                    @endif
+                                    
                                 </td>
                             </tr>
                         @endforeach
@@ -137,7 +206,119 @@
 
     </div>
 
-    <div wire:ignore.self class="modal fade" id="assignModal" tabindex="-1" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="assignJurorsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Assign Juror(s) to Selected Submissions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3" wire:ignore>
+                        <label for="assign_juror_ids" class="form-label">Jurors</label>
+                        <select id="assign_juror_ids" class="form-control" multiple>
+                            @foreach($pm_jurors as $juror)
+                                <option value="{{ $juror->id }}">
+                                    {{ $juror->first_name }} {{ $juror->last_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="assign_form_type" class="form-label">Form Type</label>
+                        <select id="assign_form_type" class="form-control" wire:model="assign_form_type">
+                            <option value="">Select Form Type</option>
+                            <option value="1">Type 1</option>
+                            <option value="2">Type 2</option>
+                            <option value="3">Type 3</option>
+                        </select>
+                        @error('assign_form_type')
+                            <span class="text-danger small">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <button
+                        type="button"
+                        wire:click="saveSubmissionJurors"
+                        wire:loading.attr="disabled"
+                        wire:target="saveSubmissionJurors"
+                        class="btn btn-primary"
+                    >
+                        <span wire:loading.remove wire:target="saveSubmissionJurors">Save</span>
+                        <span wire:loading wire:target="saveSubmissionJurors">Saving...</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div wire:ignore.self class="modal fade" id="assignReadersModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Assign Reader(s) to Selected Submissions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3" wire:ignore>
+                        <label for="assign_reader_ids" class="form-label">Readers</label>
+                        <select id="assign_reader_ids" class="form-control" multiple>
+                            @foreach($pm_readers as $reader)
+                                <option value="{{ $reader->id }}">
+                                    {{ $reader->first_name }} {{ $reader->last_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="assign_reader_form_type" class="form-label">Form Type</label>
+                        <select id="assign_reader_form_type" class="form-control" wire:model="assign_reader_form_type">
+                            <option value="">Select Form Type</option>
+                            <option value="1">Type 1</option>
+                            <option value="2">Type 2</option>
+                            <option value="3">Type 3</option>
+                        </select>
+                        @error('assign_reader_form_type')
+                            <span class="text-danger small">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <button
+                        type="button"
+                        wire:click="saveSubmissionReaders"
+                        wire:loading.attr="disabled"
+                        wire:target="saveSubmissionReaders"
+                        class="btn btn-primary"
+                    >
+                        <span wire:loading.remove wire:target="saveSubmissionReaders">Save</span>
+                        <span wire:loading wire:target="saveSubmissionReaders">Saving...</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div wire:ignore.self class="modal fade" id="assignPMModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -167,16 +348,16 @@
 
                     <button
                         type="button"
-                        wire:click="saveAssign"
+                        wire:click="savePMAssign"
                         wire:loading.attr="disabled"
-                        wire:target="saveAssign"
+                        wire:target="savePMAssign"
                         class="btn btn-primary"
                     >
-                        <span wire:loading.remove wire:target="saveAssign">
+                        <span wire:loading.remove wire:target="savePMAssign">
                             {{ @$modalId ? 'Update' : 'Save' }}
                         </span>
 
-                        <span wire:loading wire:target="saveAssign">
+                        <span wire:loading wire:target="savePMAssign">
                             Saving...
                         </span>
                     </button>
@@ -185,7 +366,7 @@
         </div>
     </div>
 
-    <div wire:ignore.self class="modal fade" id="rateModal" tabindex="-1" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="rateAdminModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -239,16 +420,16 @@
 
                     <button
                         type="button"
-                        wire:click="saveRate"
+                        wire:click="saveAdminRate"
                         wire:loading.attr="disabled"
-                        wire:target="saveRate"
+                        wire:target="saveAdminRate"
                         class="btn btn-primary"
                     >
-                        <span wire:loading.remove wire:target="saveRate">
+                        <span wire:loading.remove wire:target="saveAdminRate">
                             {{ @$modalId ? 'Update' : 'Save' }}
                         </span>
 
-                        <span wire:loading wire:target="saveRate">
+                        <span wire:loading wire:target="saveAdminRate">
                             Saving...
                         </span>
                     </button>
@@ -259,6 +440,66 @@
 
     @script
     <script>
+        window.confirmDeleteReader = function(assignId) {
+            Swal.fire({
+                title: 'Remove Reader',
+                text: 'Are you sure you want to remove this reader assignment?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, remove it!',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    confirmButton: 'btn btn-danger me-3',
+                    cancelButton: 'btn btn-label-secondary'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $wire.deleteReaderAssign(assignId);
+                }
+            });
+        }
+
+        window.confirmDeleteJuror = function(assignId) {
+            Swal.fire({
+                title: 'Remove Juror',
+                text: 'Are you sure you want to remove this juror assignment?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, remove it!',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    confirmButton: 'btn btn-danger me-3',
+                    cancelButton: 'btn btn-label-secondary'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $wire.deleteJurorAssign(assignId);
+                }
+            });
+        }
+
+        window.confirmRemovePM = function(groupId, submissionId) {
+            Swal.fire({
+                title: 'Remove Submission',
+                text: 'Are you sure you want to remove this submission from the Program Manager?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, remove it!',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    confirmButton: 'btn btn-danger me-3',
+                    cancelButton: 'btn btn-label-secondary'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $wire.deletePMSubmission(groupId, submissionId);
+                }
+            });
+        }
+
         window.showClearConfirm = function() {
             Swal.fire({
                 title: 'Clear Submissions',
@@ -328,6 +569,48 @@
             selectAll.indeterminate = !selectAll.checked && cbs.some(cb => cb.checked);
         }
 
+        // Initialize Select2 for readers when the modal opens
+        document.getElementById('assignReadersModal')?.addEventListener('shown.bs.modal', function () {
+            let $el = $('#assign_reader_ids');
+
+            if ($el.hasClass('select2-hidden-accessible')) {
+                $el.off('change');
+                $el.select2('destroy');
+            }
+
+            $el.select2({
+                placeholder: 'Select Readers',
+                width: '100%',
+                dropdownParent: $('#assignReadersModal'),
+                closeOnSelect: false
+            });
+
+            $el.on('change', function () {
+                $wire.set('assign_reader_ids', $(this).val() || [], false);
+            });
+        });
+
+        // Initialize Select2 for jurors when the modal opens
+        document.getElementById('assignJurorsModal')?.addEventListener('shown.bs.modal', function () {
+            let $el = $('#assign_juror_ids');
+
+            if ($el.hasClass('select2-hidden-accessible')) {
+                $el.off('change');
+                $el.select2('destroy');
+            }
+
+            $el.select2({
+                placeholder: 'Select Jurors',
+                width: '100%',
+                dropdownParent: $('#assignJurorsModal'),
+                closeOnSelect: false
+            });
+
+            $el.on('change', function () {
+                $wire.set('assign_juror_ids', $(this).val() || [], false);
+            });
+        });
+
         $wire.on('users-loaded', () => {
             setTimeout(() => {
                 let $el = $('#users_id');
@@ -342,7 +625,7 @@
                 $el.select2({
                     placeholder: 'Select Users',
                     width: '100%',
-                    dropdownParent: $('#assignModal'),
+                    dropdownParent: $('#assignPMModal'),
                     closeOnSelect: false
                 });
 

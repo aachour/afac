@@ -30,6 +30,19 @@ use AuthorizesRequests;
     public $id;
     public $admin_notes;
     public $admin_status;
+
+    public $pm_group_id = null;
+    public $pm_jurors = [];
+    public $assign_juror_ids = [];
+    public $assign_form_type = null;
+
+    public $pm_readers = [];
+    public $assign_reader_ids = [];
+    public $assign_reader_form_type = null;
+
+    public $submissionPMs = [];
+    public $submissionJurors = [];
+    public $submissionReaders = [];
     
 
     public function mount($formId='')
@@ -49,6 +62,52 @@ use AuthorizesRequests;
             $this->submissions = FormStackSubmissions::whereIn('submission_id', $submissionIds)
                 ->whereNull('deleted_at')
                 ->get();
+
+            $this->pm_group_id = $group?->id;
+            $jurorIds = $group ? (json_decode($group->jurors_id, true) ?? []) : [];
+            $this->pm_jurors = User::whereIn('id', $jurorIds)
+                ->orderBy('first_name')
+                ->orderBy('last_name')
+                ->get();
+            $readerIds = $group ? (json_decode($group->readers_id, true) ?? []) : [];
+            $this->pm_readers = User::whereIn('id', $readerIds)
+                ->orderBy('first_name')
+                ->orderBy('last_name')
+                ->get();
+
+            if ($this->pm_group_id) {
+                $jurorMap = [];
+                $assigns = FormStackAssigns::where('group_id', $this->pm_group_id)
+                    ->whereNotNull('juror_id')
+                    ->get();
+                foreach ($assigns as $assign) {
+                    $jurorUser = User::find($assign->juror_id);
+                    if (!$jurorUser) continue;
+                    $jurorMap[$assign->submission_id][] = [
+                        'assign_id' => $assign->id,
+                        'name'      => trim($jurorUser->first_name . ' ' . $jurorUser->last_name),
+                        'form_type' => $assign->form_type,
+                    ];
+                }
+                $this->submissionJurors = $jurorMap;
+            }
+
+            if ($this->pm_group_id) {
+                $readerMap = [];
+                $readerAssigns = FormStackAssigns::where('group_id', $this->pm_group_id)
+                    ->whereNotNull('reader_id')
+                    ->get();
+                foreach ($readerAssigns as $assign) {
+                    $readerUser = User::find($assign->reader_id);
+                    if (!$readerUser) continue;
+                    $readerMap[$assign->submission_id][] = [
+                        'assign_id' => $assign->id,
+                        'name'      => trim($readerUser->first_name . ' ' . $readerUser->last_name),
+                        'form_type' => $assign->form_type,
+                    ];
+                }
+                $this->submissionReaders = $readerMap;
+            }
         }
         else if(Auth::user()->hasRole('Juror'))
         {
@@ -66,6 +125,19 @@ use AuthorizesRequests;
             $this->submissions=FormStackSubmissions::where('form_id',$this->form_id)
                 ->whereNull('deleted_at')
                 ->get();
+
+            $groups = FormStackGroups::where('form_id', $this->form_id)->get();
+            $map = [];
+            foreach ($groups as $group) {
+                $ids = json_decode($group->submissions_id, true) ?? [];
+                $pmUser = User::find($group->user_id);
+                if (!$pmUser) continue;
+                $pmName = trim($pmUser->first_name . ' ' . $pmUser->last_name);
+                foreach ($ids as $sid) {
+                    $map[$sid][] = ['name' => $pmName, 'group_id' => $group->id, 'user_id' => $group->user_id];
+                }
+            }
+            $this->submissionPMs = $map;
         }
 
         $this->users = User::role('Program Manager')
@@ -76,6 +148,11 @@ use AuthorizesRequests;
         $this->dispatch('users-loaded'); 
 
     }
+
+    ##############################################################################
+    ##############################################################################
+    ##############################################################################
+    
 
     public function fetchSubmissions(){ 
 
@@ -156,8 +233,12 @@ use AuthorizesRequests;
 
     }
 
+    ##############################################################################
+    ##############################################################################
+    ##############################################################################
+    
 
-    public function saveAssign(){
+    public function savePMAssign(){
         // create/update current users
         foreach ($this->users_id as $user_id) {
             $group = FormStackGroups::firstOrNew([
@@ -172,19 +253,161 @@ use AuthorizesRequests;
             $group->save();
         }
         
-        return to_route('formstack.forms')->with('success', 'Assigning done successfully!');
+        return to_route('formstack.submissions', ['formId' => $this->form_id])->with('success', 'Submission(s) assigned successfully!');
 
     }
 
-    public function setSubmission($id){
+
+    public function saveSubmissionJurors()
+    {
+        $this->validate(
+            [
+                'assign_juror_ids'   => 'required|array|min:1',
+                'assign_form_type'   => 'required',
+                'selected_submissions' => 'required|array|min:1',
+            ],
+            [
+                'assign_juror_ids.required'      => 'Please select at least one juror.',
+                'assign_juror_ids.min'           => 'Please select at least one juror.',
+                'assign_form_type.required'      => 'Please select a form type.',
+                'selected_submissions.required'  => 'Please select at least one submission.',
+                'selected_submissions.min'       => 'Please select at least one submission.',
+            ]
+        );
+
+        foreach ($this->selected_submissions as $submissionId) {
+            foreach ($this->assign_juror_ids as $jurorId) {
+                $assign = FormStackAssigns::withTrashed()->updateOrCreate(
+                    [
+                        'group_id'      => $this->pm_group_id,
+                        'form_id'       => $this->form_id,
+                        'submission_id' => $submissionId,
+                        'juror_id'      => $jurorId,
+                    ],
+                    [
+                        'form_type' => $this->assign_form_type,
+                    ]
+                );
+
+                if ($assign->trashed()) {
+                    $assign->restore();
+                }
+            }
+        }
+
+        $this->assign_juror_ids = [];
+        $this->assign_form_type = null;
+
+        return to_route('formstack.submissions', ['formId' => $this->form_id])->with('success', 'Jurors assigned to submissions successfully!');
+    }
+
+    
+    public function saveSubmissionReaders()
+    {
+        $this->validate(
+            [
+                'assign_reader_ids'    => 'required|array|min:1',
+                'assign_reader_form_type' => 'required',
+                'selected_submissions'  => 'required|array|min:1',
+            ],
+            [
+                'assign_reader_ids.required'      => 'Please select at least one reader.',
+                'assign_reader_ids.min'           => 'Please select at least one reader.',
+                'assign_reader_form_type.required' => 'Please select a form type.',
+                'selected_submissions.required'   => 'Please select at least one submission.',
+                'selected_submissions.min'        => 'Please select at least one submission.',
+            ]
+        );
+
+        foreach ($this->selected_submissions as $submissionId) {
+            foreach ($this->assign_reader_ids as $readerId) {
+                $assign = FormStackAssigns::withTrashed()->updateOrCreate(
+                    [
+                        'group_id'      => $this->pm_group_id,
+                        'form_id'       => $this->form_id,
+                        'submission_id' => $submissionId,
+                        'reader_id'     => $readerId,
+                    ],
+                    [
+                        'form_type' => $this->assign_reader_form_type,
+                    ]
+                );
+
+                if ($assign->trashed()) {
+                    $assign->restore();
+                }
+            }
+        }
+
+        $this->assign_reader_ids = [];
+        $this->assign_reader_form_type = null;
+
+        return to_route('formstack.submissions', ['formId' => $this->form_id])->with('success', 'Readers assigned to submissions successfully!');
+    }
+
+    ##############################################################################
+    ##############################################################################
+    ##############################################################################
+    
+
+    public function deletePMSubmission($groupId, $submissionId)
+    {
+        $group = FormStackGroups::find($groupId);
+        if (!$group) return;
+
+        $ids = array_values(array_filter(
+            json_decode($group->submissions_id ?? '[]', true) ?? [],
+            fn($id) => $id !== $submissionId
+        ));
+        $group->submissions_id = json_encode($ids);
+
+        $statuses = json_decode($group->submissions_status ?? '{}', true) ?? [];
+        unset($statuses[$submissionId]);
+        $group->submissions_status = json_encode($statuses);
+        $group->save();
+
+        FormStackAssigns::where('group_id', $groupId)
+            ->where('submission_id', $submissionId)
+            ->delete();
+
+       return to_route('formstack.submissions', ['formId' => $this->form_id])->with('success', 'Submission removed successfully!');
+    }
+
+
+    public function deleteJurorAssign($assignId)
+    {
+        FormStackAssigns::where('id', $assignId)
+            ->where('group_id', $this->pm_group_id)
+            ->delete();
+
+        return to_route('formstack.submissions', ['formId' => $this->form_id])->with('success', 'Juror assignment removed successfully!');
+    }
+
+
+    public function deleteReaderAssign($assignId)
+    {
+        FormStackAssigns::where('id', $assignId)
+            ->where('group_id', $this->pm_group_id)
+            ->delete();
+
+        return to_route('formstack.submissions', ['formId' => $this->form_id])->with('success', 'Reader assignment removed successfully!');
+    }
+
+
+    ##############################################################################
+    ##############################################################################
+    ##############################################################################
+    
+
+    public function setAdminRate($id){
         $this->id=$id;
         $submission=FormStackSubmissions::find($this->id);
         $this->admin_notes=$submission->admin_notes;
         $this->admin_status=$submission->admin_status;
-
     }
 
-    public function saveRate(){
+
+    public function saveAdminRate(){
 
         FormStackSubmissions::where('id', $this->id)->update([
             'admin_status' => $this->admin_status,
@@ -194,6 +417,12 @@ use AuthorizesRequests;
         return to_route('formstack.submissions',['formId'=>$this->form_id])->with('success', 'Action done successfully!');
     }
 
+    ##############################################################################
+    ##############################################################################
+    ##############################################################################
+    
+
+    //Delete all submissions for the form - with confirmation
     public function clearSubmissions(){
         $this->authorize('formstack-formClearSubmissions');
 
@@ -211,6 +440,7 @@ use AuthorizesRequests;
 
         return to_route('formstack.submissions',['formId'=>$this->form_id]);
     }
+
 
     public function render()
     {

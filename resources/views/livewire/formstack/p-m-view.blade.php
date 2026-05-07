@@ -19,7 +19,6 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>
-                        <th>Assigned Submissions</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -30,29 +29,6 @@
                             <td>{{ $pm->user->first_name.' '.$pm->user->last_name }}</td>
                             <td>{{ $pm->user->email }}</td>
                             <td>{{ $pm->user->phone }}</td>
-                            <td>
-                                @php
-                                    $submissionIds = json_decode($pm->submissions_id, true) ?? [];
-                                    $submissionStatus = json_decode($pm->submissions_status, true) ?? [];
-                                    
-                                @endphp
-
-                                @foreach($submissionIds as $submissionId)
-                                    @php
-                                        $submission = \App\Models\FormStackSubmissions::where('submission_id', $submissionId)->first();
-                                    @endphp
-                                    @php
-                                        $submissionsStatus = json_decode($pm->submissions_status, true) ?? [];
-                                        $statusEntry = $submissionsStatus[$submissionId] ?? null;
-                                        $currentStatus = is_array($statusEntry) ? ($statusEntry['status'] ?? null) : $statusEntry;
-                                    @endphp
-                                    <div class="d-flex align-items-center gap-1">-{{ $submission?->admin_id ?? '—' }}/{{$submission?->email ?? '—' }} / <span class="{{ $currentStatus === 'yes' ? 'text-success' : ($currentStatus === 'maybe' ? 'text-warning' : ($currentStatus === 'no' ? 'text-danger' : '')) }}">{{$currentStatus ?? '—'}}</span>&nbsp;<a href="{{ route('formstack.submission', ['formId' => $pm->form_id , 'submissionId' => $submissionId , 'pmId' => $pm->user->id ]) }}" target="_blank"><i class="ti ti-eye ti-sm text-body"></i></a>
-                                    @can('formstack-formAssignPM')
-                                        &nbsp;<button type="button" onclick="confirmRemoveSubmission({{ $pm->id }}, '{{ $submissionId }}')" class="border-0 bg-transparent p-0 text-danger"><i class="ti ti-x ti-sm"></i></button>
-                                    @endcan
-                                    </div>
-                                @endforeach
-                            </td>
                             <td>
                                 @can('formstack-viewAssignedJurors')
                                     <button wire:click="setGroupId({{ $pm->id }},'Jurors')" type="button" 
@@ -74,27 +50,6 @@
                                     <i class="ti ti-user-check ti-sm"></i>
                                     </button>
                                 @endcan
-                                @can('formstack-submissionAssignJurors')
-                                    <button wire:click="assignJurors({{ $pm->id }})" type="button" 
-                                    data-bs-target="#assignSubmissionsJurorsModal" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-title="Assign Jurors to Submissions"
-                                    data-bs-placement="top"
-                                    class="text-body view-user-button border-0 bg-transparent p-0">
-                                        <i class="ti ti-gavel ti-sm"></i>
-
-                                    </button>
-                                @endcan
-                                @can('formstack-submissionAssignReaders')
-                                    <button wire:click="assignReaders({{ $pm->id }})" type="button" 
-                                    data-bs-target="#assignSubmissionsReadersModal" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-title="Assign Readers to Submissions"
-                                    data-bs-placement="top"
-                                    class="text-body view-user-button border-0 bg-transparent p-0">
-                                        <i class="ti ti-eyeglass ti-sm"></i>
-                                    </button>
-                                @endcan
                                 @can('formstack-submissionAssignView')
                                     <button wire:click="viewAssignments({{ $pm->id }})" type="button" 
                                     data-bs-target="#viewAssignmentsModal" 
@@ -103,15 +58,6 @@
                                     data-bs-placement="top"
                                     class="text-body view-user-button border-0 bg-transparent p-0">
                                         <i class="ti ti-list-details ti-sm"></i>
-                                    </button>
-                                @endcan
-                                @can('formstack-deleteAssignedPM')
-                                    <button type="button"
-                                    data-bs-title="Delete PM"
-                                    data-bs-placement="top"
-                                    onclick="confirmDeletePM({{ $pm->id }})"
-                                    class="text-danger view-user-button border-0 bg-transparent p-0">
-                                        <i class="ti ti-trash ti-sm"></i>
                                     </button>
                                 @endcan
                             </td>
@@ -220,118 +166,6 @@
         </div>
     </div>
 
-    <div wire:ignore.self class="modal fade" id="assignSubmissionsJurorsModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Assign Juror(s) to Submission(s)</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <div class="modal-body">
-
-                    <div class="mb-3" wire:ignore>
-                        <label for="assign_submission_ids" class="form-label">Submissions</label>
-                        <select id="assign_submission_ids" class="form-control" multiple></select>
-                    </div>
-
-                    <div class="mb-3" wire:ignore>
-                        <label for="assign_juror_ids" class="form-label">Jurors</label>
-                        <select id="assign_juror_ids" class="form-control" multiple></select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="assign_form_type" class="form-label">Form Type</label>
-                        <select id="assign_form_type" class="form-control" wire:model="assign_form_type">
-                            <option value="">Form Type</option>
-                            <option value="1">Type 1</option>
-                            <option value="2">Type 2</option>
-                            <option value="3">Type 3</option>
-                        </select>
-                    </div>
-
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Cancel
-                    </button>
-
-                    <button
-                        type="button"
-                        wire:click="saveSubmissionJurors"
-                        wire:loading.attr="disabled"
-                        wire:target="saveSubmissionJurors"
-                        class="btn btn-primary"
-                    >
-                        <span wire:loading.remove wire:target="saveSubmissionJurors">
-                            Save
-                        </span>
-                        <span wire:loading wire:target="saveSubmissionJurors">
-                            Saving...
-                        </span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div wire:ignore.self class="modal fade" id="assignSubmissionsReadersModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Assign Reader(s) to Submission(s)</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <div class="modal-body">
-
-                    <div class="mb-3" wire:ignore>
-                        <label for="assign_reader_submission_ids" class="form-label">Submissions</label>
-                        <select id="assign_reader_submission_ids" class="form-control" multiple></select>
-                    </div>
-
-                    <div class="mb-3" wire:ignore>
-                        <label for="assign_reader_ids" class="form-label">Readers</label>
-                        <select id="assign_reader_ids" class="form-control" multiple></select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="assign_reader_form_type" class="form-label">Form Type</label>
-                        <select id="assign_reader_form_type" class="form-control" wire:model="assign_reader_form_type">
-                            <option value="">Form Type</option>
-                            <option value="1">Type 1</option>
-                            <option value="2">Type 2</option>
-                            <option value="3">Type 3</option>
-                        </select>
-                    </div>
-
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Cancel
-                    </button>
-
-                    <button
-                        type="button"
-                        wire:click="saveSubmissionReaders"
-                        wire:loading.attr="disabled"
-                        wire:target="saveSubmissionReaders"
-                        class="btn btn-primary"
-                    >
-                        <span wire:loading.remove wire:target="saveSubmissionReaders">
-                            Save
-                        </span>
-                        <span wire:loading wire:target="saveSubmissionReaders">
-                            Saving...
-                        </span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div wire:ignore.self class="modal fade" id="viewAssignmentsModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -428,114 +262,6 @@
             }, 100);
         });
 
-        $wire.on('submission-jurors-loaded', ({ submissions, jurors }) => {
-            setTimeout(() => {
-                let $subs = $('#assign_submission_ids');
-                let $jurors = $('#assign_juror_ids');
-
-                [$subs, $jurors].forEach(function ($el) {
-                    if (!$el.length) return;
-                    if ($el.hasClass('select2-hidden-accessible')) {
-                        $el.off('change');
-                        $el.select2('destroy');
-                    }
-                    $el.empty();
-                });
-
-                submissions.forEach(function (s) {
-                    $subs.append(new Option(s.label, s.id, false, false));
-                });
-
-                jurors.forEach(function (j) {
-                    $jurors.append(new Option(j.label, j.id, false, false));
-                });
-
-                $subs.select2({
-                    placeholder: 'Select Submissions',
-                    width: '100%',
-                    dropdownParent: $('#assignSubmissionsJurorsModal'),
-                    closeOnSelect: false
-                });
-
-                $jurors.select2({
-                    placeholder: 'Select Jurors',
-                    width: '100%',
-                    dropdownParent: $('#assignSubmissionsJurorsModal'),
-                    closeOnSelect: false
-                });
-
-                $subs.val([]).trigger('change.select2');
-                $jurors.val([]).trigger('change.select2');
-
-                $subs.on('change', function () {
-                    $wire.set('assign_submission_ids', $(this).val() || [], false);
-                });
-
-                $jurors.on('change', function () {
-                    $wire.set('assign_juror_ids', $(this).val() || [], false);
-                });
-            }, 100);
-        });
-
-        $wire.on('close-submission-jurors-modal', () => {
-            let modal = bootstrap.Modal.getInstance(document.getElementById('assignSubmissionsJurorsModal'));
-            if (modal) modal.hide();
-        });
-
-        $wire.on('submission-readers-loaded', ({ submissions, readers }) => {
-            setTimeout(() => {
-                let $subs = $('#assign_reader_submission_ids');
-                let $readers = $('#assign_reader_ids');
-
-                [$subs, $readers].forEach(function ($el) {
-                    if (!$el.length) return;
-                    if ($el.hasClass('select2-hidden-accessible')) {
-                        $el.off('change');
-                        $el.select2('destroy');
-                    }
-                    $el.empty();
-                });
-
-                submissions.forEach(function (s) {
-                    $subs.append(new Option(s.label, s.id, false, false));
-                });
-
-                readers.forEach(function (r) {
-                    $readers.append(new Option(r.label, r.id, false, false));
-                });
-
-                $subs.select2({
-                    placeholder: 'Select Submissions',
-                    width: '100%',
-                    dropdownParent: $('#assignSubmissionsReadersModal'),
-                    closeOnSelect: false
-                });
-
-                $readers.select2({
-                    placeholder: 'Select Readers',
-                    width: '100%',
-                    dropdownParent: $('#assignSubmissionsReadersModal'),
-                    closeOnSelect: false
-                });
-
-                $subs.val([]).trigger('change.select2');
-                $readers.val([]).trigger('change.select2');
-
-                $subs.on('change', function () {
-                    $wire.set('assign_reader_submission_ids', $(this).val() || [], false);
-                });
-
-                $readers.on('change', function () {
-                    $wire.set('assign_reader_ids', $(this).val() || [], false);
-                });
-            }, 100);
-        });
-
-        $wire.on('close-submission-readers-modal', () => {
-            let modal = bootstrap.Modal.getInstance(document.getElementById('assignSubmissionsReadersModal'));
-            if (modal) modal.hide();
-        });
-
         let assignmentsDataTable = null;
         let currentFormId = null;
         let currentPmId = null;
@@ -560,7 +286,6 @@
                         ? row.jurors.map(j =>
                             '<span class="badge bg-label-primary me-1 assignment-badge" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;" data-submission-id="' + sid + '" data-assign-id="' + (j.assign_id || '') + '" title="Click to view submission">' + j.name +
                             (j.form_type ? ' <small>(Form Type ' + j.form_type + ')</small>' : '') +
-                            '<button type="button" class="delete-assignment-btn btn-close btn-close-sm" style="font-size:.1rem;" data-submission-id="' + sid + '" data-type="juror" data-person-id="' + j.id + '"></button>' +
                             '</span>'
                         ).join('')
                         : '<span class="text-muted">—</span>';
@@ -569,7 +294,6 @@
                         ? row.readers.map(r =>
                             '<span class="badge bg-label-success me-1 assignment-badge" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;" data-submission-id="' + sid + '" data-assign-id="' + (r.assign_id || '') + '" title="Click to view submission">' + r.name +
                             (r.form_type ? ' <small>(Form Type ' + r.form_type + ')</small>' : '') +
-                            '<button type="button" class="delete-assignment-btn btn-close btn-close-sm" style="font-size:.1rem;" data-submission-id="' + sid + '" data-type="reader" data-person-id="' + r.id + '"></button>' +
                             '</span>'
                         ).join('')
                         : '<span class="text-muted">—</span>';
@@ -606,47 +330,7 @@
             }
         });
 
-        $('#assignmentsTable').on('click', '.delete-assignment-btn', function (e) {
-            e.stopPropagation();
-            let submissionId = $(this).closest('.assignment-badge').data('submission-id');
-            let type         = $(this).data('type');
-            let personId     = $(this).data('person-id');
-            $wire.deleteAssignment(submissionId, type, personId);
-        });
 
-        window.confirmRemoveSubmission = function (groupId, submissionId) {
-            Swal.fire({
-                title: 'Remove Submission?',
-                text: 'This will remove the submission from this group along with any juror/reader assignments.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Yes, remove',
-                cancelButtonText: 'Cancel',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $wire.removeSubmissionFromGroup(groupId, submissionId);
-                }
-            });
-        };
-
-        window.confirmDeletePM = function (groupId) {
-            Swal.fire({
-                title: 'Delete Program Manager?',
-                text: 'This will remove the PM and all their assigned submissions from this form.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#6c757d',
-                confirmButtonText: 'Yes, delete',
-                cancelButtonText: 'Cancel',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $wire.deletePM(groupId);
-                }
-            });
-        };
     </script>
     @endscript
 
