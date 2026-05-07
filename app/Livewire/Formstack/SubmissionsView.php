@@ -43,6 +43,7 @@ use AuthorizesRequests;
     public $submissionPMs = [];
     public $submissionJurors = [];
     public $submissionReaders = [];
+    public $submissionStatuses = [];
     
 
     public function mount($formId='')
@@ -74,6 +75,18 @@ use AuthorizesRequests;
                 ->orderBy('first_name')
                 ->orderBy('last_name')
                 ->get();
+
+            if ($this->pm_group_id) {
+                $statusMap = [];
+                $submissionsStatus = json_decode($group->submissions_status, true) ?? [];
+                foreach ($submissionsStatus as $sid => $entry) {
+                    $statusMap[$sid] = [
+                        'status' => is_array($entry) ? ($entry['status'] ?? null) : $entry,
+                        'notes'  => is_array($entry) ? ($entry['notes'] ?? null) : null,
+                    ];
+                }
+                $this->submissionStatuses = $statusMap;
+            }
 
             if ($this->pm_group_id) {
                 $jurorMap = [];
