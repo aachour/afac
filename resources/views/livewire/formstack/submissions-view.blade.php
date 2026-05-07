@@ -77,6 +77,7 @@
                         @elseif(Auth::user()->hasRole('Program Manager'))
                         <th>Assigned To Jurors</th>
                         <th>Assigned To Readers</th>
+                        <th>Status / Notes</th>
                         @endif
                         <th>Action</th>
                     </tr>
@@ -163,6 +164,13 @@
                                         </div>
                                     @endforeach
                                 </td>
+                                <td>
+                                    @php $statusEntry = $submissionStatuses[$submission->submission_id] ?? null; @endphp
+                                    @if($statusEntry)
+                                        @if($statusEntry['status'])<div>Status: <span class="{{ $statusEntry['status'] === 'yes' ? 'text-success' : ($statusEntry['status'] === 'maybe' ? 'text-warning' : ($statusEntry['status'] === 'no' ? 'text-danger' : '')) }}">{{ $statusEntry['status'] }}</span></div>@endif
+                                        @if($statusEntry['notes'])<div>Notes: {{ $statusEntry['notes'] }}</div>@endif
+                                    @endif
+                                </td>
                                 @endif
                                 <td>
                                     @can('formstack-submissionRate')
@@ -185,7 +193,7 @@
                                             <i class="ti ti-eye ti-sm"></i>
                                         </a>
                                     @elseif(Auth::user()->hasRole('Program Manager'))
-                                        <a href="{{ route('formstack.submission', ['formId' => $submission->form_id,'submissionId' => $submission->submission_id , 'pmId'=> $pm_group_id]) }}" 
+                                        <a href="{{ route('formstack.submission', ['formId' => $submission->form_id,'submissionId' => $submission->submission_id , 'pmId' => Auth::id()]) }}" 
                                             target="_blank" 
                                             class="text-body view-user-button"
                                             data-bs-title="View Submission"
