@@ -137,8 +137,32 @@
                                     @endforeach
                                 </td>
                                 @elseif(Auth::user()->hasRole('Program Manager'))
-                                <td></td>
-                                <td></td>
+                                <td>
+                                    @foreach($submissionJurors[$submission->submission_id] ?? [] as $juror)
+                                        <div class="d-flex align-items-center gap-1 mb-1">
+                                            <span>{{ $juror['name'] }}@if($juror['form_type']) <small class="text-muted">(Type {{ $juror['form_type'] }})</small>@endif</span>
+                                            <button type="button"
+                                                onclick="confirmDeleteJuror({{ $juror['assign_id'] }})"
+                                                class="btn btn-sm btn-icon btn-label-danger border-0 p-0 ms-1"
+                                                title="Remove Juror">
+                                                <i class="ti ti-x ti-xs"></i>
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                </td>
+                                <td>
+                                    @foreach($submissionReaders[$submission->submission_id] ?? [] as $reader)
+                                        <div class="d-flex align-items-center gap-1 mb-1">
+                                            <span>{{ $reader['name'] }}@if($reader['form_type']) <small class="text-muted">(Type {{ $reader['form_type'] }})</small>@endif</span>
+                                            <button type="button"
+                                                onclick="confirmDeleteReader({{ $reader['assign_id'] }})"
+                                                class="btn btn-sm btn-icon btn-label-danger border-0 p-0 ms-1"
+                                                title="Remove Reader">
+                                                <i class="ti ti-x ti-xs"></i>
+                                            </button>
+                                        </div>
+                                    @endforeach
+                                </td>
                                 @endif
                                 <td>
                                     @can('formstack-submissionRate')
@@ -404,6 +428,46 @@
 
     @script
     <script>
+        window.confirmDeleteReader = function(assignId) {
+            Swal.fire({
+                title: 'Remove Reader',
+                text: 'Are you sure you want to remove this reader assignment?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, remove it!',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    confirmButton: 'btn btn-danger me-3',
+                    cancelButton: 'btn btn-label-secondary'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $wire.deleteReaderAssign(assignId);
+                }
+            });
+        }
+
+        window.confirmDeleteJuror = function(assignId) {
+            Swal.fire({
+                title: 'Remove Juror',
+                text: 'Are you sure you want to remove this juror assignment?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, remove it!',
+                cancelButtonText: 'Cancel',
+                customClass: {
+                    confirmButton: 'btn btn-danger me-3',
+                    cancelButton: 'btn btn-label-secondary'
+                },
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $wire.deleteJurorAssign(assignId);
+                }
+            });
+        }
+
         window.confirmRemovePM = function(groupId, submissionId) {
             Swal.fire({
                 title: 'Remove Submission',

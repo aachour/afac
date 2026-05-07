@@ -41,6 +41,8 @@ use AuthorizesRequests;
     public $assign_reader_form_type = null;
 
     public $submissionPMs = [];
+    public $submissionJurors = [];
+    public $submissionReaders = [];
     
 
     public function mount($formId='')
@@ -72,6 +74,40 @@ use AuthorizesRequests;
                 ->orderBy('first_name')
                 ->orderBy('last_name')
                 ->get();
+
+            if ($this->pm_group_id) {
+                $jurorMap = [];
+                $assigns = FormStackAssigns::where('group_id', $this->pm_group_id)
+                    ->whereNotNull('juror_id')
+                    ->get();
+                foreach ($assigns as $assign) {
+                    $jurorUser = User::find($assign->juror_id);
+                    if (!$jurorUser) continue;
+                    $jurorMap[$assign->submission_id][] = [
+                        'assign_id' => $assign->id,
+                        'name'      => trim($jurorUser->first_name . ' ' . $jurorUser->last_name),
+                        'form_type' => $assign->form_type,
+                    ];
+                }
+                $this->submissionJurors = $jurorMap;
+            }
+
+            if ($this->pm_group_id) {
+                $readerMap = [];
+                $readerAssigns = FormStackAssigns::where('group_id', $this->pm_group_id)
+                    ->whereNotNull('reader_id')
+                    ->get();
+                foreach ($readerAssigns as $assign) {
+                    $readerUser = User::find($assign->reader_id);
+                    if (!$readerUser) continue;
+                    $readerMap[$assign->submission_id][] = [
+                        'assign_id' => $assign->id,
+                        'name'      => trim($readerUser->first_name . ' ' . $readerUser->last_name),
+                        'form_type' => $assign->form_type,
+                    ];
+                }
+                $this->submissionReaders = $readerMap;
+            }
         }
         else if(Auth::user()->hasRole('Juror'))
         {
@@ -214,6 +250,24 @@ use AuthorizesRequests;
             ->delete();
 
        return to_route('formstack.submissions', ['formId' => $this->form_id])->with('success', 'Submission removed successfully!');
+    }
+
+    public function deleteJurorAssign($assignId)
+    {
+        FormStackAssigns::where('id', $assignId)
+            ->where('group_id', $this->pm_group_id)
+            ->delete();
+
+        return to_route('formstack.submissions', ['formId' => $this->form_id])->with('success', 'Juror assignment removed successfully!');
+    }
+
+    public function deleteReaderAssign($assignId)
+    {
+        FormStackAssigns::where('id', $assignId)
+            ->where('group_id', $this->pm_group_id)
+            ->delete();
+
+        return to_route('formstack.submissions', ['formId' => $this->form_id])->with('success', 'Reader assignment removed successfully!');
     }
 
     public function saveAssign(){
