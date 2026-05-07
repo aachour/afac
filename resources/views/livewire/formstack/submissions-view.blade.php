@@ -24,7 +24,7 @@
                     @endcan
                     @can('formstack-formAssignPM')
                         <button type="button" 
-                        data-bs-target="#assignModal" 
+                        data-bs-target="#assignPMModal" 
                         data-bs-toggle="modal" 
                         class="btn btn-primary d-flex align-items-center">
                             Assign Program Manager(s)
@@ -166,8 +166,8 @@
                                 @endif
                                 <td>
                                     @can('formstack-submissionRate')
-                                        <button wire:click="setSubmission({{ $submission->id }})" type="button" 
-                                        data-bs-target="#rateModal" 
+                                        <button wire:click="setAdminRate({{ $submission->id }})" type="button" 
+                                        data-bs-target="#rateAdminModal" 
                                         data-bs-toggle="modal" 
                                         data-bs-title="Rate Submission"
                                         data-bs-placement="top"
@@ -306,7 +306,7 @@
         </div>
     </div>
 
-    <div wire:ignore.self class="modal fade" id="assignModal" tabindex="-1" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="assignPMModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -336,16 +336,16 @@
 
                     <button
                         type="button"
-                        wire:click="saveAssign"
+                        wire:click="savePMAssign"
                         wire:loading.attr="disabled"
-                        wire:target="saveAssign"
+                        wire:target="savePMAssign"
                         class="btn btn-primary"
                     >
-                        <span wire:loading.remove wire:target="saveAssign">
+                        <span wire:loading.remove wire:target="savePMAssign">
                             {{ @$modalId ? 'Update' : 'Save' }}
                         </span>
 
-                        <span wire:loading wire:target="saveAssign">
+                        <span wire:loading wire:target="savePMAssign">
                             Saving...
                         </span>
                     </button>
@@ -354,7 +354,7 @@
         </div>
     </div>
 
-    <div wire:ignore.self class="modal fade" id="rateModal" tabindex="-1" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="rateAdminModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -408,16 +408,16 @@
 
                     <button
                         type="button"
-                        wire:click="saveRate"
+                        wire:click="saveAdminRate"
                         wire:loading.attr="disabled"
-                        wire:target="saveRate"
+                        wire:target="saveAdminRate"
                         class="btn btn-primary"
                     >
-                        <span wire:loading.remove wire:target="saveRate">
+                        <span wire:loading.remove wire:target="saveAdminRate">
                             {{ @$modalId ? 'Update' : 'Save' }}
                         </span>
 
-                        <span wire:loading wire:target="saveRate">
+                        <span wire:loading wire:target="saveAdminRate">
                             Saving...
                         </span>
                     </button>
@@ -483,7 +483,7 @@
                 buttonsStyling: false
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $wire.removePMSubmission(groupId, submissionId);
+                    $wire.deletePMSubmission(groupId, submissionId);
                 }
             });
         }
@@ -613,7 +613,7 @@
                 $el.select2({
                     placeholder: 'Select Users',
                     width: '100%',
-                    dropdownParent: $('#assignModal'),
+                    dropdownParent: $('#assignPMModal'),
                     closeOnSelect: false
                 });
 
