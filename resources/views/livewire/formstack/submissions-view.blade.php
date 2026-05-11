@@ -49,7 +49,7 @@
                 
             </div>
             <div class="card-datatable table-responsive" wire:ignore>
-                <table class="table dataTable border-top" id="table">
+                <table class="table dataTable border-top" id="table" data-order='[[2, "asc"]]'>
                     <thead>
                     @if(Auth::user()->hasRole('Juror') || Auth::user()->hasRole('Reader'))
                     <tr>
