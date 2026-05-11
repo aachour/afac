@@ -97,6 +97,7 @@ use AuthorizesRequests;
                     $jurorUser = User::find($assign->juror_id);
                     if (!$jurorUser) continue;
                     $jurorMap[$assign->submission_id][] = [
+                        'pm_id' => $assign->group->user_id,
                         'assign_id' => $assign->id,
                         'name'      => trim($jurorUser->first_name . ' ' . $jurorUser->last_name),
                         'form_type' => $assign->form_type,
@@ -114,6 +115,7 @@ use AuthorizesRequests;
                     $readerUser = User::find($assign->reader_id);
                     if (!$readerUser) continue;
                     $readerMap[$assign->submission_id][] = [
+                        'pm_id' => $assign->group->user_id,
                         'assign_id' => $assign->id,
                         'name'      => trim($readerUser->first_name . ' ' . $readerUser->last_name),
                         'form_type' => $assign->form_type,

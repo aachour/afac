@@ -141,7 +141,7 @@
                                 <td>
                                     @foreach($submissionJurors[$submission->submission_id] ?? [] as $juror)
                                         <div class="d-flex align-items-center gap-1 mb-1">
-                                            <span>{{ $juror['name'] }}@if($juror['form_type']) <small class="text-muted">(Type {{ $juror['form_type'] }})</small>@endif</span>
+                                            <a href="{{ route('formstack.submission', [$form_id, $submission->submission_id, $juror['pm_id'], $juror['assign_id']]) }}" target="_blank">{{ $juror['name'] }}@if($juror['form_type']) <small class="text-muted">(Type {{ $juror['form_type'] }})</small>@endif</a>
                                             <button type="button"
                                                 onclick="confirmDeleteJuror({{ $juror['assign_id'] }})"
                                                 class="btn btn-sm btn-icon btn-label-danger border-0 p-0 ms-1"
@@ -154,7 +154,7 @@
                                 <td>
                                     @foreach($submissionReaders[$submission->submission_id] ?? [] as $reader)
                                         <div class="d-flex align-items-center gap-1 mb-1">
-                                            <span>{{ $reader['name'] }}@if($reader['form_type']) <small class="text-muted">(Type {{ $reader['form_type'] }})</small>@endif</span>
+                                            <a href="{{ route('formstack.submission', [$form_id, $submission->submission_id, $reader['pm_id'], $reader['assign_id']]) }}" target="_blank">{{ $reader['name'] }}@if($reader['form_type']) <small class="text-muted">(Type {{ $reader['form_type'] }})</small>@endif</a>
                                             <button type="button"
                                                 onclick="confirmDeleteReader({{ $reader['assign_id'] }})"
                                                 class="btn btn-sm btn-icon btn-label-danger border-0 p-0 ms-1"
