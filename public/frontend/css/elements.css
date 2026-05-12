@@ -11,7 +11,7 @@
     .centerContainer{
         position:relative;
         margin:0px auto;
-        width:95%;
+        width:85%;
     }
     .pageContent{
         position:relative;
@@ -22,7 +22,7 @@
     .centerContainer{
         position:relative;
         margin:0px auto;
-        width:95%;
+        width:85%;
     }
     .pageContent{
         position:relative;
@@ -57,7 +57,7 @@
     right:-100%;
     width:50%;
     height:100%;
-    padding:15px 2.5%;
+    padding:15px 7.5%;
     background:#D2F8FE;
     z-index:99999999;
 }
@@ -121,7 +121,7 @@
 }
 
 .collection{
-    padding:30px 2.5%;
+    padding:30px 7.5%;
     overflow:hidden;
 }
 @media(max-width:1000px){
@@ -341,7 +341,7 @@
 /***Section***/
 
 .section{
-    padding:40px 2.5%;
+    padding:40px 7.5%;
     overflow:hidden;
 }
 
