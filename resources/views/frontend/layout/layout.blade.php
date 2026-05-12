@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{{asset('frontend/css/swiper.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/css/general.css')}}?v=8" />
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}?v=13">
-    <link rel="stylesheet" href="{{ asset('frontend/css/elements.css') }}?v=16">
+    <link rel="stylesheet" href="{{ asset('frontend/css/elements.css') }}?v=17">
     
     @if(app()->getLocale()=='ar')
     <link rel="stylesheet" href="{{asset('frontend/css/arabic.css')}}?v=10" />
@@ -48,9 +48,9 @@
                     <img src="{{asset('frontend/images/logo.svg')}}" width="100px" />
                 </a>
             </div>
-            <div class="topSpacer menuBtn tiny ABCDiatypeMedium clickable" id="menuBtn">Menu</div>
+            <div class="topSpacer menuBtn tiny ABCDiatypeMedium clickable" id="menuBtn">@if(app()->getLocale() == 'ar') القائمة @else Menu @endif</div>
             <div class="topSpacer langBtn tiny ABCDiatypeMedium">
-                <span class="tiny clickable" onclick="setLang('en')">EN</span>/<span class="tiny clickable" onclick="setLang('ar')">AR</span>
+                <span class="tiny clickable" onclick="setLang('en')">EN</span> / <span class="tiny clickable" onclick="setLang('ar')">عربي</span>
             </div>
             <div class="clear"></div>
         </div>
@@ -58,7 +58,7 @@
 
     <!--Menu-->
     <div class="menu" id="menu">
-        <div class="topSpacer closeBtn tiny ABCDiatypeMedium clickable" id="closeBtn">Close</div>
+        <div class="topSpacer closeBtn tiny ABCDiatypeMedium clickable" id="closeBtn">@if(app()->getLocale() == 'ar') إغلاق @else Close @endif</div>
         
         <div class="mt-5 menu-item-row">
             <a href="{{url('/')}}" class="menu-item-link">
