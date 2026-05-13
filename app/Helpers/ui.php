@@ -913,8 +913,8 @@ function ViewExpandingText($section_column_id)
 
         foreach ($column->expandingTexts as $expandingText) {
 
-            $htmlColumn .= '<div class="expandingText clickable mb-3 bigger black ABCDiatypeMedium ' . ($expandingText->visible == '1' ? '' : 'hiddenText d-none') . '" data-expanding-block>';
-            $htmlColumn .= '<span class="expandingText-inner bigger black ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $expandingText->text : $expandingText->text_arabic) . '</span>';
+            $htmlColumn .= '<div class="expandingText clickable mb-3 bigger black ABCDiatype ' . ($expandingText->visible == '1' ? '' : 'hiddenText d-none') . '" data-expanding-block>';
+            $htmlColumn .= '<span class="expandingText-inner bigger black ABCDiatype">' . (app()->getLocale() == 'en' ? $expandingText->text : $expandingText->text_arabic) . '</span>';
             $htmlColumn .= '</div>';
         }
 
