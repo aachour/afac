@@ -198,7 +198,7 @@ class ProjectsController extends Controller
                         $entry_href=$entryDetails["entry_href"];
                         $entry_target=$entryDetails["entry_target"];
 
-                        $html.='<div class="entry">';
+                        $html.='<div class="entry" style="';if(app()->getLocale() == "ar") $html .= 'margin-left:1.5%;'; $html .= '">';
 
                             $labels=getEntryLabels($entry);
 
