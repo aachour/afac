@@ -76,12 +76,12 @@
         line-height: 100% !important;
         letter-spacing: -3% !important;
     }
-    .small , h3{
+    .small , p, h3{
         font-size:4.5vw !important;
         line-height: 120% !important;
         letter-spacing: -1% !important;
     }
-    .tiny , p , li{
+    .tiny , li{
         font-size:4vw !important;
         line-height: 120% !important;
         letter-spacing: -1% !important;
@@ -129,12 +129,12 @@
         line-height: 100% !important;
         letter-spacing: -3% !important;
     }
-    .small , h3{
-        font-size:1.35vw !important;
+    .small , p , h3{
+        font-size:1.2vw !important;
         line-height: 120% !important;
         letter-spacing: -1% !important;
     }
-    .tiny , p , li{
+    .tiny , li{
         font-size:0.9vw !important;
         line-height: 120% !important;
         letter-spacing: -1% !important;
