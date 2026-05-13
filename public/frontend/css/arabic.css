@@ -170,9 +170,9 @@ html[dir="rtl"] body {
 @media (min-width:1000px){
     .collection .entries .entry{
         float:right !important;
-        width:23.5% !important;
+        width:23.5%;
         height:auto !important;
-        margin-left:1.5% !important;
+        margin-left:2%;
         margin-right:0px !important;
         margin-top:2% !important;
     }
@@ -229,4 +229,9 @@ html[dir="rtl"] body {
 .gallery .gallery-swiper-button-next {
   left: 4.5% !important;
   right: auto !important;
+}
+@media(max-width:1000px){
+    .gallery .gallery-swiper-button-next{
+        left: 7.5% !important;
+    }
 }

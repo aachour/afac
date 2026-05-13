@@ -513,11 +513,11 @@ class HomeController extends Controller
                                         else if(app()->getLocale()=='ar'){$html.='margin-left:1.2% !important;';}
                                     $html.='}';
                                     if(app()->getLocale()=='ar'){
-                                        $html.='@media (min-width:1000px){
+                                        /*$html.='@media (min-width:1000px){
                                             .collection .entries .entry{
                                                 margin-left:2% !important;
                                             }
-                                        }';
+                                        }';*/
                                     }
                             $html.='</style>';
 
