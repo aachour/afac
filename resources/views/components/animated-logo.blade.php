@@ -332,19 +332,29 @@
                     return;
                 }
 
+                var headerLogoEl = document.querySelector('.header .logo');
                 var sourceRect = logoWrapper.getBoundingClientRect();
                 var targetRect = targetLogo ? targetLogo.getBoundingClientRect() : headerLogoAnchor.getBoundingClientRect();
+                var slotRect = (headerLogoEl && headerTitle)
+                    ? headerLogoEl.getBoundingClientRect()
+                    : targetRect;
                 var endWidth = headerTitle ? 100 : targetRect.width;
                 var endHeight = headerTitle
                     ? (sourceRect.width > 0 ? sourceRect.height * (endWidth / sourceRect.width) : targetRect.height)
                     : targetRect.height;
                 var isRtl = document.documentElement.getAttribute('dir') === 'rtl';
                 var endLeft = (headerTitle && isRtl)
-                    ? targetRect.right - endWidth
+                    ? slotRect.right - endWidth
                     : targetRect.left;
                 var endTop = headerTitle
                     ? targetRect.top + Math.max(0, (targetRect.height - endHeight) / 2)
                     : targetRect.top;
+
+                if (headerLogoEl && headerTitle) {
+                    headerLogoEl.style.width = slotRect.width + 'px';
+                    headerLogoEl.style.flexShrink = '0';
+                    headerLogoEl.style.justifyContent = isRtl ? 'flex-end' : 'flex-start';
+                }
 
                 // Prevent white overlays flashing while morphing to navbar size.
                 gsap.set([
@@ -381,22 +391,27 @@
                     duration: 0.9,
                     ease: 'power2.inOut',
                     onComplete: function() {
-                        headerLogoAnchor.appendChild(logoWrapper);
-                        logoWrapper.classList.add('logo-in-navbar');
-                        gsap.set(logoWrapper, { clearProps: 'left,top,width,height' });
-                        logoWrapper.style.position = 'relative';
-                        logoWrapper.style.left = '';
-                        logoWrapper.style.top = '';
-                        logoWrapper.style.width = endWidth + 'px';
-                        logoWrapper.style.height = 'auto';
-                        logoWrapper.style.margin = '0';
-                        logoWrapper.style.zIndex = '';
-                        logoWrapper.style.pointerEvents = 'auto';
                         if (headerTitle) {
                             headerTitle.classList.add('is-replaced-by-logo');
                         } else if (targetLogo && targetLogo.tagName === 'IMG') {
                             targetLogo.style.display = 'none';
                         }
+                        headerLogoAnchor.appendChild(logoWrapper);
+                        logoWrapper.classList.add('logo-in-navbar');
+                        if (headerLogoEl) {
+                            headerLogoEl.style.width = endWidth + 'px';
+                            headerLogoEl.style.flexShrink = '0';
+                        }
+                        gsap.set(logoWrapper, { clearProps: 'left,top,width,height,right' });
+                        logoWrapper.style.position = 'relative';
+                        logoWrapper.style.left = '';
+                        logoWrapper.style.top = '';
+                        logoWrapper.style.right = '';
+                        logoWrapper.style.width = endWidth + 'px';
+                        logoWrapper.style.height = 'auto';
+                        logoWrapper.style.margin = '0';
+                        logoWrapper.style.zIndex = '';
+                        logoWrapper.style.pointerEvents = 'auto';
                         gsap.set(['.anim-circle1-content', '.anim-circle2-content'], { scale: 0, opacity: 0 });
                         gsap.set(['.anim-diamon1-text', '.anim-diamon2-text', '.anim-diamon3-text'], { opacity: 0 });
                         gsap.set(['.anim-vertical1-content', '.anim-vertical2-content', '.anim-vertical3-content'], { opacity: 0 });
