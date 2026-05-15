@@ -22,4 +22,9 @@ class FormStackSubmissions extends Model
         
     ];
 
+    public function form()
+    {
+        return $this->belongsTo(FormStackForms::class, 'form_id', 'form_id');
+    }
+
 }

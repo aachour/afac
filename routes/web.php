@@ -342,6 +342,8 @@ Route::middleware(['auth'])->group(function () {
     
     Route::group(['prefix' => 'formstackSubmissions'], function () {
         Route::get('/{formId?}', SubmissionsView::class)->name('formstack.submissions');
+        Route::get('/{formId}/export/jurors', [FormStackController::class, 'exportJurorsRates'])->name('formstack.export.jurors');
+        Route::get('/{formId}/export/readers', [FormStackController::class, 'exportReadersRates'])->name('formstack.export.readers');
     });
 
     Route::group(['prefix' => 'formstackSubmissionView'], function () {
