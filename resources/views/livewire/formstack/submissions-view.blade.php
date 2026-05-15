@@ -23,12 +23,12 @@
                     </button>
                     @endcan
                     @can('formstack-formAssignPM')
-                        <button type="button" 
-                        data-bs-target="#assignPMModal" 
-                        data-bs-toggle="modal" 
-                        class="btn btn-primary d-flex align-items-center">
-                            Assign Program Manager(s)
-                        </button>
+                    <button type="button" 
+                    data-bs-target="#assignPMModal" 
+                    data-bs-toggle="modal" 
+                    class="btn btn-primary d-flex align-items-center">
+                        Assign Program Manager(s)
+                    </button>
                     @endcan
                     @if(Auth::user()->hasRole('Program Manager'))
                     <button type="button"
@@ -96,7 +96,6 @@
                                 <td>{{ $assign->group?->user ? trim($assign->group->user->first_name . ' ' .$assign->group->user->last_name): null; }}</td>
                                 <td>
                                     <a href="{{ route('formstack.submission', ['formId' => $assign->submission->form_id,'submissionId' => $assign->submission->submission_id , 'pmId' => $assign->group->user_id , 'assignId' => $assign->id]) }}" 
-                                        target="_blank" 
                                         class="view-user-button {{ ($assign->form_status || $assign->form_rate1 || $assign->form_rate2 || $assign->form_rate3 || $assign->form_rate4) ? 'text-success' : 'text-body' }}"
                                         data-bs-title="View Submission"
                                         data-bs-toggle="tooltip"
@@ -141,7 +140,7 @@
                                 <td>
                                     @foreach($submissionJurors[$submission->submission_id] ?? [] as $juror)
                                         <div class="d-flex align-items-center gap-1 mb-1">
-                                            <a href="{{ route('formstack.submission', [$form_id, $submission->submission_id, $juror['pm_id'], $juror['assign_id']]) }}" target="_blank">{{ $juror['name'] }}@if($juror['form_type']) <small class="text-muted">(Type {{ $juror['form_type'] }})</small>@endif</a>
+                                            <a href="{{ route('formstack.submission', [$form_id, $submission->submission_id, $juror['pm_id'], $juror['assign_id']]) }}">{{ $juror['name'] }}@if($juror['form_type']) <small class="text-muted">(Type {{ $juror['form_type'] }})</small>@endif</a>
                                             <button type="button"
                                                 onclick="confirmDeleteJuror({{ $juror['assign_id'] }})"
                                                 class="btn btn-sm btn-icon btn-label-danger border-0 p-0 ms-1"
@@ -154,7 +153,7 @@
                                 <td>
                                     @foreach($submissionReaders[$submission->submission_id] ?? [] as $reader)
                                         <div class="d-flex align-items-center gap-1 mb-1">
-                                            <a href="{{ route('formstack.submission', [$form_id, $submission->submission_id, $reader['pm_id'], $reader['assign_id']]) }}" target="_blank">{{ $reader['name'] }}@if($reader['form_type']) <small class="text-muted">(Type {{ $reader['form_type'] }})</small>@endif</a>
+                                            <a href="{{ route('formstack.submission', [$form_id, $submission->submission_id, $reader['pm_id'], $reader['assign_id']]) }}">{{ $reader['name'] }}@if($reader['form_type']) <small class="text-muted">(Type {{ $reader['form_type'] }})</small>@endif</a>
                                             <button type="button"
                                                 onclick="confirmDeleteReader({{ $reader['assign_id'] }})"
                                                 class="btn btn-sm btn-icon btn-label-danger border-0 p-0 ms-1"
@@ -194,7 +193,6 @@
                                         </a>
                                     @elseif(Auth::user()->hasRole('Program Manager'))
                                         <a href="{{ route('formstack.submission', ['formId' => $submission->form_id,'submissionId' => $submission->submission_id , 'pmId' => Auth::id()]) }}" 
-                                            target="_blank" 
                                             class="text-body view-user-button"
                                             data-bs-title="View Submission"
                                             data-bs-toggle="tooltip"
@@ -202,7 +200,6 @@
                                             <i class="ti ti-eye ti-sm"></i>
                                         </a>
                                     @endif
-                                    
                                 </td>
                             </tr>
                         @endforeach

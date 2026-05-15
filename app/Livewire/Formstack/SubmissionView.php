@@ -171,9 +171,43 @@ class SubmissionView extends Component
 
         $this->fieldData = $fieldData;
 
+    }   
+
+    public function savePmRating()
+    {
+        $this->validate(
+            ['pm_form_status' => 'required'],
+            ['pm_form_status.required' => 'Please select a status.']
+        );
+
+        $submissionKey = $this->normalizeSubmissionKey($this->submission_id);
+        if ($submissionKey === null) {
+            return;
+        }
+
+        $group = FormStackGroups::where('user_id', Auth::id())
+            ->whereJsonContains('submissions_id', $submissionKey)
+            ->first();
+
+        if ($group) {
+            $rawStatus = $group->submissions_status ?? [];
+            $status = is_string($rawStatus)
+                ? (json_decode($rawStatus, true) ?: [])
+                : (is_array($rawStatus) ? $rawStatus : []);
+
+            $status[$submissionKey] = [
+                'status' => $this->pm_form_status,
+                'notes' => $this->pm_form_notes,
+            ];
+            $group->update(['submissions_status' => $status]);
+        }
+
+        return to_route('formstack.submissions', ['formId' => $this->form_id])->with('success', 'Rating added successfully!');
+
+        // $this->dispatch('rating-saved');
     }
 
-    public function saveRating()
+    public function saveJRRating()
     {
         if (!$this->assign_id) return;
 
@@ -233,41 +267,12 @@ class SubmissionView extends Component
             ]);
         }
 
-        $this->dispatch('rating-saved');
+        return to_route('formstack.submissions')->with('success', 'Rating added successfully!');
+
+        //$this->dispatch('rating-saved');
     }
 
-    public function savePmRating()
-    {
-        $this->validate(
-            ['pm_form_status' => 'required'],
-            ['pm_form_status.required' => 'Please select a status.']
-        );
-
-        $submissionKey = $this->normalizeSubmissionKey($this->submission_id);
-        if ($submissionKey === null) {
-            return;
-        }
-
-        $group = FormStackGroups::where('user_id', Auth::id())
-            ->whereJsonContains('submissions_id', $submissionKey)
-            ->first();
-
-        if ($group) {
-            $rawStatus = $group->submissions_status ?? [];
-            $status = is_string($rawStatus)
-                ? (json_decode($rawStatus, true) ?: [])
-                : (is_array($rawStatus) ? $rawStatus : []);
-
-            $status[$submissionKey] = [
-                'status' => $this->pm_form_status,
-                'notes' => $this->pm_form_notes,
-            ];
-            $group->update(['submissions_status' => $status]);
-        }
-
-        $this->dispatch('rating-saved');
-    }
-
+    
     public function render()
     {
         return view('livewire.formstack.submission-view');

@@ -126,14 +126,14 @@
 
                 <button
                     type="button"
-                    wire:click="saveRating"
+                    wire:click="saveJRRating"
                     wire:loading.attr="disabled"
-                    wire:target="saveRating"
+                    wire:target="saveJRRating"
                     class="fs-eval-btn"
                     {{ !$canEdit2 ? 'disabled' : '' }}
                 >
-                    <span wire:loading.remove wire:target="saveRating">Save</span>
-                    <span wire:loading wire:target="saveRating">Saving...</span>
+                    <span wire:loading.remove wire:target="saveJRRating">Save</span>
+                    <span wire:loading wire:target="saveJRRating">Saving...</span>
                 </button>
             </div>
             @endif
@@ -260,14 +260,14 @@
 
                 <button
                     type="button"
-                    wire:click="saveRating"
+                    wire:click="saveJRRating"
                     wire:loading.attr="disabled"
-                    wire:target="saveRating"
+                    wire:target="saveJRRating"
                     class="fs-eval-btn"
                     {{ !$canEdit2 ? 'disabled' : '' }}
                 >
-                    <span wire:loading.remove wire:target="saveRating">Save</span>
-                    <span wire:loading wire:target="saveRating">Saving...</span>
+                    <span wire:loading.remove wire:target="saveJRRating">Save</span>
+                    <span wire:loading wire:target="saveJRRating">Saving...</span>
                 </button>
             </div>
             @endif

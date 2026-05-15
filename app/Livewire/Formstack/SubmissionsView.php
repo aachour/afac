@@ -18,7 +18,7 @@ use Spatie\Permission\Models\Role;
 class SubmissionsView extends Component
 {
 
-use AuthorizesRequests; 
+    use AuthorizesRequests; 
 
     public $submissions = [];
     public $assigns = [];
