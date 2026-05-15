@@ -338,7 +338,10 @@
                 var endHeight = headerTitle
                     ? (sourceRect.width > 0 ? sourceRect.height * (endWidth / sourceRect.width) : targetRect.height)
                     : targetRect.height;
-                var endLeft = targetRect.left;
+                var isRtl = document.documentElement.getAttribute('dir') === 'rtl';
+                var endLeft = (headerTitle && isRtl)
+                    ? targetRect.right - endWidth
+                    : targetRect.left;
                 var endTop = headerTitle
                     ? targetRect.top + Math.max(0, (targetRect.height - endHeight) / 2)
                     : targetRect.top;
@@ -366,6 +369,10 @@
                 logoWrapper.style.margin = '0';
                 logoWrapper.style.zIndex = '10000';
 
+                if (headerTitle) {
+                    gsap.to(headerTitle, { opacity: 0, duration: 0.5, ease: 'power2.in' });
+                }
+
                 gsap.to(logoWrapper, {
                     left: endLeft,
                     top: endTop,
@@ -374,16 +381,9 @@
                     duration: 0.9,
                     ease: 'power2.inOut',
                     onComplete: function() {
-                        if (headerTitle) {
-                            headerTitle.classList.add('is-replaced-by-logo');
-                        } else if (targetLogo && targetLogo.tagName === 'IMG') {
-                            targetLogo.style.display = 'none';
-                        }
                         headerLogoAnchor.appendChild(logoWrapper);
                         logoWrapper.classList.add('logo-in-navbar');
-                        gsap.set(['.anim-circle1-content', '.anim-circle2-content'], { scale: 0, opacity: 0 });
-                        gsap.set(['.anim-diamon1-text', '.anim-diamon2-text', '.anim-diamon3-text'], { opacity: 0 });
-                        gsap.set(['.anim-vertical1-content', '.anim-vertical2-content', '.anim-vertical3-content'], { opacity: 0 });
+                        gsap.set(logoWrapper, { clearProps: 'left,top,width,height' });
                         logoWrapper.style.position = 'relative';
                         logoWrapper.style.left = '';
                         logoWrapper.style.top = '';
@@ -392,6 +392,14 @@
                         logoWrapper.style.margin = '0';
                         logoWrapper.style.zIndex = '';
                         logoWrapper.style.pointerEvents = 'auto';
+                        if (headerTitle) {
+                            headerTitle.classList.add('is-replaced-by-logo');
+                        } else if (targetLogo && targetLogo.tagName === 'IMG') {
+                            targetLogo.style.display = 'none';
+                        }
+                        gsap.set(['.anim-circle1-content', '.anim-circle2-content'], { scale: 0, opacity: 0 });
+                        gsap.set(['.anim-diamon1-text', '.anim-diamon2-text', '.anim-diamon3-text'], { opacity: 0 });
+                        gsap.set(['.anim-vertical1-content', '.anim-vertical2-content', '.anim-vertical3-content'], { opacity: 0 });
                         if (placeholder && placeholder.parentNode) {
                             placeholder.parentNode.removeChild(placeholder);
                         }

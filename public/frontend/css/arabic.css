@@ -102,14 +102,17 @@ html[dir="rtl"] body {
 /**********************************************************************************/
 
 .header .logo{
-    float:right !important;
+    margin-left:auto !important;
 }
-.header .menuBtn{
-    float:left !important;
+.header .logo a{
+    justify-content:flex-end;
 }
 .header .langBtn{
-    float:left !important;
-    margin-left:30px;
+    margin-left:30px !important;
+    margin-right:0 !important;
+}
+.header-logo-title{
+    text-align:right;
 }
 
 .menu{

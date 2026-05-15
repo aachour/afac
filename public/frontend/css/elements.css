@@ -40,16 +40,24 @@
     padding:15px 0px;
 }
 
+.header .centerContainer{
+    display:flex;
+    align-items:center;
+}
 .header .logo{
-    float:left;
+    float:none;
+    order:1;
 }
 .header .logo a{
     text-decoration:none;
     color:inherit;
+    display:inline-flex;
+    align-items:center;
 }
 .header-logo-title{
     display:inline-block;
     max-width:220px;
+    font-size:20px !important;
     line-height:1.25 !important;
 }
 @media(min-width:1000px){
@@ -58,11 +66,19 @@
     }
 }
 .header .menuBtn{
-    float:right;
+    float:none;
+    order:3;
+    margin-top:0 !important;
 }
 .header .langBtn{
-    float:right;
+    float:none;
+    order:2;
+    margin-left:auto;
     margin-right:30px;
+    margin-top:0 !important;
+}
+.header .clear{
+    display:none;
 }
 
 .menu{

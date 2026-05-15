@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 
 <head>
     <!-- Required meta tags -->
@@ -46,7 +46,7 @@
             <div class="logo">
                 <a href="{{url('/')}}">
                     @if(!empty($logoAnimation))
-                        <span class="header-logo-title micro ABCDiatypeMedium black" id="header-logo-title">
+                        <span class="header-logo-title ABCDiatypeBlack black" id="header-logo-title">
                             @if(app()->getLocale() == 'ar')
                                 الصندوق العربي للثقافة والفنون
                             @else
