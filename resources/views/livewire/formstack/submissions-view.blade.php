@@ -43,6 +43,17 @@
                         class="btn btn-primary d-flex align-items-center">
                         Assign Reader(s)
                     </button>
+
+                    <a href="{{ route('formstack.export.jurors', $form_id) }}"
+                        class="btn btn-primary d-flex align-items-center">
+                        <i class="ti ti-file-spreadsheet me-1"></i> Export Juror(s) Rates
+                    </a>
+                    
+                    <a href="{{ route('formstack.export.readers', $form_id) }}"
+                        class="btn btn-primary d-flex align-items-center">
+                        <i class="ti ti-file-spreadsheet me-1"></i> Export Reader(s) Rates
+                    </a>
+                    
                     @endif
 
                 </div>
@@ -70,6 +81,7 @@
                             <input type="checkbox" id="select-all-submissions" title="Select all on this page" />
                         </th>
                         <th>Form ID</th>
+                        <th>Form Name</th>
                         <th>Submission ID</th>
                         <th>Admin ID</th>
                         <th>Email</th>
@@ -125,6 +137,7 @@
                                     <input type="checkbox" class="submission-checkbox" value="{{ $submission->submission_id }}" />
                                 </td>
                                 <td>{{ $submission->form_id }}</td>
+                                <td>{{ $submission->form->form_name ?? '' }}</td>
                                 <td>{{ $submission->submission_id }}</td>
                                 <td>{{ $submission->admin_id }}</td>
                                 <td>{{ $submission->email }}</td>
