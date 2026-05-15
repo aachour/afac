@@ -44,7 +44,7 @@
         </div>
 
 
-        <div class="fs-eval-panel" style="position: relative;">
+        <div class="fs-eval-panel">
 
             {{-- PM evaluation panel --}}
             @if( (Auth::user()->hasrole('Admin') || Auth::user()->hasrole('Program Manager') ) && $canView1)
@@ -291,8 +291,7 @@
             .fs-eval-panel {
                 width: 35%;
                 flex-shrink: 0;
-                position: sticky;
-                top: 80px;
+                position: relative;
                 align-self: flex-start;
             }
 
