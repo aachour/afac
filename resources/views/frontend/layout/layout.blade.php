@@ -58,9 +58,11 @@
                     @endif
                 </a>
             </div>
-            <div class="topSpacer menuBtn tiny ABCDiatypeMedium clickable" id="menuBtn">@if(app()->getLocale() == 'ar') القائمة @else Menu @endif</div>
-            <div class="topSpacer langBtn tiny ABCDiatypeMedium">
-                <span class="tiny clickable" onclick="setLang('en')">EN</span> / <span class="tiny clickable" onclick="setLang('ar')">عربي</span>
+            <div class="header-nav">
+                <div class="langBtn tiny ABCDiatypeMedium">
+                    <span class="tiny clickable" onclick="setLang('en')">EN</span> / <span class="tiny clickable" onclick="setLang('ar')">عربي</span>
+                </div>
+                <div class="menuBtn tiny ABCDiatypeMedium clickable" id="menuBtn">@if(app()->getLocale() == 'ar') القائمة @else Menu @endif</div>
             </div>
             <div class="clear"></div>
         </div>

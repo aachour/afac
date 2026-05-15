@@ -101,15 +101,14 @@ html[dir="rtl"] body {
 /**********************************************************************************/
 /**********************************************************************************/
 
-.header .logo{
-    margin-left:auto !important;
+.header .centerContainer{
+    flex-direction:row-reverse;
+}
+.header-nav{
+    flex-direction:row-reverse;
 }
 .header .logo a{
     justify-content:flex-end;
-}
-.header .langBtn{
-    margin-left:30px !important;
-    margin-right:0 !important;
 }
 .header-logo-title{
     text-align:right;
