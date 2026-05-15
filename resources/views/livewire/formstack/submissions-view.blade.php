@@ -55,11 +55,13 @@
                     <tr>
                         <th>ID</th>
                         <th>Form ID</th>
+                        <th>Form Name</th>
                         <th>Submission ID</th>
                         <th>Admin ID</th>
                         <th>Email</th>
                         <!-- <th>Name</th> -->
                         <th>Assigned By PM</th>
+                        <th>Rate/Note</th>
                         <th>Action</th>
                     </tr>
                     @else
@@ -89,11 +91,22 @@
                             <tr>
                                 <td>{{ $assign->id }}</td>
                                 <td>{{ $assign->submission->form_id }}</td>
+                                <td>{{ $assign->form->form_name ?? '' }}</td>
                                 <td>{{ $assign->submission->submission_id }}</td>
                                 <td>{{ $assign->submission->admin_id }}</td>
                                 <td>{{ $assign->submission->email }}</td>
                                 <!-- <td>{{ $assign->submission->name }}</td> -->
                                 <td>{{ $assign->group?->user ? trim($assign->group->user->first_name . ' ' .$assign->group->user->last_name): null; }}</td>
+                                <td>
+                                    @if($assign->form_type==1)
+                                        Status: {{ $assign->form_status }}<br />
+                                    @elseif($assign->form_type==2)
+                                        Rate: {{ ($assign->form_rate1 + $assign->form_rate2 + $assign->form_rate3) }} / 9<br />
+                                    @elseif($assign->form_type==3)
+                                        Rate: {{ ($assign->form_rate1 + $assign->form_rate2 + $assign->form_rate3 + $assign->form_rate4) }} / 10<br />
+                                    @endif
+                                    Notes: {{ $assign->form_notes }}
+                                </td>
                                 <td>
                                     <a href="{{ route('formstack.submission', ['formId' => $assign->submission->form_id,'submissionId' => $assign->submission->submission_id , 'pmId' => $assign->group->user_id , 'assignId' => $assign->id]) }}" 
                                         class="view-user-button {{ ($assign->form_status || $assign->form_rate1 || $assign->form_rate2 || $assign->form_rate3 || $assign->form_rate4) ? 'text-success' : 'text-body' }}"

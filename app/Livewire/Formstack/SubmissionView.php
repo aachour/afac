@@ -221,12 +221,12 @@ class SubmissionView extends Component
                 'form_status' => $this->form_status,
                 'form_notes'  => $this->form_notes,
             ]);
-        } elseif ($this->form_type == 2 || $this->form_type == 3) {
+        } elseif ($this->form_type == 2) {
             $this->validate(
                 [
                     'form_rate1' => 'required|integer|min:1|max:4',
                     'form_rate2' => 'required|integer|min:1|max:4',
-                    'form_rate3' => 'required|integer|min:1|max:2',
+                    'form_rate3' => 'required|integer|min:0|max:1',
                 ],
                 [
                     'form_rate1.required' => 'Please answer question 1.',
@@ -247,8 +247,8 @@ class SubmissionView extends Component
                 [
                     'form_rate1' => 'required|integer|min:1|max:4',
                     'form_rate2' => 'required|integer|min:1|max:4',
-                    'form_rate3' => 'required|integer|min:1|max:2',
-                    'form_rate4' => 'required|integer|min:1|max:2',
+                    'form_rate3' => 'required|integer|min:0|max:1',
+                    'form_rate4' => 'required|integer|min:0|max:1',
                 ],
                 [
                     'form_rate1.required' => 'Please answer question 1.',
@@ -257,7 +257,7 @@ class SubmissionView extends Component
                     'form_rate4.required' => 'Please answer question 4.',
                 ]
             );
-
+            
             FormStackAssigns::where('id', $this->assign_id)->update([
                 'form_rate1' => $this->form_rate1,
                 'form_rate2' => $this->form_rate2,
