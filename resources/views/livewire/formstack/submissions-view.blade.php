@@ -153,7 +153,12 @@
                                 <td>
                                     @foreach($submissionJurors[$submission->submission_id] ?? [] as $juror)
                                         <div class="d-flex align-items-center gap-1 mb-1">
-                                            <a href="{{ route('formstack.submission', [$form_id, $submission->submission_id, $juror['pm_id'], $juror['assign_id']]) }}">{{ $juror['name'] }}@if($juror['form_type']) <small class="text-muted">(Type {{ $juror['form_type'] }})</small>@endif</a>
+                                            <a href="{{ route('formstack.submission', [$form_id, $submission->submission_id, $juror['pm_id'], $juror['assign_id']]) }}">{{ $juror['name'] }}
+                                                @if($juror['form_type']) 
+                                                <small class="text-muted">(Type {{ $juror['form_type'] }})</small><br />
+                                                @endif
+                                                
+                                            </a>
                                             <button type="button"
                                                 onclick="confirmDeleteJuror({{ $juror['assign_id'] }})"
                                                 class="btn btn-sm btn-icon btn-label-danger border-0 p-0 ms-1"
