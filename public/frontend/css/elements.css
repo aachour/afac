@@ -43,6 +43,20 @@
 .header .logo{
     float:left;
 }
+.header .logo a{
+    text-decoration:none;
+    color:inherit;
+}
+.header-logo-title{
+    display:inline-block;
+    max-width:220px;
+    line-height:1.25 !important;
+}
+@media(min-width:1000px){
+    .header-logo-title{
+        max-width:14vw;
+    }
+}
 .header .menuBtn{
     float:right;
 }

@@ -45,7 +45,17 @@
         <div class="centerContainer">
             <div class="logo">
                 <a href="{{url('/')}}">
-                    <img src="{{asset('frontend/images/logo.svg')}}" width="100px" />
+                    @if(!empty($logoAnimation))
+                        <span class="header-logo-title micro ABCDiatypeMedium black" id="header-logo-title">
+                            @if(app()->getLocale() == 'ar')
+                                الصندوق العربي للثقافة والفنون
+                            @else
+                                Arab Fund for Arts and Culture
+                            @endif
+                        </span>
+                    @else
+                        <img src="{{asset('frontend/images/logo.svg')}}" width="100px" class="header-logo-img" />
+                    @endif
                 </a>
             </div>
             <div class="topSpacer menuBtn tiny ABCDiatypeMedium clickable" id="menuBtn">@if(app()->getLocale() == 'ar') القائمة @else Menu @endif</div>

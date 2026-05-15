@@ -110,7 +110,9 @@
     .animated-logo-wrapper { display: block; width: 80%; margin: 0 auto; cursor: pointer; position: relative; }
     .animated-logo-svg { display: block; width: 100%; max-width: none; height: auto; }
     .animated-logo-wrapper.logo-in-navbar { width: 100px; margin: 0; }
+    .animated-logo-wrapper.logo-in-navbar text { opacity: 0 !important; visibility: hidden !important; }
     .logo-part[data-inactive="1"] [class^="hover-"] { pointer-events: none !important; cursor: default !important; }
+    .header-logo-title.is-replaced-by-logo { display: none !important; }
 </style>
 
 <script>
@@ -173,6 +175,9 @@
             var g = root.querySelector('[data-part="' + part + '"]');
             if (g) g.setAttribute('data-inactive', inactive ? '1' : '0');
         }
+        function isNavbarLogo() {
+            return root.classList.contains('logo-in-navbar');
+        }
 
         // ---- Animation 1: Diamonds (rotate -45 + white text) ----
         var diamondCenters = { diamon1: '121.9 48.21', diamon2: '218.26 48.21', diamon3: '314.17 48.21' };
@@ -209,11 +214,11 @@
             hover.addEventListener('mouseenter', function() {
                 gsap.killTweensOf([path, textG]);
                 gsap.to(path, { rotation: -45, duration: 0.7, svgOrigin: origin });
-                if (textG) gsap.to(textG, { opacity: 1, duration: 0.3, delay: 0.2 });
+                if (textG && !isNavbarLogo()) gsap.to(textG, { opacity: 1, duration: 0.3, delay: 0.2 });
             });
             hover.addEventListener('mouseleave', function() {
                 gsap.killTweensOf([path, textG]);
-                if (textG) gsap.to(textG, { opacity: 0, duration: 0.3 });
+                if (textG && !isNavbarLogo()) gsap.to(textG, { opacity: 0, duration: 0.3 });
                 gsap.to(path, { rotation: 0, duration: 0.7, svgOrigin: origin });
             });
         });
@@ -263,6 +268,7 @@
         });
 
         // ---- Animation 3: Verticals (cover slides down to reveal text) ----
+        var verticalTextPaddingTop = 5;
         var verticalData = [
             { key: 'vertical1', cover: '.cover-vertical1', hover: '.hover-vertical1', content: '.anim-vertical1-content', tx: 28, ty: 112 },
             { key: 'vertical2', cover: '.cover-vertical2', hover: '.hover-vertical2', content: '.anim-vertical2-content', tx: 218, ty: 112 },
@@ -279,7 +285,7 @@
                 var existing = content.querySelectorAll('text');
                 for (var i = 0; i < existing.length; i++) existing[i].remove();
                 var gap = 10;
-                var startY = v.ty - ((lines.length - 1) * gap) / 2;
+                var startY = v.ty + verticalTextPaddingTop - ((lines.length - 1) * gap) / 2;
                 lines.forEach(function(line, i) {
                     var t = document.createElementNS(ns, 'text');
                     t.setAttribute('x', v.tx);
@@ -319,7 +325,8 @@
                 if (isMinimized) return;
                 isMinimized = true;
                 var headerLogoAnchor = document.querySelector('.header .logo a') || document.querySelector('.header .logo');
-                var targetLogo = document.querySelector('.header .logo img');
+                var headerTitle = document.getElementById('header-logo-title');
+                var targetLogo = headerTitle || document.querySelector('.header .logo img');
                 if (!headerLogoAnchor) {
                     isMinimized = false;
                     return;
@@ -327,6 +334,14 @@
 
                 var sourceRect = logoWrapper.getBoundingClientRect();
                 var targetRect = targetLogo ? targetLogo.getBoundingClientRect() : headerLogoAnchor.getBoundingClientRect();
+                var endWidth = headerTitle ? 100 : targetRect.width;
+                var endHeight = headerTitle
+                    ? (sourceRect.width > 0 ? sourceRect.height * (endWidth / sourceRect.width) : targetRect.height)
+                    : targetRect.height;
+                var endLeft = targetRect.left;
+                var endTop = headerTitle
+                    ? targetRect.top + Math.max(0, (targetRect.height - endHeight) / 2)
+                    : targetRect.top;
 
                 // Prevent white overlays flashing while morphing to navbar size.
                 gsap.set([
@@ -352,22 +367,27 @@
                 logoWrapper.style.zIndex = '10000';
 
                 gsap.to(logoWrapper, {
-                    left: targetRect.left,
-                    top: targetRect.top,
-                    width: targetRect.width,
-                    height: targetRect.height,
+                    left: endLeft,
+                    top: endTop,
+                    width: endWidth,
+                    height: endHeight,
                     duration: 0.9,
                     ease: 'power2.inOut',
                     onComplete: function() {
-                        if (targetLogo) {
+                        if (headerTitle) {
+                            headerTitle.classList.add('is-replaced-by-logo');
+                        } else if (targetLogo && targetLogo.tagName === 'IMG') {
                             targetLogo.style.display = 'none';
                         }
                         headerLogoAnchor.appendChild(logoWrapper);
                         logoWrapper.classList.add('logo-in-navbar');
+                        gsap.set(['.anim-circle1-content', '.anim-circle2-content'], { scale: 0, opacity: 0 });
+                        gsap.set(['.anim-diamon1-text', '.anim-diamon2-text', '.anim-diamon3-text'], { opacity: 0 });
+                        gsap.set(['.anim-vertical1-content', '.anim-vertical2-content', '.anim-vertical3-content'], { opacity: 0 });
                         logoWrapper.style.position = 'relative';
                         logoWrapper.style.left = '';
                         logoWrapper.style.top = '';
-                        logoWrapper.style.width = (targetRect.width || 100) + 'px';
+                        logoWrapper.style.width = endWidth + 'px';
                         logoWrapper.style.height = 'auto';
                         logoWrapper.style.margin = '0';
                         logoWrapper.style.zIndex = '';
