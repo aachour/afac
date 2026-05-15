@@ -171,70 +171,7 @@ class SubmissionView extends Component
 
         $this->fieldData = $fieldData;
 
-    }
-
-    public function saveRating()
-    {
-        if (!$this->assign_id) return;
-
-        if ($this->form_type == 1) {
-            $this->validate(
-                ['form_status' => 'required'],
-                ['form_status.required' => 'Please select a status.']
-            );
-
-            FormStackAssigns::where('id', $this->assign_id)->update([
-                'form_status' => $this->form_status,
-                'form_notes'  => $this->form_notes,
-            ]);
-        } elseif ($this->form_type == 2 || $this->form_type == 3) {
-            $this->validate(
-                [
-                    'form_rate1' => 'required|integer|min:1|max:4',
-                    'form_rate2' => 'required|integer|min:1|max:4',
-                    'form_rate3' => 'required|integer|min:1|max:2',
-                ],
-                [
-                    'form_rate1.required' => 'Please answer question 1.',
-                    'form_rate2.required' => 'Please answer question 2.',
-                    'form_rate3.required' => 'Please answer question 3.',
-                ]
-            );
-
-            FormStackAssigns::where('id', $this->assign_id)->update([
-                'form_rate1' => $this->form_rate1,
-                'form_rate2' => $this->form_rate2,
-                'form_rate3' => $this->form_rate3,
-                'form_notes' => $this->form_notes,
-            ]);
-        }
-        elseif ($this->form_type == 3) {
-            $this->validate(
-                [
-                    'form_rate1' => 'required|integer|min:1|max:4',
-                    'form_rate2' => 'required|integer|min:1|max:4',
-                    'form_rate3' => 'required|integer|min:1|max:2',
-                    'form_rate4' => 'required|integer|min:1|max:2',
-                ],
-                [
-                    'form_rate1.required' => 'Please answer question 1.',
-                    'form_rate2.required' => 'Please answer question 2.',
-                    'form_rate3.required' => 'Please answer question 3.',
-                    'form_rate4.required' => 'Please answer question 4.',
-                ]
-            );
-
-            FormStackAssigns::where('id', $this->assign_id)->update([
-                'form_rate1' => $this->form_rate1,
-                'form_rate2' => $this->form_rate2,
-                'form_rate3' => $this->form_rate3,
-                'form_rate4' => $this->form_rate4,
-                'form_notes' => $this->form_notes,
-            ]);
-        }
-
-        $this->dispatch('rating-saved');
-    }
+    }   
 
     public function savePmRating()
     {
@@ -265,9 +202,77 @@ class SubmissionView extends Component
             $group->update(['submissions_status' => $status]);
         }
 
-        $this->dispatch('rating-saved');
+        return to_route('formstack.submissions', ['formId' => $this->form_id])->with('success', 'Rating added successfully!');
+
+        // $this->dispatch('rating-saved');
     }
 
+    public function saveJRRating()
+    {
+        if (!$this->assign_id) return;
+
+        if ($this->form_type == 1) {
+            $this->validate(
+                ['form_status' => 'required'],
+                ['form_status.required' => 'Please select a status.']
+            );
+
+            FormStackAssigns::where('id', $this->assign_id)->update([
+                'form_status' => $this->form_status,
+                'form_notes'  => $this->form_notes,
+            ]);
+        } elseif ($this->form_type == 2) {
+            $this->validate(
+                [
+                    'form_rate1' => 'required|integer|min:1|max:4',
+                    'form_rate2' => 'required|integer|min:1|max:4',
+                    'form_rate3' => 'required|integer|min:0|max:1',
+                ],
+                [
+                    'form_rate1.required' => 'Please answer question 1.',
+                    'form_rate2.required' => 'Please answer question 2.',
+                    'form_rate3.required' => 'Please answer question 3.',
+                ]
+            );
+
+            FormStackAssigns::where('id', $this->assign_id)->update([
+                'form_rate1' => $this->form_rate1,
+                'form_rate2' => $this->form_rate2,
+                'form_rate3' => $this->form_rate3,
+                'form_notes' => $this->form_notes,
+            ]);
+        }
+        elseif ($this->form_type == 3) {
+            $this->validate(
+                [
+                    'form_rate1' => 'required|integer|min:1|max:4',
+                    'form_rate2' => 'required|integer|min:1|max:4',
+                    'form_rate3' => 'required|integer|min:0|max:1',
+                    'form_rate4' => 'required|integer|min:0|max:1',
+                ],
+                [
+                    'form_rate1.required' => 'Please answer question 1.',
+                    'form_rate2.required' => 'Please answer question 2.',
+                    'form_rate3.required' => 'Please answer question 3.',
+                    'form_rate4.required' => 'Please answer question 4.',
+                ]
+            );
+            
+            FormStackAssigns::where('id', $this->assign_id)->update([
+                'form_rate1' => $this->form_rate1,
+                'form_rate2' => $this->form_rate2,
+                'form_rate3' => $this->form_rate3,
+                'form_rate4' => $this->form_rate4,
+                'form_notes' => $this->form_notes,
+            ]);
+        }
+
+        return to_route('formstack.submissions')->with('success', 'Rating added successfully!');
+
+        //$this->dispatch('rating-saved');
+    }
+
+    
     public function render()
     {
         return view('livewire.formstack.submission-view');

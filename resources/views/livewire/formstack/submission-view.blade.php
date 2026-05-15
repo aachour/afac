@@ -44,7 +44,7 @@
         </div>
 
 
-        <div class="fs-eval-panel" style="position: relative;">
+        <div class="fs-eval-panel">
 
             {{-- PM evaluation panel --}}
             @if( (Auth::user()->hasrole('Admin') || Auth::user()->hasrole('Program Manager') ) && $canView1)
@@ -126,14 +126,14 @@
 
                 <button
                     type="button"
-                    wire:click="saveRating"
+                    wire:click="saveJRRating"
                     wire:loading.attr="disabled"
-                    wire:target="saveRating"
+                    wire:target="saveJRRating"
                     class="fs-eval-btn"
                     {{ !$canEdit2 ? 'disabled' : '' }}
                 >
-                    <span wire:loading.remove wire:target="saveRating">Save</span>
-                    <span wire:loading wire:target="saveRating">Saving...</span>
+                    <span wire:loading.remove wire:target="saveJRRating">Save</span>
+                    <span wire:loading wire:target="saveJRRating">Saving...</span>
                 </button>
             </div>
             @endif
@@ -260,14 +260,14 @@
 
                 <button
                     type="button"
-                    wire:click="saveRating"
+                    wire:click="saveJRRating"
                     wire:loading.attr="disabled"
-                    wire:target="saveRating"
+                    wire:target="saveJRRating"
                     class="fs-eval-btn"
                     {{ !$canEdit2 ? 'disabled' : '' }}
                 >
-                    <span wire:loading.remove wire:target="saveRating">Save</span>
-                    <span wire:loading wire:target="saveRating">Saving...</span>
+                    <span wire:loading.remove wire:target="saveJRRating">Save</span>
+                    <span wire:loading wire:target="saveJRRating">Saving...</span>
                 </button>
             </div>
             @endif
@@ -291,8 +291,7 @@
             .fs-eval-panel {
                 width: 35%;
                 flex-shrink: 0;
-                position: sticky;
-                top: 80px;
+                position: relative;
                 align-self: flex-start;
             }
 

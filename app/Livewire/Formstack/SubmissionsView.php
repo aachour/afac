@@ -18,7 +18,7 @@ use Spatie\Permission\Models\Role;
 class SubmissionsView extends Component
 {
 
-use AuthorizesRequests; 
+    use AuthorizesRequests; 
 
     public $submissions = [];
     public $assigns = [];
@@ -126,12 +126,12 @@ use AuthorizesRequests;
         }
         else if(Auth::user()->hasRole('Juror'))
         {
-            $this->assigns = FormStackAssigns::with(['submission', 'group.user'])
+            $this->assigns = FormStackAssigns::with(['submission','form', 'group.user'])
                 ->where('juror_id', Auth::id())
                 ->get();
         }
         else if(Auth::user()->hasRole('Reader')){
-            $this->assigns = FormStackAssigns::with(['submission', 'group.user'])
+            $this->assigns = FormStackAssigns::with(['submission', 'form', 'group.user'])
                 ->where('reader_id', Auth::id())
                 ->get();
         }
