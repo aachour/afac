@@ -67,7 +67,7 @@ function ViewEntryData($entry_id)
                         {
                             $granteeArrowSvg = '<span class="entry-hero-grantee-arrow-wrap"><svg class="entry-hero-grantee-arrow" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.2128 23.5743L11.9388 21.3256L19.8348 13.4295H0V10.1448H19.8348L11.9388 2.26142L14.2128 0L26 11.7872L14.2128 23.5743Z" fill="currentColor"/></svg></span>';
                             foreach ($entry->projectGrantees($entry->id) as $grantee) {
-                                $heroContent .= '<div class="mt-3 entry-hero-grantee-link-wrap"><a href="' . route('entry.view', ['entryType' => 'grantee', 'id' => $grantee["id"]]) . '" class="small black ABCDiatypeMedium square-diamond-grantee-trigger entry-hero-grantee-link"><span class="entry-hero-grantee-name">' . (app()->getLocale() == 'en' ?  $grantee["name"] :  $grantee["name_arabic"])   . '</span>' . $granteeArrowSvg . '</a></div>';
+                                $heroContent .= '<div class="mt-3 entry-hero-grantee-link-wrap"><a href="' . route('entry.view', ['entryType' => 'grantee', 'id' => $grantee["id"]]) . '" class="small black ABCDiatypeMedium square-diamond-grantee-trigger entry-hero-grantee-link"><span class="entry-hero-grantee-name small">' . (app()->getLocale() == 'en' ?  $grantee["name"] :  $grantee["name_arabic"])   . '</span>' . $granteeArrowSvg . '</a></div>';
                             }
                         }
                         $grantee_trigger = ($entry->type_id == 3 && count($entry->projectGrantees($entry->id)) > 0) ? '.square-diamond-grantee-trigger' : null;
