@@ -73,10 +73,30 @@
     display:inline-block;
     max-width:220px;
     vertical-align:middle;
+    white-space:nowrap;
+}
+@media(max-width:999px){
+    .header .centerContainer{
+        gap:10px;
+    }
+    .header-nav{
+        gap:10px;
+    }
+    .header .logo{
+        flex:1 1 auto;
+        min-width:0;
+    }
+    .header-logo-title{
+        font-size:14px !important;
+        line-height:1.2 !important;
+        max-width:none;
+        white-space:nowrap;
+    }
 }
 @media(min-width:1000px){
     .header-logo-title{
         max-width:17vw;
+        font-size:20px !important;
     }
 }
 .header .menuBtn,

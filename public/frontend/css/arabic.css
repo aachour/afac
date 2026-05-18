@@ -111,6 +111,17 @@ html[dir="rtl"] body {
 }
 .header-logo-title{
     text-align:right;
+    direction:rtl;
+}
+@media(max-width:999px){
+    .header-logo-title{
+        display:block;
+        width:100%;
+        text-align:right;
+        font-size:14px !important;
+        line-height:1.2 !important;
+        white-space:nowrap;
+    }
 }
 
 .menu{
