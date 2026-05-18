@@ -72,13 +72,11 @@
 .header-logo-title{
     display:inline-block;
     max-width:220px;
-    font-size:20px !important;
-    line-height:1.25 !important;
     vertical-align:middle;
 }
 @media(min-width:1000px){
     .header-logo-title{
-        max-width:14vw;
+        max-width:17vw;
     }
 }
 .header .menuBtn,
