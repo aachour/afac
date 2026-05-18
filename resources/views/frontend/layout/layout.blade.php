@@ -46,7 +46,7 @@
             <div class="logo">
                 <a href="{{url('/')}}">
                     @if(!empty($logoAnimation))
-                        <span class="header-logo-title ABCDiatypeBlack black" id="header-logo-title">
+                        <span class="header-logo-title small ABCDiatypeBlack black" id="header-logo-title">
                             @if(app()->getLocale() == 'ar')
                                 الصندوق العربي للثقافة والفنون
                             @else
