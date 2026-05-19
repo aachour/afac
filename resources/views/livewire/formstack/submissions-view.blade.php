@@ -168,7 +168,7 @@
                                         <div class="d-flex align-items-center gap-1 mb-1">
                                             <a href="{{ route('formstack.submission', [$form_id, $submission->submission_id, $juror['pm_id'], $juror['assign_id']]) }}">{{ $juror['name'] }}
                                                 @if($juror['form_type']) 
-                                                <small class="text-muted">(Type {{ $juror['form_type'] }})</small><br />
+                                                <small class="text-muted">({{ $juror['form_type'] == 1 ? 'Admin check' : ($juror['form_type'] == 2 ? 'Special Programs 1' : 'General Grants') }})</small><br />
                                                 @endif
                                                 
                                             </a>
@@ -184,7 +184,7 @@
                                 <td>
                                     @foreach($submissionReaders[$submission->submission_id] ?? [] as $reader)
                                         <div class="d-flex align-items-center gap-1 mb-1">
-                                            <a href="{{ route('formstack.submission', [$form_id, $submission->submission_id, $reader['pm_id'], $reader['assign_id']]) }}">{{ $reader['name'] }}@if($reader['form_type']) <small class="text-muted">(Type {{ $reader['form_type'] }})</small>@endif</a>
+                                            <a href="{{ route('formstack.submission', [$form_id, $submission->submission_id, $reader['pm_id'], $reader['assign_id']]) }}">{{ $reader['name'] }}@if($reader['form_type']) <small class="text-muted">({{ $reader['form_type'] == 1 ? 'Admin check' : ($reader['form_type'] == 2 ? 'Special Programs 1' : 'General Grants') }})</small>@endif</a>
                                             <button type="button"
                                                 onclick="confirmDeleteReader({{ $reader['assign_id'] }})"
                                                 class="btn btn-sm btn-icon btn-label-danger border-0 p-0 ms-1"
@@ -267,9 +267,9 @@
                         <label for="assign_form_type" class="form-label">Form Type</label>
                         <select id="assign_form_type" class="form-control" wire:model="assign_form_type">
                             <option value="">Select Form Type</option>
-                            <option value="1">Type 1</option>
-                            <option value="2">Type 2</option>
-                            <option value="3">Type 3</option>
+                            <option value="1">Admin check</option>
+                            <option value="2">Special Programs 1</option>
+                            <option value="3">General Grants</option>
                         </select>
                         @error('assign_form_type')
                             <span class="text-danger small">{{ $message }}</span>
@@ -323,9 +323,9 @@
                         <label for="assign_reader_form_type" class="form-label">Form Type</label>
                         <select id="assign_reader_form_type" class="form-control" wire:model="assign_reader_form_type">
                             <option value="">Select Form Type</option>
-                            <option value="1">Type 1</option>
-                            <option value="2">Type 2</option>
-                            <option value="3">Type 3</option>
+                            <option value="1">Admin check</option>
+                            <option value="2">Special Programs 1</option>
+                            <option value="3">General Grants</option>
                         </select>
                         @error('assign_reader_form_type')
                             <span class="text-danger small">{{ $message }}</span>

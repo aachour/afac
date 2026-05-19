@@ -216,7 +216,7 @@
                         المخرجات المقترحة.<br>
                     </p>
                     <div class="fs-eval-radios fs-eval-radios-row">
-                        @foreach([0,1] as $val)
+                        @foreach([1,2] as $val)
                         <label class="fs-eval-radio-option {{ (int)$form_rate3 === $val ? 'active selected' : '' }}">
                             <input type="radio" wire:model="form_rate3" value="{{ $val }}" {{ !$canEdit2 ? 'disabled' : '' }}> {{ $val }}
                         </label>
@@ -241,7 +241,7 @@
                         هل للمشروع القدرة على إثارة نقاش نقدي حول مواضيع أو ثيمات محددة تستحق الدعم والتطوير حالياً؟<br>
                     </p>
                     <div class="fs-eval-radios fs-eval-radios-row">
-                        @foreach([0,1] as $val)
+                        @foreach([1,2] as $val)
                         <label class="fs-eval-radio-option {{ (int)$form_rate4 === $val ? 'active selected' : '' }}">
                             <input type="radio" wire:model="form_rate4" value="{{ $val }}" {{ !$canEdit2 ? 'disabled' : '' }}> {{ $val }}
                         </label>
@@ -291,8 +291,11 @@
             .fs-eval-panel {
                 width: 35%;
                 flex-shrink: 0;
-                position: relative;
+                position: sticky;
+                top: 16px;
                 align-self: flex-start;
+                max-height: calc(100vh - 32px);
+                overflow-y: auto;
             }
 
             .fs-eval-panel-inner {
