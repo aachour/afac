@@ -291,8 +291,11 @@
             .fs-eval-panel {
                 width: 35%;
                 flex-shrink: 0;
-                position: relative;
+                position: sticky;
+                top: 16px;
                 align-self: flex-start;
+                max-height: calc(100vh - 32px);
+                overflow-y: auto;
             }
 
             .fs-eval-panel-inner {
