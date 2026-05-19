@@ -285,7 +285,7 @@
                     let jurorsList = row.jurors.length
                         ? row.jurors.map(j =>
                             '<span class="badge bg-label-primary me-1 assignment-badge" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;" data-submission-id="' + sid + '" data-assign-id="' + (j.assign_id || '') + '" title="Click to view submission">' + j.name +
-                            (j.form_type ? ' <small>(Form Type ' + j.form_type + ')</small>' : '') +
+                            (j.form_type ? ' <small>(' + (j.form_type == 1 ? 'Admin check' : (j.form_type == 2 ? 'Special Programs 1' : 'General Grants')) + ')</small>' : '') +
                             '</span>'
                         ).join('')
                         : '<span class="text-muted">—</span>';
@@ -293,7 +293,7 @@
                     let readersList = row.readers.length
                         ? row.readers.map(r =>
                             '<span class="badge bg-label-success me-1 assignment-badge" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;" data-submission-id="' + sid + '" data-assign-id="' + (r.assign_id || '') + '" title="Click to view submission">' + r.name +
-                            (r.form_type ? ' <small>(Form Type ' + r.form_type + ')</small>' : '') +
+                            (r.form_type ? ' <small>(' + (r.form_type == 1 ? 'Admin check' : (r.form_type == 2 ? 'Special Programs 1' : 'General Grants')) + ')</small>' : '') +
                             '</span>'
                         ).join('')
                         : '<span class="text-muted">—</span>';
