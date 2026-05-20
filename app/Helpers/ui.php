@@ -73,7 +73,7 @@ function ViewEntryData($entry_id)
                         $grantee_trigger = ($entry->type_id == 3 && count($entry->projectGrantees($entry->id)) > 0) ? '.square-diamond-grantee-trigger' : null;
 
                         $html .= '<div class="col-lg-6 col-12 text-center d-flex h-100">';
-                            $html .= view('frontend.btn-animation.entry-hero-square-diamond', ['bg_color' => $bgCode, 'content' => $heroContent, 'trigger_selector' => $grantee_trigger, 'image_caption' => $entry->image_caption, 'image_caption_arabic' => $entry->image_caption_arabic])->render();
+                            $html .= view('frontend.btn-animation.entry-hero-square-diamond', ['bg_color' => $bgCode, 'content' => $heroContent, 'trigger_selector' => $grantee_trigger])->render();
                         $html .= '</div>
 
                         <div class="col-lg-6 col-12 d-flex">';
@@ -82,10 +82,15 @@ function ViewEntryData($entry_id)
                             } else {
                                 $html .= '<img src="' . asset('frontend/images/default-image-featured.png') . '" width="100%" />';
                             }
+                            if((app()->getLocale() == 'en' && $entry->image_caption != '') || (app()->getLocale() != 'en' && $entry->image_caption_arabic != '')){
+                                $html .= '<div class="caption micro black">';
+                                    $html .= app()->getLocale() == 'en' ? $entry->image_caption : $entry->image_caption_arabic;
+                                $html .= '</div>';
+                            }
                         $html .= '</div>';
                         
                     } else { // Resourses/News/Externals
-                        $html .= '<div class="col-12">';
+                        $html .= '<div class="col-12 blackBg">';
 
                             $html .= '<div class="mt-4 huge black ABCDiatypeMedium">' . getEntryTitle($entry) . '</div>';
 
