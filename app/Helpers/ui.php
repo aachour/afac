@@ -43,7 +43,7 @@ function ViewEntryData($entry_id)
                         foreach ($labels as $label) {
                             $heroContent .= '<div class="label micro rounded">' . $label . '</div>';
                         }
-                        $heroContent .= '</div><div class="mt-3 huge black ABCDiatypeMedium" style="padding:0px 70px;">' . getEntryTitle($entry) . '</div>';
+                        $heroContent .= '</div><div class="mt-3 bigger black ABCDiatypeMedium" style="padding:0px 70px;">' . getEntryTitle($entry) . '</div>';
                         if ($entry->type_id == 2) //check program status
                         {
 
