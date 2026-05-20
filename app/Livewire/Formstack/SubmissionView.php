@@ -166,13 +166,30 @@ class SubmissionView extends Component
                     ?? $field['name']
                     ?? $field['title']
                     ?? "Field #{$fieldId}",
-                'section_text'  => $field['section_heading'] ?? null,
+                'section_heading'  => $field['section_heading'] ?? null,
                 'value'         => $value,
                 'type'          => $type,
             ];
         }
 
-        $this->fieldData = $fieldData;
+        // Remove section entries that have no filled fields beneath them
+        $filtered = [];
+        foreach ($fieldData as $index => $item) {
+            if ($item['type'] === 'section') {
+                $hasFields = false;
+                for ($i = $index + 1; $i < count($fieldData); $i++) {
+                    if ($fieldData[$i]['type'] === 'section') break;
+                    if (!is_null($fieldData[$i]['value']) && $fieldData[$i]['value'] !== '') {
+                        $hasFields = true;
+                        break;
+                    }
+                }
+                if (!$hasFields) continue;
+            }
+            $filtered[] = $item;
+        }
+
+        $this->fieldData = $filtered;
 
         // dd($this->fieldData);
 

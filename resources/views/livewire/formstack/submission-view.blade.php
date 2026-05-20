@@ -14,33 +14,33 @@
                         @if($field['type'] === 'section')
                             <div class="fs-section-title">
                                 <span class="fs-section-title-text">
-                                    {{ $field['section_text'] ?: $field['label'] }}
+                                    {{ $field['section_heading'] ?: $field['label'] }}
                                 </span>
                             </div>
                         @else
-                        <div class="fs-field-row">
-                            <div class="fs-field-label">
-                                {{ $field['label'] }}
-                            </div>
+                            <div class="fs-field-row">
+                                <div class="fs-field-label">
+                                    {{ $field['label'] }}
+                                </div>
 
-                            <div class="fs-field-value">
-                                @php
-                                    $value = $field['value'];
-                                @endphp
+                                <div class="fs-field-value">
+                                    @php
+                                        $value = $field['value'];
+                                    @endphp
 
-                                @if(is_array($value))
-                                    <ul class="fs-value-list">
-                                        @foreach($value as $item)
-                                            <li>{{ $item ?: '-' }}</li>
-                                        @endforeach
-                                    </ul>
-                                @elseif(!is_null($value) && $value !== '')
-                                    {!! nl2br(e($value)) !!}
-                                @else
-                                    <span class="fs-empty">No value submitted</span>
-                                @endif
+                                    @if(is_array($value))
+                                        <ul class="fs-value-list">
+                                            @foreach($value as $item)
+                                                <li>{{ $item ?: '-' }}</li>
+                                            @endforeach
+                                        </ul>
+                                    @elseif(!is_null($value) && $value !== '')
+                                        {!! nl2br(e($value)) !!}
+                                    @else
+                                        <span class="fs-empty">No value submitted</span>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
                         @endif
                     @empty
                         <div class="fs-empty-state">
