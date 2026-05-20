@@ -150,26 +150,31 @@ class SubmissionView extends Component
         $fieldData = [];
         foreach (($form['fields'] ?? []) as $field) {
             $fieldId = (string) ($field['id'] ?? '');
+            $type = $field['type'] ?? null;
 
             $value = $submittedValues[$fieldId] ?? null;
 
-            // For non-admins, only show fields with non-null values
-            if (!Auth::user()->hasrole('Admin') && is_null($value)) {
+            // Always include section headers; for non-admins skip other fields with no value
+            $isSection = ($type === 'section');
+            if (!Auth::user()->hasrole('Admin') && is_null($value) && !$isSection) {
                 continue;
             }
 
             $fieldData[] = [
-                'field_id' => $fieldId,
-                'label' => $field['label']
+                'field_id'      => $fieldId,
+                'label'         => $field['label']
                     ?? $field['name']
                     ?? $field['title']
                     ?? "Field #{$fieldId}",
-                'value' => $value,
-                'type'  => $field['type'] ?? null,
+                'section_text'  => $field['section_heading'] ?? null,
+                'value'         => $value,
+                'type'          => $type,
             ];
         }
 
         $this->fieldData = $fieldData;
+
+        // dd($this->fieldData);
 
     }   
 
