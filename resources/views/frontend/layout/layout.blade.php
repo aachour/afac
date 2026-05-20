@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{{asset('frontend/css/swiper.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/css/general.css')}}?v=8" />
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}?v=22">
-    <link rel="stylesheet" href="{{ asset('frontend/css/elements.css') }}?v=20">
+    <link rel="stylesheet" href="{{ asset('frontend/css/elements.css') }}?v=21">
     
     @if(app()->getLocale()=='ar')
     <link rel="stylesheet" href="{{asset('frontend/css/arabic.css')}}?v=14" />
