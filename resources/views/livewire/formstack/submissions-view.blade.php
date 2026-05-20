@@ -115,7 +115,7 @@
                                     @elseif($assign->form_type==2)
                                         Rate: {{ ($assign->form_rate1 + $assign->form_rate2 + $assign->form_rate3) }} / 10<br />
                                     @elseif($assign->form_type==3)
-                                        Rate: {{ ($assign->form_rate1 + $assign->form_rate2 + $assign->form_rate3 + $assign->form_rate4) }} / 12<br />
+                                        Rate: {{ ($assign->form_rate1 + $assign->form_rate2 + $assign->form_rate3 + $assign->form_rate4) }} / 11<br />
                                     @endif
                                     Notes: {{ $assign->form_notes }}
                                 </td>
