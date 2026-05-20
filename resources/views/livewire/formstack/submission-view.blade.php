@@ -31,11 +31,21 @@
                                     @if(is_array($value))
                                         <ul class="fs-value-list">
                                             @foreach($value as $item)
-                                                <li>{{ $item ?: '-' }}</li>
+                                                <li>
+                                                    @if(is_string($item) && preg_match('/^https?:\/\//', $item))
+                                                        <a href="{{ $item }}" target="_blank" rel="noopener noreferrer">{{ $item }}</a>
+                                                    @else
+                                                        {{ $item ?: '-' }}
+                                                    @endif
+                                                </li>
                                             @endforeach
                                         </ul>
                                     @elseif(!is_null($value) && $value !== '')
-                                        {!! nl2br(e($value)) !!}
+                                        @if(is_string($value) && preg_match('/^https?:\/\//', $value))
+                                            <a href="{{ $value }}" target="_blank" rel="noopener noreferrer">{{ $value }}</a>
+                                        @else
+                                            {!! nl2br(e($value)) !!}
+                                        @endif
                                     @else
                                         <span class="fs-empty">No value submitted</span>
                                     @endif
