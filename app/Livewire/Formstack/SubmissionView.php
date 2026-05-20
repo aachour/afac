@@ -248,7 +248,7 @@ class SubmissionView extends Component
                     'form_rate1' => 'required|integer|min:1|max:4',
                     'form_rate2' => 'required|integer|min:1|max:4',
                     'form_rate3' => 'required|integer|min:1|max:2',
-                    'form_rate4' => 'required|integer|min:1|max:2',
+                    'form_rate4' => 'required|integer|min:0|max:1',
                 ],
                 [
                     'form_rate1.required' => 'Please answer question 1.',
