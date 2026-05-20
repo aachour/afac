@@ -90,7 +90,7 @@ function ViewEntryData($entry_id)
                         $html .= '</div>';
                         
                     } else { // Resourses/News/Externals
-                        $html .= '<div class="col-12 blackBg">';
+                        $html .= '<div class="col-12">';
 
                             $html .= '<div class="mt-4 huge black ABCDiatypeMedium">' . getEntryTitle($entry) . '</div>';
 
