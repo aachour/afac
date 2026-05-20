@@ -106,11 +106,12 @@
         letter-spacing: -3% !important;
     }
 
-    p strong , p u , p i , p s , p a , h3 strong , h3 u , h3 i , h3 s , h3 a{
+    p strong , p u , p i , p s , p a , h3 strong , h3 u , h3 i , h3 s , h3 a, div.small p, div.small ul, div.small li{
         font-size:4.5vw !important;
         line-height: 120% !important;
         letter-spacing: -1% !important;
     }
+
 }
 @media(min-width:1000px){
     .huge{
@@ -163,11 +164,12 @@
         letter-spacing: -3% !important;
     }
 
-    p strong , p u , p i , p s , p a , h3 strong , h3 u , h3 i , h3 s{
+    p strong , p u , p i , p s , p a , h3 strong , h3 u , h3 i , h3 s , div.small p, div.small ul, div.small li{
         font-size:1.2vw !important;
         line-height: 120% !important;
         letter-spacing: -1% !important;
     }
+
 }
 
 /**********************************************************************************/
