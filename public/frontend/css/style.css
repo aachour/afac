@@ -117,7 +117,7 @@
         letter-spacing: -1% !important;
     }
 
-    p strong , p u , p i , p s , p a , div.small p, div.small ul, div.small li{
+    p strong , p u , p i , p s , p a , div.small p, div.small ul, div.small li, div.small td{
         font-size:4.5vw !important;
         line-height: 120% !important;
         letter-spacing: -1% !important;
@@ -186,7 +186,7 @@
         letter-spacing: -1% !important;
     }
 
-    p strong , p u , p i , p s , p a , div.small p, div.small ul, div.small li{
+    p strong , p u , p i , p s , p a , div.small p, div.small ul, div.small li, div.small td{
         font-size:1.2vw !important;
         line-height: 120% !important;
         letter-spacing: -1% !important;
