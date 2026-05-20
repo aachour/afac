@@ -11,6 +11,13 @@
 
                 <div class="fs-fields">
                     @forelse($fieldData as $field)
+                        @if($field['type'] === 'section')
+                            <div class="fs-section-title">
+                                <span class="fs-section-title-text">
+                                    {{ $field['section_text'] ?: $field['label'] }}
+                                </span>
+                            </div>
+                        @else
                         <div class="fs-field-row">
                             <div class="fs-field-label">
                                 {{ $field['label'] }}
@@ -34,6 +41,7 @@
                                 @endif
                             </div>
                         </div>
+                        @endif
                     @empty
                         <div class="fs-empty-state">
                             No submission data found.
@@ -503,6 +511,23 @@
 
             .fs-fields {
                 padding: 8px 0;
+            }
+
+            .fs-section-title {
+                padding: 16px 24px 12px;
+                background: #eef2f7;
+                border-top: 3px solid #3b6fb6;
+                border-bottom: 1px solid #c7d8ec;
+                margin-top: 8px;
+            }
+
+            .fs-section-title-text {
+                font-size: 16px;
+                font-weight: 700;
+                color: #1e3a5f;
+                letter-spacing: 0.03em;
+                text-transform: uppercase;
+                display: block;
             }
 
             .fs-field-row {
