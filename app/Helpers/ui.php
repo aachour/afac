@@ -71,16 +71,19 @@ function ViewEntryData($entry_id)
                             }
                         }
                         $grantee_trigger = ($entry->type_id == 3 && count($entry->projectGrantees($entry->id)) > 0) ? '.square-diamond-grantee-trigger' : null;
+
                         $html .= '<div class="col-lg-6 col-12 text-center d-flex h-100">';
-                        $html .= view('frontend.btn-animation.entry-hero-square-diamond', ['bg_color' => $bgCode, 'content' => $heroContent, 'trigger_selector' => $grantee_trigger])->render();
+                            $html .= view('frontend.btn-animation.entry-hero-square-diamond', ['bg_color' => $bgCode, 'content' => $heroContent, 'trigger_selector' => $grantee_trigger, 'image_caption' => $entry->image_caption, 'image_caption_arabic' => $entry->image_caption_arabic])->render();
                         $html .= '</div>
-                                        <div class="col-lg-6 col-12 d-flex">';
-                        if ($entry->image_featured) {
-                            $html .= '<img src="' . asset('storage/' . $entry->image_featured) . '" width="100%" />';
-                        } else {
-                            $html .= '<img src="' . asset('frontend/images/default-image-featured.png') . '" width="100%" />';
-                        }
+
+                        <div class="col-lg-6 col-12 d-flex">';
+                            if ($entry->image_featured) {
+                                $html .= '<img src="' . asset('storage/' . $entry->image_featured) . '" width="100%" />';
+                            } else {
+                                $html .= '<img src="' . asset('frontend/images/default-image-featured.png') . '" width="100%" />';
+                            }
                         $html .= '</div>';
+                        
                     } else { // Resourses/News/Externals
                         $html .= '<div class="col-12">';
 
