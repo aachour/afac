@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="{{asset('frontend/css/jquery-ui.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/css/swiper.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/css/general.css')}}?v=8" />
-    <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}?v=22">
+    <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}?v=23">
     <link rel="stylesheet" href="{{ asset('frontend/css/elements.css') }}?v=21">
     
     @if(app()->getLocale()=='ar')
