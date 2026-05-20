@@ -3,6 +3,9 @@
     $bg_color = $bg_color ?? 'transparent';
     $trigger_selector = $trigger_selector ?? null;
     $use_grantee_trigger = !empty($trigger_selector);
+    $image_caption = $image_caption ?? '';
+    $image_caption_arabic = $image_caption_arabic ?? '';
+    
 @endphp
 <style>
     .entry-hero-square-diamond-wrapper {
@@ -13,6 +16,14 @@
         height: 100%;
         position: relative;
         overflow: hidden;
+    }
+    .entry-hero-square-diamond-wrapper .caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(255,255,255,0.5);
+        padding:8px;
     }
     .entry-hero-square-diamond-inner {
         position: relative;
@@ -114,6 +125,9 @@
         <div class="entry-hero-square-diamond-content">
             {!! $content !!}
         </div>
+    </div>
+    <div class="caption micro black {{ app()->getLocale() == 'en' ? 'text-start' : 'text-end' }} ">
+        {{ app()->getLocale() == 'en' ? $image_caption : $image_caption_arabic }}
     </div>
 </div>
 
