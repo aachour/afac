@@ -126,9 +126,11 @@
             {!! $content !!}
         </div>
     </div>
-    <div class="caption micro black {{ app()->getLocale() == 'en' ? 'text-start' : 'text-end' }} ">
+    @if((app()->getLocale() == 'en' && $image_caption != '') || (app()->getLocale() != 'en' && $image_caption_arabic != ''))
+    <div class="caption micro black {{ app()->getLocale() == 'en' ? 'text-start' : 'text-end' }}">
         {{ app()->getLocale() == 'en' ? $image_caption : $image_caption_arabic }}
     </div>
+    @endif
 </div>
 
 <script>
