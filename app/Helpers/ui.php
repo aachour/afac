@@ -1345,6 +1345,9 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             </div>
             <div class="filter">
                 <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="' . ($isArabic ? 'تصفية' : 'Filter') . '" />
+            </div>
+            <div class="filter">
+                <input type="button" class="clearBtn" id="clear-collection-' . $collection_id . '" value="' . ($isArabic ? 'مسح' : 'Clear') . '" />
             </div>';
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
@@ -1384,6 +1387,21 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                     getFilteredEntries(" . $collection_id . ",filters);
                 });
 
+                $('#clear-collection-" . $collection_id . "').click(function () {
+                        var parent=$(this).parent().parent();
+                        $(parent).find('.filter_event_category').val('');
+                        $(parent).find('.filter_event_from_date').val('');
+                        $(parent).find('.filter_event_to_date').val('');
+                        $('#sort-collection-" . $collection_id . "').val('');
+                        var filters = {
+                            event_category: '',
+                            event_from_date: '',
+                            event_to_date: '',
+                            sort: '',
+                        };
+                        getFilteredEntries(" . $collection_id . ",filters);
+                    });
+
                 $('#sort-collection-" . $collection_id . "').change(function () {
                     var parent=$(this).parent().parent();
                     sort_" . $collection_id . "=$(parent).find('.sortDpd').val();
@@ -1411,6 +1429,9 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             </div>
             <div class="filter">
                 <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="' . ($isArabic ? 'تصفية' : 'Filter') . '" />
+            </div>
+            <div class="filter">
+                <input type="button" class="clearBtn" id="clear-collection-' . $collection_id . '" value="' . ($isArabic ? 'مسح' : 'Clear') . '" />
             </div>';
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
@@ -1443,6 +1464,19 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                             program_start_date: program_start_date_" . $collection_id . ",
                             program_end_date: program_end_date_" . $collection_id . ",
                             sort: sort_" . $collection_id . ",
+                        };
+                        getFilteredEntries(" . $collection_id . ",filters);
+                    });
+
+                    $('#clear-collection-" . $collection_id . "').click(function () {
+                        var parent=$(this).parent().parent();
+                        $(parent).find('.filter_program_start_date').val('');
+                        $(parent).find('.filter_program_end_date').val('');
+                        $('#sort-collection-" . $collection_id . "').val('');
+                        var filters = {
+                            program_start_date: '',
+                            program_end_date: '',
+                            sort: '',
                         };
                         getFilteredEntries(" . $collection_id . ",filters);
                     });
@@ -1565,6 +1599,9 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             </div>
             <div class="filter">
                 <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="' . ($isArabic ? 'تصفية' : 'Filter') . '" />
+            </div>
+            <div class="filter">
+                <input type="button" class="clearBtn" id="clear-collection-' . $collection_id . '" value="' . ($isArabic ? 'مسح' : 'Clear') . '" />
             </div>';
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
@@ -1605,6 +1642,23 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                             sort: sort_" . $collection_id . ",
                         };
 
+                        getFilteredEntries(" . $collection_id . ",filters);
+                    });
+
+                    $('#clear-collection-" . $collection_id . "').click(function () {
+                        var parent=$(this).parent().parent();
+                        $(parent).find('.filter_project_country').val('');
+                        $(parent).find('.filter_project_category').val('');
+                        $(parent).find('.filter_project_program_year').val('');
+                        $(parent).find('.filter_project_program').val('');
+                        $('#sort-collection-" . $collection_id . "').val('');
+                        var filters = {
+                            project_country: '',
+                            project_category: '',
+                            project_program_year: '',
+                            project_program: '',
+                            sort: '',
+                        };
                         getFilteredEntries(" . $collection_id . ",filters);
                     });
 
@@ -1728,6 +1782,9 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             </div>
             <div class="filter">
                 <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="' . ($isArabic ? 'تصفية' : 'Filter') . '" />
+            </div>
+            <div class="filter">
+                <input type="button" class="clearBtn" id="clear-collection-' . $collection_id . '" value="' . ($isArabic ? 'مسح' : 'Clear') . '" />
             </div>';
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
@@ -1766,6 +1823,23 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                             sort: sort_" . $collection_id . ",
                         };
 
+                        getFilteredEntries(" . $collection_id . ",filters);
+                    });
+
+                    $('#clear-collection-" . $collection_id . "').click(function () {
+                        var parent=$(this).parent().parent();
+                        $(parent).find('.filter_grantee_country').val('');
+                        $(parent).find('.filter_grantee_category').val('');
+                        $(parent).find('.filter_grantee_program_year').val('');
+                        $(parent).find('.filter_grantee_program').val('');
+                        $('#sort-collection-" . $collection_id . "').val('');
+                        var filters = {
+                            grantee_country: '',
+                            grantee_category: '',
+                            grantee_program_year: '',
+                            grantee_program: '',
+                            sort: '',
+                        };
                         getFilteredEntries(" . $collection_id . ",filters);
                     });
 
@@ -1868,6 +1942,9 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             </div>
             <div class="filter">
                 <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="' . ($isArabic ? 'تصفية' : 'Filter') . '" />
+            </div>
+            <div class="filter">
+                <input type="button" class="clearBtn" id="clear-collection-' . $collection_id . '" value="' . ($isArabic ? 'مسح' : 'Clear') . '" />
             </div>';
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
@@ -1901,6 +1978,21 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                             juror_program_year_: juror_program_year_" . $collection_id . ",
                             juror_program_: juror_program_" . $collection_id . ",
                             sort: sort_" . $collection_id . ",
+                        }; 
+                        getFilteredEntries(" . $collection_id . ",filters);
+                    });
+
+                    $('#clear-collection-" . $collection_id . "').click(function () {
+                        var parent=$(this).parent().parent();
+                        $(parent).find('.filter_juror_country').val('');
+                        $(parent).find('.filter_juror_program_year').val('');
+                        $(parent).find('.filter_juror_program').val('');
+                        $('#sort-collection-" . $collection_id . "').val('');
+                        var filters = {
+                            juror_country_: '',
+                            juror_program_year_: '',
+                            juror_program_: '',
+                            sort: '',
                         }; 
                         getFilteredEntries(" . $collection_id . ",filters);
                     });
@@ -1955,6 +2047,9 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             </div>
             <div class="filter">
                 <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="' . ($isArabic ? 'تصفية' : 'Filter') . '" />
+            </div>
+            <div class="filter">
+                <input type="button" class="clearBtn" id="clear-collection-' . $collection_id . '" value="' . ($isArabic ? 'مسح' : 'Clear') . '" />
             </div>';
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
@@ -1993,6 +2088,21 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
 
                         getFilteredEntries(" . $collection_id . ",filters);
                     });
+
+                    $('#clear-collection-" . $collection_id . "').click(function () {
+                        var parent=$(this).parent().parent();
+                        $(parent).find('.filter_resource_category').val('');
+                        $(parent).find('.filter_resource_from_date').val('');
+                        $(parent).find('.filter_resource_to_date').val('');
+                        $('#sort-collection-" . $collection_id . "').val('');
+                        var filters = {
+                            resource_category: '',
+                            resource_from_date: '',
+                            resource_to_date: '',
+                            sort: '',
+                        };
+                        getFilteredEntries(" . $collection_id . ",filters);
+                    });
                     
                     $('#sort-collection-" . $collection_id . "').change(function () {
                         var parent=$(this).parent().parent();
@@ -2023,6 +2133,9 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             </div>
             <div class="filter">
                 <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="' . ($isArabic ? 'تصفية' : 'Filter') . '" />
+            </div>
+            <div class="filter">
+                <input type="button" class="clearBtn" id="clear-collection-' . $collection_id . '" value="' . ($isArabic ? 'مسح' : 'Clear') . '" />
             </div>';
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
@@ -2058,6 +2171,22 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                             news_from_date: news_from_date_" . $collection_id . ",
                             news_to_date: news_to_date_" . $collection_id . ",
                             sort: sort_" . $collection_id . ",
+                        };
+
+                        getFilteredEntries(" . $collection_id . ",filters);
+                    });
+
+                    $('#clear-collection-" . $collection_id . "').click(function () {
+                        var parent=$(this).parent().parent();
+                        $(parent).find('.filter_news_tags').val('');
+                        $(parent).find('.filter_news_from_date').val('');
+                        $(parent).find('.filter_news_to_date').val('');
+                        $('#sort-collection-" . $collection_id . "').val('');
+                        var filters = {
+                            news_tags: '',
+                            news_from_date: '',
+                            news_to_date: '',
+                            sort: '',
                         };
 
                         getFilteredEntries(" . $collection_id . ",filters);
@@ -2113,6 +2242,9 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             </div>
             <div class="filter">
                 <input type="button" class="filterBtn" id="filter-collection-' . $collection_id . '" value="' . ($isArabic ? 'تصفية' : 'Filter') . '" />
+            </div>
+            <div class="filter">
+                <input type="button" class="clearBtn" id="clear-collection-' . $collection_id . '" value="' . ($isArabic ? 'مسح' : 'Clear') . '" />
             </div>';
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
@@ -2149,6 +2281,21 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                             sort: sort_" . $collection_id . ",
                         };
 
+                        getFilteredEntries(" . $collection_id . ",filters);
+                    });
+
+                    $('#clear-collection-" . $collection_id . "').click(function () {
+                        var parent=$(this).parent().parent();
+                        $(parent).find('.filter_external_category').val('');
+                        $(parent).find('.filter_external_from_date').val('');
+                        $(parent).find('.filter_external_to_date').val('');
+                        $('#sort-collection-" . $collection_id . "').val('');
+                        var filters = {
+                            external_category: '',
+                            external_from_date: '',
+                            external_to_date: '',
+                            sort: '',
+                        };
                         getFilteredEntries(" . $collection_id . ",filters);
                     });
 
