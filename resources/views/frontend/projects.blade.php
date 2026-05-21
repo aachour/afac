@@ -53,6 +53,9 @@
             <div class="filter">
                 <input type="button" class="filterBtn" id="filterBtn" value="@if(app()->getLocale() == 'en') Filter @else تصفية @endif" />
             </div>
+            <div class="filter">
+                <input type="button" class="clearBtn" id="clearBtn" value="@if(app()->getLocale() == 'en') Clear @else مسح @endif" />
+            </div>
             <div class="sort">
                 <select class="filterDpd sortDpd" id="sortDpd">
                     <option value="">@if(app()->getLocale() == 'en') Select sort @else اختر الترتيب @endif</option>
@@ -127,6 +130,25 @@
                     project_category: project_category,
                     project_program_year: project_program_year,
                     project_program: project_program,
+                    sort: sort,
+                    page: page,
+                };
+
+                getFilteredEntries(filters);
+            });
+
+            $('#clearBtn').click(function () {
+                var parent=$(this).parent().parent();                        
+                $(parent).find('.filter_project_country').val('');
+                $(parent).find('.filter_project_category').val('');
+                $(parent).find('.filter_project_program_year').val('');
+                $(parent).find('.filter_project_program').val('');
+
+                var filters = {
+                    project_country: '',
+                    project_category: '',
+                    project_program_year: '',
+                    project_program: '',
                     sort: sort,
                     page: page,
                 };

@@ -719,7 +719,7 @@
     background:#FFF !important;
 }
 
-.filterBtn{
+.filterBtn , .clearBtn{
     padding:1.5px 15px;
     border-radius:0px !important;
     border:2px solid #000;
@@ -727,7 +727,7 @@
     color:#FFF;
     background:#000 !important;
 }
-.filterBtn:hover{
+.filterBtn:hover, .clearBtn:hover{
     border:2px solid #8F8F9D;
     background:#8F8F9D !important;
 }
