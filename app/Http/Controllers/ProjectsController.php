@@ -182,6 +182,15 @@ class ProjectsController extends Controller
                     //Fetch all entries
                     
                     $entries_count=0;
+
+                    $html.='<style>
+                        @media(min-width:1000px){
+                            .collection .entries > .entry:nth-child(4n of .entry){';
+                                if(app()->getLocale()=='en'){$html.='margin-right:0 !important;';}
+                                else if(app()->getLocale()=='ar'){$html.='margin-left:0 !important;';}
+                            $html.='}
+                        }
+                    </style>';
                     
                     foreach($entries as $key=>$entry)
                     {
@@ -198,7 +207,7 @@ class ProjectsController extends Controller
                         $entry_href=$entryDetails["entry_href"];
                         $entry_target=$entryDetails["entry_target"];
 
-                        $html.='<div class="entry" style="';if(app()->getLocale() == "ar") $html .= 'margin-left:1.5%;'; $html .= '">';
+                        $html.='<div class="entry">';
 
                             $labels=getEntryLabels($entry);
 
