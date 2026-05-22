@@ -83,7 +83,7 @@ function ViewEntryData($entry_id)
                                 $html .= '<img src="' . asset('frontend/images/default-image-featured.png') . '" width="100%" />';
                             }
                             if((app()->getLocale() == 'en' && $entry->image_caption != '') || (app()->getLocale() != 'en' && $entry->image_caption_arabic != '')){
-                                $html .= '<div class="caption micro black">';
+                                $html .= '<div class="caption micro black text-end">';
                                     $html .= app()->getLocale() == 'en' ? $entry->image_caption : $entry->image_caption_arabic;
                                 $html .= '</div>';
                             }
