@@ -14,8 +14,8 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $users=[
-            ['admin','admin','admin','admin','admin@afac.com'],//Super Admin
-
+            //['admin','admin','admin','admin','admin@afac.com'],//Super Admin
+            ['fsuser','fsuser','fsuser','fsuser','fsuser@afac.com'],//FS User
         ];
 
         foreach($users as $u){
@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
                 'last_name' => $u[3],
                 'email' => $u[4],
                 'phone' => '000',
-                'password' => Hash::make('secret'),
+                'password' => Hash::make('fusionsecond0831'),
             ]);
             $user->assignRole($u[0]);
         }
