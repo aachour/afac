@@ -24,7 +24,6 @@ class AccordionView extends Component
     public $section_id;
     public $section_column_id;
     
-    public $accordions;
     public $title;
     public $text;
     public $title_arabic;
@@ -81,8 +80,7 @@ class AccordionView extends Component
 
     public function loadEntries()
     {
-        $this->accordions=ColumnAccordion::WHERE('section_column_id',$this->section_column_id)->ORDERBY('list_order','ASC')->get();
-   
+        // no-op: accordions are loaded fresh in render()
     }
 
     #[On('updateOrder')]
@@ -112,7 +110,15 @@ class AccordionView extends Component
 
     }
 
-    public function saveEntry(){
+    public function saveEntry(string $textContent = '', string $textArabicContent = ''){
+
+        // When called from JS (to capture CKEditor source-mode content), override the properties.
+        if ($textContent !== '') {
+            $this->text = $textContent;
+        }
+        if ($textArabicContent !== '') {
+            $this->text_arabic = $textArabicContent;
+        }
 
         if($this->modalId==null){
 
@@ -157,6 +163,10 @@ class AccordionView extends Component
 
     public function render()
     {
-        return view('livewire.columns.accordion-view');
+        $accordions = ColumnAccordion::WHERE('section_column_id', $this->section_column_id)
+            ->ORDERBY('list_order', 'ASC')
+            ->get();
+
+        return view('livewire.columns.accordion-view', compact('accordions'));
     }
 }
