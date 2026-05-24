@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
     {
         $users=[
             //['admin','admin','admin','admin','admin@afac.com'],//Super Admin
-            ['fsuser','fsuser','fsuser','fsuser','fsuser@afac.com'],//FS User
+            ['admin','fsuser','fsuser','fsuser','fsuser@afac.com'],//FS User
         ];
 
         foreach($users as $u){
