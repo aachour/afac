@@ -335,7 +335,7 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
                         <button 
                             type="button"
-                            wire:click="saveEntry"
+                            onclick="saveGeneralInputEntry()"
                             wire:loading.attr="disabled"
                             wire:target="saveEntry"
                             class="btn btn-primary"
@@ -429,6 +429,39 @@
 
             function getEditorValue(el) {
                 return el.value || '';
+            }
+
+            /**
+             * Read the current HTML from a CKEditor instance.
+             * When the user is in Source mode the change:data event never fires,
+             * so editor.getData() is stale. Read the live source textarea instead.
+             */
+            function getEditorHtml(editor) {
+                if (!editor) return '';
+                try {
+                    const sourcePlugin = editor.plugins.get('SourceEditing');
+                    if (sourcePlugin && sourcePlugin.isSourceEditingMode) {
+                        const sourceArea = editor.ui.element
+                            .querySelector('.ck-source-editing-area textarea');
+                        if (sourceArea) return sourceArea.value;
+                    }
+                } catch (e) {}
+                return editor.getData();
+            }
+
+            function saveGeneralInputEntry() {
+                const textEl       = document.getElementById('text');
+                const textArabicEl = document.getElementById('text_arabic');
+
+                const textContent       = getEditorHtml(textEl?.editorInstance);
+                const textArabicContent = getEditorHtml(textArabicEl?.editorInstance);
+
+                const componentEl = textEl ? textEl.closest('[wire\\:id]') : null;
+                if (!componentEl) return;
+                const component = Livewire.find(componentEl.getAttribute('wire:id'));
+                if (!component) return;
+
+                component.call('saveEntry', textContent, textArabicContent);
             }
 
             function initEditors() {
