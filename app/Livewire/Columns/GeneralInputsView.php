@@ -177,8 +177,15 @@ class GeneralInputsView extends Component
     }
 
 
-    public function saveEntry()
+    public function saveEntry(string $textContent = '', string $textArabicContent = '')
     {
+        // When called from JS (to capture CKEditor source-mode content), override the properties.
+        if ($textContent !== '') {
+            $this->text = $textContent;
+        }
+        if ($textArabicContent !== '') {
+            $this->text_arabic = $textArabicContent;
+        }
 
         if($this->modalId==null){
 

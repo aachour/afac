@@ -119,7 +119,19 @@ class TimelineView extends Component
     }
 
 
-    public function saveEntry(){
+    public function saveEntry(array $editorData = []){
+
+        // When called from JS (to capture CKEditor source-mode content), override entries text values.
+        foreach ($editorData as $model => $value) {
+            $parts = explode('.', $model);
+            if (count($parts) === 3 && $parts[0] === 'entries') {
+                $index = (int) $parts[1];
+                $field = $parts[2];
+                if (isset($this->entries[$index])) {
+                    $this->entries[$index][$field] = $value;
+                }
+            }
+        }
 
         if($this->modalId==null){
 

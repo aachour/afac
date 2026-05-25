@@ -198,7 +198,7 @@
 
                         <button
                             type="button"
-                            wire:click="saveEntry"
+                            onclick="saveTimelineEntry()"
                             wire:loading.attr="disabled"
                             wire:target="saveEntry"
                             class="btn btn-primary"
@@ -241,6 +241,43 @@
                         Livewire.dispatch('updateOrder', { order: order });
                     }
                 });
+            }
+
+            /**
+             * Read the current HTML from a CKEditor instance.
+             * When the user is in Source mode the change:data event never fires,
+             * so editor.getData() is stale. Read the live source textarea instead.
+             */
+            function getEditorHtml(editor) {
+                if (!editor) return '';
+                try {
+                    const sourcePlugin = editor.plugins.get('SourceEditing');
+                    if (sourcePlugin && sourcePlugin.isSourceEditingMode) {
+                        const sourceArea = editor.ui.element
+                            .querySelector('.ck-source-editing-area textarea');
+                        if (sourceArea) return sourceArea.value;
+                    }
+                } catch (e) {}
+                return editor.getData();
+            }
+
+            function saveTimelineEntry() {
+                const editorData = {};
+                let componentEl = null;
+
+                document.querySelectorAll('.txtEditor').forEach((el) => {
+                    if (!el.editorInstance) return;
+                    const model = el.dataset.model;
+                    if (!model) return;
+                    editorData[model] = getEditorHtml(el.editorInstance);
+                    if (!componentEl) componentEl = el.closest('[wire\\:id]');
+                });
+
+                if (!componentEl) return;
+                const component = Livewire.find(componentEl.getAttribute('wire:id'));
+                if (!component) return;
+
+                component.call('saveEntry', editorData);
             }
 
             function destroyEditor(el) {
