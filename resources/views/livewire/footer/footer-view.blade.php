@@ -10,9 +10,11 @@
         @endif
 
         <div class="card">
+
             <div class="card-header border-bottom">
                 <h4 class="card-title mb-0">Footer</h4>
             </div>
+
             <div class="card-body mt-4">
                 <div class="row g-4">
 
@@ -89,7 +91,9 @@
                     </div>
 
                 </div>
+
             </div>
+            
         </div>
 
 
