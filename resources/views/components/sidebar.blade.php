@@ -24,8 +24,8 @@
 				</a>
 			</li>
 
-			@canany(['role-list', 'permission-list', 'user-list', 'country-list', 'color-list', 'logo-list' , 'file-list'])
-			<li class="menu-item {{ request()->is('roles') || request()->is('permissions') || request()->is('users*') || request()->is('countries*') || request()->is('types*') || request()->is('colors*') || request()->is('files*') || request()->is('logo*') || request()->is('logoAnimation*') ? "active open" : "" }}">
+			@canany(['role-list', 'permission-list', 'user-list', 'country-list', 'color-list', 'logo-list' , 'file-list', 'footer-list'])
+			<li class="menu-item {{ request()->is('roles') || request()->is('permissions') || request()->is('users*') || request()->is('countries*') || request()->is('types*') || request()->is('colors*') || request()->is('files*') || request()->is('logo*') || request()->is('logoAnimation*') || request()->is('footer*') ? "active open" : "" }}">
 
 				<a href="javascript:void(0);" class="menu-link menu-toggle">
 					<i class="menu-icon tf-icons ti ti-settings"></i>
@@ -94,6 +94,14 @@
 					<li class="menu-item {{ request()->is('files*') ? "active" : "" }}">
 						<a href="{{ route('files') }}" class="menu-link">
 							<div data-i18n="Files">Files</div>
+						</a>
+					</li>
+					@endcan
+
+					@can('footer-list')
+					<li class="menu-item {{ request()->is('footer*') ? "active" : "" }}">
+						<a href="{{ route('footer') }}" class="menu-link">
+							<div data-i18n="Footer">Footer</div>
 						</a>
 					</li>
 					@endcan

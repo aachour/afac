@@ -59,6 +59,8 @@ use App\Livewire\Logo\LogoView;
 
 use App\Livewire\LogoAnimation\LogoAnimationView;
 
+use App\Livewire\Footer\FooterView;
+
 use App\Livewire\Formstack\FormsView;
 use App\Livewire\Formstack\SubmissionsView;
 use App\Livewire\Formstack\SubmissionView;
@@ -348,6 +350,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::group(['prefix' => 'formstackSubmissionView'], function () {
         Route::get('/{formId}/{submissionId}/{pmId?}/{assignId?}', SubmissionView::class)->name('formstack.submission');
+    });
+
+
+    // |--------------------------------------------------------------------------
+    // |Footer
+    // |--------------------------------------------------------------------------
+    
+    Route::group(['prefix' => 'footer'], function () {
+        Route::get('/', FooterView::class)->name('footer');
     });
     
 });
