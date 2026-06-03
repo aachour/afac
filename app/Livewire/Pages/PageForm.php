@@ -29,6 +29,7 @@ class PageForm extends Component
     public $header_color_id;
     public $footer_color_id;
     public $in_menu;
+    public $menu_color_id;
     public $published;
  
     public function mount($id=''){
@@ -58,6 +59,7 @@ class PageForm extends Component
             $this->header_color_id=$this->page->header_color_id;
             $this->footer_color_id=$this->page->footer_color_id;
             $this->in_menu=$this->page->in_menu;
+            $this->menu_color_id=$this->page->menu_color_id;
             $this->published=$this->page->published;
             
         }
@@ -82,6 +84,7 @@ class PageForm extends Component
             'header_color_id' => ['nullable'],
             'footer_color_id' => ['nullable'],
             'in_menu' => ['nullable'],
+            'menu_color_id' => ['nullable'],
             'published' => ['nullable'],
         ];
 
@@ -107,6 +110,7 @@ class PageForm extends Component
                 'header_color_id' => $this->header_color_id,
                 'footer_color_id' => $this->footer_color_id,
                 'in_menu' => $this->in_menu,
+                'menu_color_id' => $this->in_menu ? $this->menu_color_id : null,
                 'published' => $this->published,
             ]);
 
@@ -127,6 +131,7 @@ class PageForm extends Component
                 'header_color_id' => $this->header_color_id,
                 'footer_color_id' => $this->footer_color_id,
                 'in_menu' => $this->in_menu,
+                'menu_color_id' => $this->in_menu ? $this->menu_color_id : null,
                 'published' => $this->published,
             ];
 

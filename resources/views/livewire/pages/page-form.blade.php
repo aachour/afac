@@ -139,10 +139,26 @@
 
                                 <div class="col-12 mt-4">
                                     <div class="form-check">
-                                        <input wire:model="in_menu" type="checkbox" id="in_menu" class="form-check-input" @if($in_menu) checked @endif />
+                                        <input wire:model.live="in_menu" type="checkbox" id="in_menu" class="form-check-input" @if($in_menu) checked @endif />
                                         <label for="in_menu" class="form-check-label">In Menu</label>
                                     </div>
                                 </div>
+
+                                @if($in_menu)
+                                <div class="col-12 col-md-6 mt-2 mb-2">
+                                    <label class="form-label" for="menu_color_id">Menu Color</label>
+                                    <select
+                                        wire:model="menu_color_id"
+                                        id="menu_color_id"
+                                        class="form-control">
+                                        <option value=''>Select Color</option>
+                                        @foreach($colors as $color)
+                                            <option value='{{$color->id}}'>{{$color->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('menu_color_id') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+                                @endif
 
                                 <div class="col-12 mt-2">
                                     <div class="form-check">
