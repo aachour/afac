@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{{asset('frontend/css/swiper.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/css/general.css')}}?v=8" />
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}?v=23">
-    <link rel="stylesheet" href="{{ asset('frontend/css/elements.css') }}?v=22">
+    <link rel="stylesheet" href="{{ asset('frontend/css/elements.css') }}?v=23">
     
     @if(app()->getLocale()=='ar')
     <link rel="stylesheet" href="{{asset('frontend/css/arabic.css')}}?v=16" />
@@ -69,7 +69,7 @@
     </div>
 
     <!--Menu-->
-    <div class="menu" id="menu">
+    <div class="menu" id="menu" style="background:{{ @$menuBgCode }};">
         <div class="topSpacer closeBtn tiny ABCDiatypeMedium clickable" id="closeBtn">@if(app()->getLocale() == 'ar') إغلاق @else Close @endif</div>
         
         <div class="mt-5 menu-item-row">

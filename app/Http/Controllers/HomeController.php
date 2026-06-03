@@ -42,8 +42,10 @@ class HomeController extends Controller
         {
             $logoAnimation = LogoAnimation::where('id', 1)->value('active');
             $logoElements=Logo::ORDERBY('id','ASC')->get();
-            $headerBgCode=$page->headerBgColor->code;
-            $footerBgCode=$page->footerBgColor->code;
+            $headerBgCode=$page->headerBgColor->code ?? '';
+            $footerBgCode=$page->footerBgColor->code ?? '';
+            $menuBgCode=$page->menuBgColor->code ?? '#D2F8FE';
+            
             
             $pageSections=PageSections::WHERE('page_id',$page->id)->ORDERBY('list_order','ASC')->get();
 
@@ -71,6 +73,7 @@ class HomeController extends Controller
                 'footerBgCode'=>$footerBgCode,
                 'logoAnimation'=>$logoAnimation,
                 'logoElements' => $logoElements,
+                'menuBgCode'=>$menuBgCode,
                 'footer' => $footer,
             ]);
 
@@ -85,8 +88,9 @@ class HomeController extends Controller
         if($page)
         {
 
-            $headerBgCode=$page->headerBgColor->code;
-            $footerBgCode=$page->footerBgColor->code;
+            $headerBgCode=$page->headerBgColor->code ?? '';
+            $footerBgCode=$page->footerBgColor->code ?? '';
+            $menuBgCode=$page->menuBgColor->code ?? '#D2F8FE';
             
             $pageSections=PageSections::WHERE('page_id',$id)->ORDERBY('list_order','ASC')->get();
 
@@ -112,6 +116,7 @@ class HomeController extends Controller
                 'pageHTML' => $pageHTML,
                 'headerBgCode'=>$headerBgCode,
                 'footerBgCode'=>$footerBgCode,
+                'menuBgCode'=>$menuBgCode,
                 'footer' => $footer,
             ]);
         }
@@ -132,6 +137,7 @@ class HomeController extends Controller
 
             $headerBgCode=$entry->headerBgColor->code ?? '';
             $footerBgCode=$entry->footerBgColor->code ?? '';
+            $menuBgCode=$entry->menuBgColor->code ?? '#D2F8FE';
             
             $pageSections=PageSections::WHERE('entry_id',$id)->ORDERBY('list_order','ASC')->get();
             
@@ -156,6 +162,7 @@ class HomeController extends Controller
                 'pageHTML' => $pageHTML,
                 'headerBgCode'=>$headerBgCode,
                 'footerBgCode'=>$footerBgCode,
+                'menuBgCode'=>$menuBgCode,
             ]);
         }
         else

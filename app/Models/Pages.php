@@ -38,6 +38,11 @@ class Pages extends Model
         return $this->hasOne(Colors::class, 'id', 'footer_color_id');
     }
 
+    public function menuBgColor()
+    {
+        return $this->hasOne(Colors::class, 'id', 'menu_color_id');
+    }
+
     public function sections()
     {
         return $this->hasMany(Sections::class, 'page_id', 'id');
