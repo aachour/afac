@@ -113,9 +113,9 @@
     position:fixed;
     top:0px;
     right:-100%;
-    width:50%;
+    width:35%;
     height:100%;
-    padding:15px 7.5%;
+    padding:15px 1.5%;
     z-index:99999999;
 }
 @media(max-width:1000px){
