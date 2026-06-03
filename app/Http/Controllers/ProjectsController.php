@@ -114,6 +114,8 @@ class ProjectsController extends Controller
             return (int) $b['name'] <=> (int) $a['name'];
         });
 
+        $footer=getFooter();
+
         return view('frontend.projects', [
             'headerBgCode'=>$headerBgCode,
             'footerBgCode'=>$footerBgCode,
@@ -122,6 +124,7 @@ class ProjectsController extends Controller
             'project_countries' => $project_countries,
             'project_programs' => $project_programs,
             'project_program_years' => $project_program_years,
+            'footer' => $footer,
         ]);
 
     }

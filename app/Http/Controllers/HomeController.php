@@ -57,6 +57,8 @@ class HomeController extends Controller
                     $pageHTML.= ViewCollection($pageSection->collection_id,'EN');
                 }
             }
+
+            $footer=getFooter();
         
             return view('frontend.page', [
                 'metaTitle' => $page->meta_title,
@@ -69,6 +71,7 @@ class HomeController extends Controller
                 'footerBgCode'=>$footerBgCode,
                 'logoAnimation'=>$logoAnimation,
                 'logoElements' => $logoElements,
+                'footer' => $footer,
             ]);
 
         }
@@ -98,6 +101,8 @@ class HomeController extends Controller
                 }
             }
 
+            $footer=getFooter();
+
             return view('frontend.page', [
                 'metaTitle' => $page->meta_title,
                 'metaTitleArabic' => $page->meta_title_arabic,
@@ -107,6 +112,7 @@ class HomeController extends Controller
                 'pageHTML' => $pageHTML,
                 'headerBgCode'=>$headerBgCode,
                 'footerBgCode'=>$footerBgCode,
+                'footer' => $footer,
             ]);
         }
         else
@@ -162,10 +168,10 @@ class HomeController extends Controller
 
     public function ViewCollection($id){
         
-        $collectionHTML = ViewCollection($id,'EN');       
-        
+        $collectionHTML = ViewCollection($id,'EN');
+
         return view('frontend.collection', [
-            'collectionHTML' => $collectionHTML
+            'collectionHTML' => $collectionHTML,
         ]);
 
     }

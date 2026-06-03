@@ -19,6 +19,7 @@ use App\Models\ProgramYears;
 use App\Models\ProgramYearProjects;
 use App\Models\ProgramYearJurors;
 use App\Models\Logo;
+use App\Models\Footer;
 use Carbon\Carbon;
 
 function ViewEntryData($entry_id)
@@ -3145,3 +3146,11 @@ function getMenuPages(){
     return $pages;
 
 }
+
+function getFooter(){
+
+    $footer=Footer::all()->first();
+    return $footer;
+
+}
+

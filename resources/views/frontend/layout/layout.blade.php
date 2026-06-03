@@ -109,6 +109,7 @@
         @endforeach
         
     </div>
+
     <style>
         .menu-item-link {
             display: inline-flex;
@@ -193,56 +194,38 @@
                     <img src="{{asset('frontend/images/logo.svg')}}" width="60%" />
                 </div>
 
-                <div class="col-lg-3 col-12 mb-4 mb-md-0">
-                    <div class="small black ABCDiatypeMedium">About</div>
-                    <div class="mt-2">
-                        <a href="#" class="tiny black">Mission & Vision</a>
-                    </div>
-                    <div class="">
-                        <a href="#" class="tiny black">Board of Trustees</a>
-                    </div>
-                    <div class="">
-                        <a href="#" class="tiny black">Team</a>
-                    </div>
-                </div>
+                @php
+                    $isAr = app()->getLocale() === 'ar';
+                    $footerCols = [
+                        1 => [
+                            'title' => $isAr ? (@$footer->col1_arabic ?? @$footer->col1) : (@$footer->col1 ?? ''),
+                            'links' => $isAr ? (@$footer->col1_arabic_links ?? @$footer->col1_links ?? []) : (@$footer->col1_links ?? []),
+                        ],
+                        2 => [
+                            'title' => $isAr ? (@$footer->col2_arabic ?? @$footer->col2) : (@$footer->col2 ?? ''),
+                            'links' => $isAr ? (@$footer->col2_arabic_links ?? @$footer->col2_links ?? []) : (@$footer->col2_links ?? []),
+                        ],
+                        3 => [
+                            'title' => $isAr ? (@$footer->col3_arabic ?? @$footer->col3) : (@$footer->col3 ?? ''),
+                            'links' => $isAr ? (@$footer->col3_arabic_links ?? @$footer->col3_links ?? []) : (@$footer->col3_links ?? []),
+                        ],
+                    ];
+                @endphp
 
-                <div class="col-lg-3 col-12 mb-4 mb-md-0">
-                    <div class="small black ABCDiatypeMedium">Get in Touch</div>
-                    <div class="mt-2">
-                        <a href="#" class="tiny black">Contact</a>
+                @foreach($footerCols as $col)
+                    @if(!empty($col['title']) || !empty($col['links']))
+                    <div class="col-lg-3 col-12 mb-4 mb-md-0">
+                        @if(!empty($col['title']))
+                            <div class="small black ABCDiatypeMedium">{{ $col['title'] }}</div>
+                        @endif
+                        @foreach((array)$col['links'] as $idx => $link)
+                            <div class="{{ $idx === 0 ? 'mt-2' : '' }}">
+                                <a href="{{ $link['link'] ?? '#' }}" class="tiny black">{{ $link['title'] ?? '' }}</a>
+                            </div>
+                        @endforeach
                     </div>
-                    <div class="">
-                        <a href="#" class="tiny black">Facebook</a>
-                    </div>
-                    <div class="">
-                        <a href="#" class="tiny black">Insta</a>
-                    </div>
-                    <div class="">
-                        <a href="#" class="tiny black">X</a>
-                    </div>
-                    <div class="">
-                        <a href="#" class="tiny black">Youtube</a>
-                    </div>
-                    <div class="">
-                        <a href="#" class="tiny black">Linkedin</a>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-12 mb-4 mb-md-0">
-                    <div class="small black ABCDiatypeMedium">Get Involved</div>
-                    <div class="mt-2">
-                        <a href="#" class="tiny black">Support Us</a>
-                    </div>
-                    <div class="">
-                        <a href="#" class="tiny black">Subscribe to Newsletter</a>
-                    </div>
-                    <div class="">
-                        <a href="#" class="tiny black">Work With Us</a>
-                    </div>
-                    <div class="">
-                        <a href="#" class="tiny black">Events</a>
-                    </div>
-                </div>
+                    @endif
+                @endforeach
 
             </div>
         </div>
