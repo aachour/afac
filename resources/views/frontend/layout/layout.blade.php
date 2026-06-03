@@ -219,8 +219,8 @@
                             <div class="small black ABCDiatypeMedium">{{ $col['title'] }}</div>
                         @endif
                         @foreach((array)$col['links'] as $idx => $link)
-                            <div class="{{ $idx === 0 ? 'mt-2' : '' }}">
-                                <a href="{{ $link['link'] ?? '#' }}" class="tiny black">{{ $link['title'] ?? '' }}</a>
+                            <div class="{{ $idx === 0 ? 'mt-2' : 'mt-1' }}">
+                                <a href="{{ $link['link'] ?? '#' }}" class="tiny black" @if(!empty($link['link']) && str_starts_with($link['link'], 'https')) target="_blank" rel="noopener noreferrer" @endif>{{ $link['title'] ?? '' }}</a>
                             </div>
                         @endforeach
                     </div>
