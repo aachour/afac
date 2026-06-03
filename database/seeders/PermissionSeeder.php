@@ -220,6 +220,10 @@ class PermissionSeeder extends Seeder
             'formstack-submissionAssignReaders',
             'formstack-submissionAssignView',
             'formstack-submissionFormRate',
+
+            // Files Library
+            'footer-list',
+            'footer-edit',
         ];
         
         $permissionsIds = [];
