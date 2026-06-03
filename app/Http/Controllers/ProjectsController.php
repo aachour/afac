@@ -21,10 +21,13 @@ class ProjectsController extends Controller
         $page=Pages::where('name','Projects')->first();
         
         $headerBgCode=$footerBgCode='#FFF';
+        $menuBgCode='#D2F8FE';
+
         if($page)
         {
-            $headerBgCode=$page->headerBgColor->code;
-            $footerBgCode=$page->footerBgColor->code;
+            $headerBgCode=$page->headerBgColor->code ?? '#FFF';
+            $footerBgCode=$page->footerBgColor->code ?? '#FFF';
+            $menuBgCode=$page->menuBgColor->code ?? '#D2F8FE';
         }
 
         //get all sections 
@@ -119,6 +122,7 @@ class ProjectsController extends Controller
         return view('frontend.projects', [
             'headerBgCode'=>$headerBgCode,
             'footerBgCode'=>$footerBgCode,
+            'menuBgCode'=>$menuBgCode,
             'pageHTML'=>$pageHTML,
             'project_categories' => $project_categories,
             'project_countries' => $project_countries,
