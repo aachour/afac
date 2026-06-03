@@ -24,6 +24,7 @@ class Pages extends Model
         'header_color_id',
         'footer_color_id',
         'in_menu',
+        'menu_color_id',
         'published',
     ];
 
