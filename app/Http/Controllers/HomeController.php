@@ -36,7 +36,7 @@ class HomeController extends Controller
     
     public function home()
     {
-        $page=Pages::WHERE('name','Home')->first();
+        $page=Pages::WHERE('id','2')->first();
 
         if($page)
         {
