@@ -43,9 +43,9 @@
                             </td>
                             <td>
                                 @can('page-view')
-                                    @if($page->name=='Home') 
+                                    @if($page->id=='2') 
                                         <a href="{{ url('/') }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
-                                    @elseif($page->name=='Projects')
+                                    @elseif($page->id=='3')
                                         <a href="{{ url('/projects') }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
                                     @else
                                         <a href="{{ route('page.view', ['id'=>$page->id , 'name'=>$page->name]) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
@@ -58,7 +58,7 @@
                                     <a href="{{ route('sections', $page->id) }}" class="text-body edit-user-button"><i class="ti ti-news ti-sm"></i></a>
                                 @endcan
                                 @can('page-delete')
-                                    @if($page->name!='Home' && $page->name!='Projects')
+                                    @if($page->id!='2' && $page->id!='3')
                                     <a href="#" class="text-body delete-record delete-button" data-id="{{ $page->id }}"><i class="ti ti-trash ti-sm mx-2 text-danger"></i></a>
                                     @endif
                                 @endcan
