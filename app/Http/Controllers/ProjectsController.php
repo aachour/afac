@@ -18,7 +18,7 @@ class ProjectsController extends Controller
     public function projects()
     {
         
-        $page=Pages::where('name','Projects')->first();
+        $page=Pages::where('id','3')->first();
         
         $headerBgCode=$footerBgCode='#FFF';
         $menuBgCode='#D2F8FE';
