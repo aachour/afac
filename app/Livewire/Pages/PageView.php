@@ -18,10 +18,46 @@ class PageView extends Component
 
         $this->authorize('page-list');
 
-        $this->pages=Pages::all();
+        $this->pages = Pages::orderBy('list_order')->get();
 
     }
 
+
+    public function moveUp($id)
+    {
+        $this->authorize('page-edit');
+
+        $page = Pages::findOrFail($id);
+        $previous = Pages::where('list_order', '<', $page->list_order)
+            ->orderBy('list_order', 'desc')
+            ->first();
+
+        if ($previous) {
+            [$page->list_order, $previous->list_order] = [$previous->list_order, $page->list_order];
+            $page->save();
+            $previous->save();
+        }
+
+        return to_route('pages')->with('success', 'Page order updated successfully!');
+    }
+
+    public function moveDown($id)
+    {
+        $this->authorize('page-edit');
+
+        $page = Pages::findOrFail($id);
+        $next = Pages::where('list_order', '>', $page->list_order)
+            ->orderBy('list_order', 'asc')
+            ->first();
+
+        if ($next) {
+            [$page->list_order, $next->list_order] = [$next->list_order, $page->list_order];
+            $page->save();
+            $next->save();
+        }
+
+        return to_route('pages')->with('success', 'Page order updated successfully!');
+    }
 
     public function toggleInMenu($id)
     {

@@ -3142,7 +3142,7 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
 
 function getMenuPages(){
 
-    $pages=Pages::WHERE(['in_menu'=>'1','published'=>'1'])->whereNotIn('id', ['3'])->get();
+    $pages=Pages::WHERE(['in_menu'=>'1','published'=>'1'])->whereNotIn('id', ['3'])->orderby('list_order','asc')->get();
     return $pages;
 
 }

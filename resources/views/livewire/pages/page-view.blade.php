@@ -18,6 +18,8 @@
                         <th>In Menu</th>
                         <th>Published</th>
                         <th>Actions</th>
+                        <th>Order</th>
+                        
                     </tr>
                     </thead>
                     <tbody>
@@ -62,6 +64,16 @@
                                     <a href="#" class="text-body delete-record delete-button" data-id="{{ $page->id }}"><i class="ti ti-trash ti-sm mx-2 text-danger"></i></a>
                                     @endif
                                 @endcan
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center gap-1">
+                                    @can('page-edit')
+                                    <div class="d-flex flex-column">
+                                        <button wire:click="moveUp({{ $page->id }})" class="btn btn-sm btn-icon btn-outline-secondary p-0" style="line-height:1" title="Move Up"><i class="ti ti-chevron-up"></i></button>
+                                        <button wire:click="moveDown({{ $page->id }})" class="btn btn-sm btn-icon btn-outline-secondary p-0" style="line-height:1" title="Move Down"><i class="ti ti-chevron-down"></i></button>
+                                    </div>
+                                    @endcan
+                                </div>
                             </td>
                         </tr>
                     @endforeach
