@@ -72,7 +72,7 @@
     <div class="menu" id="menu" style="background:{{ @$menuBgCode }};">
         <div class="topSpacer closeBtn tiny ABCDiatypeMedium clickable" id="closeBtn">@if(app()->getLocale() == 'ar') إغلاق @else Close @endif</div>
         
-        <div class="mt-5 menu-item-row">
+        {{--$argc<div class="mt-5 menu-item-row">
             <a href="{{url('/')}}" class="menu-item-link">
                 <span class="menu-item-shape">
                     <img src="{{asset('frontend/images/circle-shape.svg')}}" width="40" class="desktopOnly" />
@@ -80,17 +80,7 @@
                 </span>
                 <span class="menu-item-text bigger @if(app()->getLocale() == 'en') leftSpacer @else rightSpacer @endif">@if(app()->getLocale() == 'ar') الرئيسية @else Home @endif</span>
             </a>
-        </div>
-        <div class="mt-3 menu-item-row">
-            <a href="{{url('/projects')}}" class="menu-item-link">
-                <span class="menu-item-shape">
-                    <img src="{{asset('frontend/images/diamond-shape.svg')}}" width="40" class="desktopOnly" />
-                    <img src="{{asset('frontend/images/diamond-shape.svg')}}" width="30" class="mobileOnly" />
-                </span>
-                <span class="menu-item-text bigger @if(app()->getLocale() == 'en') leftSpacer @else rightSpacer @endif">@if(app()->getLocale() == 'ar') المشاريع المدعومة @else Supported Projects @endif</span>
-            </a>
-        </div>
-        
+        </div>--}}
         @php 
             $pages=getMenuPages(); 
             $shapes=['square-shape','circle-shape','diamond-shape'];
@@ -98,7 +88,11 @@
         
         @foreach($pages as $key=>$page)
             <div class="mt-3 menu-item-row">
+                @if($page->id=='3') 
+                 <a href="{{url('/projects')}}" class="menu-item-link">
+                @else
                 <a href="{{url('page',['id'=>$page->id,'name'=>$page->name])}}" class="menu-item-link">
+                @endif
                     <span class="menu-item-shape">
                         <img src="{{asset('frontend/images/'.$shapes[$key % count($shapes)].'.svg')}}" width="40" class="desktopOnly" />
                         <img src="{{asset('frontend/images/'.$shapes[$key % count($shapes)].'.svg')}}" width="30" class="mobileOnly" />
