@@ -97,9 +97,9 @@ function ViewEntryData($entry_id)
 
                             $html .= '<div class="mt-4 mb-3 big black ABCDiatypeMedium">';
                                 if ($entry->type_id == 6) {
-                                    $html .= date('d M Y', strtotime($entry->resource_date));
+                                    $html .= formatDateLocalized(strtotime($entry->resource_date));
                                 } else if ($entry->type_id == 7) {
-                                    $html .= date('d M Y', strtotime($entry->news_date));
+                                    $html .= formatDateLocalized(strtotime($entry->news_date));
                                 }
                             $html .= '</div>';
 
@@ -1126,6 +1126,36 @@ function ViewPattern($section_column_id)
 ##########################################################################################
 ##########################################################################################
 ###############################GENERAL FUNCTIONS##########################################
+
+
+function formatDateLocalized($timestamp)
+{
+    $arabic_months = [
+        'January'   => 'كانون الثاني/يناير',
+        'February'  => 'شباط/فبراير',
+        'March'     => 'آذار/مارس',
+        'April'     => 'نيسان/أبريل',
+        'May'       => 'أيار/مايو',
+        'June'      => 'حزيران/يونيو',
+        'July'      => 'تموز/يوليو',
+        'August'    => 'آب/أغسطس',
+        'September' => 'أيلول/سبتمبر',
+        'October'   => 'تشرين الأول/أكتوبر',
+        'November'  => 'تشرين الثاني/نوفمبر',
+        'December'  => 'كانون الأول/ديسمبر',
+    ];
+
+    $formatted = date('d M Y', $timestamp);
+
+    if (app()->getLocale() != 'en') {
+        $month = date('F', $timestamp);
+        if (isset($arabic_months[$month])) {
+            $formatted = date('d', $timestamp) . ' ' . $arabic_months[$month] . ' ' . date('Y', $timestamp);
+        }
+    }
+
+    return $formatted;
+}
 
 
 function getEntryTitle($entry)
