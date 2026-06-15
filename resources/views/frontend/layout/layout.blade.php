@@ -59,10 +59,10 @@
                 </a>
             </div>
             <div class="header-nav">
-                <div class="langBtn tiny ABCDiatypeMedium">
-                    <span class="tiny clickable" onclick="setLang('en')">EN</span> / <span class="tiny clickable" onclick="setLang('ar')">عربي</span>
+                <div class="langBtn tiny">
+                    <span class="tiny ABCDiatypeBlack clickable" onclick="setLang('en')">EN</span> / <span class="tiny ABCDiatypeBlack clickable" onclick="setLang('ar')">عربي</span>
                 </div>
-                <div class="menuBtn tiny ABCDiatypeMedium clickable" id="menuBtn">@if(app()->getLocale() == 'ar') القائمة @else Menu @endif</div>
+                <div class="menuBtn tiny ABCDiatypeBlack clickable" id="menuBtn">@if(app()->getLocale() == 'ar') القائمة @else Menu @endif</div>
             </div>
             <div class="clear"></div>
         </div>

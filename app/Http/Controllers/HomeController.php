@@ -108,6 +108,9 @@ class HomeController extends Controller
             $footer=getFooter();
 
             return view('frontend.page', [
+                'pageName' => $page->name,
+                'pageNameArabic' => $page->name_arabic,
+                'pageShowName' => $page->show_name,
                 'metaTitle' => $page->meta_title,
                 'metaTitleArabic' => $page->meta_title_arabic,
                 'metaDescription' => $page->meta_description,
@@ -211,6 +214,8 @@ class HomeController extends Controller
         }
         
         $collection_type_id=$collection->type_id;
+        $collection_name=$collection->name;
+        $collection_name_arabic=$collection->name_arabic;
         $calendar_view=$collection->calendar_view;
         $show_name=$collection->show_name;
         $show_description=$collection->show_description;
@@ -407,7 +412,7 @@ class HomeController extends Controller
                             if( ($show_name==1 || $show_view_all==1) && $featured_width=='74.3%' && $key==0){
                                 $html.='<div class="featured_title_view_all">';
                                     if($show_name==1){
-                                        $html.='<div class="black big ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $entry->{$collection->name} : $entry->{$collection->name . '_arabic'}) . '</div>';
+                                        $html.='<div class="black big ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $collection_name : $collection_name_arabic) . '</div>';
                                     }
                                     if($show_view_all==1){
                                         $html.='<div class="mt-3">

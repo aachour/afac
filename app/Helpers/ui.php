@@ -237,7 +237,7 @@ function ViewCollection($collection_id)
     if ($with_featured == 0 && $show_view_all == 1 && $featured_width != '74.3%') {
         $html .= '<div class="viewAll mt-3">
             <a href="' . (app()->getLocale() == 'en' ? $view_all_link : $view_all_link_arabic) . '" class="view-all-link">
-                <span class="black tiny ABCDiatypeBlack">' . (app()->getLocale() == 'en' ? $view_all_title : $view_all_title_arabic) . '</span>
+                <span class="black small ABCDiatypeBlack">' . (app()->getLocale() == 'en' ? $view_all_title : $view_all_title_arabic) . '</span>
                 <img src="'.asset('frontend/images/view-all-btn-' . (app()->getLocale() == 'en' ? 'en' : 'ar') . '.png').'" width="12px">
             </a>
         </div>';
