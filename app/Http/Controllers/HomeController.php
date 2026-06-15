@@ -154,6 +154,8 @@ class HomeController extends Controller
                 }
             }
             
+            $footer=getFooter();
+
             return view('frontend.page', [
                 'metaTitle' => getEntryTitle($entry),
                 'metaTitleArabic' => getEntryTitle($entry),
@@ -163,6 +165,7 @@ class HomeController extends Controller
                 'headerBgCode'=>$headerBgCode,
                 'footerBgCode'=>$footerBgCode,
                 'menuBgCode'=>$menuBgCode,
+                'footer' => $footer,
             ]);
         }
         else
