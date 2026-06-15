@@ -26,6 +26,7 @@ class Pages extends Model
         'in_menu',
         'menu_color_id',
         'published',
+        'list_order',
     ];
 
     public function headerBgColor()
