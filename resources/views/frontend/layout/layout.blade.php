@@ -72,7 +72,7 @@
     <div class="menu" id="menu" style="background:{{ @$menuBgCode }};">
         <div class="topSpacer closeBtn tiny ABCDiatypeMedium clickable" id="closeBtn">@if(app()->getLocale() == 'ar') إغلاق @else Close @endif</div>
         
-        {{--$argc<div class="mt-5 menu-item-row">
+        {{--<div class="mt-5 menu-item-row">
             <a href="{{url('/')}}" class="menu-item-link">
                 <span class="menu-item-shape">
                     <img src="{{asset('frontend/images/circle-shape.svg')}}" width="40" class="desktopOnly" />
@@ -85,7 +85,7 @@
             $pages=getMenuPages(); 
             $shapes=['square-shape','circle-shape','diamond-shape'];
         @endphp
-        
+        <div class="mt-5">&nbsp;</div>
         @foreach($pages as $key=>$page)
             <div class="mt-3 menu-item-row">
                 @if($page->id=='3') 
