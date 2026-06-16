@@ -120,6 +120,9 @@ class ProjectsController extends Controller
         $footer=getFooter();
 
         return view('frontend.projects', [
+            'pageName' => $page->name,
+            'pageNameArabic' => $page->name_arabic,
+            'pageShowName' => $page->show_name,
             'headerBgCode'=>$headerBgCode,
             'footerBgCode'=>$footerBgCode,
             'menuBgCode'=>$menuBgCode,
@@ -153,7 +156,7 @@ class ProjectsController extends Controller
         
         $html='<div id="projects_title" class="big black mt-4">';
         if(app()->getLocale() == 'en'){
-            $html .= 'You are viewing <u class="big">'.$totalEntries.'</u> of the <u class="big">'.$totalProjects.'</u> initiatives that Afac has supported.';
+            $html .= 'You are viewing <u class="big">'.$totalEntries.'</u> of the <u class="big">'.$totalProjects.'</u> initiatives that AFAC has supported.';
         } else {
             $html .= ' تشاهد الآن <u class="big">'.$totalEntries.'</u> مبادرة من أصل <u class="big">'.$totalProjects.'</u> مبادرة دعمتها آفاق.';
         }
