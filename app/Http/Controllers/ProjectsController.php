@@ -78,7 +78,7 @@ class ProjectsController extends Controller
             ->values()   // Reset keys
         ->toArray();
        
-        app()->getLocale() == 'en' ? $project_countries = Countries::whereIn('id', $countryIds)->pluck('name', 'id')->toArray() : $project_countries = Countries::whereIn('id', $countryIds)->pluck('name_arabic', 'id')->toArray();
+        app()->getLocale() == 'en' ? $project_countries = Countries::whereIn('id', $countryIds)->orderBy('name')->pluck('name', 'id')->toArray() : $project_countries = Countries::whereIn('id', $countryIds)->orderBy('name_arabic')->pluck('name_arabic', 'id')->toArray();
 
         //Programs and Years
         $project_programs=[];
@@ -120,6 +120,9 @@ class ProjectsController extends Controller
         $footer=getFooter();
 
         return view('frontend.projects', [
+            'pageName' => $page->name,
+            'pageNameArabic' => $page->name_arabic,
+            'pageShowName' => $page->show_name,
             'headerBgCode'=>$headerBgCode,
             'footerBgCode'=>$footerBgCode,
             'menuBgCode'=>$menuBgCode,
@@ -153,7 +156,7 @@ class ProjectsController extends Controller
         
         $html='<div id="projects_title" class="big black mt-4">';
         if(app()->getLocale() == 'en'){
-            $html .= 'You are viewing <u class="big">'.$totalEntries.'</u> of the <u class="big">'.$totalProjects.'</u> initiatives that Afac has supported.';
+            $html .= 'You are viewing <u class="big">'.$totalEntries.'</u> of the <u class="big">'.$totalProjects.'</u> initiatives that AFAC has supported.';
         } else {
             $html .= ' تشاهد الآن <u class="big">'.$totalEntries.'</u> مبادرة من أصل <u class="big">'.$totalProjects.'</u> مبادرة دعمتها آفاق.';
         }
@@ -164,7 +167,7 @@ class ProjectsController extends Controller
                 <input type="checkbox" id="granteesToggle">
                 <span class="pill micro">
                     <span class="knob"></span>
-                    <span class="text">';if(app()->getLocale() == "en") $html .= 'Grantees View'; else $html .= 'عرض المستفيدين'; $html .= '</span>
+                    <span class="text" id="toggleLabel">';if(app()->getLocale() == "en") $html .= 'Grantee View'; else $html .= 'عرض المستفيدين'; $html .= '</span>
                 </span>
             </label>
         </div>';
@@ -356,10 +359,12 @@ class ProjectsController extends Controller
                     if ($(this).is(":checked")){
                         $("#grantees").removeClass("d-none");
                         $("#projects").addClass("d-none");
+                        $("#toggleLabel").text("' . (app()->getLocale() == 'en' ? 'Project View' : 'عرض المشاريع') . '");
                     } 
                     else{
                         $("#grantees").addClass("d-none");
                         $("#projects").removeClass("d-none");
+                        $("#toggleLabel").text("' . (app()->getLocale() == 'en' ? 'Grantee View' : 'عرض المستفيدين') . '");
                     }
                 });
             });
