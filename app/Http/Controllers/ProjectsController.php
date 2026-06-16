@@ -183,8 +183,8 @@ class ProjectsController extends Controller
                         }
                     </style>';
 
-                    $title_position='top:15px;';
-                    $labels_position='bottom:15px;';
+                    $title_position='bottom:15px;';
+                    $labels_position='top:15px;';
 
                     //Fetch all entries
                     
@@ -462,8 +462,8 @@ class ProjectsController extends Controller
 
         $grantees=Entries::WHEREIN('id',$tmpGranteesIds)->WHERE('published','1')->WHERENULL('deleted_at')->get();
 
-        $title_position='top:15px;';
-        $labels_position='bottom:15px;';
+        $title_position='bottom:15px;';
+        $labels_position='top:15px;';
 
         $html="";
         if($grantees){
