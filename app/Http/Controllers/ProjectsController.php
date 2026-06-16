@@ -78,7 +78,7 @@ class ProjectsController extends Controller
             ->values()   // Reset keys
         ->toArray();
        
-        app()->getLocale() == 'en' ? $project_countries = Countries::whereIn('id', $countryIds)->pluck('name', 'id')->toArray() : $project_countries = Countries::whereIn('id', $countryIds)->pluck('name_arabic', 'id')->toArray();
+        app()->getLocale() == 'en' ? $project_countries = Countries::whereIn('id', $countryIds)->orderBy('name')->pluck('name', 'id')->toArray() : $project_countries = Countries::whereIn('id', $countryIds)->orderBy('name_arabic')->pluck('name_arabic', 'id')->toArray();
 
         //Programs and Years
         $project_programs=[];
