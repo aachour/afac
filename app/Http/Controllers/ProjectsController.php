@@ -164,7 +164,7 @@ class ProjectsController extends Controller
                 <input type="checkbox" id="granteesToggle">
                 <span class="pill micro">
                     <span class="knob"></span>
-                    <span class="text">';if(app()->getLocale() == "en") $html .= 'Grantees View'; else $html .= 'عرض المستفيدين'; $html .= '</span>
+                    <span class="text" id="toggleLabel">';if(app()->getLocale() == "en") $html .= 'Grantee View'; else $html .= 'عرض المستفيدين'; $html .= '</span>
                 </span>
             </label>
         </div>';
@@ -356,10 +356,12 @@ class ProjectsController extends Controller
                     if ($(this).is(":checked")){
                         $("#grantees").removeClass("d-none");
                         $("#projects").addClass("d-none");
+                        $("#toggleLabel").text("' . (app()->getLocale() == 'en' ? 'Project View' : 'عرض المشاريع') . '");
                     } 
                     else{
                         $("#grantees").addClass("d-none");
                         $("#projects").removeClass("d-none");
+                        $("#toggleLabel").text("' . (app()->getLocale() == 'en' ? 'Grantee View' : 'عرض المستفيدين') . '");
                     }
                 });
             });
