@@ -39,6 +39,9 @@
     $textLines = explode(' ', $text);
     $line1 = $textLines[0] ?? '';
     $line2 = implode(' ', array_slice($textLines, 1)) ?? '';
+    $hasLine2 = !empty($line2);
+    $line1Y = $hasLine2 ? $center - $config['lineHeight'] * 0.5 : $center;
+    $line2Y = $center + $config['lineHeight'] * 0.5;
 @endphp
 
 <!-- GSAP Library -->
@@ -124,14 +127,14 @@
 
         <!-- Text inside diamond - not rotated, centered -->
         <text class="card-hover-animation-text ABCDiatypeMedium" x="{{ $center }}"
-            y="{{ $center - $config['lineHeight'] * 0.4 }}" fill="{{ $textColor }}"
+            y="{{ $line1Y }}" fill="{{ $textColor }}"
             font-size="{{ $config['fontSize'] }}"
             text-anchor="middle" dominant-baseline="central">
             {{ $line1 }}
         </text>
         @if ($line2)
             <text class="card-hover-animation-text ABCDiatypeMedium" x="{{ $center }}"
-                y="{{ $center + $config['lineHeight'] * 0.6 }}" fill="{{ $textColor }}"
+                y="{{ $line2Y }}" fill="{{ $textColor }}"
                 font-size="{{ $config['fontSize'] }}" 
                 text-anchor="middle" dominant-baseline="central">
                 {{ $line2 }}

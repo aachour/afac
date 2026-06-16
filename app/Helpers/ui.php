@@ -791,13 +791,11 @@ function ViewAccordion($section_column_id)
                 foreach ($column->accordions as $key => $accordion) {
                     $isFirst = ($key === 0);
                     $openClass = $isFirst ? ' open' : '';
-                    $accordionHeader = $isFirst ? '' : ' accordion-header';
-                    $hiddenArrow = $isFirst ? ' d-none' : '';
                     
                     $htmlColumn .= '<div class="accordion-item mb-2' . $openClass . '">
-                        <div class="'.$accordionHeader.'">
+                        <div class=" accordion-header">
                             <div class="accordion-title medium black ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $accordion->title : $accordion->title_arabic) . '</div>
-                            <div class="accordion-arrow ' . $hiddenArrow . '">
+                            <div class="accordion-arrow">
                                 <img src="' . asset('frontend/images/arrow-down.png') . '" alt="" width="30" height="30" />
                             </div>
                         </div>
