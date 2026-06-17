@@ -3,8 +3,11 @@
 
 <style>
     .circle-square-donate-button-wrapper {
-        display: inline-block;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         position: relative;
+        width: 100%;
     }
 
     .circle-square-donate-button-svg {
@@ -35,11 +38,11 @@
 
 <div class="container">
     <div class="circle-square-donate-button-wrapper">
-        <svg width="308" height="308" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" class="circle-square-donate-button-svg">
+        <svg width="200" height="200" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" class="circle-square-donate-button-svg">
             <!-- Shape that morphs from circle to square -->
             <rect class="circle-square-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="108.8935" fill="{{$bg_color}}"/>
             <!-- Text inside -->
-            <text class="circle-square-donate-text medium ABCDiatypeMedium" x="154" y="168"  text-anchor="middle">{{ app()->getLocale() == 'en' ? $value : $value_arabic }}</text>
+            <text class="circle-square-donate-text small ABCDiatypeMedium" x="154" y="168"  text-anchor="middle">{{ app()->getLocale() == 'en' ? $value : $value_arabic }}</text>
         </svg>
     </div>
 </div>
