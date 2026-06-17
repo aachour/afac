@@ -7,8 +7,11 @@
 
 <style>
     .square-diamond-donate-button-wrapper {
-        display: inline-block;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         position: relative;
+        width: 100%;
     }
 
     .square-diamond-donate-button-svg {
@@ -66,13 +69,13 @@
 
 <div class="container">
     <div class="square-diamond-donate-button-wrapper" @if($use_trigger) data-trigger-selector="{{ $trigger_selector }}" @endif>
-        <svg width="308" height="308" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg"
+        <svg width="200" height="200" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="square-diamond-donate-button-svg">
             <!-- Shape that morphs from square to diamond -->
             <rect class="square-diamond-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="0"
                 fill="{{$bg_color}}" />
             <!-- Text inside -->
-            <text class="square-diamond-donate-text medium ABCDiatypeMedium" x="154" y="168" text-anchor="middle">{{ app()->getLocale() == 'en' ? $value : $value_arabic }}
+            <text class="square-diamond-donate-text small ABCDiatypeMedium" x="154" y="168" text-anchor="middle">{{ app()->getLocale() == 'en' ? $value : $value_arabic }}
         </svg>
         @if($use_trigger)
         <div class="square-diamond-donate-arrow" aria-hidden="true">
