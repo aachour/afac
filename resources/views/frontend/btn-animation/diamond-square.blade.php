@@ -34,13 +34,13 @@
 
 <div class="container">
     <div class="diamond-square-donate-button-wrapper">
-        <svg width="200" height="200" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg"
+        <svg width="250" height="250" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="diamond-square-donate-button-svg">
             <!-- Shape that morphs from diamond to square -->
             <rect class="diamond-square-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="0"
                 fill="{{$bg_color}}" />
             <!-- Text inside -->
-            <text class="diamond-square-donate-text small ABCDiatypeMedium medium black ABCDiatypeMedium" x="154" y="168" text-anchor="middle">{{ app()->getLocale() == 'en' ? $value : $value_arabic }}
+            <text class="diamond-square-donate-text big ABCDiatypeMedium medium black ABCDiatypeMedium" x="154" y="168" text-anchor="middle">{{ app()->getLocale() == 'en' ? $value : $value_arabic }}
         </svg>
     </div>
 </div>
