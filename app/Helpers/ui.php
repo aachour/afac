@@ -872,11 +872,11 @@ function ViewCountdown($section_column_id)
                 <div class="big black ABCDiatypeMedium text-center">' . (app()->getLocale() == 'en' ? $countdown->title : $countdown->title_arabic) . '</div>
 
                 <div class="row mt-5 align-items-center">
-                    <div class="md:mt-4 col-12 col-lg-4 text-center md:text-end">
+                    <div class="md:mt-4 col-12 col-lg-4 text-center md:text-end mb-2 mb-md-0">
                         <div class="huge black ABCDiatypeMedium">' . $days . '</div>
                         <div class="big black ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? 'Day(s)' : 'يوم') . '</div>
                     </div>
-                    <div class="md:mt-4 col-12 col-lg-4 text-center">
+                    <div class="md:mt-4 col-12 col-lg-4 text-center mb-2 mb-md-0">
                         <a href="  ' . (app()->getLocale() == 'en' ?  ($countdown->button_link ?? '#') :  ($countdown->button_link_arabic ?? '#')) . '">' . getEntryBtnShape($countdown->button_value, $countdown->button_value_arabic, $countdown->shape?->name, $countdown->shapeHover?->name, $countdown->buttonColor->code, $countdown->buttonHoverColor->code, $countdown->buttonBgColor->code, $countdown->buttonHoverBgColor->code) . '</a>
                     </div>
                     <div class="md:mt-4 col-12 col-lg-4 text-center md:text-start">
