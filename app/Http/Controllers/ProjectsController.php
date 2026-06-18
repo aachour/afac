@@ -154,7 +154,7 @@ class ProjectsController extends Controller
         //Get all projects numbers
         $totalProjects=Entries::WHERE('type_id','3')->WHERE('published','1')->WHERENULL('deleted_at')->count();
         
-        $html='<div id="projects_title" class="big black mt-4">';
+        $html='<div id="projects_title" class="big black mt-5">';
         if(app()->getLocale() == 'en'){
             $html .= 'You are viewing <u class="big">'.$totalEntries.'</u> of the <u class="big">'.$totalProjects.'</u> initiatives that AFAC has supported.';
         } else {

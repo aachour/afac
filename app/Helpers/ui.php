@@ -1381,7 +1381,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Select sort') . '</option>
+                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Sort by') . '</option>
                         <option value="1">' . ($isArabic ? 'الاسم تصاعدي' : 'Name ASC') . '</option>
                         <option value="2">' . ($isArabic ? 'الاسم تنازلي' : 'Name DESC') . '</option>
                         <option value="3">' . ($isArabic ? 'التاريخ تصاعدي' : 'Date ASC') . '</option>
@@ -1465,7 +1465,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Select sort') . '</option>
+                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Sort by') . '</option>
                         <option value="1">' . ($isArabic ? 'الاسم تصاعدي' : 'Name ASC') . '</option>
                         <option value="2">' . ($isArabic ? 'الاسم تنازلي' : 'Name DESC') . '</option>
                         <option value="3">' . ($isArabic ? 'التاريخ تصاعدي' : 'Date ASC') . '</option>
@@ -1635,7 +1635,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Select sort') . '</option>
+                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Sort by') . '</option>
                         <option value="1">' . ($isArabic ? 'الاسم تصاعدي' : 'Name ASC') . '</option>
                         <option value="2">' . ($isArabic ? 'الاسم تنازلي' : 'Name DESC') . '</option>
                         <option value="3">' . ($isArabic ? 'التاريخ تصاعدي' : 'Date ASC') . '</option>
@@ -1818,7 +1818,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Select sort') . '</option>
+                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Sort by') . '</option>
                         <option value="1">' . ($isArabic ? 'الاسم تصاعدي' : 'Name ASC') . '</option>
                         <option value="2">' . ($isArabic ? 'الاسم تنازلي' : 'Name DESC') . '</option>
                     </select>
@@ -1978,7 +1978,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Select sort') . '</option>
+                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Sort by') . '</option>
                         <option value="1">' . ($isArabic ? 'الاسم تصاعدي' : 'Name ASC') . '</option>
                         <option value="2">' . ($isArabic ? 'الاسم تنازلي' : 'Name DESC') . '</option>
                     </select>
@@ -2083,7 +2083,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Select sort') . '</option>
+                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Sort by') . '</option>
                         <option value="1">' . ($isArabic ? 'الاسم تصاعدي' : 'Name ASC') . '</option>
                         <option value="2">' . ($isArabic ? 'الاسم تنازلي' : 'Name DESC') . '</option>
                         <option value="3">' . ($isArabic ? 'التاريخ تصاعدي' : 'Date ASC') . '</option>
@@ -2169,7 +2169,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Select sort') . '</option>
+                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Sort by') . '</option>
                         <option value="1">' . ($isArabic ? 'الاسم تصاعدي' : 'Name ASC') . '</option>
                         <option value="2">' . ($isArabic ? 'الاسم تنازلي' : 'Name DESC') . '</option>
                         <option value="3">' . ($isArabic ? 'التاريخ تصاعدي' : 'Date ASC') . '</option>
@@ -2278,7 +2278,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Select sort') . '</option>
+                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Sort by') . '</option>
                         <option value="1">' . ($isArabic ? 'الاسم تصاعدي' : 'Name ASC') . '</option>
                         <option value="2">' . ($isArabic ? 'الاسم تنازلي' : 'Name DESC') . '</option>
                         <option value="3">' . ($isArabic ? 'التاريخ تصاعدي' : 'Date ASC') . '</option>
