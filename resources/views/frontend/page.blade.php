@@ -48,7 +48,7 @@
 
         @if(@$pageShowName==1)
             <div class="section" style="background:{{@$headerBgCode}};">
-                <div class="bigger black ABCDiatypeMedium">{{ app()->getLocale() == 'ar' ? $pageNameArabic : $pageName }}</div>
+                <div class="bigger black ABCDiatype">{{ app()->getLocale() == 'ar' ? $pageNameArabic : $pageName }}</div>
             </div>
         @endif
 
