@@ -190,3 +190,8 @@ button.circle{
     border-radius: 50%;
     border: none;
 }
+
+select option {
+    font-family: 'ABC Diatype Arabic' !important;
+}
+
