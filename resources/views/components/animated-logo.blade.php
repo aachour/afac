@@ -178,6 +178,14 @@
         function isNavbarLogo() {
             return root.classList.contains('logo-in-navbar');
         }
+        function applyLabelTextAttrs(textNode, fill, fontSize) {
+            textNode.setAttribute('fill', fill);
+            textNode.setAttribute('font-family', labelFontFamily);
+            textNode.setAttribute('font-size', String(fontSize));
+            textNode.setAttribute('font-weight', 'bold');
+            textNode.setAttribute('text-anchor', 'middle');
+            textNode.setAttribute('dominant-baseline', 'middle');
+        }
 
         // ---- Animation 1: Diamonds (rotate -45 + white text) ----
         var diamondCenters = { diamon1: '121.9 48.21', diamon2: '218.26 48.21', diamon3: '314.17 48.21' };
@@ -199,12 +207,7 @@
                     var t = document.createElementNS(ns, 'text');
                     t.setAttribute('x', cx);
                     t.setAttribute('y', firstY + i * gap);
-                    t.setAttribute('fill', '#FFFFFF');
-                    t.setAttribute('font-family', labelFontFamily);
-                    t.setAttribute('font-size', '9');
-                    t.setAttribute('font-weight', 'bold');
-                    t.setAttribute('text-anchor', 'middle');
-                    t.setAttribute('dominant-baseline', 'middle');
+                    applyLabelTextAttrs(t, '#FFFFFF', 9);
                     t.textContent = line;
                     textG.appendChild(t);
                 });
@@ -234,23 +237,18 @@
             var content = root.querySelector(c.content);
             var hover = root.querySelector(c.hover);
             if (content) gsap.set(content, { scale: 0, svgOrigin: c.cx + ' ' + c.cy });
-            var lines = wrapTextLines((cfg[c.key] || {}).text || 'Supporting 2,000 initiatives and counting', 86, 8);
+            var lines = wrapTextLines((cfg[c.key] || {}).text || 'Supporting 2,000 initiatives and counting', 97, 9);
             if (content) {
                 var existing = content.querySelectorAll('text');
                 for (var i = 0; i < existing.length; i++) existing[i].remove();
-                var gap = 10;
+                var gap = 11;
                 var total = lines.length;
                 var startY = c.cy - ((total - 1) * gap) / 2;
                 lines.forEach(function(line, i) {
                     var t = document.createElementNS(ns, 'text');
                     t.setAttribute('x', c.cx);
                     t.setAttribute('y', startY + i * gap);
-                    t.setAttribute('fill', '#010101');
-                    t.setAttribute('font-family', labelFontFamily);
-                    t.setAttribute('font-size', '8');
-                    t.setAttribute('font-weight', 'bold');
-                    t.setAttribute('text-anchor', 'middle');
-                    t.setAttribute('dominant-baseline', 'middle');
+                    applyLabelTextAttrs(t, '#010101', 9);
                     t.textContent = line;
                     content.appendChild(t);
                 });
@@ -280,22 +278,17 @@
             var cover = root.querySelector(v.cover);
             var hover = root.querySelector(v.hover);
             var content = root.querySelector(v.content);
-            var lines = wrapTextLines((cfg[v.key] || {}).text || 'Based in Beirut', 44, 8);
+            var lines = wrapTextLines((cfg[v.key] || {}).text || 'Based in Beirut', 50, 9);
             if (content) {
                 var existing = content.querySelectorAll('text');
                 for (var i = 0; i < existing.length; i++) existing[i].remove();
-                var gap = 10;
+                var gap = 11;
                 var startY = v.ty + verticalTextPaddingTop - ((lines.length - 1) * gap) / 2;
                 lines.forEach(function(line, i) {
                     var t = document.createElementNS(ns, 'text');
                     t.setAttribute('x', v.tx);
                     t.setAttribute('y', startY + i * gap);
-                    t.setAttribute('fill', '#010101');
-                    t.setAttribute('font-family', labelFontFamily);
-                    t.setAttribute('font-size', '8');
-                    t.setAttribute('font-weight', 'bold');
-                    t.setAttribute('text-anchor', 'middle');
-                    t.setAttribute('dominant-baseline', 'middle');
+                    applyLabelTextAttrs(t, '#010101', 9);
                     t.textContent = line;
                     content.appendChild(t);
                 });
