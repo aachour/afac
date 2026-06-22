@@ -18,7 +18,7 @@
                     </button>
                     @endcan
                     @can('formstack-formClearSubmissions')
-                    <button type="button" onclick="showClearConfirm()" class="btn btn-primary d-flex align-items-center">
+                    <button type="button" id="clear-submissions-btn" class="btn btn-primary d-flex align-items-center">
                         Clear Submissions
                     </button>
                     @endcan
@@ -536,7 +536,7 @@
             });
         }
 
-        window.showClearConfirm = function() {
+        document.getElementById('clear-submissions-btn')?.addEventListener('click', function () {
             Swal.fire({
                 title: 'Clear Submissions',
                 text: 'Are you sure you want to delete all submissions related to this form? This action cannot be undone.',
@@ -555,7 +555,52 @@
                     $wire.clearSubmissions();
                 }
             });
-        }
+        });
+
+        // ── Save & restore DataTable state across submission navigation ──
+        (function () {
+            const DT_KEY = 'submissions_dt_state_{{ $form_id }}';
+
+            function getDt() {
+                return $.fn.DataTable.isDataTable('#table') ? $('#table').DataTable() : null;
+            }
+
+            // Capture state before navigating into a submission page
+            document.addEventListener('click', function (e) {
+                const link = e.target.closest('a.view-user-button');
+                if (!link) return;
+                const dt = getDt();
+                if (!dt) return;
+                sessionStorage.setItem(DT_KEY, JSON.stringify({
+                    page:   dt.page(),
+                    length: dt.page.len(),
+                    search: dt.search(),
+                    order:  dt.order()
+                }));
+            }, true);
+
+            // Restore state when returning to this page
+            function restoreState() {
+                const raw = sessionStorage.getItem(DT_KEY);
+                if (!raw) return;
+                sessionStorage.removeItem(DT_KEY);
+                const state = JSON.parse(raw);
+                const dt = getDt();
+                if (!dt) return;
+                dt.page.len(state.length);
+                dt.search(state.search || '');
+                if (state.order && state.order.length) dt.order(state.order);
+                dt.draw();                        // apply length/search/order (resets to page 0)
+                dt.page(state.page).draw(false);  // jump back to the saved page
+            }
+
+            // Run restore once DataTable is ready
+            if (getDt()) {
+                restoreState();
+            } else {
+                $('#table').one('init.dt', restoreState);
+            }
+        }());
 
         // ── Persist checkbox state across DataTables pagination / sort / filter ──
         let _selectedSubmissions = new Set((@json($selected_submissions ?? [])).map(String));
