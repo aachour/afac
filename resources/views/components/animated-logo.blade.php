@@ -136,9 +136,7 @@
         var root = document.getElementById('animated-logo-root');
         if (!root) return;
         var ns = 'http://www.w3.org/2000/svg';
-        var labelFontFamily = @json(app()->getLocale() === 'ar')
-            ? "'ABC Diatype Arabic', Arial, sans-serif"
-            : "'ABC Diatype', Arial, sans-serif";
+        var labelFontFamily = "'ABC Diatype Arabic', Arial, sans-serif";
         var logoContainer = root.querySelector('.logo-container');
         var measureTextNode = document.createElementNS(ns, 'text');
         measureTextNode.setAttribute('font-family', labelFontFamily);
