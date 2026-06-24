@@ -36,8 +36,20 @@
 /***Header / Menu / Footer***/
 
 .header{
-    position:relative;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:1000;
     padding:15px 0px;
+}
+body{
+    padding-top:70px;
+}
+@media(max-width:999px){
+    body{
+        padding-top:55px;
+    }
 }
 
 .header .centerContainer{
