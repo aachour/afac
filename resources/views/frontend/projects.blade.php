@@ -65,10 +65,10 @@
             <div class="sort">
                 <select class="filterDpd sortDpd ABCDiatypeMedium tiny" id="sortDpd" style="width:100px;">
                     <option value="">@if(app()->getLocale() == 'en') Sort by @else اختر الترتيب @endif</option>
-                    <option value="1">@if(app()->getLocale() == 'en') Name ASC @else الاسم تصاعدي @endif</option>
-                    <option value="2">@if(app()->getLocale() == 'en') Name DESC @else الاسم تنازلي @endif</option>
-                    <option value="3">@if(app()->getLocale() == 'en') Date ASC @else التاريخ تصاعدي @endif</option>
-                    <option value="4">@if(app()->getLocale() == 'en') Date DESC @else التاريخ تنازلي @endif</option>
+                    <option value="1">@if(app()->getLocale() == 'en') Name @else الاسم @endif</option>
+                    <!-- <option value="2">@if(app()->getLocale() == 'en') Name DESC @else الاسم تنازلي @endif</option> -->
+                    <!-- <option value="3">@if(app()->getLocale() == 'en') Date ASC @else التاريخ تصاعدي @endif</option> -->
+                    <option value="4">@if(app()->getLocale() == 'en') Date @else التاريخ @endif</option>
                 </select>
             </div>
             <div class="clear"></div>

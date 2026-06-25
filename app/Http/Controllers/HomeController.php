@@ -429,8 +429,8 @@ class HomeController extends Controller
                                 <div class="topSpacer featured_entry" style="pointer-events:auto; background:' . $featured_image_bgColor . '; width:' . $featured_width . '; ' . (app()->getLocale() == 'en' ? 'margin-left:' . $featured_margin : 'margin-right:' . $featured_margin) . ';">';
                                     $html .= '<div class="featured_info">
                                         <div class="title_or_labels" style="'.$title_position.'">
-                                            <div class="medium white ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $entry->$entry_title : $entry->{$entry_title . '_arabic'}) . '</div>
-                                            <div class="topSpacerSmall tiny white threeQuartersText">' . mb_substr(strip_tags($entry_text), 0, 350) . '</div>
+                                            <div class="medium white ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $entry_title : $entry_title_arabic) . '</div>
+                                            <div class="topSpacer tiny white threeQuartersText">' . mb_substr(strip_tags($entry_text), 0, 350) . '</div>
                                         </div>';
 
                                         if ($with_label == 1) {

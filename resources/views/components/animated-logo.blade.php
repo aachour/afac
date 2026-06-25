@@ -136,11 +136,10 @@
         var root = document.getElementById('animated-logo-root');
         if (!root) return;
         var ns = 'http://www.w3.org/2000/svg';
-        var labelFontFamily = "'ABC Diatype Arabic', Arial, sans-serif";
+        var labelFontFamily = "'ABC Diatype Arabic'";
         var logoContainer = root.querySelector('.logo-container');
         var measureTextNode = document.createElementNS(ns, 'text');
         measureTextNode.setAttribute('font-family', labelFontFamily);
-        measureTextNode.setAttribute('font-weight', 'bold');
         measureTextNode.setAttribute('visibility', 'hidden');
         if (logoContainer) logoContainer.appendChild(measureTextNode);
         function measureWidth(text, fontSize) {
@@ -182,7 +181,6 @@
             textNode.setAttribute('fill', fill);
             textNode.setAttribute('font-family', labelFontFamily);
             textNode.setAttribute('font-size', String(fontSize));
-            textNode.setAttribute('font-weight', 'bold');
             textNode.setAttribute('text-anchor', 'middle');
             textNode.setAttribute('dominant-baseline', 'middle');
         }
