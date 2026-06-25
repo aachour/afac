@@ -67,9 +67,10 @@ class CollectionForm extends Component
 
     public function mount($id=''){  
 
-        $this->entries_order_options=['1'=>'Name ASC','2'=>'Name DESC','3'=>'Date ASC','4'=>'Date DESC'];
+        // $this->entries_order_options=['1'=>'Name','2'=>'Name DESC','3'=>'Date ASC','4'=>'Date'];
 
-        $this->entries_order_options=['1'=>'Name ASC','2'=>'Name DESC','3'=>'Date ASC','4'=>'Date DESC'];
+        $this->entries_order_options=['1'=>'Name','4'=>'Date'];
+
         $this->featured_image_width_options=['1'=>'Full','2'=>'three-quarters']; //'3'=>'one-half' '4'=>'one-quarter'
 
         $this->programs=Entries::WHERE('type_id','2')->ORDERBY('id','DESC')->get();
