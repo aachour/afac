@@ -22,7 +22,7 @@
                                 <div class="fs-field-label">
                                     {{ $field['label'] }} 
                                     @if(Auth::user()->hasrole('Admin'))
-                                        / ({{ $field['name'] }})
+                                        / ({{ $field['internal_label'] }})
                                     @endif
                                 </div>
 
