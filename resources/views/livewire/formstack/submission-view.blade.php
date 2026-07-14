@@ -20,7 +20,10 @@
                         @else
                             <div class="fs-field-row">
                                 <div class="fs-field-label">
-                                    {{ $field['label'] }}
+                                    {{ $field['label'] }} 
+                                    @if(Auth::user()->hasrole('Admin'))
+                                        / ({{ $field['name'] }})
+                                    @endif
                                 </div>
 
                                 <div class="fs-field-value">
