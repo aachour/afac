@@ -162,14 +162,14 @@ class SubmissionView extends Component
 
             $fieldData[] = [
                 'field_id'      => $fieldId,
-                'label'         => $field['label']
-                    ?? $field['name']
-                    ?? $field['title']
-                    ?? "Field #{$fieldId}",
+                'label'         => $field['label'],
+                'name'         => $field['name'] ?? null,
+                'title'         => $field['title'] ?? null,
                 'section_heading'  => $field['section_heading'] ?? null,
                 'value'         => $value,
                 'type'          => $type,
             ];
+
         }
 
         // Remove section entries that have no filled fields beneath them
