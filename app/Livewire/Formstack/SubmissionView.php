@@ -147,6 +147,8 @@ class SubmissionView extends Component
         }
 
         // Build all form fields with matching submitted values
+        //dd($form['fields'][0] ?? 'no fields'); // temporary: inspect first field keys
+        
         $fieldData = [];
         foreach (($form['fields'] ?? []) as $field) {
             $fieldId = (string) ($field['id'] ?? '');
@@ -163,6 +165,7 @@ class SubmissionView extends Component
             $fieldData[] = [
                 'field_id'      => $fieldId,
                 'label'         => $field['label'],
+                'internal_label'         => $field['internal_label'] ?? null,
                 'name'         => $field['name'] ?? null,
                 'title'         => $field['title'] ?? null,
                 'section_heading'  => $field['section_heading'] ?? null,
