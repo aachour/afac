@@ -83,7 +83,8 @@
                         <th>Admin ID</th>
                         <th>Email</th>
                         @if(Auth::user()->hasRole('Admin'))
-                        <th>Admin Status / Notes</th>
+                        <th>Status</th>
+                        <th>Notes</th>
                         <th>Assigned To PM</th>
                         @elseif(Auth::user()->hasRole('Program Manager'))
                         <th>Assigned To Jurors</th>
@@ -135,12 +136,8 @@
                                 <td>{{ $submission->admin_id }}</td>
                                 <td>{{ $submission->email }}</td>
                                 @if(Auth::user()->hasRole('Admin'))
-                                <td>
-                                    @if($submission->admin_status || $submission->admin_notes)
-                                        Status: {{ $submission->admin_status }}<br />
-                                        Notes: {{ $submission->admin_notes }}
-                                    @endif
-                                </td>
+                                <td>{{ $submission->admin_status }}</td>
+                                <td>{{ $submission->admin_notes }}</td>
                                 <td>
                                     @foreach($submissionPMs[$submission->submission_id] ?? [] as $pm)
                                         <div class="d-flex align-items-center gap-1 mb-1">
