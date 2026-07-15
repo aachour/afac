@@ -70,7 +70,6 @@
                         <th>Name of Applicant</th>
                         <th>Project Title</th>
                         <th>Name of Institution </th>
-                        <th>Assigned By PM</th>
                         <th>Rate</th>
                         <th>Note</th>
                         <th>Action</th>
@@ -104,7 +103,6 @@
                                 @foreach($assign->submission->juror_internal_labels as $key => $value)
                                 <td> {{ $value }}</td>
                                 @endforeach
-                                <td>{{ $assign->group?->user ? trim($assign->group->user->first_name . ' ' .$assign->group->user->last_name): null; }}</td>
                                 <td>
                                     @if($assign->form_type==1)
                                         Status: {{ $assign->form_status }}<br />
