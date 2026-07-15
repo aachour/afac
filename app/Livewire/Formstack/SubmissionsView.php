@@ -246,7 +246,6 @@ class SubmissionsView extends Component
                 'project_title' => $project_title,
                 'institution_name' => $institution_name,
             ];
-          
 
             // Check if a non-deleted submission exists
             $submission = FormStackSubmissions::where('submission_id', $submissionId)
