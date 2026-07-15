@@ -19,7 +19,15 @@ class FormStackSubmissions extends Model
         'admin_id',
         'admin_status',
         'admin_notes',
-        
+        'admin_internal_labels',
+        'pm_internal_labels',
+        'juror_internal_labels',
+    ];
+
+    protected $casts = [
+        'admin_internal_labels' => 'array',
+        'pm_internal_labels'    => 'array',
+        'juror_internal_labels' => 'array',
     ];
 
     public function form()
