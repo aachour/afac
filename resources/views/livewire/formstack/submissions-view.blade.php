@@ -100,7 +100,6 @@
                     @if(Auth::user()->hasRole('Juror') || Auth::user()->hasRole('Reader'))
                         @foreach($assigns as $assign)
                             <tr>
-                                <td>{{ $assign->id }}</td>
                                 @foreach($assign->submission->juror_internal_labels as $key => $value)
                                 <td> {{ $value }}</td>
                                 @endforeach
