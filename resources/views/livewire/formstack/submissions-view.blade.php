@@ -65,12 +65,11 @@
                     @if(Auth::user()->hasRole('Juror') || Auth::user()->hasRole('Reader'))
                     <tr>
                         <th>ID</th>
-                        <th>Application Number</th>
-                        <th>Applicant Type</th>
-                        <th>Film Project Stage</th>
-                        <th>Full Name</th>
+                        <th>Type of Applicant</th>
+                        <th>Project Stage</th>
+                        <th>Name of Applicant</th>
                         <th>Project Title</th>
-                        <th>Institution Name</th>
+                        <th>Name of Institution </th>
                         <th>Assigned By PM</th>
                         <th>Rate/Note</th>
                         <th>Action</th>
