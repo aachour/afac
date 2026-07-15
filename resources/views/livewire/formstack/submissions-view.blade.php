@@ -66,7 +66,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Type of Applicant</th>
-                        <th>Project Stage</th>
+                        <th>Project Stage (for cinema applications)</th>
                         <th>Name of Applicant</th>
                         <th>Project Title</th>
                         <th>Name of Institution </th>
