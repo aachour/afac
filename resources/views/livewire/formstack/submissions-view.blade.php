@@ -65,12 +65,12 @@
                     @if(Auth::user()->hasRole('Juror') || Auth::user()->hasRole('Reader'))
                     <tr>
                         <th>ID</th>
-                        <th>Form ID</th>
-                        <th>Form Name</th>
-                        <th>Submission ID</th>
-                        <th>Admin ID</th>
-                        <th>Email</th>
-                        <th>Internal Labels</th>
+                        <th>Application Number</th>
+                        <th>Applicant Type</th>
+                        <th>Film Project Stage</th>
+                        <th>Full Name</th>
+                        <th>Project Title</th>
+                        <th>Institution Name</th>
                         <th>Assigned By PM</th>
                         <th>Rate/Note</th>
                         <th>Action</th>
@@ -85,7 +85,6 @@
                         <th>Submission ID</th>
                         <th>Admin ID</th>
                         <th>Email</th>
-                        <th>Internal Labels</th>
                         @if(Auth::user()->hasRole('Admin'))
                         <th>Admin Status / Notes</th>
                         <th>Assigned To PM</th>
@@ -103,16 +102,9 @@
                         @foreach($assigns as $assign)
                             <tr>
                                 <td>{{ $assign->id }}</td>
-                                <td>{{ $assign->submission->form_id }}</td>
-                                <td>{{ $assign->form->form_name ?? '' }}</td>
-                                <td>{{ $assign->submission->submission_id }}</td>
-                                <td>{{ $assign->submission->admin_id }}</td>
-                                <td>{{ $assign->submission->email }}</td>
-                                <td>
-                                    @foreach($assign->submission->juror_internal_labels as $key => $value)
-                                        {{ $key }}: {{ $value }}<br />
-                                    @endforeach
-                                </td>
+                                @foreach($assign->submission->juror_internal_labels as $key => $value)
+                                <td> {{ $value }}</td>
+                                @endforeach
                                 <td>{{ $assign->group?->user ? trim($assign->group->user->first_name . ' ' .$assign->group->user->last_name): null; }}</td>
                                 <td>
                                     @if($assign->form_type==1)
@@ -146,11 +138,6 @@
                                 <td>{{ $submission->submission_id }}</td>
                                 <td>{{ $submission->admin_id }}</td>
                                 <td>{{ $submission->email }}</td>
-                                <td>
-                                    @foreach($submission->juror_internal_labels as $key => $value)
-                                        {{ $key }}: {{ $value }}<br />
-                                    @endforeach
-                                </td>
                                 @if(Auth::user()->hasRole('Admin'))
                                 <td>
                                     @if($submission->admin_status || $submission->admin_notes)
