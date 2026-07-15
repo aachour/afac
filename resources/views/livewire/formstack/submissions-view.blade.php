@@ -71,7 +71,8 @@
                         <th>Project Title</th>
                         <th>Name of Institution </th>
                         <th>Assigned By PM</th>
-                        <th>Rate/Note</th>
+                        <th>Rate</th>
+                        <th>Note</th>
                         <th>Action</th>
                     </tr>
                     @else
@@ -108,12 +109,12 @@
                                     @if($assign->form_type==1)
                                         Status: {{ $assign->form_status }}<br />
                                     @elseif($assign->form_type==2)
-                                        Rate: {{ ($assign->form_rate1 + $assign->form_rate2 + $assign->form_rate3) }} / 10<br />
+                                        {{ ($assign->form_rate1 + $assign->form_rate2 + $assign->form_rate3) }} / 10<br />
                                     @elseif($assign->form_type==3)
-                                        Rate: {{ ($assign->form_rate1 + $assign->form_rate2 + $assign->form_rate3 + $assign->form_rate4) }} / 11<br />
+                                        {{ ($assign->form_rate1 + $assign->form_rate2 + $assign->form_rate3 + $assign->form_rate4) }} / 11<br />
                                     @endif
-                                    Notes: {{ $assign->form_notes }}
                                 </td>
+                                <td>{{ $assign->form_notes }}</td>
                                 <td>
                                     <a href="{{ route('formstack.submission', ['formId' => $assign->submission->form_id,'submissionId' => $assign->submission->submission_id , 'pmId' => $assign->group->user_id , 'assignId' => $assign->id]) }}" 
                                         class="view-user-button {{ ($assign->form_status || $assign->form_rate1 || $assign->form_rate2 || $assign->form_rate3 || $assign->form_rate4) ? 'text-success' : 'text-body' }}"
