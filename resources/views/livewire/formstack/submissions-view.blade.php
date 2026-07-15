@@ -76,9 +76,7 @@
                     </tr>
                     @else
                     <tr>
-                        <th>
-                            <input type="checkbox" id="select-all-submissions" title="Select all on this page" />
-                        </th>
+                        <th><input type="checkbox" id="select-all-submissions" title="Select all on this page" /></th>
                         <th>Form ID</th>
                         <th>Form Name</th>
                         <th>Submission ID</th>
@@ -90,7 +88,8 @@
                         @elseif(Auth::user()->hasRole('Program Manager'))
                         <th>Assigned To Jurors</th>
                         <th>Assigned To Readers</th>
-                        <th>Status / Notes</th>
+                        <th>Status</th>
+                        <th>Notes</th>
                         @endif
                         <th>Action</th>
                     </tr>
@@ -190,10 +189,16 @@
                                 <td>
                                     @php $statusEntry = $submissionStatuses[$submission->submission_id] ?? null; @endphp
                                     @if($statusEntry)
-                                        @if($statusEntry['status'])<div>Status: <span class="{{ $statusEntry['status'] === 'yes' ? 'text-success' : ($statusEntry['status'] === 'maybe' ? 'text-warning' : ($statusEntry['status'] === 'no' ? 'text-danger' : '')) }}">{{ $statusEntry['status'] }}</span></div>@endif
-                                        @if($statusEntry['notes'])<div>Notes: {{ $statusEntry['notes'] }}</div>@endif
+                                        @if($statusEntry['status'])<span class="{{ $statusEntry['status'] === 'yes' ? 'text-success' : ($statusEntry['status'] === 'maybe' ? 'text-warning' : ($statusEntry['status'] === 'no' ? 'text-danger' : '')) }}">{{ $statusEntry['status'] }}</span>@endif
                                     @endif
                                 </td>
+                                <td>
+                                    @php $statusEntry = $submissionStatuses[$submission->submission_id] ?? null; @endphp
+                                    @if($statusEntry)
+                                        @if($statusEntry['notes']){{ $statusEntry['notes'] }}@endif
+                                    @endif
+                                </td>
+                                
                                 @endif
                                 <td>
                                     @can('formstack-submissionRate')
