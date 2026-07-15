@@ -260,6 +260,7 @@ class SubmissionsView extends Component
                     'email' => $email,
                     'name' => $name,
                     'admin_id' => $admin_id,
+                    'juror_internal_labels' => $juror_internal_labels,
                 ]);
             } else {
                 // Create new submission (even if a deleted one exists with same submission_id)
