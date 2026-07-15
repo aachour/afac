@@ -200,6 +200,7 @@ class SubmissionsView extends Component
             $page++;
         } while (! empty($submissions));
 
+        
         foreach($allSubmissions as $submission){
             $submissionId=$submission["id"];
 
@@ -217,6 +218,35 @@ class SubmissionsView extends Component
             //extract admin id
             $admin_id = collect($data)
             ->firstWhere('label', 'ID')['value'] ?? null;
+
+            // get internal labels for juror
+            $application_number = collect($data)
+            ->firstWhere('internal_label', 'application_number')['value'] ?? null;
+
+            $applicant_type = collect($data)
+            ->firstWhere('internal_label', 'applicant_type')['value'] ?? null;
+
+            $film_project_stage = collect($data)
+            ->firstWhere('internal_label', 'film_project_stage')['value'] ?? null;
+
+            $full_name = collect($data)
+            ->firstWhere('internal_label', 'full_name')['value'] ?? null;
+
+            $project_title = collect($data)
+            ->firstWhere('internal_label', 'project_title')['value'] ?? null;
+
+            $institution_name = collect($data)
+            ->firstWhere('internal_label', 'institution_name')['value'] ?? null;
+            
+            $juror_internal_labels = [
+                'application_number' => $application_number,
+                'applicant_type' => $applicant_type,
+                'film_project_stage' => $film_project_stage,
+                'full_name' => $full_name,
+                'project_title' => $project_title,
+                'institution_name' => $institution_name,
+            ];
+          
 
             // Check if a non-deleted submission exists
             $submission = FormStackSubmissions::where('submission_id', $submissionId)
@@ -239,6 +269,7 @@ class SubmissionsView extends Component
                     'email' => $email,
                     'name' => $name,
                     'admin_id' => $admin_id,
+                    'juror_internal_labels' => $juror_internal_labels,
                 ]);
             }
 
