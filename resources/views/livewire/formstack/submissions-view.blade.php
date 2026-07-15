@@ -70,7 +70,7 @@
                         <th>Submission ID</th>
                         <th>Admin ID</th>
                         <th>Email</th>
-                        <!-- <th>Name</th> -->
+                        <th>Internal Labels</th>
                         <th>Assigned By PM</th>
                         <th>Rate/Note</th>
                         <th>Action</th>
@@ -85,6 +85,7 @@
                         <th>Submission ID</th>
                         <th>Admin ID</th>
                         <th>Email</th>
+                        <th>Internal Labels</th>
                         @if(Auth::user()->hasRole('Admin'))
                         <th>Admin Status / Notes</th>
                         <th>Assigned To PM</th>
@@ -107,7 +108,11 @@
                                 <td>{{ $assign->submission->submission_id }}</td>
                                 <td>{{ $assign->submission->admin_id }}</td>
                                 <td>{{ $assign->submission->email }}</td>
-                                <!-- <td>{{ $assign->submission->name }}</td> -->
+                                <td>
+                                    @foreach($assign->submission->juror_internal_labels as $key => $value)
+                                        {{ $key }}: {{ $value }}<br />
+                                    @endforeach
+                                </td>
                                 <td>{{ $assign->group?->user ? trim($assign->group->user->first_name . ' ' .$assign->group->user->last_name): null; }}</td>
                                 <td>
                                     @if($assign->form_type==1)
@@ -141,7 +146,11 @@
                                 <td>{{ $submission->submission_id }}</td>
                                 <td>{{ $submission->admin_id }}</td>
                                 <td>{{ $submission->email }}</td>
-                                <!-- <td>{{ $submission->name }}</td> -->
+                                <td>
+                                    @foreach($submission->juror_internal_labels as $key => $value)
+                                        {{ $key }}: {{ $value }}<br />
+                                    @endforeach
+                                </td>
                                 @if(Auth::user()->hasRole('Admin'))
                                 <td>
                                     @if($submission->admin_status || $submission->admin_notes)
