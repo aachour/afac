@@ -103,6 +103,14 @@
                                 @foreach($assign->submission->juror_internal_labels ?? [] as $key => $value)
                                 <td> {{ $value }}</td>
                                 @endforeach
+                                @if(empty($assign->submission->juror_internal_labels ?? []))
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                @endif
                                 <td>
                                     @if($assign->form_type==1)
                                         Status: {{ $assign->form_status }}<br />
