@@ -126,7 +126,7 @@
 }
 @media(min-width:1000px){
     .huge{
-        font-size:9vw !important;
+        font-size:5.5vw !important;
         line-height: 100% !important;
         letter-spacing: -4% !important;
     }
