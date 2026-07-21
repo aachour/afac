@@ -790,15 +790,17 @@ function ViewAccordion($section_column_id)
 
                 foreach ($column->accordions as $key => $accordion) {
                     $isFirst = ($key === 0);
-                    $openClass = $isFirst ? ' open' : '';
+                    $openClass = $isFirst ? ' open accordion-always-open' : '';
                     
                     $htmlColumn .= '<div class="accordion-item mb-2' . $openClass . '">
                         <div class=" accordion-header">
-                            <div class="accordion-title medium black ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $accordion->title : $accordion->title_arabic) . '</div>
-                            <div class="accordion-arrow">
+                            <div class="accordion-title medium black ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $accordion->title : $accordion->title_arabic) . '</div>';
+                    if (!$isFirst) {
+                        $htmlColumn .= '<div class="accordion-arrow">
                                 <img src="' . asset('frontend/images/arrow-down.png') . '" alt="" width="30" height="30" />
-                            </div>
-                        </div>
+                            </div>';
+                    }
+                    $htmlColumn .= '</div>
                         <div class="accordion-collapse">
                             <div class="accordion-inner">
                                 <div class="accordion-text small black">' . (app()->getLocale() == 'en' ? $accordion->text : $accordion->text_arabic) . '</div>
@@ -817,7 +819,10 @@ function ViewAccordion($section_column_id)
         $htmlColumn .= '<script>
             $(document).ready(function(){
                 $(document).on("click", ".accordion-smooth .accordion-header", function(){
-                    $(this).closest(".accordion-item").toggleClass("open");
+                    var $item = $(this).closest(".accordion-item");
+                    if (!$item.hasClass("accordion-always-open")) {
+                        $item.toggleClass("open");
+                    }
                 });
             });
         </script>';
