@@ -59,7 +59,7 @@
     @if(@$logoAnimation==1)
         <script>
             (function () {
-                document.addEventListener('DOMContentLoaded', function () {
+                /*document.addEventListener('DOMContentLoaded', function () {
                     var fullContainer = document.querySelector('.fullContainer');
                     if (!fullContainer) return;
 
@@ -76,7 +76,7 @@
                             revealTarget.classList.add('is-revealed-after-logo');
                         });
                     }, { once: true });
-                });
+                });*/
             })();
         </script>
     @endif
