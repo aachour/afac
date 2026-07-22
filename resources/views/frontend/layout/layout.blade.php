@@ -53,6 +53,7 @@
                                 Arab Fund for Arts and Culture
                             @endif
                         </span>
+                        <img src="{{asset('frontend/images/logo.svg')}}" width="100px" class="header-logo-img" style="display:none;" />
                     @else
                         <img src="{{asset('frontend/images/logo.svg')}}" width="100px" class="header-logo-img" />
                     @endif
@@ -243,6 +244,23 @@
                 },
                 body: JSON.stringify({ locale: locale })
             }).then(() => location.reload());
+        }
+
+        // Home page: toggle logo on scroll
+        if (window.location.pathname === '/') {
+            var logoTitle = document.getElementById('header-logo-title');
+            var logoImg = document.querySelector('.header-logo-img');
+            if (logoTitle && logoImg) {
+                window.addEventListener('scroll', function () {
+                    if (window.scrollY > 50) {
+                        logoTitle.style.display = 'none';
+                        logoImg.style.display = '';
+                    } else {
+                        logoTitle.style.display = '';
+                        logoImg.style.display = 'none';
+                    }
+                });
+            }
         }
 
         $(document).ready(function () {
