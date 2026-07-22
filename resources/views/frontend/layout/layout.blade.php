@@ -245,25 +245,22 @@
             }).then(() => location.reload());
         }
 
-        $(document).ready(function(){
-            $(document).ready(function () {
-                const menuDirection = "{{ app()->getLocale() == 'en' ? 'right' : 'left' }}";
+        $(document).ready(function () {
+            const menuDirection = "{{ app()->getLocale() == 'en' ? 'right' : 'left' }}";
 
-                $("#menuBtn").on("click", function () {
-                    let animation = {};
-                    animation[menuDirection] = "0px";
+            $("#menuBtn").on("click", function () {
+                let animation = {};
+                animation[menuDirection] = "0px";
 
-                    $("#menu").animate(animation, 600);
-                });
-
-                $("#closeBtn").on("click", function () {
-                    let animation = {};
-                    animation[menuDirection] = "-100%";
-
-                    $("#menu").animate(animation, 600);
-                });
+                $("#menu").animate(animation, 600);
             });
 
+            $("#closeBtn").on("click", function () {
+                let animation = {};
+                animation[menuDirection] = "-100%";
+
+                $("#menu").animate(animation, 600);
+            });
         });
 
     </script>

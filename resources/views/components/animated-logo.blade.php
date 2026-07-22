@@ -310,7 +310,7 @@
         var logoWrapper = root;
         var logoSvg = root.querySelector('.animated-logo-svg');
         var isMinimized = false;
-        if (logoWrapper && logoSvg) {
+        /*if (logoWrapper && logoSvg) {
             logoWrapper.addEventListener('click', function(e) {
                 e.stopPropagation();
                 if (isMinimized) return;
@@ -413,7 +413,7 @@
                     }
                 });
             });
-        }
+        }*/
     });
 })();
 </script>
