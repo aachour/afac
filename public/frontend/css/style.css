@@ -137,23 +137,23 @@
     }
     .big , h1{
         font-size:2.5vw !important;
-        line-height: 110% !important;
-        letter-spacing: -3% !important;
+        line-height: 130% !important;
+        letter-spacing: 0% !important;
     }
     .medium , h2{
         font-size:1.85vw !important;
-        line-height: 100% !important;
-        letter-spacing: -3% !important;
+        line-height: 130% !important;
+        letter-spacing: 0% !important;
     }
     h3{
         font-size:1.45vw !important;
-        line-height: 120% !important;
-        letter-spacing: -1% !important;
+        line-height: 130% !important;
+        letter-spacing: 0% !important;
     }
     .small , p{
         font-size:1.2vw !important;
-        line-height: 120% !important;
-        letter-spacing: -1% !important;
+        line-height: 130% !important;
+        letter-spacing: 0% !important;
     }
     .tiny , li{
         font-size:0.9vw !important;
@@ -170,26 +170,26 @@
     
     h1 strong , h1 u , h1 i , h1 s , h1 a{
         font-size:2.5vw !important;
-        line-height: 110% !important;
-        letter-spacing: -3% !important;
+        line-height: 130% !important;
+        letter-spacing: 0% !important;
     }
 
     h2 strong , h2 u , h2 i , h2 s , h2 a{
         font-size:1.85vw !important;
-        line-height: 100% !important;
-        letter-spacing: -3% !important;
+        line-height: 130% !important;
+        letter-spacing: 0% !important;
     }
 
     h3 strong , h3 u , h3 i , h3 s {
         font-size:1.45vw !important;
-        line-height: 120% !important;
-        letter-spacing: -1% !important;
+        line-height: 130% !important;
+        letter-spacing: 0% !important;
     }
 
     p strong , p u , p i , p s , p a , div.small p, div.small ul, div.small li, div.small td , div.small td strong , div.small td u , div.small td i , div.small td s , div.small td a{
         font-size:1.2vw !important;
-        line-height: 120% !important;
-        letter-spacing: -1% !important;
+        line-height: 130% !important;
+        letter-spacing: 0% !important;
     }
 
 }
