@@ -45,18 +45,14 @@
         <div class="centerContainer">
             <div class="logo">
                 <a href="{{url('/')}}">
-                    @if(!empty($logoAnimation))
-                        <span class="header-logo-title small ABCDiatypeBlack black" id="header-logo-title">
-                            @if(app()->getLocale() == 'ar')
-                                الصندوق العربي للثقافة والفنون
-                            @else
-                                Arab Fund for Arts and Culture
-                            @endif
-                        </span>
-                        <img src="{{asset('frontend/images/logo.svg')}}" width="100px" class="header-logo-img" style="display:none;" />
-                    @else
-                        <img src="{{asset('frontend/images/logo.svg')}}" width="100px" class="header-logo-img" />
-                    @endif
+                    <span class="header-logo-title small ABCDiatypeBlack black" id="header-logo-title">
+                        @if(app()->getLocale() == 'ar')
+                            الصندوق العربي للثقافة والفنون
+                        @else
+                            Arab Fund for Arts and Culture
+                        @endif
+                    </span>
+                    @include('components.animated-logo', ['inNavbar' => true])
                 </a>
             </div>
             <div class="header-nav">
@@ -246,22 +242,26 @@
             }).then(() => location.reload());
         }
 
-        // Home page: toggle logo on scroll
-        if (window.location.pathname === '/') {
+        // Header: sentence first, animated logo after scroll
+        (function () {
             var logoTitle = document.getElementById('header-logo-title');
-            var logoImg = document.querySelector('.header-logo-img');
-            if (logoTitle && logoImg) {
-                window.addEventListener('scroll', function () {
-                    if (window.scrollY > 50) {
-                        logoTitle.style.display = 'none';
-                        logoImg.style.display = '';
-                    } else {
-                        logoTitle.style.display = '';
-                        logoImg.style.display = 'none';
-                    }
-                });
+            var logoNav = document.getElementById('animated-logo-root-nav');
+            if (!logoTitle || !logoNav) return;
+
+            function syncHeaderLogo() {
+                if (window.scrollY > 50) {
+                    logoTitle.style.display = 'none';
+                    logoNav.style.display = 'block';
+                } else {
+                    logoTitle.style.display = '';
+                    logoNav.style.display = 'none';
+                }
             }
-        }
+
+            logoNav.style.display = 'none';
+            syncHeaderLogo();
+            window.addEventListener('scroll', syncHeaderLogo, { passive: true });
+        })();
 
         $(document).ready(function () {
             const menuDirection = "{{ app()->getLocale() == 'en' ? 'right' : 'left' }}";
