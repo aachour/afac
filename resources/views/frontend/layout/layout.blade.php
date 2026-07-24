@@ -45,6 +45,7 @@
         <div class="centerContainer">
             <div class="logo">
                 <a href="{{url('/')}}">
+                    @if(@$pageName=='Home')
                     <span class="header-logo-title small ABCDiatypeBlack black" id="header-logo-title">
                         @if(app()->getLocale() == 'ar')
                             الصندوق العربي للثقافة والفنون
@@ -52,6 +53,7 @@
                             Arab Fund for Arts and Culture
                         @endif
                     </span>
+                    @endif
                     @include('components.animated-logo', ['inNavbar' => true])
                 </a>
             </div>

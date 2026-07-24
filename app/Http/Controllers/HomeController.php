@@ -63,6 +63,7 @@ class HomeController extends Controller
             $footer=getFooter();
         
             return view('frontend.page', [
+                'pageName' => 'Home',
                 'metaTitle' => $page->meta_title,
                 'metaTitleArabic' => $page->meta_title_arabic,
                 'metaDescription' => $page->meta_description,
