@@ -1,10 +1,13 @@
-{{--
+﻿{{--
   AFAC animated logo: afac-new-logo.svg with 8 elements.
   Animation 1 = diamond (rotate -45° + white text). Animation 2 = circle (scale pop + text). Animation 3 = vertical (cover slide + text).
   CMS: each element has name, text, status; only status=1 gets animation + its own text.
 --}}
 @php
     $logoElements = $logoElements ?? \App\Models\Logo::orderBy('id')->get();
+    $inNavbar = !empty($inNavbar);
+    $logoRootId = $inNavbar ? 'animated-logo-root-nav' : 'animated-logo-root';
+    $logoConfigId = $inNavbar ? 'animated-logo-config-nav' : 'animated-logo-config';
     $logoConfig = [];
     foreach ($logoElements as $le) {
         $key = strtolower(preg_replace('/\s+/', '', trim((string) ($le->name ?? ''))));
@@ -22,9 +25,9 @@
     }
 @endphp
 <script src="{{ asset('frontend/js/gsap.js') }}"></script>
-<script type="application/json" id="animated-logo-config">{!! json_encode($logoConfig, JSON_UNESCAPED_UNICODE) !!}</script>
+<script type="application/json" id="{{ $logoConfigId }}">{!! json_encode($logoConfig, JSON_UNESCAPED_UNICODE) !!}</script>
 
-<div class="animated-logo-wrapper" id="animated-logo-root">
+<div class="animated-logo-wrapper{{ $inNavbar ? ' logo-in-navbar' : '' }}" id="{{ $logoRootId }}" data-config-id="{{ $logoConfigId }}">
     <svg class="animated-logo-svg" width="1200" height="600" viewBox="0 0 437 233" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g class="logo-container">
             {{-- Tiny connector (right vertical area) --}}
@@ -109,7 +112,9 @@
 <style>
     .animated-logo-wrapper { display: block; width: 80%; margin: 0 auto; cursor: pointer; position: relative; }
     .animated-logo-svg { display: block; width: 100%; max-width: none; height: auto; }
-    .animated-logo-wrapper.logo-in-navbar { width: 100px; margin: 0; }
+    .animated-logo-wrapper.logo-in-navbar { width: 100px; margin: 0; display: block; }
+    .header .logo .animated-logo-wrapper.logo-in-navbar { width: 100px; max-width: 100px; }
+    .header #animated-logo-root-nav { display: none; }
     .animated-logo-wrapper.logo-in-navbar text { opacity: 0 !important; visibility: hidden !important; }
     .logo-part[data-inactive="1"] [class^="hover-"] { pointer-events: none !important; cursor: default !important; }
     .header-logo-title.is-replaced-by-logo { display: none !important; }
@@ -132,9 +137,15 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        var cfg = parseConfig();
-        var root = document.getElementById('animated-logo-root');
-        if (!root) return;
+        var roots = document.querySelectorAll('.animated-logo-wrapper');
+        if (!roots.length) return;
+
+        roots.forEach(function(root) {
+        if (root.getAttribute('data-logo-ready') === '1') return;
+        root.setAttribute('data-logo-ready', '1');
+        var cfgEl = document.getElementById(root.getAttribute('data-config-id') || 'animated-logo-config');
+        var cfg = {};
+        try { cfg = cfgEl ? (JSON.parse(cfgEl.textContent) || {}) : {}; } catch (e) { cfg = {}; }
         var ns = 'http://www.w3.org/2000/svg';
         var labelFontFamily = "'ABC Diatype Arabic'";
         var logoContainer = root.querySelector('.logo-container');
@@ -414,6 +425,7 @@
                 });
             });
         }*/
+        }); // end roots.forEach
     });
 })();
 </script>
