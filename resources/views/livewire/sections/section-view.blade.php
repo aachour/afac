@@ -177,7 +177,7 @@
                             <select wire:model="collection_id" id="collection_id" class="form-control">
                                 <option value="">Select Collection</option>
                                 @foreach($collections as $collection)
-                                    <option value="{{ $collection->id }}">{{ $collection->name }}</option>
+                                    <option value="{{ $collection->id }}">{{ $collection->id }} - {{ $collection->name }}</option>
                                 @endforeach
                             </select>
                         </div>
