@@ -109,10 +109,6 @@ html[dir="rtl"] body {
     justify-content:flex-end;
     width:100%;
 }
-.header .logo:has(.logo-in-navbar){
-    width:100px;
-    flex-shrink:0;
-}
 .header-logo-title{
     text-align:right;
     direction:rtl;
