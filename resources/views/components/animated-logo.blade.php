@@ -114,7 +114,9 @@
     .animated-logo-svg { display: block; width: 100%; max-width: none; height: auto; }
     .animated-logo-wrapper.logo-in-navbar { width: 100px; margin: 0; display: block; }
     .header .logo .animated-logo-wrapper.logo-in-navbar { width: 100px; max-width: 100px; }
+    @if(@$pageName=='Home')
     .header #animated-logo-root-nav { display: none; }
+    @endif
     .animated-logo-wrapper.logo-in-navbar text { opacity: 0 !important; visibility: hidden !important; }
     .logo-part[data-inactive="1"] [class^="hover-"] { pointer-events: none !important; cursor: default !important; }
     .header-logo-title.is-replaced-by-logo { display: none !important; }
