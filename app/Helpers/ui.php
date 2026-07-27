@@ -2539,7 +2539,9 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
     }
 
     if ($entries_selection == 1 && @count($custom_entries_id) > 0) {
-        $entries = $query->WHEREIN('id', $custom_entries_id);
+        $entries = $query->WHEREIN('id', $custom_entries_id)->orderByRaw(
+        'FIELD(id, ' . implode(',', array_map('intval', $custom_entries_id)) . ')'
+    );
     } else if ($entries_selection == 2 && @count($entries_id) > 0) {
         $entries = $query->WHEREIN('id', $entries_id);
     }
