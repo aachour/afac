@@ -1944,7 +1944,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
         }
 
         //sort Program Years DESC Order
-        usort($jurorsProgramsYears, function ($a, $b) {
+        usort($juror_program_years, function ($a, $b) {
             return (int) $b['name'] <=> (int) $a['name'];
         });
 
