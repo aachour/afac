@@ -2008,9 +2008,9 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                         var juror_program_" . $collection_id . "=$(parent).find('.filter_juror_program').val();
                         
                         var filters = {
-                            juror_country_: juror_country_" . $collection_id . ",
-                            juror_program_year_: juror_program_year_" . $collection_id . ",
-                            juror_program_: juror_program_" . $collection_id . ",
+                            juror_country: juror_country_" . $collection_id . ",
+                            juror_program_year: juror_program_year_" . $collection_id . ",
+                            juror_program: juror_program_" . $collection_id . ",
                             sort: sort_" . $collection_id . ",
                         }; 
                         getFilteredEntries(" . $collection_id . ",filters);
@@ -2774,7 +2774,7 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
         if ($juror_country != '') {
             $query->where('jury_country_id', $juror_country);
         }
-
+        
         //2- filter program year & program
         $juror_program_year = $filters["juror_program_year"] ?? null;
         $juror_program      = $filters["juror_program"] ?? null;
