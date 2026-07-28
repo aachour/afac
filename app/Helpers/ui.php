@@ -192,6 +192,7 @@ function ViewCollection($collection_id)
     $with_filters = $collection->with_filters;
     $with_featured = $collection->with_featured_image;
     $with_border_bottom = $collection->with_border_bottom;
+    $entries_program_id = $collection->entries_program_id;
 
     $featured_image_width = $collection->featured_image_width;
 
@@ -247,7 +248,7 @@ function ViewCollection($collection_id)
 
     //Set Filters
     if ($with_filters == 1) {
-        $html .= setCollectionFilters($collection_id, $collection_type_id, $entries_selection, $entries);
+        $html .= setCollectionFilters($collection_id, $collection_type_id, $entries_selection, $entries,$entries_program_id);
         if (!blank($collection->background_color_id)) {
             $html .= '<div class="mt-4"></div>';
         }
@@ -1340,7 +1341,7 @@ function showEntryLabels($collection_type_id, $labels)
 }
 
 
-function setCollectionFilters($collection_id, $collection_type_id, $entries_selection, $entries)
+function setCollectionFilters($collection_id, $collection_type_id, $entries_selection, $entries, $entries_program_id='')
 {
 
     $html = '';
@@ -1764,6 +1765,16 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                 ];
             }
 
+            if ($entries_program_id !== '') {
+                $grantee_programs = array_values(
+                    array_filter(
+                        $grantee_programs,
+                        fn ($program) => (int) $program['id'] === (int) $entries_program_id
+                    )
+                );
+            }
+            
+
             //Set Years
             $programYear = $programYearProject->programYear;
             if ($programYear->year && !in_array($programYear->year, array_column($grantee_program_years, 'name'))) {
@@ -1773,6 +1784,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                     'name' => $programYear->year,
                 ];
             }
+
         }
 
         //sort Program Years DESC Order
@@ -1930,6 +1942,15 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                 ];
             }
 
+            if ($entries_program_id !== '') {
+                $juror_programs = array_values(
+                    array_filter(
+                        $juror_programs,
+                        fn ($program) => (int) $program['id'] === (int) $entries_program_id
+                    )
+                );
+            }
+
             //Set Years
             $programYearId = $jurorProgramYear->programYear?->id;
             $programYear = $jurorProgramYear->programYear?->year;
@@ -1941,6 +1962,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                     'name' => $jurorProgramYear->programYear?->year,
                 ];
             }
+            
         }
 
         //sort Program Years DESC Order
