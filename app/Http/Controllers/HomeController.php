@@ -205,7 +205,7 @@ class HomeController extends Controller
     public function getFilteredEntries(Request $request){
         
         $collection_id = $request->collection_id;
-        $entries_id = explode(",",$request->entries_id ?? []);
+        $entries_id = explode(",", $request->entries_id ?? '');
         $filters = $request->filters;
         
         $collection=Collections::find($collection_id);
