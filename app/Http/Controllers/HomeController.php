@@ -483,7 +483,7 @@ class HomeController extends Controller
                                 <div class="featured_entry_mobile mb-4" style="background:'.$featured_image_bgColor.';">
                                     <img src="'.$image_path.'" width="100%" />
                                     <div class="description">
-                                        <div class="medium white ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $entry->$entry_title : $entry->{$entry_title . '_arabic'}) . '</div>';
+                                        <div class="medium white ABCDiatypeMedium">' .$entry_title. '</div>';
                                         if($with_label==1)
                                         {
                                             $labels=getEntryLabels($entry);
