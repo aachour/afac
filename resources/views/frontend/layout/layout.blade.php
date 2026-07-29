@@ -46,7 +46,7 @@
             <div class="logo">
                 <a href="{{url('/')}}">
                     @if(@$pageName=='Home')
-                    <span class="header-logo-title small ABCDiatypeBlack black" id="header-logo-title">
+                    <span class="header-logo-title small ABCDiatypeBlack black desktopOnly" id="header-logo-title">
                         @if(app()->getLocale() == 'ar')
                             الصندوق العربي للثقافة والفنون
                         @else
@@ -251,7 +251,11 @@
             if (!logoTitle || !logoNav) return;
 
             function syncHeaderLogo() {
-                if (window.scrollY > 50) {
+                var isMobile = window.innerWidth <= 1000;
+                if (isMobile) {
+                    logoTitle.style.display = 'none';
+                    logoNav.style.display = 'block';
+                } else if (window.scrollY > 50) {
                     logoTitle.style.display = 'none';
                     logoNav.style.display = 'block';
                 } else {
@@ -263,6 +267,7 @@
             logoNav.style.display = 'none';
             syncHeaderLogo();
             window.addEventListener('scroll', syncHeaderLogo, { passive: true });
+            window.addEventListener('resize', syncHeaderLogo, { passive: true });
         })();
 
         $(document).ready(function () {
