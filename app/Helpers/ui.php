@@ -1185,6 +1185,7 @@ function getEntryTitle($entry)
     }
 }
 
+
 function getEntryText($entry)
 {
     $isArabic = app()->getLocale() != 'en';
@@ -3046,7 +3047,7 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
             $query->orderBy('external_date', 'desc');
         }
     } 
-    else {
+    else {                
         if ($entries_order == 1) //event name asc
         {
             if ($collection_type_id == 1) {
@@ -3146,11 +3147,28 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
                 $query->orderBy('program_start_date', 'desc');
             }
             if ($collection_type_id == 3) {
-                // $query->orderBy('id', 'desc');
                 $query->orderBy(
                     \App\Models\ProgramYearProjects::select('program_years.year')
                         ->join('program_years', 'program_years.id', '=', 'program_year_projects.program_year_id')
                         ->whereColumn('program_year_projects.id', 'entries.project_program_year_id')
+                        ->limit(1),
+                    'desc');
+            }
+            if ($collection_type_id == 4) {
+                $query->orderBy(
+                    \App\Models\ProjectGrantees::select('program_years.year')
+                        ->join('entries as projects', 'projects.id', '=', 'project_grantees.project_id')
+                        ->join('program_year_projects', 'program_year_projects.id', '=', 'projects.project_program_year_id')
+                        ->join('program_years', 'program_years.id', '=', 'program_year_projects.program_year_id')
+                        ->whereColumn('project_grantees.grantee_id', 'entries.id')
+                        ->limit(1),
+                    'desc');
+            }
+            if ($collection_type_id == 5) {
+                $query->orderBy(
+                    \App\Models\ProgramYearJurors::select('program_years.year')
+                        ->join('program_years', 'program_years.id', '=', 'program_year_jurors.program_year_id')
+                        ->whereColumn('program_year_jurors.juror_id', 'entries.id')
                         ->limit(1),
                     'desc');
             }
@@ -3203,6 +3221,7 @@ function getMenuPages(){
     return $pages;
 
 }
+
 
 function getFooter(){
 

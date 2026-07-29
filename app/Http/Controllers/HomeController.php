@@ -126,7 +126,7 @@ class HomeController extends Controller
         }
         else
         {
-            dd("!!");
+            dd("Page Not Found");
         }
 
     }
