@@ -1162,6 +1162,36 @@ function formatDateLocalized($timestamp)
 }
 
 
+function formatDateLocalizedShort($timestamp)
+{
+    $arabic_months = [
+        'January'   => 'كانون الثاني/يناير',
+        'February'  => 'شباط/فبراير',
+        'March'     => 'آذار/مارس',
+        'April'     => 'نيسان/أبريل',
+        'May'       => 'أيار/مايو',
+        'June'      => 'حزيران/يونيو',
+        'July'      => 'تموز/يوليو',
+        'August'    => 'آب/أغسطس',
+        'September' => 'أيلول/سبتمبر',
+        'October'   => 'تشرين الأول/أكتوبر',
+        'November'  => 'تشرين الثاني/نوفمبر',
+        'December'  => 'كانون الأول/ديسمبر',
+    ];
+
+    if (app()->getLocale() == 'en') {
+        return date('d M', $timestamp);
+    }
+
+    $month = date('F', $timestamp);
+    if (isset($arabic_months[$month])) {
+        return date('d', $timestamp) . ' ' . $arabic_months[$month];
+    }
+
+    return date('d M', $timestamp);
+}
+
+
 function getEntryTitle($entry)
 {
     $isArabic = app()->getLocale() != 'en';
@@ -1249,8 +1279,8 @@ function getEntryLabels($entry)
                 $labels[] = app()->getLocale() == 'en' ? "Open" : "مفتوح";
                 $labels[] = app()->getLocale() == 'en' ? "Days left: " . $daysLeft : "الأيام المتبقية: " . $daysLeft;
             } else {
-                $labels[] = app()->getLocale() == 'en' ? "Opens " . date('d M', $start_timestamp) : "يفتح " . date('d M', $start_timestamp);
-                $labels[] = app()->getLocale() == 'en' ? "Closes " . date('d M', $end_timestamp) : "يغلق " . date('d M', $end_timestamp);
+                $labels[] = app()->getLocale() == 'en' ? "Opens " . date('d M', $start_timestamp) : "يفتح " . formatDateLocalizedShort($start_timestamp);
+                $labels[] = app()->getLocale() == 'en' ? "Closes " . date('d M', $end_timestamp) : "يغلق " . formatDateLocalizedShort($end_timestamp);
             }
         }
     } else if ($entry->type_id == 3) {
