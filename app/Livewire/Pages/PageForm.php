@@ -97,6 +97,8 @@ class PageForm extends Component
         $validated = $this->validate();       
 
         if($this->id==''){
+            $highestOrder = Pages::max('list_order') ?? 0;
+
             Pages::create([
                 'name' => $this->name,
                 'name_arabic' => $this->name_arabic,
@@ -112,6 +114,7 @@ class PageForm extends Component
                 'in_menu' => $this->in_menu,
                 'menu_color_id' => $this->in_menu ? $this->menu_color_id : null,
                 'published' => $this->published,
+                'list_order' => $highestOrder + 1,
             ]);
 
             return to_route('pages')->with('success', 'Page created successfully!');
