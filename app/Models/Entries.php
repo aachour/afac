@@ -176,4 +176,9 @@ class Entries extends Model
         return $this->hasOne(ExternalCategories::class, 'id', 'external_category_id');
     }
 
+    public function newsCategory()
+    {
+        return $this->hasOne(NewsCategories::class, 'id', 'news_category_id');
+    }
+
 }

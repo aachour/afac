@@ -1321,7 +1321,7 @@ function getEntryLabels($entry)
             }
         }
     } else if ($entry->type_id == 7) {
-        $labels[] = date('d M Y', strtotime($entry->news_date));
+        $labels[] = app()->getLocale() == 'en' ? $entry->newsCategory?->name : $entry->newsCategory?->name_arabic;
     } else if ($entry->type_id == 8) {
         $labels[] = app()->getLocale() == 'en' ? $entry->externalCategory?->name : $entry->externalCategory?->name_arabic;
         $labels[] = date('d M Y', strtotime($entry->external_date));
