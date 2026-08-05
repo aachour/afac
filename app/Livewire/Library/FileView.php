@@ -59,23 +59,28 @@ class FileView extends Component
     public function saveEntry()
     {
 
-        if($this->modalId==null){   
-            
+        if ($this->modalId == null) {
+            $this->validate([
+                'file' => 'required|file|max:20480',
+            ]);
+
             // Save to storage/app/public/gallery
             $path = $this->file->store('files', 'public');
 
             LibraryFiles::create([
                 'path' => $path,
-                'title'     => $this->title,
-                'title_arabic'       => $this->title_arabic
+                'title' => $this->title,
+                'title_arabic' => $this->title_arabic
             ]);
 
             return to_route('files')->with('success', 'File added successfully!');
-        }
-        else if($this->modalId!=null){
+        } elseif ($this->modalId != null) {
+            $this->validate([
+                'file' => 'nullable|file|max:20480',
+            ]);
 
-            $path=$this->path;
-            if($this->file){
+            $path = $this->path;
+            if ($this->file) {
                 $path = $this->file->store('files', 'public');
             }
 

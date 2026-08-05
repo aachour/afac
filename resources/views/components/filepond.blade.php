@@ -78,6 +78,7 @@
 
             let imagesArray = [];
             pond.setOptions({
+                maxFileSize: '20MB',
                 server: {
                     load: (source, load, error, progress, abort, headers) => {
                         var myRequest = new Request(source);
