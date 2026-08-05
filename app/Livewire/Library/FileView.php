@@ -55,6 +55,14 @@ class FileView extends Component
         $this->modalId=$id;
     }
 
+    public function updatedFile()
+    {
+        $this->validateOnly('file', [
+            'file' => 'file|max:20480',
+        ], [
+            'file.max' => 'The file must not be larger than 20 MB.',
+        ]);
+    }
 
     public function saveEntry()
     {
@@ -62,6 +70,9 @@ class FileView extends Component
         if ($this->modalId == null) {
             $this->validate([
                 'file' => 'required|file|max:20480',
+            ], [
+                'file.max' => 'The file must not be larger than 20 MB.',
+                'file.required' => 'Please select a file to upload.',
             ]);
 
             // Save to storage/app/public/gallery
@@ -77,6 +88,8 @@ class FileView extends Component
         } elseif ($this->modalId != null) {
             $this->validate([
                 'file' => 'nullable|file|max:20480',
+            ], [
+                'file.max' => 'The file must not be larger than 20 MB.',
             ]);
 
             $path = $this->path;
