@@ -74,7 +74,7 @@
                                 delete-event="deleteFile"
                                 is-multiple="false" />
 
-                            @error('gallery')
+                            @error('file')
                             <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
 
