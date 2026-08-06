@@ -333,7 +333,11 @@ class HomeController extends Controller
 
                             $image_path = asset('frontend/images/default-image.png');
                             if (!empty($entry->image)) {
-                                $image_path = asset('storage/' . $entry->image);
+                                if(app()->getLocale() == 'ar' && !empty($entry->image_arabic)) {
+                                    $image_path = asset('storage/' . $entry->image_arabic);
+                                } else {
+                                    $image_path = asset('storage/' . $entry->image);
+                                }
                             }
 
                             //get entry details
@@ -397,8 +401,12 @@ class HomeController extends Controller
                     foreach($entries as $key=>$entry){
                         
                         $image_path = asset('frontend/images/default-image-featured.png');
-                        if (!empty($entry->image)) {
-                            $image_path = asset('storage/' . $entry->image_featured);
+                        if (!empty($entry->image_featured)) {
+                            if(app()->getLocale() == 'ar' && !empty($entry->image_featured_arabic)) {
+                                $image_path = asset('storage/' . $entry->image_featured_arabic);
+                            } else {
+                                $image_path = asset('storage/' . $entry->image_featured);
+                            }
                         }
 
                         //get entry details
@@ -557,7 +565,11 @@ class HomeController extends Controller
 
                             $image_path = asset('frontend/images/default-image.png');
                             if (!empty($entry->image)) {
-                                $image_path = asset('storage/' . $entry->image);
+                                if(app()->getLocale() == 'ar' && !empty($entry->image_arabic)) {
+                                    $image_path = asset('storage/' . $entry->image_arabic);
+                                } else {
+                                    $image_path = asset('storage/' . $entry->image);
+                                }
                             }
 
                             //get entry details
