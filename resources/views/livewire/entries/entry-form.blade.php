@@ -87,6 +87,18 @@
                                     @enderror
                                 </div>
 
+                                <div class="col-12 mt-3 @if($type_id!=8) d-none @endif">
+                                    <label class="form-label" for="image_featured_arabic">Featured Image Arabic [1000x1000px]</label>
+                                    <x-filepond 
+                                        wire:model="image_featured_arabic"
+                                        file-path="{{ $imageFeaturedArabicPreview ?? '' }}"
+                                        delete-event="deleteImage"
+                                        is-multiple="false" />
+                                    @error('image_featured_arabic') 
+                                        <div class="text-danger">{{ $message }}</div> 
+                                    @enderror
+                                </div>
+
                                 <div class="col-12 mt-3 @if($type_id!=6 && $type_id!=7) d-none @endif">
                                     <label class="form-label" for="image_full">Full Image [1920x960px]</label>
                                     <x-filepond 
@@ -107,6 +119,18 @@
                                         delete-event="deleteImage"
                                         is-multiple="false" />
                                     @error('image') 
+                                        <div class="text-danger">{{ $message }}</div> 
+                                    @enderror
+                                </div>
+
+                                <div class="col-12 mt-2 @if($type_id!=8) d-none @endif">
+                                    <label class="form-label" for="image_arabic">Image Arabic [640x900px]</label>
+                                    <x-filepond 
+                                        wire:model="image_arabic"
+                                        file-path="{{ $imageArabicPreview ?? '' }}"
+                                        delete-event="deleteImage"
+                                        is-multiple="false" />
+                                    @error('image_arabic') 
                                         <div class="text-danger">{{ $message }}</div> 
                                     @enderror
                                 </div>

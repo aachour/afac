@@ -51,8 +51,12 @@ class EntryForm extends Component
     public $imagePreview;
     public $image_featured;
     public $imageFeaturedPreview;
+    public $image_featured_arabic;
+    public $imageFeaturedArabicPreview;
     public $image_full;
     public $imageFullPreview;
+    public $image_arabic;
+    public $imageArabicPreview;
     public $image_width;
     public $image_caption;
     public $image_caption_arabic;
@@ -189,7 +193,9 @@ class EntryForm extends Component
 
             $this->imagePreview = asset('storage/' . $this->entry->image);
             $this->imageFeaturedPreview = asset('storage/' . $this->entry->image_featured);
+            $this->imageFeaturedArabicPreview = asset('storage/' . $this->entry->image_featured_arabic);
             $this->imageFullPreview = asset('storage/' . $this->entry->image_full);
+            $this->imageArabicPreview = asset('storage/' . $this->entry->image_arabic);
 
             $this->header_color_id=$this->entry->header_color_id;
             $this->footer_color_id=$this->entry->footer_color_id;
@@ -346,7 +352,9 @@ class EntryForm extends Component
             'footer_color_id' => ['nullable'],
             'image' => ['nullable'],
             'image_featured' => ['nullable'],
+            'image_featured_arabic' => ['nullable'],
             'image_full' => ['nullable'],
+            'image_arabic' => ['nullable'],
             'image_width' => ['nullable'],
             'image_caption' => ['nullable'],
             'image_caption_arabic' => ['nullable'],
@@ -455,6 +463,14 @@ class EntryForm extends Component
                 $path_featured = $this->image_featured->store('entries', 'public');
             }
 
+            if($this->image_featured_arabic!=''){
+                $path_featured_arabic = $this->image_featured_arabic->store('entries', 'public');
+            }
+
+            if($this->image_arabic!=''){
+                $path_arabic = $this->image_arabic->store('entries', 'public');
+            }
+
             if($this->image_full!=''){
                 $path_full = $this->image_full->store('entries', 'public');
             }
@@ -478,7 +494,9 @@ class EntryForm extends Component
                 'footer_color_id' => $this->footer_color_id,
                 'image' => @$path,
                 'image_featured' => @$path_featured,
+                'image_featured_arabic' => @$path_featured_arabic,
                 'image_full' => @$path_full,
+                'image_arabic' => @$path_arabic,
                 'image_width' => $this->image_width,
                 'image_caption' => $this->image_caption,
                 'image_caption_arabic' => $this->image_caption_arabic,
@@ -584,6 +602,14 @@ class EntryForm extends Component
                 $path_feautred = $this->image_featured->store('entries', 'public');
             }
 
+            if($this->image_featured_arabic!=''){
+                $path_featured_arabic = $this->image_featured_arabic->store('entries', 'public');
+            }
+
+            if($this->image_arabic!=''){
+                $path_arabic = $this->image_arabic->store('entries', 'public');
+            }
+
             if($this->image_full!=''){
                 $path_full = $this->image_full->store('entries', 'public');
             }
@@ -593,7 +619,9 @@ class EntryForm extends Component
                 'footer_color_id' => $this->footer_color_id,
                 'image' => @$path ?? $this->entry->image,
                 'image_featured' => @$path_feautred ?? $this->entry->image_featured,
+                'image_featured_arabic' => @$path_featured_arabic ?? $this->entry->image_featured_arabic,
                 'image_full' => @$path_full ?? $this->entry->image_full,
+                'image_arabic' => @$path_arabic ?? $this->entry->image_arabic,
                 'image_width' => $this->image_width,
                 'image_caption' => $this->image_caption,
                 'image_caption_arabic' => $this->image_caption_arabic,
