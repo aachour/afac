@@ -1,0 +1,39 @@
+Please update the **Entry Create/Edit functionality** to support separate Arabic images.
+
+Add the following two new fields to the `entries` table:
+
+* `image_featured_arabic` → directly after `image_featured`
+* `image_arabic` → directly after `image`
+
+Please make all required changes across the application:
+
+1. **Database**
+
+   * Create a migration adding both fields.
+   * Use the same data type and nullable configuration as their corresponding existing fields.
+
+2. **Livewire Component**
+
+   * Add:
+
+     * `image_featured_arabic`
+     * `image_arabic`
+   * Include them in validation using the same rules as `image_featured` and `image`.
+   * Handle uploads, temporary previews, saving, updating, and removing exactly like the existing image fields.
+   * Make sure Edit mode loads the existing Arabic images correctly.
+   * Make sure updating an Entry does not remove an existing image unless a new image is uploaded or the user explicitly removes it.
+
+3. **Blade**
+
+   * Add **Arabic Featured Image** immediately after the existing Featured Image field.
+   * Add **Arabic Image** immediately after the existing Image field.
+   * Follow exactly the same UI, upload component, preview, FilePond/Livewire behavior, styling, and remove functionality used by the corresponding existing English image fields.
+
+4. **Entry Model / Saving Logic**
+
+   * Add both fields wherever required (`$fillable`, create/update arrays, etc.).
+   * Ensure both fields are correctly persisted in Create and Edit.
+
+Important: **Do not create a new upload implementation. Reuse the exact existing logic and structure of `image_featured` and `image` for their Arabic equivalents.**
+
+After implementation, review all Entry Create/Edit Blade and Livewire code to make sure there are no missing bindings, validation rules, upload handlers, or update issues.
