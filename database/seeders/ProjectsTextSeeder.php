@@ -30,7 +30,7 @@ class ProjectsTextSeeder extends Seeder
             //create new section and page section
             $section = Sections::create([
                 'entry_id' => $projectId,
-                'name' => 'About the project',
+                'name' => 'About the Project',
             ]);
 
             $sectionId = $section->id;
@@ -57,7 +57,7 @@ class ProjectsTextSeeder extends Seeder
             ColumnGeneral::create([
                 'section_column_id' => $column1Id,
                 'input_type_id' => '1',
-                'title' => 'About the project',
+                'title' => 'About the Project',
                 'title_arabic' => 'عن المشروع',
             ]);
 
