@@ -1277,7 +1277,7 @@ function getEntryLabels($entry)
         $end_timestamp   = strtotime($entry->program_end_date);
 
         if ($end_timestamp < $current) {
-            $labels[] = "Closed";
+            $labels[] = app()->getLocale() == 'en' ? 'Closed for applications' : 'مغلق للطلبات';
         } else {
 
             $daysLeft = floor(($end_timestamp - $current) / 86400);
@@ -1405,7 +1405,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
         $html .= '<div class="filters" style="">
             <div class="filter">
                 <select class="filterDpd filter_event_category">
-                    <option value="">' . ($isArabic ? 'اختر النوع' : 'Select type') . '</option>';
+                    <option value="">' . ($isArabic ? 'النوع' : 'Type') . '</option>';
                     foreach ($event_categories as $event_category) {
                         $html .= '<option value="' . $event_category["id"] . '">' . $event_category["name"] . '</option>';
                     }
@@ -1426,7 +1426,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Sort by') . '</option>
+                        <option value="">' . ($isArabic ? 'الترتيب' : 'Sort by') . '</option>
                         <option value="1">' . ($isArabic ? 'الاسم' : 'Name') . '</option>';
                         //<option value="2">' . ($isArabic ? 'الاسم تنازلي' : 'Name DESC') . '</option>
                         //<option value="3">' . ($isArabic ? 'التاريخ تصاعدي' : 'Date ASC') . '</option>
@@ -1510,7 +1510,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Sort by') . '</option>
+                        <option value="">' . ($isArabic ? 'الترتيب' : 'Sort by') . '</option>
                         <option value="1">' . ($isArabic ? 'الاسم' : 'Name') . '</option>';
                         //<option value="2">' . ($isArabic ? 'الاسم تنازلي' : 'Name DESC') . '</option>
                         //<option value="3">' . ($isArabic ? 'التاريخ تصاعدي' : 'Date ASC') . '</option>
@@ -1641,7 +1641,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
         $html .= '<div class="filters" style="">
             <div class="filter">
                 <select class="filterDpd filter_project_country">    
-                    <option value="">' . ($isArabic ? 'اختر الدولة' : 'Select country') . '</option>';
+                    <option value="">' . ($isArabic ? 'الدولة' : 'Country') . '</option>';
                 foreach ($project_countries as $country) {
                     $html .= '<option value=' . $country["id"] . '>' . $country["name"] . '</option>';
                 }
@@ -1649,7 +1649,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             </div>
             <div class="filter">
                 <select class="filterDpd filter_project_category">
-                    <option value="">' . ($isArabic ? 'اختر الموضوع' : 'Select theme') . '</option>';
+                    <option value="">' . ($isArabic ? 'الموضوع' : 'Ttheme') . '</option>';
                     foreach ($project_categories as $category) {
                         $html .= '<option value="' . $category["id"] . '">' . $category["name"] . '</option>';
                     }
@@ -1657,7 +1657,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             </div>
             <div class="filter">
                 <select class="filterDpd filter_project_program_year">
-                    <option value="">' . ($isArabic ? 'اختر السنة' : 'Select year') . '</option>';
+                    <option value="">' . ($isArabic ? 'السنة' : 'Year') . '</option>';
                     foreach ($project_program_years as $project_program_year) {
                         $html .= '<option value="' . $project_program_year["name"] . '">' . $project_program_year["name"] . '</option>';
                     }
@@ -1665,7 +1665,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             </div>
             <div class="filter">
                 <select class="filterDpd filter_project_program">
-                    <option value="">' . ($isArabic ? 'اختر البرنامج' : 'Select program') . '</option>';
+                    <option value="">' . ($isArabic ? 'البرنامج' : 'Program') . '</option>';
                     foreach ($project_programs as $project_program) {
                         $html .= '<option value="' . $project_program["id"] . '">' . $project_program["name"] . '</option>';
                     }
@@ -1680,7 +1680,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Sort by') . '</option>
+                        <option value="">' . ($isArabic ? 'الترتيب' : 'Sort by') . '</option>
                         <option value="1">' . ($isArabic ? 'الاسم' : 'Name') . '</option>';
                         //<option value="2">' . ($isArabic ? 'الاسم تنازلي' : 'Name DESC') . '</option>
                         //<option value="3">' . ($isArabic ? 'التاريخ تصاعدي' : 'Date ASC') . '</option>
@@ -1835,7 +1835,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
         $html .= '<div class="filters" style="">
             <div class="filter">
                 <select class="filterDpd filter_grantee_country">    
-                    <option value="">' . ($isArabic ? 'اختر الدولة' : 'Select country') . '</option>';
+                    <option value="">' . ($isArabic ? 'الدولة' : 'Country') . '</option>';
                     foreach ($grantee_countries as $country) {
                         $html .= '<option value="' . $country["id"] . '">' . $country["name"] . '</option>';
                     }
@@ -1843,7 +1843,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             </div>    
             <div class="filter">
                 <select class="filterDpd filter_grantee_category">
-                    <option value="">' . ($isArabic ? 'اختر الموضوع' : 'Select theme') . '</option>';
+                    <option value="">' . ($isArabic ? 'الموضوع' : 'Theme') . '</option>';
                     foreach ($grantee_categories as $category) {
                         $html .= '<option value="' . $category["id"] . '">' . $category["name"] . '</option>';
                     }
@@ -1851,7 +1851,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             </div>
             <div class="filter">
                 <select class="filterDpd filter_grantee_program_year">
-                    <option value="">' . ($isArabic ? 'اختر السنة' : 'Select year') . '</option>';
+                    <option value="">' . ($isArabic ? 'السنة' : 'Year') . '</option>';
                     foreach ($grantee_program_years as $grantee_program_year) {
                         $html .= '<option value="' . $grantee_program_year["name"] . '">' . $grantee_program_year["name"] . '</option>';
                     }
@@ -1859,7 +1859,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             </div>
             <div class="filter">
                 <select class="filterDpd filter_grantee_program">
-                    <option value="">' . ($isArabic ? 'اختر البرنامج' : 'Select program') . '</option>';
+                    <option value="">' . ($isArabic ? 'البرنامج' : 'Program') . '</option>';
                     foreach ($grantee_programs as $grantee_program) {
                         $html .= '<option value="' . $grantee_program["id"] . '">' . $grantee_program["name"] . '</option>';
                     }
@@ -1874,7 +1874,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Sort by') . '</option>
+                        <option value="">' . ($isArabic ? 'الترتيب' : 'Sort by') . '</option>
                         <option value="1">' . ($isArabic ? 'الاسم' : 'Name') . '</option>
                         <option value="2">' . ($isArabic ? 'الاسم تنازلي' : 'Name DESC') . '</option>
                     </select>
@@ -2013,7 +2013,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
         $html .= '<div class="filters" style="">
             <div class="filter">
                 <select class="filterDpd filter_juror_country">    
-                    <option value="">' . ($isArabic ? 'اختر الدولة' : 'Select country') . '</option>';
+                    <option value="">' . ($isArabic ? 'الدولة' : 'Country') . '</option>';
                     foreach ($juror_countries as $country) {
                         $html .= '<option value="' . $country["id"] . '">' . $country["name"] . '</option>';
                     }
@@ -2021,7 +2021,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             </div>
             <div class="filter">
                 <select class="filterDpd filter_juror_program_year">    
-                    <option value="">' . ($isArabic ? 'اختر السنة' : 'Select year') . '</option>';
+                    <option value="">' . ($isArabic ? 'السنة' : 'Year') . '</option>';
                     foreach ($juror_program_years as $juror_program_year) {
                         $html .= '<option value="' . $juror_program_year["name"] . '">' . $juror_program_year["name"] . '</option>';
                     }
@@ -2029,7 +2029,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             </div>
             <div class="filter">
                 <select class="filterDpd filter_juror_program">    
-                    <option value="">' . ($isArabic ? 'اختر البرنامج' : 'Select program') . '</option>';
+                    <option value="">' . ($isArabic ? 'البرنامج' : 'Program') . '</option>';
                     foreach ($juror_programs as $juror_program) {
                         $html .= '<option value="' . $juror_program["id"] . '">' . $juror_program["name"] . '</option>';
                     }
@@ -2044,7 +2044,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Sort by') . '</option>
+                        <option value="">' . ($isArabic ? 'الترتيب' : 'Sort by') . '</option>
                         <option value="1">' . ($isArabic ? 'الاسم' : 'Name') . '</option>
                         <option value="2">' . ($isArabic ? 'الاسم تنازلي' : 'Name DESC') . '</option>
                     </select>
@@ -2128,7 +2128,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
         $html .= '<div class="filters" style="">
             <div class="filter">
                 <select class="filterDpd filter_resource_category">
-                    <option value="">' . ($isArabic ? 'اختر الفئة' : 'Select category') . '</option>';
+                    <option value="">' . ($isArabic ? 'الفئة' : 'Category') . '</option>';
                 foreach ($resource_categories as $category) {
                     $html .= '<option value="' . $category["id"] . '">' . $category["name"] . '</option>';
                 }
@@ -2149,7 +2149,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Sort by') . '</option>
+                        <option value="">' . ($isArabic ? 'الترتيب' : 'Sort by') . '</option>
                         <option value="1">' . ($isArabic ? 'الاسم' : 'Name') . '</option>';
                         //<option value="2">' . ($isArabic ? 'الاسم تنازلي' : 'Name DESC') . '</option>
                         //<option value="3">' . ($isArabic ? 'التاريخ تصاعدي' : 'Date ASC') . '</option>
@@ -2235,7 +2235,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Sort by') . '</option>
+                        <option value="">' . ($isArabic ? 'الترتيب' : 'Sort by') . '</option>
                         <option value="1">' . ($isArabic ? 'الاسم' : 'Name') . '</option>';
                         //<option value="2">' . ($isArabic ? 'الاسم تنازلي' : 'Name DESC') . '</option>
                         //<option value="3">' . ($isArabic ? 'التاريخ تصاعدي' : 'Date ASC') . '</option>
@@ -2323,7 +2323,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
         $html .= '<div class="filters" style="">
             <div class="filter">
                 <select class="filterDpd filter_external_category">
-                    <option value="">' . ($isArabic ? 'اختر الفئة' : 'Select category') . '</option>';
+                    <option value="">' . ($isArabic ? 'الفئة' : 'Category') . '</option>';
                 foreach ($external_categories as $category) {
                     $html .= '<option value="' . $category["id"] . '">' . $category["name"] . '</option>';
                 }
@@ -2344,7 +2344,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
             if ($entries_selection == 2) {
                 $html .= '<div class="sort">
                     <select class="filterDpd sortDpd" id="sort-collection-' . $collection_id . '">
-                        <option value="">' . ($isArabic ? 'اختر الترتيب' : 'Sort by') . '</option>
+                        <option value="">' . ($isArabic ? 'الترتيب' : 'Sort by') . '</option>
                         <option value="1">' . ($isArabic ? 'الاسم' : 'Name') . '</option>';
                         //<option value="2">' . ($isArabic ? 'الاسم تنازلي' : 'Name DESC') . '</option>
                         //<option value="3">' . ($isArabic ? 'التاريخ تصاعدي' : 'Date ASC') . '</option>
