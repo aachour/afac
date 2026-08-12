@@ -414,14 +414,22 @@ function ViewColumnGeneral($section_column_id)
                 else if ($input_type_id == 3) {   //gallery
                     $galleryImages = $generalInput->gallery->images;
                     if (count($galleryImages) == 1) { //single image
-                        $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0"><img src=' . asset("storage/" . $galleryImages[0]->image_path) . ' width="100%" /></div>';
+                        $imageHtml = '<img src="' . asset("storage/" . $galleryImages[0]->image_path) . '" width="100%" />';
+                        if (!empty($galleryImages[0]->link)) {
+                            $imageHtml = '<a href="' . htmlspecialchars($galleryImages[0]->link, ENT_QUOTES, 'UTF-8') . '" target="_blank" rel="noopener noreferrer">' . $imageHtml . '</a>';
+                        }
+                        $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0">' . $imageHtml . '</div>';
                         $htmlColumn .= '<div class="mt-1 tiny black">' . (app()->getLocale() == 'en' ? $galleryImages[0]->caption : $galleryImages[0]->caption_arabic) . '</div>';
                     } else { //gallery images
                         $htmlColumn .= '<div class="mt-2 mb-3 md:mb-0 swiper gallery" id="swiper-gallery-' . $section_column_id . '">
                                     <div class="swiper-wrapper">';
                             foreach ($galleryImages as $galleryImage) {
+                                $imageHtml = '<img src="' . asset("storage/" . $galleryImage->image_path) . '" width="100%" />';
+                                if (!empty($galleryImage->link)) {
+                                    $imageHtml = '<a href="' . htmlspecialchars($galleryImage->link, ENT_QUOTES, 'UTF-8') . '" target="_blank" rel="noopener noreferrer">' . $imageHtml . '</a>';
+                                }
                                 $htmlColumn .= '<div class="swiper-slide">
-                                    <img src=' . asset("storage/" . $galleryImage->image_path) . ' width="100%" />
+                                    ' . $imageHtml . '
                                     <div class="topSpacerSmaller tiny black">' . (app()->getLocale() == 'en' ? $galleryImage->caption : $galleryImage->caption_arabic) . '</div>
                                 </div>';
                             }
