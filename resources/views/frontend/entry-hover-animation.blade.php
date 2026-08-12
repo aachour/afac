@@ -1,8 +1,8 @@
 @php
-    $text = $button_text ?: 'Press Here';
+    $text = $button_text ?: 'More';
     if(app()->isLocale('ar')) 
     {
-        $text = $button_text_arabic ?: 'اضغط هنا';
+        $text = $button_text_arabic ?: 'المزيد';
     } 
 
     $size = $size ?? 'medium';
