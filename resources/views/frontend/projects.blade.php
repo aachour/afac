@@ -26,7 +26,7 @@
         <div class="filters" style="">
             <div class="filter">
                 <select class="filterDpd filter_project_country ABCDiatypeMedium tiny" style="width:130px;">    
-                    <option value="">@if(app()->getLocale() == 'en') Select country @else اختر الدولة @endif</option>';
+                    <option value="">@if(app()->getLocale() == 'en') Country @else الدولة @endif</option>';
                     @foreach($project_countries as $key=>$country)
                         <option value="{{ $key }}">{{$country}}</option>
                     @endforeach
@@ -34,7 +34,7 @@
             </div>
             <div class="filter">
                 <select class="filterDpd filter_project_category ABCDiatypeMedium tiny" style="width:120px;">
-                    <option value="">@if(app()->getLocale() == 'en') Select theme @else اختر الموضوع @endif</option>';
+                    <option value="">@if(app()->getLocale() == 'en') Theme @else الموضوع @endif</option>';
                     @foreach($project_categories as $key=>$category){
                         <option value="{{ $key }}">{{$category}}</option>
                     @endforeach
@@ -42,7 +42,7 @@
             </div>
             <div class="filter">
                 <select class="filterDpd filter_project_program_year ABCDiatypeMedium tiny" style="width:105px;">
-                    <option value="">@if(app()->getLocale() == 'en') Select year @else اختر السنة @endif</option>
+                    <option value="">@if(app()->getLocale() == 'en') Year @else السنة @endif</option>
                     @foreach($project_program_years as $project_program_year)
                         <option value="{{ $project_program_year['name'] }}">{{$project_program_year["name"]}}</option>
                     @endforeach
@@ -50,7 +50,7 @@
             </div>
             <div class="filter">
                 <select class="filterDpd filter_project_program ABCDiatypeMedium tiny" style="width:135px;">
-                    <option value="">@if(app()->getLocale() == 'en') Select program @else اختر البرنامج @endif</option>
+                    <option value="">@if(app()->getLocale() == 'en') Program @else البرنامج @endif</option>
                     @foreach($project_programs as $project_program){
                         <option value="{{ $project_program['id'] }}"> @if(app()->getLocale() == 'en') {{$project_program["name"]}} @else {{$project_program["name_arabic"]}} @endif</option>
                     @endforeach
@@ -64,7 +64,7 @@
             </div>
             <div class="sort">
                 <select class="filterDpd sortDpd ABCDiatypeMedium tiny" id="sortDpd" style="width:100px;">
-                    <option value="">@if(app()->getLocale() == 'en') Sort by @else اختر الترتيب @endif</option>
+                    <option value="">@if(app()->getLocale() == 'en') Sort by @else الترتيب @endif</option>
                     <option value="1">@if(app()->getLocale() == 'en') Name @else الاسم @endif</option>
                     <!-- <option value="2">@if(app()->getLocale() == 'en') Name DESC @else الاسم تنازلي @endif</option> -->
                     <!-- <option value="3">@if(app()->getLocale() == 'en') Date ASC @else التاريخ تصاعدي @endif</option> -->
