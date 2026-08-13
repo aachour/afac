@@ -4,8 +4,8 @@
 
     <title>{{ $metaTitle }} | AFAC</title>
     <meta property="og:title" content="{{ $metaTitle }}">
-    <meta name="description" content="{{ $metaDescription }}">
-    <meta property="og:description" content="{{ $metaDescription }}">
+    <meta name="description" content="{!! $metaDescription !!}">
+    <meta property="og:description" content="{!! $metaDescription !!}">
     <meta property="og:image" content="">
     <meta property="og:url" content="">
     <meta property="og:type" content="website">
