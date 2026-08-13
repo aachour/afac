@@ -105,6 +105,24 @@
     .entry-hero-grantee-link:hover .entry-hero-grantee-arrow {
         transform: translateX(4px);
     }
+    @media (max-width: 768px) {
+        .entry-hero-grantee-link .entry-hero-grantee-arrow {
+            display: inline-block;
+            width: 13px;
+            height: 12px;
+            transform: translateX(-26px);
+            transition: transform 0.3s ease;
+            color: inherit;
+            vertical-align: middle;
+        }
+        .entry-hero-grantee-arrow-wrap {
+            width: 35px !important;
+            overflow: visible;
+        }
+        .entry-hero-grantee-arrow {
+            transform: translateX(4px) !important;
+        }
+    }
     @endif
 </style>
 
