@@ -25,7 +25,7 @@
         <!--Filter-->
         <div class="filters" style="">
             <div class="filter">
-                <select class="filterDpd filter_project_country ABCDiatypeMedium tiny" style="width:130px;">    
+                <select class="filterDpd filter_project_country ABCDiatypeMedium tiny" style="width:80px;">    
                     <option value="">@if(app()->getLocale() == 'en') Country @else الدولة @endif</option>';
                     @foreach($project_countries as $key=>$country)
                         <option value="{{ $key }}">{{$country}}</option>
@@ -33,7 +33,7 @@
                 </select>
             </div>
             <div class="filter">
-                <select class="filterDpd filter_project_category ABCDiatypeMedium tiny" style="width:120px;">
+                <select class="filterDpd filter_project_category ABCDiatypeMedium tiny" style="width:70px;">
                     <option value="">@if(app()->getLocale() == 'en') Theme @else الموضوع @endif</option>';
                     @foreach($project_categories as $key=>$category){
                         <option value="{{ $key }}">{{$category}}</option>
@@ -41,7 +41,7 @@
                 </select>
             </div>
             <div class="filter">
-                <select class="filterDpd filter_project_program_year ABCDiatypeMedium tiny" style="width:105px;">
+                <select class="filterDpd filter_project_program_year ABCDiatypeMedium tiny" style="width:60px;">
                     <option value="">@if(app()->getLocale() == 'en') Year @else السنة @endif</option>
                     @foreach($project_program_years as $project_program_year)
                         <option value="{{ $project_program_year['name'] }}">{{$project_program_year["name"]}}</option>
@@ -49,7 +49,7 @@
                 </select>
             </div>
             <div class="filter">
-                <select class="filterDpd filter_project_program ABCDiatypeMedium tiny" style="width:135px;">
+                <select class="filterDpd filter_project_program ABCDiatypeMedium tiny" style="width:85px;">
                     <option value="">@if(app()->getLocale() == 'en') Program @else البرنامج @endif</option>
                     @foreach($project_programs as $project_program){
                         <option value="{{ $project_program['id'] }}"> @if(app()->getLocale() == 'en') {{$project_program["name"]}} @else {{$project_program["name_arabic"]}} @endif</option>
