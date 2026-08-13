@@ -8,6 +8,9 @@
     $inNavbar = !empty($inNavbar);
     $logoRootId = $inNavbar ? 'animated-logo-root-nav' : 'animated-logo-root';
     $logoConfigId = $inNavbar ? 'animated-logo-config-nav' : 'animated-logo-config';
+
+    $fillColor = $headerBgCode ?? '#FFF';
+    
     $logoConfig = [];
     foreach ($logoElements as $le) {
         $key = strtolower(preg_replace('/\s+/', '', trim((string) ($le->name ?? ''))));
@@ -58,7 +61,7 @@
                 <rect fill="#010101" x="1.62" y="98.02" width="54.12" height="134.53"/>
                 <rect fill="#010101" x="55.74" y="221.7" width="69.58" height="10.79"/>
                 <g class="anim-vertical1-content" style="opacity:0;pointer-events:none">
-                    <rect x="1" y="85" width="55" height="55" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" rx="2"/>
+                    <rect x="1" y="85" width="55" height="55" fill="{{ $fillColor }}" stroke="{{ $fillColor }}" stroke-width="2" rx="2"/>
                 </g>
                 <rect class="cover-vertical1" x="1.5" y="95" width="54.2" height="60" fill="#010101"/>
                 <rect class="hover-vertical1" x="0" y="90" width="56" height="145" fill="transparent" style="cursor:pointer"/>
@@ -69,7 +72,7 @@
                 <path fill="#010101" d="M123.78,96.43c-37.57,0-68.03,30.46-68.03,68.03s30.46,68.03,68.03,68.03,68.03-30.46,68.03-68.03-30.46-68.03-68.03-68.03ZM123.78,175.51c-6.1,0-11.05-4.95-11.05-11.05s4.95-11.05,11.05-11.05,11.05,4.95,11.05,11.05-4.95,11.05-11.05,11.05Z"/>
                 <g class="anim-circle1-content" style="opacity:0;pointer-events:none">
                     <circle cx="123.78" cy="164.46" r="40" fill="none" stroke="#010101" stroke-width="3"/>
-                    <circle cx="123.78" cy="164.46" r="55" fill="#FFFFFF"/>
+                    <circle cx="123.78" cy="164.46" r="55" fill="{{ $fillColor }}"/>
                 </g>
                 <circle class="hover-circle1" cx="123.78" cy="164.46" r="60" fill="transparent" style="cursor:pointer"/>
             </g>
@@ -78,7 +81,7 @@
             <g class="logo-part" data-part="vertical2">
                 <rect fill="#010101" x="191.81" y="98.25" width="54.12" height="134.53"/>
                 <g class="anim-vertical2-content" style="opacity:0;pointer-events:none">
-                    <rect x="192" y="96.5" width="54" height="55" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" rx="2"/>
+                    <rect x="192" y="96.5" width="54" height="55" fill="{{ $fillColor }}" stroke="{{ $fillColor }}" stroke-width="2" rx="2"/>
                 </g>
                 <rect class="cover-vertical2" x="192" y="98" width="53.9" height="60" fill="#010101"/>
                 <rect class="hover-vertical2" x="185" y="80" width="68" height="145" fill="transparent" style="cursor:pointer"/>
@@ -89,7 +92,7 @@
                 <path fill="#010101" d="M313.96,96.66c-37.57,0-68.03,30.46-68.03,68.03s30.46,68.03,68.03,68.03,68.03-30.46,68.03-68.03-30.46-68.03-68.03-68.03ZM313.96,175.74c-6.1,0-11.05-4.95-11.05-11.05s4.95-11.05,11.05-11.05,11.05,4.95,11.05,11.05-4.95,11.05-11.05,11.05Z"/>
                 <g class="anim-circle2-content" style="opacity:0;pointer-events:none">
                     <circle cx="313.96" cy="164.69" r="40" fill="none" stroke="#010101" stroke-width="3"/>
-                    <circle cx="313.96" cy="164.69" r="55" fill="#FFFFFF"/>
+                    <circle cx="313.96" cy="164.69" r="55" fill="{{ $fillColor }}"/>
                 </g>
                 <circle class="hover-circle2" cx="313.96" cy="164.69" r="60" fill="transparent" style="cursor:pointer"/>
             </g>
@@ -100,7 +103,7 @@
             <g class="logo-part" data-part="vertical3">
                 <rect fill="#010101" x="381.99" y="96.56" width="54.12" height="134.53"/>
                 <g class="anim-vertical3-content" style="opacity:0;pointer-events:none">
-                    <rect x="381" y="85" width="55" height="55" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="2" rx="2"/>
+                    <rect x="381" y="85" width="55" height="55" fill="{{ $fillColor }}" stroke="{{ $fillColor }}" stroke-width="2" rx="2"/>
                 </g>
                 <rect class="cover-vertical3" x="382" y="95" width="54.2" height="60" fill="#010101"/>
                 <rect class="hover-vertical3" x="380" y="90" width="60" height="145" fill="transparent" style="cursor:pointer"/>
@@ -218,7 +221,7 @@
                     var t = document.createElementNS(ns, 'text');
                     t.setAttribute('x', cx);
                     t.setAttribute('y', firstY + i * gap);
-                    applyLabelTextAttrs(t, '#FFFFFF', 9);
+                    applyLabelTextAttrs(t, '{{ $fillColor }}', 9);
                     t.textContent = line;
                     textG.appendChild(t);
                 });

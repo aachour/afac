@@ -54,7 +54,7 @@
                         @endif
                     </span>
                     @endif
-                    @include('components.animated-logo', ['inNavbar' => true])
+                    @include('components.animated-logo', ['inNavbar' => true , 'headerBgCode' => @$headerBgCode])
                 </a>
             </div>
             <div class="header-nav">
