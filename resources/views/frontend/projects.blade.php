@@ -25,7 +25,7 @@
         <!--Filter-->
         <div class="filters" style="">
             <div class="filter">
-                <select class="filterDpd filter_project_country ABCDiatypeMedium tiny" style="width:80px;">    
+                <select class="filterDpd filter_project_country ABCDiatypeMedium tiny" style="width:90px;">    
                     <option value="">@if(app()->getLocale() == 'en') Country @else الدولة @endif</option>';
                     @foreach($project_countries as $key=>$country)
                         <option value="{{ $key }}">{{$country}}</option>
@@ -33,7 +33,7 @@
                 </select>
             </div>
             <div class="filter">
-                <select class="filterDpd filter_project_category ABCDiatypeMedium tiny" style="width:70px;">
+                <select class="filterDpd filter_project_category ABCDiatypeMedium tiny" style="width:80px;">
                     <option value="">@if(app()->getLocale() == 'en') Theme @else الموضوع @endif</option>';
                     @foreach($project_categories as $key=>$category){
                         <option value="{{ $key }}">{{$category}}</option>
