@@ -3,7 +3,7 @@
 @section('title-meta')
 
     <title>{{ $metaTitle }} | AFAC</title>
-    <meta property="og:title" content="{{ $metaTitle }}">
+    <meta property="og:title" content="{!! $metaTitle !!}">
     <meta name="description" content="{!! $metaDescription !!}">
     <meta property="og:description" content="{!! $metaDescription !!}">
     <meta property="og:image" content="">
