@@ -66,6 +66,12 @@
         opacity: 0;
     }
 
+    @media (max-width: 768px) {
+        .card-hover-animation-overlay {
+            display: none;
+        }
+    }
+
     .card-hover-animation-diamond {
         transform-origin: center center;
     }
