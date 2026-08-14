@@ -527,14 +527,14 @@ function ViewTimeline($section_column_id)
                     $htmlColumn .= '<div class="timeline mb-5">
                         <div class="row">
 
-                            <div class="col-lg-3 col-12 ">
+                            <div class="col-lg-4 col-12 ">
                                 <div class="black big ABCDiatypeMedium mb-2">
                                     <img src="' . asset('frontend/images/diamond.png') . '" width="40px" />&nbsp;&nbsp;
                                     ' . $timeline->date . '
                                 </div>
                             </div>
 
-                            <div class="col-lg-9 col-12">
+                            <div class="col-lg-8 col-12">
                                 <div class="timeline-percentages-wrapper">';
                                     $percentageIndex = 0;
                                     foreach ($timeline->percentages as $key => $percentage) {
@@ -548,7 +548,7 @@ function ViewTimeline($section_column_id)
                                                             data-percentage-color="' . $percentageColor . '"
                                                             data-timeline-id="' . $timeline->id . '">
 
-                                                        <div class="percentage-text big black mb-5">' . (app()->getLocale() == 'en' ? $percentage->text : $percentage->text_arabic) . '</div>';
+                                                        <div class="percentage-text big black mt-1 mb-5">' . (app()->getLocale() == 'en' ? $percentage->text : $percentage->text_arabic) . '</div>';
 
                                         if ($percentage->percentage != 0) {
                                             $diamondCount = 0;

@@ -438,8 +438,8 @@ class EntryForm extends Component
             //Board
             'board_name' => ['required_if:type_id,10'],
             'board_name_arabic' => ['required_if:type_id,10'],
-            'board_position' => ['required_if:type_id,10'],
-            'board_position_arabic' => ['required_if:type_id,10'],
+            'board_position' => ['nullable'],
+            'board_position_arabic' => ['nullable'],
             'board_text' => ['required_if:type_id,10'],
             'board_text' => ['required_if:type_id,10'],
         ];

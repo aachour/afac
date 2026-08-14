@@ -1157,7 +1157,7 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="board_position">Position <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="board_position">Position</label>
                                     <input
                                         wire:model="board_position"
                                         type="text"
@@ -1168,7 +1168,7 @@
                                 </div>
 
                                 <div class="col-12 col-md-6 mt-2">
-                                    <label class="form-label" for="board_position_arabic">المنصب <span class="text-danger">*</span></label>
+                                    <label class="form-label" for="board_position_arabic">المنصب</label>
                                     <input
                                         wire:model="board_position_arabic"
                                         type="text"
