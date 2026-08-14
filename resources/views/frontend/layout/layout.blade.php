@@ -254,7 +254,7 @@
                 var isMobile = window.innerWidth <= 1000;
                 if (isMobile) {
                     logoTitle.style.display = 'none';
-                    logoNav.style.display = 'block';
+                    logoNav.style.display = window.scrollY > 50 ? 'block' : 'none';
                 } else if (window.scrollY > 50) {
                     logoTitle.style.display = 'none';
                     logoNav.style.display = 'block';
