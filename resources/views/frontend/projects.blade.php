@@ -33,7 +33,7 @@
                 </select>
             </div>
             <div class="filter">
-                <select class="filterDpd filter_project_category ABCDiatypeMedium tiny" style="width:80px;">
+                <select class="filterDpd filter_project_category ABCDiatypeMedium tiny" style="width:90px;">
                     <option value="">@if(app()->getLocale() == 'en') Theme @else الموضوع @endif</option>';
                     @foreach($project_categories as $key=>$category){
                         <option value="{{ $key }}">{{$category}}</option>
@@ -41,7 +41,7 @@
                 </select>
             </div>
             <div class="filter">
-                <select class="filterDpd filter_project_program_year ABCDiatypeMedium tiny" style="width:60px;">
+                <select class="filterDpd filter_project_program_year ABCDiatypeMedium tiny" style="width:65px;">
                     <option value="">@if(app()->getLocale() == 'en') Year @else السنة @endif</option>
                     @foreach($project_program_years as $project_program_year)
                         <option value="{{ $project_program_year['name'] }}">{{$project_program_year["name"]}}</option>
