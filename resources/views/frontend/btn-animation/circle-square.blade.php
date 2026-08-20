@@ -1,3 +1,4 @@
+@php $uid = 'circle-square-' . uniqid(); @endphp
 <!-- GSAP Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
@@ -15,18 +16,18 @@
         cursor: pointer;
     }
 
-    .circle-square-donate-text {
+    #{{ $uid }} .circle-square-donate-text {
         fill:{{ $text_color }};
     }
 
     .circle-square-donate-shape {
         transform-origin: 154px 154px;
     }
-    .circle-square-donate-button-svg:hover .circle-square-donate-text {
+    #{{ $uid }}.circle-square-donate-button-svg:hover .circle-square-donate-text {
         fill: {{ $hover_text_color }};
     }
 
-    .circle-square-donate-button-svg:hover .circle-square-donate-shape {
+    #{{ $uid }}.circle-square-donate-button-svg:hover .circle-square-donate-shape {
         fill: {{ $hover_bg_color }};
     }
 
@@ -38,7 +39,7 @@
 
 <div class="container">
     <div class="circle-square-donate-button-wrapper">
-        <svg width="250" height="250" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" class="circle-square-donate-button-svg">
+        <svg id="{{ $uid }}" width="250" height="250" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" class="circle-square-donate-button-svg">
             <!-- Shape that morphs from circle to square -->
             <rect class="circle-square-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="108.8935" fill="{{$bg_color}}"/>
             <!-- Text inside -->
@@ -48,39 +49,45 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const wrapper = document.querySelector('.circle-square-donate-button-wrapper');
-    if (!wrapper) return;
-    
-    const donateButton = wrapper.querySelector('.circle-square-donate-button-svg');
-    const donateShape = wrapper.querySelector('.circle-square-donate-shape');
-    
-    if (donateButton && donateShape) {
-        // Center of the SVG (308 / 2 = 154)
-        const centerX = 154;
-        const centerY = 154;
-        
-        donateButton.addEventListener('mouseenter', function() {
-            // Transform from circle to square
-            // Circle: rx="108.8935", rotation: 0
-            // Square: rx="0", rotation: 0 (no rotation needed)
-            gsap.to(donateShape, {
-                attr: { rx: 0 },
-                duration: 0.5,
-                ease: "power2.inOut",
-                transformOrigin: "50% 50%"
+(function () {
+    function initCircleSquareButtons() {
+        document.querySelectorAll('.circle-square-donate-button-wrapper').forEach(function (wrapper) {
+            if (wrapper.dataset.circleSquareInitialized === 'true') return;
+
+            const donateButton = wrapper.querySelector('.circle-square-donate-button-svg');
+            const donateShape = wrapper.querySelector('.circle-square-donate-shape');
+            if (!donateButton || !donateShape) return;
+
+            wrapper.dataset.circleSquareInitialized = 'true';
+
+            donateButton.addEventListener('mouseenter', function() {
+                // Transform from circle to square
+                // Circle: rx="108.8935", rotation: 0
+                // Square: rx="0", rotation: 0 (no rotation needed)
+                gsap.to(donateShape, {
+                    attr: { rx: 0 },
+                    duration: 0.5,
+                    ease: "power2.inOut",
+                    transformOrigin: "50% 50%"
+                });
             });
-        });
-        
-        donateButton.addEventListener('mouseleave', function() {
-            // Transform back from square to circle
-            gsap.to(donateShape, {
-                attr: { rx: 108.8935 },
-                duration: 0.5,
-                ease: "power2.inOut",
-                transformOrigin: "50% 50%"
+
+            donateButton.addEventListener('mouseleave', function() {
+                // Transform back from square to circle
+                gsap.to(donateShape, {
+                    attr: { rx: 108.8935 },
+                    duration: 0.5,
+                    ease: "power2.inOut",
+                    transformOrigin: "50% 50%"
+                });
             });
         });
     }
-});
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCircleSquareButtons);
+    } else {
+        initCircleSquareButtons();
+    }
+})();
 </script>

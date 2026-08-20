@@ -485,7 +485,7 @@ function ViewColumnGeneral($section_column_id)
                     $textAlign = $generalInput->button_link == null ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
                     $htmlColumn .= '<div class="mt-3 mb-3 md:mb-0">
-                        <a href="' . ($generalInput->button_link ?? '#') . '">' . getEntryBtnShape($generalInput->button_value, $generalInput->button_value_arabic, $generalInput->shape?->name, $generalInput->shapeHover->name, $generalInput->buttonColor->code, $generalInput->buttonHoverColor->code, $generalInput->buttonBgColor->code, $generalInput->buttonHoverBgColor->code) . '</a>
+                        <a href="' . ($generalInput->button_link ?? '#') . '" target="_blank">' . getEntryBtnShape($generalInput->button_value, $generalInput->button_value_arabic, $generalInput->shape?->name, $generalInput->shapeHover->name, $generalInput->buttonColor->code, $generalInput->buttonHoverColor->code, $generalInput->buttonBgColor->code, $generalInput->buttonHoverBgColor->code) . '</a>
                     </div>';
                 }
             }
@@ -891,7 +891,7 @@ function ViewCountdown($section_column_id)
                         <div class="big black ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? 'Day(s)' : 'يوم') . '</div>
                     </div>
                     <div class="md:mt-4 col-12 col-lg-4 text-center mb-2 mb-md-0">
-                        <a href="  ' . (app()->getLocale() == 'en' ?  ($countdown->button_link ?? '#') :  ($countdown->button_link_arabic ?? '#')) . '">' . getEntryBtnShape($countdown->button_value, $countdown->button_value_arabic, $countdown->shape?->name, $countdown->shapeHover?->name, $countdown->buttonColor->code, $countdown->buttonHoverColor->code, $countdown->buttonBgColor->code, $countdown->buttonHoverBgColor->code) . '</a>
+                        <a href="  ' . (app()->getLocale() == 'en' ?  ($countdown->button_link ?? '#') :  ($countdown->button_link_arabic ?? '#')) . '" target="_blank">' . getEntryBtnShape($countdown->button_value, $countdown->button_value_arabic, $countdown->shape?->name, $countdown->shapeHover?->name, $countdown->buttonColor->code, $countdown->buttonHoverColor->code, $countdown->buttonBgColor->code, $countdown->buttonHoverBgColor->code) . '</a>
                     </div>
                     <div class="md:mt-4 col-12 col-lg-4 text-center md:text-start">
                         <div class="huge black ABCDiatypeMedium">' . @$hours . '</div>

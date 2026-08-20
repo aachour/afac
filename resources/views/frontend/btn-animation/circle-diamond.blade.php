@@ -1,3 +1,4 @@
+@php $uid = 'circle-diamond-' . uniqid(); @endphp
 <!-- GSAP Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
@@ -15,17 +16,17 @@
         cursor: pointer;
     }
 
-    .circle-diamond-donate-text {
+    #{{ $uid }} .circle-diamond-donate-text {
         fill:{{ $text_color }};
     }
     .circle-diamond-donate-shape {
         transform-origin: 154px 154px;
     }
-    .circle-diamond-donate-button-svg:hover .circle-diamond-donate-text {
+    #{{ $uid }}.circle-diamond-donate-button-svg:hover .circle-diamond-donate-text {
         fill: {{ $hover_text_color }};
     }
 
-    .circle-diamond-donate-button-svg:hover .circle-diamond-donate-shape {
+    #{{ $uid }}.circle-diamond-donate-button-svg:hover .circle-diamond-donate-shape {
         fill: {{ $hover_bg_color }};
     }
 
@@ -37,7 +38,7 @@
 
 <div class="container">
     <div class="circle-diamond-donate-button-wrapper">
-        <svg width="250" height="250" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" class="circle-diamond-donate-button-svg">
+        <svg id="{{ $uid }}" width="250" height="250" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" class="circle-diamond-donate-button-svg">
             <!-- Shape that morphs from circle to diamond -->
             <rect class="circle-diamond-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="108.8935" fill="{{$bg_color}}" />
             <!-- Text inside -->
