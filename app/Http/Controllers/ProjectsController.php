@@ -84,10 +84,16 @@ class ProjectsController extends Controller
         $project_programs=[];
         $project_program_years=[];
 
-        $programYears = ProgramYears::whereIn('id', function ($query) use ($project_ids) {
-            $query->select('program_year_id')
-                ->from('program_year_projects')
-                ->whereIn('project_id', $project_ids);
+        $programYears = ProgramYears::whereHas('program', function ($query) {
+            $query->where('published', 1)
+                ->whereNull('deleted_at');
+        })->whereIn('id', function ($query) use ($project_ids) {
+            $query->select('pyp.program_year_id')
+                ->from('program_year_projects as pyp')
+                ->join('entries as e', 'e.id', '=', 'pyp.project_id')
+                ->whereIn('pyp.project_id', $project_ids)
+                ->where('e.published', 1)
+                ->whereNull('e.deleted_at');
         })->get();
 
         foreach($programYears as $programYear){
