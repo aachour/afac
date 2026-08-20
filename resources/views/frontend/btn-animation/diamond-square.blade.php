@@ -1,3 +1,4 @@
+@php $uid = 'diamond-square-' . uniqid(); @endphp
 <!-- GSAP Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
@@ -15,17 +16,17 @@
         cursor: pointer;
     }
 
-    .diamond-square-donate-text {
+    #{{ $uid }} .diamond-square-donate-text {
         fill:{{ $text_color }};
     }
     .diamond-square-donate-shape {
         transform-origin: 154px 154px;
     }
-    .diamond-square-donate-button-svg:hover .diamond-square-donate-text {
+    #{{ $uid }}.diamond-square-donate-button-svg:hover .diamond-square-donate-text {
         fill: {{ $hover_text_color }};
     }
 
-    .diamond-square-donate-button-svg:hover .diamond-square-donate-shape {
+    #{{ $uid }}.diamond-square-donate-button-svg:hover .diamond-square-donate-shape {
         fill: {{ $hover_bg_color }};
     }
 
@@ -34,7 +35,7 @@
 
 <div class="container">
     <div class="diamond-square-donate-button-wrapper">
-        <svg width="250" height="250" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg"
+        <svg id="{{ $uid }}" width="250" height="250" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="diamond-square-donate-button-svg">
             <!-- Shape that morphs from diamond to square -->
             <rect class="diamond-square-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="0"
@@ -46,17 +47,16 @@
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const wrapper = document.querySelector('.diamond-square-donate-button-wrapper');
-        if (!wrapper) return;
-        
-        const donateButton = wrapper.querySelector('.diamond-square-donate-button-svg');
-        const donateShape = wrapper.querySelector('.diamond-square-donate-shape');
+(function () {
+    function initDiamondSquareButtons() {
+        document.querySelectorAll('.diamond-square-donate-button-wrapper').forEach(function (wrapper) {
+            if (wrapper.dataset.diamondSquareInitialized === 'true') return;
 
-        if (donateButton && donateShape) {
-            // Center of the SVG (308 / 2 = 154)
-            const centerX = 154;
-            const centerY = 154;
+            const donateButton = wrapper.querySelector('.diamond-square-donate-button-svg');
+            const donateShape = wrapper.querySelector('.diamond-square-donate-shape');
+            if (!donateButton || !donateShape) return;
+
+            wrapper.dataset.diamondSquareInitialized = 'true';
 
             // Set initial state to diamond (rx="0", rotation="-45")
             gsap.set(donateShape, {
@@ -88,6 +88,13 @@
                     transformOrigin: "50% 50%"
                 });
             });
-        }
-    });
+        });
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initDiamondSquareButtons);
+    } else {
+        initDiamondSquareButtons();
+    }
+})();
 </script>

@@ -1,6 +1,7 @@
 @php
     $trigger_selector = $trigger_selector ?? null;
     $use_trigger = !empty($trigger_selector);
+    $uid = 'square-diamond-' . uniqid();
 @endphp
 <!-- GSAP Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -19,7 +20,7 @@
         cursor: pointer;
     }
 
-    .square-diamond-donate-text {
+    #{{ $uid }} .square-diamond-donate-text {
         fill:{{ $text_color }};
     }
 
@@ -27,20 +28,20 @@
         transform-origin: 154px 154px;
     }
     @if (!$use_trigger)
-    .square-diamond-donate-button-svg:hover .square-diamond-donate-text {
+    #{{ $uid }}.square-diamond-donate-button-svg:hover .square-diamond-donate-text {
         fill: {{ $hover_text_color }};
     }
-    .square-diamond-donate-button-svg:hover .square-diamond-donate-shape {
+    #{{ $uid }}.square-diamond-donate-button-svg:hover .square-diamond-donate-shape {
         fill: {{ $hover_bg_color }};
     }
     @else
-    .square-diamond-donate-button-wrapper.trigger-active .square-diamond-donate-text {
+    #{{ $uid }}.trigger-active .square-diamond-donate-text {
         fill: {{ $hover_text_color }};
     }
-    .square-diamond-donate-button-wrapper.trigger-active .square-diamond-donate-shape {
+    #{{ $uid }}.trigger-active .square-diamond-donate-shape {
         fill: {{ $hover_bg_color }};
     }
-    .square-diamond-donate-arrow {
+    #{{ $uid }} .square-diamond-donate-arrow {
         position: absolute;
         right: 24px;
         top: 50%;
@@ -49,12 +50,12 @@
         pointer-events: none;
         transition: transform 0.3s ease, opacity 0.3s ease;
     }
-    .square-diamond-donate-arrow svg {
+    #{{ $uid }} .square-diamond-donate-arrow svg {
         width: 26px;
         height: 24px;
         display: block;
     }
-    .square-diamond-donate-button-wrapper.trigger-active .square-diamond-donate-arrow {
+    #{{ $uid }}.trigger-active .square-diamond-donate-arrow {
         transform: translateY(-50%) translateX(0);
         opacity: 1;
         color: {{ $hover_text_color }};
@@ -68,7 +69,7 @@
 </style>
 
 <div class="container">
-    <div class="square-diamond-donate-button-wrapper" @if($use_trigger) data-trigger-selector="{{ $trigger_selector }}" @endif>
+    <div id="{{ $uid }}" class="square-diamond-donate-button-wrapper" @if($use_trigger) data-trigger-selector="{{ $trigger_selector }}" @endif>
         <svg width="250" height="250" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="square-diamond-donate-button-svg">
             <!-- Shape that morphs from square to diamond -->
@@ -89,12 +90,16 @@
     document.addEventListener('DOMContentLoaded', function() {
         var wrappers = document.querySelectorAll('.square-diamond-donate-button-wrapper');
         wrappers.forEach(function(wrapper) {
+            if (wrapper.dataset.squareDiamondInitialized === 'true') return;
+
             var donateButton = wrapper.querySelector('.square-diamond-donate-button-svg');
             var donateShape = wrapper.querySelector('.square-diamond-donate-shape');
             var triggerSelector = wrapper.getAttribute('data-trigger-selector');
             var useTrigger = triggerSelector && triggerSelector.length;
 
             if (!donateShape) return;
+
+            wrapper.dataset.squareDiamondInitialized = 'true';
 
             gsap.set(donateShape, { attr: { rx: 0 }, rotation: 0, transformOrigin: "50% 50%" });
 
