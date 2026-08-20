@@ -2588,7 +2588,7 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
         $entries_expired  = $collection->entries_with_expired;
         $entries_order    = $collection->entries_order;
 
-        $query = Entries::where(['type_id' => $collection_type_id, 'published' => '1']);
+        $query = Entries::where(['type_id' => $collection_type_id]);
     } else //Projects page 
     { 
         $query = Entries::where(['type_id' => '3', 'published' => '1'])->WHERENULL('deleted_at');
@@ -2931,7 +2931,10 @@ function buildEntriesQuery($collection_id = "", $filters = "", $entries_id = [])
         }
     }
 
-    $query->where('published', '1')->whereNull('deleted_at');
+    if( $entries_selection == 2 ) {
+        $query->where('published', '1')->whereNull('deleted_at');
+    }
+    
 
     ///////////////////////////////////////////////////////////////////////////////////
     // Check Expired

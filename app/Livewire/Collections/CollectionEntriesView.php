@@ -77,7 +77,7 @@ class CollectionEntriesView extends Component
         }
         else
         {
-            $this->entries=Entries::WHERE(['type_id'=>$this->collection_type_id , 'published'=>'1'])->ORDERBY('id','DESC')->get();
+            $this->entries=Entries::WHERE(['type_id'=>$this->collection_type_id ])->ORDERBY('id','DESC')->get();
         }
         
         $this->collection_entries=CollectionEntries::WHERE('collection_id',$this->collection_id)->ORDERBY('list_order','ASC')->GET();
