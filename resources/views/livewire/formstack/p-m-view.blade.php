@@ -25,10 +25,10 @@
                     <tbody>
                     @foreach($pms as $pm)
                         <tr>
-                            <td>{{ $pm->user->id }}</td>
-                            <td>{{ $pm->user->first_name.' '.$pm->user->last_name }}</td>
-                            <td>{{ $pm->user->email }}</td>
-                            <td>{{ $pm->user->phone }}</td>
+                            <td>{{ $pm->user?->id }}</td>
+                            <td>{{ $pm->user?->first_name.' '.$pm->user?->last_name }}</td>
+                            <td>{{ $pm->user?->email }}</td>
+                            <td>{{ $pm->user?->phone }}</td>
                             <td>
                                 @can('formstack-viewAssignedJurors')
                                     <button wire:click="setGroupId({{ $pm->id }},'Jurors')" type="button" 
