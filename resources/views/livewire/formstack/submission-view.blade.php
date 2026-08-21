@@ -110,6 +110,8 @@
             </div>
             @endif
 
+            {{-- JR evaluation panel --}}
+
             {{-- Fixed evaluation panel --}}
             @if($assign_id && $form_type == 1)
             <div class="fs-eval-panel-inner">
@@ -156,7 +158,7 @@
             </div>
             @endif
 
-            {{-- Form type 2: 4 scored questions --}}
+            {{-- Form type 2 & 3 --}}
             @if($assign_id && ( $form_type == 2 || $form_type == 3 ))
             <div class="fs-eval-panel-inner">
                 <h6 class="fs-eval-title">{{ $assigned_to }} Evaluation</h6>
@@ -268,6 +270,115 @@
                     @error('form_rate4') <div class="fs-eval-error">{{ $message }}</div> @enderror
                 </div>
                 @endif
+
+                {{-- Notes --}}
+                <div class="mb-3">
+                    <label class="fs-eval-label" for="rateNotes2">Notes</label>
+                    <textarea id="rateNotes2" wire:model="form_notes" class="fs-eval-textarea" rows="4" placeholder="Add your notes..." {{ !$canEdit2 ? 'disabled' : '' }}></textarea>
+                </div>
+                
+
+                <button
+                    type="button"
+                    wire:click="saveJRRating"
+                    wire:loading.attr="disabled"
+                    wire:target="saveJRRating"
+                    class="fs-eval-btn"
+                    {{ !$canEdit2 ? 'disabled' : '' }}
+                >
+                    <span wire:loading.remove wire:target="saveJRRating">Save</span>
+                    <span wire:loading wire:target="saveJRRating">Saving...</span>
+                </button>
+            </div>
+            @endif
+
+            {{-- Form type 4 --}}
+            @if($assign_id && $form_type == 4)
+            <div class="fs-eval-panel-inner">
+                <h6 class="fs-eval-title">{{ $assigned_to }} Evaluation</h6>
+
+                {{-- Question 1 (4 options) --}}
+                <div class="mb-4">
+                    <div class="fs-eval-header-row">
+                        <label class="fs-eval-label">RELEVANCE AND CONNECTIVITY | الصلة والتواصل</label>
+                        <button type="button" onclick="this.parentElement.nextElementSibling.classList.toggle('hidden')" class="fs-eval-toggle" title="Show/hide details">
+                            <svg class="fs-eval-toggle-icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        </button>
+                    </div>
+                    <p class="fs-eval-question-text hidden">
+                        Relevance of the project to the context where the artist or institution operates.<br>
+                        Relevance of the project to the broader arts and culture scene, and to the literary scene in general.<br>
+                        Connectivity of the project to audiences and surrounding communities, and the diversity and inclusivity of the groups served.<br>
+                        Connectivity of the project to wider discussions/topics and/or to other fields (e.g. academia, social sciences, political sciences, humanities, other artistic disciplines).<br><br>
+                        صلة المشروع بالسياق الذي يعمل ضمنه الفنان/ة أو المؤسسة.<br>
+                        صلة المشروع بالمشهد العام للفنون والثقافة، وبالساحة الأدبية عامة.<br>
+                        تواصل المشروع مع الجمهور والمجتمعات المحيطة، وتنوّع المجموعات المستهدفة وشموليتها.<br>
+                        تواصل المشروع مع نقاشات/مواضيع أوسع و/أو مع مجالات أخرى (الأكاديميا، العلوم الاجتماعية، العلوم السياسية، العلوم الإنسانية، الحقول الفنية الأخرى).<br>
+                    </p>
+                    <div class="fs-eval-radios fs-eval-radios-row">
+                        @foreach([1,2,3,4] as $val)
+                        <label class="fs-eval-radio-option {{ (int)$form_rate1 === $val ? 'active selected' : '' }}">
+                            <input type="radio" wire:model="form_rate1" value="{{ $val }}" {{ !$canEdit2 ? 'disabled' : '' }}> {{ $val }}
+                        </label>
+                        @endforeach
+                    </div>
+                    @error('form_rate1') <div class="fs-eval-error">{{ $message }}</div> @enderror
+                </div>
+
+                {{-- Question 2 (4 options) --}}
+                <div class="mb-4">
+                    <div class="fs-eval-header-row">
+                        <label class="fs-eval-label">SCRIPT AND QUALITY | النوعية والإبتكار</label>
+                        <button type="button" onclick="this.parentElement.nextElementSibling.classList.toggle('hidden')" class="fs-eval-toggle" title="Show/hide details">
+                            <svg class="fs-eval-toggle-icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        </button>
+                    </div>
+                    <p class="fs-eval-question-text hidden">
+                        Proposal as a whole (coherence, clarity, etc.).<br>
+                        Contribution/standing of the project to the field of specialization.<br>
+                        Elements of innovation/originality (at the level of tools, topic, artistic approach/treatment, etc.). Elements related to the language itself (at the level of contemporaneity, experimentation, innovation).<br>
+                        Past experiences/projects.<br><br>
+                        الطلب المقدم بشكل عام من حيث الترابط المنطقي والوضوح...<br>
+                        المساهمة في مجال التخصص.<br>
+                        عناصر الابتكار والأصالة (على مستوى الأدوات، الموضوع، المقاربة والمعالجة الفنية). عناصر متعلقة باللغة نفسها (على مستوى الحداثة، التجريب، الإبداع).<br>
+                        الخبرات السابقة / المشاريع السابقة.<br>
+                    </p>
+                    <div class="fs-eval-radios fs-eval-radios-row">
+                        @foreach([1,2,3,4] as $val)
+                        <label class="fs-eval-radio-option {{ (int)$form_rate2 === $val ? 'active selected' : '' }}">
+                            <input type="radio" wire:model="form_rate2" value="{{ $val }}" {{ !$canEdit2 ? 'disabled' : '' }}> {{ $val }}
+                        </label>
+                        @endforeach
+                    </div>
+                    @error('form_rate2') <div class="fs-eval-error">{{ $message }}</div> @enderror
+                </div>
+
+                {{-- Question 3 (2 options) --}}
+                <div class="mb-4">
+                    <div class="fs-eval-header-row">
+                        <label class="fs-eval-label">Budget | الأسئلة التقنية والإدارية </label>
+                        <button type="button" onclick="this.parentElement.nextElementSibling.classList.toggle('hidden')" class="fs-eval-toggle" title="Show/hide details">
+                            <svg class="fs-eval-toggle-icon" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                        </button>
+                    </div>
+                    <p class="fs-eval-question-text hidden">
+                        Budget (feasibility of the proposed project, balanced distribution of the requested amounts).<br>
+                        Implementation plan (clear, realistic results).<br>
+                        Outputs.<br><br>
+                        الميزانية (قابلية تنفيذ المشروع المقترح، والتوزيع المتوازن للمبالغ المطلوبة).<br>
+                        خطة التنفيذ (نتائج واضحة وواقعية).<br>
+                        المخرجات المقترحة.<br>
+                    </p>
+                    <div class="fs-eval-radios fs-eval-radios-row">
+                        @foreach([1,2] as $val)
+                        <label class="fs-eval-radio-option {{ (int)$form_rate3 === $val ? 'active selected' : '' }}">
+                            <input type="radio" wire:model="form_rate3" value="{{ $val }}" {{ !$canEdit2 ? 'disabled' : '' }}> {{ $val }}
+                        </label>
+                        @endforeach
+                    </div>
+                    @error('form_rate3') <div class="fs-eval-error">{{ $message }}</div> @enderror
+                </div>
+
 
                 {{-- Notes --}}
                 <div class="mb-3">
