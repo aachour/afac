@@ -118,6 +118,8 @@
                                         {{ ($assign->form_rate1 + $assign->form_rate2 + $assign->form_rate3) }} / 10<br />
                                     @elseif($assign->form_type==3)
                                         {{ ($assign->form_rate1 + $assign->form_rate2 + $assign->form_rate3 + $assign->form_rate4) }} / 11<br />
+                                    @elseif($assign->form_type==4)
+                                        {{ ($assign->form_rate1 + $assign->form_rate2 + $assign->form_rate3 ) }} / 10<br />
                                     @endif
                                 </td>
                                 <td>{{ $assign->form_notes }}</td>
@@ -165,7 +167,14 @@
                                         <div class="d-flex align-items-center gap-1 mb-1">
                                             <a href="{{ route('formstack.submission', [$form_id, $submission->submission_id, $juror['pm_id'], $juror['assign_id']]) }}">{{ $juror['name'] }}
                                                 @if($juror['form_type']) 
-                                                <small class="text-muted">({{ $juror['form_type'] == 1 ? 'Admin check' : ($juror['form_type'] == 2 ? 'Special Programs 1' : 'General Grants') }})</small><br />
+                                                <small class="text-muted">
+                                                    ({{
+                                                        $juror['form_type'] == 1 ? 'Admin Check' :
+                                                        ($juror['form_type'] == 2 ? 'Special Program' :
+                                                        ($juror['form_type'] == 3 ? 'General Grants' :
+                                                        ($juror['form_type'] == 4 ? 'Form 4' : '')))
+                                                    }})
+                                                </small><br />
                                                 @endif
                                                 
                                             </a>
