@@ -17,13 +17,15 @@
     }
 
     #{{ $uid }} .circle-diamond-donate-text {
-        fill:{{ $text_color }};
+        fill: {{ $text_color }};
+        color: {{ $text_color }};
     }
     .circle-diamond-donate-shape {
         transform-origin: 154px 154px;
     }
     #{{ $uid }}.circle-diamond-donate-button-svg:hover .circle-diamond-donate-text {
         fill: {{ $hover_text_color }};
+        color: {{ $hover_text_color }};
     }
 
     #{{ $uid }}.circle-diamond-donate-button-svg:hover .circle-diamond-donate-shape {
@@ -34,6 +36,14 @@
         pointer-events: none;
         user-select: none;
     }
+
+    #{{ $uid }} .circle-diamond-foreign-wrap {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 </style>
 
 <div class="container">
@@ -41,8 +51,12 @@
         <svg id="{{ $uid }}" width="250" height="250" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" class="circle-diamond-donate-button-svg">
             <!-- Shape that morphs from circle to diamond -->
             <rect class="circle-diamond-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="108.8935" fill="{{$bg_color}}" />
-            <!-- Text inside -->
-            <text class="circle-diamond-donate-text big ABCDiatypeMedium" x="154" y="168" text-anchor="middle">{!! app()->getLocale() == 'en' ? $value : $value_arabic !!}</text>
+            <!-- foreignObject for proper Arabic/RTL text rendering -->
+            <foreignObject x="46" y="46" width="216" height="216">
+                <div xmlns="http://www.w3.org/1999/xhtml" class="circle-diamond-foreign-wrap">
+                    <span class="circle-diamond-donate-text big ABCDiatypeMedium" style="text-align:center;line-height:1.2;display:block;">{!! app()->getLocale() == 'en' ? $value : $value_arabic !!}</span>
+                </div>
+            </foreignObject>
         </svg>
     </div>
 </div>
