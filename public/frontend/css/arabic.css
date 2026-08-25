@@ -228,7 +228,11 @@ html[dir="rtl"] body {
 }
 @media(max-width:1000px){
     .section .verticalLine{
-        display: none !important;
+        right:29px !important;
+        display: block !important;
+    }
+    .section .percentage-column{
+        padding-right:40px !important;
     }
 }
 
