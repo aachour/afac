@@ -439,7 +439,11 @@ body{
 }
 @media(max-width:1000px){
     .section .verticalLine{
-        display: none !important;
+        left:29px !important;
+        display: block !important;
+    }
+    .section .percentage-column{
+        padding-left:40px !important;
     }
 }
 .section .accordionTitle{
