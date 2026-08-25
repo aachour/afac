@@ -18,14 +18,12 @@
 
     #{{ $uid }} .circle-diamond-donate-text {
         fill: {{ $text_color }};
-        color: {{ $text_color }};
     }
     .circle-diamond-donate-shape {
         transform-origin: 154px 154px;
     }
     #{{ $uid }}.circle-diamond-donate-button-svg:hover .circle-diamond-donate-text {
         fill: {{ $hover_text_color }};
-        color: {{ $hover_text_color }};
     }
 
     #{{ $uid }}.circle-diamond-donate-button-svg:hover .circle-diamond-donate-shape {
@@ -37,13 +35,7 @@
         user-select: none;
     }
 
-    #{{ $uid }} .circle-diamond-foreign-wrap {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+
 </style>
 
 <div class="container">
@@ -51,12 +43,14 @@
         <svg id="{{ $uid }}" width="250" height="250" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" class="circle-diamond-donate-button-svg">
             <!-- Shape that morphs from circle to diamond -->
             <rect class="circle-diamond-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="108.8935" fill="{{$bg_color}}" />
-            <!-- foreignObject for proper Arabic/RTL text rendering -->
-            <foreignObject x="46" y="46" width="216" height="216">
-                <div xmlns="http://www.w3.org/1999/xhtml" style="width:216px;height:216px;display:flex;align-items:center;justify-content:center;">
-                    <span class="circle-diamond-donate-text big ABCDiatypeMedium" style="text-align:center;line-height:1.2;">{!! app()->getLocale() == 'en' ? $value : $value_arabic !!}</span>
-                </div>
-            </foreignObject>
+            <!-- Text: direction="rtl" ensures correct Arabic diacritic and slash rendering -->
+            <text class="circle-diamond-donate-text big ABCDiatypeMedium"
+                  x="154" y="168"
+                  text-anchor="middle"
+                  dominant-baseline="middle"
+                  @if(app()->getLocale() != 'en') direction="rtl" unicode-bidi="embed" @endif>
+                {!! app()->getLocale() == 'en' ? $value : $value_arabic !!}
+            </text>
         </svg>
     </div>
 </div>
