@@ -53,8 +53,8 @@
             <rect class="circle-diamond-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="108.8935" fill="{{$bg_color}}" />
             <!-- foreignObject for proper Arabic/RTL text rendering -->
             <foreignObject x="46" y="46" width="216" height="216">
-                <div xmlns="http://www.w3.org/1999/xhtml" class="circle-diamond-foreign-wrap">
-                    <span class="circle-diamond-donate-text big ABCDiatypeMedium" style="text-align:center;line-height:1.2;display:block;">{!! app()->getLocale() == 'en' ? $value : $value_arabic !!}</span>
+                <div xmlns="http://www.w3.org/1999/xhtml" style="width:216px;height:216px;display:flex;align-items:center;justify-content:center;">
+                    <span class="circle-diamond-donate-text big ABCDiatypeMedium" style="text-align:center;line-height:1.2;">{!! app()->getLocale() == 'en' ? $value : $value_arabic !!}</span>
                 </div>
             </foreignObject>
         </svg>
