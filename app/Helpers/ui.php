@@ -225,7 +225,7 @@ function ViewCollection($collection_id)
     $html = '<div class="collection ' . $sliderCollection . '" id="collection_' . $collection_id . '" entries_id="' . implode(",", $entries_id) . '" style="background-color:' . $bgColor . ';">';
 
     if (($show_name == 1 || $show_description == 1) && $featured_width != '74.3%') {
-        $html .= '<div class="titleDescription">';
+        $html .= '<div class="titleDescription mb-2 mb-lg-0">';
         if ($show_name == 1) {
             $html .= '<div class="black big ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $collection->name : $collection->name_arabic) . '</div>';
         }
