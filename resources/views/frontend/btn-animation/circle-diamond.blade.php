@@ -40,7 +40,7 @@
     @media (max-width: 768px) {
         .circle-diamond-donate-text-ar {
             top: 40% !important;
-            right: 25% !important;
+            right: 0% !important;
         }
     }
 
