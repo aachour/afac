@@ -40,9 +40,6 @@
     @media (max-width: 768px) {
         .circle-diamond-donate-text-ar {
             top: 40% !important;
-            left: 50% !important;
-            right: auto !important;
-            transform: translate(-50%, -50%) !important;
         }
     }
 
@@ -68,7 +65,7 @@
                 <div xmlns="http://www.w3.org/1999/xhtml"
                      style="position:relative;width:308px;height:308px;">
                     <div class="circle-diamond-donate-text circle-diamond-donate-text-ar big ABCDiatypeMedium"
-                         style="position:absolute;top:50%;right:0;width:308px;transform:translateY(-50%);text-align:center;direction:rtl;pointer-events:none;user-select:none;">
+                         style="position:absolute;top:50%;left:0;width:308px;transform:translateY(-50%);text-align:center;direction:rtl;pointer-events:none;user-select:none;">
                         {!! trim($value_arabic) !!}
                     </div>
                 </div>
