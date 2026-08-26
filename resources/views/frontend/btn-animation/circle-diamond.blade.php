@@ -54,10 +54,10 @@
             </text>
             @else
             {{-- foreignObject uses HTML rendering engine for proper Arabic letter shaping --}}
-            <foreignObject x="45" y="45" width="218" height="218">
+            <foreignObject x="0" y="0" width="308" height="308">
                 <div xmlns="http://www.w3.org/1999/xhtml"
                      class="circle-diamond-donate-text big ABCDiatypeMedium"
-                     style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;direction:rtl;pointer-events:none;user-select:none;">
+                     style="width:308px;height:308px;display:flex;align-items:center;justify-content:center;text-align:center;direction:rtl;pointer-events:none;user-select:none;">
                     {!! trim($value_arabic) !!}
                 </div>
             </foreignObject>
