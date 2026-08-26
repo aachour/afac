@@ -68,14 +68,14 @@
                                 @if($pageSection->section_id!='')
                                     Section
                                 @else
-                                    Collection / {{$pageSection->collection->type->name}}
+                                    Collection / {{ $pageSection->collection?->type?->name ?? 'Unavailable type' }}
                                 @endif
                             </td>
                             <td>
                                 @if($pageSection->section_id!='')
                                     {{$pageSection->section->name}}
                                 @else
-                                    {{$pageSection->collection->name}}
+                                    {{ $pageSection->collection?->name ?? 'Unavailable collection' }}
                                 @endif
                             </td>
                             <td>
