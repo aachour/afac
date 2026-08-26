@@ -49,7 +49,7 @@
                   text-anchor="middle"
                   dominant-baseline="middle"
                   @if(app()->getLocale() != 'en') direction="rtl" unicode-bidi="embed" @endif>
-                {!! app()->getLocale() == 'en' ? $value : $value_arabic !!}
+                {!! app()->getLocale() == 'en' ? trim($value) : trim($value_arabic) !!}
             </text>
         </svg>
     </div>
