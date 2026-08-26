@@ -22,6 +22,7 @@
 
     #{{ $uid }} .square-diamond-donate-text {
         fill:{{ $text_color }};
+        color: {{ $text_color }};
     }
 
     .square-diamond-donate-shape {
@@ -30,6 +31,7 @@
     @if (!$use_trigger)
     #{{ $uid }}.square-diamond-donate-button-svg:hover .square-diamond-donate-text {
         fill: {{ $hover_text_color }};
+        color: {{ $hover_text_color }};
     }
     #{{ $uid }}.square-diamond-donate-button-svg:hover .square-diamond-donate-shape {
         fill: {{ $hover_bg_color }};
@@ -37,6 +39,7 @@
     @else
     #{{ $uid }}.trigger-active .square-diamond-donate-text {
         fill: {{ $hover_text_color }};
+        color: {{ $hover_text_color }};
     }
     #{{ $uid }}.trigger-active .square-diamond-donate-shape {
         fill: {{ $hover_bg_color }};
@@ -66,6 +69,12 @@
         pointer-events: none;
         user-select: none;
     }
+
+    @media (max-width: 768px) {
+        .square-diamond-donate-text-ar {
+            top: 40% !important;
+        }
+    }
 </style>
 
 <div class="container">
@@ -76,7 +85,19 @@
             <rect class="square-diamond-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="0"
                 fill="{{$bg_color}}" />
             <!-- Text inside -->
-            <text class="square-diamond-donate-text big ABCDiatypeMedium" x="154" y="168" text-anchor="middle">{{ app()->getLocale() == 'en' ? $value : $value_arabic }}
+            @if(app()->getLocale() == 'en')
+            <text class="square-diamond-donate-text big ABCDiatypeMedium" x="154" y="168" text-anchor="middle">{{ trim($value) }}</text>
+            @else
+            {{-- foreignObject uses HTML rendering engine for proper Arabic letter shaping --}}
+            <foreignObject x="0" y="0" width="308" height="308">
+                <div xmlns="http://www.w3.org/1999/xhtml" style="position:relative;width:308px;height:308px;">
+                    <div class="square-diamond-donate-text square-diamond-donate-text-ar big ABCDiatypeMedium"
+                         style="position:absolute;top:50%;left:0;width:308px;transform:translateY(-50%);text-align:center;direction:rtl;pointer-events:none;user-select:none;">
+                        {!! trim($value_arabic) !!}
+                    </div>
+                </div>
+            </foreignObject>
+            @endif
         </svg>
         @if($use_trigger)
         <div class="square-diamond-donate-arrow" aria-hidden="true">
