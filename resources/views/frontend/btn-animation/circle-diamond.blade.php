@@ -18,12 +18,14 @@
 
     #{{ $uid }} .circle-diamond-donate-text {
         fill: {{ $text_color }};
+        color: {{ $text_color }};
     }
     .circle-diamond-donate-shape {
         transform-origin: 154px 154px;
     }
     #{{ $uid }}.circle-diamond-donate-button-svg:hover .circle-diamond-donate-text {
         fill: {{ $hover_text_color }};
+        color: {{ $hover_text_color }};
     }
 
     #{{ $uid }}.circle-diamond-donate-button-svg:hover .circle-diamond-donate-shape {
@@ -43,14 +45,23 @@
         <svg id="{{ $uid }}" width="250" height="250" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg" class="circle-diamond-donate-button-svg">
             <!-- Shape that morphs from circle to diamond -->
             <rect class="circle-diamond-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="108.8935" fill="{{$bg_color}}" />
-            <!-- Text: direction="rtl" ensures correct Arabic diacritic and slash rendering -->
+            @if(app()->getLocale() == 'en')
             <text class="circle-diamond-donate-text big ABCDiatypeMedium"
                   x="154" y="168"
                   text-anchor="middle"
-                  dominant-baseline="middle"
-                  @if(app()->getLocale() != 'en') direction="rtl" unicode-bidi="embed" @endif>
-                {!! app()->getLocale() == 'en' ? trim($value) : trim($value_arabic) !!}
+                  dominant-baseline="middle">
+                {!! trim($value) !!}
             </text>
+            @else
+            {{-- foreignObject uses HTML rendering engine for proper Arabic letter shaping --}}
+            <foreignObject x="45" y="45" width="218" height="218">
+                <div xmlns="http://www.w3.org/1999/xhtml"
+                     class="circle-diamond-donate-text big ABCDiatypeMedium"
+                     style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;text-align:center;direction:rtl;pointer-events:none;user-select:none;">
+                    {!! trim($value_arabic) !!}
+                </div>
+            </foreignObject>
+            @endif
         </svg>
     </div>
 </div>
