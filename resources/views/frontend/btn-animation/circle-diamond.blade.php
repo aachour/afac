@@ -59,7 +59,7 @@
                 <div xmlns="http://www.w3.org/1999/xhtml"
                      style="position:relative;width:308px;height:308px;">
                     <div class="circle-diamond-donate-text big ABCDiatypeMedium"
-                         style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;direction:rtl;pointer-events:none;user-select:none;white-space:nowrap;">
+                         style="position:absolute;top:50%;left:0;width:308px;transform:translateY(-50%);text-align:center;direction:rtl;pointer-events:none;user-select:none;">
                         {!! trim($value_arabic) !!}
                     </div>
                 </div>
