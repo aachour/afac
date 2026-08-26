@@ -18,12 +18,14 @@
 
     #{{ $uid }} .diamond-circle-donate-text {
         fill:{{ $text_color }};
+        color: {{ $text_color }};
     }
     .diamond-circle-donate-shape {
         transform-origin: 154px 154px;
     }
     #{{ $uid }}.diamond-circle-donate-button-svg:hover .diamond-circle-donate-text {
         fill: {{ $hover_text_color }};
+        color: {{ $hover_text_color }};
     }
 
     #{{ $uid }}.diamond-circle-donate-button-svg:hover .diamond-circle-donate-shape {
@@ -35,6 +37,12 @@
         pointer-events: none;
         user-select: none;
     }
+
+    @media (max-width: 768px) {
+        .diamond-circle-donate-text-ar {
+            top: 40% !important;
+        }
+    }
 </style>
 
 <div class="container">
@@ -43,7 +51,19 @@
             <!-- Shape that morphs from diamond to circle -->
             <rect class="diamond-circle-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="0" fill="{{$bg_color}}"/>
             <!-- Text inside -->
-            <text class="diamond-circle-donate-text big ABCDiatypeMedium" x="154" y="168" text-anchor="middle">{{ app()->getLocale() == 'en' ? $value : $value_arabic }}
+            @if(app()->getLocale() == 'en')
+            <text class="diamond-circle-donate-text big ABCDiatypeMedium" x="154" y="168" text-anchor="middle">{{ trim($value) }}</text>
+            @else
+            {{-- foreignObject uses HTML rendering engine for proper Arabic letter shaping --}}
+            <foreignObject x="0" y="0" width="308" height="308">
+                <div xmlns="http://www.w3.org/1999/xhtml" style="position:relative;width:308px;height:308px;">
+                    <div class="diamond-circle-donate-text diamond-circle-donate-text-ar big ABCDiatypeMedium"
+                         style="position:absolute;top:50%;left:0;width:308px;transform:translateY(-50%);text-align:center;direction:rtl;pointer-events:none;user-select:none;">
+                        {!! trim($value_arabic) !!}
+                    </div>
+                </div>
+            </foreignObject>
+            @endif
         </svg>
     </div>
 </div>
