@@ -54,10 +54,11 @@
             </text>
             @else
             {{-- foreignObject uses HTML rendering engine for proper Arabic letter shaping --}}
-            <foreignObject x="0" y="0" width="308" height="308">
+            <foreignObject x="0" y="0" width="308" height="308" style="overflow:visible;">
+                {{-- position:absolute+transform is the only reliable centering method in iOS Safari foreignObject --}}
                 <div xmlns="http://www.w3.org/1999/xhtml"
                      class="circle-diamond-donate-text big ABCDiatypeMedium"
-                     style="width:308px;height:308px;display:flex;align-items:center;justify-content:center;text-align:center;direction:rtl;pointer-events:none;user-select:none;">
+                     style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;direction:rtl;pointer-events:none;user-select:none;white-space:nowrap;">
                     {!! trim($value_arabic) !!}
                 </div>
             </foreignObject>
