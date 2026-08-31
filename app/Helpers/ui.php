@@ -485,7 +485,7 @@ function ViewColumnGeneral($section_column_id)
                     $textAlign = $generalInput->button_link == null ? 'text-left' : ($column->alignment_id == 2 ? 'text-right' : 'text-center');
 
                     $htmlColumn .= '<div class="mt-3 mb-3 md:mb-0">
-                        <a href="' . ($generalInput->button_link ?? '#') . '" target="_blank">' . getEntryBtnShape($generalInput->button_value, $generalInput->button_value_arabic, $generalInput->shape?->name, $generalInput->shapeHover->name, $generalInput->buttonColor->code, $generalInput->buttonHoverColor->code, $generalInput->buttonBgColor->code, $generalInput->buttonHoverBgColor->code) . '</a>
+                        <a href="' . ($generalInput->button_link ?? '#') . '" target="_blank">' . getEntryBtnShape($generalInput->button_value, $generalInput->button_value_arabic, $generalInput->shape?->name, $generalInput->shapeHover?->name, $generalInput->buttonColor->code, $generalInput->buttonHoverColor->code, $generalInput->buttonBgColor->code, $generalInput->buttonHoverBgColor->code) . '</a>
                     </div>';
                 }
             }
