@@ -1,6 +1,7 @@
 <div>
     <div class="row">
         <div class="col-xl">
+
             <form wire:submit.prevent="store" class="row g-3">
 
                 <div class="col-12">
@@ -159,9 +160,7 @@
                                     @error('image_caption_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                
-
-                                <div class="col-12 col-md-6 mt-2 @if($type_id!=2 && $type_id<=8) d-none @endif">
+                                <div class="col-12 col-md-6 mt-2 @if( !in_array($type_id, [1, 2 , 9 , 10]) ) d-none @endif">
                                     <label class="form-label" for="button_value">Button Text </label>
                                     <input
                                         wire:model="button_value"
@@ -172,7 +171,7 @@
                                     @error('button_value') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2 @if($type_id!=2 && $type_id<=8) d-none @endif">
+                                <div class="col-12 col-md-6 mt-2 @if( !in_array($type_id, [1, 2 , 9 , 10]) ) d-none @endif">
                                     <label class="form-label" for="button_value_arabic">نص الزر</label>
                                     <input
                                         wire:model="button_value_arabic"
@@ -183,7 +182,7 @@
                                     @error('button_value_arabic') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2 @if($type_id!=2 && $type_id<=8) d-none @endif">
+                                <div class="col-12 col-md-6 mt-2 @if( !in_array($type_id, [1, 2 , 9 , 10]))  d-none @endif">
                                     <label class="form-label" for="button_link">Button Link </label>
                                     <input
                                         wire:model="button_link"
@@ -194,7 +193,7 @@
                                     @error('button_link') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
-                                <div class="col-12 col-md-6 mt-2 @if($type_id!=2 && $type_id<=8) d-none @endif">
+                                <div class="col-12 col-md-6 mt-2 @if( !in_array($type_id, [1, 2 , 9 , 10]) ) d-none @endif">
                                     <label class="form-label" for="button_link_arabic">رابط الزر</label>
                                     <input
                                         wire:model="button_link_arabic"
