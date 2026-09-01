@@ -45,7 +45,25 @@ function ViewEntryData($entry_id)
                             $heroContent .= '<div class="label micro rounded">' . $label . '</div>';
                         }
                         $heroContent .= '</div><div class="mt-3 bigger black ABCDiatypeMedium" style="padding:0px 70px;">' . getEntryTitle($entry) . '</div>';
-                        if ($entry->type_id == 2) //check program status
+                        if ($entry->type_id == 1) //get event button
+                        {
+
+                            //add link
+                            if (!empty($entry->button_link)) {
+                                $isArabic = app()->getLocale() != 'en';
+                                $buttonLink = $isArabic && !empty($entry->button_link_arabic)
+                                    ? $entry->button_link_arabic
+                                    : $entry->button_link;
+                                $buttonText = $isArabic && !empty($entry->button_value_arabic)
+                                    ? $entry->button_value_arabic
+                                    : $entry->button_value;
+                                $arrowStyle = $isArabic ? ' style="transform: scaleX(-1);"' : '';
+                                $arrowSvg = '<span class="entry-hero-cta-arrow-wrap"><svg class="entry-hero-cta-arrow" width="14" height="13" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg"' . $arrowStyle . '><path d="M14.2128 23.5743L11.9388 21.3256L19.8348 13.4295H0V10.1448H19.8348L11.9388 2.26142L14.2128 0L26 11.7872L14.2128 23.5743Z" fill="currentColor"/></svg></span>';
+                                $heroContent .= '<a href="' . htmlspecialchars($buttonLink, ENT_QUOTES, 'UTF-8') . '" target="_blank" rel="noopener noreferrer" class="entry-hero-diamond-trigger"><span class="entry-hero-cta mt-3 black"><span class="entry-hero-cta-text small">' . htmlspecialchars($buttonText ?? '', ENT_QUOTES, 'UTF-8') . '</span>' . $arrowSvg . '</span></a>';
+                            }
+                
+                        }
+                        if ($entry->type_id == 2) //get program status & button
                         {
 
                             $current = time();
@@ -79,7 +97,7 @@ function ViewEntryData($entry_id)
                             }
                 
                         }
-                        if ($entry->type_id == 3) //get grantees
+                        if ($entry->type_id == 3) //get grantees buttons
                         {
                             $granteeArrowSvg = '<span class="entry-hero-grantee-arrow-wrap"><svg class="entry-hero-grantee-arrow" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg"' . (app()->getLocale() != 'en' ? ' style="transform: scaleX(-1);"' : '') . '><path d="M14.2128 23.5743L11.9388 21.3256L19.8348 13.4295H0V10.1448H19.8348L11.9388 2.26142L14.2128 0L26 11.7872L14.2128 23.5743Z" fill="currentColor"/></svg></span>';
                             foreach ($entry->projectGrantees($entry->id) as $grantee) {
