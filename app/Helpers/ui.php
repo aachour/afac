@@ -63,6 +63,21 @@ function ViewEntryData($entry_id)
                                     $heroContent .= '<a href="' . $entry->button_link . '" target="_blank" class="entry-hero-diamond-trigger"><span class="entry-hero-cta mt-3 black"><span class="entry-hero-cta-text big">' . $entry->button_value . '</span>' . $arrowSvg . '</span></a>';
                                 }
                             }
+
+                            //add link
+                            if (!empty($entry->button_link)) {
+                                $isArabic = app()->getLocale() != 'en';
+                                $buttonLink = $isArabic && !empty($entry->button_link_arabic)
+                                    ? $entry->button_link_arabic
+                                    : $entry->button_link;
+                                $buttonText = $isArabic && !empty($entry->button_value_arabic)
+                                    ? $entry->button_value_arabic
+                                    : $entry->button_value;
+                                $arrowStyle = $isArabic ? ' style="transform: scaleX(-1);"' : '';
+                                $arrowSvg = '<span class="entry-hero-cta-arrow-wrap"><svg class="entry-hero-cta-arrow" width="14" height="13" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg"' . $arrowStyle . '><path d="M14.2128 23.5743L11.9388 21.3256L19.8348 13.4295H0V10.1448H19.8348L11.9388 2.26142L14.2128 0L26 11.7872L14.2128 23.5743Z" fill="currentColor"/></svg></span>';
+                                $heroContent .= '<a href="' . htmlspecialchars($buttonLink, ENT_QUOTES, 'UTF-8') . '" target="_blank" rel="noopener noreferrer" class="entry-hero-diamond-trigger"><span class="entry-hero-cta mt-3 black"><span class="entry-hero-cta-text small">' . htmlspecialchars($buttonText ?? '', ENT_QUOTES, 'UTF-8') . '</span>' . $arrowSvg . '</span></a>';
+                            }
+                
                         }
                         if ($entry->type_id == 3) //get grantees
                         {
@@ -72,6 +87,8 @@ function ViewEntryData($entry_id)
                             }
                         }
                         $grantee_trigger = ($entry->type_id == 3 && count($entry->projectGrantees($entry->id)) > 0) ? '.square-diamond-grantee-trigger' : null;
+
+                        
 
                         $html .= '<div class="col-lg-6 col-12 text-center d-flex h-100">';
                             $html .= view('frontend.btn-animation.entry-hero-square-diamond', ['bg_color' => $bgCode, 'content' => $heroContent, 'trigger_selector' => $grantee_trigger])->render();
