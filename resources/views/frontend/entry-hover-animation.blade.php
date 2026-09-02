@@ -104,7 +104,7 @@
                 style="{{ $title_position }} padding-right:5px;">
                 {{ $entry_title }}
                 @if(!empty($news_date))
-                    <div class="tiny">{{ date('d M Y', strtotime($news_date)) }}</div>
+                    <div class="tiny">{{ formatDateLocalized(strtotime($news_date)) }}</div>
                 @endif
                 @if(!empty($entry_position))
                     <div class="mt-2 tiny">{!!$entry_position!!}</div>
