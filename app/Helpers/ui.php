@@ -1291,20 +1291,21 @@ function getEntryLabels($entry)
         $labels[] = app()->getLocale() == 'en' ? $entry->eventCategory?->name : $entry->eventCategory?->name_arabic;
 
         if ($entry->event_start_date != null) {
-            $from_to_date = date('d M Y', strtotime($entry->event_start_date));
+            $from_to_date = formatDateLocalized(strtotime($entry->event_start_date)); 
             if ($entry->event_end_date != null) {
-                $from_to_date .= " - " . date('d M Y', strtotime($entry->event_end_date));
+                $from_to_date .= " - " . formatDateLocalized(strtotime($entry->event_end_date));
             }
-            $labels[] = $from_to_date;
+            $labels[] = $from_to_date ?? '';
         }
-
+        
         if ($entry->event_start_time != null) {
-            $from_to_time = date('h:i A', strtotime($entry->event_start_time));
+            $from_to_time = date('h:iA', strtotime($entry->event_start_time));
             if ($entry->event_end_time != null) {
-                $from_to_time .= " - " . date('h:i A', strtotime($entry->event_end_time));
+                $from_to_time .= " - " . date('h:iA', strtotime($entry->event_end_time));
             }
             $labels[] = $from_to_time;
         }
+
     } else if ($entry->type_id == 2) {
         $current = time();
 
