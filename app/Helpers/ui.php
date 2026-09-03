@@ -1299,9 +1299,9 @@ function getEntryLabels($entry)
         }
         
         if ($entry->event_start_time != null) {
-            $from_to_time = date('h:iA', strtotime($entry->event_start_time));
+            $from_to_time = date('H:i', strtotime($entry->event_start_time));
             if ($entry->event_end_time != null) {
-                $from_to_time .= " - " . date('h:iA', strtotime($entry->event_end_time));
+                $from_to_time .= " - " . date('H:i', strtotime($entry->event_end_time));
             }
             $labels[] = $from_to_time;
         }
