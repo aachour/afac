@@ -53,7 +53,7 @@
                 fill="{{$bg_color}}" />
             <!-- Text inside -->
             @if(app()->getLocale() == 'en')
-            <text class="square-circle-donate-text big ABCDiatypeMedium" x="154" y="168" text-anchor="middle">{{ trim($value) }}</text>
+            <text class="square-circle-donate-text big ABCDiatypeMedium" x="154" y="160" text-anchor="middle">{{ trim($value) }}</text>
             @else
             {{-- foreignObject uses HTML rendering engine for proper Arabic letter shaping --}}
             <foreignObject x="0" y="0" width="308" height="308">

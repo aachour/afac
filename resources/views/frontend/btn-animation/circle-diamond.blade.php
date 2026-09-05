@@ -54,7 +54,7 @@
             <rect class="circle-diamond-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="108.8935" fill="{{$bg_color}}" />
             @if(app()->getLocale() == 'en')
             <text class="circle-diamond-donate-text big ABCDiatypeMedium"
-                  x="154" y="168"
+                  x="154" y="160"
                   text-anchor="middle"
                   dominant-baseline="middle">
                 {!! trim($value) !!}
