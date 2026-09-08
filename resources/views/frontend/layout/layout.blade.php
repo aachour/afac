@@ -209,7 +209,7 @@
                     @if(!empty($col['title']) || !empty($col['links']))
                     <div class="col-lg-3 col-12 mb-4 mb-md-0">
                         @if(!empty($col['title']))
-                            <div class="small black ABCDiatypeMedium">{{ $col['title'] }}</div>
+                            <div class="tiny black ABCDiatypeMedium">{{ $col['title'] }}</div>
                         @endif
                         @foreach((array)$col['links'] as $idx => $link)
                             <div class="{{ $idx === 0 ? 'mt-2' : 'mt-1' }}">
