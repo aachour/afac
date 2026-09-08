@@ -43,59 +43,60 @@ html[dir="rtl"] body {
         letter-spacing: -4% !important;
     }
     .big , h1{
-        line-height: 120% !important;
-        letter-spacing: -3% !important;
+        line-height: 130% !important;
+        letter-spacing: 0% !important;
     }
     .medium , h2{
-        line-height: 110% !important;
-        letter-spacing: -3% !important;
+        line-height: 130% !important;
+        letter-spacing: 0% !important;
     }
     .small , h3 , .tiny , p , li , .micro , ol{
         line-height: 130% !important;
-        letter-spacing: -1% !important;
+        letter-spacing: 0% !important;
     }
     
     /*********************************/
 
     h1 strong , h1 u , h1 i , h1 s ,  h2 strong , h2 u , h2 i , h2 s{
-        line-height: 120% !important;
+        line-height: 130% !important;
+        letter-spacing: 0% !important;
     }
 
     p strong , p u , p i , p s , h3 strong , h3 u , h3 i , h3 s{
         line-height: 130% !important;
-        letter-spacing: -1% !important;
+        letter-spacing: 0% !important;
     }
 }
 @media(min-width:1000px){
     .huge{
-        line-height: 150% !important;
+        line-height: 100% !important;
         letter-spacing: -4% !important;
     }
     .bigger{
-        line-height: 180% !important;
+        line-height: 120% !important;
         letter-spacing: -4% !important;
     }
     .big , h1{
-        line-height: 180% !important;
-        letter-spacing: -3% !important;
+        line-height: 130% !important;
+        letter-spacing: 0% !important;
     }
     .medium , h2{
-        line-height: 170% !important;
-        letter-spacing: -3% !important;
+        line-height: 130% !important;
+        letter-spacing: 0% !important;
     }
     .small , h3 , .tiny , p , li , .micro , ol{
-        line-height: 150% !important;
-        letter-spacing: -1% !important;
+        line-height: 130% !important;
+        letter-spacing: 0% !important;
     }
 
     /*********************************/
     
     h1 strong , h1 u , h1 i , h1 s , h2 strong , h2 u , h2 i , h2 s{
-        line-height: 180% !important;
+        line-height: 130% !important;
     }
 
     p strong , p u , p i , p s , h3 strong , h3 u , h3 i , h3 s{
-        line-height: 150% !important;
+        line-height: 130% !important;
     }
 }
 
