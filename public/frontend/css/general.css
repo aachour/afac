@@ -89,7 +89,9 @@ time, mark, audio, video , textarea {
         line-height: 120% !important;
         letter-spacing: -1% !important;
     }
-
+}
+html,body {
+    background:#F5F8F4;
 }
 
 /* HTML5 display-role reset for older browsers */
