@@ -46,7 +46,7 @@
 
 <div class="container">
     <div class="diamond-square-donate-button-wrapper">
-        <svg id="{{ $uid }}" width="250" height="250" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg"
+        <svg id="{{ $uid }}" width="300" height="300" viewBox="0 0 308 308" fill="none" xmlns="http://www.w3.org/2000/svg"
             class="diamond-square-donate-button-svg">
             <!-- Shape that morphs from diamond to square -->
             <rect class="diamond-square-donate-shape" x="45.1065" y="45.1065" width="217.787" height="217.787" rx="0"
