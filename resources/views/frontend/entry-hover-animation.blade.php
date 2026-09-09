@@ -64,6 +64,7 @@
         pointer-events: none;
         z-index: 100;
         opacity: 0;
+        z-index:999 !important;
     }
 
     @media (max-width: 768px) {
