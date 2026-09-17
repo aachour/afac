@@ -271,12 +271,28 @@ function ViewCollection($collection_id)
     }
 
     if ($with_featured == 0 && $show_view_all == 1 && $featured_width != '74.3%') {
+        $isArabicViewAll = app()->getLocale() != 'en';
         $html .= '<div class="viewAll mt-3">
-            <a href="' . (app()->getLocale() == 'en' ? $view_all_link : $view_all_link_arabic) . '" class="view-all-link">
-                <span class="black small ABCDiatypeBlack">' . (app()->getLocale() == 'en' ? $view_all_title : $view_all_title_arabic) . '</span>
-                <img src="'.asset('frontend/images/view-all-btn-' . (app()->getLocale() == 'en' ? 'en' : 'ar') . '.png').'" width="12px">
+            <a href="' . ($isArabicViewAll ? $view_all_link_arabic : $view_all_link) . '" class="view-all-link">
+                <span class="black small ABCDiatypeBlack">' . ($isArabicViewAll ? $view_all_title_arabic : $view_all_title) . '</span>
+                <span class="view-all-arrow-wrap' . ($isArabicViewAll ? ' rtl' : '') . '">
+                    <img src="'.asset('frontend/images/view-all-btn-' . ($isArabicViewAll ? 'ar' : 'en') . '.png').'" width="12px" class="view-all-arrow">
+                </span>
             </a>
         </div>';
+
+        static $viewAllStyleOutput = false;
+        if (!$viewAllStyleOutput) {
+            $html .= '<style>
+                .view-all-link { display: inline-flex; align-items: center; }
+                .view-all-arrow-wrap { display: inline-flex; /*overflow: hidden;*/ margin-left: 6px; }
+                .view-all-arrow { display: block; transition: transform 0.3s ease; }
+                .view-all-link:hover .view-all-arrow { transform: translateX(4px); }
+                .view-all-arrow-wrap.rtl { margin-left: 0; margin-right: 6px; }
+                .view-all-link:hover .view-all-arrow-wrap.rtl .view-all-arrow { transform: translateX(-4px); }
+            </style>';
+            $viewAllStyleOutput = true;
+        }
     }
 
     $html .= '<div class="clear"></div>';
