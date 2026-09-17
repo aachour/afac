@@ -272,6 +272,19 @@ class HomeController extends Controller
 
         $html="";
 
+        static $viewAllStyleOutput = false;
+        if (!$viewAllStyleOutput) {
+            $html .= '<style>
+                .view-all-link { display: inline-flex; align-items: center; }
+                .view-all-arrow-wrap { display: inline-flex; /*overflow: hidden;*/ margin-left: 6px; }
+                .view-all-arrow { display: block; transition: transform 0.3s ease; }
+                .view-all-link:hover .view-all-arrow { transform: translateX(4px); }
+                .view-all-arrow-wrap.rtl { margin-left: 0; margin-right: 6px; }
+                .view-all-link:hover .view-all-arrow-wrap.rtl .view-all-arrow { transform: translateX(-4px); }
+            </style>';
+            $viewAllStyleOutput = true;
+        }
+
         //Show Calendar View
         if($collection_type_id==1 && $calendar_view==1)
         {
@@ -424,10 +437,13 @@ class HomeController extends Controller
                                         $html.='<div class="black big ABCDiatypeMedium">' . (app()->getLocale() == 'en' ? $collection_name : $collection_name_arabic) . '</div>';
                                     }
                                     if($show_view_all==1){
+                                        $isArabicViewAll = app()->getLocale() != 'en';
                                         $html.='<div class="mt-3">
                                             <a href="'.$view_all_link.'" class="view-all-link">
                                                 <span class="black small ABCDiatypeBlack">' . (app()->getLocale() == 'en' ? $view_all_title : $view_all_title_arabic) . '</span>
-                                                <img src="'.asset('frontend/images/view-all-btn-' . (app()->getLocale() == 'en' ? 'en' : 'ar') . '.png').'" width="12px">
+                                                <span class="view-all-arrow-wrap' . ($isArabicViewAll ? ' rtl' : '') . '">
+                                                    <img src="'.asset('frontend/images/view-all-btn-' . ($isArabicViewAll ? 'ar' : 'en') . '.png').'" width="12px" class="view-all-arrow">
+                                                </span>
                                             </a>
                                         </div>';
                                     }
@@ -477,10 +493,13 @@ class HomeController extends Controller
                                     $html.='<div class="mb-2 black big ABCDiatypeMedium titleDescription">'.$collection->name.'</div>';
                                 }
                                 if($show_view_all==1){
+                                    $isArabicViewAll = app()->getLocale() != 'en';
                                     $html.='<div class="mt-1 mb-2 viewAll">
                                         <a href="'.$view_all_link.'" class="view-all-link">
                                             <span class="black small ABCDiatypeBlack">' . (app()->getLocale() == 'en' ? $view_all_title : $view_all_title_arabic) . '</span>
-                                            <img src="'.asset('frontend/images/view-all-btn-' . (app()->getLocale() == 'en' ? 'en' : 'ar') . '.png').'" width="12px">
+                                            <span class="view-all-arrow-wrap' . ($isArabicViewAll ? ' rtl' : '') . '">
+                                                <img src="'.asset('frontend/images/view-all-btn-' . ($isArabicViewAll ? 'ar' : 'en') . '.png').'" width="12px" class="view-all-arrow">
+                                            </span>
                                         </a>
                                     </div>';
                                 }
