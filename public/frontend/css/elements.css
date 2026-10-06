@@ -431,7 +431,7 @@ body{
 .section .verticalLine{
     position:absolute;
     top:5px;
-    left:31px;
+    left:32px;
     width:2px;
     height:calc(100% - 30px);
     background:#000;
