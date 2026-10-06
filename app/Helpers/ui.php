@@ -132,7 +132,7 @@ function ViewEntryData($entry_id)
                     } else { // Resourses/News/Externals
                         $html .= '<div class="col-12">';
 
-                            $html .= '<div class="mt-4 bigger black ABCDiatypeMedium" style="padding:20px 0px;">' . getEntryTitle($entry) . '</div>';
+                            $html .= '<div class="mt-4 bigger black ABCDiatypeMedium">' . getEntryTitle($entry) . '</div>';
 
                             $html .= '<div class="mt-4 mb-3 big black ABCDiatypeMedium">';
                                 if ($entry->type_id == 6) {
