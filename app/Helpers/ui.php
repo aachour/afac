@@ -22,6 +22,10 @@ use App\Models\Logo;
 use App\Models\Footer;
 use Carbon\Carbon;
 
+function arrowLinkSvg()
+{
+    return '<span class="arrow-link-arrow-wrap"><svg class="arrow-link-arrow' . (app()->getLocale() != 'en' ? ' is-rtl' : '') . '" width="26" height="24" viewBox="0 0 26 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.2128 23.5743L11.9388 21.3256L19.8348 13.4295H0V10.1448H19.8348L11.9388 2.26142L14.2128 0L26 11.7872L14.2128 23.5743Z" fill="currentColor"/></svg></span>';
+}
 function ViewEntryData($entry_id)
 {
 
@@ -165,7 +169,7 @@ function ViewEntryData($entry_id)
                         <div class="col-lg-6 col-12">';
                             if ($entry->type_id == 3) { //Supported Project
                                 $html .= '<div class="mt-1 tiny black ABCDiatypeBlack">' . (app()->getLocale() == 'en' ? 'Program' : 'برنامج')  . '</div>';
-                                $html .= '<div class="mt-1"><a href="' . route('entry.view', ['entryType' => 'program', 'id' => $entry->programYears?->programYear?->program?->id]) . '" class="medium black ABCDiatypeMedium noneUnderline">' . (app()->getLocale() == 'en' ?  $entry->programYears?->programYear?->program?->program_title :  $entry->programYears?->programYear?->program?->program_title_arabic) . '</a></div>';
+                                $html .= '<div class="mt-1"><a href="' . route('entry.view', ['entryType' => 'program', 'id' => $entry->programYears?->programYear?->program?->id]) . '" class="medium black ABCDiatypeMedium noneUnderline"><span class="arrow-link-text">' . (app()->getLocale() == 'en' ?  $entry->programYears?->programYear?->program?->program_title :  $entry->programYears?->programYear?->program?->program_title_arabic) . '</span>' . arrowLinkSvg() . '</a></div>';
 
                                 $categories_id = json_decode($entry->project_categories_id, true) ?? [];
                                 if(!empty($categories_id)){
@@ -180,7 +184,7 @@ function ViewEntryData($entry_id)
                                 $html .= '<div class="mt-1 tiny black ABCDiatypeBlack">' . (app()->getLocale() == 'en' ? 'Projects' : 'المشاريع')  . '</div>';
                                 $projectGrantees = ProjectGrantees::WHERE('grantee_id', $entry->id)->get();
                                 foreach ($projectGrantees as $projectGrantee) {
-                                    $html .= '<div class="mt-1"><a href="' . route('entry.view', ['entryType' => 'project', 'id' => $projectGrantee->project->id]) . '" class="medium black ABCDiatypeMedium noneUnderline">' . (app()->getLocale() == 'en' ?  $projectGrantee->project?->project_title :  $projectGrantee->project?->project_title_arabic) . '</a></div>';
+                                    $html .= '<div class="mt-1"><a href="' . route('entry.view', ['entryType' => 'project', 'id' => $projectGrantee->project->id]) . '" class="medium black ABCDiatypeMedium noneUnderline"><span class="arrow-link-text">' . (app()->getLocale() == 'en' ?  $projectGrantee->project?->project_title :  $projectGrantee->project?->project_title_arabic) . '</span>' . arrowLinkSvg() . '</a></div>';
                                 }
 
                                 $categories_id = json_decode($entry->grantee_categories_id, true) ?? [];
