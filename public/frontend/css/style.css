@@ -61,6 +61,9 @@
         line-height: 130% !important;
         letter-spacing: -4% !important;
     }
+    .huge.entry-title-huge{
+        font-size:5.85vw !important;
+    }
     .bigger{
         font-size:6.5vw !important;
         line-height: 120% !important;
@@ -126,7 +129,7 @@
 }
 @media(min-width:1000px){
     .huge{
-        font-size:5.5vw !important;
+        font-size:4.5vw !important;
         line-height: 100% !important;
         letter-spacing: -4% !important;
     }
