@@ -317,10 +317,18 @@ body{
 }
 .collection .entries .entry .description .title_or_labels .label , .collection .featured_entry .featured_info .title_or_labels .label{
     float:left;
-    margin-right:10px;
     padding:2px 10px;
+    margin:0px !important;
+    margin-right:10px !important;
+    margin-bottom:10px !important;
     color:#000;
     background:#FFF;
+}
+@media(max-width:1000px){
+    .collection .entries .entry .description .title_or_labels .label , .collection .featured_entry .featured_info .title_or_labels .label{
+        margin-right:5px !important;
+        margin-bottom:5px !important;
+    }
 }
 
 
