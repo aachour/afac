@@ -93,8 +93,8 @@
                 <a href="{{url('page',['id'=>$page->id,'name'=>$page->name])}}" class="menu-item-link">
                 @endif
                     <span class="menu-item-shape">
-                        <img src="{{asset('frontend/images/'.$shapes[$key % count($shapes)].'.svg')}}" width="40" class="desktopOnly" />
-                        <img src="{{asset('frontend/images/'.$shapes[$key % count($shapes)].'.svg')}}" width="30" class="mobileOnly" />
+                        <img src="{{asset('frontend/images/'.$shapes[$key % count($shapes)].'.svg')}}" width="{{ $shapes[$key % count($shapes)] == 'diamond-shape' ? 52 : 40 }}" class="desktopOnly" />
+                        <img src="{{asset('frontend/images/'.$shapes[$key % count($shapes)].'.svg')}}" width="{{ $shapes[$key % count($shapes)] == 'diamond-shape' ? 39 : 30 }}" class="mobileOnly" />
                     </span>
                     <span class="menu-item-text bigger @if(app()->getLocale() == 'en') leftSpacer @else rightSpacer @endif">@if(app()->getLocale() == 'ar') {{$page->name_arabic}} @else {{$page->name}} @endif</span>
                 </a>
@@ -113,12 +113,12 @@
         }
 
         .menu-item-shape {
-            width: 44px;
+            width: 56px;
             opacity: 1;
-            margin-right: -44px;
+            margin-right: -56px;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             overflow: hidden;
             transition: margin-right 0.55s ease;
         }
@@ -137,7 +137,7 @@
 
         .menu-item-link:hover .menu-item-shape,
         .menu-item-link:focus-visible .menu-item-shape {
-            margin-right: 18px;
+            margin-right: 6px;
         }
 
         .menu-item-link:hover .menu-item-shape img,
@@ -250,12 +250,24 @@
             var logoNav = document.getElementById('animated-logo-root-nav');
             if (!logoTitle || !logoNav) return;
 
+            // Scroll position after which the header logo appears: the end of the section holding the main animated logo
+            function getThreshold() {
+                var mainLogo = document.getElementById('animated-logo-root');
+                if (!mainLogo) return 50;
+                var section = mainLogo.closest('.section') || mainLogo;
+                var headerEl = document.querySelector('.header');
+                var headerH = headerEl ? headerEl.offsetHeight : 0;
+                var bottom = section.getBoundingClientRect().bottom + window.scrollY;
+                return Math.max(50, bottom - headerH);
+            }
+
             function syncHeaderLogo() {
                 var isMobile = window.innerWidth <= 1000;
+                var passed = window.scrollY > getThreshold();
                 if (isMobile) {
                     logoTitle.style.display = 'none';
-                    logoNav.style.display = window.scrollY > 50 ? 'block' : 'none';
-                } else if (window.scrollY > 50) {
+                    logoNav.style.display = passed ? 'block' : 'none';
+                } else if (passed) {
                     logoTitle.style.display = 'none';
                     logoNav.style.display = 'block';
                 } else {
