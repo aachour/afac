@@ -808,6 +808,24 @@ function ViewTimeline($section_column_id)
                     });
                 });
             })();
+            (function() {
+                function alignTimelineLines() {
+                    document.querySelectorAll(".timelines").forEach(function(block) {
+                        var line = block.querySelector(".verticalLine");
+                        var img = block.querySelector(".timeline img");
+                        if (!line || !img || !line.offsetParent) return;
+                        var parentRect = line.offsetParent.getBoundingClientRect();
+                        var imgRect = img.getBoundingClientRect();
+                        var center = imgRect.left + imgRect.width / 2 - parentRect.left;
+                        var half = line.offsetWidth / 2;
+                        line.style.setProperty("left", (center - half) + "px", "important");
+                        line.style.setProperty("right", "auto", "important");
+                    });
+                }
+                window.addEventListener("load", alignTimelineLines);
+                window.addEventListener("resize", alignTimelineLines);
+                document.addEventListener("DOMContentLoaded", alignTimelineLines);
+            })();
         </script>';
     }
 
