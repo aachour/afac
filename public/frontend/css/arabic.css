@@ -69,11 +69,11 @@ html[dir="rtl"] body {
 }
 @media(min-width:1000px){
     .huge{
-        line-height: 100% !important;
+        line-height: 140% !important;
         letter-spacing: -4% !important;
     }
     .bigger{
-        line-height: 120% !important;
+        line-height: 140% !important;
         letter-spacing: -4% !important;
     }
     .big , h1{
