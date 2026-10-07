@@ -131,16 +131,18 @@ function ViewEntryData($entry_id)
                         
                     } else { // Resourses/News/Externals
                         $html .= '<div class="col-12">';
+                            
+                            $html .= '<div style="padding: 40px 0px;">
+                                <div class="mt-4 huge entry-title-huge black ABCDiatypeMedium">' . getEntryTitle($entry) . '</div>';
 
-                            $html .= '<div class="mt-4 huge entry-title-huge black ABCDiatypeMedium">' . getEntryTitle($entry) . '</div>';
-
-                            $html .= '<div class="mt-4 mb-3 big black ABCDiatypeMedium">';
-                                if ($entry->type_id == 6) {
-                                    $html .= formatDateLocalized(strtotime($entry->resource_date));
-                                } else if ($entry->type_id == 7) {
-                                    $html .= formatDateLocalized(strtotime($entry->news_date));
-                                }
-                            $html .= '</div>';
+                                $html .= '<div class="mt-4 mb-3 big black ABCDiatypeMedium">';
+                                    if ($entry->type_id == 6) {
+                                        $html .= formatDateLocalized(strtotime($entry->resource_date));
+                                    } else if ($entry->type_id == 7) {
+                                        $html .= formatDateLocalized(strtotime($entry->news_date));
+                                    }
+                                $html .= '</div>
+                            </div>';
 
                             if ($entry->image_featured) {
                                 $html .= '<img src="' . asset('storage/' . $entry->image_full) . '" width="100%" />';
@@ -169,7 +171,7 @@ function ViewEntryData($entry_id)
                         <div class="col-lg-6 col-12">';
                             if ($entry->type_id == 3) { //Supported Project
                                 $html .= '<div class="mt-1 tiny black ABCDiatypeBlack">' . (app()->getLocale() == 'en' ? 'Program' : 'برنامج')  . '</div>';
-                                $html .= '<div class="mt-1"><a href="' . route('entry.view', ['entryType' => 'program', 'id' => $entry->programYears?->programYear?->program?->id]) . '" class="medium black ABCDiatypeMedium noneUnderline"><span class="arrow-link-text">' . (app()->getLocale() == 'en' ?  $entry->programYears?->programYear?->program?->program_title :  $entry->programYears?->programYear?->program?->program_title_arabic) . '</span>' . arrowLinkSvg() . '</a></div>';
+                                $html .= '<div class="mt-1"><a href="' . route('entry.view', ['entryType' => 'program', 'id' => $entry->programYears?->programYear?->program?->id]) . '" class=" noneUnderline"><span class="medium black ABCDiatypeMedium arrow-link-text">' . (app()->getLocale() == 'en' ?  $entry->programYears?->programYear?->program?->program_title :  $entry->programYears?->programYear?->program?->program_title_arabic) . '</span>' . arrowLinkSvg() . '</a></div>';
 
                                 $categories_id = json_decode($entry->project_categories_id, true) ?? [];
                                 if(!empty($categories_id)){
@@ -184,7 +186,7 @@ function ViewEntryData($entry_id)
                                 $html .= '<div class="mt-1 tiny black ABCDiatypeBlack">' . (app()->getLocale() == 'en' ? 'Projects' : 'المشاريع')  . '</div>';
                                 $projectGrantees = ProjectGrantees::WHERE('grantee_id', $entry->id)->get();
                                 foreach ($projectGrantees as $projectGrantee) {
-                                    $html .= '<div class="mt-1"><a href="' . route('entry.view', ['entryType' => 'project', 'id' => $projectGrantee->project->id]) . '" class="medium black ABCDiatypeMedium noneUnderline"><span class="arrow-link-text">' . (app()->getLocale() == 'en' ?  $projectGrantee->project?->project_title :  $projectGrantee->project?->project_title_arabic) . '</span>' . arrowLinkSvg() . '</a></div>';
+                                    $html .= '<div class="mt-1"><a href="' . route('entry.view', ['entryType' => 'project', 'id' => $projectGrantee->project->id]) . '" class=" noneUnderline"><span class="medium black ABCDiatypeMedium arrow-link-text">' . (app()->getLocale() == 'en' ?  $projectGrantee->project?->project_title :  $projectGrantee->project?->project_title_arabic) . '</span>' . arrowLinkSvg() . '</a></div>';
                                 }
 
                                 $categories_id = json_decode($entry->grantee_categories_id, true) ?? [];
