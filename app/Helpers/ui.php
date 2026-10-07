@@ -131,16 +131,18 @@ function ViewEntryData($entry_id)
                         
                     } else { // Resourses/News/Externals
                         $html .= '<div class="col-12">';
+                            
+                            $html .= '<div style="padding: 40px 0px;">
+                                <div class="mt-4 huge entry-title-huge black ABCDiatypeMedium">' . getEntryTitle($entry) . '</div>';
 
-                            $html .= '<div class="mt-4 huge entry-title-huge black ABCDiatypeMedium">' . getEntryTitle($entry) . '</div>';
-
-                            $html .= '<div class="mt-4 mb-3 big black ABCDiatypeMedium">';
-                                if ($entry->type_id == 6) {
-                                    $html .= formatDateLocalized(strtotime($entry->resource_date));
-                                } else if ($entry->type_id == 7) {
-                                    $html .= formatDateLocalized(strtotime($entry->news_date));
-                                }
-                            $html .= '</div>';
+                                $html .= '<div class="mt-4 mb-3 big black ABCDiatypeMedium">';
+                                    if ($entry->type_id == 6) {
+                                        $html .= formatDateLocalized(strtotime($entry->resource_date));
+                                    } else if ($entry->type_id == 7) {
+                                        $html .= formatDateLocalized(strtotime($entry->news_date));
+                                    }
+                                $html .= '</div>
+                            </div>';
 
                             if ($entry->image_featured) {
                                 $html .= '<img src="' . asset('storage/' . $entry->image_full) . '" width="100%" />';

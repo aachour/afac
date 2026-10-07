@@ -115,29 +115,41 @@
         .menu-item-shape {
             width: 56px;
             opacity: 1;
-            margin-right: -56px;
+            --shape-hide-x: calc(-100% - 3px);
+            margin-inline-end: -56px;
             display: inline-flex;
             align-items: center;
             justify-content: flex-start;
             overflow: hidden;
-            transition: margin-right 0.55s ease;
+            transition: margin-inline-end 0.55s ease;
+        }
+
+        /* In Arabic (dir="rtl") the flex order mirrors, so the shape needs to
+           hide/reveal towards the opposite physical side as in LTR. */
+        [dir="rtl"] .menu-item-shape {
+            --shape-hide-x: calc(100% + 3px);
         }
 
         .menu-item-shape img {
             display: block;
-            transform: translateX(calc(-100% - 3px));
+            transform: translateX(var(--shape-hide-x));
             transition: transform 0.55s ease;
         }
 
         .menu-item-text {
             display: inline-block;
+            --text-reveal-x: 6px;
             transform: translateX(0);
             transition: transform 0.55s ease;
         }
 
+        [dir="rtl"] .menu-item-text {
+            --text-reveal-x: -6px;
+        }
+
         .menu-item-link:hover .menu-item-shape,
         .menu-item-link:focus-visible .menu-item-shape {
-            margin-right: 6px;
+            margin-inline-end: 6px;
         }
 
         .menu-item-link:hover .menu-item-shape img,
@@ -147,18 +159,18 @@
 
         .menu-item-link:hover .menu-item-text,
         .menu-item-link:focus-visible .menu-item-text {
-            transform: translateX(6px);
+            transform: translateX(var(--text-reveal-x));
         }
 
         @media (max-width: 900px) {
             .menu-item-shape {
                 width: 34px;
-                margin-right: -34px;
+                margin-inline-end: -34px;
             }
 
             .menu-item-link:hover .menu-item-shape,
             .menu-item-link:focus-visible .menu-item-shape {
-                margin-right: 14px;
+                margin-inline-end: 14px;
             }
         }
     </style>
