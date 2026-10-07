@@ -795,8 +795,6 @@ body{
     left: 8px;
     width: 14px;
     height: 14px;
-    background: #000;
-    border-radius: 50%;
     transition: 0.25s ease;
 }
 
@@ -805,8 +803,6 @@ body{
     right: 8px;
     width: 14px;
     height: 14px;
-    background: #000;
-    border-radius: 50%;
     transition: 0.25s ease;
 }
 
