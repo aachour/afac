@@ -172,8 +172,8 @@ class ProjectsController extends Controller
             <label class="pill-toggle">
                 <input type="checkbox" id="granteesToggle">
                 <span class="pill micro">
-                    <span class="knob1"></span>
-                    <span class="knob2 d-none"></span>
+                    <img src="'.asset('frontend/images/circle-shape.svg').'" class="knob1" />
+                    <img src="'.asset('frontend/images/circle-shape.svg').'" class="knob2 d-none" />
                     <span class="text" id="toggleLabel">';if(app()->getLocale() == "en") $html .= 'Grantee View'; else $html .= 'عرض المستفيدين'; $html .= '</span>
                 </span>
             </label>
