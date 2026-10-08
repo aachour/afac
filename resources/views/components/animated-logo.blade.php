@@ -293,16 +293,29 @@
             var hover = root.querySelector(v.hover);
             var content = root.querySelector(v.content);
             var lines = wrapTextLines((cfg[v.key] || {}).text || 'Based in Beirut', 50, 9);
+            var verticalLabelPadding = 5;
+            var verticalLineHeight = 11;
+            var verticalFontSize = 9;
+            var coverY = Number(cover && cover.getAttribute('y')) || 0;
+            var revealDistance = 0;
             if (content) {
                 var existing = content.querySelectorAll('text');
                 for (var i = 0; i < existing.length; i++) existing[i].remove();
-                var gap = 11;
-                var startY = v.ty + verticalTextPaddingTop - ((lines.length - 1) * gap) / 2;
+                var textHeight = verticalFontSize + (lines.length - 1) * verticalLineHeight;
+                var contentRect = content.querySelector('rect');
+                var contentTop = v.ty + verticalTextPaddingTop - textHeight / 2 - verticalLabelPadding;
+                var contentHeight = textHeight + verticalLabelPadding * 2;
+                var startY = v.ty + verticalTextPaddingTop - ((lines.length - 1) * verticalLineHeight) / 2;
+                if (contentRect) {
+                    contentRect.setAttribute('y', contentTop);
+                    contentRect.setAttribute('height', contentHeight);
+                }
+                revealDistance = Math.max(0, contentTop + contentHeight - coverY);
                 lines.forEach(function(line, i) {
                     var t = document.createElementNS(ns, 'text');
                     t.setAttribute('x', v.tx);
-                    t.setAttribute('y', startY + i * gap);
-                    applyLabelTextAttrs(t, '#010101', 9);
+                    t.setAttribute('y', startY + i * verticalLineHeight);
+                    applyLabelTextAttrs(t, '#010101', verticalFontSize);
                     t.textContent = line;
                     content.appendChild(t);
                 });
@@ -312,7 +325,7 @@
                 if (content) gsap.killTweensOf(content);
                 gsap.killTweensOf(cover);
                 if (content) gsap.set(content, { opacity: 1 });
-                gsap.to(cover, { y: 60, duration: 1.1, ease: 'power2.out' });
+                gsap.to(cover, { y: revealDistance, duration: 1.1, ease: 'power2.out' });
             });
             hover.addEventListener('mouseleave', function() {
                 if (content) gsap.killTweensOf(content);
