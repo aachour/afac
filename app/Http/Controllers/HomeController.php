@@ -453,7 +453,7 @@ class HomeController extends Controller
                             $html .= '<a href="' . $entry_href . '" target="' . $entry_target . '" style="pointer-events:none;">
                                 <div class="topSpacer featured_entry" style="pointer-events:auto; background:' . $featured_image_bgColor . '; width:' . $featured_width . '; ' . (app()->getLocale() == 'en' ? 'margin-left:' . $featured_margin : 'margin-right:' . $featured_margin) . ';">';
                                     $html .= '<div class="featured_info">
-                                        <div class="title_or_labels" style="'.$title_position.'">
+                                        <div class="title_or_labels" style="'.$title_position.'; width:calc(100% - 30px);">
                                             <div class="medium white ABCDiatypeMedium">' . $entry_title . '</div>
                                             <div class="topSpacer tiny white threeQuartersText">' . mb_substr(strip_tags($entry_text), 0, 350) . '</div>
                                         </div>';
