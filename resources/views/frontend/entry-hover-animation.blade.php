@@ -102,7 +102,7 @@
         <img src="{{ $image_path }}" width="100%" />
         <div class="description">
             <div class="title_or_labels medium white ABCDiatypeMedium"
-                style="{{ $title_position }} padding-right:5px;">
+                style="{{ $title_position }} {{ app()->getLocale() === 'ar' ? 'padding-left:5px;' : 'padding-right:5px;' }}">
                 {{ $entry_title }}
                 @if(!empty($news_date))
                     <div class="tiny">{{ formatDateLocalized(strtotime($news_date)) }}</div>
