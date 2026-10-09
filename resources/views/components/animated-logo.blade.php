@@ -303,9 +303,12 @@
                 for (var i = 0; i < existing.length; i++) existing[i].remove();
                 var textHeight = verticalFontSize + (lines.length - 1) * verticalLineHeight;
                 var contentRect = content.querySelector('rect');
-                var contentTop = v.ty + verticalTextPaddingTop - textHeight / 2 - verticalLabelPadding;
+                var columnRect = content.parentNode.querySelector('rect');
+                var columnTop = Number(columnRect && columnRect.getAttribute('y')) || (v.ty - verticalLabelPadding);
+                // Label box starts at the column's top edge; text is top-aligned inside it.
+                var contentTop = columnTop;
                 var contentHeight = textHeight + verticalLabelPadding * 2;
-                var startY = v.ty + verticalTextPaddingTop - ((lines.length - 1) * verticalLineHeight) / 2;
+                var startY = columnTop + verticalLabelPadding + verticalFontSize / 2;
                 if (contentRect) {
                     contentRect.setAttribute('y', contentTop);
                     contentRect.setAttribute('height', contentHeight);
