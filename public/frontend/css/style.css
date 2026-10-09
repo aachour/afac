@@ -345,12 +345,25 @@ a.noneUnderline{
 a.noneUnderline:hover{
     text-decoration:none !important;
 }
-.arrow-link-arrow-wrap{
+a.noneUnderline > .arrow-link-text{
     display:inline-block;
+    max-width:calc(100% - 40px);
+    vertical-align:top;
+}
+.arrow-link-arrow-wrap{
+    display:inline-flex;
+    align-items:center;
+    height:1.4em;
+    height:1lh;
     width:0;
     overflow:hidden;
     transition:width 0.3s ease;
-    vertical-align:middle;
+    vertical-align:top;
+}
+/* The wrap inherits the anchor's font, not the text's, so match the .medium line box (font-size x 130%) */
+.arrow-link-text.medium + .arrow-link-arrow-wrap{ height:2.405vw; }
+@media(max-width:1000px){
+    .arrow-link-text.medium + .arrow-link-arrow-wrap{ height:6.5vw; }
 }
 a.noneUnderline:hover .arrow-link-arrow-wrap,
 a.noneUnderline:focus-visible .arrow-link-arrow-wrap{
@@ -377,5 +390,6 @@ a.noneUnderline:focus-visible .arrow-link-arrow.is-rtl{
 }
 @media(max-width:768px){
     .arrow-link-arrow{ width:13px; height:12px; }
+    a.noneUnderline > .arrow-link-text{ max-width:calc(100% - 25px); }
     a.noneUnderline:hover .arrow-link-arrow-wrap{ width:20px; }
 }
