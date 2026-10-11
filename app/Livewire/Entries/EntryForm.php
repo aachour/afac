@@ -340,6 +340,9 @@ class EntryForm extends Component
     }
 
     public function UpdateProgramYears(){
+        // Reset the previously selected year since it belonged to the old program,
+        // otherwise a stale program_year_id would be saved and program_id updates would be ignored.
+        $this->program_year_id='';
         $this->programYears=ProgramYears::WHERE('program_id',$this->program_id)->get();
     }
 
