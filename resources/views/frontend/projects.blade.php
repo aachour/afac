@@ -32,14 +32,14 @@
                     @endforeach
                 </select>
             </div>
-            <div class="filter">
+            <!-- <div class="filter">
                 <select class="filterDpd filter_project_category ABCDiatypeMedium tiny" style="width:90px;">
                     <option value="">@if(app()->getLocale() == 'en') Theme @else الموضوع @endif</option>';
                     @foreach($project_categories as $key=>$category){
                         <option value="{{ $key }}">{{$category}}</option>
                     @endforeach
                 </select>
-            </div>
+            </div> -->
             <div class="filter">
                 <select class="filterDpd filter_project_program_year ABCDiatypeMedium tiny" style="width:65px;">
                     <option value="">@if(app()->getLocale() == 'en') Year @else السنة @endif</option>
