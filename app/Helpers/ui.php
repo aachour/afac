@@ -1916,16 +1916,16 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                         $html .= '<option value="' . $country["id"] . '">' . $country["name"] . '</option>';
                     }
                     $html .= '</select>
-            </div>    
-            <div class="filter">
-                <select class="filterDpd filter_grantee_category">
-                    <option value="">' . ($isArabic ? 'الموضوع' : 'Theme') . '</option>';
-                    foreach ($grantee_categories as $category) {
-                        $html .= '<option value="' . $category["id"] . '">' . $category["name"] . '</option>';
-                    }
-                $html .= '</select>
-            </div>
-            <div class="filter">
+            </div>';    
+            // <div class="filter">
+            //     <select class="filterDpd filter_grantee_category">
+            //         <option value="">' . ($isArabic ? 'الموضوع' : 'Theme') . '</option>';
+            //         foreach ($grantee_categories as $category) {
+            //             $html .= '<option value="' . $category["id"] . '">' . $category["name"] . '</option>';
+            //         }
+            //     $html .= '</select>
+            // </div>
+            $html .= '<div class="filter">
                 <select class="filterDpd filter_grantee_program_year">
                     <option value="">' . ($isArabic ? 'السنة' : 'Year') . '</option>';
                     foreach ($grantee_program_years as $grantee_program_year) {
@@ -1972,7 +1972,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                     $('#filter-collection-" . $collection_id . "').click(function () {
                         var parent=$(this).parent().parent();
                         grantee_country_" . $collection_id . "=$(parent).find('.filter_grantee_country').val();
-                        grantee_category_" . $collection_id . "=$(parent).find('.filter_grantee_category').val();
+                        //grantee_category_" . $collection_id . "=$(parent).find('.filter_grantee_category').val();
                         grantee_program_year_" . $collection_id . "=$(parent).find('.filter_grantee_program_year').val();
                         grantee_program_" . $collection_id . "=$(parent).find('.filter_grantee_program').val();
                         
@@ -1990,7 +1990,7 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                     $('#clear-collection-" . $collection_id . "').click(function () {
                         var parent=$(this).parent().parent();
                         $(parent).find('.filter_grantee_country').val('');
-                        $(parent).find('.filter_grantee_category').val('');
+                        //$(parent).find('.filter_grantee_category').val('');
                         $(parent).find('.filter_grantee_program_year').val('');
                         $(parent).find('.filter_grantee_program').val('');
                         $('#sort-collection-" . $collection_id . "').val('');
