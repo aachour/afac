@@ -1722,16 +1722,16 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                     $html .= '<option value=' . $country["id"] . '>' . $country["name"] . '</option>';
                 }
                 $html .= '</select>
-            </div>
-            <div class="filter">
+            </div>';
+            /*<div class="filter">
                 <select class="filterDpd filter_project_category">
-                    <option value="">' . ($isArabic ? 'الموضوع' : 'Ttheme') . '</option>';
+                    <option value="">' . ($isArabic ? 'الموضوع' : 'Theme') . '</option>';
                     foreach ($project_categories as $category) {
                         $html .= '<option value="' . $category["id"] . '">' . $category["name"] . '</option>';
                     }
                 $html .= '</select>
-            </div>
-            <div class="filter">
+            </div>*/
+            $html .= '<div class="filter">
                 <select class="filterDpd filter_project_program_year">
                     <option value="">' . ($isArabic ? 'السنة' : 'Year') . '</option>';
                     foreach ($project_program_years as $project_program_year) {
@@ -1780,13 +1780,13 @@ function setCollectionFilters($collection_id, $collection_type_id, $entries_sele
                     $('#filter-collection-" . $collection_id . "').click(function () {
                         var parent=$(this).parent().parent();                        
                         project_country_" . $collection_id . "=$(parent).find('.filter_project_country').val();
-                        project_category_" . $collection_id . "=$(parent).find('.filter_project_category').val();
+                        //project_category_" . $collection_id . "=$(parent).find('.filter_project_category').val();
                         project_program_year_" . $collection_id . "=$(parent).find('.filter_project_program_year').val();
                         project_program_" . $collection_id . "=$(parent).find('.filter_project_program').val();
 
                         var filters = {
                             project_country: project_country_" . $collection_id . ",
-                            project_category: project_category_" . $collection_id . ",
+                            //project_category: project_category_" . $collection_id . ",
                             project_program_year: project_program_year_" . $collection_id . ",
                             project_program: project_program_" . $collection_id . ",
                             sort: sort_" . $collection_id . ",
