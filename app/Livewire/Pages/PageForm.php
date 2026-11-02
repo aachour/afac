@@ -6,11 +6,13 @@ use App\Models\Pages;
 use App\Models\Colors;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class PageForm extends Component
 {
 
+    use WithFileUploads;
     use AuthorizesRequests; 
 
     public $colors;
@@ -26,6 +28,9 @@ class PageForm extends Component
     public $meta_description_arabic;
     public $meta_keywords;
     public $meta_keywords_arabic;
+    public $meta_image_old;
+    public $meta_image;
+    public $metaImagePreview;
     public $header_color_id;
     public $footer_color_id;
     public $in_menu;
@@ -56,6 +61,13 @@ class PageForm extends Component
             $this->meta_description_arabic=$this->page->meta_description_arabic;
             $this->meta_keywords=$this->page->meta_keywords;
             $this->meta_keywords_arabic=$this->page->meta_keywords_arabic;
+            $this->meta_image_old=$this->page->meta_image;
+
+            $this->metaImagePreview='';
+            if($this->meta_image_old!=''){
+                $this->metaImagePreview = asset('storage/' . $this->meta_image_old);
+            }
+
             $this->header_color_id=$this->page->header_color_id;
             $this->footer_color_id=$this->page->footer_color_id;
             $this->in_menu=$this->page->in_menu;
@@ -81,6 +93,7 @@ class PageForm extends Component
             'meta_description_arabic' => ['required'],
             'meta_keywords' => ['nullable'],
             'meta_keywords_arabic' => ['nullable'],
+            'meta_image' => ['nullable'],
             'header_color_id' => ['nullable'],
             'footer_color_id' => ['nullable'],
             'in_menu' => ['nullable'],
@@ -96,6 +109,11 @@ class PageForm extends Component
 
         $validated = $this->validate();       
 
+        $meta_image_path = $this->meta_image_old;
+        if ($this->meta_image) {
+            $meta_image_path = $this->meta_image->store('pages', 'public');
+        }
+
         if($this->id==''){
             $highestOrder = Pages::max('list_order') ?? 0;
 
@@ -109,6 +127,7 @@ class PageForm extends Component
                 'meta_description_arabic' => $this->meta_description_arabic,
                 'meta_keywords' => $this->meta_keywords,
                 'meta_keywords_arabic' => $this->meta_keywords_arabic,
+                'meta_image' => $meta_image_path,
                 'header_color_id' => $this->header_color_id,
                 'footer_color_id' => $this->footer_color_id,
                 'in_menu' => $this->in_menu,
@@ -131,6 +150,7 @@ class PageForm extends Component
                 'meta_description_arabic' => $this->meta_description_arabic,
                 'meta_keywords' => $this->meta_keywords,
                 'meta_keywords_arabic' => $this->meta_keywords_arabic,
+                'meta_image' => $meta_image_path,
                 'header_color_id' => $this->header_color_id,
                 'footer_color_id' => $this->footer_color_id,
                 'in_menu' => $this->in_menu,
