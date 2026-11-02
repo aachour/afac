@@ -90,7 +90,7 @@
                 @if($page->id=='3') 
                  <a href="{{url('/projects')}}" class="menu-item-link">
                 @else
-                <a href="{{url('page',['id'=>$page->id,'name'=>$page->name])}}" class="menu-item-link">
+                <a href="{{url('page',['id'=>$page->id,'name'=>str_replace(' ','-',$page->name)])}}" class="menu-item-link">
                 @endif
                     <span class="menu-item-shape">
                         <img src="{{asset('frontend/images/'.$shapes[$key % count($shapes)].'.svg')}}" width="{{ $shapes[$key % count($shapes)] == 'diamond-shape' ? 52 : 40 }}" class="desktopOnly" />
