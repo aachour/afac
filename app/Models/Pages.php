@@ -21,6 +21,7 @@ class Pages extends Model
         'meta_description_arabic',
         'meta_keywords',
         'meta_keywords_arabic',
+        'meta_image',
         'header_color_id',
         'footer_color_id',
         'in_menu',

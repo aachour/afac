@@ -109,6 +109,17 @@
                                     @error('meta_keywords') <div class="text-danger">{{ $message }}</div> @enderror
                                 </div>
 
+                                <div class="col-12 mt-3">
+                                    <label class="form-label" for="meta_image">Meta Image [1200x630px]</label>
+                                    <x-filepond
+                                        wire:model="meta_image"
+                                        id="meta_image"
+                                        file-path="{{ $metaImagePreview ?? '' }}"
+                                        delete-event="deleteImage"
+                                        is-multiple="false" />
+                                    @error('meta_image') <div class="text-danger">{{ $message }}</div> @enderror
+                                </div>
+
                                 <div class="col-12 col-md-6 mt-2">
                                     <label class="form-label" for="name">Header Color <span class="text-danger">*</span></label>
                                     <select

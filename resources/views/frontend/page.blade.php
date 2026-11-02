@@ -6,7 +6,7 @@
     <meta property="og:title" content="{!! strip_tags($metaTitle) !!}">
     <meta name="description" content="{!! strip_tags($metaDescription) !!}">
     <meta property="og:description" content="{!! strip_tags($metaDescription) !!}">
-    <meta property="og:image" content="">
+    <meta property="og:image" content="{{ !empty($metaImage) ? asset('storage/' . $metaImage) : '' }}">
     <meta property="og:url" content="">
     <meta property="og:type" content="website">
 
