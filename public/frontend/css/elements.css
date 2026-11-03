@@ -695,7 +695,11 @@ body{
 }
 
 @media(max-width:1000px) {
-    .popupText {}
+    .popupEntry .popupText {
+        top:15%;
+        left: 5%;
+        width: 90%;
+    }
 }
 
 
