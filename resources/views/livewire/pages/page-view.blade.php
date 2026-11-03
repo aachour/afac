@@ -50,7 +50,7 @@
                                     @elseif($page->id=='3')
                                         <a href="{{ url('/projects') }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
                                     @else
-                                        <a href="{{ route('page.view', ['id'=>$page->id , 'name'=>$page->name]) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
+                                        <a href="{{ route('page.view', ['id'=>$page->id , 'name'=>str_replace(' ','-',$page->name)]) }}" class="text-body view-user-button" target="_blank"><i class="ti ti-eye ti-sm"></i></a>
                                     @endif
                                 @endcan
                                 @can('page-edit')
