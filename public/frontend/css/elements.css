@@ -660,10 +660,22 @@ body{
     left:0px;
     width:100%;
     height:100%;
-    /* background:rgba(255,255,255,0.5); */
-    background:transparent;
+    background:rgba(0,0,0,0.7);
+    /* background:transparent; */
     overflow: hidden;
     z-index:9999;
+}
+
+.popupEntry .closeBtn {
+    position: absolute;
+    top: 10%;
+    right: 10%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    background: url('../images/close.png') center no-repeat;
+    background-size: 40px 40px;
+    z-index: 9999999;
 }
 
 .popupEntry .popupText {
@@ -682,19 +694,12 @@ body{
     cursor: default !important;
 }
 
-.popupEntry .popupText .closeBtn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    background: url('../images/close.png') center no-repeat;
-    background-size: 20px 20px;
-    z-index: 9999999;
-}
 
 @media(max-width:1000px) {
+    .popupEntry .closeBtn {
+        top: 5%;
+        right: 5%;
+    }
     .popupEntry .popupText {
         top:15%;
         left: 5%;
