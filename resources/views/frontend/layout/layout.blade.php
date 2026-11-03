@@ -182,8 +182,8 @@
 
     <!--popup-->
     <div class="popupEntry d-none">
+        <div class="closeBtn"></div>
         <div class="popupText">
-            <div class="closeBtn"></div>
             <div class="medium black ABCDiatypeMedium" id="title"></div>
             <!-- <div class="mt-2 small black ABCDiatypeMedium" id="position"></div> -->
             <div class="mt-2 small black" id="text"></div>
