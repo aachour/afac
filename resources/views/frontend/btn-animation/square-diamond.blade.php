@@ -70,11 +70,6 @@
         user-select: none;
     }
 
-    @media (max-width: 768px) {
-        .square-diamond-donate-text-ar {
-            top: 40% !important;
-        }
-    }
 </style>
 
 <div class="container">

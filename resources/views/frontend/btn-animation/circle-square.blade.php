@@ -38,11 +38,6 @@
         user-select: none;
     }
 
-    @media (max-width: 768px) {
-        .circle-square-donate-text-ar {
-            top: 40% !important;
-        }
-    }
 </style>
 
 <div class="container">

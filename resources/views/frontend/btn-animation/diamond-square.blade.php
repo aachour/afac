@@ -37,11 +37,6 @@
         user-select: none;
     }
 
-    @media (max-width: 768px) {
-        .diamond-square-donate-text-ar {
-            top: 40% !important;
-        }
-    }
 </style>
 
 <div class="container">
