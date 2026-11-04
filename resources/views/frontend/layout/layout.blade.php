@@ -217,22 +217,35 @@
                     ];
                 @endphp
 
-                @foreach($footerCols as $col)
-                    @if(!empty($col['title']) || !empty($col['links']))
-                    <div class="col-lg-3 col-12 mb-4 mb-md-0">
-                        @if(!empty($col['title']))
-                            <div class="tiny black ABCDiatypeMedium">{{ $col['title'] }}</div>
-                        @endif
-                        @foreach((array)$col['links'] as $idx => $link)
-                            <div class="{{ $idx === 0 ? 'mt-2' : 'mt-1' }}">
-                                <a href="{{ $link['link'] ?? '#' }}" class="tiny black" @if(!empty($link['link']) && str_starts_with($link['link'], 'https')) target="_blank" rel="noopener noreferrer" @endif>{{ $link['title'] ?? '' }}</a>
+                <div class="col-lg-9 col-12 mb-4 mb-md-0">
+                    
+                    @if(app()->getLocale()=='ar')
+                        <div class="mb-4">
+                            <h4 class="tiny black ABCDiatypeMedium">اعتُمدت صيغة المذكّر في الموقع تيسيراً للقراءة، وهي تشمل الجميع من دون تمييز على أساس الجنس أو الهوية الجندرية.</h4>
+                        </div>
+                    @endif
+
+                    <div class="row">
+                        @foreach($footerCols as $col)
+                            @if(!empty($col['title']) || !empty($col['links']))
+                            <div class="col-lg-4 col-12 mb-4 mb-md-0">
+                                @if(!empty($col['title']))
+                                    <div class="tiny black ABCDiatypeMedium">{{ $col['title'] }}</div>
+                                @endif
+                                @foreach((array)$col['links'] as $idx => $link)
+                                    <div class="{{ $idx === 0 ? 'mt-2' : 'mt-1' }}">
+                                        <a href="{{ $link['link'] ?? '#' }}" class="tiny black" @if(!empty($link['link']) && str_starts_with($link['link'], 'https')) target="_blank" rel="noopener noreferrer" @endif>{{ $link['title'] ?? '' }}</a>
+                                    </div>
+                                @endforeach
                             </div>
+                            @endif
                         @endforeach
                     </div>
-                    @endif
-                @endforeach
+                </div>
 
             </div>
+
+            
         </div>
     </div>
 
