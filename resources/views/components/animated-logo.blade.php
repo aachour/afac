@@ -61,7 +61,7 @@
                 <rect fill="#010101" x="1.62" y="98.02" width="54.12" height="134.53"/>
                 <rect fill="#010101" x="55.74" y="221.7" width="69.58" height="10.79"/>
                 <g class="anim-vertical1-content" style="opacity:0;pointer-events:none">
-                    <rect x="1" y="85" width="55" height="55" fill="{{ $fillColor }}" stroke="{{ $fillColor }}" stroke-width="2" rx="2"/>
+                    <rect x="1.62" y="98.02" width="54.12" height="55" fill="{{ $fillColor }}"/>
                 </g>
                 <rect class="cover-vertical1" x="1.5" y="95" width="54.2" height="60" fill="#010101"/>
                 <rect class="hover-vertical1" x="0" y="90" width="56" height="145" fill="transparent" style="cursor:pointer"/>
@@ -81,7 +81,7 @@
             <g class="logo-part" data-part="vertical2">
                 <rect fill="#010101" x="191.81" y="98.25" width="54.12" height="134.53"/>
                 <g class="anim-vertical2-content" style="opacity:0;pointer-events:none">
-                    <rect x="192" y="96.5" width="54" height="55" fill="{{ $fillColor }}" stroke="{{ $fillColor }}" stroke-width="2" rx="2"/>
+                    <rect x="191.81" y="98.25" width="54.12" height="55" fill="{{ $fillColor }}"/>
                 </g>
                 <rect class="cover-vertical2" x="192" y="98" width="53.9" height="60" fill="#010101"/>
                 <rect class="hover-vertical2" x="185" y="80" width="68" height="145" fill="transparent" style="cursor:pointer"/>
@@ -103,7 +103,7 @@
             <g class="logo-part" data-part="vertical3">
                 <rect fill="#010101" x="381.99" y="96.56" width="54.12" height="134.53"/>
                 <g class="anim-vertical3-content" style="opacity:0;pointer-events:none">
-                    <rect x="381" y="85" width="55" height="55" fill="{{ $fillColor }}" stroke="{{ $fillColor }}" stroke-width="2" rx="2"/>
+                    <rect x="381.99" y="96.56" width="54.12" height="55" fill="{{ $fillColor }}"/>
                 </g>
                 <rect class="cover-vertical3" x="382" y="95" width="54.2" height="60" fill="#010101"/>
                 <rect class="hover-vertical3" x="380" y="90" width="60" height="145" fill="transparent" style="cursor:pointer"/>
@@ -308,6 +308,20 @@
                 // Label box starts at the column's top edge; text is top-aligned inside it.
                 var contentTop = columnTop;
                 var contentHeight = textHeight + verticalLabelPadding * 2;
+                // The black column under the label bleeds anti-aliased edges around it.
+                // Cover alone hides the top, so trim the column to start below the cover.
+                if (columnRect && cover) {
+                    var colX = columnRect.getAttribute('x');
+                    var colW = columnRect.getAttribute('width');
+                    var colBottom = columnTop + Number(columnRect.getAttribute('height'));
+                    cover.setAttribute('x', colX);
+                    cover.setAttribute('width', colW);
+                    cover.setAttribute('y', columnTop);
+                    coverY = columnTop;
+                    var coverBottom = columnTop + Number(cover.getAttribute('height'));
+                    columnRect.setAttribute('y', coverBottom - 1);
+                    columnRect.setAttribute('height', colBottom - coverBottom + 1);
+                }
                 var startY = columnTop + verticalLabelPadding + verticalFontSize / 2;
                 if (contentRect) {
                     contentRect.setAttribute('y', contentTop);
