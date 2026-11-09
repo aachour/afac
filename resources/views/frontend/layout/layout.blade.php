@@ -34,6 +34,14 @@
     <script src="{{asset('frontend/js/bootstrap.min.js')}}"></script>
     <script src="{{asset('frontend/js/jquery.js')}}"></script>
     <script src="{{asset('frontend/js/swiper.js')}}"></script>
+
+
+    <script async src="https://www.googletagmanager.com/gtm.js?id=G-MJZRJ67P0Y"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+    </script>
     
         
 </head>
