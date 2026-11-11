@@ -2535,7 +2535,7 @@ function getEntryDetails($collection_type_id, $entry)
     } else if ($collection_type_id == 8) {
         $entry_title = getEntryTitle($entry);
         $entry_text = getEntryText($entry);
-        $entry_href = $entry->external_link;
+        $entry_href = $isArabic && !empty($entry->external_link_arabic) ? $entry->external_link_arabic : $entry->external_link;
         $entry_target = '_blank';
     } else if ($collection_type_id == 9) {
         $entry_title = $isArabic && !empty($entry->team_name_arabic) ? $entry->team_name_arabic : $entry->team_name;
