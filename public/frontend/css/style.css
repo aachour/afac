@@ -117,7 +117,7 @@
         letter-spacing: 0% !important;
     }
 
-    p strong , p u , p i , p s , p a , div.small p, div.small ul, div.small li, div.small td , div.small td strong , div.small td u , div.small td i , div.small td s , div.small td a{
+    p strong , p u , p i , p s , p a , div.small p, div.small ul, div.small li, div.small td , div.small td strong , div.small td u , div.small td i , div.small td s , div.small td a  , div.small i{
         font-size:4.5vw !important;
         line-height: 130% !important;
         letter-spacing: 0% !important;
@@ -189,7 +189,7 @@
         letter-spacing: 0% !important;
     }
 
-    p strong , p u , p i , p s , p a , div.small p, div.small ul, div.small li, div.small td , div.small td strong , div.small td u , div.small td i , div.small td s , div.small td a{
+    p strong , p u , p i , p s , p a , div.small p, div.small ul, div.small li, div.small td , div.small td strong , div.small td u , div.small td i , div.small td s , div.small td a , div.small i{
         font-size:1.2vw !important;
         line-height: 130% !important;
         letter-spacing: 0% !important;
