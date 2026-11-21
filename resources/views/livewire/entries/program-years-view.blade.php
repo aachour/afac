@@ -54,7 +54,7 @@
                                         @if(count($year->projects) > 0)
                                             <div>
                                                 @foreach($year->projects as $project)
-                                                    - {{ $project->projectDetails->project_title }}<br>
+                                                    - {{ $project->projectDetails->project_title ?? '' }}<br>
                                                 @endforeach
                                             </div>
                                             <i  class="ti ti-adjustments ti-sm cursor-pointer"
@@ -269,7 +269,7 @@
                                 @foreach ($programProjects as $programProject)
                                     <tr data-id="{{ @$programProject->id }}" style="cursor: move;">
                                         <td>{{$programProject->list_order}}</td>
-                                        <td>{{$programProject->projectDetails->project_title}}</td>
+                                        <td>{{$programProject->projectDetails->project_title ?? '' }}</td>
                                         <!-- <td>
                                             <a href="#" wire:click.prevent="deleteProject({{ @$programProject->id }})" class="text-body">
                                                 <i class="ti ti-trash ti-sm mx-2 text-danger"></i>
