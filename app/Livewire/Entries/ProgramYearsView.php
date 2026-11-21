@@ -59,7 +59,15 @@ class ProgramYearsView extends Component
 
     public function loadYears()
     {
-        $this->years = ProgramYears::WHERE('program_id',$this->program_id)->with('projects','projects.projectDetails','jurors','jurors.jurorDetails')->get();
+        $this->years = ProgramYears::WHERE('program_id',$this->program_id)
+            ->with([
+                'projects' => function ($query) {
+                    $query->whereHas('projectDetails');
+                },
+                'projects.projectDetails',
+                'jurors',
+                'jurors.jurorDetails',
+            ])->get();
     }
 
     public function openModal($yearId = null)
@@ -280,7 +288,10 @@ class ProgramYearsView extends Component
     {
         $this->program_year_id=$yearId;
         $this->showModalProjects = true;
-        $this->programProjects=ProgramYearProjects::WHERE('program_year_id',$yearId)->orderBy('list_order', 'ASC')->get();
+        $this->programProjects=ProgramYearProjects::WHERE('program_year_id',$yearId)
+            ->whereHas('projectDetails')
+            ->orderBy('list_order', 'ASC')
+            ->get();
     }
 
     public function closeProjectsModal()
