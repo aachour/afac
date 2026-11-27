@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="{{asset('frontend/css/swiper.css')}}" />
     <link rel="stylesheet" href="{{asset('frontend/css/general.css')}}?v=11" />
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}?v=43">
-    <link rel="stylesheet" href="{{ asset('frontend/css/elements.css') }}?v=39">
+    <link rel="stylesheet" href="{{ asset('frontend/css/elements.css') }}?v=41">
     
     @if(app()->getLocale()=='ar')
     <link rel="stylesheet" href="{{asset('frontend/css/arabic.css')}}?v=23" />
@@ -108,6 +108,9 @@
                 </a>
             </div>
         @endforeach
+        @if (request()->is('search') || request()->is('search/*'))
+            @include('components.search-bar', ['class' => 'site-search-menu'])
+        @endif
         
     </div>
 
@@ -333,6 +336,20 @@
             });
         });
 
+    </script>
+
+    <script>
+        // Site search: min 3 chars, then redirect to /search/{term}
+        $(document).on('submit', '.site-search', function (e) {
+            e.preventDefault();
+            var $f = $(this), term = $.trim($f.find('.site-search-input').val());
+            if (term.length < 3) { $f.addClass('has-error'); return; }
+            window.location.href = "{{ url('/search') }}/" + encodeURIComponent(term);
+        });
+        $(document).on('input', '.site-search-input', function () {
+            var $f = $(this).closest('.site-search');
+            if ($.trim(this.value).length >= 3) $f.removeClass('has-error');
+        });
     </script>
 
 </body>

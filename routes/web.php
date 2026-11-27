@@ -70,6 +70,7 @@ use App\Livewire\Formstack\ViewersView;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\FormStackController;
 
 
@@ -84,6 +85,10 @@ Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/home', [HomeController::class, 'home'])->name('home');
 
 Route::get('/projects', [ProjectsController::class, 'projects'])->name('projects');
+
+Route::get('/search/{term?}', [SearchController::class, 'search'])->where('term', '.*')->name('search');
+
+Route::post('/get/search', [SearchController::class, 'getSearchSection'])->name('get.search');
 
 Route::post('/get/projects', [ProjectsController::class, 'getProjects'])->name('get.projects'); 
 
